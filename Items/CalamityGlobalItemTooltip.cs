@@ -948,7 +948,7 @@ namespace CalamityMod.Items
             {
                 TooltipLine StealthGen = new TooltipLine(Mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
                 {
-                    isModifier = true
+                    IsModifier = true
                 };
                 tooltips.Add(StealthGen);
             }

@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (TelegraphDelay >= TelegraphTotalTime)
                 return true;
-            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
+            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam").Value;
             float yScale = 2f;
             if (TelegraphDelay < TelegraphFadeTime)
             {

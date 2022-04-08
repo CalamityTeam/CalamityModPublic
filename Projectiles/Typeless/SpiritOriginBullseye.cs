@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -76,11 +76,11 @@ namespace CalamityMod.Projectiles.Typeless
                 rotation = 0f;
             }
 
-            Texture2D bullseyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DaawnlightSpiritOriginRegularBullseye");
+            Texture2D bullseyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DaawnlightSpiritOriginRegularBullseye").Value;
             Rectangle frame = bullseyeTexture.Frame();
             if (Target.IsABoss())
             {
-                bullseyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DaawnlightSpiritOriginBossBullseye");
+                bullseyeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/DaawnlightSpiritOriginBossBullseye").Value;
                 frame = bullseyeTexture.Frame(1, 4, 0, (int)(Main.GlobalTimeWrappedHourly * 7f) % 4);
                 rotation = 0f;
                 drawPosition.Y -= 17;

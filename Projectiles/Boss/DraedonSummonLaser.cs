@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
             if (RayDrawer is null)
                 RayDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:Flame"]);
 
-            GameShaders.Misc["CalamityMod:Flame"].UseImage("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:Flame"].UseImage0("Images/Misc/Perlin");
 
             Vector2[] basePoints = new Vector2[8];
             for (int i = 0; i < basePoints.Length; i++)

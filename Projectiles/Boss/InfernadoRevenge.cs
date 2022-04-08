@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
                 TornadoDrawer = new PrimitiveTrail(_ => Projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
 
             GameShaders.Misc["CalamityMod:Bordernado"].UseSaturation(-0.2f);
-            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.Request<Texture2D>("Terraria/Misc/Perlin"));
+            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.Request<Texture2D>("Terraria/Images/Misc/Perlin").Value);
             Vector2[] drawPoints = new Vector2[5];
             Vector2 upwardAscent = Vector2.UnitY * TornadoHeight;
             Vector2 downwardOffset = Vector2.UnitY * Projectile.height / (drawPoints.Length + 1);
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Boss
             drawPoints[drawPoints.Length - 1] = bottom;
             TornadoDrawer.Draw(drawPoints, -Main.screenPosition, 85);
 
-            Texture2D vortexTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/OldDukeVortex");
+            Texture2D vortexTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Boss/OldDukeVortex").Value;
             for (int i = 0; i < 110; i++)
             {
                 float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTimeWrappedHourly * MathHelper.TwoPi;

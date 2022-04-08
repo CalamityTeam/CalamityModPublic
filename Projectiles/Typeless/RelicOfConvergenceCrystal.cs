@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (Projectile.ai[0] >= CrystalsDrawTime)
                 return true;
             float opacity = Projectile.ai[0] / CrystalsDrawTime;
-            Texture2D crystalTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D crystalTexture = ModContent.Request<Texture2D>(Texture).Value;
             for (int i = 0; i < TotalCrystalsToDraw; i++)
             {
                 float angle = MathHelper.TwoPi / TotalCrystalsToDraw * i + Projectile.ai[0] / 10f;

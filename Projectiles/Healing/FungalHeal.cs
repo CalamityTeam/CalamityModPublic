@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
@@ -26,11 +26,7 @@ namespace CalamityMod.Projectiles.Healing
             if (Projectile.localAI[0] == 0f)
             {
                 Player player = Main.player[Projectile.owner];
-                if ((player.ActiveItem().summon &&
-                    !player.ActiveItem().melee &&
-                    !player.ActiveItem().ranged &&
-                    !player.ActiveItem().magic &&
-                    !player.ActiveItem().Calamity().rogue) ||
+                if ((player.ActiveItem().DamageType == DamageClass.Summon && !player.ActiveItem().Calamity().rogue) ||
                     player.ActiveItem().hammer > 0 ||
                     player.ActiveItem().pick > 0 ||
                     player.ActiveItem().axe > 0)

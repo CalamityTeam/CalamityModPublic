@@ -450,15 +450,15 @@ namespace CalamityMod.Items
         #region Saving And Loading
         public override void SaveData(Item item, TagCompound tag)
         {
-            tag.Add("rogue" = rogue);
-            tag.Add("timesUsed" = timesUsed);
-            tag.Add("rarity") = (int)customRarity;
-            tag.Add("charge") = Charge;
-            tag.Add("reforgeTier") = reforgeTier;
-            tag.Add("enchantmentID") = AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0;
-            tag.Add("DischargeEnchantExhaustion") = DischargeEnchantExhaustion;
-            tag.Add("canFirePointBlankShots") = canFirePointBlankShots;
-            tag.Add("trueMelee") = trueMelee;
+            tag.Add("rogue", rogue);
+            tag.Add("timesUsed", timesUsed);
+            tag.Add("rarity", (int)customRarity);
+            tag.Add("charge", Charge);
+            tag.Add("reforgeTier", reforgeTier);
+            tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
+            tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
+            tag.Add("canFirePointBlankShots", canFirePointBlankShots);
+            tag.Add("trueMelee", trueMelee);
         }
 		
         public override void LoadData(Item item, TagCompound tag)

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureStratus;
+﻿using CalamityMod.Items.Placeables.FurnitureStratus;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
         {
             int xPos = Main.tile[i, j].TileFrameX;
             int yPos = Main.tile[i, j].TileFrameY;
-            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusStarPlatformGlow");
+            Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/Tiles/FurnitureStratus/StratusStarPlatformGlow").Value;
             Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + (Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange));
             Tile trackTile = Main.tile[i, j];
             if (!(trackTile.IsHalfBlock && trackTile.Slope == 0))

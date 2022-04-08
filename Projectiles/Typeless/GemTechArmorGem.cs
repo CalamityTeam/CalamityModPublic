@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Typeless
                 FlameTrailDrawer = new PrimitiveTrail(TrailWidth, TrailColor, null, GameShaders.Misc["CalamityMod:ImpFlameTrail"]);
 
             // Prepare the flame trail shader with its map texture.
-            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
+            GameShaders.Misc["CalamityMod:ImpFlameTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak").Value);
 
             Texture2D texture;
             switch (Variant)
@@ -152,19 +152,19 @@ namespace CalamityMod.Projectiles.Typeless
                     texture = ModContent.Request<Texture2D>(Texture).Value;
                     break;
                 case (int)GemTechArmorGemType.Ranged:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/GreenGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/GreenGem").Value;
                     break;
                 case (int)GemTechArmorGemType.Magic:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PurpleGem").Value;
                     break;
                 case (int)GemTechArmorGemType.Summoner:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/BlueGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/BlueGem").Value;
                     break;
                 case (int)GemTechArmorGemType.Rogue:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/RedGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/RedGem").Value;
                     break;
                 case (int)GemTechArmorGemType.Base:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PinkGem");
+                    texture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GemTechArmor/PinkGem").Value;
                     break;
             }
 

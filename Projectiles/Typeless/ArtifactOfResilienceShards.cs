@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Typeless
                     projectile.velocity = Utils.NextVector2Circular(Main.rand, 18f, 9f);
                     projectile.localAI[1] = 1;
                 }
-                if (projectile.modProjectile is ArtifactOfResilienceShard1)
+                if (projectile.ModProjectile is ArtifactOfResilienceShard1)
                 {
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
@@ -110,9 +110,10 @@ namespace CalamityMod.Projectiles.Typeless
                 if (projectile.frameCounter <= ArtifactOfResilienceBulwark.MaxReformations)
                 {
                     // Reform
-                    if (projectile.modProjectile is ArtifactOfResilienceShard1 && Main.myPlayer == projectile.owner)
+                    if (projectile.ModProjectile is ArtifactOfResilienceShard1 && Main.myPlayer == projectile.owner)
                     {
-                        Projectile reformedBulwark = Projectile.NewProjectileDirect(projectile.Center,
+                        Projectile reformedBulwark = Projectile.NewProjectileDirect(projectile.GetProjectileSource_FromThis(),
+                                                                                    projectile.Center,
                                                                                     Vector2.Zero,
                                                                                     ModContent.ProjectileType<ArtifactOfResilienceBulwark>(),
                                                                                     projectile.damage,

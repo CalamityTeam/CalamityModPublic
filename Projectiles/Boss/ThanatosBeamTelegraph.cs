@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam");
+            Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam").Value;
 
             float verticalScale = Utils.GetLerpValue(0f, 20f, Time, true) * Utils.GetLerpValue(0f, 16f, Projectile.timeLeft, true) * 4f;
 

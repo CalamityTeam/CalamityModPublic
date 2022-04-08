@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Pets
             for (int itemIndex = 0; itemIndex < Main.maxItems; itemIndex++)
             {
                 Item item = Main.item[itemIndex];
-                if (item.active && item.noGrabDelay == 0 && item.owner == Projectile.owner && ItemLoader.CanPickup(item, player))
+                if (item.active && item.noGrabDelay == 0 && item.playerIndexTheItemIsReservedFor == Projectile.owner && ItemLoader.CanPickup(item, player))
                 {
                     int num = defaultItemGrabRange;//Player.defaultItemGrabRange;
 
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Pets
                             }
                             else
                             {
-                                Main.item[itemIndex] = player.GetItem(Projectile.owner, item, false, false);
+                                Main.item[itemIndex] = player.GetItem(Projectile.owner, item, new GetItemSettings());
                                 if (Main.netMode == NetmodeID.MultiplayerClient)
                                 {
                                     NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 0f, 0f, 0f, 0, 0, 0);
@@ -363,7 +363,8 @@ namespace CalamityMod.Projectiles.Pets
             for (int itemIndex = 0; itemIndex < Main.maxItems; itemIndex++)
             {
                 Item item = Main.item[itemIndex];
-                if (item.active && item.noGrabDelay == 0 && item.owner == Projectile.owner && ItemLoader.CanPickup(item, Main.player[item.owner]) && Main.player[item.owner].ItemSpace(item))
+                if (item.active && item.noGrabDelay == 0 && item.playerIndexTheItemIsReservedFor == Projectile.owner && 
+                    ItemLoader.CanPickup(item, Main.player[item.playerIndexTheItemIsReservedFor]) && Main.player[item.playerIndexTheItemIsReservedFor].ItemSpace(item).CanTakeItemToPersonalInventory)
                 {
                     if (ItemID.Sets.NebulaPickup[item.type])
                     {
@@ -467,9 +468,9 @@ namespace CalamityMod.Projectiles.Pets
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (color == 1)
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SparksBlue");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SparksBlue").Value;
             if (color == 2)
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SparksGreen");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Pets/SparksGreen").Value;
             int height = texture.Height / Main.projFrames[Projectile.type];
             int frameHeight = height * Projectile.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;

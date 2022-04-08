@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileMerge[Type][ModContent.TileType<LaboratoryPipePlating>()] = true;
 
             SoundType = SoundID.Item;
-            soundStyle = 52;
+            SoundStyle = 52;
             DustType = 32;
             MinPick = 30;
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPipes>();

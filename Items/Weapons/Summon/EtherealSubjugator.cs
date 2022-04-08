@@ -49,8 +49,6 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 int i = Main.myPlayer;
                 float num72 = Item.shootSpeed;
-                float num74 = knockBack;
-                num74 = player.GetWeaponKnockback(Item, num74);
                 player.itemTime = Item.useTime;
                 Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                 float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -76,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 Vector2 spinningpoint = new Vector2(num78, num79);
                 spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-                Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, num74, i, 0f, 1f);
+                Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 1f);
             }
             return false;
         }

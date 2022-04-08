@@ -61,7 +61,7 @@ namespace CalamityMod.Particles
             foreach (NPC npc in PendingNPCsToDraw.Keys)
             {
                 // Prepare the sprite batch for specialized drawing in prepration that the graphics device will draw to new render targets.
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Matrix.Identity);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
 
                 // Draw the NPC to the temporary render target so that all of its drawcode is localized, and then get the colors from the results.
                 Main.instance.GraphicsDevice.SetRenderTarget(PendingNPCsToDraw[npc]);
@@ -231,7 +231,7 @@ namespace CalamityMod.Particles
 
             float dissipationFactor = Utils.GetLerpValue(6f, 16f, Velocity.Length(), true);
             float velocityInterpolant = Utils.GetLerpValue(25f - dissipationFactor * 10f, 80f - dissipationFactor * 45f, Time, true);
-            Vector2 idealVelocity = new Vector2(Main.windSpeed * MathHelper.Lerp(0.8f, 1.2f, (float)Math.Sin(Center.Y / 50f + ID)) * 20f, (float)Math.Sin(Main.time / 20f + ID * 0.01f) * 3f - 1f);
+            Vector2 idealVelocity = new Vector2(Main.windSpeedCurrent * MathHelper.Lerp(0.8f, 1.2f, (float)Math.Sin(Center.Y / 50f + ID)) * 20f, (float)Math.Sin(Main.time / 20f + ID * 0.01f) * 3f - 1f);
             Velocity = Vector2.Lerp(Velocity, idealVelocity, velocityInterpolant * 0.16f);
             Center += Velocity;
         }

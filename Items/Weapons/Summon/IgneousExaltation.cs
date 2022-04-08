@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                        if ((Main.projectile[i].ModProjectile as IgneousBlade).Firing)
                             continue;
                         swordCount++;
                         for (int j = 0; j < 22; j++)
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
                     {
-                        if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                        if ((Main.projectile[i].ModProjectile as IgneousBlade).Firing)
                             continue;
                         Main.projectile[i].ai[0] = angle;
                         angle += angleVariance;

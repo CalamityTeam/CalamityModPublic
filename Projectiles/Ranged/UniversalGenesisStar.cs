@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Vector2 spriteOrigin = spriteRec.Size() / 2f;
                 SpriteEffects spriteEffects = Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 
-                Texture2D aura = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/FallenStarAura");
+                Texture2D aura = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/FallenStarAura").Value;
                 Vector2 drawStart = Projectile.Center + Projectile.velocity;
                 Vector2 drawStart2 = Projectile.Center - Projectile.velocity * 0.5f;
                 Vector2 spinPoint = new Vector2(0f, -10f);

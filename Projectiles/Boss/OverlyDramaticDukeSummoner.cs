@@ -6,6 +6,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Chat;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -140,9 +141,9 @@ namespace CalamityMod.Projectiles.Boss
 
                             if (Main.netMode == NetmodeID.Server)
                             {
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
+                                ChatHelper.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
                                 {
-                            Main.npc[boomer].GetTypeNetName()
+                                    Main.npc[boomer].GetTypeNetName()
                                 }), new Color(175, 75, 255));
                                 return;
                             }
@@ -180,7 +181,7 @@ namespace CalamityMod.Projectiles.Boss
             bottomY--;
             Vector2 bottomVector = new Vector2(centerAsTileCoords.X, bottomY) * 16f + new Vector2(8f);
 
-            Texture2D texture = ModContent.Request<Texture2D>(Texture);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             float yMax = 1600f * Projectile.scale;
             for (int y = 0; y < yMax; y += 30)
             {

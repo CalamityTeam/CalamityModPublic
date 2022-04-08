@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if (!(Main.projectile[i].modProjectile as ColdDivinityPointyThing).circlingPlayer)
+                        if (!(Main.projectile[i].ModProjectile as ColdDivinityPointyThing).circlingPlayer)
                             continue;
                         pointyThingCount++;
                     }
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == type && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].ai[1] == 0f)
                     {
-                        if (!(Main.projectile[i].modProjectile as ColdDivinityPointyThing).circlingPlayer)
+                        if (!(Main.projectile[i].ModProjectile as ColdDivinityPointyThing).circlingPlayer)
                             continue;
                         Main.projectile[i].ai[0] = angle;
                         Main.projectile[i].netUpdate = true;

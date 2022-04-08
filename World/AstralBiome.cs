@@ -653,7 +653,7 @@ namespace CalamityMod.World
                                 WorldGen.KillTile(x, y);
                                 if (Main.netMode == NetmodeID.MultiplayerClient)
                                 {
-                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
+                                    NetMessage.SendData(MessageID.TileManipulation, -1, -1, null, 0, x, y);
                                 }
                                 break;
                             case TileID.LargePiles:

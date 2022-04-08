@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Boss
             if (TelegraphDrawer is null)
                 TelegraphDrawer = new PrimitiveTrail(TelegraphPrimitiveWidth, TelegraphPrimitiveColor, specialShader: GameShaders.Misc["CalamityMod:Flame"]);
 
-            GameShaders.Misc["CalamityMod:Flame"].UseImage("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:Flame"].UseImage0("Images/Misc/Perlin");
             GameShaders.Misc["CalamityMod:Flame"].UseSaturation(0.28f);
             Vector2[] drawPositions = new Vector2[]
             {

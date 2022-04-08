@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Dyes
     public class AuricDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/AuricDyeShader").Value), "DyePass").
-            UseColor(new Color(170, 96, 60)).UseSecondaryColor(new Color(226, 196, 106)).SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SharpNoise"));
+            UseColor(new Color(170, 96, 60)).UseSecondaryColor(new Color(226, 196, 106)).SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SharpNoise").Value);
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Dye");

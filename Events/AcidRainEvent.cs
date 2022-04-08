@@ -39,7 +39,7 @@ namespace CalamityMod.Events
 
         // A partially bright pale-ish cyan with a hint of yellow.
 
-        public static readonly Color TextColor = new Color(115, 194, 147);
+        public static readonly Color TextColor = new(115, 194, 147);
 
         // How long the invasion persists, in frames, if nothing is killed.
         public const int InvasionNoKillPersistTime = 9000;
@@ -47,7 +47,7 @@ namespace CalamityMod.Events
         public const float BloodwormSpawnRate = 0.1f;
 
         // Not a readonly collection so that if anyone else wants to add stuff in here with their own mod, they can.
-        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPreHM = new Dictionary<int, AcidRainSpawnData>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPreHM = new()
         {
             { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(1, 0.75f, AcidRainSpawnRequirement.Anywhere) },
             { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
@@ -57,7 +57,7 @@ namespace CalamityMod.Events
         };
 
         // Note: Irradiated Slimes spawn naturally
-        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesAS = new Dictionary<int, AcidRainSpawnData>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesAS = new()
         {
             { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
@@ -70,7 +70,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) }
         };
 
-        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new Dictionary<int, AcidRainSpawnData>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new()
         {
             { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
@@ -84,12 +84,12 @@ namespace CalamityMod.Events
             { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
         };
 
-        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesAS = new Dictionary<int, AcidRainSpawnData>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesAS = new()
         {
             { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(5, 0.08f, AcidRainSpawnRequirement.Water) }
         };
 
-        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesPolter = new Dictionary<int, AcidRainSpawnData>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesPolter = new()
         {
             { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(4, 0.08f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Mauler>(), new AcidRainSpawnData(4, 0.07f, AcidRainSpawnRequirement.Water) },
@@ -167,7 +167,7 @@ namespace CalamityMod.Events
                     Main.numCloudsTemp = Main.maxClouds;
                     Main.numClouds = Main.numCloudsTemp;
                     Main.windSpeedCurrent = 0.72f;
-                    Main.windSpeedTarget = Main.windSpeedTarget;
+                    Main.windSpeedTarget = Main.windSpeedCurrent;
                     Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
                     Main.rainTime = Main.weatherCounter;
                     Main.maxRaining = 0.89f;
@@ -246,7 +246,7 @@ namespace CalamityMod.Events
                 Main.numCloudsTemp = Main.maxClouds;
                 Main.numClouds = Main.numCloudsTemp;
                 Main.windSpeedTarget = 0.72f;
-                Main.windSpeedCurrent = Main.windSpeedCurrent;
+                Main.windSpeedCurrent = Main.windSpeedTarget;
                 Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
                 Main.rainTime = Main.weatherCounter;
                 Main.maxRaining = 0.89f;
@@ -294,7 +294,7 @@ namespace CalamityMod.Events
                     Main.numCloudsTemp = Main.rand.Next(5, 20 + 1);
                     Main.numClouds = Main.numCloudsTemp;
                     Main.windSpeedCurrent = Main.rand.NextFloat(0.04f, 0.25f);
-                    Main.windSpeedTarget = Main.windSpeedTarget;
+                    Main.windSpeedTarget = Main.windSpeedCurrent;
                     Main.maxRaining = 0f;
                     if (win)
                     {

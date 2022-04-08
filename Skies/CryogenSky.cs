@@ -25,7 +25,7 @@ namespace CalamityMod.Skies
 
         public static bool ShouldDrawRegularly;
 
-        internal static Texture2D AuroraTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture");
+        internal static Texture2D AuroraTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AuroraTexture").Value;
 
         public static void UpdateDrawEligibility()
         {

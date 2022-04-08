@@ -163,8 +163,8 @@ namespace CalamityMod.Projectiles.Boss
                 return false;
             }
             Texture2D texture2D19 = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D texture2D20 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayMid");
-            Texture2D texture2D21 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayEnd");
+            Texture2D texture2D20 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayMid").Value;
+            Texture2D texture2D21 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/BrimstoneRayEnd").Value;
             float num223 = Projectile.localAI[1]; //length of laser
             Color color44 = new Color(255, 255, 255, 0) * 0.9f;
             Vector2 vector = Projectile.Center - Main.screenPosition;

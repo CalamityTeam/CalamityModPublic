@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
@@ -92,7 +92,7 @@ namespace CalamityMod.UI
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
-                    if (Main.keyState.PressingShift() && p.ItemSpace(powercell))
+                    if (Main.keyState.PressingShift() && p.ItemSpace(powercell).CanTakeItemToPersonalInventory)
                     {
                         cellsGrabbed = powercell.stack;
                         shiftClicked = true;

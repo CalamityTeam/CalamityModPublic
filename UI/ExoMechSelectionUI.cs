@@ -39,18 +39,18 @@ namespace CalamityMod.UI
             {
                 case ExoMech.Destroyer:
                     iconScale = DestroyerIconScale;
-                    iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HeadIcon_THanos");
+                    iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HeadIcon_THanos").Value;
                     description = "Thanatos, a serpentine terror with impervious armor and innumerable laser turrets.";
                     break;
                 case ExoMech.Prime:
                     iconScale = PrimeIconScale;
-                    iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HeadIcon_Ares");
+                    iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HeadIcon_Ares").Value;
                     description = "Ares, a heavyweight, diabolical monstrosity with four Exo superweapons.";
                     break;
                 default:
                 case ExoMech.Twins:
                     iconScale = TwinsIconScale;
-                    iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HeadIcon_ArtemisApollo");
+                    iconMechTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/HeadIcon_ArtemisApollo").Value;
                     description = "Artemis and Apollo, a pair of extremely agile destroyers with pulse cannons.";
                     break;
             }

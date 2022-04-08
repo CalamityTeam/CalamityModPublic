@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture = ModContent.Request<Texture2D>(Texture);
+            Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             for (int i = 0; i < Projectile.oldPos.Length; i++)
             {
                 if (i > 0)

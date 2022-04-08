@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -40,8 +40,6 @@ namespace CalamityMod.Items.Weapons.Summon
             int i = Main.myPlayer;
             float num72 = Item.shootSpeed;
             int num73 = damage;
-            float num74 = knockBack;
-            num74 = player.GetWeaponKnockback(Item, num74);
             player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -63,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Summon
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<HermitCrabMinion>(), num73, num74, i, 0f, 0f);
+            Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<HermitCrabMinion>(), num73, knockback, i, 0f, 0f);
             return false;
         }
     }

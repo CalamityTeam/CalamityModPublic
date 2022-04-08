@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.RagePotion).
                 AddIngredient<UnholyEssence>().
-                AddIngrediente<GalacticaSingularity>().
+                AddIngredient<GalacticaSingularity>().
                 AddTile(TileID.AlchemyTable).
                 Register();
 

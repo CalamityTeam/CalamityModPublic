@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -14,7 +14,7 @@ namespace CalamityMod.UI
             if (!Main.playerInventory)
                 return;
 
-            Texture2D indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator");
+            Texture2D indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator").Value;
             int indicatorFrame = 0;
             if (CalamityWorld.revenge)
                 indicatorFrame = 1;

@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Projectile.Size * scale * 0.5f;
             Rectangle drawArea = new Rectangle(0, 0, Projectile.width, Projectile.height);
             Color fadeoutColor = new Color(new Vector4(Fadeout(pulseCompletionRatio)) * Projectile.Opacity);
-            DrawData drawData = new DrawData(ModContent.Request<Texture2D>("Terraria/Misc/Perlin").Value, drawPosition, drawArea, fadeoutColor, Projectile.rotation, Projectile.Size, scale, SpriteEffects.None, 0);
+            DrawData drawData = new DrawData(ModContent.Request<Texture2D>("Terraria/Images/Misc/Perlin").Value, drawPosition, drawArea, fadeoutColor, Projectile.rotation, Projectile.Size, scale, SpriteEffects.None, 0);
 
             GameShaders.Misc["ForceField"].UseColor(GetCurrentExplosionColor(pulseCompletionRatio));
             GameShaders.Misc["ForceField"].Apply(drawData);

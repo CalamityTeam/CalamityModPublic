@@ -1,9 +1,10 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using ReLogic.Content;
 
 namespace CalamityMod.Tiles.Plates
 {
@@ -17,10 +18,10 @@ namespace CalamityMod.Tiles.Plates
         {
             if (!Main.dedServ)
             {
-                PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplatePulse");
+                PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplatePulse", AssetRequestMode.ImmediateLoad).Value;
                 PulseColors = new Color[PulseTexture.Width];
                 PulseTexture.GetData(PulseColors);
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplateGlow");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplateGlow", AssetRequestMode.ImmediateLoad).Value;
             }
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;

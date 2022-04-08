@@ -1,4 +1,4 @@
-using CalamityMod.CustomRecipes;
+﻿using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.DraedonsArsenal;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                     if (crit)
                         damage /= 2;
 
-                    Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
+                    Projectile.NewProjectile(player.GetProjectileSource_Item(Item), target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
                 }
             }
         }

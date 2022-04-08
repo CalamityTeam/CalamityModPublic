@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace CalamityMod.Particles
                     string texturePath = type.Namespace.Replace('.', '/') + "/" + type.Name;
                     if (instance.Texture != "")
                         texturePath = instance.Texture;
-                    particleTextures[ID] = ModContent.Request<Texture2D>(texturePath);
+                    particleTextures[ID] = ModContent.Request<Texture2D>(texturePath, AssetRequestMode.ImmediateLoad).Value;
                 }
             }
         }
@@ -127,7 +128,7 @@ namespace CalamityMod.Particles
 
             if (batchedAlphaBlendParticles.Count > 0)
             {
-                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 foreach (Particle particle in batchedAlphaBlendParticles)
                 {

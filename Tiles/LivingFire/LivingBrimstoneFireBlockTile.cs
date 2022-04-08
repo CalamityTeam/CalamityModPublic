@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.LivingFire;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -35,13 +35,13 @@ namespace CalamityMod.Tiles.LivingFire
             TileObjectData.addTile(Type);
         }
 
-        public int CanPlaceAlter(int i, int j, int type, int style, int direction) => 1;
+        public int CanPlaceAlter(int i, int j, int type, int style, int direction, int alternate) => 1;
 
-        public static int AfterPlacement(int i, int j, int type, int style, int direction)
+        public static int AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, 1, 1);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, 1, 1);
             }
             return 1;
         }

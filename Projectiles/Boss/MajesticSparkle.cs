@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sparkleTexture = ModContent.Request<Texture2D>(Texture);
+            Texture2D sparkleTexture = ModContent.Request<Texture2D>(Texture).Value;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY;
             Color sparkleColor = Main.hslToRgb(ColorSpectrumHue, 1f, 0.5f) * Projectile.Opacity * 0.5f;

@@ -117,59 +117,16 @@ namespace CalamityMod.Items.Weapons.Summon
             if (robotIndex != -1)
             {
                 Projectile robot = Main.projectile[robotIndex];
-                GiantIbanRobotOfDoom robotModProjectile = ((GiantIbanRobotOfDoom)robot.modProjectile);
+                GiantIbanRobotOfDoom robotModProjectile = ((GiantIbanRobotOfDoom)robot.ModProjectile);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<AndromedaRegislash>()] <= 0 &&
                     robotModProjectile.TopIconActive &&
                     (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
                      !robotModProjectile.RightIconActive)) // "Melee" attack
                 {
+                    var source = player.GetProjectileSource_Item(item);
                     int damage = player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot ? GiantIbanRobotOfDoom.RegicideBaseDamageSmall : GiantIbanRobotOfDoom.RegicideBaseDamageLarge;
-                    if (item.Calamity().rogue)
-                    {
-                        damage = (int)(damage * player.RogueDamage());
-                    }
-                    if (item.melee)
-                    {
-                        damage = (int)(damage * player.MeleeDamage());
-                    }
-                    if (item.ranged)
-                    {
-                        damage = (int)(damage * player.RangedDamage());
-                    }
-                    if (item.magic)
-                    {
-                        damage = (int)(damage * player.MagicDamage());
-                    }
-                    if (item.summon)
-                    {
-                        damage = (int)(damage * player.MinionDamage());
-                    }
-                    Projectile blade = Projectile.NewProjectileDirect(source, robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
+                    Projectile.NewProjectileDirect(source, robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
                                Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));
-
-                    if (blade.whoAmI.WithinBounds(Main.maxProjectiles))
-                    {
-                        if (item.Calamity().rogue)
-                        {
-                            blade.Calamity().forceRogue = true;
-                        }
-                        if (item.melee)
-                        {
-                            blade.Calamity().forceMelee = true;
-                        }
-                        if (item.ranged)
-                        {
-                            blade.Calamity().forceRanged = true;
-                        }
-                        if (item.magic)
-                        {
-                            blade.Calamity().forceMagic = true;
-                        }
-                        if (item.summon)
-                        {
-                            blade.Calamity().forceMinion = true;
-                        }
-                    }
                 }
 
                 if (!robotModProjectile.TopIconActive &&

@@ -85,7 +85,7 @@ namespace CalamityMod.TileEntities
             // Also tell the server that you placed the 4x4 tiles that make up the Power Cell Factory.
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileRange(Main.myPlayer, i, j, PowerCellFactory.Width, PowerCellFactory.Height);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, PowerCellFactory.Width, PowerCellFactory.Height);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type);
                 return -1;
             }

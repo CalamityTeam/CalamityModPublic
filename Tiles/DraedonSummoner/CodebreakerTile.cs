@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.Tiles.DraedonSummoner
 {
@@ -33,13 +34,13 @@ namespace CalamityMod.Tiles.DraedonSummoner
         {
             if (!Main.dedServ)
             {
-                TileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile");
-                ComputerTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer");
-                SensorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray");
-                DisplayTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay");
-                VoltageRegulatorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem");
-                VoltageRegulatorTexture2 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2");
-                CoolingCellTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell");
+                TileTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerTile", AssetRequestMode.ImmediateLoad).Value;
+                ComputerTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerDecryptionComputer", AssetRequestMode.ImmediateLoad).Value;
+                SensorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerLongRangedSensorArray", AssetRequestMode.ImmediateLoad).Value;
+                DisplayTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAdvancedDisplay", AssetRequestMode.ImmediateLoad).Value;
+                VoltageRegulatorTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem", AssetRequestMode.ImmediateLoad).Value;
+                VoltageRegulatorTexture2 = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerVoltageRegulationSystem2", AssetRequestMode.ImmediateLoad).Value;
+                CoolingCellTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonSummoner/CodebreakerAuricQuantumCoolingCell", AssetRequestMode.ImmediateLoad).Value;
             }
 
             Main.tileLighted[Type] = true;

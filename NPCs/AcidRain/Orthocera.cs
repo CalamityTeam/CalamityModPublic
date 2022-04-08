@@ -171,10 +171,10 @@ namespace CalamityMod.NPCs.AcidRain
                         for (int i = 0; i < 2; i++)
                         {
                             float offsetAngle = MathHelper.Lerp(-0.3f, 0.3f, i / 2f);
-                            Projectile.NewProjectile(NPC.Center, (spitDirection + offsetAngle).ToRotationVector2() * 10f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
+                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, (spitDirection + offsetAngle).ToRotationVector2() * 10f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
                         }
                     }
-                    Projectile.NewProjectile(NPC.Center, spitDirection.ToRotationVector2() * 12f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, spitDirection.ToRotationVector2() * 12f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
                 }
             }
 

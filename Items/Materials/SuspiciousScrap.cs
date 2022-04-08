@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Materials
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Materials
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = Main.itemTexture[Item.type];
+            Texture2D tex = TextureAssets.Item[Item.type].Value;
             Rectangle variant = new Rectangle(CalamityWorld.OreTypes[0] == TileID.Tin ? 0 : 32, CalamityWorld.OreTypes[1] == TileID.Lead ? 0 : 32, 30, 30);
             spriteBatch.Draw(tex, position, variant, drawColor, 0f, origin, scale * 2f, 0f, 0f);
             return false;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Materials
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Texture2D tex = Main.itemTexture[Item.type];
+            Texture2D tex = TextureAssets.Item[Item.type].Value;
             Rectangle variant = new Rectangle(CalamityWorld.OreTypes[0] == TileID.Tin ? 0 : 32, CalamityWorld.OreTypes[1] == TileID.Lead ? 0 : 32, 30, 30);
             Vector2 positionDisplace = new Vector2( 16 , 16 ) * scale;
 

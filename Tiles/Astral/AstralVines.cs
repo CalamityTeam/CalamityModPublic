@@ -1,6 +1,7 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.Astral
             DustType = ModContent.DustType<AstralBasic>();
 
             SoundType = SoundID.Grass;
-            soundStyle = 1;
+            SoundStyle = 1;
 
             AddMapEntry(new Color(65, 56, 83));
         }
@@ -28,7 +29,7 @@ namespace CalamityMod.Tiles.Astral
             //GIVE VINE ROPE IF SPECIAL VINE BOOK
             if (WorldGen.genRand.Next(2) == 0 && Main.player[(int)Player.FindClosest(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16)].cordage)
             {
-                Item.NewItem(new Vector2(i * 16 + 8f, j * 16 + 8f), ItemID.VineRope);
+                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i * 16 + 8f, j * 16 + 8f), ItemID.VineRope);
             }
         }
     }

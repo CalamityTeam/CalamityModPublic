@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Dyes
         }
         public sealed override void SetDefaults()
         {
-            byte dye = Item.dye;
+            int dye = Item.dye;
             Item.CloneDefaults(ItemID.GelDye);
             Item.dye = dye;
             SafeSetDefaults();

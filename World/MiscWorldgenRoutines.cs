@@ -799,7 +799,7 @@ namespace CalamityMod.World
                             else
                             {
                                 Main.tile[m, n].LiquidAmount = 255;
-                                Main.tile[k, l].Get<LiquidData>().LiquidType = LiquidID.Lava;
+                                Main.tile[m, n].Get<LiquidData>().LiquidType = LiquidID.Lava;
                             }
                         }
                     }
@@ -818,7 +818,7 @@ namespace CalamityMod.World
                             else
                             {
                                 Main.tile[num11, num12].LiquidAmount = 255;
-                                Main.tile[k, l].Get<LiquidData>().LiquidType = LiquidID.Lava;
+                                Main.tile[num11, num12].Get<LiquidData>().LiquidType = LiquidID.Lava;
                             }
                             if (steps <= num2)
                             {

@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.AstralSnow
             ItemDrop = ModContent.ItemType<Items.Placeables.AstralSnow>();
 
             SoundType = SoundID.Item;
-            soundStyle = 48;
+            SoundStyle = 48;
 
             AddMapEntry(new Color(189, 211, 221));
 

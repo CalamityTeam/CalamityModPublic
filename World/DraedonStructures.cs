@@ -48,7 +48,7 @@ namespace CalamityMod.World
         public static bool ShouldAvoidLocation(Point placementPoint, bool careAboutLava = true)
         {
             Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
-            if (tile.lava() && careAboutLava)
+            if (tile.LiquidType == LiquidID.Lava && careAboutLava)
                 return true;
             if (tile.TileType == TileID.BlueDungeonBrick ||
                 tile.TileType == TileID.GreenDungeonBrick ||
