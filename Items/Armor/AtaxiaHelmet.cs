@@ -49,13 +49,14 @@ namespace CalamityMod.Items.Armor
             modPlayer.chaosSpirit = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<AtaxiaSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<AtaxiaSummonSetBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.MinionDamage()), 0f, Main.myPlayer, 38f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.MinionDamage()), 0f, Main.myPlayer, 38f, 0f);
                 }
             }
             player.GetDamage(DamageClass.Summon) += 0.4f;

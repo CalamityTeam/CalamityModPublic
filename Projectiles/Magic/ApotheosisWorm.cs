@@ -265,11 +265,11 @@ namespace CalamityMod.Projectiles.Magic
             drawPosition -= headTexture.Size() * Projectile.scale * 0.5f;
             drawPosition += headTextureOrigin * Projectile.scale + new Vector2(0f, 4f + Projectile.gfxOffY);
 
-            Texture2D jawTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/ApotheosisJaw").Valie;
+            Texture2D jawTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/ApotheosisJaw").Value;
             Vector2 jawOrigin = jawTexture.Size() * 0.5f;
 
             // Segment drawing.
-            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS").Valie;
+            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS").Value;
             Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailS").Value;
 
             // Not white to differentiate itself slightly from regular DoG when fighting Boss Rush.

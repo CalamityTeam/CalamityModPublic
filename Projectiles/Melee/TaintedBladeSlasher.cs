@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             get
             {
-                Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID];
+                Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID].Value;
                 Rectangle bladeFrame = bladeTexture.Frame(1, 1, 0, 0);
                 bool hasMultipleFrames = Main.itemAnimations[(int)SwordItemID] != null;
                 if (hasMultipleFrames)
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Melee
                 handTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TaintedHand2").Value;
                 handDirection = SpriteEffects.FlipHorizontally;
             }
-            Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID];
+            Texture2D bladeTexture = TextureAssets.Item[(int)SwordItemID].Value;
 
             // Draw the arms.
             float backArmRotation = Owner.AngleTo(BackArmAimPosition);

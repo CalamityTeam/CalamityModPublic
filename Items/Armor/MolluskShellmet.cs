@@ -51,13 +51,14 @@ namespace CalamityMod.Items.Armor
             player.maxMinions += 4;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<ShellfishBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<ShellfishBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)(140 * player.MinionDamage()), 0f, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)(140 * player.MinionDamage()), 0f, player.whoAmI);
                 }
             }
             player.Calamity().wearingRogueArmor = true;

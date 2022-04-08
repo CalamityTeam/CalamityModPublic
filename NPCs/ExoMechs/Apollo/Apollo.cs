@@ -150,7 +150,6 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             NPC.netAlways = true;
             NPC.boss = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<DraedonTreasureBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }

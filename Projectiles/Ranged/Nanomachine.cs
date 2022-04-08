@@ -34,9 +34,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.localAI[1] == 0)
                 Projectile.localAI[1] = Main.rand.Next(1, 3);
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/Nanomachine");
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/Nanomachine").Value;
             if (Projectile.localAI[1] == 2)
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/Nanomachine2");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Ranged/Nanomachine2").Value;
             CalamityUtils.DrawAfterimagesCentered(Projectile, ProjectileID.Sets.TrailingMode[Projectile.type], lightColor, 1, texture);
             return false;
         }

@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref num42, ref scaleFactor11, ref flag16, ref weaponDamage2, ref weaponKnockback2, false);
+                    player.PickAmmo(player.ActiveItem(), ref num42, ref scaleFactor11, ref flag16, ref weaponDamage2, ref weaponKnockback2, out _);
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
                     float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 vector19 = vector;

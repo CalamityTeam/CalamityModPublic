@@ -175,10 +175,6 @@ namespace CalamityMod.Projectiles.Magic
 
             Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
             Vector2 origin = rectangle.Size() / 2f;
-
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == -1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), rectangle, Color.White, rotation, origin, scale, SpriteEffects.None, 0);
             return false;
         }

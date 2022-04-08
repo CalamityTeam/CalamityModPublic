@@ -56,9 +56,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawBeamWithColor(Main.spriteBatch, new Color(190, 29, 209), Projectile.scale);
-            DrawBeamWithColor(Main.spriteBatch, Color.Lerp(new Color(254, 126, 229), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
-            DrawBeamWithColor(Main.spriteBatch, Color.Lerp(new Color(254, 190, 243), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
+            DrawBeamWithColor(new Color(190, 29, 209), Projectile.scale);
+            DrawBeamWithColor(Color.Lerp(new Color(254, 126, 229), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
+            DrawBeamWithColor(Color.Lerp(new Color(254, 190, 243), Color.Transparent, 0.35f), Projectile.scale * 0.6f);
             return false;
         }
     }

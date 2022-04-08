@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.ai[0] == 1f)
-                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/BeamingThornBlossom");
+                tex = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/BeamingThornBlossom").Value;
 
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;

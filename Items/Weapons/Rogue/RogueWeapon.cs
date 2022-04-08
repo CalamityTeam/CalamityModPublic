@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.CalPlayer;
 using System;
 using System.Collections.Generic;
@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Utilities;
+using CalamityMod.Prefixes;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -32,26 +33,26 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override int ChoosePrefix(UnifiedRandom rand)
         {
             WeightedRandom<string> newPrefix = new WeightedRandom<string>();
-            newPrefix.Add("Pointy", 1);
-            newPrefix.Add("Sharp", 1);
-            newPrefix.Add("Feathered", 1);
-            newPrefix.Add("Sleek", 1);
-            newPrefix.Add("Hefty", 1);
-            newPrefix.Add("Mighty", 1);
-            newPrefix.Add("Glorious", 1);
-            newPrefix.Add("Serrated", 1);
-            newPrefix.Add("Vicious", 1);
-            newPrefix.Add("Lethal", 1);
-            newPrefix.Add("Flawless", 1);
-            newPrefix.Add("Radical", 1);
-            newPrefix.Add("Blunt", 1);
-            newPrefix.Add("Flimsy", 1);
-            newPrefix.Add("Unbalanced", 1);
-            newPrefix.Add("Atrocious", 1);
-            return Mod.GetPrefix(newPrefix).Type;
+            newPrefix.Add("CalamityMod/Prefixes/PointyWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/SharpWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/FeatheredWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/SleekWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/HeftyWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/MightyWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/GloriousWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/SerratedWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/ViciousWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/LethalWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/FlawlessWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/RadicalWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/BluntWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/FlimsyWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/UnbalancedWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Prefixes/AtrociousWeaponPrefix", 1);
+            return ModContent.Find<RogueWeaponPrefix>(newPrefix.Get()).Type;
         }
 
-        public override bool NewPreReforge()
+        public override bool PreReforge()
         {
             StealthStrikePrefixBonus = 1f;
             return true;
@@ -79,21 +80,21 @@ namespace CalamityMod.Items.Weapons.Rogue
         // Add both the player's dedicated rogue damage and stealth strike damage as applicable.
         // Rogue weapons are internally throwing so they already benefit from throwing damage boosts.
         // 5E-06 to prevent downrounding is not needed anymore, added by TML itself
-        public sealed override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        public sealed override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             CalamityPlayer mp = player.Calamity();
 
-            SafeModifyWeaponDamage(player, ref add, ref mult, ref flat);
+            SafeModifyWeaponDamage(player, ref damage, ref flat);
 
             // Both regular rogue damage stat and stealth damage are added to the weapon simultaneously.
-            add += mp.throwingDamage + mp.stealthDamage - 1f;
+            damage += mp.throwingDamage + mp.stealthDamage - 1f;
 
             // Boost (or lower) the weapon's damage if it has a stealth strike available and an associated prefix
             if (mp.StealthStrikeAvailable() && Item.prefix > 0)
-                mult += StealthStrikePrefixBonus - 1f;
+                damage *= StealthStrikePrefixBonus;
         }
 
-        public virtual void SafeModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat) { }
+        public virtual void SafeModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat) { }
 
         // Simply add the player's dedicated rogue crit chance.
         // Rogue crit isn't boosted by Calamity universal crit boosts, so this won't double-add universal crit.
@@ -138,7 +139,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                         string restOfTooltip = text.Substring(damageNumberSubstringIndex);
                         int damageWithStealth = int.Parse(text.Substring(0, damageNumberSubstringIndex));
 
-                        int damageWithoutStealth = (int)(Item.damage * (p.GetDamage<GenericDamageClass>() + p.GetDamage(DamageClass.Throwing) + mp.throwingDamage - 2f));
+                        int damageWithoutStealth = (int)(Item.damage * (p.GetDamage<GenericDamageClass>().Additive + p.GetDamage(DamageClass.Throwing).Additive + mp.throwingDamage - 2f));
                         text = damageWithoutStealth + restOfTooltip + " : " + damageWithStealth + " stealth strike damage";
                     }
                 }
@@ -156,8 +157,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                     string txt = (badModifier ? "-" : "+") + Math.Round(Math.Abs(ssDmgBoost) * 100f) + "% stealth strike damage";
                     TooltipLine stealthTooltip = new TooltipLine(Mod, "PrefixSSDmg", txt)
                     {
-                        isModifier = true,
-                        isModifierBad = badModifier
+                        IsModifier = true,
+                        IsModifierBad = badModifier
                     };
                     tooltips.Add(stealthTooltip);
                 }

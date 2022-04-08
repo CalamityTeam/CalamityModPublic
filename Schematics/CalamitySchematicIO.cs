@@ -156,8 +156,6 @@ namespace CalamityMod.Schematics
                 for (int j = area.Top; j < area.Bottom; j++)
                 {
                     Tile t = Main.tile[i, j];
-                    if (t is null) // Vanilla does this itself all the time. I wish it weren't necessary.
-                        t = new Tile();
                     tiles[i - area.Left, j - area.Top] = t;
                 }
             return tiles;

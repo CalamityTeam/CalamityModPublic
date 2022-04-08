@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int boom = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), blastDamage, Projectile.knockBack, Projectile.owner, 0f, scale);
 
                 // Only declare the explosion as ranged class if the bullet itself is ranged class.
-                if (boom.WithinBounds(Main.maxProjectiles) && Projectile.ranged)
+                if (boom.WithinBounds(Main.maxProjectiles) && Projectile.CountsAsClass(DamageClass.Ranged))
                     Main.projectile[boom].Calamity().forceRanged = true;
             }
 

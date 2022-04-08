@@ -66,13 +66,14 @@ namespace CalamityMod.Items.Armor
             }
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<SilvaSummonSetBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(1200f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SilvaCrystal>(), (int)(1200f * player.MinionDamage()), 0f, Main.myPlayer, -20f, 0f);
                 }
             }
         }

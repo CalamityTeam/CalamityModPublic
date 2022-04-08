@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                         p.Calamity().stealthStrike = true;
                     int pID = p.identity;
 
-                    CreateOrbs(position, (int)(orbDamage * 0.675f), knockback, pID, player, true);
+                    CreateOrbs(source, position, (int)(orbDamage * 0.675f), knockback, pID, player, true);
                 }
             }
             else
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 int pIndex = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
                 int pID = Main.projectile[pIndex].identity;
 
-                CreateOrbs(position, orbDamage, knockback, pID, player, false);
+                CreateOrbs(source, position, orbDamage, knockback, pID, player, false);
             }
             return false;
         }
@@ -104,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 30).AddIngredient(ItemID.LightShard).AddIngredient(ItemID.DarkShard).AddRecipeGroup("AnyMythrilBar", 2).AddTile(TileID.MythrilAnvil).Register();
         }
 
-        private static void CreateOrbs(Vector2 position, int damage, float knockback, int projectileID, Player player, bool stealth)
+        private static void CreateOrbs(IEntitySource source, Vector2 position, int damage, float knockback, int projectileID, Player player, bool stealth)
         {
             float rotationOffset = 0f;
 
@@ -149,6 +149,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 rotationOffset += MathHelper.ToRadians(72f);
             }
+
 
             int orb1 = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockback, player.whoAmI, orb1Col, projectileID);
             int orb2 = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<NychthemeronOrb>(), damage, knockback, player.whoAmI, orb2Col, projectileID);

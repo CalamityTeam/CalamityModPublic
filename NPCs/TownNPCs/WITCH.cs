@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
                 if (!Main.LocalPlayer.Calamity().GivenBrimstoneLocus)
                 {
-                    Item.NewItem(NPC.GetItemSource_Loot(), NPC, ItemType<BrimstoneLocus>());
+                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemType<BrimstoneLocus>());
                     Main.LocalPlayer.Calamity().GivenBrimstoneLocus = true;
                 }
 

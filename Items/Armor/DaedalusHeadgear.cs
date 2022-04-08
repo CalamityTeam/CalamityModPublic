@@ -45,13 +45,14 @@ namespace CalamityMod.Items.Armor
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<DaedalusSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<DaedalusSummonSetBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
                 }
             }
             player.GetDamage(DamageClass.Summon) += 0.2f;

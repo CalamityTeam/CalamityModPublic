@@ -111,21 +111,21 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             if (Projectile.scale < 1f)
             {
                 for (int i = 10; i < Projectile.oldPos.Length; i++)
                 {
                     var tentacleShader = GameShaders.Misc["CalamityMod:SubsumingTentacle"];
-                    tentacleShader.UseImage("Images/Misc/Perlin");
+                    tentacleShader.UseImage0("Images/Misc/Perlin");
 
                     Vector2 drawPos = Projectile.oldPos[i] + ModContent.Request<Texture2D>(Texture).Size() / 2f - Main.screenPosition + Projectile.gfxOffY * Vector2.UnitY;
                     float scale = MathHelper.Lerp(0.05f, 1.3f, i / (float)Projectile.oldPos.Length) * Projectile.scale;
                     scale = MathHelper.Clamp(scale, 0f, 2f);
                     Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - i) / Projectile.oldPos.Length);
 
-                    Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture), drawPos, null, color, Projectile.rotation, ModContent.Request<Texture2D>(Texture).Size() / 2f, scale, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value, drawPos, null, color, Projectile.rotation, ModContent.Request<Texture2D>(Texture).Size() / 2f, scale, SpriteEffects.None, 0);
                     tentacleShader.UseSaturation(i / (float)Projectile.oldPos.Length); // A "completion ratio" for the shader. Used to make the entire tentacle appear multi-colored.
                     tentacleShader.UseOpacity(1f / Projectile.oldPos.Length); // A "step value" for the shader. Used to give variance in color at each individual segment.
                     tentacleShader.Apply(null);
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void PostDraw(Color drawColor)
         {
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (FreeShotLoaded > 0)
                             FreeShotLoaded--;
                         else
-                            player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, false);
+                            player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, out _);
 
                         projType = ModContent.ProjectileType<ChickenRocket>();
                         kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);

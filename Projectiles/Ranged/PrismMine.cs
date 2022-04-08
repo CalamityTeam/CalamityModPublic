@@ -85,8 +85,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D baseTexture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D glowTexture = ModContent.Request<Texture2D>($"{Texture}Glowmask");
-            Texture2D laserTexture = ModContent.Request<Texture2D>($"CalamityMod/Projectiles/Ranged/PrismMineArc");
+            Texture2D glowTexture = ModContent.Request<Texture2D>($"{Texture}Glowmask").Value;
+            Texture2D laserTexture = ModContent.Request<Texture2D>($"CalamityMod/Projectiles/Ranged/PrismMineArc").Value;
 
             void drawLineTo(Vector2 destination, Color laserColor)
             {

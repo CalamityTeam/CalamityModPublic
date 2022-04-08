@@ -1,4 +1,4 @@
-using CalamityMod.DataStructures;
+﻿using CalamityMod.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -90,10 +90,6 @@ namespace CalamityMod.Projectiles.Magic
             int frameHeight = height * Projectile.frame;
             Rectangle rectangle = new Rectangle(0, frameHeight, texture.Width, height);
             Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == -1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
             Main.EntitySpriteDraw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
             // Dust effects

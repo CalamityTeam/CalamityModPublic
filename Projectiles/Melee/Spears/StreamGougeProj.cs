@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Vector2 portalSpawnPosition = Main.MouseWorld + Main.rand.NextVector2Unit() * Main.rand.NextFloat(50f, 140f);
                 Vector2 spearVelocity = (Main.MouseWorld - portalSpawnPosition).SafeNormalize(Vector2.UnitY);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.GetItemSource_FromThis(), portalSpawnPosition, spearVelocity, ModContent.ProjectileType<StreamGougePortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), portalSpawnPosition, spearVelocity, ModContent.ProjectileType<StreamGougePortal>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
 
             Time++;

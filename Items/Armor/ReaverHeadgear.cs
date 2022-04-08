@@ -56,13 +56,14 @@ namespace CalamityMod.Items.Armor
 
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<ReaverOrbBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<ReaverOrbBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ReaverOrb>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ReaverOrb>(), 0, 0f, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<ReaverOrb>(), 0, 0f, player.whoAmI);
                 }
             }
             if (player.miscCounter % 10 == 0)

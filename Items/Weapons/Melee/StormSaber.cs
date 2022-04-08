@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Vector2 spawnPos = new Vector2(player.MountedCenter.X + Main.rand.Next(-200, 201), player.MountedCenter.Y - 600f);
             Vector2 targetPos = Main.MouseWorld + new Vector2(Main.rand.Next(-30, 31), Main.rand.Next(-30, 31));
-            Vector2 velocity = targetPos - spawnPos;
+            velocity = targetPos - spawnPos;
             velocity.Normalize();
             velocity *= 13f;
 

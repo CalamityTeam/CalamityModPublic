@@ -1607,7 +1607,7 @@ namespace CalamityMod.CalPlayer
                 if ((target.life < target.lifeMax * 0.5) && bloodflareHeartTimer <= 0)
                 {
                     bloodflareHeartTimer = 300;
-                    DropHelper.DropItem(target, ItemID.Heart);
+                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.Heart);
                 }
             }
 
@@ -1831,7 +1831,7 @@ namespace CalamityMod.CalPlayer
                 if ((target.life < target.lifeMax * 0.5) && bloodflareHeartTimer <= 0)
                 {
                     bloodflareHeartTimer = 300;
-                    DropHelper.DropItem(target, ItemID.Heart);
+                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.Heart);
                 }
             }
 

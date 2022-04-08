@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerThrowing = true;
             modPlayer.rogueStealthMax += 1.2f;
             modPlayer.wearingRogueArmor = true;
-            string hotkey = CalamityMod.GodSlayerDashHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.GodSlayerDashHotKey.TooltipHotkeyString();
             player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
                 "Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
                 "Enemies you dash through take massive damage\n" +

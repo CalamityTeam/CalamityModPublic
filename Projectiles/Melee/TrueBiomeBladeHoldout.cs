@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Melee
             //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
             if ((associatedItem.ModItem as OmegaBiomeBlade).mainAttunement == null && (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement != null)
             {
-                (associatedItem.ModItem as OmegaBiomeBlade).mainAttunement = (associatedItem.modItem as OmegaBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as OmegaBiomeBlade).mainAttunement = (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement;
                 (associatedItem.ModItem as OmegaBiomeBlade).secondaryAttunement = null;
             }
         }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                Main.harpNote = Projectile.ai[0];
+                Main.musicPitch = Projectile.ai[0];
                 SoundEngine.PlaySound(SoundID.Item26, Projectile.position);
             }
 

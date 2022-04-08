@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
 
-                    player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
+                    player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, out _);
 
                     type = ModContent.ProjectileType<DrataliornusFlame>();
                     knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);

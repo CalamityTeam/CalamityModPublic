@@ -262,14 +262,14 @@ namespace CalamityMod.Projectiles.Magic
             int maxFrame = CurrentPower <= LargeMouthPowerLowerBound ? 6 : 9;
             Vector2 backgroundOffset = Vector2.UnitX * Main.GlobalTimeWrappedHourly * maxFrame * 0.03f;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBack");
-            Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAura");
-            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1");
+            Texture2D backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBack").Value;
+            Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAura").Value;
+            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ParticleBackgrounds/GruesomeEminence_Ghost_Layer1").Value;
             if (CurrentPower > LargeMouthPowerLowerBound)
             {
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBig");
-                backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBackBig");
-                auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAuraBig");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBig").Value;
+                backTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationBackBig").Value;
+                auraTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SpiritCongregationAuraBig").Value;
             }
 
             Effect shader = GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"].Shader;
@@ -284,7 +284,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Draw the outline aura below everything else.
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix); ;
 
             for (int i = 0; i < 3; i++)
                 Main.EntitySpriteDraw(auraTexture, drawPosition, frame, auraColor, Projectile.rotation, origin, Projectile.scale, direction, 0);
@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Draw the back with the specified shader.
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             shader.Parameters["edgeBorderSize"].SetValue(0f);
             shader.Parameters["borderShouldBeSolid"].SetValue(FusableParticleManager.GetParticleSetByType<GruesomeEminenceParticleSet>().BorderShouldBeSolid);

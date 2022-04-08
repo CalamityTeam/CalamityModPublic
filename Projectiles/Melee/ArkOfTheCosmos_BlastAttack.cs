@@ -1,4 +1,4 @@
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -175,7 +175,7 @@ namespace CalamityMod.Projectiles.Melee
                         for (int i = 0; i < 5; i++)
                         {
                             var source = Projectile.GetProjectileSource_FromThis();
-                            Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), source, Owner.Center, Main.rand.NextVector2CircularEdge(28, 28), ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SlashBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.07f);
+                            Projectile blast = Projectile.NewProjectileDirect(source, Owner.Center, Main.rand.NextVector2CircularEdge(28, 28), ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SlashBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.07f);
                             {
                                 blast.timeLeft = 100;
                             }

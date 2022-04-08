@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
             if (Projectile.ai[0] == 1f)
-                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/StealthNimbus2");
+                texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/StealthNimbus2").Value;
             int height = texture.Height / Main.projFrames[Projectile.type];
             int frameHeight = height * Projectile.frame;
             SpriteEffects spriteEffects = SpriteEffects.None;

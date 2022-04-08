@@ -99,10 +99,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D headTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelProjectile");
-            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelBody");
-            Texture2D bodyTexture2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelBody2");
-            Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelTail");
+            Texture2D headTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelProjectile").Value;
+            Texture2D bodyTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelBody").Value;
+            Texture2D bodyTexture2 = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelBody2").Value;
+            Texture2D tailTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Magic/SlitheringEelTail").Value;
 
             Vector2 drawPosition;
             lightColor = new Color(255, 255, 255, 127);

@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Ranged
             bool canShoot = true;
             int damage = 0;
             float kb = 0f;
-            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, true);
+            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, out _, true);
             int blastRadius = 0;
             if (projID == ProjectileID.RocketII)
                 blastRadius = 4;

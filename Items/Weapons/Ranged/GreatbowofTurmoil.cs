@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
             float piOverTen = MathHelper.Pi * 0.1f;
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     type = ProjectileID.FireArrow;
                 }
-                int num121 = Projectile.NewProjectile(source + offset, velocity, type, damage, knockback, player.whoAmI);
+                int num121 = Projectile.NewProjectile(spawnSource, source + offset, velocity, type, damage, knockback, player.whoAmI);
                 Main.projectile[num121].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     ProjectileID.HellfireArrow,
                     ProjectileID.IchorArrow
                 });
-                int index = Projectile.NewProjectile(source, position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockback, player.whoAmI);
+                int index = Projectile.NewProjectile(spawnSource, position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockback, player.whoAmI);
                 Main.projectile[index].noDropItem = true;
                 Main.projectile[index].usesLocalNPCImmunity = true;
                 Main.projectile[index].localNPCHitCooldown = 10;

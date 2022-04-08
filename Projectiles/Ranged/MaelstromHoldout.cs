@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             bool uselessFuckYou = OwnerCanShoot;
             int projectileType = 0;
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref arrowDamage, ref knockback, false);
+            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref arrowDamage, ref knockback, out _);
             projectileType = ModContent.ProjectileType<TheMaelstromShark>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);

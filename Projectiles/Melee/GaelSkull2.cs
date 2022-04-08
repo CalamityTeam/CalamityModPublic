@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.Damage();
-            SoundEngine.PlaySound((int)SoundType.NPCKilled, (int)Projectile.Center.X, (int)Projectile.Center.Y, 52, 0.4f);
+            SoundEngine.PlaySound(SoundID.NPCDeath52, Projectile.Center);
             for (int i = 0; i < 3; i++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 218, 0f, 0f, 100, default, 1.5f);

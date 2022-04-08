@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -47,12 +47,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-
-
             // Fire the Onyx Shard that is characteristic of the Onyx Blaster
             // The shard deals 145% damage and double knockback
             int shardDamage = (int)(1.45f * damage);
-            float shardKB = 2f * knockBack;
+            float shardKB = 2f * knockback;
             Projectile shard = Projectile.NewProjectileDirect(source, position, velocity, ProjectileID.BlackBolt, shardDamage, shardKB, player.whoAmI, 0f, 0f);
             shard.timeLeft = (int)(shard.timeLeft * 1.4f);
 

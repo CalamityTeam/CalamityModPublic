@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.DataStructures;
@@ -66,7 +66,8 @@ namespace CalamityMod.Items.Accessories.Wings
             {
                 if (player.controlJump && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
                 {
-                    int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
+                    var source = player.GetProjectileSource_Accessory(Item);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
                     if (p.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[p].Calamity().forceTypeless = true;

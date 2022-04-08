@@ -48,13 +48,14 @@ namespace CalamityMod.Items.Armor
             player.noFallDmg = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<AerospecSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<AerospecSummonSetBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Valkyrie>(), (int)(20 * player.MinionDamage()), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Valkyrie>(), (int)(20 * player.MinionDamage()), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.GetDamage(DamageClass.Summon) += 0.11f;

@@ -78,7 +78,6 @@ namespace CalamityMod.NPCs.Polterghast
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Polterghast") ?? MusicID.Plantera;
             NPC.HitSound = SoundID.NPCHit7;
             NPC.DeathSound = SoundID.NPCDeath39;
-            bossBag = ModContent.ItemType<PolterghastBag>();
             NPC.Calamity().VulnerableToSickness = false;
         }
 

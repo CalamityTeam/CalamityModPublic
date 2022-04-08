@@ -97,7 +97,6 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.netAlways = true;
-            bossBag = ModContent.ItemType<StormWeaverBag>();
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
                 NPC.scale = 1.25f;

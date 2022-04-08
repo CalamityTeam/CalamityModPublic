@@ -57,6 +57,7 @@ namespace CalamityMod.Items.Armor
             if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
             {
                 modPlayer.redDevil = true;
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<DemonshadeSetDevilBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<DemonshadeSetDevilBuff>(), 3600, true);
@@ -64,7 +65,7 @@ namespace CalamityMod.Items.Armor
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
                 {
                     int damage = (int)(10000 * player.AverageDamage());
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.GetDamage(DamageClass.Summon) += 1f;
