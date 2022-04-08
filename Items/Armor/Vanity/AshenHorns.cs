@@ -1,12 +1,17 @@
-using Terraria.ModLoader;
+﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
     public class AshenHorns : ModItem
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Ashen Horns");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ashen Horns");
+            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+        }
 
         public override void SetDefaults()
         {
@@ -14,11 +19,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.height = 20;
             Item.rare = ItemRarityID.Blue;
             Item.vanity = true;
-        }
-
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = true;
         }
     }
 }

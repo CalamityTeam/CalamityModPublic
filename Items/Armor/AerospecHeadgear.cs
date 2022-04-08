@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Aerospec Headgear");
             Tooltip.SetDefault("8% increased rogue damage and 5% increased movement speed");
+            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
 
         public override void SetDefaults()
@@ -32,12 +33,6 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawShadow = true;
-        }
-
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = true;
-            drawAltHair = true;
         }
 
         public override void UpdateArmorSet(Player player)
