@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             float knockback = heldItem.knockBack;
 
             bool uselessFuckYou = OwnerCanShoot;
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref damage, ref knockback, false);
+            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref damage, ref knockback, out _);
             projectileType = ModContent.ProjectileType<PrismaticEnergyBlast>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);

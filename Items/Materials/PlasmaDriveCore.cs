@@ -1,10 +1,11 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using System;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Materials
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Materials
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = Main.itemTexture[Item.type];
+            Texture2D tex = TextureAssets.Item[Item.type].Value;
 
             //Give it an outline. Make it look really important and shiny. The player must not confuse this for a random material
             spriteBatch.End();

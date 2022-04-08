@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            var source = player.GetProjectileSource_Accessory(Item);
             player.ignoreWater = true;
             if (!player.lavaWet && !player.honeyWet)
             {
@@ -48,7 +49,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), (int)(50 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), (int)(50 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                 }
             }
             int seaCounter = 0;
@@ -75,7 +76,7 @@ namespace CalamityMod.Items.Accessories
                             {
                                 if (player.whoAmI == Main.myPlayer)
                                 {
-                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    Projectile.NewProjectileDirect(source, nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
                                 }
                             }
                         }

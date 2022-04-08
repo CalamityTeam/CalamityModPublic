@@ -1,6 +1,7 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace CalamityMod.Tiles.Abyss
         public override void SetStaticDefaults()
         {
             if (!Main.dedServ)
-                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/Voidstone_Glowmask");
+                GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/Voidstone_Glowmask", AssetRequestMode.ImmediateLoad).Value;
 
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;

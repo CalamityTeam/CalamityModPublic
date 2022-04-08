@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            var source = player.GetProjectileSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.camper = true;
             player.AddBuff(BuffID.HeartLamp, 60, true);
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Accessories
                             NPC npc = Main.npc[i];
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
-                                Projectile p = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.AverageDamage()), 0f, player.whoAmI, i);
+                                Projectile p = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.AverageDamage()), 0f, player.whoAmI, i);
                                 if (!npc.buffImmune[BuffID.OnFire])
                                 {
                                     npc.AddBuff(BuffID.OnFire, 120);
@@ -67,11 +68,11 @@ namespace CalamityMod.Items.Accessories
                     }
                     if (player.ActiveItem() != null && !player.ActiveItem().IsAir && player.ActiveItem().stack > 0)
                     {
-                        bool summon = player.ActiveItem().summon;
+                        bool summon = player.ActiveItem().CountsAsClass<SummonDamageClass>();
                         bool rogue = player.ActiveItem().Calamity().rogue;
-                        bool melee = player.ActiveItem().melee;
-                        bool ranged = player.ActiveItem().ranged;
-                        bool magic = player.ActiveItem().magic;
+                        bool melee = player.ActiveItem().CountsAsClass<MeleeDamageClass>();
+                        bool ranged = player.ActiveItem().CountsAsClass<RangedDamageClass>();
+                        bool magic = player.ActiveItem().CountsAsClass<MagicDamageClass>();
                         if (summon)
                         {
                             player.minionKB += 0.1f;

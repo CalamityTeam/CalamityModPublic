@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -41,21 +41,22 @@ namespace CalamityMod.Items.Accessories
             modPlayer.howlsHeart = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.FindBuffIndex(BuffType<HowlTrio>()) == -1)
                 {
                     player.AddBuff(BuffType<HowlTrio>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
+                    Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartCalcifer>(), 0, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartTurnipHead>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartTurnipHead>(), 0, 0f, player.whoAmI, 0f, 0f);
                 }
             }
         }

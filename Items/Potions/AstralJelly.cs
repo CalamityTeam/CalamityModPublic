@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Potions
         {
             if (PlayerInput.Triggers.JustPressed.QuickBuff)
             {
-                player.statMana += item.healMana;
+                player.statMana += Item.healMana;
                 if (player.statMana > player.statManaMax2)
                 {
                     player.statMana = player.statManaMax2;
@@ -43,11 +43,11 @@ namespace CalamityMod.Items.Potions
                 player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
                 if (Main.myPlayer == player.whoAmI)
                 {
-                    player.ManaEffect(item.healMana);
+                    player.ManaEffect(Item.healMana);
                 }
             }
-            player.AddBuff(BuffID.MagicPower, item.buffTime);
-            player.AddBuff(BuffID.ManaRegeneration, item.buffTime);
+            player.AddBuff(BuffID.MagicPower, Item.buffTime);
+            player.AddBuff(BuffID.ManaRegeneration, Item.buffTime);
             return true;
         }
     }

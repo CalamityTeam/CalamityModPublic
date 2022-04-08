@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Accessories
             int sandy = ProjectileType<SandElementalMinion>();
             int cloudy = ProjectileType<CloudElementalMinion>();
 
+            var source = player.GetProjectileSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
             int elementalDmg = (int)(90 * player.MinionDamage());
             float kBack = 2f + player.minionKB;
@@ -73,23 +74,23 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[brimmy] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
                 }
                 if (player.ownedProjectileCounts[siren] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
                 }
                 if (player.ownedProjectileCounts[healer] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
                 }
                 if (player.ownedProjectileCounts[sandy] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
                 }
                 if (player.ownedProjectileCounts[cloudy] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
+                    Projectile.NewProjectile(source, player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
                 }
             }
         }

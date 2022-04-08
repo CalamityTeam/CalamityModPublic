@@ -79,7 +79,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             // Force cloning items into the Main item array is weird.
             Item pluggedItem = charger?.PluggedItem ?? null;
             if (pluggedItem != null && !pluggedItem.IsAir && Main.netMode != NetmodeID.MultiplayerClient)
-                DropHelper.DropItemClone(pluggedItem, dropPos, pluggedItem.stack);
+                DropHelper.DropItemClone(new EntitySource_TileBreak(i, j), pluggedItem, dropPos, pluggedItem.stack);
 
             charger?.Kill(left, top);
         }

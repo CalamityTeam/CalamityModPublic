@@ -134,7 +134,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             frameXPos += frameIndex / FramesPerColumn * (Width * SheetSquare);
             frameYPos += frameIndex % FramesPerColumn * (Height * SheetSquare);
 
-            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/PowerCellFactory");
+            Texture2D tex = ModContent.Request<Texture2D>("CalamityMod/Tiles/DraedonStructures/PowerCellFactory").Value;
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
             Color drawColor = Lighting.GetColor(i, j);

@@ -49,9 +49,10 @@ namespace CalamityMod.Items.Armor
                 {
                     player.AddBuff(ModContent.BuffType<VictideSummonSetBuff>(), 3600, true);
                 }
+                var source = player.GetProjectileSource_Item(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.ignoreWater = true;

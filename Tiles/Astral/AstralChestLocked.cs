@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.Astral
             if (!DownedBossSystem.downedAstrumAureus)
                 return false;
 
-            DustType = this.dustType;
+            dustType = this.DustType;
 
             return true;
         }

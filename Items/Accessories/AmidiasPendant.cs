@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -40,6 +40,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
+                        var source = player.GetProjectileSource_Accessory(Item);
                         int speed2 = 25;
                         float spawnX = Main.rand.Next(1000) - 500 + player.Center.X;
                         float spawnY = -1000 + player.Center.Y;
@@ -70,7 +71,7 @@ namespace CalamityMod.Items.Accessories
                                     damage = 30;
                                     break;
                             }
-                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, (int)(damage * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, (int)(damage * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

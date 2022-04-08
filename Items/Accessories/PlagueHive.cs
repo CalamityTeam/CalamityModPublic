@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.bee = true;
+            player.strongBees = true;
             modPlayer.uberBees = true;
             modPlayer.alchFlask = true;
         }

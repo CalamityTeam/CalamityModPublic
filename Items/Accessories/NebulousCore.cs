@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Accessories
                         num++;
                     }
                 }
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (Main.rand.Next(15) >= num && num < 10)
                 {
                     int num2 = 50;
@@ -99,7 +100,7 @@ namespace CalamityMod.Items.Accessories
                                     }
                                     if (flag && Main.myPlayer == player.whoAmI)
                                     {
-                                        Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI);
+                                        Projectile.NewProjectile(source, center.X, center.Y, 0f, 0f, ModContent.ProjectileType<NebulaStar>(), damage, knockBack, player.whoAmI);
                                         return;
                                     }
                                 }

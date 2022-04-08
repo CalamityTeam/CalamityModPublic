@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
@@ -30,10 +30,10 @@ namespace CalamityMod.Items.Fishing
         {
             if (player.itemAnimation > 0 && (player.statManaMax < 200 && player.itemTime == 0))
             {
-                player.itemTime = item.useTime;
-                player.statManaMax = player.statManaMax + 20;
-                player.statManaMax2 = player.statManaMax2 + 20;
-                player.statMana = player.statMana + 20;
+                player.itemTime = Item.useTime;
+                player.statManaMax += 20;
+                player.statManaMax2 += 20;
+                player.statMana += 20;
                 if (Main.myPlayer == player.whoAmI)
                     player.ManaEffect(20);
                 AchievementsHelper.HandleSpecialEvent(player, 1);

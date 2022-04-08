@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.jumpSpeedBoost += 0.5f;
             }
 
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0)
+            if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0)
             {
                 if (player.controlDown && !player.merman)
                 {

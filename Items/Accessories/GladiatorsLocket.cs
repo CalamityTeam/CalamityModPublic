@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -45,10 +45,11 @@ namespace CalamityMod.Items.Accessories
 
                 int damage = 30;
                 int swordDmg = (int)(damage * player.AverageDamage());
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 2f, Main.myPlayer);
+                    Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);
+                    Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 2f, Main.myPlayer);
                 }
             }
         }

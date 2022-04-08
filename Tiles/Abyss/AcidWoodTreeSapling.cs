@@ -21,6 +21,8 @@ namespace CalamityMod.Tiles.Abyss
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
+            TileID.Sets.CommonSapling[Type] = true;
+            TileID.Sets.TreeSapling[Type] = true;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 1);
@@ -36,7 +38,6 @@ namespace CalamityMod.Tiles.Abyss
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
-            sapling = true;
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sapling");
             AddMapEntry(new Color(113, 90, 71), name);
@@ -54,7 +55,7 @@ namespace CalamityMod.Tiles.Abyss
             if (WorldGen.genRand.Next(20) == 0)
             {
                 int trueStartingPositionY = j;
-                while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].TileType))
+                while (TileID.Sets.TreeSapling[Main.tile[i, trueStartingPositionY].TileType])
                 {
                     trueStartingPositionY++;
                 }

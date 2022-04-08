@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float shootSpeed = 16f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
-                    player.PickAmmo(player.ActiveItem(), ref type, ref shootSpeed, ref canFire, ref damage, ref knockBack, false);
+                    player.PickAmmo(player.ActiveItem(), ref type, ref shootSpeed, ref canFire, ref damage, ref knockBack, out _);
                     for (int i = 0; i < 5; i++)
                     {
                         knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);

@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            var source = player.GetProjectileSource_Accessory(Item);
             player.moveSpeed += 0.15f;
             player.GetDamage<GenericDamageClass>() += 0.15f;
             if (!player.StandingStill())
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile1 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), (int)(175 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), (int)(175 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                         Main.projectile[projectile1].timeLeft = 60;
                     }
                     dragonTimer = 60;
@@ -53,7 +54,6 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.miscCounter % 8 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)

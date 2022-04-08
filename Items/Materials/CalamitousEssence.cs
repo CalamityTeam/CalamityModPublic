@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Materials
             {
                 float scale = baseScale * MathHelper.Lerp(1f, 1.45f, pulse);
                 Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 4f).ToRotationVector2() * outwardness - Vector2.UnitY * 2f;
-                spriteBatch.Draw(Main.itemTexture[Item.type], drawPosition, frame, drawColor, Item.velocity.X * 0.2f, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, Item.velocity.X * 0.2f, frame.Size() * 0.5f, scale, SpriteEffects.None, 0f);
             }
         }
 
@@ -49,7 +50,7 @@ namespace CalamityMod.Items.Materials
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Rectangle frame = Main.itemAnimations[Item.type].GetFrame(Main.itemTexture[Item.type]);
+            Rectangle frame = Main.itemAnimations[Item.type].GetFrame(TextureAssets.Item[Item.type].Value);
             DrawPulsingAfterimage(spriteBatch, Item.position - Main.screenPosition + frame.Size() * 0.5f, frame, scale);
             return true;
         }

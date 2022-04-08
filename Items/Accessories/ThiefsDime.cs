@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thief's Dime");
-            Tooltip.SetDefault("Those scurvy dogs don�t know the first thing about making bank\n" +
+            Tooltip.SetDefault("Those scurvy dogs don’t know the first thing about making bank\n" +
             "Summons a coin that revolves around you and steals money from enemies");
         }
 
@@ -35,7 +35,8 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ThiefsDimeProj>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<ThiefsDimeProj>(), (int)(100 * player.RogueDamage()), 6f, Main.myPlayer, 0f, 0f);
+                    var source = player.GetProjectileSource_Accessory(Item);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<ThiefsDimeProj>(), (int)(100 * player.RogueDamage()), 6f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

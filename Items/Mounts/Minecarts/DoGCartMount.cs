@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
         public override void SetStaticDefaults()
         {
             MountData.Minecart = true;
-			MountData.delegations = new MountDelegatesData();
+            MountData.delegations = new();
             MountData.delegations.MinecartDust = CreateSparkDust;
             MountID.Sets.Cart[ModContent.MountType<DoGCartMount>()] = true;
 
@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
             }
         }
 
-        public void CreateSparkDust(Vector2 dustPosition)
+        public static void CreateSparkDust(Vector2 dustPosition)
         {
             Vector2 offsetDirection = DelegateMethods.Minecart.rotation.ToRotationVector2();
             offsetDirection *= new Vector2(Main.rand.NextBool().ToDirectionInt(), 1f) * 13f;

@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Astral
             CalamityUtils.SetMerge(Type, TileID.Grass);
             CalamityUtils.SetMerge(Type, TileID.CorruptGrass);
             CalamityUtils.SetMerge(Type, TileID.HallowedGrass);
-            CalamityUtils.SetMerge(Type, TileID.FleshGrass);
+            CalamityUtils.SetMerge(Type, TileID.CrimsonGrass);
 
             DustType = ModContent.DustType<AstralBasic>();
             ItemDrop = ModContent.ItemType<Items.Placeables.AstralDirt>();

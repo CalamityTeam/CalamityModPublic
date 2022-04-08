@@ -49,17 +49,18 @@ namespace CalamityMod.Items.Armor
             player.maxMinions++;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<StatigelSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<StatigelSummonSetBuff>(), 3600, true);
                 }
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
                 else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

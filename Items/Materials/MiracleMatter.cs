@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -44,14 +45,14 @@ namespace CalamityMod.Items.Materials
             for (int i = 0; i < 8; i++)
             {
                 Vector2 drawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 8f).ToRotationVector2() * outwardnessFactor * baseScale * 8f;
-                spriteBatch.Draw(Main.itemTexture[Item.type], drawPosition, frame, drawColor, 0f, Vector2.Zero, baseScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(TextureAssets.Item[Item.type].Value, drawPosition, frame, drawColor, 0f, Vector2.Zero, baseScale, SpriteEffects.None, 0f);
             }
         }
 
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            Rectangle frame = Main.itemTexture[Item.type].Frame();
+            Rectangle frame = TextureAssets.Item[Item.type].Value.Frame();
             DrawBackAfterimage(spriteBatch, Item.position - Main.screenPosition, frame, scale);
             return true;
         }

@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float knockBack = player.ActiveItem().knockBack;
                     for (int i = 0; i < 5; i++)
                     {
-                        player.PickAmmo(player.ActiveItem(), ref type, ref shootSpeed, ref canFire, ref damage, ref knockBack, false);
+                        player.PickAmmo(player.ActiveItem(), ref type, ref shootSpeed, ref canFire, ref damage, ref knockBack, out _);
                         knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
                         Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);
                         Projectile.velocity = Main.screenPosition - playerPosition;

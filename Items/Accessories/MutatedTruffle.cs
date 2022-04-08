@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.miniOldDuke = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<MutatedTruffleBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<MutatedTruffleBuff>(), 3600, true);
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Accessories
                 const int damage = 1200;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero,
+                    Projectile.NewProjectile(source, player.Center, Vector2.Zero,
                         ModContent.ProjectileType<YoungDuke>(),
                         (int)(damage * player.MinionDamage()),
                         6.5f, Main.myPlayer, 0f, 0f);

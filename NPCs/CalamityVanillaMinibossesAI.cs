@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs
                         num858 *= num859;
                         num857 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
                         num858 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
-                        Projectile.NewProjectile(vector109.X, vector109.Y, num857, num858, ProjectileID.GreekFire1 + Main.rand.Next(3), 60, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector109.X, vector109.Y, num857, num858, ProjectileID.GreekFire1 + Main.rand.Next(3), 60, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -630,7 +630,7 @@ namespace CalamityMod.NPCs
                     num870 *= num872;
                     num871 *= num872;
 
-                    Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num870, num871, ProjectileID.FlamingScythe, 70, 0f, Main.myPlayer, npc.rotation, (float)npc.spriteDirection);
+                    Projectile.NewProjectile(npc.GetSpawnSourceForProjectileNPC(), npc.Center.X, npc.Center.Y, num870, num871, ProjectileID.FlamingScythe, 70, 0f, Main.myPlayer, npc.rotation, (float)npc.spriteDirection);
                 }
             }
 
@@ -879,7 +879,7 @@ namespace CalamityMod.NPCs
                         num893 *= num895;
                         num894 *= num895;
 
-                        Projectile.NewProjectile(vector116.X, vector116.Y, num893, num894, ProjectileID.FrostWave, 50, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector116.X, vector116.Y, num893, num894, ProjectileID.FrostWave, 50, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 else if (npc.ai[3] < 0f)
@@ -974,7 +974,7 @@ namespace CalamityMod.NPCs
 
                             num902 += 3f;
                             float speedX2 = npc.velocity.X * 0.25f;
-                            Projectile.NewProjectile(vector117.X, vector117.Y, speedX2, num902, ProjectileID.FrostShard, 44, 0f, Main.myPlayer, (float)Main.rand.Next(5), 0f);
+                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector117.X, vector117.Y, speedX2, num902, ProjectileID.FrostShard, 44, 0f, Main.myPlayer, (float)Main.rand.Next(5), 0f);
                         }
                     }
                 }
@@ -1019,7 +1019,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[3] > (float)num908)
                 {
                     npc.ai[3] = 0f;
-                    int num909 = Projectile.NewProjectile(vector118.X, vector118.Y, num904, num905, ProjectileID.FrostShard, 40, 0f, Main.myPlayer, 0f, 0f);
+                    int num909 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector118.X, vector118.Y, num904, num905, ProjectileID.FrostShard, 40, 0f, Main.myPlayer, 0f, 0f);
                 }
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)

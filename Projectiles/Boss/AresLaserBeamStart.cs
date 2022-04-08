@@ -149,8 +149,8 @@ namespace CalamityMod.Projectiles.Boss
                 return false;
 
             Texture2D beamStart = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D beamMiddle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle");
-            Texture2D beamEnd = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd");
+            Texture2D beamMiddle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle").Value;
+            Texture2D beamEnd = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd").Value;
 
             float drawLength = Projectile.localAI[1];
             Color color = new Color(250, 250, 250, 100);

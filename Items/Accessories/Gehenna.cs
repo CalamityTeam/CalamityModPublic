@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Accessories
                 FireCountdown--;
                 if (FireCountdown == 0)
                 {
+                    var source = player.GetProjectileSource_Accessory(Item);
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int speed2 = 25;
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Accessories
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(54 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(54 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

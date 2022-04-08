@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -43,7 +44,7 @@ namespace CalamityMod.Tiles.Abyss
                 {
                     float yeetSpeed = MathHelper.Clamp(10f - (10f * Math.Abs(Main.LocalPlayer.Bottom.Y - j * 16) / 300f), 0f, 10f);
                     Main.LocalPlayer.velocity.Y -= yeetSpeed;
-                    Projectile.NewProjectile(i * 16 + 8, j * 16 - 20, 0f, -10f, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 12 : 15, 0f);
+                    Projectile.NewProjectile(new EntitySource_WorldEvent(), i * 16 + 8, j * 16 - 20, 0f, -10f, ModContent.ProjectileType<HotSteam>(), Main.expertMode ? 12 : 15, 0f);
                 }
             }
         }

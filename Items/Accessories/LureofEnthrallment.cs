@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
@@ -41,13 +41,14 @@ namespace CalamityMod.Items.Accessories
             modPlayer.sirenWaifu = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                var source = player.GetProjectileSource_Accessory(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<WaterWaifu>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<WaterWaifu>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<WaterElementalMinion>(), (int)(65 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<WaterElementalMinion>(), (int)(65 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

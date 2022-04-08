@@ -49,8 +49,8 @@ namespace CalamityMod.Tiles
             int npc = CalamityUtils.GetBannerNPC(style);
             if (npc != -1)
             {
-                player.NPCBannerBuff[npc] = true;
-                player.hasBanner = true;
+                Main.SceneMetrics.NPCBannerBuff[npc] = true;
+                Main.SceneMetrics.hasBanner = true;
             }
         }
 

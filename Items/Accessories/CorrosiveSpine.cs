@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (Main.rand.NextBool(15))
                 {
+                    var source = player.GetProjectileSource_Accessory(Item);
                     int cloudCount = Main.rand.Next(2,5);
                     for (int i = 0; i < cloudCount; i++)
                     {
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Accessories
                             ModContent.ProjectileType<Corrocloud3>()
                         });
                         float speed = Main.rand.NextFloat(3f, 11f);
-                        Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
+                        Projectile.NewProjectile(source, player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
                             type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
                     }
                 }

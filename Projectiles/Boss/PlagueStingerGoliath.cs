@@ -56,11 +56,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void PostDraw(Color lightColor)
         {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (Projectile.spriteDirection == 1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
             Vector2 center = new Vector2(Projectile.Center.X, Projectile.Center.Y);
             Vector2 vector11 = new Vector2(ModContent.Request<Texture2D>(Texture).Value.Width / 2, ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type] / 2);
             Vector2 vector = center - Main.screenPosition;

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Summon;
+﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
@@ -41,7 +41,8 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(FungalClumpDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
+                    var source = player.GetProjectileSource_Accessory(Item);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(FungalClumpDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
                 }
             }
         }

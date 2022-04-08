@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -58,8 +58,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             int i = Main.myPlayer;
             float sSpeed = Item.shootSpeed;
-            float knockback = knockBack;
-            knockback = player.GetWeaponKnockback(Item, knockback);
             player.itemTime = Item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
