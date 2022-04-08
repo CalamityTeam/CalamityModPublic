@@ -59,9 +59,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<UrchinStinger>(), 15, 25);
+            npcLoot.Add(ModContent.ItemType<UrchinStinger>(), 1, 15, 25);
         }
 
         public override void HitEffect(int hitDirection, double damage)
