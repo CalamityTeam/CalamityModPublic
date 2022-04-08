@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.defense = 12;
             NPC.lifeMax = 140;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.DemonEye;
+            AnimationType = NPCID.DemonEye;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
@@ -121,12 +121,12 @@ namespace CalamityMod.NPCs.Crags
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<BlightedLens>(), Main.hardMode, 2, 1, 1);
-            DropHelper.DropItemChance(NPC, ItemID.Lens, 2);
+            npcLoot.Add(ItemID.Lens, 2);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<BlightedLens>(), 2);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
         }
     }
 }

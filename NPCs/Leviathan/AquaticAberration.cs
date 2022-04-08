@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
@@ -236,8 +236,6 @@ namespace CalamityMod.NPCs.Leviathan
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                     Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
-
-            return false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

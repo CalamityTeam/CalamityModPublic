@@ -25,6 +25,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Cryogen
 {
@@ -66,7 +67,6 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath15;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Cryogen") ?? MusicID.FrostMoon;
-            bossBag = ModContent.ItemType<CryogenBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;
             NPC.Calamity().VulnerableToSickness = false;
@@ -1050,50 +1050,56 @@ namespace CalamityMod.NPCs.Cryogen
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Boss bag
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CryogenBag>()));
+
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddIf(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Avalanche>(),
+                    ModContent.ItemType<GlacialCrusher>(),
+                    ModContent.ItemType<EffluviumBow>(),
+                    ModContent.ItemType<SnowstormStaff>(),
+                    ModContent.ItemType<Icebreaker>(),
+                    ModContent.ItemType<CryoStone>(),
+                    ModContent.ItemType<FrostFlare>()
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<CryogenMask>(), 7);
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<EssenceofEleum>(), 1, 4, 8);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<SoulofCryogen>());
+            }
+
+            npcLoot.Add(ItemID.FrozenKey, 3);
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<ColdDivinity>(), 10);
+        }
+
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CryogenTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCryogen>(), true, !DownedBossSystem.downedCryogen);
-
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<EssenceofEleum>(), 4, 8);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<Avalanche>(w),
-                    DropHelper.WeightStack<GlacialCrusher>(w),
-                    DropHelper.WeightStack<EffluviumBow>(w),
-                    DropHelper.WeightStack<SnowstormStaff>(w),
-                    DropHelper.WeightStack<Icebreaker>(w),
-                    DropHelper.WeightStack<CryoStone>(w),
-                    DropHelper.WeightStack<FrostFlare>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<SoulofCryogen>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<CryogenMask>(), 7);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ColdDivinity>(), !Main.expertMode, 0.1f);
-
-            // Other
-            DropHelper.DropItemChance(NPC, ItemID.FrozenKey, 3);
-
             // Spawn Permafrost if he isn't in the world
             int permafrostNPC = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
-            if (permafrostNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);
-            }
+            if (permafrostNPC == -1)
+                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<DILF>(), 0, 0f, 0f, 0f, 0f, 255);
 
             // If Cryogen has not been killed, notify players about Cryonic Ore
             if (!DownedBossSystem.downedCryogen)

@@ -19,6 +19,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -57,7 +58,6 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
-            bossBag = ModContent.ItemType<DesertScourgeBag>();
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
@@ -546,57 +546,9 @@ namespace CalamityMod.NPCs.DesertScourge
             potionType = ItemID.SandBlock;
         }
 
-        public override bool SpecialNPCLoot()
-        {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
-                ModContent.NPCType<DesertScourgeHead>(),
-                ModContent.NPCType<DesertScourgeBody>(),
-                ModContent.NPCType<DesertScourgeTail>());
-            NPC.position = Main.npc[closestSegmentID].position;
-            return false;
-        }
-
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItem(NPC, ItemID.LesserHealingPotion, 8, 14);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<DesertScourgeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeDesertScourge>(), true, !DownedBossSystem.downedDesertScourge);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItem(NPC, ModContent.ItemType<VictoryShard>(), 7, 14);
-                DropHelper.DropItem(NPC, ItemID.Coral, 5, 9);
-                DropHelper.DropItem(NPC, ItemID.Seashell, 5, 9);
-                DropHelper.DropItem(NPC, ItemID.Starfish, 5, 9);
-
-                // Weapons
-                // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<AquaticDischarge>(w),
-                    DropHelper.WeightStack<Barinade>(w),
-                    DropHelper.WeightStack<StormSpray>(w),
-                    DropHelper.WeightStack<SeaboundStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheDesert>(w),
-                    DropHelper.WeightStack<AeroStone>(w),
-                    DropHelper.WeightStack<SandCloak>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<OceanCrest>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<DesertScourgeMask>(), 7);
-
-                // Fishing
-                DropHelper.DropItem(NPC, ModContent.ItemType<SandyAnglingKit>());
-            }
 
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
             if (!DownedBossSystem.downedDesertScourge)
@@ -616,6 +568,61 @@ namespace CalamityMod.NPCs.DesertScourge
             // Mark Desert Scourge as dead
             DownedBossSystem.downedDesertScourge = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override bool SpecialOnKill()
+        {
+            int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
+                ModContent.NPCType<DesertScourgeHead>(),
+                ModContent.NPCType<DesertScourgeBody>(),
+                ModContent.NPCType<DesertScourgeTail>());
+            NPC.position = Main.npc[closestSegmentID].position;
+            return true;
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Boss bag
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DesertScourgeBag>()));
+
+            // Extraneous potions
+            npcLoot.Add(ItemID.LesserHealingPotion, 1, 8, 14);
+
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddIf(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<AquaticDischarge>(),
+                    ModContent.ItemType<Barinade>(),
+                    ModContent.ItemType<StormSpray>(),
+                    ModContent.ItemType<SeaboundStaff>(),
+                    ModContent.ItemType<ScourgeoftheDesert>(),
+                    ModContent.ItemType<AeroStone>(),
+                    ModContent.ItemType<SandCloak>()
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
+
+                // Materials
+                normalOnly.Add(ItemID.Coral, 1, 5, 9);
+                normalOnly.Add(ItemID.Seashell, 1, 5, 9);
+                normalOnly.Add(ItemID.Starfish, 1, 5, 9);
+                normalOnly.Add(ModContent.ItemType<VictoryShard>(), 1, 7, 14);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<OceanCrest>());
+                normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());
+            }
         }
         #endregion
 

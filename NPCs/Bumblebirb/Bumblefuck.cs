@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -52,13 +53,12 @@ namespace CalamityMod.NPCs.Bumblebirb
             NPC.knockBackResist = 0f;
             NPC.boss = true;
             NPC.noTileCollide = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Dragonfolly") ?? MusicID.Boss4;
             NPC.lavaImmune = true;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(1, 25, 0, 0);
             NPC.HitSound = SoundID.NPCHit51;
             NPC.DeathSound = SoundID.NPCDeath46;
-            bossBag = ModContent.ItemType<BumblebirbBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -391,42 +391,46 @@ namespace CalamityMod.NPCs.Bumblebirb
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            npcLoot.Add(ModContent.ItemType<BumblebirbBag>());
+            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<BumblebirbTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBumblebirb>(), true, !DownedBossSystem.downedDragonfolly);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<EffulgentFeather>(), 11, 17);
-
                 // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<GildedProboscis>(w),
-                    DropHelper.WeightStack<GoldenEagle>(w),
-                    DropHelper.WeightStack<RougeSlash>(w),
-                    DropHelper.WeightStack<BirdSeed>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<GildedProboscis>(),
+                    ModContent.ItemType<GoldenEagle>(),
+                    ModContent.ItemType<RougeSlash>(),
+                    ModContent.ItemType<BirdSeed>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<EffulgentFeather>(), 1, 11, 17);
 
                 // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<DynamoStemCells>(), true);
+                normalOnly.Add(ModContent.ItemType<DynamoStemCells>());
 
                 // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<BumblefuckMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Swordsplosion>(), !Main.expertMode, 0.1f);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Swordsplosion>(), 10);
+        }
+
+        public override void OnKill()
+        {
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // Mark The Dragonfolly as dead
             DownedBossSystem.downedDragonfolly = true;
             CalamityNetcode.SyncWorld();
+
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

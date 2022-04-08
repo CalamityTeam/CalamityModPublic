@@ -21,6 +21,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+using System;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
@@ -55,7 +57,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
-            bossBag = ModContent.ItemType<AquaticScourgeBag>();
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
                 NPC.scale = 1.25f;
@@ -177,7 +178,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             potionType = ModContent.ItemType<SulphurousSand>();
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<AquaticScourgeHead>(),
@@ -185,48 +186,47 @@ namespace CalamityMod.NPCs.AquaticScourge
                 ModContent.NPCType<AquaticScourgeBodyAlt>(),
                 ModContent.NPCType<AquaticScourgeTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return false;
+            return true;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Boss bag
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AquaticScourgeBag>()));
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[] 
+                {
+                    ModContent.ItemType<SubmarineShocker>(),
+                    ModContent.ItemType<Barinautical>(),
+                    ModContent.ItemType<Downpour>(),
+                    ModContent.ItemType<DeepseaStaff>(),
+                    ModContent.ItemType<ScourgeoftheSeas>(),
+                    ModContent.ItemType<CorrosiveSpine>()
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
+
+                // Fishing
+                normalOnly.Add(ModContent.ItemType<BleachedAnglingKit>());
+            }
+
+            npcLoot.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
+            npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<KnowledgeAquaticScourge>());
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<KnowledgeSulphurSea>());            
+        }
+
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItem(NPC, ItemID.GreaterHealingPotion, 8, 14);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAquaticScourge>(), true, !DownedBossSystem.downedAquaticScourge);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSulphurSea>(), true, !DownedBossSystem.downedAquaticScourge);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, DownedBossSystem.downedAquaticScourge);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<SubmarineShocker>(w),
-                    DropHelper.WeightStack<Barinautical>(w),
-                    DropHelper.WeightStack<Downpour>(w),
-                    DropHelper.WeightStack<DeepseaStaff>(w),
-                    DropHelper.WeightStack<ScourgeoftheSeas>(w),
-                    DropHelper.WeightStack<CorrosiveSpine>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<AquaticEmblem>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<AquaticScourgeMask>(), 7);
-
-                // Fishing
-                DropHelper.DropItem(NPC, ModContent.ItemType<BleachedAnglingKit>());
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<DeepDiver>(), !Main.expertMode, 0.1f);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<SeasSearing>(), !Main.expertMode, 0.1f);
 
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
             if (!DownedBossSystem.downedAquaticScourge)

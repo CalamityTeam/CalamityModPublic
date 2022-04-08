@@ -13,6 +13,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 8;
 
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/NovaGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/NovaGlow", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()
@@ -43,7 +44,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 15;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 230;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.noGravity = true;
             NPC.knockBackResist = 0.5f;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
@@ -196,7 +197,7 @@ namespace CalamityMod.NPCs.Astral
             //other things
             NPC.ai[3] = -20000f;
             NPC.value = 0f;
-            NPC.extraValue = 0f;
+            NPC.extraValue = 0;
             NPC.StrikeNPCNoInteraction(9999, 1f, 1);
 
             int size = 30;
@@ -256,9 +257,12 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            return NPC.ai[3] > -10000;
+            npcLoot.AddIf(() => NPC.ai[3] <= -10000f && !Main.expertMode, ModContent.ItemType<Stardust>(), 1, 2, 3);
+            npcLoot.AddIf(() => NPC.ai[3] <= -10000f && Main.expertMode, ModContent.ItemType<Stardust>(), 1, 3, 4);
+            npcLoot.AddIf(() => NPC.ai[3] <= -10000f, ModContent.ItemType<StellarCannon>(), 7);
+            npcLoot.AddIf(() => NPC.ai[3] <= -10000f, ModContent.ItemType<GloriousEnd>(), 7);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -282,14 +286,6 @@ namespace CalamityMod.NPCs.Astral
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
-        }
-
-        public override void NPCLoot()
-        {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarCannon>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<GloriousEnd>(), 7, 1, 1);
         }
     }
 }

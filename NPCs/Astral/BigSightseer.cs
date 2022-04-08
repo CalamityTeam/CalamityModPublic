@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Big Sightseer");
             Main.npcFrameCount[NPC.type] = 4;
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/BigSightseerGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/BigSightseerGlow", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 20;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 430;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.noGravity = true;
             NPC.knockBackResist = 0.8f;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
@@ -168,10 +169,10 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 2, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 4);
         }
     }
 
@@ -211,8 +212,8 @@ namespace CalamityMod.NPCs.Astral
             float pulse = (float)Math.Sin(NPC.ai[0]);
             float radius = 5.8f;
             Vector2 offset = angle.ToRotationVector2() * pulse * radius;
-            Dust pink = Dust.NewDustPerfect(NPC.Center + offset, ModContent.DustType<AstralOrange>(), Vector2.Zero);
-            Dust blue = Dust.NewDustPerfect(NPC.Center - offset, ModContent.DustType<AstralBlue>(), Vector2.Zero);
+            Dust.NewDustPerfect(NPC.Center + offset, ModContent.DustType<AstralOrange>(), Vector2.Zero);
+            Dust.NewDustPerfect(NPC.Center - offset, ModContent.DustType<AstralBlue>(), Vector2.Zero);
 
             //kill on tile collide
             if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
@@ -237,11 +238,9 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        //On death
-        public override bool PreNPCLoot()
+        public override void HitEffect(int hitDirection, double damage)
         {
             DoKillDust();
-            return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -264,7 +263,7 @@ namespace CalamityMod.NPCs.Astral
                 Vector2 vel = (angle + Main.rand.NextFloat(-0.04f, 0.04f)).ToRotationVector2();
                 int dustType = Main.rand.NextBool(2) ? ModContent.DustType<AstralOrange>() : ModContent.DustType<AstralBlue>();
                 Dust d = Dust.NewDustPerfect(NPC.Center, dustType, vel * Main.rand.NextFloat(1.8f, 2.2f));
-                d.customData = npc;
+                d.customData = NPC;
 
                 angle += rotPerIter;
             }

@@ -282,10 +282,10 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 2);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

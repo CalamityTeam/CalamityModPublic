@@ -12,6 +12,15 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.LoreItems;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -62,8 +71,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Anahita") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<LeviathanBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Anahita") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -215,7 +223,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Change music.
             if (leviAlive)
-                music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
+                Music = CalamityMod.Instance.GetMusicFromMusicMod("LeviathanAndAnahita") ?? MusicID.Boss3;
 
             // Ice Shield
             if (NPC.localAI[2] < 3f)
@@ -599,7 +607,7 @@ namespace CalamityMod.NPCs.Leviathan
                             totalProjectiles = 6;
                             type = ModContent.ProjectileType<SirenSong>();
                             float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
-                            Main.harpNote = soundPitch;
+                            Main.musicPitch = soundPitch;
                             SoundEngine.PlaySound(SoundID.Item26, player.position);
                             break;
                     }
@@ -818,13 +826,48 @@ namespace CalamityMod.NPCs.Leviathan
         }
 
         // Anahita runs the same loot code as the Leviathan, but only if she dies last.
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            //Trophy dropped regardless of Levi, precedent of Twins
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AnahitaTrophy>(), 10);
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(() => Leviathan.ReadyToDropLoot(NPC)), ModContent.ItemType<LeviathanBag>()));
 
-            if (!NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
-                Leviathan.DropSirenLeviLoot(NPC);
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<AnahitaTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && Leviathan.ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeOcean>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && Leviathan.ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeLeviathanandSiren>());
+
+            // Weapons.
+            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => Main.expertMode && Leviathan.ReadyToDropLoot(NPC)));
+            {
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Greentide>(),
+                    ModContent.ItemType<Leviatitan>(),
+                    ModContent.ItemType<SirensSong>(),
+                    ModContent.ItemType<Atlantis>(),
+                    ModContent.ItemType<GastricBelcherStaff>(),
+                    ModContent.ItemType<BrackishFlask>(),
+                    ModContent.ItemType<LeviathanTeeth>(),
+                    ModContent.ItemType<LureofEnthrallment>()
+                };
+                npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AnahitaMask>(), 7);
+
+                // Equipment
+                normalOnly.Add(ItemID.HotlineFishingHook, 10);
+                normalOnly.Add(ItemID.BottomlessBucket, 10);
+                normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
+                normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
+                normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
+                normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
+                normalOnly.Add(ModContent.ItemType<LeviathanAmbergris>());
+            }
+
+            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && Leviathan.ReadyToDropLoot(NPC), ModContent.ItemType<TheCommunity>(), 10);
         }
 
         public override bool CheckActive()

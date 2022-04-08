@@ -50,10 +50,10 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstrumDeusDeath");
             NPC.netAlways = true;
             NPC.boss = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
@@ -185,11 +185,6 @@ namespace CalamityMod.NPCs.AstrumDeus
         }
 
         public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool PreNPCLoot()
         {
             return false;
         }

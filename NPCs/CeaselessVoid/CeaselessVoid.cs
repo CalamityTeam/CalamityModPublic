@@ -17,6 +17,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -63,7 +64,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.noTileCollide = true;
             NPC.boss = true;
             NPC.DeathSound = SoundID.NPCDeath14;
-            bossBag = ModContent.ItemType<CeaselessVoidBag>();
             NPC.Calamity().VulnerableToSickness = false;
         }
 
@@ -178,42 +178,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
             return false;
         }
 
-        public override void NPCLoot()
+        public static bool AtFullStrength() => !DownedBossSystem.downedCeaselessVoid || CalamityWorld.DoGSecondStageCountdown <= 0;
+
+        public static bool LastSentinelKilled() => !DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
+
+        public override void OnKill()
         {
-            // Only drop items if fought at full strength
-            bool fullStrength = !DownedBossSystem.downedCeaselessVoid || CalamityWorld.DoGSecondStageCountdown <= 0;
+            bool fullStrength = AtFullStrength();
+
             if (fullStrength)
             {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-                DropHelper.DropBags(NPC);
-
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-                bool lastSentinelKilled = !DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-
-                if (!Main.expertMode)
-                {
-                    // Materials
-                    DropHelper.DropItem(NPC, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
-
-                    // Weapons
-                    float dropChance = DropHelper.NormalWeaponDropRateFloat;
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<MirrorBlade>(), dropChance);
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<VoidConcentrationStaff>(), dropChance);
-
-                    // Equipment
-                    DropHelper.DropItem(NPC, ModContent.ItemType<TheEvolution>(), true);
-
-                    // Vanity
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<CeaselessVoidMask>(), 7);
-                    if (Main.rand.NextBool(20))
-                    {
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerHelm>());
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
-                    }
-                }
             }
 
             // If DoG's fight is active, set the timer for the remaining two sentinels
@@ -234,6 +209,37 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 DownedBossSystem.downedCeaselessVoid = true;
                 CalamityNetcode.SyncWorld();
+            }
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<CeaselessVoidBag>()));
+            npcLoot.AddIf(AtFullStrength, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+            npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<MirrorBlade>(),
+                    ModContent.ItemType<VoidConcentrationStaff>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<DarkPlasma>(), 1, 2, 3);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<TheEvolution>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<CeaselessVoidMask>(), 7);
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
         }
 

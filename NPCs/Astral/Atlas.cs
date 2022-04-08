@@ -14,6 +14,7 @@ using Terraria.GameContent;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -99,7 +100,7 @@ namespace CalamityMod.NPCs.Astral
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.
             //not much we can do. looks fine in-game so /shrug
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AtlasGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AtlasGlow", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()
@@ -115,7 +116,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.knockBackResist = 0.08f;
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.aiStyle = -1;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AtlasDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AtlasBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -638,14 +639,12 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minStardust = Main.expertMode ? 7 : 6;
-            int maxStardust = Main.expertMode ? 9 : 8;
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<TitanArm>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
-            DropHelper.DropItem(NPC, ModContent.ItemType<TitanHeart>());
+            npcLoot.Add(ModContent.ItemType<TitanHeart>());
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 1, 6, 8);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 7, 9);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<TitanArm>(), 7);
         }
     }
 }

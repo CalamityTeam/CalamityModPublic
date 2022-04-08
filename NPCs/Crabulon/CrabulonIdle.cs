@@ -20,6 +20,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+
 namespace CalamityMod.NPCs.Crabulon
 {
     [AutoloadBossHead]
@@ -55,7 +57,6 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.value = Item.buyPrice(0, 10, 0, 0);
             NPC.HitSound = SoundID.NPCHit45;
             NPC.DeathSound = SoundID.NPCDeath1;
-            bossBag = ModContent.ItemType<CrabulonBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -717,38 +718,36 @@ namespace CalamityMod.NPCs.Crabulon
             return false;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CrabulonBag>()));
+            npcLoot.AddIf(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CrabulonTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCrabulon>(), true, !DownedBossSystem.downedCrabulon);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Materials
-                DropHelper.DropItem(NPC, ItemID.GlowingMushroom, 20, 30);
-                DropHelper.DropItem(NPC, ItemID.MushroomGrassSeeds, 3, 6);
-
                 // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<MycelialClaws>(w),
-                    DropHelper.WeightStack<Fungicide>(w),
-                    DropHelper.WeightStack<HyphaeRod>(w),
-                    DropHelper.WeightStack<Mycoroot>(w),
-                    DropHelper.WeightStack<Shroomerang>(w)
-                );
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<MycelialClaws>(),
+                    ModContent.ItemType<Fungicide>(),
+                    ModContent.ItemType<HyphaeRod>(),
+                    ModContent.ItemType<Mycoroot>(),
+                    ModContent.ItemType<Shroomerang>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<FungalClump>(), true);
+                normalOnly.Add(ModContent.ItemType<FungalClump>());
 
                 // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<CrabulonMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<CrabulonMask>(), 7);
             }
+        }
+
+        public override void OnKill()
+        {
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // Mark Crabulon as dead
             DownedBossSystem.downedCrabulon = true;

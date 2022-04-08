@@ -12,6 +12,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow", AssetRequestMode.ImmediateLoad).Value;
             Main.npcFrameCount[NPC.type] = 7;
         }
 
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 8;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 330;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.knockBackResist = 0.75f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
             Banner = NPC.type;
@@ -188,12 +189,12 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
+            Tile tile = Main.tile[spawnInfo.SpawnTileX, spawnInfo.SpawnTileY];
             if (CalamityGlobalNPC.AnyEvents(spawnInfo.Player))
             {
                 return 0f;
             }
-            else if (spawnInfo.Player.InAstral(3) && spawnInfo.spawnTileType == ModContent.TileType<AstralSand>() && tile.WallType == WallID.None)
+            else if (spawnInfo.Player.InAstral(3) && spawnInfo.SpawnTileType == ModContent.TileType<AstralSand>() && tile.WallType == WallID.None)
             {
                 return 0.25f;
             }
@@ -205,11 +206,11 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<HadarianMembrane>(), DownedBossSystem.downedAstrumAureus, 2, 2, 3);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 4);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<HadarianMembrane>(), 2, 2, 3);
         }
     }
 }

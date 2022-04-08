@@ -157,8 +157,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override bool CheckActive() => false;
 
-        public override bool PreNPCLoot() => false;
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.life <= 0)

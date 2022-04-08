@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -25,7 +26,7 @@ namespace CalamityMod.NPCs.Astral
             Main.npcFrameCount[NPC.type] = 5;
 
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AstralachneaGroundGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AstralachneaGroundGlow", AssetRequestMode.ImmediateLoad).Value;
 
             base.SetStaticDefaults();
         }
@@ -39,11 +40,11 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 20;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 500;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.knockBackResist = 0.38f;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.timeLeft = NPC.activeTime * 2;
-            animationType = NPCID.WallCreeper;
+            AnimationType = NPCID.WallCreeper;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AstralachneaBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -167,11 +168,13 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public static void ModifyAstralachneaLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralachneaStaff>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 2, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 4);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AstralachneaStaff>(), 7);
         }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => ModifyAstralachneaLoot(npcLoot);
     }
 }

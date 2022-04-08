@@ -16,6 +16,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -58,8 +59,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             NPC.netAlways = true;
             NPC.HitSound = SoundID.NPCHit23;
             NPC.DeathSound = SoundID.NPCDeath39;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("BrimstoneElemental") ?? MusicID.Boss4;
-            bossBag = ModContent.ItemType<BrimstoneWaifuBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("BrimstoneElemental") ?? MusicID.Boss4;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -149,47 +149,51 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BrimstoneWaifuBag>()));
+
+            npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+            npcLoot.AddIf(() => DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Brimlance>(),
+                    ModContent.ItemType<SeethingDischarge>(),
+                    ModContent.ItemType<DormantBrimseeker>(),
+                    ModContent.ItemType<RoseStone>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<Gehenna>());
+                normalOnly.Add(ModContent.ItemType<Abaddon>());
+                normalOnly.Add(ModContent.ItemType<Gehenna>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<FabledTortoiseShell>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Hellborn>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode && DownedBossSystem.downedProvidence, ModContent.ItemType<Brimrose>());
+            npcLoot.AddIf(() => !Main.expertMode && DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 20, 30);
+        }
+
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !DownedBossSystem.downedBrimstoneElemental);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !DownedBossSystem.downedBrimstoneElemental);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, DownedBossSystem.downedBrimstoneElemental);
 
-            if (!Main.expertMode)
-            {
-                //Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-                if (DownedBossSystem.downedProvidence)
-                    DropHelper.DropItemSpray(NPC, ModContent.ItemType<Bloodstone>(), 20, 30, 2);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<Brimlance>(w),
-                    DropHelper.WeightStack<SeethingDischarge>(w),
-                    DropHelper.WeightStack<DormantBrimseeker>(w),
-                    DropHelper.WeightStack<RoseStone>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<Gehenna>(), true);
-                DropHelper.DropItem(NPC, ModContent.ItemType<Abaddon>(), true);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<FabledTortoiseShell>(), !Main.expertMode, 0.1f);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Hellborn>(), !Main.expertMode, 0.1f);
-
-            // mark brimmy as dead
+            // Mark brimmy as dead
             DownedBossSystem.downedBrimstoneElemental = true;
             CalamityNetcode.SyncWorld();
         }

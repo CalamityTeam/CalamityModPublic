@@ -10,6 +10,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hive");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HiveGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HiveGlow", AssetRequestMode.ImmediateLoad).Value;
             Main.npcFrameCount[NPC.type] = 6;
         }
 
@@ -34,7 +35,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 15;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 470;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.knockBackResist = 0f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
             Banner = NPC.type;
@@ -139,11 +140,11 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<HivePod>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 4);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<HivePod>(), 7);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -143,17 +143,20 @@ namespace CalamityMod.NPCs.Calamitas
             return NPC.Calamity().newAI[0] == 1f;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
+        }
 
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CatastropheTrophy>(), 10);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CrushsawCrasher>(), Main.expertMode ? 4 : 5);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ModContent.ItemType<CatastropheTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<CrushsawCrasher>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

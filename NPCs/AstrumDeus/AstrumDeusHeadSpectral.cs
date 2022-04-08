@@ -21,6 +21,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -65,10 +66,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstrumDeusDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstrumDeusDeath");
             NPC.netAlways = true;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<AstrumDeusBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -207,10 +207,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void BossLoot(ref string name, ref int potionType) => potionType = ModContent.ItemType<Stardust>();
 
-        public override bool SpecialNPCLoot()
+        public bool ShouldNotDropThings() => NPC.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && NPC.Calamity().newAI[0] != 3f);
+
+        public override bool SpecialOnKill()
         {
-            if (NPC.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && NPC.Calamity().newAI[0] != 3f))
-                return false;
+            if (ShouldNotDropThings())
+                return true;
 
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<AstrumDeusHeadSpectral>(),
@@ -218,14 +220,13 @@ namespace CalamityMod.NPCs.AstrumDeus
                 ModContent.NPCType<AstrumDeusTailSpectral>());
             NPC.position = Main.npc[closestSegmentID].position;
 
-            return false;
+            return true;
         }
 
-        public override bool PreNPCLoot()
+        public override void OnKill()
         {
-            // Unsplit Deus does not drop anything when killed/despawned.
-            if (NPC.Calamity().newAI[0] == 0f || ((CalamityWorld.death || BossRushEvent.BossRushActive) && NPC.Calamity().newAI[0] != 3f))
-                return false;
+            if (ShouldNotDropThings())
+                return;
 
             // Killing ANY split Deus makes all other Deus heads die immediately.
             for (int i = 0; i < Main.maxNPCs; ++i)
@@ -241,51 +242,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 }
             }
 
-            return true;
-        }
-
-        public override void NPCLoot()
-        {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItem(NPC, ItemID.GreaterHealingPotion, 8, 14);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AstrumDeusTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstrumDeus>(), !DownedBossSystem.downedAstrumDeus);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstralInfection>(), !DownedBossSystem.downedAstrumDeus);
-
-            // Drop a large spray of all 4 lunar fragments
-            int minFragments = Main.expertMode ? 20 : 16;
-            int maxFragments = Main.expertMode ? 32 : 24;
-            DropHelper.DropItemSpray(NPC, ItemID.FragmentSolar, minFragments, maxFragments, 4);
-            DropHelper.DropItemSpray(NPC, ItemID.FragmentVortex, minFragments, maxFragments, 4);
-            DropHelper.DropItemSpray(NPC, ItemID.FragmentNebula, minFragments, maxFragments, 4);
-            DropHelper.DropItemSpray(NPC, ItemID.FragmentStardust, minFragments, maxFragments, 4);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<Stardust>(), 50, 80, 5);
-                DropHelper.DropItemSpray(NPC, ItemID.FallenStar, 25, 40, 5);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<TheMicrowave>(w),
-                    DropHelper.WeightStack<StarSputter>(w),
-                    DropHelper.WeightStack<Starfall>(w),
-                    DropHelper.WeightStack<GodspawnHelixStaff>(w),
-                    DropHelper.WeightStack<RegulusRiot>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<HideofAstrumDeus>(), true);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<ChromaticOrb>(), 5);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<AstrumDeusMask>(), 7);
-            }
 
             // Notify players that Astral Ore can be mined if Deus has never been killed yet
             if (!DownedBossSystem.downedAstrumDeus)
@@ -298,6 +255,48 @@ namespace CalamityMod.NPCs.AstrumDeus
             // Mark Astrum Deus as dead
             DownedBossSystem.downedAstrumDeus = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrumDeusBag>()));
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<TheMicrowave>(),
+                    ModContent.ItemType<StarSputter>(),
+                    ModContent.ItemType<Starfall>(),
+                    ModContent.ItemType<GodspawnHelixStaff>(),
+                    ModContent.ItemType<RegulusRiot>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<HideofAstrumDeus>());
+                normalOnly.Add(ModContent.ItemType<ChromaticOrb>(), 5);
+
+                // Materials
+                normalOnly.Add(ItemID.FallenStar, 25, 40);
+                normalOnly.Add(ModContent.ItemType<Stardust>(), 50, 80);
+            }
+
+            npcLoot.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
+            npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 5);
+            npcLoot.AddIf(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstrumDeus>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstralInfection>());
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentSolar, 16, 24);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentVortex, 16, 24);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentNebula, 16, 24);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentStardust, 16, 24);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentSolar, 20, 32);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentVortex, 20, 32);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentNebula, 20, 32);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentStardust, 20, 32);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

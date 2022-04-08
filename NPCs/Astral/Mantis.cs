@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Mantis");
             Main.npcFrameCount[NPC.type] = 14;
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/MantisGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/MantisGlow", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()
@@ -39,7 +40,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.lifeMax = 340;
             NPC.knockBackResist = 0.2f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MantisBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -119,7 +120,7 @@ namespace CalamityMod.NPCs.Astral
                     Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
                     vector.Normalize();
                     int damage = DownedBossSystem.downedAstrumAureus ? 55 : 45;
-                    Projectile.NewProjectile(NPC.Center + (NPC.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + (NPC.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
                 }
             }
 
@@ -236,11 +237,11 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Stardust>(), 2, 3);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralScythe>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 2);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AstralScythe>(), 7);
         }
     }
 }

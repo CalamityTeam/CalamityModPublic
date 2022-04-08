@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Aries");
             Main.npcFrameCount[NPC.type] = 8;
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AriesGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AriesGlow", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()
@@ -35,7 +36,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.lifeMax = 300;
             NPC.knockBackResist = 0.6f;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AriesBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -120,11 +121,11 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), 0.5f, 1, 2);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Stardust>(), Main.expertMode);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<StellarKnife>(), DownedBossSystem.downedAstrumAureus, 7, 1, 1);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 2);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<StellarKnife>(), 7);
         }
     }
 }

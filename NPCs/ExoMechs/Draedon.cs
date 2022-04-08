@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.ExoMechs
         public bool ShouldStartStandingUp;
         public Vector2 HoverDestinationOffset
         {
-            get => new Vector2(NPC.ai[1], NPC.ai[2]);
+            get => new(NPC.ai[1], NPC.ai[2]);
             set
             {
                 NPC.ai[1] = value.X;
@@ -57,8 +57,8 @@ namespace CalamityMod.NPCs.ExoMechs
                 return false;
             }
         }
-        public static readonly Color TextColor = new Color(155, 255, 255);
-        public static readonly Color TextColorEdgy = new Color(213, 4, 11);
+        public static readonly Color TextColor = new(155, 255, 255);
+        public static readonly Color TextColorEdgy = new(213, 4, 11);
         public const int HologramFadeinTime = 45;
         public const int TalkDelay = 150;
         public const int DelayPerDialogLine = 130;

@@ -143,11 +143,6 @@ namespace CalamityMod.NPCs.DesertScourge
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             NPC.lifeMax = (int)(NPC.lifeMax * 0.7f * bossLifeScale);

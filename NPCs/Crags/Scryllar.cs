@@ -108,10 +108,6 @@ namespace CalamityMod.NPCs.Crags
             int num285 = 3;
             for (int num308 = num284; num308 < num284 + num285; num308++)
             {
-                if (Main.tile[num283, num308] == null)
-                {
-                    Main.tile[num283, num308] = new Tile();
-                }
                 if ((Main.tile[num283, num308].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num283, num308].TileType]) || Main.tile[num283, num308].LiquidAmount > 0)
                 {
                     flag23 = false;
@@ -123,10 +119,6 @@ namespace CalamityMod.NPCs.Crags
                 bool flag25 = false;
                 for (int num309 = num284; num309 < num284 + num285 - 2; num309++)
                 {
-                    if (Main.tile[num283, num309] == null)
-                    {
-                        Main.tile[num283, num309] = new Tile();
-                    }
                     if ((Main.tile[num283, num309].HasUnactuatedTile && Main.tileSolid[(int)Main.tile[num283, num309].TileType]) || Main.tile[num283, num309].LiquidAmount > 0)
                     {
                         flag25 = true;
@@ -255,11 +247,11 @@ namespace CalamityMod.NPCs.Crags
             return spawnInfo.Player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<LanternoftheSoul>(), DownedBossSystem.downedProvidence, 20, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 3, 1, 1);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
+            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<LanternoftheSoul>(), 20);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

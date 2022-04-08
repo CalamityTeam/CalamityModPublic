@@ -597,12 +597,15 @@ namespace CalamityMod.NPCs.GreatSandShark
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ItemID.AncientBattleArmorMaterial, 1, 1);
-            DropHelper.DropItem(NPC, ModContent.ItemType<GrandScale>(), 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<GrandScale>(), Main.expertMode, 3, 1, 1);
+            npcLoot.Add(ItemID.AncientBattleArmorMaterial);
+            npcLoot.Add(ModContent.ItemType<GrandScale>());
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<GrandScale>(), 3);
+        }
 
+        public override void OnKill()
+        {
             // Mark Great Sand Shark as dead
             DownedBossSystem.downedGSS = true;
             CalamityNetcode.SyncWorld();

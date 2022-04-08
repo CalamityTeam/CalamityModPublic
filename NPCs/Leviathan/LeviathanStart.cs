@@ -132,10 +132,10 @@ namespace CalamityMod.NPCs.Leviathan
 
             return SpawnCondition.OceanMonster.Chance * 0.4f;
         }
-
-        public override void NPCLoot()
+        
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SirensHeart>(), 0.25f);
+            npcLoot.Add(ModContent.ItemType<SirensHeart>(), 4); 
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int siren = NPC.NewNPC((int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<Siren>(), NPC.whoAmI);
+                int siren = NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<Siren>(), NPC.whoAmI);
                 CalamityUtils.BossAwakenMessage(siren);
             }
         }

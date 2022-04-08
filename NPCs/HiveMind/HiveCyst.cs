@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.HiveMind
                 return 0f;
 
             bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>());
-            bool corrupt = TileID.Sets.Corrupt[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
+            bool corrupt = TileID.Sets.Corrupt[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Demonite && spawnInfo.Player.ZoneCorrupt;
             if (anyBossElements || spawnInfo.PlayerSafe || !corrupt)
                 return 0f;
 
@@ -79,8 +79,8 @@ namespace CalamityMod.NPCs.HiveMind
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<HiveMind>()) < 1)
                 {
-                    Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
+                    Vector2 spawnAt = NPC.Bottom;
+                    NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
                 }
             }
         }

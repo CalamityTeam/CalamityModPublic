@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.Calamitas
 
                     int type = ModContent.ProjectileType<BrimstoneBarrage>();
                     int damage = NPC.GetProjectileDamage(type);
-                    Projectile.NewProjectile(NPC.Center, velocity, type, damage, 1f, NPC.target, 1f, 0f);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, type, damage, 1f, NPC.target, 1f, 0f);
                 }
                 timer = 0;
             }
@@ -150,13 +150,13 @@ namespace CalamityMod.NPCs.Calamitas
             }
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

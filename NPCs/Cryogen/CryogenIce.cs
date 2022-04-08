@@ -98,8 +98,6 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.lifeMax = (int)(NPC.lifeMax * 0.5f * bossLifeScale);
         }
 
-        public override bool PreNPCLoot() => false;
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)

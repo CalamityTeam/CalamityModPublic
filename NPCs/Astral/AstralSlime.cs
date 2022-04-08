@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.alpha = 60;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            animationType = NPCID.BlueSlime;
+            AnimationType = NPCID.BlueSlime;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AstralSlimeBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -79,13 +79,13 @@ namespace CalamityMod.NPCs.Astral
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<Stardust>(), Main.expertMode ? 1 : 2, 1, 3);
-            int oreMin = Main.expertMode ? 11 : 8;
-            int oreMax = Main.expertMode ? 16 : 12;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AstralOre>(), DownedBossSystem.downedAstrumDeus, oreMin, oreMax);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AbandonedSlimeStaff>(), DownedBossSystem.downedAstrumAureus, 0.05f, 1, 1);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 3);
+            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AbandonedSlimeStaff>(), 7);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumDeus && !Main.expertMode, ModContent.ItemType<AstralOre>(), 1, 8, 12);
+            npcLoot.AddIf(() => DownedBossSystem.downedAstrumDeus && Main.expertMode, ModContent.ItemType<AstralOre>(), 1, 11, 16);
         }
     }
 }

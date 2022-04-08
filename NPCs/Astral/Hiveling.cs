@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Hiveling");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HivelingGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HivelingGlow", AssetRequestMode.ImmediateLoad).Value;
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.damage = 30;
             NPC.defense = 0;
             NPC.lifeMax = 150;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(0, 0, 5, 0);

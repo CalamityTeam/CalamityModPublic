@@ -11,6 +11,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.Astral
         {
             DisplayName.SetDefault("Fusion Feeder");
             if (!Main.dedServ)
-                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/FusionFeederGlow").Value;
+                glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/FusionFeederGlow", AssetRequestMode.ImmediateLoad).Value;
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -39,8 +40,8 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.knockBackResist = 0.8f;
             NPC.behindTiles = true;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            animationType = NPCID.SandShark;
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            AnimationType = NPCID.SandShark;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<FusionFeederBanner>();
             if (DownedBossSystem.downedAstrumAureus)

@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                         num7 *= num8;
                         int type = ModContent.ProjectileType<AstralFlame>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -359,8 +359,6 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120, true);
         }
-
-        public override bool PreNPCLoot() => false;
 
         public override bool CheckDead()
         {

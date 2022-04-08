@@ -141,18 +141,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                 }
                 int num268 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                 int num269 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num268, num269 - 1] == null)
-                {
-                    Main.tile[num268, num269 - 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 1] == null)
-                {
-                    Main.tile[num268, num269 + 1] = new Tile();
-                }
-                if (Main.tile[num268, num269 + 2] == null)
-                {
-                    Main.tile[num268, num269 + 2] = new Tile();
-                }
                 if (Main.tile[num268, num269 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num268, num269 + 1].HasTile)

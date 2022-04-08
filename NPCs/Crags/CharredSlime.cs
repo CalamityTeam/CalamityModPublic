@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Crags
             NPC.defense = 10;
             NPC.lifeMax = 250;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
+            AnimationType = NPCID.CorruptSlime;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.alpha = 50;
             NPC.lavaImmune = true;
@@ -77,11 +77,11 @@ namespace CalamityMod.NPCs.Crags
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<CharredOre>(), 10, 26);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 2, 1, 1);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofChaos>(), 3, 1, 1);
+            npcLoot.Add(ModContent.ItemType<CharredOre>(), 1, 10, 26);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
         }
     }
 }

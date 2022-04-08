@@ -22,6 +22,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -702,63 +703,68 @@ namespace CalamityMod.NPCs.Leviathan
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        // The Leviathan runs the same loot code as Anahita, but only if she dies last.
-        public override void NPCLoot()
+        public override void OnKill()
         {
-            //Trophy dropped regardless of Anahita, precedent of Twins
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<LeviathanTrophy>(), 10);
-
-            if (!NPC.AnyNPCs(ModContent.NPCType<Siren>()))
-                DropSirenLeviLoot(NPC);
-        }
-
-        // This loot code is shared with Anahita.
-        public static void DropSirenLeviLoot(NPC npc)
-        {
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
-
-            DropHelper.DropBags(npc);
-
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !DownedBossSystem.downedLeviathan);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !DownedBossSystem.downedLeviathan);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(npc,
-                    DropHelper.WeightStack<Greentide>(w),
-                    DropHelper.WeightStack<Leviatitan>(w),
-                    DropHelper.WeightStack<SirensSong>(w),
-                    DropHelper.WeightStack<Atlantis>(w),
-                    DropHelper.WeightStack<GastricBelcherStaff>(w),
-                    DropHelper.WeightStack<BrackishFlask>(w),
-                    DropHelper.WeightStack<LeviathanTeeth>(w),
-                    DropHelper.WeightStack<LureofEnthrallment>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<LeviathanAmbergris>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AnahitaMask>(), 7);
-
-                // Fishing
-                DropHelper.DropItemChance(npc, ItemID.HotlineFishingHook, 10);
-                DropHelper.DropItemChance(npc, ItemID.BottomlessBucket, 10);
-                DropHelper.DropItemChance(npc, ItemID.SuperAbsorbantSponge, 10);
-                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 5, 5, 8);
-                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 5, 5, 8);
-                DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 5, 8);
-            }
-
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<TheCommunity>(), !Main.expertMode, 0.1f);
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             // Mark Siren & Levi as dead
             DownedBossSystem.downedLeviathan = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public static bool ReadyToDropLoot(NPC npc)
+        {
+            if (npc.type == ModContent.NPCType<Siren>() && !NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
+                return true;
+            if (npc.type == ModContent.NPCType<Leviathan>() && !NPC.AnyNPCs(ModContent.NPCType<Siren>()))
+                return true;
+            return false;
+        }
+
+        // This loot code is shared with Anahita.
+        // The Leviathan runs the same loot code as Anahita, but only if she dies last.
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(() => ReadyToDropLoot(NPC)), ModContent.ItemType<LeviathanBag>()));
+
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<LeviathanTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeOcean>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeLeviathanandSiren>());
+
+            // Weapons.
+            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => Main.expertMode && ReadyToDropLoot(NPC)));
+            {
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Greentide>(),
+                    ModContent.ItemType<Leviatitan>(),
+                    ModContent.ItemType<SirensSong>(),
+                    ModContent.ItemType<Atlantis>(),
+                    ModContent.ItemType<GastricBelcherStaff>(),
+                    ModContent.ItemType<BrackishFlask>(),
+                    ModContent.ItemType<LeviathanTeeth>(),
+                    ModContent.ItemType<LureofEnthrallment>()
+                };
+                npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AnahitaMask>(), 7);
+
+                // Equipment
+                normalOnly.Add(ItemID.HotlineFishingHook, 10);
+                normalOnly.Add(ItemID.BottomlessBucket, 10);
+                normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
+                normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
+                normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
+                normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
+                normalOnly.Add(ModContent.ItemType<LeviathanAmbergris>());
+            }
+
+            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<TheCommunity>(), 10);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

@@ -24,6 +24,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.AstrumAureus
 {
@@ -57,8 +58,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.value = Item.buyPrice(0, 60, 0, 0);
             NPC.boss = true;
             NPC.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<AstrageldonBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumAureus") ?? MusicID.Boss3;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.Calamity().VulnerableToHeat = true;
@@ -311,52 +311,46 @@ namespace CalamityMod.NPCs.AstrumAureus
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Boss bag
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrageldonBag>()));
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Nebulash>(),
+                    ModContent.ItemType<AuroraBlazer>(),
+                    ModContent.ItemType<AlulaAustralis>(),
+                    ModContent.ItemType<BorealisBomber>(),
+                    ModContent.ItemType<AuroradicalThrow>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
+
+                // Other
+                normalOnly.Add(ModContent.ItemType<AstralJelly>(), 1, 9, 12);
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LeonidProgenitor>(), 10);
+
+            npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
+
+            // Other
+            npcLoot.Add(ItemID.HallowedKey, 3);
+        }
+
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AstrageldonTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !DownedBossSystem.downedAstrumAureus);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, DownedBossSystem.downedAstrumAureus);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<Stardust>(), 20, 30, 2);
-                DropHelper.DropItemSpray(NPC, ItemID.FallenStar, 18, 24, 2);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<Nebulash>(w),
-                    DropHelper.WeightStack<AuroraBlazer>(w),
-                    DropHelper.WeightStack<AlulaAustralis>(w),
-                    DropHelper.WeightStack<BorealisBomber>(w),
-                    DropHelper.WeightStack<AuroradicalThrow>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<GravistarSabaton>(), true);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<AureusMask>(), 7);
-
-                // Other
-                DropHelper.DropItem(NPC, ModContent.ItemType<AstralJelly>(), 9, 12);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<LeonidProgenitor>(), !Main.expertMode, 0.1f);
-
-            // Other
-            DropHelper.DropItemChance(NPC, ItemID.HallowedKey, 3);
-
-            // Drop an Astral Meteor if applicable
-            ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!DownedBossSystem.downedAstrumAureus)
@@ -368,6 +362,9 @@ namespace CalamityMod.NPCs.AstrumAureus
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
                 CalamityUtils.DisplayLocalizedText(key2, messageColor);
             }
+
+            // Drop an Astral Meteor if applicable
+            ThreadPool.QueueUserWorkItem(_ => AstralBiome.PlaceAstralMeteor());
 
             // Mark Astrum Aureus as dead
             DownedBossSystem.downedAstrumAureus = true;

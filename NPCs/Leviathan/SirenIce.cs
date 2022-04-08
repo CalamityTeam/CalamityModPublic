@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -114,8 +114,6 @@ namespace CalamityMod.NPCs.Leviathan
 
             player.AddBuff(BuffID.Frostburn, 240, true);
         }
-
-        public override bool PreNPCLoot() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

@@ -33,6 +33,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
@@ -163,7 +164,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<DevourerofGodsBag>();
         }
 
         public override void BossHeadSlot(ref int index)
@@ -2046,7 +2046,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     Main.npc[i].position = newPosition;
 
                     if (Main.npc[i].type == ModContent.NPCType<DevourerofGodsTail>())
-                        ((DevourerofGodsTail)Main.npc[i].modNPC).setInvulTime(720);
+                        ((DevourerofGodsTail)Main.npc[i].ModNPC).setInvulTime(720);
 
                     Main.npc[i].netUpdate = true;
                 }
@@ -2186,7 +2186,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 spriteBatch.EnterShaderRegion();
                 GameShaders.Misc["CalamityMod:DoGDisintegration"].UseOpacity(disintegrationFactor);
                 GameShaders.Misc["CalamityMod:DoGDisintegration"].UseSaturation(NPC.whoAmI);
-                GameShaders.Misc["CalamityMod:DoGDisintegration"].UseImage("Images/Misc/Perlin");
+                GameShaders.Misc["CalamityMod:DoGDisintegration"].UseImage0("Images/Misc/Perlin");
                 GameShaders.Misc["CalamityMod:DoGDisintegration"].Apply();
             }
 
@@ -2227,62 +2227,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             potionType = ModContent.ItemType<CosmiliteBrick>();
         }
 
-        public override bool SpecialNPCLoot()
-        {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
-                ModContent.NPCType<DevourerofGodsHead>(),
-                ModContent.NPCType<DevourerofGodsBody>(),
-                ModContent.NPCType<DevourerofGodsTail>());
-            NPC.position = Main.npc[closestSegmentID].position;
-            return false;
-        }
-
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
             CalamityWorld.DoGSecondStageCountdown = 0;
 
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItem(NPC, ModContent.ItemType<OmegaHealingPotion>(), 5, 15);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !DownedBossSystem.downedDoG);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedDoG);
-
-            // Mount
-            CalamityPlayer mp = Main.player[Player.FindClosest(NPC.position, NPC.width, NPC.height)].Calamity();
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Fabsol>(), true, mp.fabsolVodka);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItem(NPC, ModContent.ItemType<CosmiliteBar>(), 25, 35);
-                DropHelper.DropItem(NPC, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<Excelsus>(w),
-                    DropHelper.WeightStack<TheObliterator>(w),
-                    DropHelper.WeightStack<Deathwind>(w),
-                    DropHelper.WeightStack<DeathhailStaff>(w),
-                    DropHelper.WeightStack<StaffoftheMechworm>(w),
-                    DropHelper.WeightStack<Eradicator>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<NebulousCore>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<DevourerofGodsMask>(), 7);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Norfleet>(), !Main.expertMode, 0.1f);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<CosmicDischarge>(), !Main.expertMode, 0.1f);
 
             // If DoG has not been killed yet, notify players that the holiday moons are buffed
             if (!DownedBossSystem.downedDoG)
@@ -2301,6 +2253,67 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Mark DoG as dead
             DownedBossSystem.downedDoG = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override bool SpecialOnKill()
+        {
+            int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
+                ModContent.NPCType<DevourerofGodsHead>(),
+                ModContent.NPCType<DevourerofGodsBody>(),
+                ModContent.NPCType<DevourerofGodsTail>());
+            NPC.position = Main.npc[closestSegmentID].position;
+            return true;
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Boss bag
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DevourerofGodsBag>()));
+
+            // Extraneous potions
+            npcLoot.Add(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15);
+
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddIf(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
+
+            // Fabsol Mount
+            npcLoot.AddIf(() =>
+            {
+                CalamityPlayer mp = Main.player[Player.FindClosest(NPC.position, NPC.width, NPC.height)].Calamity();
+                return mp.vodka;
+            }, ModContent.ItemType<KnowledgeDevourerofGods>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Excelsus>(),
+                    ModContent.ItemType<TheObliterator>(),
+                    ModContent.ItemType<Deathwind>(),
+                    ModContent.ItemType<DeathhailStaff>(),
+                    ModContent.ItemType<StaffoftheMechworm>(),
+                    ModContent.ItemType<Eradicator>()
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<DevourerofGodsMask>(), 7);
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<CosmiliteBar>(), 1, 25, 35);
+                normalOnly.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 150, 250);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<NebulousCore>());
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Norfleet>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<CosmicDischarge>(), 10);
         }
 
         // Can only hit the target if within certain distance

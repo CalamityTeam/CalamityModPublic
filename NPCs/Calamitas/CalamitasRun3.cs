@@ -21,6 +21,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Calamitas
 {
@@ -66,8 +67,7 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
-            bossBag = ModContent.ItemType<CalamitasBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Calamitas") ?? MusicID.Boss2;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
@@ -162,49 +162,50 @@ namespace CalamityMod.NPCs.Calamitas
             return false;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CalamitasBag>()));
+
+            npcLoot.Add(ItemID.BrokenHeroSword);
+            npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
+            
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<TheEyeofCalamitas>(),
+                    ModContent.ItemType<Animosity>(),
+                    ModContent.ItemType<CalamitasInferno>(),
+                    ModContent.ItemType<BlightedEyeStaff>(),
+                    ModContent.ItemType<ChaosStone>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<CalamityRing>());
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
+                normalOnly.Add(ModContent.ItemType<CalamityDust>(), 1, 9, 14);
+                normalOnly.Add(ModContent.ItemType<BlightedLens>(), 1, 1, 2);
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<CalamityHood>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<CalamityRobes>())));
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Regenator>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode && DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 30, 40);
+        }
+
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItem(NPC, ItemID.BrokenHeroSword, true);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CalamitasTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCalamitasClone>(), !DownedBossSystem.downedCalamitas);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedCalamitas);
-
-            if (!Main.expertMode)
-            {
-                //Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-                DropHelper.DropItem(NPC, ModContent.ItemType<CalamityDust>(), 9, 14);
-                DropHelper.DropItem(NPC, ModContent.ItemType<BlightedLens>(), 1, 2);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 1f, 30, 40);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<TheEyeofCalamitas>(w),
-                    DropHelper.WeightStack<Animosity>(w),
-                    DropHelper.WeightStack<CalamitasInferno>(w),
-                    DropHelper.WeightStack<BlightedEyeStaff>(w),
-                    DropHelper.WeightStack<ChaosStone>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<CalamityRing>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<CalamitasMask>(), 7);
-                if (Main.rand.NextBool(10))
-                {
-                    DropHelper.DropItem(NPC, ModContent.ItemType<CalamityHood>());
-                    DropHelper.DropItem(NPC, ModContent.ItemType<CalamityRobes>());
-                }
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Regenator>(), !Main.expertMode, 0.1f);
 
             // Abyss awakens after killing Calamitas
             string key = "Mods.CalamityMod.PlantBossText";
