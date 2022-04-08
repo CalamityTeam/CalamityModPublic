@@ -390,12 +390,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             return SpawnCondition.Sky.Chance * 0.1f;
         }
-
-        public override void NPCLoot()
+        
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ItemID.MartianConduitPlating, NPC.downedGolemBoss, 1, 10, 30);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofCinder>(), 3);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<TheTransformer>(), 10);
+            npcLoot.AddIf(() => NPC.downedGolemBoss, ItemID.AdhesiveBandage, 10, 30);
+            npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 3);
+            npcLoot.Add(ModContent.ItemType<TheTransformer>(), 10);
         }
     }
 }

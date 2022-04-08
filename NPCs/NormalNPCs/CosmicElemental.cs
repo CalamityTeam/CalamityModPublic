@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -101,22 +102,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // 10% combined chance to drop any sword. Individual drop rates are:
-            // Bone Sword: 5%
-            // Starfury: 2%
-            // Enchanted Sword: 2%
-            // Arkhalis: 1%
-            // Only one sword will ever drop at a time.
-            if (Main.rand.NextBool(10))
-            {
-                DropHelper.DropItemFromWeightedSet(NPC,
-                    DropHelper.WeightStack(ItemID.BoneSword, 5f, 1),
-                    DropHelper.WeightStack(ItemID.Starfury, 2f, 1),
-                    DropHelper.WeightStack(ItemID.EnchantedSword, 2f, 1),
-                    DropHelper.WeightStack(ItemID.Arkhalis, 1f, 1));
-            }
+            npcLoot.Add(ItemDropRule.Common(ItemID.BoneSword, 20).OnFailedRoll(
+                        ItemDropRule.Common(ItemID.Starfury, 50)).OnFailedRoll(
+                        ItemDropRule.Common(ItemID.EnchantedSword, 50)).OnFailedRoll(
+                        ItemDropRule.Common(ItemID.Arkhalis, 100)));
         }
     }
 }

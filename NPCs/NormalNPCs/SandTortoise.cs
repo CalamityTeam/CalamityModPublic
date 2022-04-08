@@ -61,9 +61,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.DesertCave.Chance * 0.05f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ItemID.TurtleShell, 0.1f);
+            npcLoot.Add(ItemID.TurtleShell, 10);
         }
     }
 }

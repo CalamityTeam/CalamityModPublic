@@ -176,18 +176,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                 int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
                 if (Main.tile[num258, num259 - 1].LiquidAmount < 128) //problem?
                 {
                     if (Main.tile[num258, num259 + 1].HasTile)
@@ -262,10 +250,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OverworldHallow.Chance / 4f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<UnholyEssence>(), 2, 4);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EnergyStaff>(), 15);
+            npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<EnergyStaff>(), 15);
         }
 
         public override void HitEffect(int hitDirection, double damage)

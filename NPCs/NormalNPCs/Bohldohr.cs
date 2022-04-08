@@ -63,16 +63,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            if (DownedBossSystem.downedSCal)
-            {
-                // RIP LORDE
-                // DropHelper.DropItem(npc, ModContent.ItemType<NO>());
-            }
-            DropHelper.DropItem(NPC, ItemID.LihzahrdBrick, 10, 30);
-            DropHelper.DropItemChance(NPC, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment
-            DropHelper.DropItemChance(NPC, ItemID.LihzahrdPowerCell, 50);
+            npcLoot.Add(ItemID.LihzahrdBrick, 1, 10, 26);
+            npcLoot.Add(ItemID.LunarTabletFragment, 7, 10, 26);
+            npcLoot.Add(ItemID.LihzahrdPowerCell, 50);
         }
     }
 }

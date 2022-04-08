@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.AdultEidolonWyrm;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noGravity = true;
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit13;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/EidolistDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/EidolistDeath");
             NPC.timeLeft = NPC.activeTime * 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<EidolistBanner>();
@@ -318,30 +319,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            bool adultWyrmAlive = false;
-            if (CalamityGlobalNPC.adultEidolonWyrmHead != -1)
-            {
-                if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
-                    adultWyrmAlive = true;
-            }
-
-            return !adultWyrmAlive;
-        }
-
-        public override void NPCLoot()
-        {
-            if (Main.rand.NextBool(10))
-            {
-                DropHelper.DropItem(NPC, ItemID.BlueLunaticHood);
-                DropHelper.DropItem(NPC, ItemID.BlueLunaticRobe);
-            }
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EidolonTablet>(), !NPC.LunarApocalypseIsUp, 0.25f);
-            int minLumenyl = Main.expertMode ? 10 : 8;
-            int maxLumenyl = Main.expertMode ? 14 : 10;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 1f, minLumenyl, maxLumenyl);
-            DropHelper.DropItemCondition(NPC, ItemID.Ectoplasm, NPC.downedPlantBoss, 1f, 3, 5);
+            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && !NPC.LunarApocalypseIsUp, ModContent.ItemType<EidolonTablet>(), 4);
+            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 8, 10);
+            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 10, 14);
+            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && NPC.downedPlantBoss, ItemID.Ectoplasm, 1, 3, 5);
         }
     }
 }

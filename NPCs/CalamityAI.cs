@@ -7239,27 +7239,7 @@ namespace CalamityMod.NPCs
                 position.X += npc.velocity.X;
                 int x = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
                 int y = (int)((position.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[x, y] == null)
-                {
-                    Main.tile[x, y] = new Tile();
-                }
-                if (Main.tile[x, y - 1] == null)
-                {
-                    Main.tile[x, y - 1] = new Tile();
-                }
-                if (Main.tile[x, y - 2] == null)
-                {
-                    Main.tile[x, y - 2] = new Tile();
-                }
-                if (Main.tile[x, y - 3] == null)
-                {
-                    Main.tile[x, y - 3] = new Tile();
-                }
-                if (Main.tile[x, y + 1] == null)
-                {
-                    Main.tile[x, y + 1] = new Tile();
-                }
-                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].IsHalfBlock && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num9, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num9, y - 3].TileType]))
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].TopSlope && !Main.tile[x, y - 1].TopSlope && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].HasUnactuatedTile)) && (!Main.tile[x, y - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].IsHalfBlock && (!Main.tile[x, y - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num9, y - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x - num9, y - 3].TileType]))
                 {
                     float npcBottom = (float)(y * 16);
                     if (Main.tile[x, y].IsHalfBlock)
@@ -7477,7 +7457,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.velocity.X *= 0.92f;
                 }
-                float num9 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedSet)) * (float)Math.Sign(Main.windSpeedSet);
+                float num9 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedCurrent)) * (float)Math.Sign(Main.windSpeedCurrent);
                 if (!Main.player[npc.target].ZoneSandstorm)
                 {
                     num9 = 0f;
@@ -7523,27 +7503,7 @@ namespace CalamityMod.NPCs
                 position.X += npc.velocity.X;
                 int x = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num10)) / 16f);
                 int y = (int)((position.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[x, y] == null)
-                {
-                    Main.tile[x, y] = new Tile();
-                }
-                if (Main.tile[x, y - 1] == null)
-                {
-                    Main.tile[x, y - 1] = new Tile();
-                }
-                if (Main.tile[x, y - 2] == null)
-                {
-                    Main.tile[x, y - 2] = new Tile();
-                }
-                if (Main.tile[x, y - 3] == null)
-                {
-                    Main.tile[x, y - 3] = new Tile();
-                }
-                if (Main.tile[x, y + 1] == null)
-                {
-                    Main.tile[x, y + 1] = new Tile();
-                }
-                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].IsHalfBlock && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num10, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num10, y - 3].TileType]))
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].HasUnactuatedTile && !Main.tile[x, y].TopSlope && !Main.tile[x, y - 1].TopSlope && Main.tileSolid[(int)Main.tile[x, y].TileType] && !Main.tileSolidTop[(int)Main.tile[x, y].TileType]) || (Main.tile[x, y - 1].IsHalfBlock && Main.tile[x, y - 1].HasUnactuatedTile)) && (!Main.tile[x, y - 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 1].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 1].TileType] || (Main.tile[x, y - 1].IsHalfBlock && (!Main.tile[x, y - 4].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 4].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 4].TileType]))) && (!Main.tile[x, y - 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 2].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 2].TileType]) && (!Main.tile[x, y - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x, y - 3].TileType] || Main.tileSolidTop[(int)Main.tile[x, y - 3].TileType]) && (!Main.tile[x - num10, y - 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[x - num10, y - 3].TileType]))
                 {
                     float num13 = (float)(y * 16);
                     if (Main.tile[x, y].IsHalfBlock)
@@ -7577,38 +7537,6 @@ namespace CalamityMod.NPCs
             {
                 int num15 = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 2) * npc.direction) + npc.velocity.X * 5f) / 16f);
                 int num16 = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
-                if (Main.tile[num15, num16] == null)
-                {
-                    Main.tile[num15, num16] = new Tile();
-                }
-                if (Main.tile[num15, num16 - 1] == null)
-                {
-                    Main.tile[num15, num16 - 1] = new Tile();
-                }
-                if (Main.tile[num15, num16 - 2] == null)
-                {
-                    Main.tile[num15, num16 - 2] = new Tile();
-                }
-                if (Main.tile[num15, num16 - 3] == null)
-                {
-                    Main.tile[num15, num16 - 3] = new Tile();
-                }
-                if (Main.tile[num15, num16 + 1] == null)
-                {
-                    Main.tile[num15, num16 + 1] = new Tile();
-                }
-                if (Main.tile[num15 + npc.direction, num16 - 1] == null)
-                {
-                    Main.tile[num15 + npc.direction, num16 - 1] = new Tile();
-                }
-                if (Main.tile[num15 + npc.direction, num16 + 1] == null)
-                {
-                    Main.tile[num15 + npc.direction, num16 + 1] = new Tile();
-                }
-                if (Main.tile[num15 - npc.direction, num16 + 1] == null)
-                {
-                    Main.tile[num15 - npc.direction, num16 + 1] = new Tile();
-                }
                 int num17 = npc.spriteDirection;
                 num17 *= -1;
                 if ((npc.velocity.X < 0f && num17 == -1) || (npc.velocity.X > 0f && num17 == 1))
@@ -7627,17 +7555,17 @@ namespace CalamityMod.NPCs
                             npc.netUpdate = true;
                         }
                     }
-                    else if (Main.tile[num15, num16 - 1].HasUnactuatedTile && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].TileType])
+                    else if (Main.tile[num15, num16 - 1].HasUnactuatedTile && !Main.tile[num15, num16 - 1].TopSlope && Main.tileSolid[(int)Main.tile[num15, num16 - 1].TileType])
                     {
                         npc.velocity.Y = bouncy3;
                         npc.netUpdate = true;
                     }
-                    else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].HasUnactuatedTile && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].TileType])
+                    else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].HasUnactuatedTile && !Main.tile[num15, num16].TopSlope && Main.tileSolid[(int)Main.tile[num15, num16].TileType])
                     {
                         npc.velocity.Y = bouncy4;
                         npc.netUpdate = true;
                     }
-                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].TileType]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].TileType]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].TileType]))
+                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].TileType]) && (!Main.tile[num15, num16 + 2].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].TileType]) && (!Main.tile[num15 + npc.direction, num16 + 3].HasUnactuatedTile || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].TileType]))
                     {
                         npc.velocity.Y = bouncy5;
                         npc.netUpdate = true;
@@ -7839,18 +7767,6 @@ namespace CalamityMod.NPCs
                 }
                 int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
                 int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
                 if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num258, num259 + 1].HasTile)

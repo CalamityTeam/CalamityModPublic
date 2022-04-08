@@ -64,11 +64,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            float bandageDropRate = Main.expertMode ? 0.02f : 0.01f;
-            DropHelper.DropItemChance(NPC, ItemID.AdhesiveBandage, bandageDropRate);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<RottenDogtooth>(), 8);
+            npcLoot.Add(ItemID.AdhesiveBandage, 50);
+            npcLoot.Add(ModContent.ItemType<RottenDogtooth>(), 8);
         }
     }
 }

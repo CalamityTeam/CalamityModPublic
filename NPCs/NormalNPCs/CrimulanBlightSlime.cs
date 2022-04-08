@@ -67,13 +67,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(BuffID.Cursed, 60, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int item = Item.NewItem(NPC.Center, NPC.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
-            Main.item[item].notAmmo = true;
-            NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
-
-            DropHelper.DropItem(NPC, ItemID.Gel, 10, 14);
+            npcLoot.Add(ItemID.Gel, 1, 10, 14);
+            npcLoot.Add(ModContent.ItemType<EbonianGel>(), 1, 15, 21);
         }
     }
 }

@@ -105,10 +105,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ItemID.Amber, 2, 4);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<ScuttlersJewel>(), 10);
+            npcLoot.Add(ItemID.Amber, 1, 2, 4);
+            npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 10);
         }
     }
 }

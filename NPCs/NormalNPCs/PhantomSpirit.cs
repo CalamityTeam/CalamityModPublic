@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.defense = 10;
             NPC.lifeMax = 1000;
             NPC.knockBackResist = 0.1f;
-            animationType = NPCID.DungeonSpirit;
+            AnimationType = NPCID.DungeonSpirit;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.HitSound = SoundID.NPCHit36;
@@ -72,9 +72,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             return new Color(200, 200, 200, 0);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Phantoplasm>());
+            npcLoot.Add(ModContent.ItemType<Phantoplasm>());
         }
     }
 }

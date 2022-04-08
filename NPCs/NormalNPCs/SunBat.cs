@@ -87,9 +87,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofCinder>(), 3);
+            npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 3);
         }
     }
 }

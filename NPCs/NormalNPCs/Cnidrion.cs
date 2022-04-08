@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + Main.rand.Next(-5, 6) * 0.01f;
                     num830 *= 1f + Main.rand.Next(-5, 6) * 0.01f;
-                    int num833 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 240f)
                 {
@@ -294,9 +294,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AmidiasSpark>(), 4);
+            npcLoot.Add(ModContent.ItemType<AmidiasSpark>(), 4);
         }
     }
 }

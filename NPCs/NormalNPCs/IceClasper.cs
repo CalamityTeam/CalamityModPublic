@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
+                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -267,11 +267,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<EssenceofEleum>());
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<FrostBarrier>(), 10);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<AncientIceChunk>(), 3);
+            npcLoot.Add(ModContent.ItemType<EssenceofEleum>());
+            npcLoot.Add(ModContent.ItemType<FrostBarrier>(), 10);
+            npcLoot.Add(ModContent.ItemType<AncientIceChunk>(), 3);
         }
     }
 }

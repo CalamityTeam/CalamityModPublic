@@ -72,10 +72,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(BuffID.Electrified, 90, true);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<StormjawStaff>(), 0.2f, 1, 1);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<StormlionMandible>(), 1f, 1, 1);
+            npcLoot.Add(ModContent.ItemType<StormlionMandible>(), 5);
+            npcLoot.Add(ModContent.ItemType<StormjawStaff>(), 5);
         }
     }
 }

@@ -207,7 +207,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 int num170 = (int)((NPC.position.X + (float)(NPC.width / 2) + (float)(15 * NPC.direction)) / 16f);
                 int num171 = (int)((NPC.position.Y + (float)NPC.height - 15f) / 16f);
-                Main.tile[num170, num171 + 1].IsHalfBlock;
                 if ((Main.tile[num170, num171 - 1].HasUnactuatedTile && (Main.tile[num170, num171 - 1].TileType == 10 || Main.tile[num170, num171 - 1].TileType == 388)) & flag5)
                 {
                     NPC.ai[2] += 1f;
@@ -404,10 +403,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ItemID.TinHelmet);
-            DropHelper.DropItemCondition(NPC, ItemID.MagicDagger, Main.hardMode);
+            npcLoot.Add(ItemID.TinHelmet);
+            npcLoot.AddIf(() => Main.hardMode, ItemID.MagicDagger);
         }
     }
 }

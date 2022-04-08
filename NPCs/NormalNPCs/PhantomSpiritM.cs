@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -81,9 +81,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             return new Color(200, 200, 200, 0);
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<Phantoplasm>(), 1, 3);
+            npcLoot.Add(ModContent.ItemType<Phantoplasm>(), 1, 1, 3);
         }
     }
 }

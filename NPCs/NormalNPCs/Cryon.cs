@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
+                Main.hardMode && !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -96,9 +96,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofEleum>(), 0.5f);
+            npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 2);
         }
     }
 }

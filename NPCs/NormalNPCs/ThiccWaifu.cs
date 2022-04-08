@@ -414,11 +414,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<EssenceofCinder>(), 2, 3);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<StormSaber>(), 5);
+            npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 1, 2, 3);
+            npcLoot.Add(ModContent.ItemType<EyeoftheStorm>(), 3);
+            npcLoot.Add(ModContent.ItemType<StormSaber>(), 5);
         }
     }
 }

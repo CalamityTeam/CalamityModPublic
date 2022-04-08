@@ -33,10 +33,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 NPC.lifeMax = 1000;
             }
             NPC.knockBackResist = 0.3f;
-            animationType = NPCID.Hellhound;
+            AnimationType = NPCID.Hellhound;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 3, 0);
-            NPC.HitSound = Mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
+            NPC.HitSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AngryDogHit");
             NPC.DeathSound = SoundID.NPCDeath5;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AngryDogBanner>();
@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.Player.PillarZone() &&
                 !spawnInfo.Player.ZoneDungeon &&
                 !spawnInfo.Player.InSunkenSea() &&
-                !spawnInfo.playerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
+                !spawnInfo.PlayerInTown && !spawnInfo.Player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             int num1 = 1;
             if (!Main.dedServ)
             {
-                if (!Main.NPCLoaded[NPC.type] || TextureAssets.Npc[NPC.type].Value == null)
+                if (TextureAssets.Npc[NPC.type].Value == null)
                     return;
                 num1 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             }
@@ -101,9 +101,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<EssenceofEleum>(), 0.25f);
+            npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 4);
         }
     }
 }

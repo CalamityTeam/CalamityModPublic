@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             AIType = -1;
             NPC.lavaImmune = true;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ScornDeath");
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/ScornDeath");
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<ScornEaterBanner>();
             NPC.Calamity().VulnerableToHeat = false;
@@ -198,9 +198,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<UnholyEssence>(), 2, 4);
+            npcLoot.Add(ItemID.AdhesiveBandage, 50);
+            npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
         }
     }
 }

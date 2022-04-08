@@ -11,6 +11,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Horse : ModNPC
@@ -79,15 +81,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // Weapons
-            float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(NPC,
-                DropHelper.WeightStack<SlagMagnum>(w),
-                DropHelper.WeightStack<Aftershock>(w),
-                DropHelper.WeightStack<EarthenPike>(w)
-            );
+            npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt,
+                ModContent.ItemType<SlagMagnum>(),
+                ModContent.ItemType<Aftershock>(),
+                ModContent.ItemType<EarthenPike>()));
         }
 
         public override void HitEffect(int hitDirection, double damage)
