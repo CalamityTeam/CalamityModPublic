@@ -35,6 +35,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -105,8 +106,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.noTileCollide = true;
             NPC.netAlways = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
-            NPC.DeathSound = Mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/ProvidenceDeath");
-            bossBag = ModContent.ItemType<ProvidenceBag>();
+            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/ProvidenceDeath");
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
@@ -1170,7 +1170,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             NPC.ai[2] = 0f;
 
-                            Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, fireFrom);
+                            SoundEngine.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, fireFrom);
 
                             int projectileType = ModContent.ProjectileType<HolySpear>();
 
@@ -1468,57 +1468,11 @@ namespace CalamityMod.NPCs.Providence
             return false;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<ProvidenceTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeProvidence>(), true, !DownedBossSystem.downedProvidence);
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<RuneofCos>(), true, !DownedBossSystem.downedProvidence);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedProvidence);
-
-            // Accessories clientside only in Expert. Both drop if she is defeated at night.
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2 || !hasTakenDaytimeDamage);
-
-            // Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-            bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(DownedBossSystem.downedSCal ? 10 : 200))*/;
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
-
-            // Special drop for defeating her at night
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<ProfanedMoonlightDye>(), true, CalamityWorld.malice || !hasTakenDaytimeDamage, 3, 4);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<UnholyEssence>(), 20, 30);
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<DivineGeode>(), 15, 20);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<HolyCollider>(w),
-                    DropHelper.WeightStack<SolarFlare>(w),
-                    DropHelper.WeightStack<TelluricGlare>(w),
-                    DropHelper.WeightStack<BlissfulBombardier>(w),
-                    DropHelper.WeightStack<PurgeGuzzler>(w),
-                    DropHelper.WeightStack<DazzlingStabberStaff>(w),
-                    DropHelper.WeightStack<MoltenAmputator>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<BlazingCore>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<ProvidenceMask>(), 7);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<PristineFury>(), !Main.expertMode, 0.1f);
 
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.Top.Y >= (Main.maxTilesY - 240f) * 16f)
                 SpawnLootBox();
@@ -1548,6 +1502,48 @@ namespace CalamityMod.NPCs.Providence
             // Mark Providence as dead
             DownedBossSystem.downedProvidence = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
+
+            npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofCos>());
+            npcLoot.AddIf(() => biomeType != 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianWings>());
+            npcLoot.AddIf(() => biomeType == 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianAegis>());
+
+            // Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
+            npcLoot.AddIf(() => challenge, ModContent.ItemType<ProfanedSoulCrystal>());
+
+            // Special drop for defeating Providence at night
+            npcLoot.AddIf(() => CalamityWorld.malice || !hasTakenDaytimeDamage, ModContent.ItemType<ProfanedMoonlightDye>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<HolyCollider>(),
+                    ModContent.ItemType<SolarFlare>(),
+                    ModContent.ItemType<TelluricGlare>(),
+                    ModContent.ItemType<BlissfulBombardier>(),
+                    ModContent.ItemType<PurgeGuzzler>(),
+                    ModContent.ItemType<DazzlingStabberStaff>(),
+                    ModContent.ItemType<MoltenAmputator>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<BlazingCore>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<PristineFury>(), 10);
         }
 
         private void SpawnLootBox()
@@ -1834,7 +1830,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ProjectileType<ApparatusExplosion>()
                 };
 
-                bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
+                bool allowedClass = projectile.IsSummon() || (!projectile.CountsAsClass(DamageClass.Melee) && !projectile.CountsAsClass(DamageClass.Ranged) && 
+                    !projectile.CountsAsClass(DamageClass.Magic) && !projectile.CountsAsClass(DamageClass.Throwing) && !projectile.Calamity().rogue);
                 bool allowedDamage = allowedClass && damage <= 75; //Flat 75 regardless of difficulty.
                 //Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
                 bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;

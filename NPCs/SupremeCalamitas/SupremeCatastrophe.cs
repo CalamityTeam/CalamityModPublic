@@ -257,15 +257,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             return false;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SupremeCatastropheTrophy>(), 10);
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ModContent.ItemType<SupremeCatastropheTrophy>(), 10);
         }
 
         public override bool CheckActive() => false;

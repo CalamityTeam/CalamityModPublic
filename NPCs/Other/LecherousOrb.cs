@@ -178,11 +178,11 @@ namespace CalamityMod.NPCs.Other
             return base.StrikeNPC(ref damage, defense, ref knockback, hitDirection, ref crit);
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             int heartsToGive = (int)MathHelper.Lerp(0f, 7f, Utils.GetLerpValue(45f, 540f, Time, true));
             for (int i = 0; i < heartsToGive; i++)
-                DropHelper.DropItem(NPC, ItemID.Heart);
+                Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemID.Heart);
         }
 
         public override Color? GetAlpha(Color drawColor) => Color.White * NPC.Opacity;

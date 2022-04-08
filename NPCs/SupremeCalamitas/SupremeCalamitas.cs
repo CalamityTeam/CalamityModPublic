@@ -29,6 +29,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -200,7 +201,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas1") ?? MusicID.Boss2;
-            bossBag = ModContent.ItemType<SCalBag>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -1025,7 +1025,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             NPC.active = false;
                             NPC.netUpdate = true;
-                            NPCLoot();
+                            NPC.NPCLoot();
                         }
                     }
                     else if (giveUpCounter == 900 && !BossRushEvent.BossRushActive)
@@ -1055,7 +1055,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         NPC.active = false;
                         NPC.netUpdate = true;
-                        NPCLoot();
+                        NPC.NPCLoot();
                         return;
                     }
                     giveUpCounter--;
@@ -2712,57 +2712,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Create a teleport line effect
             Dust.QuickDustLine(NPC.Center, initialRitualPosition, 500f, Color.Red);
             NPC.Center = initialRitualPosition;
 
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            DropHelper.DropBags(NPC);
-
-            // Only drops in Malice because this is Leviathan's item
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<GaelsGreatsword>(), true, CalamityWorld.malice);
-
-            // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags
-            // It is one of extremely few Deathmode exclusive drops in the game
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Levi>(), true, CalamityWorld.death);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItem(NPC, ModContent.ItemType<CalamitousEssence>(), true, 18, 27);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<Violence>(w),
-                    DropHelper.WeightStack<Condemnation>(w),
-                    DropHelper.WeightStack<Heresy>(w),
-                    DropHelper.WeightStack<Vehemenc>(w),
-                    DropHelper.WeightStack<Perdition>(w),
-                    DropHelper.WeightStack<Vigilance>(w),
-                    DropHelper.WeightStack<Sacrifice>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<Calamity>(), true);
-
-                // SCal vanity set (This drops all at once, or not at all)
-                if (Main.rand.NextBool(7))
-                {
-                    DropHelper.DropItem(NPC, ModContent.ItemType<AshenHorns>());
-                    DropHelper.DropItem(NPC, ModContent.ItemType<SCalMask>());
-                    DropHelper.DropItem(NPC, ModContent.ItemType<SCalRobes>());
-                    DropHelper.DropItem(NPC, ModContent.ItemType<SCalBoots>());
-                }
-            }
-
-            // Other
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeCalamitas>(), true, !DownedBossSystem.downedSCal);
 
             // Increase the player's SCal kill count
             if (Main.player[NPC.target].Calamity().sCalKillCount < 5)
@@ -2774,6 +2730,51 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Mark Supreme Calamitas as defeated
             DownedBossSystem.downedSCal = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SCalBag>()));
+
+            // Lore item and trophy
+            npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
+
+            // Only drops in Malice because this is Leviathan's item
+            npcLoot.AddIf(() => CalamityWorld.malice, ModContent.ItemType<GaelsGreatsword>());
+
+            // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags
+            // It is one of extremely few Deathmode exclusive drops in the game
+            npcLoot.AddIf(() => CalamityWorld.death, ModContent.ItemType<Levi>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<Violence>(),
+                    ModContent.ItemType<Condemnation>(),
+                    ModContent.ItemType<Heresy>(),
+                    ModContent.ItemType<Vehemenc>(),
+                    ModContent.ItemType<Perdition>(),
+                    ModContent.ItemType<Vigilance>(),
+                    ModContent.ItemType<Sacrifice>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<CalamitousEssence>(), 1, 18, 27);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<Calamity>());
+
+                // SCal vanity set (This drops all at once, or not at all)
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AshenHorns>(), 7).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalMask>())).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>())).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>())));
+            }
         }
         #endregion
 
@@ -2897,8 +2898,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             spriteBatch.Draw(texture2D15, vector43, frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            DrawForcefield(spriteBatch);
-            DrawShield(spriteBatch);
+            if (!NPC.IsABestiaryIconDummy)
+            {
+                DrawForcefield(spriteBatch);
+                DrawShield(spriteBatch);
+            }
             return false;
         }
 
@@ -2938,7 +2942,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             opacity *= 0.75f;
 
             Texture2D forcefieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasShield").Value;
-            GameShaders.Misc["CalamityMod:SupremeShield"].UseImage("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseImage0("Images/Misc/Perlin");
 
             Color forcefieldColor = Color.DarkViolet;
             Color secondaryForcefieldColor = Color.Red * 1.4f;

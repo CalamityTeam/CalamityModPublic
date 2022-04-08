@@ -158,18 +158,6 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                 int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
                 if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num258, num259 + 1].HasTile)
@@ -332,16 +320,20 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!NPC.savedAngler && !NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler, 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler);
                 NPC.savedAngler = true;
             }
-            DropHelper.DropItemChance(NPC, ItemID.DivingHelmet, 20);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<TrashmanTrashcan>(), 20);
-            DropHelper.DropItemCondition(NPC, ItemID.Gatligator, Main.hardMode, 10, 1, 1);
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemID.DivingHelmet, 20);
+            npcLoot.Add(ModContent.ItemType<TrashmanTrashcan>(), 20);
+            npcLoot.AddIf(() => Main.hardMode, 10);
         }
 
         public override void HitEffect(int hitDirection, double damage)

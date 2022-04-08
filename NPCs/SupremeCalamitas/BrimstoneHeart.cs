@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     {
         public PrimitiveTrail ChainDrawer = null;
         public int ChainHeartIndex => (int)NPC.ai[0];
-        public List<Vector2> ChainEndpoints = new List<Vector2>();
+        public List<Vector2> ChainEndpoints = new();
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Heart");
@@ -72,13 +72,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.alpha = 0;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 
@@ -109,6 +109,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (ChainDrawer is null)
                 ChainDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction);
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+
             for (int i = 0; i < ChainEndpoints.Count; i++)
             {
                 List<Vector2> points = new List<Vector2>()

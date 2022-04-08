@@ -128,11 +128,6 @@ namespace CalamityMod.NPCs.SunkenSea
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)

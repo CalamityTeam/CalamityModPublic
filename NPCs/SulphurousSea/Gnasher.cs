@@ -108,9 +108,9 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ItemID.TurtleShell, Main.hardMode, 10, 1, 1);
+            npcLoot.AddIf(() => Main.hardMode, ItemID.TurtleShell, 10);
         }
 
         public override void HitEffect(int hitDirection, double damage)

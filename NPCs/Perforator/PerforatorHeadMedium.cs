@@ -433,13 +433,13 @@ namespace CalamityMod.NPCs.Perforator
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
 
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -447,8 +447,6 @@ namespace CalamityMod.NPCs.Perforator
                 if (i != NPC.whoAmI && Main.npc[i].active && (Main.npc[i].type == NPC.type || Main.npc[i].type == ModContent.NPCType<PerforatorBodyMedium>() || Main.npc[i].type == ModContent.NPCType<PerforatorTailMedium>()))
                     return false;
             }
-
-            return true;
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -457,7 +455,7 @@ namespace CalamityMod.NPCs.Perforator
             potionType = ItemID.HealingPotion;
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 NPC.type,

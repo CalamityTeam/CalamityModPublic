@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.KingSlime;
+            AnimationType = NPCID.KingSlime;
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.alpha = 55;
             NPC.lavaImmune = false;
@@ -44,8 +44,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
-            bossBag = ModContent.ItemType<SlimeGodBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -524,23 +523,20 @@ namespace CalamityMod.NPCs.SlimeGod
             return newColor;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
+            SlimeGodCore.PerformMiscDeathEffects(NPC);
+        }
 
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) > 1 || // the other ebonian split is alive
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(NPC);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            SlimeGodCore.DropSlimeGodLoot(npcLoot);
         }
 
         public override bool CheckActive()

@@ -37,13 +37,12 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            animationType = NPCID.KingSlime;
+            AnimationType = NPCID.KingSlime;
             NPC.value = 0f;
             NPC.alpha = 55;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
-            bossBag = ModContent.ItemType<SlimeGodBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -552,16 +551,12 @@ namespace CalamityMod.NPCs.SlimeGod
             potionType = ItemID.HealingPotion;
         }
 
+        public override void OnKill() => SlimeGodCore.PerformMiscDeathEffects(NPC);
+
         // If the un-split Ebonian Slime God gets one-shotted last, it should drop the boss loot
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(NPC);
+            SlimeGodCore.DropSlimeGodLoot(npcLoot);
         }
 
         public override bool CheckActive()

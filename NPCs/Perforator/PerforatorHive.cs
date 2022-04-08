@@ -24,6 +24,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Perforator
 {
@@ -62,7 +63,6 @@ namespace CalamityMod.NPCs.Perforator
             NPC.HitSound = SoundID.NPCHit13;
             NPC.DeathSound = SoundID.NPCDeath19;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Perforators") ?? MusicID.Boss2;
-            bossBag = ModContent.ItemType<PerforatorBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -453,49 +453,11 @@ namespace CalamityMod.NPCs.Perforator
             potionType = ItemID.HealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<PerforatorTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePerforators>(), true, !DownedBossSystem.downedPerforator);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, DownedBossSystem.downedPerforator);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<BloodSample>(), 35, 45, 5);
-                DropHelper.DropItemSpray(NPC, ItemID.CrimtaneBar, 12, 15);
-                DropHelper.DropItemSpray(NPC, ItemID.Vertebrae, 12, 15);
-                if (Main.hardMode)
-                    DropHelper.DropItemSpray(NPC, ItemID.Ichor, 10, 20, 2);
-                DropHelper.DropItem(NPC, ItemID.CrimsonSeeds, 10, 15);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<VeinBurster>(w),
-                    DropHelper.WeightStack<BloodyRupture>(w),
-                    DropHelper.WeightStack<SausageMaker>(w),
-                    DropHelper.WeightStack<Aorta>(w),
-                    DropHelper.WeightStack<Eviscerator>(w),
-                    DropHelper.WeightStack<BloodBath>(w),
-                    DropHelper.WeightStack<BloodClotStaff>(w),
-                    DropHelper.WeightStack<ToothBall>(w, 30, 50),
-                    DropHelper.WeightStack<BloodstainedGlove>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<BloodyWormTooth>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<PerforatorMask>(), 7);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<BloodyVein>(), 10);
-            }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
             if (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator)
@@ -510,6 +472,47 @@ namespace CalamityMod.NPCs.Perforator
             // Mark The Perforator Hive as dead
             DownedBossSystem.downedPerforator = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PerforatorBag>()));
+
+            npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<VeinBurster>(),
+                    ModContent.ItemType<BloodyRupture>(),
+                    ModContent.ItemType<SausageMaker>(),
+                    ModContent.ItemType<Aorta>(),
+                    ModContent.ItemType<Eviscerator>(),
+                    ModContent.ItemType<BloodBath>(),
+                    ModContent.ItemType<BloodClotStaff>(),
+                    ModContent.ItemType<BloodstainedGlove>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
+
+                // Materials
+                normalOnly.Add(ItemID.CrimtaneBar, 1, 12, 15);
+                normalOnly.Add(ItemID.Vertebrae, 1, 12, 15);
+                normalOnly.Add(ItemID.CrimsonSeeds, 1, 12, 15);
+                normalOnly.Add(ModContent.ItemType<BloodSample>(), 1, 35, 45);
+                normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.Ichor, 1, 10, 20));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<BloodyWormTooth>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<PerforatorMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<BloodyVein>(), 10);
+            }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

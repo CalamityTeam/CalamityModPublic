@@ -22,6 +22,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
@@ -58,8 +60,7 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
-            bossBag = ModContent.ItemType<SlimeGodBag>();
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -578,67 +579,82 @@ namespace CalamityMod.NPCs.SlimeGod
             potionType = ItemID.HealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
-            if (!otherSlimeGodsAlive)
-                DropSlimeGodLoot(NPC);
+            DropSlimeGodLoot(npcLoot);
         }
 
-        // This loot code is shared with every other Slime God component.
-        public static void DropSlimeGodLoot(NPC npc)
+        public static bool CanDropLoot()
         {
+            int slimeGodCount = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
+                NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
+                NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) +
+                NPC.CountNPCS(ModContent.NPCType<SlimeGodCore>());
+
+            return slimeGodCount <= 1;
+        }
+
+        public override void OnKill() => PerformMiscDeathEffects(NPC);
+
+        public static void PerformMiscDeathEffects(NPC npc)
+        {
+            if (!CanDropLoot())
+                return;
+
             CalamityGlobalNPC.SetNewBossJustDowned(npc);
-
-            DropHelper.DropBags(npc);
-
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SlimeGodTrophy>(), 10);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !DownedBossSystem.downedSlimeGod);
 
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedSlimeGod);
 
+            // Mark the Slime God as dead
+            DownedBossSystem.downedSlimeGod = true;
+            CalamityNetcode.SyncWorld();
+        }
+
+        // This loot code is shared with every other Slime God component.
+        public static void DropSlimeGodLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<SlimeGodBag>()));
+
+            npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodTrophy>(), 10);
+            npcLoot.AddIf(() => CanDropLoot() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), 10);
+
             // Purified Jam is once per player, but drops for all players.
-            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
-            if (!mp.revJamDrop)
+            npcLoot.AddIf(() =>
             {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, !DownedBossSystem.downedSlimeGod, 6, 8);
-                mp.revJamDrop = true;
-            }
+                CalamityPlayer mp = Main.LocalPlayer.Calamity();
+                if (!mp.revJamDrop)
+                {
+                    mp.revJamDrop = true;
+                    return !DownedBossSystem.downedSlimeGod;
+                }
+                return false;
+            }, ModContent.ItemType<PurifiedJam>(), 1, 6, 8);
 
             // Gel always drops directly, even on Expert
-            DropHelper.DropItemSpray(npc, ItemID.Gel, 180, 250, 10);
+            npcLoot.Add(ItemID.Gel, 180, 250);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45, 3);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<PurifiedGel>(), 1, 30, 45);
 
                 // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(npc,
-                    DropHelper.WeightStack<OverloadedBlaster>(w),
-                    DropHelper.WeightStack<AbyssalTome>(w),
-                    DropHelper.WeightStack<EldritchTome>(w),
-                    DropHelper.WeightStack<CorroslimeStaff>(w),
-                    DropHelper.WeightStack<CrimslimeStaff>(w),
-                    DropHelper.WeightStack<SlimePuppetStaff>(w)
-                );
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<OverloadedBlaster>(), DropHelper.NormalWeaponDropRateInt);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<AbyssalTome>(), DropHelper.NormalWeaponDropRateInt);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<EldritchTome>(), DropHelper.NormalWeaponDropRateInt);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<CorroslimeStaff>(), DropHelper.NormalWeaponDropRateInt);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<CrimslimeStaff>(), DropHelper.NormalWeaponDropRateInt);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimePuppetStaff>(), DropHelper.NormalWeaponDropRateInt);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodMask>(), 7);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodMask2>(), 7);
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<ManaOverloader>(), true);
+                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<ManaOverloader>());
             }
-
-            // Mark the Slime God as dead
-            DownedBossSystem.downedSlimeGod = true;
-            CalamityNetcode.SyncWorld();
         }
 
         public override void HitEffect(int hitDirection, double damage)

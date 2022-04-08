@@ -171,10 +171,5 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             return false;
         }
-
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
     }
 }

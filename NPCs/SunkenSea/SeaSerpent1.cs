@@ -271,9 +271,9 @@ namespace CalamityMod.NPCs.SunkenSea
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<Serpentine>(), 0.25f);
+            npcLoot.Add(ModContent.ItemType<Serpentine>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

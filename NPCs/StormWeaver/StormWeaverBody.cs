@@ -282,11 +282,6 @@ namespace CalamityMod.NPCs.StormWeaver
             return false;
         }
 
-        public override bool PreNPCLoot()
-        {
-            return false;
-        }
-
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x) && NPC.life / (float)NPC.lifeMax >= 0.9f)

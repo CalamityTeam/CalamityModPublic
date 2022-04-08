@@ -66,21 +66,6 @@ namespace CalamityMod.NPCs.Other
             Time++;
         }
 
-        public float PrimitiveWidthFunction(float completionRatio)
-        {
-            float widthInterpolant = Utils.GetLerpValue(0f, 0.16f, completionRatio, true) * Utils.GetLerpValue(1f, 0.84f, completionRatio, true);
-            widthInterpolant = (float)Math.Pow(widthInterpolant, 8D);
-            float baseWidth = MathHelper.Lerp(4f, 1f, widthInterpolant);
-            float pulseWidth = MathHelper.Lerp(0f, 3.2f, (float)Math.Pow(Math.Sin(Main.GlobalTimeWrappedHourly * 2.6f + NPC.whoAmI * 1.3f + completionRatio), 16D));
-            return baseWidth + pulseWidth;
-        }
-
-        public Color PrimitiveColorFunction(float completionRatio)
-        {
-            float colorInterpolant = MathHelper.SmoothStep(0f, 1f, Utils.GetLerpValue(0f, 0.34f, completionRatio, true) * Utils.GetLerpValue(1.07f, 0.66f, completionRatio, true));
-            return Color.Lerp(Color.DarkRed * 0.7f, Color.Red, colorInterpolant) * 0.425f;
-        }
-
         public override void FindFrame(int frameHeight)
         {
             NPC.frameCounter++;

@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 }
                 if (!NPC.active && Main.netMode == NetmodeID.Server)
                 {
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
 

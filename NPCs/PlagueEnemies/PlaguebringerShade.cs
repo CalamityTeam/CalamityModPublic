@@ -633,19 +633,23 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
+        }
 
-            DropHelper.DropItemChance(NPC, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
-            DropHelper.DropItem(NPC, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<PlaguedFuelPack>(), 10);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<PlagueCaller>(), 50);
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 8, 12);
+            npcLoot.Add(ModContent.ItemType<PlaguedFuelPack>(), 10);
+            npcLoot.Add(ModContent.ItemType<PlagueCaller>(), 50);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4, 2, 3);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2, 2, 3);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

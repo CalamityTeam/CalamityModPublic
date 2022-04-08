@@ -127,8 +127,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             return false;
         }
 
-        public override bool PreNPCLoot() => false;
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<Plague>(), 240, true);

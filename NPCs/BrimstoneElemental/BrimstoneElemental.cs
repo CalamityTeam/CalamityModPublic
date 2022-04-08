@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BrimstoneWaifuBag>()));
 
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-            npcLoot.AddIf(() => DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

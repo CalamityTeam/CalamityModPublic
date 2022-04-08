@@ -25,6 +25,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
@@ -72,7 +73,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
-            bossBag = ModContent.ItemType<PlaguebringerGoliathBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
         }
@@ -1191,52 +1191,57 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !DownedBossSystem.downedPlaguebringer);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<PlagueCellCluster>(), 10, 14);
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<InfectedArmorPlating>(), 13, 17);
-                DropHelper.DropItemSpray(NPC, ItemID.Stinger, 3, 5);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<VirulentKatana>(w), // Virulence
-                    DropHelper.WeightStack<DiseasedPike>(w),
-                    DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
-                    DropHelper.WeightStack<Malevolence>(w),
-                    DropHelper.WeightStack<PestilentDefiler>(w),
-                    DropHelper.WeightStack<TheHive>(w),
-                    DropHelper.WeightStack<MepheticSprayer>(w), // Blight Spewer
-                    DropHelper.WeightStack<PlagueStaff>(w),
-                    DropHelper.WeightStack<FuelCellBundle>(w),
-                    DropHelper.WeightStack<InfectedRemote>(w),
-                    DropHelper.WeightStack<TheSyringe>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<ToxicHeart>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<PlagueCaller>(), 10);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Malachite>(), !Main.expertMode, 0.1f);
 
             // Mark PBG as dead
             DownedBossSystem.downedPlaguebringer = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PlaguebringerGoliathBag>()));
+
+            npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<VirulentKatana>(), // Virulence
+                    ModContent.ItemType<DiseasedPike>(),
+                    ModContent.ItemType<ThePlaguebringer>(), // Pandemic
+                    ModContent.ItemType<Malevolence>(),
+                    ModContent.ItemType<PestilentDefiler>(),
+                    ModContent.ItemType<TheHive>(),
+                    ModContent.ItemType<MepheticSprayer>(), // Blight Spewer
+                    ModContent.ItemType<PlagueStaff>(),
+                    ModContent.ItemType<FuelCellBundle>(),
+                    ModContent.ItemType<InfectedRemote>(),
+                    ModContent.ItemType<TheSyringe>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
+
+                // Materials
+                normalOnly.Add(ItemID.Stinger, 1, 3, 5);
+                normalOnly.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 10, 14);
+                normalOnly.Add(ModContent.ItemType<InfectedArmorPlating>(), 1, 13, 17);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<ToxicHeart>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<PlagueCaller>(), 10);
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Malachite>(), 10);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

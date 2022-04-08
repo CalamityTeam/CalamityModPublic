@@ -21,6 +21,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.World;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -57,7 +58,6 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.netAlways = true;
             NPC.timeLeft = NPC.activeTime * 30;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("BoomerDuke") ?? MusicID.Boss1;
-            bossBag = ModContent.ItemType<OldDukeBag>();
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
@@ -373,40 +373,11 @@ namespace CalamityMod.NPCs.OldDuke
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<OldDukeTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeOldDuke>(), true, !DownedBossSystem.downedBoomerDuke);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, DownedBossSystem.downedBoomerDuke);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<InsidiousImpaler>(w),
-                    DropHelper.WeightStack<FetidEmesis>(w),
-                    DropHelper.WeightStack<SepticSkewer>(w),
-                    DropHelper.WeightStack<VitriolicViper>(w),
-                    DropHelper.WeightStack<CadaverousCarrion>(w),
-                    DropHelper.WeightStack<ToxicantTwister>(w),
-                    DropHelper.WeightStack<DukeScales>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<MutatedTruffle>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<OldDukeMask>(), 7);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<TheReaper>(), !Main.expertMode, 0.1f);
 
             // Mark Old Duke as dead
             DownedBossSystem.downedBoomerDuke = true;
@@ -414,6 +385,39 @@ namespace CalamityMod.NPCs.OldDuke
             // Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
             CalamityWorld.encounteredOldDuke = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<OldDukeBag>()));
+
+            npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<InsidiousImpaler>(),
+                    ModContent.ItemType<FetidEmesis>(),
+                    ModContent.ItemType<SepticSkewer>(),
+                    ModContent.ItemType<VitriolicViper>(),
+                    ModContent.ItemType<CadaverousCarrion>(),
+                    ModContent.ItemType<ToxicantTwister>(),
+                    ModContent.ItemType<DukeScales>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<MutatedTruffle>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<OldDukeMask>(), 7);
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<TheReaper>(), 10);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

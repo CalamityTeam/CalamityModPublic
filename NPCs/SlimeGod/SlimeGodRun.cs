@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
-            animationType = NPCID.KingSlime;
+            AnimationType = NPCID.KingSlime;
             NPC.value = 0f;
             NPC.alpha = 55;
             NPC.lavaImmune = false;
@@ -43,10 +43,9 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
-            music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("SlimeGod") ?? MusicID.Boss1;
             NPC.aiStyle = -1;
             AIType = -1;
-            bossBag = ModContent.ItemType<SlimeGodBag>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
         }
@@ -559,16 +558,12 @@ namespace CalamityMod.NPCs.SlimeGod
             potionType = ItemID.HealingPotion;
         }
 
+        public override void OnKill() => SlimeGodCore.PerformMiscDeathEffects(NPC);
+
         // If the un-split Crimulan Slime God gets one-shotted last, it should drop the boss loot
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) ||
-                NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>());
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(NPC);
+            SlimeGodCore.DropSlimeGodLoot(npcLoot);
         }
 
         public override bool CheckActive()

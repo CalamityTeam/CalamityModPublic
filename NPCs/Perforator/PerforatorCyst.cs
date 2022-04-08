@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.Perforator
                 return 0f;
 
             bool anyBossElements = NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>());
-            bool crimson = TileID.Sets.Crimson[spawnInfo.spawnTileType] || spawnInfo.spawnTileType == TileID.Crimtane && spawnInfo.Player.ZoneCrimson;
+            bool crimson = TileID.Sets.Crimson[spawnInfo.SpawnTileType] || spawnInfo.SpawnTileType == TileID.Crimtane && spawnInfo.Player.ZoneCrimson;
             if (spawnInfo.PlayerSafe || anyBossElements || !crimson)
                 return 0f;
 
@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.Perforator
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<PerforatorHive>()) < 1)
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
+                    NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
                 }
             }
         }

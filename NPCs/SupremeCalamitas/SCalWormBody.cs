@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
@@ -148,11 +149,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
 
         public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool PreNPCLoot()
         {
             return false;
         }

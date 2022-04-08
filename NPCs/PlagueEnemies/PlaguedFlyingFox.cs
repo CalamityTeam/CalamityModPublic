@@ -69,9 +69,9 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItem(NPC, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
         }
     }
 }

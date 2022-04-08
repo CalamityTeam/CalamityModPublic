@@ -104,8 +104,6 @@ namespace CalamityMod.NPCs.Ravager
 
         public override bool CheckActive() => false;
 
-        public override bool PreNPCLoot() => false;
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (NPC.life > 0)
@@ -119,7 +117,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerHead2>(), NPC.whoAmI);
+                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)NPC.Center.X, (int)NPC.position.Y + NPC.height, ModContent.NPCType<RavagerHead2>(), NPC.whoAmI);
             }
         }
     }

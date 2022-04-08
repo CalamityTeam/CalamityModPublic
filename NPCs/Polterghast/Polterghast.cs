@@ -24,6 +24,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Polterghast
 {
@@ -965,42 +966,11 @@ namespace CalamityMod.NPCs.Polterghast
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<PolterghastTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgePolterghast>(), true, !DownedBossSystem.downedPolterghast);
-
             CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Cyborg }, DownedBossSystem.downedPolterghast);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItem(NPC, ModContent.ItemType<RuinousSoul>(), 7, 15);
-                DropHelper.DropItem(NPC, ModContent.ItemType<Phantoplasm>(), 30, 40);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<PolterghastMask>(), 7);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<TerrorBlade>(w),
-                    DropHelper.WeightStack<BansheeHook>(w),
-                    DropHelper.WeightStack<DaemonsFlame>(w),
-                    DropHelper.WeightStack<FatesReveal>(w),
-                    DropHelper.WeightStack<GhastlyVisage>(w),
-                    DropHelper.WeightStack<EtherealSubjugator>(w),
-                    DropHelper.WeightStack<GhoulishGouger>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<Affliction>(), true);
-            }
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
             if (!DownedBossSystem.downedPolterghast)
@@ -1025,6 +995,41 @@ namespace CalamityMod.NPCs.Polterghast
             // Mark Polterghast as dead
             DownedBossSystem.downedPolterghast = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PolterghastBag>()));
+
+            npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<TerrorBlade>(),
+                    ModContent.ItemType<BansheeHook>(),
+                    ModContent.ItemType<DaemonsFlame>(),
+                    ModContent.ItemType<FatesReveal>(),
+                    ModContent.ItemType<GhastlyVisage>(),
+                    ModContent.ItemType<EtherealSubjugator>(),
+                    ModContent.ItemType<GhoulishGouger>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<Affliction>());
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<RuinousSoul>(), 7, 15);
+                normalOnly.Add(ModContent.ItemType<Phantoplasm>(), 30, 40);
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<PolterghastMask>(), 7);
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

@@ -126,10 +126,11 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f);
-            DropHelper.DropItem(NPC, ModContent.ItemType<PlagueCellCluster>(), 1, 2);
+            npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

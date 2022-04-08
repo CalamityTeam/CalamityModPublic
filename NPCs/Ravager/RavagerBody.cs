@@ -20,6 +20,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Ravager
 {
@@ -65,7 +66,6 @@ namespace CalamityMod.NPCs.Ravager
             NPC.HitSound = SoundID.NPCHit41;
             NPC.DeathSound = SoundID.NPCDeath14;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
-            bossBag = ModContent.ItemType<RavagerBag>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }
@@ -769,46 +769,51 @@ namespace CalamityMod.NPCs.Ravager
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<RavagerTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeRavager>(), true, !DownedBossSystem.downedRavager);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<FleshyGeodeT1>(), !DownedBossSystem.downedProvidence);
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<FleshyGeodeT2>(), DownedBossSystem.downedProvidence);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<UltimusCleaver>(w),
-                    DropHelper.WeightStack<RealmRavager>(w),
-                    DropHelper.WeightStack<Hematemesis>(w),
-                    DropHelper.WeightStack<SpikecragStaff>(w),
-                    DropHelper.WeightStack<CraniumSmasher>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<BloodflareCore>(), true, DownedBossSystem.downedProvidence);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<BloodPact>(), 3);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<FleshTotem>(), 3);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<RavagerMask>(), 7);
-            }
-
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<Vesuvius>(), !Main.expertMode, 0.1f);
 
             // Mark Ravager as dead
             DownedBossSystem.downedRavager = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<RavagerBag>()));
+
+            npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<UltimusCleaver>(),
+                    ModContent.ItemType<RealmRavager>(),
+                    ModContent.ItemType<Hematemesis>(),
+                    ModContent.ItemType<SpikecragStaff>(),
+                    ModContent.ItemType<CraniumSmasher>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Materials.
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeodeT1>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeodeT2>()));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<BloodPact>(), 3);
+                normalOnly.Add(ModContent.ItemType<FleshTotem>(), 3);
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<BloodflareCore>()));
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<RavagerMask>(), 7);
+            }
+
+            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Vesuvius>(), 10);
         }
     }
 }

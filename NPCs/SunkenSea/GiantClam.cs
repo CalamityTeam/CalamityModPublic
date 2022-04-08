@@ -19,6 +19,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+
 namespace CalamityMod.NPCs.SunkenSea
 {
     [AutoloadBossHead]
@@ -409,40 +411,39 @@ namespace CalamityMod.NPCs.SunkenSea
             Main.EntitySpriteDraw(glowmask, vector, NPC.frame, color, NPC.rotation, vector11, 1f, spriteEffects, 0);
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Spawn Amidias if he isn't in the world
-            //This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
+            // This doesn't check for Desert Scourge because Giant Clam only spawns post-Desert Scourge
             int amidiasNPC = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
             if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                NPC.NewNPC((int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SEAHOE>(), 0, 0f, 0f, 0f, 0f, 255);
-            }
-
-            // Materials
-            DropHelper.DropItem(NPC, ModContent.ItemType<Navystone>(), 25, 35);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<MolluskHusk>(), Main.hardMode, 6, 11);
-
-            // Weapons
-            if (Main.hardMode)
-            {
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<ClamCrusher>(w),
-                    DropHelper.WeightStack<ClamorRifle>(w),
-                    DropHelper.WeightStack<Poseidon>(w),
-                    DropHelper.WeightStack<ShellfishStaff>(w)
-                );
-            }
-
-            // Equipment
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<GiantPearl>(), DownedBossSystem.downedDesertScourge, 3, 1, 1);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<AmidiasPendant>(), DownedBossSystem.downedDesertScourge, 3, 1, 1);
+                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SEAHOE>(), 0, 0f, 0f, 0f, 0f, 255);
 
             // Mark Giant Clam as dead
             DownedBossSystem.downedCLAM = true;
             DownedBossSystem.downedCLAMHardMode = Main.hardMode || DownedBossSystem.downedCLAMHardMode;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            // Materials
+            npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 25, 35);
+            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<MolluskHusk>(), 1, 6, 11);
+
+            // Weapons
+            int[] weapons = new int[]
+            {
+                ModContent.ItemType<ClamCrusher>(),
+                ModContent.ItemType<ClamorRifle>(),
+                ModContent.ItemType<Poseidon>(),
+                ModContent.ItemType<ShellfishStaff>(),
+            };
+            npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+            // Equipment
+            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<GiantPearl>(), 3);
+            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<AmidiasPendant>(), 3);
         }
     }
 }

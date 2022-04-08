@@ -191,9 +191,10 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0.135f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
+            // Rarer to encourage fighting Acid Rain to obtain the fossils
+            npcLoot.Add(ModContent.ItemType<CorrodedFossil>(), 15);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

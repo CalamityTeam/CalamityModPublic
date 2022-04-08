@@ -502,23 +502,23 @@ namespace CalamityMod.NPCs.Perforator
             potionType = ItemID.HealingPotion;
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<PerforatorHeadSmall>(),
                 ModContent.NPCType<PerforatorBodySmall>(),
                 ModContent.NPCType<PerforatorTailSmall>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return false;
+            return true;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

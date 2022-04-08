@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.knockBackResist = 0.8f;
-            animationType = NPCID.Wizard;
+            AnimationType = NPCID.Wizard;
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
                 if (!Main.LocalPlayer.Calamity().GivenBrimstoneLocus)
                 {
-                    DropHelper.DropItem(NPC, ItemType<BrimstoneLocus>());
+                    Item.NewItem(NPC.GetItemSource_Loot(), NPC, ItemType<BrimstoneLocus>());
                     Main.LocalPlayer.Calamity().GivenBrimstoneLocus = true;
                 }
 

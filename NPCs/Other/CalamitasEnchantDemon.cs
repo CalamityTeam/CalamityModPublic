@@ -152,13 +152,13 @@ namespace CalamityMod.NPCs.Other
                 Utils.PoofOfSmoke(NPC.Center);
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             // Release 4 healing projectiles towards the target.
             for (int i = 0; i < 4; i++)
             {
                 Vector2 shootVelocity = NPC.SafeDirectionTo(Target.Center).RotatedByRandom(0.6f) * Main.rand.NextFloat(12f, 14f);
-                Projectile.NewProjectile(NPC.Center, shootVelocity, ModContent.ProjectileType<DemonHeal>(), 0, 0f, NPC.target);
+                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, shootVelocity, ModContent.ProjectileType<DemonHeal>(), 0, 0f, NPC.target);
             }
         }
     }

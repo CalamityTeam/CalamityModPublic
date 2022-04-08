@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Other
             bool friendly = NPC.life == 1;
             for (int i = 0; i < 6; i++)
             {
-                int demon = Projectile.NewProjectile(NPC.Center, Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SuicideBomberDemon>(), 17000, 0f, NPC.target);
+                int demon = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SuicideBomberDemon>(), 17000, 0f, NPC.target);
                 if (Main.projectile.IndexInRange(demon))
                 {
                     Main.projectile[demon].ai[1] = Main.rand.Next(-40, 0);

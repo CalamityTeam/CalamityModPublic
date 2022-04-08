@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
@@ -42,7 +43,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
         public Vector2 MoveDestination
         {
-            get => new Vector2(NPC.ai[2], NPC.ai[3]);
+            get => new(NPC.ai[2], NPC.ai[3]);
             set
             {
                 NPC.ai[2] = value.X;
@@ -211,8 +212,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
 
         public override bool CheckActive() => false;
-
-        public override bool PreNPCLoot() => false;
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
     }

@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.SulphurousSea
                 NPC.netUpdate = true;
             }
             DelegateMethods.v3_1 = Color.GreenYellow.ToVector3() * 2f;
-            Utils.PlotTileLine(NPC.Center, NPC.Center + NPC.velocity * 10f, 8f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
+            Utils.PlotTileLine(NPC.Center, NPC.Center + NPC.velocity * 10f, 8f, DelegateMethods.CastLightOpen);
             NPC.ai[0]++;
             if (NPC.ai[0] % SlowdownTime > SlowdownTime - SlowdownTime)
             {
@@ -58,10 +58,6 @@ namespace CalamityMod.NPCs.SulphurousSea
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo) => spawnInfo.Player.InSulphur() && spawnInfo.Water ? 0.4f : 0f;
-
-        public override void NPCLoot()
-        {
-        }
 
         public override void HitEffect(int hitDirection, double damage)
         {

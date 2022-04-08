@@ -472,17 +472,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             potionType = ItemID.SuperHealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ModContent.ItemType<RelicOfDeliverance>(), 4);
+            npcLoot.Add(ModContent.ItemType<ProfanedGuardianMask>(), 7);
+            npcLoot.Add(ModContent.ItemType<SamuraiBadge>(), 10);
+            npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<ProfanedCoreUnlimited>());
+            npcLoot.AddIf(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>());
+        }
+
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            // Profaned Guardians have no actual drops and no treasure bag
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<ProfanedGuardianMask>(), 7);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<RelicOfDeliverance>(), 4);
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<SamuraiBadge>(), 10);
-            DropHelper.DropItem(NPC, ModContent.ItemType<ProfanedCoreUnlimited>());
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !DownedBossSystem.downedGuardians);
 
             // Mark the Profaned Guardians as dead
             DownedBossSystem.downedGuardians = true;

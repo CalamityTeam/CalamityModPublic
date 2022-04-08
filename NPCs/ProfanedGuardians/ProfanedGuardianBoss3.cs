@@ -204,9 +204,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             return true;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<RelicOfConvergence>(), 4);
+            npcLoot.Add(ModContent.ItemType<RelicOfConvergence>(), 4);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

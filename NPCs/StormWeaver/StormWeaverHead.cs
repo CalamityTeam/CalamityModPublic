@@ -19,6 +19,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -741,53 +742,25 @@ namespace CalamityMod.NPCs.StormWeaver
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
-        public override bool SpecialNPCLoot()
+        public override bool SpecialOnKill()
         {
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<StormWeaverHead>(),
                 ModContent.NPCType<StormWeaverBody>(),
                 ModContent.NPCType<StormWeaverTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return false;
+            return true;
         }
 
-        public override void NPCLoot()
+        public static bool AtFullStrength() => !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;
+
+        public static bool LastSentinelKilled() => !DownedBossSystem.downedSignus && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedCeaselessVoid;
+
+        public override void OnKill()
         {
-            // Only drop items if fought at full strength
-            bool fullStrength = !DownedBossSystem.downedStormWeaver || CalamityWorld.DoGSecondStageCountdown <= 0;
+            bool fullStrength = AtFullStrength();
             if (fullStrength)
-            {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-                DropHelper.DropBags(NPC);
-
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<WeaverTrophy>(), 10);
-                bool lastSentinelKilled = DownedBossSystem.downedCeaselessVoid && !DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-
-                if (!Main.expertMode)
-                {
-                    // Materials
-                    DropHelper.DropItem(NPC, ModContent.ItemType<ArmoredShell>(), true, 5, 8);
-
-                    // Weapons
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<TheStorm>(), 4);
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<StormDragoon>(), 4);
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<Thunderstorm>(), 10);
-
-                    // Vanity
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<StormWeaverMask>(), 7);
-
-                    // Light pet.
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<LittleLight>(), 10);
-                    if (Main.rand.NextBool(20))
-                    {
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerHelm>());
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
-                    }
-                }
-            }
 
             // If DoG's fight is active, set the timer for Signus' phase
             if (CalamityWorld.DoGSecondStageCountdown > 7260)
@@ -802,11 +775,37 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
-            // Mark Storm Weaver as dead
+            // Mark Ceaseless Void as dead
             if (fullStrength)
             {
                 DownedBossSystem.downedStormWeaver = true;
                 CalamityNetcode.SyncWorld();
+            }
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<StormWeaverBag>()));
+            npcLoot.AddIf(AtFullStrength, ModContent.ItemType<WeaverTrophy>(), 10);
+            npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
+            {
+                // Weapons
+                normalOnly.Add(ModContent.ItemType<TheStorm>(), 4);
+                normalOnly.Add(ModContent.ItemType<StormDragoon>(), 4);
+                normalOnly.Add(ModContent.ItemType<TheStorm>(), 10);
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<ArmoredShell>(), 1, 5, 8);
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<StormWeaverMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<LittleLight>(), 10);
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
         }
 

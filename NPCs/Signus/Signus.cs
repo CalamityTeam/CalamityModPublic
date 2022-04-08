@@ -21,6 +21,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
+
 namespace CalamityMod.NPCs.Signus
 {
     [AutoloadBossHead]
@@ -70,7 +72,6 @@ namespace CalamityMod.NPCs.Signus
             NPC.netAlways = true;
             NPC.HitSound = SoundID.NPCHit49;
             NPC.DeathSound = SoundID.NPCDeath51;
-            bossBag = ModContent.ItemType<SignusBag>();
             NPC.Calamity().VulnerableToSickness = false;
         }
 
@@ -199,7 +200,7 @@ namespace CalamityMod.NPCs.Signus
 
                 NPC.knockBackResist = 0.05f;
                 if (expertMode)
-                    NPC.knockBackResist *= Main.expertKnockBack;
+                    NPC.knockBackResist *= Main.RegisteredGameModes[GameModeID.Expert].KnockbackToEnemiesMultiplier;
                 if (phase3 || revenge)
                     NPC.knockBackResist = 0f;
 
@@ -749,42 +750,15 @@ namespace CalamityMod.NPCs.Signus
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
-        public override void NPCLoot()
+        public static bool AtFullStrength() => !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;
+
+        public static bool LastSentinelKilled() => !DownedBossSystem.downedSignus && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedCeaselessVoid;
+
+        public override void OnKill()
         {
-            // Only drop items if fought at full strength
-            bool fullStrength = !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;
+            bool fullStrength = AtFullStrength();
             if (fullStrength)
-            {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-                DropHelper.DropBags(NPC);
-
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<SignusTrophy>(), 10);
-                bool lastSentinelKilled = DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && !DownedBossSystem.downedSignus;
-                DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeSentinels>(), true, lastSentinelKilled);
-
-                if (!Main.expertMode)
-                {
-                    // Materials
-                    DropHelper.DropItem(NPC, ModContent.ItemType<TwistingNether>(), true, 2, 3);
-
-                    // Weapons
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<CosmicKunai>(), 4);
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<Cosmilamp>(), 4);
-
-                    // Equipment
-                    DropHelper.DropItem(NPC, ModContent.ItemType<SpectralVeil>(), true);
-
-                    // Vanity
-                    DropHelper.DropItemChance(NPC, ModContent.ItemType<SignusMask>(), 7);
-                    if (Main.rand.NextBool(20))
-                    {
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerHelm>());
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerChestplate>());
-                        DropHelper.DropItem(NPC, ModContent.ItemType<AncientGodSlayerLeggings>());
-                    }
-                }
-            }
 
             // If DoG's fight is active, set the timer precisely for DoG phase 2 to spawn
             if (CalamityWorld.DoGSecondStageCountdown > 600)
@@ -797,17 +771,44 @@ namespace CalamityMod.NPCs.Signus
                     netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                     netMessage.Send();
                 }
-
-                // Mark DoG fight sentinels as dead
-                DownedBossSystem.downedSecondSentinels = true;
-                CalamityNetcode.SyncWorld();
             }
 
-            // Mark Signus as dead
+            // Mark Ceaseless Void as dead
             if (fullStrength)
             {
                 DownedBossSystem.downedSignus = true;
                 CalamityNetcode.SyncWorld();
+            }
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<SignusBag>()));
+            npcLoot.AddIf(AtFullStrength, ModContent.ItemType<SignusTrophy>(), 10);
+            npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<CosmicKunai>(),
+                    ModContent.ItemType<Cosmilamp>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<TwistingNether>(), 1, 2, 3);
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<SpectralVeil>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerHelm>(), 20).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
+                    OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
         }
 

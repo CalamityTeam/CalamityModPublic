@@ -185,11 +185,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
         public override void OnKill()
         {
             bool fullStrength = AtFullStrength();
-
             if (fullStrength)
-            {
                 CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-            }
 
             // If DoG's fight is active, set the timer for the remaining two sentinels
             if (CalamityWorld.DoGSecondStageCountdown > 14460)
@@ -219,7 +216,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
 
             // Normal drops: Everything that would otherwise be in the bag
-            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
             {
                 // Weapons
                 int[] weapons = new int[]

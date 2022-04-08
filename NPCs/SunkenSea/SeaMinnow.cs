@@ -131,18 +131,6 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
                 int num258 = (int)(NPC.position.X + (float)(NPC.width / 2)) / 16;
                 int num259 = (int)(NPC.position.Y + (float)(NPC.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
                 if (Main.tile[num258, num259 - 1].LiquidAmount > 128)
                 {
                     if (Main.tile[num258, num259 + 1].HasTile)

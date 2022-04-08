@@ -93,9 +93,9 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemChance(NPC, ItemID.DivingHelmet, 20);
+            npcLoot.Add(ItemID.DivingHelmet, 20);
         }
 
         public override void HitEffect(int hitDirection, double damage)

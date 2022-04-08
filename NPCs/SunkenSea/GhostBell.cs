@@ -158,10 +158,10 @@ namespace CalamityMod.NPCs.SunkenSea
             }
         }
 
-        public override void NPCLoot()
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<VoltaicJelly>(), DownedBossSystem.downedDesertScourge, 0.2f);
-            DropHelper.DropItemChance(NPC, ItemID.JellyfishNecklace, 0.01f);
+            npcLoot.Add(ItemID.JellyfishNecklace, 100);
+            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<VoltaicJelly>(), 5);
         }
     }
 }

@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 };
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
-                // Equipment
+                // Vanity
                 normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
 
                 // Other
