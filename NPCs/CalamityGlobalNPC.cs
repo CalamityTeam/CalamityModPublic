@@ -158,9 +158,6 @@ namespace CalamityMod.NPCs
         // Town NPC Patreon
         public bool setNewName = true;
 
-        // Draedons Remote
-        public static bool DraedonMayhem = false;
-
         // Stuff used by the Boss Health UI
         public bool SplittingWorm = false;
         public bool CanHaveBossHealthBar = false;
@@ -881,9 +878,6 @@ namespace CalamityMod.NPCs
 
             BossValueChanges(npc);
 
-            if (DraedonMayhem)
-                DraedonMechaMayhemStatChanges(npc);
-
             if (CalamityWorld.revenge)
                 RevDeathStatChanges(npc, Mod);
 
@@ -1057,45 +1051,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Draedon Mecha Mayhem Stat Changes
-        private void DraedonMechaMayhemStatChanges(NPC npc)
-        {
-            switch (npc.type)
-            {
-                case NPCID.TheDestroyer:
-                case NPCID.TheDestroyerBody:
-                case NPCID.TheDestroyerTail:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.8);
-                    npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
-                    npc.npcSlots = 10f;
-                    break;
-
-                case NPCID.Probe:
-                    npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.death ? 3.2 : 1.6));
-                    npc.scale = CalamityWorld.death ? 2f : 1.2f;
-                    break;
-
-                case NPCID.SkeletronPrime:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.45);
-                    npc.npcSlots = 12f;
-                    break;
-
-                case NPCID.PrimeVice:
-                case NPCID.PrimeCannon:
-                case NPCID.PrimeSaw:
-                case NPCID.PrimeLaser:
-                    npc.lifeMax = (int)(npc.lifeMax * 0.8);
-                    break;
-
-                case NPCID.Retinazer:
-                case NPCID.Spazmatism:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.8);
-                    npc.npcSlots = 10f;
-                    break;
-            }
-        }
-        #endregion
-
         #region Revengeance and Death Mode Stat Changes
         private void RevDeathStatChanges(NPC npc, Mod mod)
         {
@@ -1222,35 +1177,32 @@ namespace CalamityMod.NPCs
                 npc.knockBackResist = 0f;
             }
 
-            if (!DraedonMayhem)
+            if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
-                if (CalamityLists.DestroyerIDs.Contains(npc.type))
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                    npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
-                    npc.npcSlots = 10f;
-                }
-                else if (npc.type == NPCID.Probe)
-                {
-                    if (CalamityWorld.death)
-                        npc.lifeMax = (int)(npc.lifeMax * 2.0);
+                npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
+                npc.npcSlots = 10f;
+            }
+            else if (npc.type == NPCID.Probe)
+            {
+                if (CalamityWorld.death)
+                    npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                    npc.scale = CalamityWorld.death ? 2f : 1.2f;
-                }
-                else if (npc.type == NPCID.SkeletronPrime)
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.2);
-                    npc.npcSlots = 12f;
-                }
-                else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 0.65);
-                }
-                else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.2);
-                    npc.npcSlots = 10f;
-                }
+                npc.scale = CalamityWorld.death ? 2f : 1.2f;
+            }
+            else if (npc.type == NPCID.SkeletronPrime)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 12f;
+            }
+            else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 0.65);
+            }
+            else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 10f;
             }
 
             if (CalamityLists.revengeanceLifeStealExceptionList.Contains(npc.type))
@@ -3922,13 +3874,13 @@ namespace CalamityMod.NPCs
             if (cgp.canSupercrit)
             {
                 int critOver100 = 0;
-                if (projectile.melee)
+                if (projectile.DamageType == DamageClass.Melee)
                     critOver100 = player.GetCritChance(DamageClass.Melee) - 100;
-                else if (projectile.ranged)
+                else if (projectile.DamageType == DamageClass.Ranged)
                     critOver100 = player.GetCritChance(DamageClass.Ranged) - 100;
-                else if (projectile.magic)
+                else if (projectile.DamageType == DamageClass.Magic)
                     critOver100 = player.GetCritChance(DamageClass.Magic) - 100;
-                else if (projectile.thrown) // Also covers rogue
+                else if (projectile.DamageType == DamageClass.Throwing) // Also covers rogue
                     critOver100 = player.GetCritChance(DamageClass.Throwing) - 100;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
