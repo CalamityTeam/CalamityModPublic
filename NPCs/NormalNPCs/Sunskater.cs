@@ -211,11 +211,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             player.AddBuff(ModContent.BuffType<HolyFlames>(), 120, true);
         }
 
-        public override void NPCLoot()
-        {
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 3, 1, 1);
-        }
-
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofCinder>(), 3);

@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.SlimeGod
             int frameY = 1;
             if (!Main.dedServ)
             {
-                if (!Main.NPCLoaded[NPC.type] || TextureAssets.Npc[NPC.type].Value is null)
+                if (TextureAssets.Npc[NPC.type].Value is null)
                     return;
                 frameY = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             }
@@ -143,18 +143,19 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
+        }
 
-            DropHelper.DropItemChance(NPC, ItemID.Blindfold, Main.expertMode ? 50 : 100);
-
-            return false;
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemID.Blindfold, 50);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

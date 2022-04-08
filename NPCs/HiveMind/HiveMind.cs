@@ -21,15 +21,16 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 /* states:
- * 0 = slow drift
- * 1 = reelback and teleport after spawn enemy
- * 2 = reelback for spin lunge + death legacy
- * 3 = spin lunge
- * 4 = semicircle spawn arc
- * 5 = raindash
- * 6 = deceleration
- */
+* 0 = slow drift
+* 1 = reelback and teleport after spawn enemy
+* 2 = reelback for spin lunge + death legacy
+* 3 = spin lunge
+* 4 = semicircle spawn arc
+* 5 = raindash
+* 6 = deceleration
+*/
 
 namespace CalamityMod.NPCs.HiveMind
 {
@@ -107,7 +108,6 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("HiveMind") ?? MusicID.Boss2;
-            bossBag = ModContent.ItemType<HiveMindBag>();
 
             if (Main.expertMode)
             {
@@ -549,15 +549,10 @@ namespace CalamityMod.NPCs.HiveMind
                         int tilePosX = (int)NPC.Center.X / 16;
                         int tilePosY = (int)(NPC.position.Y + NPC.height) / 16 + 1;
 
-                        if (Main.tile[tilePosX, tilePosY] == null)
-                            Main.tile[tilePosX, tilePosY] = new Tile();
-
                         while (!(Main.tile[tilePosX, tilePosY].HasUnactuatedTile && Main.tileSolid[Main.tile[tilePosX, tilePosY].TileType]))
                         {
                             tilePosY++;
                             NPC.position.Y += 16;
-                            if (Main.tile[tilePosX, tilePosY] == null)
-                                Main.tile[tilePosX, tilePosY] = new Tile();
                         }
                     }
                     NPC.netUpdate = true;
@@ -1010,7 +1005,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2)
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                    NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
+                    NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
                 }
             }
             else
@@ -1020,13 +1015,13 @@ namespace CalamityMod.NPCs.HiveMind
                     if (Main.rand.NextBool(60) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                        NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
+                        NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
                     }
 
                     if (Main.rand.NextBool(150) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                        NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
+                        NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
                     }
                 }
             }
@@ -1072,48 +1067,9 @@ namespace CalamityMod.NPCs.HiveMind
             potionType = ItemID.HealingPotion;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            DropHelper.DropBags(NPC);
-
-            DropHelper.DropItemChance(NPC, ModContent.ItemType<HiveMindTrophy>(), 10);
-            DropHelper.DropItemCondition(NPC, ModContent.ItemType<KnowledgeHiveMind>(), true, !DownedBossSystem.downedHiveMind);
-
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, DownedBossSystem.downedHiveMind);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemSpray(NPC, ModContent.ItemType<TrueShadowScale>(), 25, 30, 5);
-                DropHelper.DropItemSpray(NPC, ItemID.DemoniteBar, 8, 12, 2);
-                DropHelper.DropItemSpray(NPC, ItemID.RottenChunk, 9, 15, 3);
-                if (Main.hardMode)
-                    DropHelper.DropItemSpray(NPC, ItemID.CursedFlame, 10, 20, 2);
-                DropHelper.DropItem(NPC, ItemID.CorruptSeeds, 10, 15);
-
-                // Weapons
-                float w = DropHelper.NormalWeaponDropRateFloat;
-                DropHelper.DropEntireWeightedSet(NPC,
-                    DropHelper.WeightStack<PerfectDark>(w),
-                    DropHelper.WeightStack<LeechingDagger>(w),
-                    DropHelper.WeightStack<Shadethrower>(w),
-                    DropHelper.WeightStack<ShadowdropStaff>(w),
-                    DropHelper.WeightStack<ShaderainStaff>(w),
-                    DropHelper.WeightStack<DankStaff>(w),
-                    DropHelper.WeightStack<RotBall>(w, 30, 50),
-                    DropHelper.WeightStack<FilthyGlove>(w)
-                );
-
-                // Equipment
-                DropHelper.DropItem(NPC, ModContent.ItemType<RottenBrain>(), true);
-
-                // Vanity
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<HiveMindMask>(), 7);
-                DropHelper.DropItemChance(NPC, ModContent.ItemType<RottingEyeball>(), 10);
-            }
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
             if (!DownedBossSystem.downedHiveMind && !DownedBossSystem.downedPerforator)
@@ -1128,6 +1084,47 @@ namespace CalamityMod.NPCs.HiveMind
             // Mark The Hive Mind as dead
             DownedBossSystem.downedHiveMind = true;
             CalamityNetcode.SyncWorld();
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<HiveMindBag>()));
+
+            npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
+            npcLoot.AddIf(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
+
+            // Normal drops: Everything that would otherwise be in the bag
+            var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            {
+                // Weapons
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<PerfectDark>(),
+                    ModContent.ItemType<LeechingDagger>(),
+                    ModContent.ItemType<SausageMaker>(),
+                    ModContent.ItemType<Shadethrower>(),
+                    ModContent.ItemType<ShadowdropStaff>(),
+                    ModContent.ItemType<ShaderainStaff>(),
+                    ModContent.ItemType<DankStaff>(),
+                    ModContent.ItemType<FilthyGlove>(),
+                };
+                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(ModContent.ItemType<RotBall>(), 1, 30, 50);
+
+                // Materials
+                normalOnly.Add(ItemID.DemoniteBar, 1, 12, 15);
+                normalOnly.Add(ItemID.RottenChunk, 1, 12, 15);
+                normalOnly.Add(ItemID.CorruptSeeds, 1, 12, 15);
+                normalOnly.Add(ModContent.ItemType<TrueShadowScale>(), 1, 25, 30);
+                normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.CursedFlame, 1, 10, 20));
+
+                // Equipment
+                normalOnly.Add(ModContent.ItemType<RottenBrain>());
+
+                // Vanity
+                normalOnly.Add(ModContent.ItemType<HiveMindMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<RottingEyeball>(), 10);
+            }
         }
     }
 }

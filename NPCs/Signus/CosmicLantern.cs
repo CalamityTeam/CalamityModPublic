@@ -139,8 +139,6 @@ namespace CalamityMod.NPCs.Signus
             return false;
         }
 
-        public override bool PreNPCLoot() => false;
-
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;

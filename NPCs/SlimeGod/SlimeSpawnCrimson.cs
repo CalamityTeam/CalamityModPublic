@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.lifeMax = 10000;
             }
             NPC.knockBackResist = 0f;
-            animationType = NPCID.CorruptSlime;
+            AnimationType = NPCID.CorruptSlime;
             NPC.alpha = 55;
             NPC.lavaImmune = false;
             NPC.noGravity = false;
@@ -54,18 +54,19 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override bool PreNPCLoot()
+        public override void OnKill()
         {
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
+        }
 
-            DropHelper.DropItemChance(NPC, ItemID.Blindfold, Main.expertMode ? 50 : 100);
-
-            return false;
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            npcLoot.Add(ItemID.Blindfold, 50);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

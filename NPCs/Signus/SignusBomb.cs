@@ -199,8 +199,6 @@ namespace CalamityMod.NPCs.Signus
             return false;
         }
 
-        public override bool PreNPCLoot() => false;
-
         public override bool CheckDead()
         {
             SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);

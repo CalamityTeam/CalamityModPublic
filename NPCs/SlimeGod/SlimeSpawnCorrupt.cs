@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.lifeMax = 10000;
             }
             NPC.knockBackResist = 0f;
-            animationType = 121;
+            AnimationType = 121;
             NPC.alpha = 55;
             NPC.lavaImmune = false;
             NPC.noGravity = false;
@@ -39,14 +39,12 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.Calamity().VulnerableToSickness = false;
         }
 
-        public override bool PreNPCLoot() => false;
-
         public override void HitEffect(int hitDirection, double damage)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0)
             {
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
-                NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<SlimeSpawnCorrupt2>());
+                NPC.NewNPC(NPC.GetItemSource_Loot(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<SlimeSpawnCorrupt2>());
             }
             for (int k = 0; k < 5; k++)
             {
