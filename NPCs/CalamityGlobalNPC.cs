@@ -3919,7 +3919,7 @@ namespace CalamityMod.NPCs
             bool hitBullseye = false;
             bool acceptableVelocity = projectile.velocity != Vector2.Zero;
             bool acceptableHitbox = (projectile.width < 36) || (projectile.height < 36);
-            if (bullseye != null && projectile.ranged && acceptableVelocity && acceptableHitbox)
+            if (bullseye != null && projectile.DamageType == DamageClass.Ranged && acceptableVelocity && acceptableHitbox)
             {
                 if (bullseye != null)
                 {
@@ -3972,12 +3972,12 @@ namespace CalamityMod.NPCs
 
             if (!projectile.npcProj && !projectile.trap)
             {
-                if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
+                if (projectile.DamageType == DamageClass.Ranged && modPlayer.plagueReaper && pFlames > 0)
                     damage = (int)(damage * 1.1);
             }
 
             // Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
-            if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.ranged)
+            if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.DamageType == DamageClass.Ranged)
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
