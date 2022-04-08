@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hood of Calamity");
+            ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
 
         public override void SetDefaults()
@@ -21,7 +22,5 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.Calamity().donorItem = true;
             Item.value = Item.sellPrice(gold: 2);
         }
-
-        public override bool DrawHead() => false;
     }
 }
