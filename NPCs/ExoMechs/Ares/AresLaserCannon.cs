@@ -630,7 +630,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             spriteBatch.Draw(glowTexture, center, frame, afterimageBaseColor * NPC.Opacity, NPC.rotation, vector, NPC.scale, spriteEffects, 0f);
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             //Update the parameters
 
 
@@ -657,7 +657,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
             //Back to normal
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }
@@ -666,8 +666,6 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         {
             Main.instance.DrawCacheNPCProjectiles.Add(index);
         }
-
-        public override bool PreNPCLoot() => false;
 
         public override void HitEffect(int hitDirection, double damage)
         {

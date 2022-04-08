@@ -318,7 +318,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     MeatHook = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
                 }
 
-                secondaryAttunement.PassiveEffect(player, ref UseTimer, ref OnHitProc, MeatHook);
+                secondaryAttunement.PassiveEffect(player, source, ref UseTimer, ref OnHitProc, MeatHook);
             }
 
 

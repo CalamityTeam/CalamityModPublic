@@ -12,9 +12,9 @@ namespace CalamityMod.Projectiles.Magic
         public override float MaxLaserLength => 1200f;
         public override float Lifetime => 30f;
         public override Color LightCastColor => Color.White;
-        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart");
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid");
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd");
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart").Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid").Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd").Value;
 
         public ref float ShardCooldown => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
@@ -78,8 +78,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            DrawBeamWithColor(spriteBatch, Color.Lime * 1.1f, Projectile.scale);
-            DrawBeamWithColor(spriteBatch, Color.Yellow * 1.1f, Projectile.scale * 0.5f);
+            DrawBeamWithColor(Color.Lime * 1.1f, Projectile.scale);
+            DrawBeamWithColor(Color.Yellow * 1.1f, Projectile.scale * 0.5f);
             return false;
         }
 

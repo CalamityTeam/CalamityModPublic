@@ -281,7 +281,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int powerLungeCounter = 0; //Unused here
             ComboResetTimer = 1f;
-            return mainAttunement.Shoot(player, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback, ref Combo, ref CanLunge, ref powerLungeCounter);
+            return mainAttunement.Shoot(player, source, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback, ref Combo, ref CanLunge, ref powerLungeCounter);
         }
 
         internal static ChargingEnergyParticleSet BiomeEnergyParticles = new ChargingEnergyParticleSet(-1, 2, Color.DarkViolet, Color.White, 0.04f, 20f);

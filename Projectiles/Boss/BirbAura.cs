@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.localAI[1] = MathHelper.Lerp(Projectile.localAI[1], num807, amount);
 
             DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CastLight);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             Vector2 unit = Projectile.velocity;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Projectile.localAI[1], Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + unit * Projectile.localAI[1], Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

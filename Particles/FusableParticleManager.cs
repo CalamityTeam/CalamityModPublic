@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -126,7 +126,7 @@ namespace CalamityMod.Particles
                 List<RenderTarget2D> backgroundTargets = particleSet.GetBackgroundTargets;
 
                 // Restart the sprite batch. This must be done with an immediate sort mode since a shader is going to be applied.
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
                 for (int j = 0; j < particleSet.LayerCount; j++)
                 {

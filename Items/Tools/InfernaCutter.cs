@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Tools
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void GetWeaponCrit(Player player, ref int crit) => crit += 10;
+        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 10;
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
@@ -120,7 +120,8 @@ namespace CalamityMod.Items.Tools
                     num340 *= 1.5f;
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
-                    int spark = Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, (int)(Item.damage * 0.2f * player.MeleeDamage()), 0f, player.whoAmI);
+                    var source = player.GetProjectileSource_Item(Item);
+                    int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, (int)(Item.damage * 0.2f * player.MeleeDamage()), 0f, player.whoAmI);
                     if (spark.WithinBounds(Main.maxProjectiles))
                         Main.projectile[spark].Calamity().forceMelee = true;
                 }
@@ -136,7 +137,8 @@ namespace CalamityMod.Items.Tools
             if (crit)
             {
                 damage /= 2;
-                int boom = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                var source = player.GetProjectileSource_Item(Item);
+                int boom = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (boom.WithinBounds(Main.maxProjectiles))
                     Main.projectile[boom].Calamity().forceMelee = true;
             }

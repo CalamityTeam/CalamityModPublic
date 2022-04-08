@@ -232,7 +232,7 @@ namespace CalamityMod.Projectiles.Melee
             float num5 = 60f;
             float f = Projectile.rotation - MathHelper.PiOver4 * (float)Math.Sign(Projectile.velocity.X);
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * -num5, Projectile.Center + f.ToRotationVector2() * num5, (float)Projectile.width * Projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(Projectile.Center + f.ToRotationVector2() * -num5, Projectile.Center + f.ToRotationVector2() * num5, (float)Projectile.width * Projectile.scale, DelegateMethods.CutTiles);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

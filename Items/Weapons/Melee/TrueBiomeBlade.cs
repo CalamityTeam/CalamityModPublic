@@ -313,7 +313,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 return false;
 
             ComboResetTimer = 1f;
-            return mainAttunement.Shoot(player, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback, ref Combo, ref StoredLunges, ref PowerLungeCounter);
+            return mainAttunement.Shoot(player, source, ref position, ref velocity.X, ref velocity.Y, ref type, ref damage, ref knockback, ref Combo, ref StoredLunges, ref PowerLungeCounter);
         }
 
 

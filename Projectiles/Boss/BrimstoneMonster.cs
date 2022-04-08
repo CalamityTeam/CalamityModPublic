@@ -180,10 +180,10 @@ namespace CalamityMod.Projectiles.Boss
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300, true);
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindProjectiles.Add(index);
-            drawCacheProjsBehindNPCs.Add(index);
+            behindProjectiles.Add(index);
+            behindNPCs.Add(index);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
