@@ -2273,18 +2273,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Extraneous potions
             npcLoot.Add(DropHelper.PerPlayer(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15));
 
-            // Trophy (always directly from boss, never in bag)
-            npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
-
             // Fabsol Mount
-            npcLoot.AddIf(() =>
-            {
-                CalamityPlayer mp = Main.player[Player.FindClosest(NPC.position, NPC.width, NPC.height)].Calamity();
-                return mp.vodka;
-            }, ModContent.ItemType<Fabsol>());
+            npcLoot.AddIf((info) => info.player.Calamity().fabsolVodka, ModContent.ItemType<Fabsol>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -2299,7 +2289,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                     ModContent.ItemType<StaffoftheMechworm>(),
                     ModContent.ItemType<Eradicator>()
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<CosmicDischarge>(), 10);
+                normalOnly.Add(ModContent.ItemType<Norfleet>(), 10);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<DevourerofGodsMask>(), 7);
@@ -2312,8 +2304,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<NebulousCore>()));
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Norfleet>(), 10);
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<CosmicDischarge>(), 10);
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
         }
 
         // Can only hit the target if within certain distance
