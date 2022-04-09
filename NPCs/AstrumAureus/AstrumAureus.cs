@@ -328,7 +328,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     ModContent.ItemType<BorealisBomber>(),
                     ModContent.ItemType<AuroradicalThrow>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
@@ -338,10 +338,10 @@ namespace CalamityMod.NPCs.AstrumAureus
 
                 // Other
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AstralJelly>(), 1, 9, 12));
-            }
+                normalOnly.Add(ModContent.ItemType<LeonidProgenitor>(), 10);
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LeonidProgenitor>(), 10);
-            npcLoot.AddIf(() => !Main.expertMode && NPC.downedMoonlord, ModContent.ItemType<SquishyBeanMount>());
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => NPC.downedMoonlord), ModContent.ItemType<SquishyBeanMount>()));
+            }
 
             npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
 
