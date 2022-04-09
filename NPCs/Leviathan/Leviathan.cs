@@ -703,23 +703,25 @@ namespace CalamityMod.NPCs.Leviathan
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnKill()
+        public static void RealOnKill(NPC npc)
         {
-            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
 
-            // Mark Siren & Levi as dead
+            // Mark Anahita & Leviathan as dead
             DownedBossSystem.downedLeviathan = true;
             CalamityNetcode.SyncWorld();
         }
 
-        public static bool LastAnLStanding(DropAttemptInfo info)
+        public override void OnKill()
         {
-            NPC npc = info.npc;
-            if (npc.type == ModContent.NPCType<Siren>() && !NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
-                return true;
-            if (npc.type == ModContent.NPCType<Leviathan>() && !NPC.AnyNPCs(ModContent.NPCType<Siren>()))
-                return true;
-            return false;
+            if (LastAnLStanding())
+                RealOnKill(NPC);
+        }
+
+        public static bool LastAnLStanding()
+        {
+            int count = NPC.CountNPCS(ModContent.NPCType<Siren>()) + NPC.CountNPCS(ModContent.NPCType<Leviathan>());
+            return count <= 1;
         }
 
         public static void DefineAnahitaLeviathanLoot(NPCLoot npcLoot)
@@ -762,7 +764,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             // Lore
-            bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding(info);
+            bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();
             npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>());
             npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanandSiren>());
         }

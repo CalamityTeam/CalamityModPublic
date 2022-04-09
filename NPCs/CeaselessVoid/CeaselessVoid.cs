@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(DropHelper.If(AtFullStrength));
+            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(AtFullStrength);
             fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<CeaselessVoidBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
