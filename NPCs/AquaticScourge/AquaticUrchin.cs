@@ -78,9 +78,9 @@ namespace CalamityMod.NPCs.AquaticScourge
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticUrchin").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticUrchin2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticUrchin3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("AquaticUrchin").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("AquaticUrchin2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("AquaticUrchin3").Type, 1f);
                 }
             }
         }

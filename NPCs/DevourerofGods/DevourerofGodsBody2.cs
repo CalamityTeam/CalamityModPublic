@@ -190,10 +190,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/DoT2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/DoT3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/DoT4").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/DoT5").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoT2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoT3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoT4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoT5").Type, 1f);
                 }
                 NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);

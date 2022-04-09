@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
+using ReLogic.Content;
+
 namespace CalamityMod.Projectiles.Summon
 {
     // TODO -- Make this use BaseLaserbeamProjectile
@@ -151,9 +153,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return false;
             }
-            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AndromedaDeathrayBegin").Value;
-            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AndromedaDeathrayMid").Value;
-            Texture2D laserHeadTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AndromedaDeathrayEnd").Value;
+            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AndromedaDeathrayBegin", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AndromedaDeathrayMid", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D laserHeadTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AndromedaDeathrayEnd", AssetRequestMode.ImmediateLoad).Value;
             float laserLength = Projectile.localAI[1];
             Color drawColor = new Color(1f, 1f, 1f) * 0.9f;
 

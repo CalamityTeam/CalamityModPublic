@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,9 +20,9 @@ namespace CalamityMod.Projectiles.Ranged
         public override float Lifetime => 50f;
         public override Color LaserOverlayColor => Color.White;
         public override Color LightCastColor => LaserOverlayColor;
-        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/PrismLaserStart").Value;
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/PrismLaserMid").Value;
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/PrismLaserEnd").Value;
+        public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/PrismLaserStart", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/PrismLaserMid", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/PrismLaserEnd", AssetRequestMode.ImmediateLoad).Value;
 
         public override void SetStaticDefaults()
         {

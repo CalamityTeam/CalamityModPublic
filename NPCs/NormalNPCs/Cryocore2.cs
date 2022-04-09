@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Cryocore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Cryocore2").Type, 1f);
                 }
             }
         }

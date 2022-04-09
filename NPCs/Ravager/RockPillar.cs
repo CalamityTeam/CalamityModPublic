@@ -170,12 +170,12 @@ namespace CalamityMod.NPCs.Ravager
                     for (int i = 0; i < 2; i++)
                     {
                         Vector2 randomVelocity = NPC.velocity * Main.rand.NextFloat() * randomVelocityScale;
-                        Gore.NewGore(NPC.position, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar").Type, 1f);
-                        Gore.NewGore(NPC.position + Vector2.UnitY * y, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar2").Type, 1f);
-                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 2f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar3").Type, 1f);
-                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 3f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar4").Type, 1f);
-                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 4f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar5").Type, 1f);
-                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 5f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("Gores/ScavengerGores/RockPillar6").Type, 1f);
+                        Gore.NewGore(NPC.position, NPC.velocity + randomVelocity, Mod.Find<ModGore>("RockPillar").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y, NPC.velocity + randomVelocity, Mod.Find<ModGore>("RockPillar2").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 2f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("RockPillar3").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 3f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("RockPillar4").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 4f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("RockPillar5").Type, 1f);
+                        Gore.NewGore(NPC.position + Vector2.UnitY * y * 5f, NPC.velocity + randomVelocity, Mod.Find<ModGore>("RockPillar6").Type, 1f);
                     }
                 }
             }

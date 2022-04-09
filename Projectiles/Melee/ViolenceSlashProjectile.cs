@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Melee
             if (SliceAfterimageDrawer is null)
                 SliceAfterimageDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"]);
 
-            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture").Value);
+            GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/SwordSlashTexture"));
 
             Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
 

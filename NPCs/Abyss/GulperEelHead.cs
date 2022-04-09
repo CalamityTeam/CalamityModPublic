@@ -363,7 +363,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/GulperEel").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("GulperEel").Type, 1f);
                 }
             }
         }

@@ -227,7 +227,7 @@ namespace CalamityMod.Localization
             Load();
             foreach (string[] localization in _localizations)
             {
-                ModTranslation text = LocalizationLoader.CreateTranslation(localization[0]);
+                ModTranslation text = LocalizationLoader.CreateTranslation($"Mods.{CalamityMod.Instance.Name}.{localization[0]}");
                 text.SetDefault(localization[1]);
                 LocalizationLoader.AddTranslation(text);
             }

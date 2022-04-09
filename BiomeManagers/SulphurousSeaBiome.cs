@@ -12,8 +12,8 @@ namespace CalamityMod.BiomeManagers
 {
     public class SulphurousSeaBiome : ModBiome
     {
-        public override ModWaterStyle WaterStyle => ModContent.Find<SulphuricWater>("CalamityMod/Waters/SulphuricWater");
-        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<SulphurSeaSurfaceBGStyle>("CalamityMod/Backgrounds/SulphurSeaSurfaceBGStyle");
+        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater");
+        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/SulphurSeaSurfaceBGStyle");
 
         public override int Music
         {

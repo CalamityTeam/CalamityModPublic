@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;
             player.aggro += 800;
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "Enemies are more likely to target you\n" +

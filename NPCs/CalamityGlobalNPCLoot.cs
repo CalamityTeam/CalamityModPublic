@@ -892,7 +892,7 @@ namespace CalamityMod.NPCs
                     npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.HallowedBar);
 
                     // Define a replacement rule which respects the Early Hardmode Progression Rework.
-                    npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 15, 30));
+                    npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 15, 30));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.MechanicalWagonPiece);
@@ -921,7 +921,7 @@ namespace CalamityMod.NPCs
                         }
 
                         // Define a replacement rule which respects the Early Hardmode Progression Rework.
-                        npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 15, 30));
+                        npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 15, 30));
                     }
                     catch (ArgumentNullException) { }
 
@@ -939,7 +939,7 @@ namespace CalamityMod.NPCs
                     npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.HallowedBar);
 
                     // Define a replacement rule which respects the Early Hardmode Progression Rework.
-                    npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 15, 30));
+                    npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 15, 30));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.MechanicalBatteryPiece);

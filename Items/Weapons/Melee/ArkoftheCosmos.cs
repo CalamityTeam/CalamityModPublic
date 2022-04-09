@@ -188,7 +188,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            (clone as ArkoftheCosmos).Charge = (item.ModItem as ArkoftheCosmos).Charge;
+            if (clone is ArkoftheCosmos a && item.ModItem is ArkoftheCosmos a2)
+                a.Charge = a2.Charge;
 
             return clone;
         }

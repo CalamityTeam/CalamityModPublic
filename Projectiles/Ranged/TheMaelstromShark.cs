@@ -71,9 +71,9 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.NPCDeath1, Projectile.Center);
             if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/MaelstromReaperShark1").Type, Projectile.scale);
-                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/MaelstromReaperShark2").Type, Projectile.scale);
-                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/MaelstromReaperShark3").Type, Projectile.scale);
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("MaelstromReaperShark1").Type, Projectile.scale);
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("MaelstromReaperShark2").Type, Projectile.scale);
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("MaelstromReaperShark3").Type, Projectile.scale);
             }
             for (int i = 0; i < 12; i++)
             {
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (LightningTrailDrawer is null)
                 LightningTrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak").Value);
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/ScarletDevilStreak"));
             LightningTrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 60);
             Main.EntitySpriteDraw(texture, drawPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, direction, 0);
             return false;

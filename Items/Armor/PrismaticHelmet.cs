@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
             player.statManaMax2 += 40;
             player.manaCost *= 0.85f;
             player.manaRegenBonus += 8;
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "+40 max mana and 15% reduced mana cost\n" +
                 "Increased mana regeneration rate\n" +
                 "Press " + hotkey + " to unleash a barrage of death lasers at the cursor for the next 5 seconds\n" +

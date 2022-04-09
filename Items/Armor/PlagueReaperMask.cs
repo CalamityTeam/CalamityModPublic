@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
                 "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
                 "Getting hit causes plague cinders to rain from above\n" +

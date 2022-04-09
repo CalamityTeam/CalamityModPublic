@@ -122,10 +122,10 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlindedAngler/BlindAnglerGore1").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlindedAngler/BlindAnglerGore2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlindedAngler/BlindAnglerGore3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BlindedAngler/BlindAnglerGore4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BlindAnglerGore1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BlindAnglerGore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BlindAnglerGore3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BlindAnglerGore4").Type, 1f);
                 }
             }
         }

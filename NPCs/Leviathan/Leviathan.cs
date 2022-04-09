@@ -23,6 +23,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using ReLogic.Content;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.NPCs.Leviathan
             DisplayName.SetDefault("The Leviathan");
             Main.npcFrameCount[NPC.type] = 3;
             if (!Main.dedServ)
-                AttackTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanAttack").Value;
+                AttackTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanAttack", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()
@@ -689,10 +690,10 @@ namespace CalamityMod.NPCs.Leviathan
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = Main.rand.Next(-200, 200) / 100;
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Gores/LeviathanGores/LeviGore4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore4").Type, 1f);
                 }
             }
         }

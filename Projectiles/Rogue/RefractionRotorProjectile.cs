@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        int goreType = Mod.Find<ModGore>("Gores/PrismShurikenBlade").Type;
+                        int goreType = Mod.Find<ModGore>("PrismShurikenBlade").Type;
                         for (int i = 0; i < 6; i++)
                         {
                             Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();

@@ -135,9 +135,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/ScourgeBody").Type, 0.65f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/ScourgeBody2").Type, 0.65f);
-                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Gores/ScourgeBody3").Type, 0.65f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody").Type, 0.65f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody2").Type, 0.65f);
+                    Gore.NewGore(NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("ScourgeBody3").Type, 0.65f);
                 }
                 for (int k = 0; k < 10; k++)
                 {

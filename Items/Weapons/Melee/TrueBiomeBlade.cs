@@ -179,8 +179,11 @@ namespace CalamityMod.Items.Weapons.Melee
             var clone = base.Clone(item);
             if (Main.mouseItem.type == ItemType<TrueBiomeBlade>())
                 item.ModItem.HoldItem(Main.player[Main.myPlayer]);
-            (clone as TrueBiomeBlade).mainAttunement = (item.ModItem as TrueBiomeBlade).mainAttunement;
-            (clone as TrueBiomeBlade).secondaryAttunement = (item.ModItem as TrueBiomeBlade).secondaryAttunement;
+            if (clone is TrueBiomeBlade a && item.ModItem is TrueBiomeBlade a2)
+            {
+                a.mainAttunement = a2.mainAttunement;
+                a.secondaryAttunement = a2.secondaryAttunement;
+            }
 
             return clone;
         }

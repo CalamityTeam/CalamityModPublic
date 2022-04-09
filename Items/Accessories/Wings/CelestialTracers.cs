@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Immunity to the On Fire! debuff\n" +
                 "Temporary immunity to lava\n" +
                 "Being hit for over 200 damage will make you immune for an extended period of time");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 12f, 3f);
         }
 
         public override void SetDefaults()
@@ -64,7 +66,6 @@ namespace CalamityMod.Items.Accessories.Wings
             player.fireWalk = true;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
-            player.wingTimeMax = 250;
             player.noFallDmg = true;
             modPlayer.IBoots = !hideVisual;
             modPlayer.elysianFire = !hideVisual;
@@ -78,12 +79,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.2f; //1
             maxAscentMultiplier = 3.25f; //3
             constantAscend = 0.15f; //0.135
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 12f;
-            acceleration *= 3f;
         }
 
         public override void AddRecipes()

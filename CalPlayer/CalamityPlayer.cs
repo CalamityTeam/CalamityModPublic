@@ -1329,7 +1329,7 @@ namespace CalamityMod.CalPlayer
             tag["moveSpeedStat"] = moveSpeedStat;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
-            tag["totalSpeedrunTicks"] = totalDefenseDamageRecoveryFrames;
+            tag["totalSpeedrunTicks"] = totalTicks;
             tag["lastSplitType"] = lastSplitType;
             tag["lastSplitTicks"] = lastSplit.Ticks;
             tag["cooldowns"] = cooldownsTag;

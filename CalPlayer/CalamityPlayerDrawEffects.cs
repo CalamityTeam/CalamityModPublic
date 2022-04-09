@@ -50,6 +50,9 @@ namespace CalamityMod.CalPlayer
 
         public override void ModifyDrawLayerOrdering(IDictionary<PlayerDrawLayer, PlayerDrawLayer.Position> positions)
         {
+            if (Player is null)
+                return;
+
             // Remove shoe drawing effects if special legs are meant to be drawn.
             if (CalamityLists.legOverrideList.Contains(Player.legs))
                 positions.Remove(PlayerDrawLayers.Leggings);

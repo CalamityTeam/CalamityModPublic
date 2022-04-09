@@ -486,7 +486,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(EidolonWyrmHeadHuge.CanMinionsDropThings, ModContent.ItemType<Voidstone>(), 30, 40);
+            npcLoot.AddIf(EidolonWyrmHeadHuge.CanMinionsDropThings, ModContent.ItemType<Voidstone>(), 1, 30, 40);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<Voidstone>(), 3);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<EidolicWail>(), 3);
             npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<StardustStaff>(), 3);
@@ -509,7 +509,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Wyrm").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Wyrm").Type, 1f);
                 }
             }
         }

@@ -632,7 +632,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }, ModContent.ItemType<PurifiedJam>(), 1, 6, 8);
 
             // Gel always drops directly, even on Expert
-            npcLoot.Add(ItemID.Gel, 180, 250);
+            npcLoot.Add(ItemID.Gel, 1, 180, 250);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)

@@ -1382,7 +1382,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/WyrmAdult").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("WyrmAdult").Type, 1f);
                 }
             }
         }

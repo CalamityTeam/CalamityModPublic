@@ -449,15 +449,15 @@ namespace CalamityMod.NPCs.Astral
                 if (Main.netMode != NetmodeID.Server)
                 {
                     //head
-                    Gore.NewGore(NPC.Top, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore4").Type);
+                    Gore.NewGore(NPC.Top, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore4").Type);
                     //hand
-                    Gore.NewGore(NPC.direction == 1 ? NPC.Right : NPC.Left, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore2").Type);
+                    Gore.NewGore(NPC.direction == 1 ? NPC.Right : NPC.Left, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore2").Type);
                     //rest
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore0").Type);
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore1").Type);
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore3").Type);
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore5").Type);
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Gores/Atlas/AtlasGore6").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Atlas/AtlasGore0").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore1").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore3").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore5").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore6").Type);
                 }
             }
         }

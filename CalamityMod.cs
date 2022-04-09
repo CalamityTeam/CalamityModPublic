@@ -153,17 +153,26 @@ namespace CalamityMod
             ILChanges.Load();
 
             // If any of these mods aren't loaded, it will simply keep them as null.
-            musicMod = ModLoader.GetMod("CalamityModMusic");
-            ancientsAwakened = ModLoader.GetMod("AAMod");
-            bossChecklist = ModLoader.GetMod("BossChecklist");
-            census = ModLoader.GetMod("Census");
-            crouchMod = ModLoader.GetMod("CrouchMod");
-            fargos = ModLoader.GetMod("Fargowiltas");
-            redemption = ModLoader.GetMod("Redemption");
-            soa = ModLoader.GetMod("SacredTools");
-            summonersAssociation = ModLoader.GetMod("SummonersAssociation");
-            thorium = ModLoader.GetMod("ThoriumMod");
-            varia = ModLoader.GetMod("Varia");
+            musicMod = null;
+            ancientsAwakened = null;
+            census = null;
+            crouchMod = null;
+            fargos = null;
+            redemption = null;
+            soa = null;
+            summonersAssociation = null;
+            thorium = null;
+            varia = null;
+            ModLoader.TryGetMod("CalamityModMusic", out musicMod);
+            ModLoader.TryGetMod("BossChecklist", out bossChecklist);
+            ModLoader.TryGetMod("Census", out census);
+            ModLoader.TryGetMod("CrouchMod", out crouchMod);
+            ModLoader.TryGetMod("Fargowiltas", out fargos);
+            ModLoader.TryGetMod("Redemption", out redemption);
+            ModLoader.TryGetMod("SacredTools", out soa);
+            ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
+            ModLoader.TryGetMod("ThoriumMod", out thorium);
+            ModLoader.TryGetMod("Varia", out varia);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();
@@ -248,8 +257,14 @@ namespace CalamityMod
             SkyManager.Instance["CalamityMod:StormWeaverFlash"] = new StormWeaverFlashSky();
 
             CalamityShaders.LoadShaders();
-            FusableParticleManager.LoadParticleRenderSets();
-            Main.OnPreDraw += PrepareRenderTargets;
+
+            // This must be done separately from immediate loading, as loading is now multithreaded.
+            // However, render targets and certain other graphical objects can only be created on the main thread.
+            Main.QueueMainThreadAction(() =>
+            {
+                FusableParticleManager.LoadParticleRenderSets();
+                Main.OnPreDraw += PrepareRenderTargets;
+            });
 
             RipperUI.Load();
             AstralArcanumUI.Load(this);

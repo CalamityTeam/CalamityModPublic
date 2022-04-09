@@ -3,6 +3,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Great vertical speed\n" +
                 "Flight time: 250\n" +
                 "+15 defense and +2 life regen while wearing the Tarragon Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(250, 9.5f, 2.5f);
         }
 
         public override void SetDefaults()
@@ -60,7 +62,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 250;
             player.noFallDmg = true;
         }
 
@@ -71,12 +72,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 3f;
             constantAscend = 0.135f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 9.5f;
-            acceleration *= 2.5f;
         }
 
         public override void AddRecipes()

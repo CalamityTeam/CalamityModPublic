@@ -165,7 +165,9 @@ namespace CalamityMod.Items.Weapons.Melee
             var clone = base.Clone(item);
             if (Main.mouseItem.type == ItemType<FourSeasonsGalaxia>())
                 item.ModItem.HoldItem(Main.player[Main.myPlayer]);
-            (clone as FourSeasonsGalaxia).mainAttunement = (item.ModItem as FourSeasonsGalaxia).mainAttunement;
+
+            if (clone is FourSeasonsGalaxia a && item.ModItem is FourSeasonsGalaxia a2)
+                a.mainAttunement = a2.mainAttunement;
 
             return clone;
         }

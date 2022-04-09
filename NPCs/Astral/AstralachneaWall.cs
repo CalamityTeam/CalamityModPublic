@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.Astral
                 {
                     for (int i = 0; i < 6; i++)
                     {
-                        Gore.NewGore(NPC.Center, NPC.velocity * 0.3f, Mod.Find<ModGore>("Gores/Astralachnea/AstralachneaGore" + i).Type);
+                        Gore.NewGore(NPC.Center, NPC.velocity * 0.3f, Mod.Find<ModGore>("AstralachneaGore" + i).Type);
                     }
                 }
             }

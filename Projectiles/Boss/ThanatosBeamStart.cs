@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -31,8 +32,8 @@ namespace CalamityMod.Projectiles.Boss
         public override Color LaserOverlayColor => new(250, 250, 250, 100);
         public override Color LightCastColor => Color.White;
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>(Texture).Value;
-        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ThanatosBeamMiddle").Value;
-        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ThanatosBeamEnd").Value;
+        public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ThanatosBeamMiddle", AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/ThanatosBeamEnd", AssetRequestMode.ImmediateLoad).Value;
 
         public override void SetStaticDefaults()
         {

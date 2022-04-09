@@ -38,7 +38,7 @@ namespace CalamityMod.Items
         private static void BossBagLoot(Player player, int itemID)
         {
             // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-            DropHelper.DropRevBagAccessories(player);
+            //DropHelper.DropRevBagAccessories(player);
 
             switch (itemID)
             {

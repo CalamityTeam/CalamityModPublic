@@ -18,7 +18,7 @@ namespace CalamityMod.BiomeManagers
             }
         }
 
-        public override ModWaterStyle WaterStyle => ModContent.Find<AbyssWater>("CalamityMod/Waters/AbyssWater");
+        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater");
 
         public override void SetStaticDefaults()
         {

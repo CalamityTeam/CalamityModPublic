@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Melee
             if (StreakDrawer is null)
                 StreakDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak").Value);
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/FabstaffStreak"));
 
             Texture2D spearProjectile = ModContent.Request<Texture2D>(Texture).Value;
 

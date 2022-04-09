@@ -51,11 +51,11 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                int head = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("Gores/WyvernWeapons/WyvernHead").Type);
+                int head = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("WyvernHead").Type);
                 Main.gore[head].timeLeft /= 10;
-                int body = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("Gores/WyvernWeapons/WyvernBody").Type);
+                int body = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("WyvernBody").Type);
                 Main.gore[body].timeLeft /= 10;
-                int tail = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("Gores/WyvernWeapons/WyvernTail").Type);
+                int tail = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("WyvernTail").Type);
                 Main.gore[tail].timeLeft /= 10;
             }
         }

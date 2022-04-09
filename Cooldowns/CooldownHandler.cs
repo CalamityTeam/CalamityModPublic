@@ -171,7 +171,7 @@ namespace CalamityMod.Cooldowns
             }
             else
             {
-                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].SetShaderTexture(ModContent.Request<Texture2D>(ChargeBarBackTexture).Value);
+                GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].SetShaderTexture(ModContent.Request<Texture2D>(ChargeBarBackTexture));
                 GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseOpacity(opacity);
                 GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].UseSaturation(1 - instance.Completion);
                 GameShaders.Misc["CalamityMod:CircularBarSpriteShader"].Apply();

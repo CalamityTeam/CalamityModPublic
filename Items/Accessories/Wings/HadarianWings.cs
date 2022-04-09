@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,6 +24,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Good vertical speed\n" +
                 "Flight time: 120\n" +
                 "10% increased movement and jump speed while wearing the Astral Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 9f, 1.75f);
         }
 
         public override void SetDefaults()
@@ -70,7 +72,6 @@ namespace CalamityMod.Items.Accessories.Wings
                     Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                 }
             }
-            player.wingTimeMax = 120;
             player.noFallDmg = true;
         }
 
@@ -81,12 +82,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.05f;
             maxAscentMultiplier = 2.55f;
             constantAscend = 0.13f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 9f;
-            acceleration *= 1.75f;
         }
 
         public override void AddRecipes()

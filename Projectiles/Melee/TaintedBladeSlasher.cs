@@ -242,7 +242,7 @@ namespace CalamityMod.Projectiles.Melee
             // Draw the trail behind the blade.
             if (Owner.itemAnimation > 0)
             {
-                GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BladeTrailUVMap").Value);
+                GameShaders.Misc["CalamityMod:FadingSolidTrail"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BladeTrailUVMap"));
                 GameShaders.Misc["CalamityMod:FadingSolidTrail"].Shader.Parameters["shouldFlip"].SetValue((float)(Owner.direction == -1).ToInt());
 
                 Vector2 bottom = BladeCenterPosition - BladeOffsetDirection * BladeFrame.Height * 0.5f - Main.screenPosition;

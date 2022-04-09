@@ -122,9 +122,9 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CalamitasGores/SoulSeeker").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CalamitasGores/SoulSeeker2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/CalamitasGores/SoulSeeker3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SoulSeeker").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SoulSeeker2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SoulSeeker3").Type, 1f);
                 }
                 NPC.position = NPC.Center;
                 NPC.width = NPC.height = 50;

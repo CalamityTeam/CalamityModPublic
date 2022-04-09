@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(PrimitiveWidthFunction, PrimitiveColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
-            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TelluricGlareStreak").Value);
+            GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/TelluricGlareStreak"));
             Vector2 overallOffset = Projectile.Size * 0.5f - Main.screenPosition;
             overallOffset += Projectile.velocity * 1.4f;
             TrailDrawer.Draw(Projectile.oldPos, overallOffset, 92); // 58

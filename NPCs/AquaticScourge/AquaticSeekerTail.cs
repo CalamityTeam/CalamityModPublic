@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticSeekerTail").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("AquaticSeekerTail").Type, 1f);
                 }
             }
         }

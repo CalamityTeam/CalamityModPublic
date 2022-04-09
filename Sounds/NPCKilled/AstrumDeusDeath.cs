@@ -1,4 +1,4 @@
-using Terraria.Audio;
+﻿using Terraria.Audio;
 using Terraria.Audio;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Audio;
@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Sounds.NPCKilled
 {
-    public class AstralBeaconUse : ModSound
+    public class AstrumDeusDeath : ModSound
     {
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan)
         {

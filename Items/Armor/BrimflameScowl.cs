@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.brimflameSet = true;
             player.GetDamage(DamageClass.Magic) += 0.15f;
             player.GetCritChance(DamageClass.Magic) += 15;
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "Grants an additional 15% increased magic damage and crit\n" +
                 "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +
                 "While under this effect, your damage is significantly boosted\n" +
