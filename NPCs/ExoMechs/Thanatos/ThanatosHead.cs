@@ -1176,10 +1176,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 AresBody.DoMiscDeathEffects(NPC, AresBody.MechType.Thanatos);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            AresBody.DropExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.Thanatos);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => AresBody.DefineExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.Thanatos);
 
         public override void HitEffect(int hitDirection, double damage)
         {

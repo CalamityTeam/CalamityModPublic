@@ -1639,10 +1639,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 AresBody.DoMiscDeathEffects(NPC, AresBody.MechType.ArtemisAndApollo);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            AresBody.DropExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.ArtemisAndApollo);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => AresBody.DefineExoMechLoot(NPC, npcLoot, (int)AresBody.MechType.ArtemisAndApollo);
 
         // Needs edits
         public override void HitEffect(int hitDirection, double damage)
