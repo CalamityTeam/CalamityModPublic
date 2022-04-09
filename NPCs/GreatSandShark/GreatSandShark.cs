@@ -600,6 +600,8 @@ namespace CalamityMod.NPCs.GreatSandShark
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.AncientBattleArmorMaterial);
+
+            // 1 Grand Scale guaranteed; on Expert, 33% chance of getting a second one
             npcLoot.Add(ModContent.ItemType<GrandScale>());
             npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<GrandScale>(), 3);
         }
