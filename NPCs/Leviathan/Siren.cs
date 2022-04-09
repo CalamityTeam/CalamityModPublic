@@ -825,49 +825,12 @@ namespace CalamityMod.NPCs.Leviathan
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        // Anahita runs the same loot code as the Leviathan, but only if she dies last.
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(() => Leviathan.ReadyToDropLoot(NPC)), ModContent.ItemType<LeviathanBag>()));
+            Leviathan.DefineAnahitaLeviathanLoot(npcLoot);
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<AnahitaTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && Leviathan.ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && Leviathan.ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeLeviathanandSiren>());
-
-            // Weapons.
-            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => Main.expertMode && Leviathan.ReadyToDropLoot(NPC)));
-            {
-                int[] weapons = new int[]
-                {
-                    ModContent.ItemType<Greentide>(),
-                    ModContent.ItemType<Leviatitan>(),
-                    ModContent.ItemType<SirensSong>(),
-                    ModContent.ItemType<Atlantis>(),
-                    ModContent.ItemType<GastricBelcherStaff>(),
-                    ModContent.ItemType<BrackishFlask>(),
-                    ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<LureofEnthrallment>()
-                };
-                npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
-
-                // Vanity
-                normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
-                normalOnly.Add(ModContent.ItemType<AnahitaMask>(), 7);
-
-                // Equipment
-                normalOnly.Add(ItemID.HotlineFishingHook, 10);
-                normalOnly.Add(ItemID.BottomlessBucket, 10);
-                normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
-                normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
-                normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
-                normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
-                normalOnly.Add(ModContent.ItemType<LeviathanAmbergris>());
-            }
-
-            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && Leviathan.ReadyToDropLoot(NPC), ModContent.ItemType<TheCommunity>(), 10);
         }
 
         public override bool CheckActive()

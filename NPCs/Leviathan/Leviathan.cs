@@ -712,8 +712,9 @@ namespace CalamityMod.NPCs.Leviathan
             CalamityNetcode.SyncWorld();
         }
 
-        public static bool ReadyToDropLoot(NPC npc)
+        public static bool LastAnLStanding(DropAttemptInfo info)
         {
+            NPC npc = info.npc;
             if (npc.type == ModContent.NPCType<Siren>() && !NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
                 return true;
             if (npc.type == ModContent.NPCType<Leviathan>() && !NPC.AnyNPCs(ModContent.NPCType<Siren>()))
@@ -721,24 +722,16 @@ namespace CalamityMod.NPCs.Leviathan
             return false;
         }
 
-        // This loot code is shared with Anahita.
-        // The Leviathan runs the same loot code as Anahita, but only if she dies last.
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        public static void DefineAnahitaLeviathanLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(() => ReadyToDropLoot(NPC)), ModContent.ItemType<LeviathanBag>()));
+            var lastStanding = npcLoot.DefineConditionalDropSet(LastAnLStanding);
+            lastStanding.Add(ItemDropRule.BossBag(ModContent.ItemType<LeviathanBag>()));
 
-            // Trophy (always directly from boss, never in bag)
-            npcLoot.Add(ModContent.ItemType<LeviathanTrophy>(), 10);
-
-            // Lore
-            bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(info.npc);
-            npcLoot.AddConditionalPerPlayer(shouldDropLore , ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanandSiren>());
-
-            // Weapons.
-            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => Main.expertMode && ReadyToDropLoot(NPC)));
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
+            lastStanding.Add(normalOnly);
             {
-                int[] weapons = new int[]
+                // Weapons and such
+                int[] items = new int[]
                 {
                     ModContent.ItemType<Greentide>(),
                     ModContent.ItemType<Leviatitan>(),
@@ -749,23 +742,37 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<LeviathanTeeth>(),
                     ModContent.ItemType<LureofEnthrallment>()
                 };
-                npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<AnahitaMask>(), 7);
 
                 // Equipment
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
+                normalOnly.Add(ModContent.ItemType<TheCommunity>(), 10);
+
+                // Fishing
                 normalOnly.Add(ItemID.HotlineFishingHook, 10);
                 normalOnly.Add(ItemID.BottomlessBucket, 10);
                 normalOnly.Add(ItemID.SuperAbsorbantSponge, 10);
                 normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
                 normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
                 normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
             }
 
-            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<TheCommunity>(), 10);
+            // Lore
+            bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding(info);
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeOcean>());
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanandSiren>());
+        }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        {
+            DefineAnahitaLeviathanLoot(npcLoot);
+
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<LeviathanTrophy>(), 10);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
