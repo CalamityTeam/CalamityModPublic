@@ -5,6 +5,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
@@ -485,10 +486,13 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<NuclearRod>(), 10);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<SpentFuelContainer>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<NuclearRod>());
-            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<SpentFuelContainer>());
+            // If post-Polter, the drop rates are 10%. Otherwise they're 100%.
+            // This is accomplished by adding rules if the CONDITION "Post-Polter" fails.
+            LeadingConditionRule postPolter = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast);
+            postPolter.Add(ModContent.ItemType<NuclearRod>(), 10);
+            postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10);
+            postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<NuclearRod>()));
+            postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<SpentFuelContainer>()));
         }
     }
 }

@@ -81,11 +81,11 @@ namespace CalamityMod.NPCs.Astral
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 2, 1, 3);
-            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 1, 3);
+            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 2, 1, 2, 1, 3));
             npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<AbandonedSlimeStaff>(), 7);
-            npcLoot.AddIf(() => DownedBossSystem.downedAstrumDeus && !Main.expertMode, ModContent.ItemType<AstralOre>(), 1, 8, 12);
-            npcLoot.AddIf(() => DownedBossSystem.downedAstrumDeus && Main.expertMode, ModContent.ItemType<AstralOre>(), 1, 11, 16);
+
+            var postDeus = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedAstrumDeus);
+            postDeus.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<AstralOre>(), 1, 8, 12, 11, 16));
         }
     }
 }

@@ -642,8 +642,7 @@ namespace CalamityMod.NPCs.Astral
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<TitanHeart>());
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Stardust>(), 1, 6, 8);
-            npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<Stardust>(), 1, 7, 9);
+            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 6, 8, 7, 9));
             npcLoot.AddIf(() => DownedBossSystem.downedAstrumAureus, ModContent.ItemType<TitanArm>(), 7);
         }
     }

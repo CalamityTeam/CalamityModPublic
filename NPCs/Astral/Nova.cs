@@ -259,10 +259,10 @@ namespace CalamityMod.NPCs.Astral
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => NPC.ai[3] <= -10000f && !Main.expertMode, ModContent.ItemType<Stardust>(), 1, 2, 3);
-            npcLoot.AddIf(() => NPC.ai[3] <= -10000f && Main.expertMode, ModContent.ItemType<Stardust>(), 1, 3, 4);
-            npcLoot.AddIf(() => NPC.ai[3] <= -10000f, ModContent.ItemType<StellarCannon>(), 7);
-            npcLoot.AddIf(() => NPC.ai[3] <= -10000f, ModContent.ItemType<GloriousEnd>(), 7);
+            var exploded = npcLoot.DefineConditionalDropSet((info) => info.npc.ai[3] <= -10000f);
+            exploded.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 2, 3, 3, 4);
+            exploded.Add(ModContent.ItemType<StellarCannon>(), 7);
+            exploded.Add(ModContent.ItemType<GloriousEnd>(), 7);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
