@@ -1090,16 +1090,11 @@ namespace CalamityMod.NPCs.HiveMind
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<HiveMindBag>()));
 
-            npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Weapons
-                int[] weapons = new int[]
+                // Weapons and such
+                int[] items = new int[]
                 {
                     ModContent.ItemType<PerfectDark>(),
                     ModContent.ItemType<LeechingDagger>(),
@@ -1110,7 +1105,7 @@ namespace CalamityMod.NPCs.HiveMind
                     ModContent.ItemType<DankStaff>(),
                     ModContent.ItemType<FilthyGlove>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<RotBall>(), 1, 30, 50);
 
                 // Materials
@@ -1127,6 +1122,11 @@ namespace CalamityMod.NPCs.HiveMind
                 normalOnly.Add(ModContent.ItemType<HiveMindMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<RottingEyeball>(), 10);
             }
+
+            npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
         }
     }
 }
