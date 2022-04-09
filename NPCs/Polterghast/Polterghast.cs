@@ -1001,7 +1001,7 @@ namespace CalamityMod.NPCs.Polterghast
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PolterghastBag>()));
 
             npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -1020,10 +1020,10 @@ namespace CalamityMod.NPCs.Polterghast
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<Affliction>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Affliction>()));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<RuinousSoul>(), 1, 7, 15);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RuinousSoul>(), 1, 7, 15));
                 normalOnly.Add(ModContent.ItemType<Phantoplasm>(), 1, 30, 40);
 
                 // Vanity
