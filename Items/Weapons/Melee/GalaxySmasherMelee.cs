@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<StellarContemptMelee>).
+                AddIngredient<StellarContemptMelee>().
                 AddIngredient<CosmiliteBar>(10).
                 AddTile<CosmicAnvil>().
                 Register();

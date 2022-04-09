@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<UnholyCore>(6).
+                AddIngredient(ModContent.ItemType<UnholyCore>(6)).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -155,7 +155,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<BarofLife>(3).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(20).
-                AddTile(ModContent.TileType<CosmicAnvil>().
+                AddTile(ModContent.TileType<CosmicAnvil>()).
                 Register();
         }
     }

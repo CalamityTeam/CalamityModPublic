@@ -797,7 +797,7 @@ namespace CalamityMod
             if (quantity <= 0)
                 return 0;
 
-            p.QuickSpawnItem(itemID, quantity);
+            //p.QuickSpawnItem(itemID, quantity);
             return quantity;
         }
 
@@ -900,7 +900,7 @@ namespace CalamityMod
             // Choose which item to drop.
             int itemID = Main.rand.Next(itemIDs);
 
-            p.QuickSpawnItem(itemID);
+            // p.QuickSpawnItem(itemID);
             return true;
         }
 

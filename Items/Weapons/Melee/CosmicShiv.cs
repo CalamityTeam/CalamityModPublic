@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<ElementalShortsword>().
                 AddIngredient<CosmiliteBar>(8).
-                AddTile(ModContent.TileType<CosmicAnvil>().
+                AddTile(ModContent.TileType<CosmicAnvil>()).
                 Register();
         }
     }

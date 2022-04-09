@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.Astral
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             var exploded = npcLoot.DefineConditionalDropSet((info) => info.npc.ai[3] <= -10000f);
-            exploded.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 2, 3, 3, 4);
+            exploded.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 2, 3, 3, 4));
             exploded.Add(ModContent.ItemType<StellarCannon>(), 7);
             exploded.Add(ModContent.ItemType<GloriousEnd>(), 7);
         }
