@@ -9,8 +9,8 @@ namespace CalamityMod.BiomeManagers
 {
     public class AbovegroundAstralDesertBiome : ModBiome
     {
-        public override ModWaterStyle WaterStyle => ModContent.Find<AstralWater>("CalamityMod/Waters/AstralWater");
-        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<AstralDesertSurfaceBGStyle>("CalamityMod/Backgrounds/AstralDesertSurfaceBGStyle");
+        public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AstralWater");
+        public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/AstralDesertSurfaceBGStyle");
 
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Astral") ?? MusicID.Space;
 

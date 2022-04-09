@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Plates
             {
                 PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/CinderplatePulse", AssetRequestMode.ImmediateLoad).Value;
                 PulseColors = new Color[PulseTexture.Width];
-                PulseTexture.GetData(PulseColors);
+                Main.QueueMainThreadAction(() => PulseTexture.GetData(PulseColors));
                 GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/CinderplateGlow", AssetRequestMode.ImmediateLoad).Value;
             }
             Main.tileSolid[Type] = true;

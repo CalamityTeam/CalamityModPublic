@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Skies;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
@@ -13,7 +14,12 @@ namespace CalamityMod.Systems
 
         public override void SpecialVisuals(Player player)
         {
-            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", IsSceneEffectActive(player));
+            bool useExoMechs = IsSceneEffectActive(player);
+            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", useExoMechs);
+            if (useExoMechs)
+                SkyManager.Instance.Activate("CalamityMod:ExoMechs", player.Center);
+            else
+                SkyManager.Instance.Deactivate("CalamityMod:ExoMechs");
         }
     }
 }

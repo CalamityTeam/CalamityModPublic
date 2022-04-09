@@ -9,6 +9,7 @@ using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
+using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -149,8 +150,8 @@ namespace CalamityMod.Projectiles.Boss
                 return false;
 
             Texture2D beamStart = ModContent.Request<Texture2D>(Texture).Value;
-            Texture2D beamMiddle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle").Value;
-            Texture2D beamEnd = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd").Value;
+            Texture2D beamMiddle = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamMiddle", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D beamEnd = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/AresLaserBeamEnd", AssetRequestMode.ImmediateLoad).Value;
 
             float drawLength = Projectile.localAI[1];
             Color color = new Color(250, 250, 250, 100);

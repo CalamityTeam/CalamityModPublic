@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Average vertical speed\n" +
                 "Flight time: 80\n" +
                 "10% increased jump speed while wearing the Aerospec armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 6.5f, 1f);
         }
 
         public override void SetDefaults()
@@ -37,7 +39,6 @@ namespace CalamityMod.Items.Accessories.Wings
             {
                 player.jumpSpeedBoost += 0.5f;
             }
-            player.wingTimeMax = 80;
             player.noFallDmg = true;
         }
 

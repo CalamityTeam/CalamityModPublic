@@ -6,6 +6,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Good vertical speed\n" +
                 "Flight time: 80\n" +
                 "10% increased movement speed while wearing the Reaver Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 8f, 1.5f);
         }
 
         public override void SetDefaults()
@@ -57,10 +59,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 for (int num67 = 0; num67 < num66; num67++)
                 {
                     int type = 6;
-                    if (player.head == 41)
-                    {
-                        int arg_58FD_0 = player.body;
-                    }
                     float scale = 1.75f;
                     int alpha = 100;
                     float x = player.position.X + (float)(player.width / 2) + 16f;
@@ -94,7 +92,6 @@ namespace CalamityMod.Items.Accessories.Wings
                     }
                 }
             }
-            player.wingTimeMax = 80;
             player.noFallDmg = true;
         }
 
@@ -105,12 +102,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 2.5f;
             constantAscend = 0.125f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 8f;
-            acceleration *= 1.5f;
         }
 
         public override void AddRecipes()

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityKeybinds.SpectralVeilHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SpectralVeilHotKey.TooltipHotkeyString();
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
 
             if (line != null)

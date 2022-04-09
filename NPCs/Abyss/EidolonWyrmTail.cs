@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/Wyrm4").Type, 1f);
+                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Wyrm4").Type, 1f);
                 }
             }
         }

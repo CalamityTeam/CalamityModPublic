@@ -203,8 +203,8 @@ namespace CalamityMod.NPCs.AquaticScourge
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticParasite1").Type, 1f);
-                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("Gores/AquaticScourgeGores/AquaticParasite2").Type, 1f);
+                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("AquaticParasite1").Type, 1f);
+                    Gore.NewGore(NPC.Center, NPC.velocity, Mod.Find<ModGore>("AquaticParasite2").Type, 1f);
                 }
             }
         }

@@ -151,8 +151,11 @@ namespace CalamityMod.Items.Weapons.Melee
             if (Main.mouseItem.type == ItemType<BiomeBlade>())
                 item.ModItem.HoldItem(Main.player[Main.myPlayer]);
 
-            (clone as BiomeBlade).mainAttunement = (item.ModItem as BiomeBlade).mainAttunement;
-            (clone as BiomeBlade).secondaryAttunement = (item.ModItem as BiomeBlade).secondaryAttunement;
+            if (clone is BiomeBlade a && item.ModItem is BiomeBlade a2)
+            {
+                a.mainAttunement = a2.mainAttunement;
+                a.secondaryAttunement = a2.secondaryAttunement;
+            }
 
             //As funny as a Broken Broken Biome Blade would be, its also quite funny to make it turn into that. This is only done for a new instance of the item since the goblin tinkerer changes prevent it from happening through reforging
             if (clone.Item.prefix == PrefixID.Broken)

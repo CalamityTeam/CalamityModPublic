@@ -12,7 +12,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using ReLogic.Content;
 using System;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -585,20 +587,21 @@ namespace CalamityMod.ILEditing
 
             // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
             cursor.Emit(OpCodes.Ldloc, 13);
-            cursor.Emit(OpCodes.Ldsfld, typeof(Main).GetField("liquidTexture"));
+            cursor.Emit(OpCodes.Ldsfld, typeof(TextureAssets).GetField("Liquid"));
             cursor.Emit(OpCodes.Ldloc, 15);
             cursor.Emit(OpCodes.Ldelem_Ref);
+            cursor.Emit(OpCodes.Call, typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance));
             cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
             cursor.Emit(OpCodes.Stloc, 13);
 
             // Go back to the start and change textures as necessary.
             cursor.Index = 0;
 
-            while (cursor.TryGotoNext(c => c.MatchLdsfld<Main>("liquidTexture")))
+            while (cursor.TryGotoNext(c => c.MatchLdsfld(typeof(TextureAssets).GetField("Liquid"))))
             {
                 // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-                // The order is load is texture array field -> load index -> load the reference to the texture at that index.
-                cursor.Index += 3;
+                // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call Value.
+                cursor.Index += 4;
                 cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
             }
         }
@@ -616,14 +619,14 @@ namespace CalamityMod.ILEditing
 
             // Determine the waterfall type. This happens after all the "If Lava do blahblahblah" color checks, meaning it will have the same
             // color properties as lava.
-            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Ldloc, 13);
             cursor.EmitDelegate<Func<int, int>>(initialWaterfallStyle => CustomLavaManagement.SelectLavafallStyle(initialWaterfallStyle));
-            cursor.Emit(OpCodes.Stloc, 12);
+            cursor.Emit(OpCodes.Stloc, 13);
 
-            cursor.Emit(OpCodes.Ldloc, 12);
-            cursor.Emit(OpCodes.Ldloc, 51);
+            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Ldloc, 56);
             cursor.EmitDelegate<Func<int, Color, Color>>((initialWaterfallStyle, initialLavafallColor) => CustomLavaManagement.SelectLavafallColor(initialWaterfallStyle, initialLavafallColor));
-            cursor.Emit(OpCodes.Stloc, 51);
+            cursor.Emit(OpCodes.Stloc, 56);
         }
         #endregion Custom Lava Visuals
 

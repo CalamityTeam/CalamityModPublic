@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemID.SharkFin, 2, 4);
+            npcLoot.Add(ItemID.SharkFin, 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<SulphuricAcidCannon>(), 3);
         }
 
@@ -435,9 +435,9 @@ namespace CalamityMod.NPCs.AcidRain
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/Mauler").Type, NPC.scale);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Mauler").Type, NPC.scale);
                     for (int i = 2; i <= 5; i++)
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Gores/Mauler{i}").Type, NPC.scale);
+                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>($"Mauler{i}").Type, NPC.scale);
                 }
             }
         }

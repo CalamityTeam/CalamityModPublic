@@ -341,7 +341,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             goreSpawnPosition += NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(MathHelper.PiOver4) * 16f;
                         if (i == 3)
                             goreSpawnPosition += NPC.velocity.SafeNormalize(Vector2.Zero).RotatedBy(-MathHelper.PiOver4) * 16f;
-                        Gore.NewGorePerfect(goreSpawnPosition, NPC.velocity, Mod.Find<ModGore>($"Gores/SupremeCalamitas/SepulcherHead_Gore{i}").Type, NPC.scale);
+                        Gore.NewGorePerfect(goreSpawnPosition, NPC.velocity, Mod.Find<ModGore>($"SepulcherHead_Gore{i}").Type, NPC.scale);
                     }
                 }
             }

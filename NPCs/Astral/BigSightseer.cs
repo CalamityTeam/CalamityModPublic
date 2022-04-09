@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.Astral
                     for (int i = 0; i < 5; i++)
                     {
                         float rand = Main.rand.NextFloat(-0.18f, 0.18f);
-                        Gore.NewGore(NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("Gores/BigSightseer/BigSightseerGore" + i).Type);
+                        Gore.NewGore(NPC.position + new Vector2(Main.rand.NextFloat(0f, NPC.width), Main.rand.NextFloat(0f, NPC.height)), NPC.velocity * rand, Mod.Find<ModGore>("BigSightseerGore" + i).Type);
                     }
                 }
             }

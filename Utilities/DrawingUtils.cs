@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
@@ -550,7 +551,7 @@ namespace CalamityMod
         }
 
         // Cached for efficiency purposes.
-        internal static readonly FieldInfo UImageFieldMisc = typeof(MiscShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static readonly FieldInfo UImageFieldMisc = typeof(MiscShaderData).GetField("_uImage1", BindingFlags.NonPublic | BindingFlags.Instance);
         internal static readonly FieldInfo UImageFieldArmor = typeof(ArmorShaderData).GetField("_uImage", BindingFlags.NonPublic | BindingFlags.Instance);
 
         /// <summary>
@@ -558,9 +559,9 @@ namespace CalamityMod
         /// </summary>
         /// <param name="shader">The shader to bind the texture to.</param>
         /// <param name="texture">The texture to bind.</param>
-        public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Texture2D texture)
+        public static MiscShaderData SetShaderTexture(this MiscShaderData shader, Asset<Texture2D> texture)
         {
-            UImageFieldMisc.SetValue(shader, new Ref<Texture2D>(texture));
+            UImageFieldMisc.SetValue(shader, texture);
             return shader;
         }
 
@@ -569,9 +570,9 @@ namespace CalamityMod
         /// </summary>
         /// <param name="shader">The shader to bind the texture to.</param>
         /// <param name="texture">The texture to bind.</param>
-        public static ArmorShaderData SetShaderTexture(this ArmorShaderData shader, Texture2D texture)
+        public static ArmorShaderData SetShaderTextureArmor(this ArmorShaderData shader, Asset<Texture2D> texture)
         {
-            UImageFieldArmor.SetValue(shader, new Ref<Texture2D>(texture));
+            UImageFieldArmor.SetValue(shader, texture);
             return shader;
         }
 

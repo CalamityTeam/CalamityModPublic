@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     for (int i = 1; i <= 2; i++)
                     {
                         Vector2 heartGoreVelocity = new Vector2((i == 1).ToDirectionInt() * 3f, Main.rand.NextFloat(-2f, 0f));
-                        Gore.NewGorePerfect(NPC.Center, heartGoreVelocity, Mod.Find<ModGore>($"Gores/SupremeCalamitas/BrimstoneHeart_Gore{i}").Type, NPC.scale);
+                        Gore.NewGorePerfect(NPC.Center, heartGoreVelocity, Mod.Find<ModGore>($"BrimstoneHeart_Gore{i}").Type, NPC.scale);
                     }
                 }
                 for (int i = 0; i < ChainEndpoints.Count; i++)

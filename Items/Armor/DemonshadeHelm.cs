@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "100% increased minion damage and +10 max minions\n" +
                 "All attacks inflict the demon flame debuff\n" +
                 "Shadowbeams and demon scythes will fire down when you are hit\n" +

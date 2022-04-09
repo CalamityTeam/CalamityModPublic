@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Mounts
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityKeybinds.ExoChairSpeedupHotkey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            string hotkey2 = CalamityKeybinds.ExoChairSlowdownHotkey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.ExoChairSpeedupHotkey.TooltipHotkeyString();
+            string hotkey2 = CalamityKeybinds.ExoChairSlowdownHotkey.TooltipHotkeyString();
 
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
             TooltipLine line2 = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");

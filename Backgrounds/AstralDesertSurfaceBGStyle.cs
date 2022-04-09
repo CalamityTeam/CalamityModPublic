@@ -4,14 +4,14 @@ namespace CalamityMod.Backgrounds
 {
     public class AstralDesertSurfaceBGStyle : ModSurfaceBackgroundStyle
     {
-        public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceFar");
+        public override int ChooseFarTexture() => BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralDesertSurfaceFar");
 
-        public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceMiddle");
+        public override int ChooseMiddleTexture() => BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralDesertSurfaceMiddle");
 
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
             b -= 75f;
-            return BackgroundTextureLoader.GetBackgroundSlot("Backgrounds/AstralDesertSurfaceClose");
+            return BackgroundTextureLoader.GetBackgroundSlot("CalamityMod/Backgrounds/AstralDesertSurfaceClose");
         }
 
         public override void ModifyFarFades(float[] fades, float transitionSpeed)

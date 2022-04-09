@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => NPC.downedGolemBoss, ItemID.AdhesiveBandage, 10, 30);
+            npcLoot.AddIf(() => NPC.downedGolemBoss, ItemID.MartianConduitPlating, 1, 10, 30);
             npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 3);
             npcLoot.Add(ModContent.ItemType<TheTransformer>(), 10);
         }

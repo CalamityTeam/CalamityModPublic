@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Dyes
     public class PinkCosmicFlameDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/CosmicFlameShader").Value), "DyePass").
-            UseColor(new Color(255, 115, 221)).UseSecondaryColor(new Color(255, 115, 221)).UseImage("Images/Misc/Noise").UseSaturation(0f);
+            UseColor(new Color(255, 115, 221)).UseSecondaryColor(new Color(255, 115, 221)).UseImage("Images/Misc/noise").UseSaturation(0f);
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Pink Cosmic Flame Dye");

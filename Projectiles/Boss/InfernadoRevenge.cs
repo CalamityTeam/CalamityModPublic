@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
                 TornadoDrawer = new PrimitiveTrail(_ => Projectile.width * 0.5f + 16f, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:Bordernado"]);
 
             GameShaders.Misc["CalamityMod:Bordernado"].UseSaturation(-0.2f);
-            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.Request<Texture2D>("Terraria/Images/Misc/Perlin").Value);
+            GameShaders.Misc["CalamityMod:Bordernado"].SetShaderTexture(ModContent.Request<Texture2D>("Terraria/Images/Misc/Perlin"));
             Vector2[] drawPoints = new Vector2[5];
             Vector2 upwardAscent = Vector2.UnitY * TornadoHeight;
             Vector2 downwardOffset = Vector2.UnitY * Projectile.height / (drawPoints.Length + 1);

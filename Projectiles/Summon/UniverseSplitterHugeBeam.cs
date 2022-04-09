@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria.GameContent.Events;
 using Terraria.Audio;
+using ReLogic.Content;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -132,8 +133,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return false;
             }
-            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamEnd").Value;
-            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamMid").Value;
+            Texture2D laserTailTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamEnd", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D laserBodyTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UniverseSplitterHugeBeamMid", AssetRequestMode.ImmediateLoad).Value;
             float laserLength = Projectile.localAI[1];
             Color drawColor = new Color(1f, 1f, 1f) * 0.9f;
 

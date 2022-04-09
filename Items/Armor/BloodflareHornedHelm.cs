@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareRanged = true;
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "Greatly increases life regen\n" +
                 "Enemies below 50% life drop a heart when struck\n" +
                 "This effect has a 5 second cooldown\n" +

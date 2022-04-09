@@ -80,7 +80,7 @@ namespace CalamityMod.Events
                 return;
 
             if (maxDepth >= 0 && minDepth < 0 && GetIntensity() > 0f)
-                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), GeneralColor * GetIntensity() * 0.5f);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), GeneralColor * GetIntensity() * 0.5f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
@@ -91,6 +91,7 @@ namespace CalamityMod.Events
                 Texture2D whiteTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/XerocLight").Value;
                 Vector2 screenCenter = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
                 float fadeToWhite = Utils.GetLerpValue(110f, 140f, BossRushEvent.EndTimer, true);
+                screenCenter += new Vector2(Main.screenWidth, Main.screenHeight) * (Main.GameViewMatrix.Zoom - Vector2.One) * 0.5f;
                 fadeToWhite *= Utils.GetLerpValue(BossRushEvent.EndVisualEffectTime - 5f, BossRushEvent.EndVisualEffectTime - 25f, BossRushEvent.EndTimer, true);
                 float backScale = MathHelper.Lerp(0.01f, 8f, fadeToWhite);
                 Color backFadeColor = Color.White * fadeToWhite * 0.64f;
@@ -105,6 +106,7 @@ namespace CalamityMod.Events
             if (maxDepth >= float.MaxValue && minDepth < float.MaxValue && (BossRushEvent.EndTimer < BossRushEvent.EndVisualEffectTime - 40f || ShouldDrawRegularly))
             {
                 Vector2 screenCenter = Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
+                screenCenter += new Vector2(Main.screenWidth, Main.screenHeight) * (Main.GameViewMatrix.Zoom - Vector2.One) * 0.5f;
                 float scale = MathHelper.Lerp(0.8f, 0.9f, IncrementalInterest) + (float)Math.Sin(IdleTimer) * 0.01f;
                 Vector2 drawWorldPosition = new Vector2(Main.LocalPlayer.Center.X, 1120f);
                 Vector2 drawPosition = (drawWorldPosition - screenCenter) * 0.097f + screenCenter - Main.screenPosition - Vector2.UnitY * 100f;

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityKeybinds.AstralTeleportHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.AstralTeleportHotKey.TooltipHotkeyString();
             TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
 
             if (line != null)

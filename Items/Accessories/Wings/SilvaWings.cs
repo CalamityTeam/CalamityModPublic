@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,6 +23,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Excellent vertical speed\n" +
                 "Flight time: 270\n" +
                 "The Silva revive heals you to half health while wearing the Silva armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(270, 11f, 2.8f);
         }
 
         public override void SetDefaults()
@@ -58,7 +60,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 270;
             player.noFallDmg = true;
         }
 
@@ -69,12 +70,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.2f; //1
             maxAscentMultiplier = 3.25f; //3
             constantAscend = 0.14f; //0.135
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 11f;
-            acceleration *= 2.8f;
         }
 
         public override void AddRecipes()

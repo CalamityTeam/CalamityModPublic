@@ -182,8 +182,8 @@ namespace CalamityMod.Projectiles.Boss
             if (Main.netMode != NetmodeID.Server)
             {
                 // Nuke gores
-                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke1").Type, 1f);
-                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("Gores/Ares/AresGaussNuke3").Type, 1f);
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("AresGaussNuke1").Type, 1f);
+                Gore.NewGore(Projectile.position, Projectile.velocity, Mod.Find<ModGore>("AresGaussNuke3").Type, 1f);
             }
 
             // Create a bunch of lightning bolts in the sky

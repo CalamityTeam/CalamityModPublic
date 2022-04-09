@@ -7,7 +7,7 @@ namespace CalamityMod.Waters
     {
         public override int ChooseWaterfallStyle()
         {
-            return ModContent.Find<AbyssWaterflow>("CalamityMod/Waters/AbyssWaterflow").Slot;
+            return ModContent.Find<ModWaterfallStyle>("CalamityMod/AbyssWaterflow").Slot;
         }
 
         public override int GetSplashDust()

@@ -281,22 +281,22 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Materials
-                normalOnly.Add(ItemID.FallenStar, 25, 40);
-                normalOnly.Add(ModContent.ItemType<Stardust>(), 50, 80);
+                normalOnly.Add(ItemID.FallenStar, 1, 25, 40);
+                normalOnly.Add(ModContent.ItemType<Stardust>(), 1, 50, 80);
             }
 
             npcLoot.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
             npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 5);
             npcLoot.AddIf(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstrumDeus>());
             npcLoot.AddIf(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstralInfection>());
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentSolar, 16, 24);
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentVortex, 16, 24);
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentNebula, 16, 24);
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentStardust, 16, 24);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentSolar, 20, 32);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentVortex, 20, 32);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentNebula, 20, 32);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentStardust, 20, 32);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentSolar, 1, 16, 24);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentVortex, 1, 16, 24);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentNebula, 1, 16, 24);
+            npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentStardust, 1, 16, 24);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentSolar, 1, 20, 32);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentVortex, 1, 20, 32);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentNebula, 1, 20, 32);
+            npcLoot.AddIf(() => Main.expertMode, ItemID.FragmentStardust, 1, 20, 32);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

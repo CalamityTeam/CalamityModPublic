@@ -455,7 +455,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 {
                     for (int i = 0; i < 6; i++) // 1 head, 1 wing, 4 legs = 6. one wing due to them being chonky boyes now
                     {
-                        string gore = "Gores/Bumble";
+                        string gore = "Bumble";
                         float randomSpread = Main.rand.Next(-200, 201) / 100f;
                         gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
                         Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>(gore).Type, 1f);

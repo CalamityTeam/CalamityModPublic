@@ -1,6 +1,8 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
@@ -16,6 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 3.0\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 361");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(361, 12f, 3f);
         }
 
         public override void SetDefaults()
@@ -45,7 +48,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 361;
             player.noFallDmg = true;
         }
 
@@ -56,12 +58,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.2f; //1
             maxAscentMultiplier = 3.25f; //3
             constantAscend = 0.15f; //0.135
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 12f;
-            acceleration *= 3f;
         }
     }
 }

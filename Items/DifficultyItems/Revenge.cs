@@ -52,8 +52,8 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string rageKey = CalamityKeybinds.RageHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
-            string adrenKey = CalamityKeybinds.AdrenalineHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string rageKey = CalamityKeybinds.RageHotKey.TooltipHotkeyString();
+            string adrenKey = CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString();
 
             TooltipLine lineRage = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
             if (lineRage != null)

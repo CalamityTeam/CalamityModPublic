@@ -451,10 +451,10 @@ namespace CalamityMod.NPCs.OldDuke
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore").Type, NPC.scale);
-                    Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore3").Type, NPC.scale);
-                    Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("Gores/OldDuke/OldDukeGore4").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center + Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.Center - Vector2.UnitX * 20f * NPC.direction, NPC.velocity, Mod.Find<ModGore>("OldDukeGore4").Type, NPC.scale);
                 }
             }
         }

@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.Abyss
             float drawPositionX = Main.npc[(int)NPC.ai[2]].Center.X - center.X;
             float drawPositionY = Main.npc[(int)NPC.ai[2]].Center.Y - center.Y;
             float rotation = (float)Math.Atan2((double)drawPositionY, (double)drawPositionX) - 1.57f;
-            bool draw = true;
+            bool draw = !NPC.IsABestiaryIconDummy;
             while (draw)
             {
                 float totalDrawDistance = (float)Math.Sqrt((double)(drawPositionX * drawPositionX + drawPositionY * drawPositionY));
@@ -260,10 +260,10 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BobbitWorm").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BobbitWorm2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BobbitWorm3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Gores/BobbitWorm4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BobbitWorm").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BobbitWorm2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BobbitWorm3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("BobbitWorm4").Type, 1f);
                 }
             }
         }

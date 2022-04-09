@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Plates
             {
                 PulseTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplatePulse", AssetRequestMode.ImmediateLoad).Value;
                 PulseColors = new Color[PulseTexture.Width];
-                PulseTexture.GetData(PulseColors);
+                Main.QueueMainThreadAction(() => PulseTexture.GetData(PulseColors));
                 GlowTexture = ModContent.Request<Texture2D>("CalamityMod/Tiles/Plates/ChaosplateGlow", AssetRequestMode.ImmediateLoad).Value;
             }
             Main.tileSolid[Type] = true;

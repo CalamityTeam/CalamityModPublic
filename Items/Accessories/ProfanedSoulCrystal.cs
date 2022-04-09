@@ -28,17 +28,23 @@ namespace CalamityMod.Items.Accessories
          * Projectiles transformed are ONLY affected by alldamage and summon damage bonuses, likewise the weapon's base damage/usetime is NOT taken into account.
          * You enrage below or at 50% hp.
          */
+        public override void Load()
+        {
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/ProfanedSoulTransHead");
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/ProfanedSoulTransBody");
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/ProfanedSoulTransLegs");
+            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Wings, "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Soul Crystal");
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
-
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/ProfanedSoulTransHead");
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/ProfanedSoulTransBody");
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/ProfanedSoulTransLegs");
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Wings, "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
         }
 
         public override void SetDefaults()

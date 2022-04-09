@@ -4,6 +4,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Flight time: 75\n" +
                 "10% increased jump speed and allows constant jumping\n" +
                 "Grants the player cloud, blizzard, and sandstorm mid-air jumps");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(75, 6.5f, 1f);
         }
 
         public override void SetDefaults()
@@ -94,7 +96,6 @@ namespace CalamityMod.Items.Accessories.Wings
             player.autoJump = true;
             player.noFallDmg = true;
             player.jumpSpeedBoost += 0.5f;
-            player.wingTimeMax = 75;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
@@ -104,11 +105,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1f;
             maxAscentMultiplier = 2.5f;
             constantAscend = 0.125f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 6.5f;
         }
 
         public override void AddRecipes()

@@ -14,7 +14,7 @@ namespace CalamityMod.Waters
 
         public override bool ChooseLavaStyle() => Main.LocalPlayer.Calamity().ZoneCalamity;
 
-        public override int ChooseWaterfallStyle() => ModContent.Find<CragsLavaflow>("CalamityMod/Waters/CragsLavaflow").Slot;
+        public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("CalamityMod/CragsLavaflow").Slot;
 
         public override int GetSplashDust() => 0;
 

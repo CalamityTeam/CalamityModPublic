@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<DepthCells>(30).
                 AddIngredient<Lumenite>(10).
                 AddIngredient<Tenebris>(10).
-                AddTile(TileID.MythrilAnvil)
+                AddTile(TileID.MythrilAnvil).
                 Register();
         }
     }

@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             int stormMana = (int)(manaCost * player.manaCost);
-            string hotkey = CalamityKeybinds.SetBonusHotKey.GetAssignedKeys().Aggregate((x, y) => x + ", " + y);
+            string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "Press " + hotkey + " to call an ancient storm to the cursor location\n" +
                     "The ancient storm costs " + stormMana + " mana and benefits from both summon and rogue bonuses\n" +
                     "Rogue stealth strikes spawn homing eaters on enemy hits\n" +
