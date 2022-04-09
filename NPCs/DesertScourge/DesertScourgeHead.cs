@@ -588,17 +588,11 @@ namespace CalamityMod.NPCs.DesertScourge
             // Extraneous potions
             npcLoot.Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 8, 14));
 
-            // Trophy (always directly from boss, never in bag)
-            npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Weapons
-                int[] weapons = new int[]
+                // Weapons and accessories
+                int[] items = new int[]
                 {
                     ModContent.ItemType<AquaticDischarge>(),
                     ModContent.ItemType<Barinade>(),
@@ -608,7 +602,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     ModContent.ItemType<AeroStone>(),
                     ModContent.ItemType<SandCloak>()
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<DesertScourgeMask>(), 7);
@@ -621,8 +615,16 @@ namespace CalamityMod.NPCs.DesertScourge
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));
+
+                // Fishing
                 normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());
             }
+
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
         }
         #endregion
 
