@@ -722,9 +722,6 @@ namespace CalamityMod.NPCs.Crabulon
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CrabulonBag>()));
 
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
@@ -737,7 +734,7 @@ namespace CalamityMod.NPCs.Crabulon
                     ModContent.ItemType<Mycoroot>(),
                     ModContent.ItemType<Shroomerang>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<FungalClump>()));
@@ -745,6 +742,11 @@ namespace CalamityMod.NPCs.Crabulon
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CrabulonMask>(), 7);
             }
+
+            npcLoot.Add(ModContent.ItemType<CrabulonTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
         }
 
         public override void OnKill()
