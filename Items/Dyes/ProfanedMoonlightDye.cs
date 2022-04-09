@@ -1,4 +1,5 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -7,7 +8,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class ProfanedMoonlightDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ProfanedMoonlightDye").Value), "DyePass");
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ProfanedMoonlightDye", AssetRequestMode.ImmediateLoad).Value), "DyePass");
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Moonlight Dye");

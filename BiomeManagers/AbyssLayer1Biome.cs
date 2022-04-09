@@ -42,6 +42,7 @@ namespace CalamityMod.BiomeManagers
         }
 
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater");
+        public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
 
         public override int Music
         {

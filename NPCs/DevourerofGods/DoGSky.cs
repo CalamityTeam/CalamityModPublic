@@ -17,6 +17,13 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void Update(GameTime gameTime)
         {
+            if (DoGIndex == -1)
+            {
+                UpdateDoGIndex();
+                if (DoGIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;

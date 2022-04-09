@@ -12,24 +12,32 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float4 noiseColor = tex2D(uImage1, float2(coords.x, frameY));
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float4 noiseColor = tex2D(uImage1, framedCoords);
     float4 color = tex2D(uImage0, coords);
-    float3 blendColor = lerp(uColor, uSecondaryColor, sqrt(frameY));
-    float blendFactor = (cos(uTime * 9 + coords.x * 18) * 0.5 + 0.5) * 0.5;
+    float3 blendColor = lerp(uColor, uSecondaryColor, sqrt(framedCoords.y));
+    float blendFactor = (cos(uTime * 9 + framedCoords.x * 18) * 0.5 + 0.5) * 0.5;
     
     // Allow the fade to pulse upward based on how far up the pixel is.
-    blendFactor += (cos(uTime * -13 - frameY * 7.1)) * 0.5;
+    blendFactor += (cos(uTime * -13 - framedCoords.y * 7.1)) * 0.5;
     float brightness = blendFactor * 0.35 + noiseColor.r * 0.35;
     
     // Cause the effects to taper off at the bottom of the sprite.
-    if (frameY < 0.2)
+    if (framedCoords.y < 0.2)
     {
-        brightness *= frameY / 0.2;
-        blendFactor *= frameY / 0.2;
+        brightness *= framedCoords.y / 0.2;
+        blendFactor *= framedCoords.y / 0.2;
     }
     float4 colorBlendMultiplier = lerp(float4(blendColor, 1), float4(1, 1, 1, 1), saturate(pow(blendFactor * 1.5, 2)));
     return (lerp(color, float4(blendColor, 1), blendFactor * 0.5 + 0.2) * color.a) * colorBlendMultiplier * (1 + brightness) * sampleColor.a;

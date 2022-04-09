@@ -283,7 +283,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 spriteBatch.EnterShaderRegion();
                 GameShaders.Misc["CalamityMod:DoGDisintegration"].UseOpacity(disintegrationFactor);
                 GameShaders.Misc["CalamityMod:DoGDisintegration"].UseSaturation(NPC.whoAmI);
-                GameShaders.Misc["CalamityMod:DoGDisintegration"].UseImage0("Images/Misc/Perlin");
+                GameShaders.Misc["CalamityMod:DoGDisintegration"].UseImage1("Images/Misc/Perlin");
                 GameShaders.Misc["CalamityMod:DoGDisintegration"].Apply();
             }
 

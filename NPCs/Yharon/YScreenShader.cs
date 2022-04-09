@@ -1,4 +1,6 @@
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -28,6 +30,16 @@ namespace CalamityMod.NPCs.Yharon
                     YIndex = i;
                     break;
                 }
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (YIndex == -1)
+            {
+                UpdateYIndex();
+                if (YIndex == -1)
+                    Filters.Scene["CalamityMod:Yharon"].Deactivate();
             }
         }
 

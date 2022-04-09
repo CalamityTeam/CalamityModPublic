@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class ElementalDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ElementalDyeShader").Value), "DyePass").UseImage("Images/Misc/Perlin");
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ElementalDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Dye");

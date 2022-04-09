@@ -12,17 +12,24 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     
     // Define a baseline gold color. This will be used when creating a reflective metal texture.
     float3 goldColor = float3(228 / 255.0, 175 / 255.0, 72 / 255.0);
     
     // Calculate noise with a zoomed in Y texture coordinate.
-    float4 noiseColor = tex2D(uImage1, float2(coords.x, sin(3.141 * frac(frameY + frac(uTime * 0.51)))) * 0.067);
+    float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, sin(3.141 * frac(framedCoords.y + frac(uTime * 0.51)))) * 0.067);
     float4 color = tex2D(uImage0, coords);
     
     // Calculate a degree of shine depending on the noise. This is greatly expanded depending on the result.

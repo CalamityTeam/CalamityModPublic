@@ -15,6 +15,13 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void Update(GameTime gameTime)
         {
+            if (YIndex == -1)
+            {
+                UpdateYIndex();
+                if (YIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;

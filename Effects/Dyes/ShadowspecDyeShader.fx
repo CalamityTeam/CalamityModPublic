@@ -12,24 +12,31 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
 float2 RotatedBy(float theta, float x, float y)
 {
     return float2(x * cos(theta) + y * sin(theta), x * sin(theta) - y * cos(theta));
 }
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float sineTime = sin(uTime); // Saved so that I don't have the compute this multiple times. Shaders have a limited number of mathematical instructions you can use - 64.
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    
     float2 modifiedCoords = coords;
     float4 color = tex2D(uImage0, coords);
     
     modifiedCoords = RotatedBy(uTime + 0.4 * sineTime, modifiedCoords.y, modifiedCoords.x);
     float4 noiseColor = tex2D(uImage1, modifiedCoords);
     
-    float xMultiplier = cos(coords.x * 2.3 + uTime) + 1;
-    float yMultiplier = sin(frameY * 2 + uTime * 1.4) + 1;
+    float xMultiplier = cos(framedCoords.x * 2.3 + uTime) + 1;
+    float yMultiplier = sin(framedCoords.y * 2 + uTime * 1.4) + 1;
     
     float interpolationValue = saturate(xMultiplier * yMultiplier) * 0.7 + 0.3; // Range of 0-1. Depends on the current coordinates and the time.
     

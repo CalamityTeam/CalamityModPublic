@@ -99,6 +99,7 @@ namespace CalamityMod.Skies
                 LightningIntensity = 0f;
                 BackgroundIntensity = MathHelper.Clamp(BackgroundIntensity - 0.08f, 0f, 1f);
                 LightningBolts.Clear();
+                Deactivate(Array.Empty<object>());
                 return;
             }
 

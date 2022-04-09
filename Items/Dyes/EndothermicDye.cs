@@ -5,12 +5,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
     public class EndothermicDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/EndothermicDyeShader").Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/EndothermicDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(123, 205, 237)).UseSecondaryColor(new Color(85, 85, 171));
         public override void SafeSetStaticDefaults()
         {

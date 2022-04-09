@@ -1,5 +1,8 @@
+﻿using System;
 using CalamityMod.NPCs.SupremeCalamitas;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -29,6 +32,16 @@ namespace CalamityMod.Skies
                     SCalIndex = i;
                     break;
                 }
+            }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if (SCalIndex == -1)
+            {
+                UpdateSCalIndex();
+                if (SCalIndex == -1)
+                    Filters.Scene["CalamityMod:SupremeCalamitas"].Deactivate(Array.Empty<object>());
             }
         }
 

@@ -5,12 +5,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
     public class PinkStatigelDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/SlimeGodDyeShader").Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/SlimeGodDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(249, 129, 185)).UseSecondaryColor(new Color(131, 58, 103)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {

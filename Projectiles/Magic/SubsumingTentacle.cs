@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 10; i < Projectile.oldPos.Length; i++)
                 {
                     var tentacleShader = GameShaders.Misc["CalamityMod:SubsumingTentacle"];
-                    tentacleShader.UseImage0("Images/Misc/Perlin");
+                    tentacleShader.UseImage1("Images/Misc/Perlin");
 
                     Vector2 drawPos = Projectile.oldPos[i] + ModContent.Request<Texture2D>(Texture).Size() / 2f - Main.screenPosition + Projectile.gfxOffY * Vector2.UnitY;
                     float scale = MathHelper.Lerp(0.05f, 1.3f, i / (float)Projectile.oldPos.Length) * Projectile.scale;

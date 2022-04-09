@@ -111,7 +111,10 @@ namespace CalamityMod.Skies
                 intensity -= 0.01f;
             }
 
-            Color selectCinderColor()
+            if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
+                isActive = false;
+
+            static Color selectCinderColor()
             {
                 if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
                     return Color.Transparent;

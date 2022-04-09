@@ -57,6 +57,19 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Hides an NPC from the bestiary. This should be called in SetStaticDefaults.
+        /// </summary>
+        /// <param name="n"></param>
+        public static void HideFromBestiary(this ModNPC n)
+        {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Hide = true
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(n.Type, value);
+        }
+
+        /// <summary>
         /// Syncs position and velocity from a client to the server. This is to be used in contexts where these things are reliant on client-side information, such as <see cref="Main.MouseWorld"/>.
         /// </summary>
         /// <param name="npc"></param>

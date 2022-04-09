@@ -12,6 +12,9 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 float3 specialPalette[9] =
 {
     float3(250, 255, 112) / 255.0,
@@ -48,13 +51,18 @@ float TriangleWave(float x)
     return -(x % 2) + 2;
 }
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float4 noiseColor = tex2D(uImage1, float2(coords.x, frameY - uTime * 0.45) * 0.1);
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, framedCoords.y - uTime * 0.45) * 0.1);
     float4 color = tex2D(uImage0, coords);
-    float3 blendColor = PaletteLerp(frac(frameY + uTime * 1.3));
-    float blendFactor = (TriangleWave(uTime * 9 + coords.x * 2 - frameY * 2.1) * 0.5 + 0.5) * 0.5;
+    float3 blendColor = PaletteLerp(frac(framedCoords.y + uTime * 1.3));
+    float blendFactor = (TriangleWave(uTime * 9 + framedCoords.x * 2 - framedCoords.y * 2.1) * 0.5 + 0.5) * 0.5;
     float brightness = (blendFactor * 0.4 + noiseColor.r * 0.9) * 1.2;
     
     float4 colorBlendMultiplier = lerp(float4(blendColor, 1), float4(1, 1, 1, 1), saturate(blendFactor * 1.5));

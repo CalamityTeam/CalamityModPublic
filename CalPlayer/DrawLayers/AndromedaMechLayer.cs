@@ -11,7 +11,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class AndromedaMechLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.EyebrellaCloud);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Skin);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
@@ -21,9 +21,15 @@ namespace CalamityMod.CalPlayer.DrawLayers
             return drawInfo.drawPlayer.Calamity().andromedaState != AndromedaPlayerState.Inactive;
         }
 
-        protected override void Draw(ref PlayerDrawSet drawInfo)
+        public static void DrawTheStupidFuckingRobot(ref PlayerDrawSet drawInfo)
         {
             Player drawPlayer = drawInfo.drawPlayer;
+            drawInfo.hidesBottomSkin = true;
+            drawInfo.hidesTopSkin = true;
+            drawInfo.armorHidesArms = true;
+            drawInfo.armorHidesHands = true;
+            drawInfo.cShield = 0;
+            drawInfo.hideCompositeShoulders = true;
 
             // Clear all old draw data and draw the robot on top.
             drawInfo.DrawDataCache.Clear();
@@ -98,6 +104,11 @@ namespace CalamityMod.CalPlayer.DrawLayers
                     drawInfo.DrawDataCache.Add(drawData);
                     break;
             }
+        }
+
+        protected override void Draw(ref PlayerDrawSet drawInfo)
+        {
+            DrawTheStupidFuckingRobot(ref drawInfo);
         }
     }
 }

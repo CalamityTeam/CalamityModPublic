@@ -12,14 +12,22 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float4 pixelBelow = tex2D(uImage0, coords);
-    float4 noiseColor = tex2D(uImage1, float2(coords.x, frac(frameY - uTime * 0.67)) * 0.5) * 1.5;
-    float verticalFlowMovement = (sin(coords.x * 14.71 + frameY * 13.5 - uTime * 5.6) * 0.5 + 0.5) * noiseColor.r;
-    if (pixelBelow.a == 0 && frameY < 0.96)
+    float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, frac(framedCoords.y - uTime * 0.67)) * 0.5) * 1.5;
+    float verticalFlowMovement = (sin(framedCoords.x * 14.71 + framedCoords.y * 13.5 - uTime * 5.6) * 0.5 + 0.5) * noiseColor.r;
+    if (pixelBelow.a == 0 && framedCoords.y < 0.96)
         coords.y = saturate(coords.y + verticalFlowMovement / uSourceRect.w / 17);
     float4 color = tex2D(uImage0, coords);
 

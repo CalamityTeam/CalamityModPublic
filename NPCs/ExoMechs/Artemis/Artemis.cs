@@ -1409,11 +1409,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis/Artemis1").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis/Artemis2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis/Artemis3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis/Artemis4").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis/Artemis5").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis1").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis2").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis3").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis4").Type, 1f);
+                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis5").Type, 1f);
                 }
             }
         }

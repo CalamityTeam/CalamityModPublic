@@ -338,8 +338,11 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
-            FusableParticleManager.UnloadParticleRenderSets();
-            Main.OnPreDraw -= PrepareRenderTargets;
+            Main.QueueMainThreadAction(() =>
+            {
+                FusableParticleManager.UnloadParticleRenderSets();
+                Main.OnPreDraw -= PrepareRenderTargets;
+            });
 
             RipperUI.Unload();
             AstralArcanumUI.Unload();

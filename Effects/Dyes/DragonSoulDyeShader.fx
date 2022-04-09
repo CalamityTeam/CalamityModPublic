@@ -12,6 +12,9 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
 static float3 colors[4] = 
 {
@@ -21,12 +24,16 @@ static float3 colors[4] =
     float3(252, 155, 0) / 255.0
 };
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float4 color = tex2D(uImage0, coords);
-    
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float interval = (cos(coords.x * 6.283 + uTime * 3.141) * 2 + sin(uTime * 7 + frameY * 6)) * 0.125 + 0.5;
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float4 color = tex2D(uImage0, coords);    
+    float interval = (cos(framedCoords.x * 6.283 + uTime * 3.141) * 2 + sin(uTime * 7 + framedCoords.y * 6)) * 0.125 + 0.5;
     interval *= 2; // Exaggerate the interval.
     float4 returnColor = float4(lerp(colors[floor(interval) % 4], colors[floor(interval + 1) % 4], interval % 1), 1); // But clamp it to a 0-1 range.
     

@@ -12,17 +12,25 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float2 swirlOffset = float2(sin(uTime * 0.26 + 1.754) * 0.31, sin(uTime * 0.26) * 0.16) * uSaturation;
     float4 color = tex2D(uImage0, coords);
-    float4 noiseColor = tex2D(uImage1, frac(float2(coords.x, frameY + uTime * 0.16) + swirlOffset - uWorldPosition * 0.0006) * 0.26);
-    float4 flameColor = tex2D(uImage1, frac(float2(coords.x, frameY + uTime * 0.44)) * 0.1);
+    float4 noiseColor = tex2D(uImage1, frac(float2(framedCoords.x, framedCoords.y + uTime * 0.16) + swirlOffset - uWorldPosition * 0.0006) * 0.26);
+    float4 flameColor = tex2D(uImage1, frac(float2(framedCoords.x, framedCoords.y + uTime * 0.44)) * 0.1);
     float brightnessFactor = lerp(noiseColor.r, noiseColor.g, sin(uTime * 2.46) * 0.5 + 0.5) * 2.35;
     
-    float normalizedDistanceFromCenter = distance(float2(coords.x, frameY), float2(0.5, 0.5)) * 2;
+    float normalizedDistanceFromCenter = distance(framedCoords, float2(0.5, 0.5)) * 2;
     
     // Cause "ring" fades based on distance.
     float fadeToNormal = 1 - saturate((normalizedDistanceFromCenter - 0.67) / 0.3);

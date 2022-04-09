@@ -12,17 +12,24 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float4 color = tex2D(uImage0, coords);
-    float4 noiseColor = tex2D(uImage1, float2(coords.x, frac(frameY - uTime * 0.27)) * 0.5) * 1.5;
-    float verticalFlowMovement = (sin(coords.x * 14.71 + frameY * 13.5 - uTime * 1.6) * 0.5 + 0.5) * noiseColor.r;
+    float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, frac(framedCoords.y - uTime * 0.27)) * 0.5) * 1.5;
+    float verticalFlowMovement = (sin(framedCoords.x * 14.71 + framedCoords.y * 13.5 - uTime * 1.6) * 0.5 + 0.5) * noiseColor.r;
     
     // Adjust coords to have an offset to the sprite.
-    if (color.a == 0 && frameY < 0.82)
+    if (color.a == 0 && framedCoords.y < 0.82)
         coords.y = saturate(coords.y + verticalFlowMovement / uSourceRect.w / 17);
 
     // Prepare the dark outlines.

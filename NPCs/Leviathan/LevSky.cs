@@ -15,6 +15,13 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void Update(GameTime gameTime)
         {
+            if (LevIndex == -1)
+            {
+                UpdateLIndex();
+                if (LevIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Dyes
 {
     public class AerialiteDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/AerialiteDyeShader").Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/AerialiteDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(153, 200, 193)).UseSecondaryColor(new Color(236, 244, 213)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {

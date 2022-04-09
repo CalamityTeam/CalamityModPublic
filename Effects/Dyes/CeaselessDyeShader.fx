@@ -12,6 +12,9 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
 float randomness(float2 uv)
 {
@@ -19,10 +22,15 @@ float randomness(float2 uv)
     return noise;
 }
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    coords.x += randomness(uTime + frameY).x * 0.09 * (1 - frameY); // Add an X offset based on a noise function, giving a moon lord void-esque shader effect.
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    coords.x += randomness(uTime + framedCoords.y).x * 0.09 * (1 - framedCoords.y); // Add an X offset based on a noise function, giving a moon lord void-esque shader effect.
     float4 color = tex2D(uImage0, coords);
     float4 returnColor = color * 0.1;
     returnColor.a = color.a;

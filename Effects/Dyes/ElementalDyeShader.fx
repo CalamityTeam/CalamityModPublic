@@ -12,13 +12,20 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float4 color = tex2D(uImage0, coords);
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
-    
-    float time = (sin(uTime + coords.x * cos(uTime + 3.141 * coords.x) + 1.5707 * frameY) * 0.5 + 0.5) * 6;
+    float time = (sin(uTime + framedCoords.x * cos(uTime + 3.141 * framedCoords.x) + 1.5707 * framedCoords.y) * 0.5 + 0.5) * 6;
     float timeFloored = floor(time);
     
     float3 colors[6] =

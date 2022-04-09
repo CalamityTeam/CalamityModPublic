@@ -5,12 +5,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
     public class NightmareDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/NightmareDyeShader").Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/NightmareDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(249, 81, 0)).UseSecondaryColor(new Color(255, 203, 106));
         public override void SafeSetStaticDefaults()
         {

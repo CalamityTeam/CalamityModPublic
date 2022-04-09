@@ -15,6 +15,13 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void Update(GameTime gameTime)
         {
+            if (CalIndex == -1)
+            {
+                UpdateCalIndex();
+                if (CalIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;

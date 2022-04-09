@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.CalPlayer.DrawLayers;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Magic;
@@ -48,6 +49,7 @@ namespace CalamityMod.CalPlayer
     {
         #region Draw Hooks
 
+        /*
         public override void ModifyDrawLayerOrdering(IDictionary<PlayerDrawLayer, PlayerDrawLayer.Position> positions)
         {
             if (Player is null)
@@ -57,9 +59,13 @@ namespace CalamityMod.CalPlayer
             if (CalamityLists.legOverrideList.Contains(Player.legs))
                 positions.Remove(PlayerDrawLayers.Leggings);
         }
+        */
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
+            if (Player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+                AndromedaMechLayer.DrawTheStupidFuckingRobot(ref drawInfo);
+
             CalamityPlayer calamityPlayer = Player.Calamity();
             if (Main.myPlayer == Player.whoAmI && !Main.gameMenu && CalamityConfig.Instance.SpeedrunTimer)
             {

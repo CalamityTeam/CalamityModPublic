@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
                 FireDrawer = new PrimitiveTrail(SunWidthFunction, SunColorFunction, null, GameShaders.Misc["CalamityMod:Flame"]);
 
             GameShaders.Misc["CalamityMod:Flame"].UseSaturation(0.45f);
-            GameShaders.Misc["CalamityMod:Flame"].UseImage0("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:Flame"].UseImage1("Images/Misc/Perlin");
 
             List<float> rotationPoints = new List<float>();
             List<Vector2> drawPoints = new List<Vector2>();

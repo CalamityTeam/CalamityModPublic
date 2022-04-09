@@ -4,12 +4,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
     public class DragonSoulDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/DragonSoulDyeShader").Value), "DyePass");
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/DragonSoulDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass");
         public override void SafeSetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Soul Dye");

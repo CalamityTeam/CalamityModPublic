@@ -54,7 +54,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
             return drawColor;
         }
 
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.EyebrellaCloud);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.BackAcc);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {

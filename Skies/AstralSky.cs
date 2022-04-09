@@ -64,6 +64,9 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
+            if (!Main.LocalPlayer.Calamity().ZoneAstral)
+                skyActive = false;
+
             if (skyActive && opacity < 1f)
             {
                 opacity += 0.02f;

@@ -6,12 +6,13 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Placeables.Ores;
+using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
     public class StratusDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/StratusDyeShader").Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/StratusDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(36, 86, 163)).UseSecondaryColor(new Color(124, 204, 223)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {

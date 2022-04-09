@@ -5,12 +5,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 
 namespace CalamityMod.Items.Dyes
 {
     public class BloodflareDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/BloodflareDyeShader").Value), "DyePass").
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/BloodflareDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").
             UseColor(new Color(122, 10, 60)).UseSecondaryColor(new Color(219, 102, 106)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {

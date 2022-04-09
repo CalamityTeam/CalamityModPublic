@@ -6,7 +6,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class MountsAboveOwnerLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.EyebrellaCloud);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.BackAcc);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {

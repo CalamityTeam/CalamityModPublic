@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -11,7 +12,7 @@ namespace CalamityMod.Items.Dyes
     {
         public override ArmorShaderData ShaderDataToBind
         {
-            get => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ExoDyeShader").Value), "DyePass").UseImage("Images/Misc/Perlin");
+            get => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ExoDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").UseImage("Images/Misc/Perlin");
         }
 
         public override void SafeSetStaticDefaults()

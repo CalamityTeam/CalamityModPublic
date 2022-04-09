@@ -12,6 +12,9 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
 float BlendFunction(float from, float to)
 {
@@ -21,22 +24,25 @@ float3 BlendColor(float3 from, float3 to)
 {
     return float3(BlendFunction(from.r, to.r), BlendFunction(from.g, to.g), BlendFunction(from.b, to.b));
 }
+float2 InverseLerp(float2 start, float2 end, float2 x)
+{
+    return saturate((x - start) / (end - start));
+}
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     
     // Calculate an updraft noise color. This takes world position into account, allowing movement to influence the shader.
-    float updraftXCoord = sin(3.141 * frac(coords.x + uWorldPosition.x * 0.0003));
-    float updraftYCoord = sin(3.141 * frac(pow(frameY, 4) + uTime * 1.21 + uWorldPosition.y * 0.0003));
+    float updraftXCoord = sin(3.141 * frac(framedCoords.x + uWorldPosition.x * 0.0003));
+    float updraftYCoord = sin(3.141 * frac(pow(framedCoords.y, 4) + uTime * 1.21 + uWorldPosition.y * 0.0003));
     float2 updraftCoords = float2(updraftXCoord, updraftYCoord);
     float4 updraftNoiseColor = tex2D(uImage1, updraftCoords * float2(0.075, 0.03));
     
     float4 color = tex2D(uImage0, coords);
     
     // Calculate a cloud color based on noise.
-    float4 cloudColor = tex2D(uImage1, float2(coords.x + uTime * 0.11, frameY));
+    float4 cloudColor = tex2D(uImage1, float2(framedCoords.x + uTime * 0.11, framedCoords.y));
     cloudColor = pow(cloudColor, 2);
     
     // Calculate the updraft color based on the noise.

@@ -387,10 +387,7 @@ namespace CalamityMod.World
                                         Main.tile[x + dx, y + dy - y2].Get<TileWallWireStateData>().HasTile = true;
                                     }
                                     if (dy == -2 && dx == treePosition)
-                                    {
                                         WorldGen.PlaceTile(x + dx, y + dy - extraHeight - 1, ModContent.TileType<AcidWoodTreeSapling>());
-                                        GrowSaplingImmediately(x + dx, y + dy - extraHeight - 1);
-                                    }
                                 }
                                 else
                                 {
@@ -824,7 +821,6 @@ namespace CalamityMod.World
                     continue;
 
                 WorldGen.PlaceTile(treePlantPosition.X, treePlantPosition.Y - 1, ModContent.TileType<AcidWoodTreeSapling>());
-                GrowSaplingImmediately(treePlantPosition.X, treePlantPosition.Y - 1);
             }
         }
         #endregion
@@ -962,71 +958,6 @@ namespace CalamityMod.World
             }
             while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
             YStart = determinedPoint.Y;
-        }
-        public static void GrowSaplingImmediately(int i, int j)
-        {
-            int trueStartingPositionY = j;
-            while (TileID.Sets.TreeSapling[Main.tile[i, trueStartingPositionY].TileType])
-            {
-                trueStartingPositionY++;
-            }
-            Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
-            Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
-            if (!tileAtPosition.HasTile || tileAtPosition.IsHalfBlock || tileAtPosition.Slope != 0)
-            {
-                return;
-            }
-            if (tileAbovePosition.WallType != 0)
-            {
-                return;
-            }
-            if (!WorldGen.EmptyTileCheck(i - 1, i + 1, trueStartingPositionY - 30, trueStartingPositionY - 1, 20))
-            {
-                return;
-            }
-            int treeHeight = WorldGen.genRand.Next(10, 21);
-            int frameYIdeal = WorldGen.genRand.Next(-8, 9);
-            frameYIdeal *= 2;
-            short frameY = 0;
-            for (int k = 0; k < treeHeight; k++)
-            {
-                tileAtPosition = Main.tile[i, trueStartingPositionY - 1 - k];
-                if (k == 0)
-                {
-                    tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
-                    tileAtPosition.TileType = TileID.PalmTree;
-                    tileAtPosition.TileFrameX = 66;
-                    tileAtPosition.TileFrameY = 0;
-                }
-                else if (k == treeHeight - 1)
-                {
-                    tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
-                    tileAtPosition.TileType = TileID.PalmTree;
-                    tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(4, 7));
-                    tileAtPosition.TileFrameY = frameY;
-                }
-                else
-                {
-                    if (frameY != frameYIdeal)
-                    {
-                        float heightRatio = k / (float)treeHeight;
-                        bool increaseFrameY = heightRatio >= 0.25f && ((heightRatio < 0.5f && WorldGen.genRand.Next(13) == 0) || (heightRatio < 0.7f && WorldGen.genRand.Next(9) == 0) || heightRatio >= 0.95f || WorldGen.genRand.Next(5) != 0 || true);
-                        if (increaseFrameY)
-                        {
-                            frameY += (short)(Math.Sign(frameYIdeal) * 2);
-                        }
-                    }
-                    tileAtPosition.Get<TileWallWireStateData>().HasTile = true;
-                    tileAtPosition.TileType = TileID.PalmTree;
-                    tileAtPosition.TileFrameX = (short)(22 * WorldGen.genRand.Next(0, 3));
-                    tileAtPosition.TileFrameY = frameY;
-                }
-            }
-            WorldGen.RangeFrame(i - 2, trueStartingPositionY - treeHeight - 1, i + 2, trueStartingPositionY + 1);
-            if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.SendTileSquare(-1, i, (int)(trueStartingPositionY - treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
-            }
         }
         #endregion
     }

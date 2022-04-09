@@ -59,6 +59,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("XF-09 Ares Plasma Cannon");
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;

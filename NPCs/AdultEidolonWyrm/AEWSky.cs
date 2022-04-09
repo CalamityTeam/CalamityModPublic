@@ -15,6 +15,13 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void Update(GameTime gameTime)
         {
+            if (AEWIndex == -1)
+            {
+                UpdateAEWIndex();
+                if (AEWIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
                 intensity += 0.01f;
             else if (!isActive && intensity > 0f)

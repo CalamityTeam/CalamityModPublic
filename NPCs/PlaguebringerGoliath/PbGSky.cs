@@ -15,6 +15,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void Update(GameTime gameTime)
         {
+            if (PbGIndex == -1)
+            {
+                UpdatePbGIndex();
+                if (PbGIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;

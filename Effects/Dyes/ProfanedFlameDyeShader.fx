@@ -12,22 +12,30 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w; // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float4 color = tex2D(uImage0, coords);
     
     // Read the fade map as a streak.
-    float4 fadeMapColor = tex2D(uImage1, float2(frac(coords.x * 0.18 + cos(uTime * 0.9) * 0.021), frac(frameY * 0.32 + uTime * 0.2)));
-    fadeMapColor.r *= pow(coords.x, 0.2);
+    float4 fadeMapColor = tex2D(uImage1, float2(frac(framedCoords.x * 0.18 + cos(uTime * 0.9) * 0.021), frac(framedCoords.y * 0.32 + uTime * 0.2)));
+    fadeMapColor.r *= pow(framedCoords.x, 0.2);
     
     float opacity = lerp(1.05, 1.95, fadeMapColor.r);
     opacity *= fadeMapColor.r + 1;
     opacity *= lerp(0.4, 1.1, fadeMapColor.r);
     
     float3 transformColor = lerp(uColor, uSecondaryColor, fadeMapColor.r);
-    float orangeFade = 1 - saturate((frameY - 0.08) / 0.74);
+    float orangeFade = 1 - saturate((framedCoords.y - 0.08) / 0.74);
     opacity += (1 - orangeFade) * 0.6;
     
     transformColor = lerp(transformColor, float3(206 / 255, 116 / 255, 59 / 255), orangeFade);

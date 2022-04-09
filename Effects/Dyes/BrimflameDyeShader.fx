@@ -12,11 +12,18 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float2 uTargetPosition;
+float4 uLegacyArmorSourceRect;
+float2 uLegacyArmorSheetSize;
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float2 InverseLerp(float2 start, float2 end, float2 x)
 {
-    // Gets a 0-1 representation of the y position on a given frame, with 0 being the top, and 1 being the bottom.
-    float frameY = (coords.y * uImageSize0.y - uSourceRect.y) / uSourceRect.w;
+    return saturate((x - start) / (end - start));
+}
+
+float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
     float4 color = tex2D(uImage0, coords);
     
     float3 alteredColor = lerp(uColor, float3(1, 0, 0), 0.65);
@@ -24,7 +31,7 @@ float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD
     
     // Fade out at the edges of the trail to give a blur effect.
     // This is very important.
-    float flameStreakBrightness = tex2D(uImage1, float2(frac(frameY + uTime * 1.4) * 0.4, coords.x * 0.65)).r;
+    float flameStreakBrightness = tex2D(uImage1, float2(frac(framedCoords.y + uTime * 1.4) * 0.4, framedCoords.x * 0.65)).r;
     float fadeToRed = lerp(0.2, 1, flameStreakBrightness);
     float3 flameColor = lerp(alteredColor, alteredSecondaryColor, fadeToRed);
     flameColor.r = 0.6 + sqrt(fadeToRed) * 0.4;
