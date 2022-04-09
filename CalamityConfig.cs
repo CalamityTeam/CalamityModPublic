@@ -371,9 +371,9 @@ namespace CalamityMod
 
             foreach (string[] label in _configLabels)
             {
-                ModTranslation text = instance.CreateTranslation(label[0]);
+                ModTranslation text = LocalizationLoader.CreateTranslation(label[0]);
                 text.SetDefault($"[i:" + label[1] + "]  "+ label[2]);
-                instance.AddTranslation(text);
+                LocalizationLoader.AddTranslation(text);
             }
         }
     }
