@@ -2855,8 +2855,7 @@ namespace CalamityMod.NPCs.Yharon
                 normalOnly.Add(ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
-                // TODO -- how to easily drop these for each player? DropHelper let us do that, new system doesn't seem to
-                // There appears to be only one "drop for each player" now: Master Mode's DropPerPlayerOnThePlayer rule.
+                // TODO -- This drop needs to be instanced for each player
                 int soulFragMin = 15;
                 int soulFragMax = 22;
                 normalOnly.Add(ModContent.ItemType<HellcasterFragment>(), 1, soulFragMin, soulFragMax);
