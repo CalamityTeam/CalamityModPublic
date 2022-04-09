@@ -727,7 +727,7 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(new DropOneByOne(ItemID.Gel, kingSlimeGelSpray));
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.RoyalGel);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.RoyalGel));
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<CrownJewel>(), 10);
@@ -738,7 +738,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.EyeofCthulhu:
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.EoCShield);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EoCShield));
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<TeardropCleaver>(), 10);
@@ -750,7 +750,9 @@ namespace CalamityMod.NPCs
 
                 case NPCID.EaterofWorldsHead:
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddIf(() => npc.boss && !Main.expertMode, ItemID.WormScarf);
+                    LeadingConditionRule EoWKill = new(DropHelper.If(() => npc.boss));
+                    EoWKill.Add(DropHelper.PerPlayer(ItemID.WormScarf));
+                    npcLoot.AddNormalOnly(EoWKill);
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule eowCorruptionLore = new(DropHelper.If((info) => info.npc.boss && (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2));
@@ -767,7 +769,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.BrainofCthulhu:
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.BrainOfConfusion);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BrainOfConfusion));
 
                     // Corruption World OR Drunk World: Corruption Lore
                     LeadingConditionRule bocCorruptionLore = new(DropHelper.If(() => (!WorldGen.crimson || WorldGen.drunkWorldGen) && !NPC.downedBoss2));
@@ -794,7 +796,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, ItemID.BeeKeeper, ItemID.BeesKnees, ItemID.BeeGun));
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.HiveBackpack);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.HiveBackpack));
                     npcLoot.AddNormalOnly(ModContent.ItemType<TheBee>(), 10);
 
                     // Would be in the bag otherwise
@@ -821,7 +823,7 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(new DropOneByOne(ItemID.Bone, skeletronBoneSpray));
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.BoneGlove);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.BoneGlove));
 
                     // Lore
                     npcLoot.AddLore(() => !NPC.downedBoss3, ModContent.ItemType<KnowledgeSkeletron>());
@@ -872,11 +874,15 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ModContent.ItemType<Carnage>(), 10);
 
                     // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
-                    npcLoot.AddIf(() => !Main.hardMode, ModContent.ItemType<IbarakiBox>());
-                    npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<IbarakiBox>(), 10);
+                    LeadingConditionRule firstWoFKill = new(DropHelper.If(() => !Main.hardMode));
+                    firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<IbarakiBox>()));
+                    npcLoot.AddNormalOnly(firstWoFKill);
+                    LeadingConditionRule subsequentWoFKills = new(DropHelper.If(() => Main.hardMode));
+                    subsequentWoFKills.Add(DropHelper.PerPlayer(ModContent.ItemType<IbarakiBox>(), 10));
+                    npcLoot.AddNormalOnly(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.DemonHeart);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
 
                     // WoF drops Evil Keys
                     npcLoot.Add(ItemID.CorruptionKey, 3);
@@ -895,7 +901,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 15, 30));
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.MechanicalWagonPiece);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalWagonPiece));
 
                     // Lore
                     npcLoot.AddLore(() => !NPC.downedMechBoss1, ModContent.ItemType<KnowledgeDestroyer>());
@@ -942,7 +948,7 @@ namespace CalamityMod.NPCs
                     npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 1, 15, 30));
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.MechanicalBatteryPiece);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.MechanicalBatteryPiece));
 
                     // Lore
                     npcLoot.AddLore(() => !NPC.downedMechBoss3, ModContent.ItemType<KnowledgeSkeletronPrime>());
@@ -990,12 +996,12 @@ namespace CalamityMod.NPCs
                     catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.SporeSac);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.SporeSac));
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<BloomStone>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<BlossomFlux>(), 10);
-                    npcLoot.AddNormalOnly(ModContent.ItemType<LivingShard>(), 1, 12, 18);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<LivingShard>(), 1, 12, 18));
 
                     // Plantera drops Jungle Key
                     npcLoot.Add(ItemID.JungleKey, 3);
@@ -1035,7 +1041,7 @@ namespace CalamityMod.NPCs
 
                     // Expert+ drops are also available on Normal
                     var normalOnly = npcLoot.DefineNormalOnlyDropSet();
-                    normalOnly.Add(ItemID.ShinyStone);
+                    normalOnly.Add(DropHelper.PerPlayer(ItemID.ShinyStone));
 
                     // Would be in the bag otherwise
                     normalOnly.Add(ModContent.ItemType<EssenceofCinder>(), 1, 5, 10);
@@ -1109,7 +1115,7 @@ namespace CalamityMod.NPCs
                     catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.ShrimpyTruffle);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.ShrimpyTruffle));
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<BrinyBaron>(), 10);
@@ -1157,12 +1163,12 @@ namespace CalamityMod.NPCs
                     catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.GravityGlobe);
-                    npcLoot.AddNormalOnly(ItemID.SuspiciousLookingTentacle);
-                    npcLoot.AddNormalOnly(ItemID.LongRainbowTrailWings);
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.GravityGlobe));
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.SuspiciousLookingTentacle));
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.LongRainbowTrailWings));
 
                     // Would be in the bag otherwise
-                    npcLoot.AddNormalOnly(ModContent.ItemType<MLGRune2>());
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ModContent.ItemType<MLGRune2>()));
 
                     // Lore
                     npcLoot.AddLore(() => !NPC.downedMoonlord, ModContent.ItemType<KnowledgeMoonLord>());
