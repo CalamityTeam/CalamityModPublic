@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.featherCrownDraw = true; //this bool is just used for drawing
         }
 
-        public override void UpdateVanity(Player player)
+        public override void PreUpdateVanitySet(Player player)
         {
             player.Calamity().featherCrownDraw = true; //this bool is just used for drawing
         }

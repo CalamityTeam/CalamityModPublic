@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
                 player.accFlipper = true;
         }
 
-        public override void UpdateVanity(Player player, EquipType type)
+        public override void PreUpdateVanitySet(Player player)
         {
             player.Calamity().fathomSwarmerTail = true;
         }

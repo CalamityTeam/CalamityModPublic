@@ -58,9 +58,9 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
-        public override void UpdateVanity(Player player)
+        public override void PreUpdateVanitySet(Player player)
         {
-            player.Calamity().abyssDivingGear = true; //this bool is just used for drawing
+            player.Calamity().abyssDivingGear = true;
         }
 
         public override void AddRecipes()

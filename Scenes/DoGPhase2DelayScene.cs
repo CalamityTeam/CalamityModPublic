@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
 {
-    public class DoGPhase2TransitionMusicSystem : ModSceneEffect
+    public class DoGPhase2DelayScene : ModSceneEffect
     {
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
         public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
