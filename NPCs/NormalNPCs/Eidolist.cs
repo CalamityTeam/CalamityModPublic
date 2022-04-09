@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -321,10 +322,20 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && !NPC.LunarApocalypseIsUp, ModContent.ItemType<EidolonTablet>(), 4);
-            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 8, 10);
-            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 10, 14);
-            npcLoot.AddIf(() => EidolonWyrmHeadHuge.CanMinionsDropThings() && NPC.downedPlantBoss, ItemID.Ectoplasm, 1, 3, 5);
+            // Never drop anything if this Eidolon Wyrm is a minion during an AEW fight.
+            var aewMinionCondition = npcLoot.DefineConditionalDropSet(EidolonWyrmHeadHuge.CanMinionsDropThings);
+
+            LeadingConditionRule notDuringCultistFight = new LeadingConditionRule(DropHelper.If(() => !NPC.LunarApocalypseIsUp));
+            notDuringCultistFight.Add(ModContent.ItemType<EidolonTablet>(), 4);
+            aewMinionCondition.Add(notDuringCultistFight);
+
+            LeadingConditionRule postClone = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedCalamitas));
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenite>(), 1, 8, 10, 10, 14));
+            aewMinionCondition.Add(postClone);
+
+            LeadingConditionRule postPlant = new LeadingConditionRule(new Conditions.DownedPlantera());
+            postPlant.Add(ItemID.Ectoplasm, 1, 3, 5);
+            aewMinionCondition.Add(postPlant);
         }
     }
 }

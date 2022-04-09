@@ -417,8 +417,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            // TODO -- Draedon's remote appears to not exist as of 1.4 porting. Is this intentional or did something go wrong?
-            // npcLoot.Add(ModContent.ItemType<DraedonsRemote>(), 3);
             npcLoot.Add(ModContent.ItemType<DemonicBoneAsh>(), 1, 2, 4);
             npcLoot.Add(ModContent.ItemType<MysteriousCircuitry>(), 1, 4, 8);
             npcLoot.Add(ModContent.ItemType<DubiousPlating>(), 1, 4, 8);

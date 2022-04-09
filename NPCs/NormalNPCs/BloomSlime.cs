@@ -65,9 +65,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ModContent.ItemType<UelibloomOre>(), 1, 10, 26);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<UelibloomOre>(), 1, 10, 26);
     }
 }

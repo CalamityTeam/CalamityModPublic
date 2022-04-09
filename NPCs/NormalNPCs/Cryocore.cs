@@ -122,9 +122,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), new DropHelper.Fraction(1, 3));
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 3);
     }
 }

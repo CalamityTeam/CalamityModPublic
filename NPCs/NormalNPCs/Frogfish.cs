@@ -110,10 +110,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2);
 
         public override void HitEffect(int hitDirection, double damage)
         {

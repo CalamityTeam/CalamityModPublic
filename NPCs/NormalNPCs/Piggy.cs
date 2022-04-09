@@ -83,10 +83,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemID.Bacon);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Bacon);
 
         public override void HitEffect(int hitDirection, double damage)
         {

@@ -186,6 +186,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 2);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new DropHelper.Fraction(7, 100));
+            // TODO -- does this work?
             npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
         }
     }

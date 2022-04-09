@@ -83,10 +83,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt,
-                ModContent.ItemType<SlagMagnum>(),
+            var weapons = new int[]
+            {
                 ModContent.ItemType<Aftershock>(),
-                ModContent.ItemType<EarthenPike>()));
+                ModContent.ItemType<EarthenPike>(),
+                ModContent.ItemType<SlagMagnum>(),
+            };
+            npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
         }
 
         public override void HitEffect(int hitDirection, double damage)
