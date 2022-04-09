@@ -21,6 +21,7 @@ float2 screenMoveOffset;
 float2 generalBackgroundOffset;
 bool invertedScreen;
 float2 upscaleFactor;
+float4 uShaderSpecificData;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {

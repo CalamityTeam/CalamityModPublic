@@ -1,5 +1,6 @@
-using CalamityMod.Skies;
+﻿using CalamityMod.Skies;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -43,33 +44,33 @@ namespace CalamityMod.Effects
             if (Main.dedServ)
                 return;
 
-            AstralFogShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CustomShader").Value;
-            LightShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LightBurstShader").Value;
-            TentacleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TentacleShader").Value;
-            TeleportDisplacementShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TeleportDisplacementShader").Value;
-            SCalMouseShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SCalMouseShader").Value;
-            LightDistortionShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DistortionShader").Value;
-            PhaseslayerRipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PhaseslayerRipShader").Value;
-            ScarletDevilShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScarletDevilStreak").Value;
-            BordernadoFireShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BordernadoFire").Value;
-            PrismCrystalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PrismCrystalStreak").Value;
-            FadedUVMapStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadedUVMapStreak").Value;
-            FlameStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/Flame").Value;
-            FadingSolidTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadingSolidTrail").Value;
-            ImpFlameTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ImpFlameTrail").Value;
-            SCalShieldShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SupremeShieldShader").Value;
-            RancorMagicCircleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/RancorMagicCircle").Value;
-            BasicTintShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BasicTint").Value;
-            CircularBarShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarShader").Value;
-            CircularBarSpriteShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarSpriteShader").Value;
-            DoGDisintegrationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DoGDisintegration").Value;
-            ArtAttackTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ArtAttackTrail").Value;
-            CircularAoETelegraph = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularAoETelegraph").Value;
-            IntersectionClipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/IntersectionClipShader").Value;
-            LocalLinearTransformationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LocalLinearTransformationShader").Value;
+            AstralFogShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CustomShader", AssetRequestMode.ImmediateLoad).Value;
+            LightShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LightBurstShader", AssetRequestMode.ImmediateLoad).Value;
+            TentacleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TentacleShader", AssetRequestMode.ImmediateLoad).Value;
+            TeleportDisplacementShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/TeleportDisplacementShader", AssetRequestMode.ImmediateLoad).Value;
+            SCalMouseShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SCalMouseShader", AssetRequestMode.ImmediateLoad).Value;
+            LightDistortionShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DistortionShader", AssetRequestMode.ImmediateLoad).Value;
+            PhaseslayerRipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PhaseslayerRipShader", AssetRequestMode.ImmediateLoad).Value;
+            ScarletDevilShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScarletDevilStreak", AssetRequestMode.ImmediateLoad).Value;
+            BordernadoFireShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BordernadoFire", AssetRequestMode.ImmediateLoad).Value;
+            PrismCrystalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/PrismCrystalStreak", AssetRequestMode.ImmediateLoad).Value;
+            FadedUVMapStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadedUVMapStreak", AssetRequestMode.ImmediateLoad).Value;
+            FlameStreakShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/Flame", AssetRequestMode.ImmediateLoad).Value;
+            FadingSolidTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/FadingSolidTrail", AssetRequestMode.ImmediateLoad).Value;
+            ImpFlameTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ImpFlameTrail", AssetRequestMode.ImmediateLoad).Value;
+            SCalShieldShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/SupremeShieldShader", AssetRequestMode.ImmediateLoad).Value;
+            RancorMagicCircleShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/RancorMagicCircle", AssetRequestMode.ImmediateLoad).Value;
+            BasicTintShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BasicTint", AssetRequestMode.ImmediateLoad).Value;
+            CircularBarShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarShader", AssetRequestMode.ImmediateLoad).Value;
+            CircularBarSpriteShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularBarSpriteShader", AssetRequestMode.ImmediateLoad).Value;
+            DoGDisintegrationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/DoGDisintegration", AssetRequestMode.ImmediateLoad).Value;
+            ArtAttackTrailShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ArtAttackTrail", AssetRequestMode.ImmediateLoad).Value;
+            CircularAoETelegraph = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularAoETelegraph", AssetRequestMode.ImmediateLoad).Value;
+            IntersectionClipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/IntersectionClipShader", AssetRequestMode.ImmediateLoad).Value;
+            LocalLinearTransformationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LocalLinearTransformationShader", AssetRequestMode.ImmediateLoad).Value;
 
-            BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader").Value;
-            AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader").Value;
+            BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
+            AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
 
             DoGPortalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScreenShaders/DoGPortalShader").Value;
 
@@ -81,7 +82,6 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:FireMouse"] = new MiscShaderData(new Ref<Effect>(SCalMouseShader), "DyePass");
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
             GameShaders.Misc["CalamityMod:TeleportDisplacement"] = new MiscShaderData(new Ref<Effect>(TeleportDisplacementShader), "GlitchPass");
-            GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
             GameShaders.Misc["CalamityMod:PhaseslayerRipEffect"] = new MiscShaderData(new Ref<Effect>(PhaseslayerRipShader), "TrailPass");
             GameShaders.Misc["CalamityMod:TrailStreak"] = new MiscShaderData(new Ref<Effect>(FadedUVMapStreakShader), "TrailPass");
             GameShaders.Misc["CalamityMod:Flame"] = new MiscShaderData(new Ref<Effect>(FlameStreakShader), "TrailPass");

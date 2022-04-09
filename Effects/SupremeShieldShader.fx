@@ -12,6 +12,7 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float4 uShaderSpecificData;
 
 float inverseLerp(float x, float min, float max)
 {

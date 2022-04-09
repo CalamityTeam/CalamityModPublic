@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerDamage = true;
-            string hotkey = CalamityMod.GodSlayerDashHotKey.TooltipHotkeyString();
+            string hotkey = CalamityKeybinds.GodSlayerDashHotKey.TooltipHotkeyString();
             player.setBonus = "Allows you to dash for an immense distance in 8 directions\n" +
                 "Press " + hotkey + " while holding down the movement keys in the direction you want to dash\n" +
                 "Enemies you dash through take massive damage\n" +

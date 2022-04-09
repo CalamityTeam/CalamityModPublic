@@ -12,6 +12,7 @@ float uDirection;
 float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
+float4 uShaderSpecificData;
 
 // This shader is largely based on code used for ExampleMod's cool death animation thing; it is suprisingly useful for this use case.
 float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0

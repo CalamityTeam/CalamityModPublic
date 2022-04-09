@@ -13,6 +13,7 @@ float3 uLightSource;
 float2 uImageSize0;
 float2 uImageSize1;
 float2 frameCount;
+float4 uShaderSpecificData;
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {

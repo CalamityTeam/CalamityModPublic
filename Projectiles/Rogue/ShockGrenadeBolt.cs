@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -98,9 +98,9 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Texture2D sprite;
             if (Projectile.ai[0] == 0f)
-                sprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt");
+                sprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt").Value;
             else
-                sprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt2");
+                sprite = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Rogue/ShockGrenadeBolt2").Value;
             Color drawColour = Color.White;
 
             Vector2 origin = new Vector2(frameWidth / 2, frameHeight / 2);

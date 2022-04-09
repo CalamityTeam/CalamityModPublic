@@ -16,6 +16,7 @@ float uIntersectionCutoffDirection;
 float2 uIntersectionPosition;
 float2 uIntersectionNormal;
 float2 uSize;
+float4 uShaderSpecificData;
 
 float2 RotatedBy(float2 xy, float theta)
 {
