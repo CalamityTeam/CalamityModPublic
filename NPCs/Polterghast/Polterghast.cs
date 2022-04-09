@@ -1000,11 +1000,6 @@ namespace CalamityMod.NPCs.Polterghast
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PolterghastBag>()));
 
-            npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
@@ -1019,7 +1014,7 @@ namespace CalamityMod.NPCs.Polterghast
                     ModContent.ItemType<EtherealSubjugator>(),
                     ModContent.ItemType<GhoulishGouger>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Affliction>()));
@@ -1031,6 +1026,11 @@ namespace CalamityMod.NPCs.Polterghast
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<PolterghastMask>(), 7);
             }
+
+            npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
