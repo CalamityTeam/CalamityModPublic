@@ -391,16 +391,11 @@ namespace CalamityMod.NPCs.OldDuke
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<OldDukeBag>()));
 
-            npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Weapons
-                int[] weapons = new int[]
+                // Weapons and such
+                int[] items = new int[]
                 {
                     ModContent.ItemType<InsidiousImpaler>(),
                     ModContent.ItemType<FetidEmesis>(),
@@ -410,7 +405,8 @@ namespace CalamityMod.NPCs.OldDuke
                     ModContent.ItemType<ToxicantTwister>(),
                     ModContent.ItemType<DukeScales>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
+                normalOnly.Add(ModContent.ItemType<TheReaper>(), 10);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<MutatedTruffle>()));
@@ -419,7 +415,10 @@ namespace CalamityMod.NPCs.OldDuke
                 normalOnly.Add(ModContent.ItemType<OldDukeMask>(), 7);
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<TheReaper>(), 10);
+            npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
