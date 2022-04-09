@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-10, 0);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo spawnSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 center = player.RotatedRelativePoint(player.MountedCenter, true);
             float piOverTen = MathHelper.Pi * 0.1f;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             velocity.Normalize();
             velocity *= 30f;
-            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            bool canHit = Collision.CanHit(center, 0, 0, center + velocity, 0, 0);
             for (int projIndex = 0; projIndex < projCount; projIndex++)
             {
                 float num120 = projIndex - (projCount - 1f) / 2f;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     offset -= velocity;
                 }
-                Projectile.NewProjectile(source, center.X + offset.X, center.Y + offset.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(spawnSource, center.X + offset.X, center.Y + offset.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
         }
