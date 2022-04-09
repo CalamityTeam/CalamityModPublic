@@ -1352,14 +1352,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minLumenyl = Main.expertMode ? 65 : 50;
-            int maxLumenyl = Main.expertMode ? 135 : 108;
             npcLoot.Add(ModContent.ItemType<EidolicWail>());
             npcLoot.Add(ModContent.ItemType<SoulEdge>());
             npcLoot.Add(ModContent.ItemType<HalibutCannon>());
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 80, 100);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 1, minLumenyl, maxLumenyl);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ItemID.Ectoplasm, 1, 21, 32);
+
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenite>(), 1, 50, 108, 65, 135));
+            postClone.Add(ItemID.Ectoplasm, 21, 32);
         }
 
         public override void OnKill()

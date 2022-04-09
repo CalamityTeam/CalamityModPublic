@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                     ModContent.ItemType<ScourgeoftheSeas>(),
                     ModContent.ItemType<CorrosiveSpine>()
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
