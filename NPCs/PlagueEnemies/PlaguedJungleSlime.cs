@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
@@ -129,8 +130,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2);
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 4, 2));
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -648,8 +648,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 8, 12);
             npcLoot.Add(ModContent.ItemType<PlaguedFuelPack>(), 10);
             npcLoot.Add(ModContent.ItemType<PlagueCaller>(), 50);
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4, 2, 3);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2, 2, 3);
+            npcLoot.Add(ItemID.Stinger);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

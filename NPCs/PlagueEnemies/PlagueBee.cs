@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -101,8 +102,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
-            npcLoot.AddIf(() => !Main.expertMode, ItemID.Stinger, 4);
-            npcLoot.AddIf(() => Main.expertMode, ItemID.Stinger, 2);
+            npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 4, 2));
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
