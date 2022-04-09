@@ -47,7 +47,7 @@ namespace CalamityMod.Items
                     break;
 
                 case ItemID.EyeOfCthulhuBossBag:
-                    DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateFloat);
+                    DropHelper.DropItemChance(player, ModContent.ItemType<DeathstareRod>(), DropHelper.BagWeaponDropRateInt);
                     DropHelper.DropItemChance(player, ModContent.ItemType<TeardropCleaver>(), 0.1f);
                     break;
 
@@ -69,7 +69,7 @@ namespace CalamityMod.Items
                         ItemID.BeesKnees,
                         ItemID.BeeGun
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, queenBeeWeapons);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, queenBeeWeapons);
                     DropHelper.BlockDrops(queenBeeWeapons);
 
                     DropHelper.DropItemChance(player, ModContent.ItemType<TheBee>(), 0.1f);
@@ -89,7 +89,7 @@ namespace CalamityMod.Items
                         ModContent.ItemType<BlackHawkRemote>(),
                         ModContent.ItemType<BlastBarrel>()
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, wofWeapons);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, wofWeapons);
                     DropHelper.BlockDrops(wofWeapons);
 
                     DropHelper.DropItemChance(player, ModContent.ItemType<Carnage>(), 0.1f);
@@ -142,7 +142,7 @@ namespace CalamityMod.Items
                         ItemID.WaspGun,
                         ModContent.ItemType<BloomStone>()
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, planteraWeapons);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, planteraWeapons);
                     DropHelper.BlockDrops(planteraWeapons);
 
                     DropHelper.DropItemChance(player, ModContent.ItemType<BlossomFlux>(), 0.1f);
@@ -162,7 +162,7 @@ namespace CalamityMod.Items
                         ItemID.EyeoftheGolem,
                         ItemID.SunStone
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, golemItems);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, golemItems);
                     DropHelper.BlockDrops(golemItems);
 
                     DropHelper.DropItemChance(player, ModContent.ItemType<AegisBlade>(), 0.1f);
@@ -183,7 +183,7 @@ namespace CalamityMod.Items
                         ItemID.DD2BetsyBow, // Aerial Bane
                         ItemID.ApprenticeStaffT3, // Betsy's Wrath
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, betsyWeapons);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, betsyWeapons);
                     DropHelper.BlockDrops(betsyWeapons);
                     break;
 
@@ -199,7 +199,7 @@ namespace CalamityMod.Items
                         ItemID.FishronWings,
                         ModContent.ItemType<DukesDecapitator>()
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, dukeWeapons);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, dukeWeapons);
                     DropHelper.BlockDrops(dukeWeapons);
 
                     DropHelper.DropItemChance(player, ModContent.ItemType<BrinyBaron>(), 0.1f);
@@ -213,7 +213,7 @@ namespace CalamityMod.Items
                         ItemID.StarWrath,
                         ItemID.Terrarian,
                         ItemID.FireworksLauncher, // Celebration
-                        // ItemID.CelebrationMK2,
+                        ItemID.Celeb2,
                         ItemID.SDMG,
                         ItemID.LastPrism,
                         ItemID.LunarFlareBook,
@@ -221,7 +221,7 @@ namespace CalamityMod.Items
                         ItemID.RainbowCrystalStaff,
                         ModContent.ItemType<UtensilPoker>(),
                     };
-                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateFloat, moonLordWeapons);
+                    DropHelper.DropEntireSet(player, DropHelper.BagWeaponDropRateInt, moonLordWeapons);
                     DropHelper.BlockDrops(moonLordWeapons);
 
                     // The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
