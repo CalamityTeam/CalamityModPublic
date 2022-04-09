@@ -27,11 +27,15 @@ namespace CalamityMod
         #endregion
 
         #region Global Drop Chances
-
         /// <summary>
         /// Weapons in Normal Mode typically have a 1 in X chance of dropping, where X is this variable.
         /// </summary>
         public const int NormalWeaponDropRateInt = 4;
+
+        /// <summary>
+        /// Weapons in Normal Mode typically have this chance to drop, measured out of 1.0.
+        /// </summary>
+        public const float NormalWeaponDropRateFloat = 0.25f;
 
         /// <summary>
         /// Weapons in Normal Mode typically have this chance to drop (as a DropHelper Fraction).
@@ -42,6 +46,11 @@ namespace CalamityMod
         /// Weapons in Expert Mode typically have a 1 in X chance of dropping, where X is this variable.
         /// </summary>
         public const int BagWeaponDropRateInt = 3;
+
+        /// <summary>
+        /// Weapons in Expert Mode typically have this chance to drop, measured out of 1.0.
+        /// </summary>
+        public const float BagWeaponDropRateFloat = 0.3333333f;
 
         /// <summary>
         /// Weapons in Expert Mode typically have this chance to drop (as a DropHelper Fraction).
