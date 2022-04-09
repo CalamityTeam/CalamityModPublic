@@ -178,7 +178,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             return false;
         }
 
-        public static bool AtFullStrength() => !DownedBossSystem.downedCeaselessVoid || CalamityWorld.DoGSecondStageCountdown <= 0;
+        // Ceaseless Void is "at full strength" if the DoG fight is not active, or if he has not been killed yet and the DoG fight IS active.
+        public static bool AtFullStrength() => CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedCeaselessVoid;
 
         public static bool LastSentinelKilled() => !DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
 
@@ -211,14 +212,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<CeaselessVoidBag>()));
-            npcLoot.AddIf(AtFullStrength, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(DropHelper.If(AtFullStrength));
+            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<CeaselessVoidBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
-            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
+            fullStrengthDrops.Add(normalOnly);
             {
                 // Weapons
                 int[] weapons = new int[]
@@ -226,7 +225,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     ModContent.ItemType<MirrorBlade>(),
                     ModContent.ItemType<VoidConcentrationStaff>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 2, 3));
@@ -240,6 +239,11 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
+
+            fullStrengthDrops.Add(ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
