@@ -1508,19 +1508,13 @@ namespace CalamityMod.NPCs.Providence
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
 
-            npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
-
+            // Drops Rune of Cos on first kill
             npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofCos>());
+
+            // TODO -- do these lambdas work
             npcLoot.AddIf(() => biomeType != 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianWings>());
             npcLoot.AddIf(() => biomeType == 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianAegis>());
-
-            // Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
             npcLoot.AddIf(() => challenge, ModContent.ItemType<ProfanedSoulCrystal>());
-
-            // Special drop for defeating Providence at night
             npcLoot.AddIf(() => CalamityWorld.malice || !hasTakenDaytimeDamage, ModContent.ItemType<ProfanedMoonlightDye>());
 
             // Normal drops: Everything that would otherwise be in the bag
@@ -1537,7 +1531,8 @@ namespace CalamityMod.NPCs.Providence
                     ModContent.ItemType<DazzlingStabberStaff>(),
                     ModContent.ItemType<MoltenAmputator>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<PristineFury>(), 10);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BlazingCore>()));
@@ -1546,7 +1541,10 @@ namespace CalamityMod.NPCs.Providence
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<PristineFury>(), 10);
+            npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
         }
 
         private void SpawnLootBox()
