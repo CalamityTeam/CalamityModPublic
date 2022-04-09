@@ -64,10 +64,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 18).
-                AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(12).
+                AddIngredient<DubiousPlating>(18).
+                AddIngredient<UeliaceBar>(8).
                 AddIngredient(ItemID.LunarBar, 4).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.LunarCraftingStation).

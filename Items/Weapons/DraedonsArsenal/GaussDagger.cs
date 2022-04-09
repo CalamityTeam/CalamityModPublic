@@ -66,7 +66,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5).AddIngredient(ModContent.ItemType<DubiousPlating>(), 7).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 7).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(5).
+                AddIngredient<DubiousPlating>(7).
+                AddIngredient<AerialiteBar>(4).
+                AddIngredient<SeaPrism>(7).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -65,12 +65,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             CreateRecipe(999).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 5).
-                AddIngredient(ModContent.ItemType<CosmiliteBar>()).
-                AddIngredient(ModContent.ItemType<AscendantSpiritEssence>()).
+                AddIngredient<MysteriousCircuitry>(5).
+                AddIngredient<DubiousPlating>(5).
+                AddIngredient<CosmiliteBar>().
+                AddIngredient<AscendantSpiritEssence>().
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(5, out Predicate<Recipe> condition), condition).
-                AddTile(ModContent.TileType<CosmicAnvil>()).
+                AddTile<CosmicAnvil>().
                 Register();
         }
     }

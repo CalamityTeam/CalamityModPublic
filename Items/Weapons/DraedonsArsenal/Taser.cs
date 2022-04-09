@@ -53,11 +53,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 5).
-                AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).
-                AddIngredient(ModContent.ItemType<SeaPrism>(), 7).
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(7).
+                AddIngredient<DubiousPlating>(5).
+                AddIngredient<AerialiteBar>(4).
+                AddIngredient<SeaPrism>(7).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(1, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.Anvils).
                 Register();

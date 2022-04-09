@@ -51,9 +51,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12).
-                AddIngredient(ModContent.ItemType<DubiousPlating>(), 8).
+            CreateRecipe().
+                AddIngredient<MysteriousCircuitry>(12).
+                AddIngredient<DubiousPlating>(8).
                 AddRecipeGroup("AnyMythrilBar", 10).
                 AddIngredient(ItemID.SoulofMight, 20).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(2, out Predicate<Recipe> condition), condition).
