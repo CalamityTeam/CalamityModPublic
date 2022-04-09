@@ -783,11 +783,6 @@ namespace CalamityMod.NPCs.Ravager
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<RavagerBag>()));
 
-            npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
@@ -800,9 +795,10 @@ namespace CalamityMod.NPCs.Ravager
                     ModContent.ItemType<SpikecragStaff>(),
                     ModContent.ItemType<CraniumSmasher>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<Vesuvius>(), 10);
 
-                // Materials.
+                // Materials
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeodeT1>()));
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeodeT2>()));
 
@@ -815,7 +811,10 @@ namespace CalamityMod.NPCs.Ravager
                 normalOnly.Add(ModContent.ItemType<RavagerMask>(), 7);
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Vesuvius>(), 10);
+            npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
         }
     }
 }
