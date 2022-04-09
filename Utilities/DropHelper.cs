@@ -163,24 +163,127 @@ namespace CalamityMod
         // Create these using the function DropHelper.If as needed.
         internal class LambdaDropRuleCondition : IItemDropRuleCondition
         {
-            private readonly Func<bool> conditionLambda;
+            private readonly Func<DropAttemptInfo, bool> conditionLambda;
             private readonly bool visibleInUI;
             private readonly string description;
 
-            internal LambdaDropRuleCondition(Func<bool> lambda, bool ui = true, string desc = "")
+            internal LambdaDropRuleCondition(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
             {
                 conditionLambda = lambda;
                 visibleInUI = ui;
                 description = desc;
             }
 
-            public bool CanDrop(DropAttemptInfo info) => conditionLambda();
+            public bool CanDrop(DropAttemptInfo info) => conditionLambda(info);
             public bool CanShowItemDropInUI() => visibleInUI;
             public string GetConditionDescription() => description;
         }
 
-        public static IItemDropRuleCondition If(Func<bool> lambda) => new LambdaDropRuleCondition(lambda);
-        public static IItemDropRuleCondition If(Func<bool> lambda, bool ui = true, string desc = "") => new LambdaDropRuleCondition(lambda, ui, desc);
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
+        /// This lets you write simpler lambdas that do not need the context, e.g. just checking if a boss is dead.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>() => {CodeHere}</code></param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<bool> lambda) => new LambdaDropRuleCondition((_) => lambda());
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" does <b>NOT</b> use the DropAttemptInfo struct that is available.<br />
+        /// This lets you write simpler lambdas that do not need the context, e.g. just checking if a boss is dead.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>() => {CodeHere}</code></param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<bool> lambda, bool ui = true, string desc = null)
+        {
+            bool LambdaInfoWrapper(DropAttemptInfo _) => lambda();
+            return new LambdaDropRuleCondition(LambdaInfoWrapper, ui, desc);
+        }
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>(info) => {CodeHere}</code></param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda) => new LambdaDropRuleCondition(lambda);
+
+        /// <summary>
+        /// Creates a new LambdaDropRuleCondition which executes the code of your choosing to decide whether this item drop should occur.<br />
+        /// This version of "If" <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="lambda">Lambda function which evaluates to true or false, deciding whether the item should drop. <code>(info) => {CodeHere}</code></param>
+        /// <param name="ui">Whether drops registered with this condition appear in the Bestiary. Defaults to true.</param>
+        /// <param name="desc">The description of this condition in the Bestiary. Defaults to null.</param>
+        /// <returns>The LambdaDropRuleCondition produced.</returns>
+        public static IItemDropRuleCondition If(Func<DropAttemptInfo, bool> lambda, bool ui = true, string desc = null)
+        {
+            return new LambdaDropRuleCondition(lambda, ui, desc);
+        }
+        #endregion
+
+        #region Global Drop Rule Conditions
+        public static IItemDropRuleCondition TarragonSetBonusHeartCondition = If((info) =>
+        {
+            // Tarragon hearts do not drop from the following:
+            // 1 - NPCs spawned from statues
+            // 2 - NPCs with no contact damage, unless they are bosses.
+            // 3 - Very weak NPCs (for postML), i.e. those with less than 100 max health.
+            NPC npc = info.npc;
+            if (npc.SpawnedFromStatue || (npc.damage <= 5 && !npc.boss) || npc.lifeMax <= 100)
+                return false;
+
+            // If the drop info doesn't have a player, then find the closest player to the NPC and use that player instead.
+            Player p = info.player;
+            if (p is null || !p.active)
+                p = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+
+            // With the player identified, return whether or not they have the full Tarragon Armor set equipped.
+            return p.Calamity().tarraSet;
+        });
+
+        private static bool CanDropBloodOrbs(DropAttemptInfo info)
+        {
+            // Blood Orbs do not drop unless it's a Blood Moon.
+            if (!Main.bloodMoon)
+                return false;
+
+            // If the drop info has a player, then check whether the player is "on the surface".
+            bool onSurface = false;
+            Player p = info.player;
+            if (p != null && p.active)
+                onSurface = p.ZoneOverworldHeight || p.ZoneSkyHeight;
+
+            // Also check whether the NPC is considered "on the surface".
+            NPC npc = info.npc;
+            if (npc.Center.Y <= Main.worldSurface)
+                onSurface = true;
+
+            // Blood Orbs do not drop unless either the NPC killed or the player that killed the NPC are on the surface.
+            if (!onSurface)
+                return false;
+
+            // Blood Orbs do not drop from the following:
+            // 1 - NPCs spawned from statues
+            // 2 - NPCs with no contact damage, unless they are bosses.
+            // 3 - NPCs that are not targeting a player.
+            return !npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && npc.HasPlayerTarget;
+        }
+
+        public static IItemDropRuleCondition BloodOrbBaseCondition = If(CanDropBloodOrbs);
+        public static IItemDropRuleCondition BloodOrbBloodflareCondition = If((info) =>
+        {
+            bool bloodOrbsAvailable = CanDropBloodOrbs(info);
+            if (!bloodOrbsAvailable)
+                return false;
+
+            // To receive the extra orbs from Bloodflare Armor, you must be wearing Bloodflare Armor.
+            Player p = info.player;
+            return p != null && p.active && p.Calamity().bloodflareSet;
+        });
         #endregion
 
         #region Leading Condition Rule Extensions
@@ -282,6 +385,38 @@ namespace CalamityMod
         /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
         /// <returns>The item drop rule registered.</returns>
         public static IItemDropRule AddIf(this NPCLoot npcLoot, Func<bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return npcLoot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to an NPC.<br />
+        /// <b>This version requires a lambda which uses DropAttemptInfo.</b>
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="lambda">A lambda which takes a DropAttemptInfo struct and evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRateInt">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this NPCLoot npcLoot, Func<DropAttemptInfo, bool> lambda, int itemID, int dropRateInt = 1, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return npcLoot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRateInt, minQuantity, maxQuantity));
+        }
+
+        /// <summary>
+        /// Shorthand to add an arbitrary conditional drop to an NPC using a Fraction drop rate.<br />
+        /// <b>This version requires a lambda which uses DropAttemptInfo.</b>
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="lambda">A lambda which takes a DropAttemptInfo struct and evaluates in real-time to the condition that needs to be checked.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The chance that the item will drop as a DropHelper Fraction.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 1.</param>
+        /// <returns>The item drop rule registered.</returns>
+        public static IItemDropRule AddIf(this NPCLoot npcLoot, Func<DropAttemptInfo, bool> lambda, int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
         {
             return npcLoot.Add(ItemDropRule.ByCondition(If(lambda), itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator));
         }
