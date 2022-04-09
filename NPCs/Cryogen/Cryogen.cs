@@ -1055,12 +1055,6 @@ namespace CalamityMod.NPCs.Cryogen
             // Boss bag
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CryogenBag>()));
 
-            // Trophy (always directly from boss, never in bag)
-            npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
@@ -1075,7 +1069,8 @@ namespace CalamityMod.NPCs.Cryogen
                     ModContent.ItemType<CryoStone>(),
                     ModContent.ItemType<FrostFlare>()
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<ColdDivinity>(), 10);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CryogenMask>(), 7);
@@ -1089,7 +1084,11 @@ namespace CalamityMod.NPCs.Cryogen
 
             npcLoot.Add(ItemID.FrozenKey, 3);
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<ColdDivinity>(), 10);
+            // Trophy (always directly from boss, never in bag)
+            npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
         }
 
         public override void OnKill()
