@@ -166,11 +166,6 @@ namespace CalamityMod.Items
                     DropHelper.BlockDrops(golemItems);
 
                     DropHelper.DropItemChance(player, ModContent.ItemType<AegisBlade>(), 0.1f);
-
-                    // The Picksaw always drops if the player doesn't have one in their inventory. Otherwise it has a 25% chance.
-                    bool playerHasPicksaw = player.InventoryHas(ItemID.Picksaw);
-                    DropHelper.DropItemChance(player, ItemID.Picksaw, playerHasPicksaw ? 0.25f : 1.0f);
-
                     DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
                     break;
 

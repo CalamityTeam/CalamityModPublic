@@ -215,6 +215,13 @@ namespace CalamityMod
             npcLoot.Add(lcr);
             return lcr;
         }
+
+        public static DropBasedOnExpertMode NormalVsExpertQuantity(int itemID, int dropRateInt, int minNormal, int maxNormal, int minExpert, int maxExpert)
+        {
+            IItemDropRule normalRule = ItemDropRule.Common(itemID, dropRateInt, minNormal, maxNormal);
+            IItemDropRule expertRule = ItemDropRule.Common(itemID, dropRateInt, minExpert, maxExpert);
+            return new DropBasedOnExpertMode(normalRule, expertRule);
+        }
         #endregion
 
         #region Lambda Drop Rule Condition
@@ -559,6 +566,24 @@ namespace CalamityMod
             npcLoot.Add(rule);
             return rule;
         }
+
+        /// <summary>
+        /// Shorthand for registering a LeadingConditionRule using DropHelper.If.<br />
+        /// This version does <b>NOT</b> use the DropAttemptInfo struct that is available.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <returns>The LeadingConditionRule which encapsulates the given lambda.</returns>
+        public static LeadingConditionRule DefineConditionalDropSet(this NPCLoot npcLoot, Func<bool> lambda) => npcLoot.DefineConditionalDropSet(If(lambda));
+
+        /// <summary>
+        /// Shorthand for registering a LeadingConditionRule using DropHelper.If.<br />
+        /// This version <b>DOES</b> use the DropAttemptInfo struct, and thus the provided lambda requires 1 argument.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
+        /// <returns>The LeadingConditionRule which encapsulates the given lambda.</returns>
+        public static LeadingConditionRule DefineConditionalDropSet(this NPCLoot npcLoot, Func<DropAttemptInfo, bool> lambda) => npcLoot.DefineConditionalDropSet(If(lambda));
 
         /// <summary>
         /// Shorthand for shorthand: Registers a Normal Mode only LeadingConditionRule for an NPC and returns it to you.
