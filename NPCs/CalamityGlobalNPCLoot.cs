@@ -647,6 +647,16 @@ namespace CalamityMod.NPCs
                 case NPCID.Clothier:
                     npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<ClothiersWrath>());
                     break;
+
+                // Angler
+                // Golden Fishing Rod @ 100% IF fed to a Trasher
+                // OTHERWISE,
+                // Golden Fishing Rod @ 8.33% IF Hardmode
+                case NPCID.Angler:
+                    LeadingConditionRule trasherLCR = new(DropHelper.AnglerFedToTrasherCondition);
+                    trasherLCR.Add(ItemID.GoldenFishingRod);
+                    trasherLCR.OnFailedConditions(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.GoldenFishingRod, 12));
+                    break;
                 #endregion
 
                 #region Vanilla Bosses

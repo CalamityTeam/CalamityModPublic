@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CalamityMod.NPCs.SulphurousSea;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -289,6 +290,24 @@ namespace CalamityMod
             // To receive the extra orbs from Bloodflare Armor, you must be wearing Bloodflare Armor.
             Player p = info.player;
             return p != null && p.active && p.Calamity().bloodflareSet;
+        });
+
+        internal const float TrasherEatDistance = 96f;
+        public static IItemDropRuleCondition AnglerFedToTrasherCondition = If((info) =>
+        {
+            bool trasherNearby = false;
+            for (int i = 0; i < Main.maxNPCs; ++i)
+            {
+                NPC nearby = Main.npc[i];
+                if (nearby is null || !nearby.active || nearby.type != ModContent.NPCType<Trasher>())
+                    continue;
+                if (info.npc.Distance(nearby.Center) < TrasherEatDistance)
+                {
+                    trasherNearby = true;
+                    break;
+                }
+            }
+            return trasherNearby;
         });
         #endregion
 
