@@ -50,6 +50,8 @@ namespace CalamityMod
         #endregion
 
         #region Block Drops
+        private static int[] AllLoadedItemIDs = null;
+
         /// <summary>
         /// Adds the specified items to TML's blockLoot list. Items on the list cannot spawn in the world via any means.<br />
         /// <b>You should only use this function in the following places:</b><br />
@@ -64,6 +66,34 @@ namespace CalamityMod
         {
             foreach (int itemID in itemIDs)
                 NPCLoader.blockLoot.Add(itemID);
+        }
+
+        /// <summary>
+        /// Blocks every possible item in the game from dropping. This is the extreme version of BlockDrops.<br />
+        /// <b>Please read the usage notes on BlockDrops.</b><br />
+        /// This function intentionally still allows hearts and mana stars to drop. If you also want to block those, block them separately.
+        /// </summary>
+        /// <param name="exceptions">The item IDs to still allow to drop.</param>
+        public static void BlockEverything(params int[] exceptions)
+        {
+            // This solution is legitimately brain damaged but it works for now
+            // At least it's cached...
+            if (AllLoadedItemIDs is null)
+            {
+                AllLoadedItemIDs = new int[ItemLoader.ItemCount];
+                for (int i = 0; i < ItemLoader.ItemCount; ++i)
+                    AllLoadedItemIDs[i] = i;
+            }
+
+            // Apply exceptions
+            int[] withSomeExceptions = new int[ItemLoader.ItemCount];
+            AllLoadedItemIDs.CopyTo(withSomeExceptions, 0);
+            withSomeExceptions[ItemID.Heart] = ItemID.RedPotion;
+            withSomeExceptions[ItemID.Star] = ItemID.RedPotion;
+            foreach (int itemID in exceptions)
+                withSomeExceptions[itemID] = ItemID.RedPotion;
+
+            BlockDrops(withSomeExceptions);
         }
         #endregion
 

@@ -132,6 +132,33 @@ namespace CalamityMod.NPCs
                 case NPCID.Tim:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<PlasmaRod>(), 3, 2));
                     break;
+
+                // Mimic
+                // Drops all of its items Calamity Style @ 33.33% each
+                // This requires erasing its vanilla behavior.
+                case NPCID.Mimic:
+                    try
+                    {
+                        // Remove the vanilla loot rule which controls all Mimic drops.
+                        var mimicLootRules = npcLoot.Get(false);
+                        mimicLootRules.RemoveAll((rule) => rule is OneFromOptionsDropRule mimicItems && mimicItems.dropIds[0] == ItemID.DualHook);
+
+                        var mimicItems = new int[]
+                        {
+                            ItemID.MagicDagger,
+                            ItemID.CrossNecklace,
+                            ItemID.PhilosophersStone,
+                            ItemID.StarCloak,
+                            ItemID.TitanGlove,
+                            ItemID.DualHook
+                        };
+
+                        // Mimics will not drop any items if spawned from statues.
+                        var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
+                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, mimicItems));
+                    }
+                    catch (ArgumentNullException) { }
+                    break;
                 #endregion
 
                 #region Desert
@@ -181,6 +208,31 @@ namespace CalamityMod.NPCs
                 case NPCID.IceTortoise:
                 case NPCID.IceElemental:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofEleum>(), 2, 1));
+                    break;
+
+                // Ice Mimic
+                // Drops all of its items Calamity Style @ 33.33% each
+                // This requires erasing its bizarre vanilla behavior involving the Toy Sled.
+                case NPCID.IceMimic:
+                    try
+                    {
+                        // Remove the vanilla loot rule which controls all Ice Mimic drops.
+                        var iceMimicRootRules = npcLoot.Get(false);
+                        iceMimicRootRules.RemoveAll((rule) => rule is CommonDrop sledDrop && sledDrop.itemId == ItemID.ToySled);
+
+                        var iceMimicItems = new int[]
+                        {
+                            ItemID.Frostbrand,
+                            ItemID.IceBow,
+                            ItemID.FlowerofFrost,
+                            ItemID.ToySled,
+                        };
+
+                        // Ice Mimics will not drop any items if spawned from statues.
+                        var notStatue = npcLoot.DefineConditionalDropSet(new Conditions.NotFromStatue());
+                        notStatue.Add(DropHelper.CalamityStyle(DropHelper.BagWeaponDropRateFraction, iceMimicItems));
+                    }
+                    catch (ArgumentNullException) { }
                     break;
 
                 // Ice Golem
@@ -1174,26 +1226,25 @@ namespace CalamityMod.NPCs
                 // Progress the Boss Rush event
                 BossRushEvent.OnBossKill(npc, Mod);
 
-                // Block absolutely every item in the game from dropping
-                // This solution is legitimately brain damaged but it works for now
-                int[] allBossRushIllegalDrops = new int[ItemLoader.ItemCount];
-                for (int i = 0; i < ItemLoader.ItemCount; ++i)
-                {
-                    if (i == ItemID.Heart || i == ItemID.Star)
-                        allBossRushIllegalDrops[i] = ItemID.DirtBlock;
-                    else
-                        allBossRushIllegalDrops[i] = i;
-                }
-
-                // Rock drops anyway from DoG
-                allBossRushIllegalDrops[ModContent.ItemType<Rock>()] = ItemID.DirtBlock;
-
-                DropHelper.BlockDrops(allBossRushIllegalDrops);
+                // Block anything except the Rock from dropping
+                DropHelper.BlockEverything(ModContent.ItemType<Rock>());
             }
 
             // Acid Rain on-kill effects
             if (CalamityWorld.rainingAcid)
                 AcidRainEvent.OnEnemyKill(npc);
+
+            // Stop Death Mode splitting worms from dropping excessive loot
+            if (CalamityWorld.death && !SplittingWormLootBlockWrapper(npc, Mod))
+                DropHelper.BlockEverything();
+
+            // Stop Eater of Worlds segments and Brain of Cthulhu Creepers from dropping hearts or partial loot in Rev+
+            if (CalamityWorld.revenge && (CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper))
+                DropHelper.BlockDrops(ItemID.Heart, ItemID.DemoniteOre, ItemID.ShadowScale, ItemID.CrimtaneOre, ItemID.TissueSample);
+
+            // Stop certain boss minions from providing hearts in Rev+
+            if (CalamityWorld.revenge && CalamityLists.heartDropBlockList.Contains(npc.type))
+                DropHelper.BlockDrops(ItemID.Heart);
 
             // Check whether bosses should be spawned naturally as a result of this NPC's death.
             CheckBossSpawn(npc);
