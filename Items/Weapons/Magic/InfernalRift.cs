@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -43,11 +43,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.SkyFracture).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3).AddIngredient(ItemID.SoulofFright, 10).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -74,6 +69,16 @@ namespace CalamityMod.Items.Weapons.Magic
             vector14 = Vector2.Lerp(vector14, vector15, 0.25f);
             Projectile.NewProjectile(source, vector13, vector14, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SkyFracture).
+                AddIngredient<EssenceofChaos>(3).
+                AddIngredient(ItemID.SoulofFright, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

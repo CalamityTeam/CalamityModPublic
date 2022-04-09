@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -55,7 +55,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpaceGun).AddIngredient(ItemID.LaserRifle).AddIngredient(ModContent.ItemType<VictoryShard>(), 5).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpaceGun).
+                AddIngredient(ItemID.LaserRifle).
+                AddIngredient<VictoryShard>(5).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

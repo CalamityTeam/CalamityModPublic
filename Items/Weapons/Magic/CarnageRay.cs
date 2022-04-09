@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -42,7 +42,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CrimsonRod).AddIngredient(ItemID.MagicMissile).AddIngredient(ItemID.WandofSparking).AddIngredient(ItemID.AmberStaff).AddIngredient(ModContent.ItemType<BloodSample>(), 15).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CrimsonRod).
+                AddIngredient(ItemID.MagicMissile).
+                AddIngredient(ItemID.WandofSparking).
+                AddIngredient(ItemID.AmberStaff).
+                AddIngredient<BloodSample>(15).
+                AddIngredient<PurifiedGel>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -44,7 +44,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HeatRay).AddIngredient(ModContent.ItemType<Zapper>()).AddIngredient(ItemID.FragmentSolar, 10).AddIngredient(ItemID.ChlorophyteBar, 6).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).
+                AddIngredient(ItemID.HeatRay).
+                AddIngredient<Zapper>().
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient(ItemID.ChlorophyteBar, 6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

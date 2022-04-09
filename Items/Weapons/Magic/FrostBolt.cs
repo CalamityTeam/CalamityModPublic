@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyIceBlock", 20).AddIngredient(ItemID.Shiverthorn, 2).AddRecipeGroup("AnySnowBlock", 10).AddIngredient(ItemID.WaterBucket).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyIceBlock", 20).
+                AddIngredient(ItemID.Shiverthorn, 2).
+                AddRecipeGroup("AnySnowBlock", 10).
+                AddIngredient(ItemID.WaterBucket).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

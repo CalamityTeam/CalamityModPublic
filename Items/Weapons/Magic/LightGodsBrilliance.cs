@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,7 +50,16 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ShadecrystalTome>()).AddIngredient(ModContent.ItemType<AbyssalTome>()).AddIngredient(ItemID.HolyWater, 10).AddIngredient(ItemID.SoulofLight, 30).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient<ShadecrystalTome>().
+                AddIngredient<AbyssalTome>().
+                AddIngredient(ItemID.HolyWater, 10).
+                AddIngredient(ItemID.SoulofLight, 30).
+                AddIngredient<EffulgentFeather>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

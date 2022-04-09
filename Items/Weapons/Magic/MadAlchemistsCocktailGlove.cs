@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -76,7 +76,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ToxicFlask).AddIngredient(ItemID.BottledWater, 15).AddIngredient(ItemID.Leather, 5).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2).AddTile(TileID.AlchemyTable).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ToxicFlask).
+                AddIngredient(ItemID.BottledWater, 15).
+                AddIngredient(ItemID.Leather, 5).
+                AddIngredient<EffulgentFeather>(5).
+                AddIngredient<CoreofCalamity>(2).
+                AddTile(TileID.AlchemyTable).
+                Register();
         }
     }
 }

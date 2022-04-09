@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ManaRose>()).AddIngredient(ItemID.HallowedBar, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<ManaRose>().
+                AddIngredient(ItemID.HallowedBar, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

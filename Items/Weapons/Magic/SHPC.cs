@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -93,7 +93,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlasmaDriveCore>(), 1).AddIngredient(ModContent.ItemType<SuspiciousScrap>(), 4).AddRecipeGroup("AnyMythrilBar", 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<PlasmaDriveCore>(1).
+                AddIngredient<SuspiciousScrap>(4).
+                AddRecipeGroup("AnyMythrilBar", 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

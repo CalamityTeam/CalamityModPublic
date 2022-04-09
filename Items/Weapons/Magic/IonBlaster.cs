@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -66,7 +66,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SoulofFright, 10).AddRecipeGroup("AnyAdamantiteBar", 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SoulofFright, 10).
+                AddRecipeGroup("AnyAdamantiteBar", 7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

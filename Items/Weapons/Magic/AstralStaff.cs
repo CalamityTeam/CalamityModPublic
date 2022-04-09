@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -42,11 +42,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 6).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 spawnPos = new Vector2(player.MountedCenter.X + Main.rand.Next(-200, 201), player.MountedCenter.Y - 600f);
@@ -59,6 +54,14 @@ namespace CalamityMod.Items.Weapons.Magic
             Main.projectile[p].ai[0] = targetPos.Y - 120;
 
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AstralBar>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

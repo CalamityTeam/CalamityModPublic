@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.autoReuse = true;
             Item.shoot = ProjectileID.RainbowFront;
             Item.shootSpeed = 18f;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.RainbowGun).AddIngredient(ItemID.PearlwoodBow).AddIngredient(ModContent.ItemType<MeldiateBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -108,6 +103,18 @@ namespace CalamityMod.Items.Weapons.Magic
                 Main.projectile[rainbow2].localNPCHitCooldown = 10;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RainbowGun).
+                AddIngredient(ItemID.PearlwoodBow).
+                AddIngredient<MeldiateBar>(5).
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<BarofLife>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

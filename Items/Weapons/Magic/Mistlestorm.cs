@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -60,7 +60,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Razorpine).AddIngredient(ItemID.LeafBlower).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Razorpine).
+                AddIngredient(ItemID.LeafBlower).
+                AddIngredient<UeliaceBar>(7).
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

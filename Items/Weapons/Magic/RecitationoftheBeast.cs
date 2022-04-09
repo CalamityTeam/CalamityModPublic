@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
@@ -61,7 +61,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DemonScythe).AddIngredient(ModContent.ItemType<CoreofChaos>(), 12).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DemonScythe).
+                AddIngredient<CoreofChaos>(12).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

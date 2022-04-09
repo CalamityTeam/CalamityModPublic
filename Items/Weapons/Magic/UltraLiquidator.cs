@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
@@ -44,11 +44,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<InfernalRift>()).AddIngredient(ItemID.AquaScepter).AddRecipeGroup("CursedFlameIchor", 20).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo projSource, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -74,6 +69,19 @@ namespace CalamityMod.Items.Weapons.Magic
             velocityReal = Vector2.Lerp(velocityReal, upperVelocityLimit, 0.25f);
             Projectile.NewProjectile(projSource, source, velocityReal, type, damage, knockback, player.whoAmI, 0f, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<InfernalRift>().
+                AddIngredient(ItemID.AquaScepter).
+                AddRecipeGroup("CursedFlameIchor", 20).
+                AddIngredient<SeaPrism>(10).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

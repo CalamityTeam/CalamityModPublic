@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -54,7 +54,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LaserMachinegun).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LaserMachinegun).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<BarofLife>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

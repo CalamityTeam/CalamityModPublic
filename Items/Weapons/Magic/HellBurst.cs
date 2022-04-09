@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Flamelash).AddIngredient(ItemID.CrystalVileShard).AddIngredient(ItemID.DarkShard, 2).AddIngredient(ItemID.SoulofNight, 10).AddIngredient(ItemID.SoulofFright, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Flamelash).
+                AddIngredient(ItemID.CrystalVileShard).
+                AddIngredient(ItemID.DarkShard, 2).
+                AddIngredient(ItemID.SoulofNight, 10).
+                AddIngredient(ItemID.SoulofFright, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

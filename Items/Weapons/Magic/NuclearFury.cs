@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
@@ -55,7 +55,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RazorbladeTyphoon).AddIngredient(ModContent.ItemType<Poseidon>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.SoulofSight, 10).AddIngredient(ItemID.UnicornHorn, 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RazorbladeTyphoon).
+                AddIngredient<Poseidon>().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.SoulofSight, 10).
+                AddIngredient(ItemID.UnicornHorn, 5).
+                AddIngredient<SeaPrism>(15).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

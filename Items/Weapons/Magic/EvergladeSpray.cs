@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -36,8 +36,16 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GoldenShower).AddIngredient(ModContent.ItemType<DraedonBar>(), 3).AddTile(TileID.Bookcases).Register();
-            CreateRecipe(1).AddIngredient(ItemID.CursedFlames).AddIngredient(ModContent.ItemType<DraedonBar>(), 3).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.GoldenShower).
+                AddIngredient<DraedonBar>(3).
+                AddTile(TileID.Bookcases).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CursedFlames).
+                AddIngredient<DraedonBar>(3).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

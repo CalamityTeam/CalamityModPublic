@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(7, 7);
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 5).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 15).AddTile(TileID.DemonAltar).Register();
-        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -92,6 +87,16 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AuraRain>(), damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 5).
+                AddIngredient(ItemID.DemoniteBar, 5).
+                AddIngredient<TrueShadowScale>(15).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

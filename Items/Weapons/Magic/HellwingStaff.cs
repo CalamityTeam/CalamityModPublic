@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -38,11 +38,6 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 7).AddIngredient(ItemID.LavaBucket, 2).AddTile(TileID.Anvils).Register();
-        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -91,6 +86,15 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 7).
+                AddIngredient(ItemID.LavaBucket, 2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

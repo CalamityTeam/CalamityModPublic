@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -53,8 +53,26 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CopperShortsword).AddIngredient(ModContent.ItemType<TomeofFates>()).AddIngredient(ModContent.ItemType<FlareBolt>()).AddIngredient(ModContent.ItemType<Tradewinds>()).AddIngredient(ModContent.ItemType<NuclearFury>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ItemID.TinShortsword).AddIngredient(ModContent.ItemType<TomeofFates>()).AddIngredient(ModContent.ItemType<FlareBolt>()).AddIngredient(ModContent.ItemType<Tradewinds>()).AddIngredient(ModContent.ItemType<NuclearFury>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CopperShortsword).
+                AddIngredient<TomeofFates>().
+                AddIngredient<FlareBolt>().
+                AddIngredient<Tradewinds>().
+                AddIngredient<NuclearFury>().
+                AddIngredient<UeliaceBar>(5).
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TinShortsword).
+                AddIngredient<TomeofFates>().
+                AddIngredient<FlareBolt>().
+                AddIngredient<Tradewinds>().
+                AddIngredient<NuclearFury>().
+                AddIngredient<UeliaceBar>(5).
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

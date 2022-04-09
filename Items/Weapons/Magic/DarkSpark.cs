@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -52,7 +52,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LastPrism).AddIngredient(ModContent.ItemType<DarkPlasma>(), 10).AddIngredient(ModContent.ItemType<RuinousSoul>(), 20).AddIngredient(ModContent.ItemType<DivineGeode>(), 30).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LastPrism).
+                AddIngredient<DarkPlasma>(10).
+                AddIngredient<RuinousSoul>(20).
+                AddIngredient<DivineGeode>(30).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

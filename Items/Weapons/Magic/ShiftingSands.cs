@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -50,7 +50,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MagicMissile).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddIngredient(ItemID.SpectreBar, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.MagicMissile).
+                AddIngredient<GrandScale>().
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 2).
+                AddIngredient(ItemID.SpectreBar, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

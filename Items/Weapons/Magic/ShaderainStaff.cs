@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
@@ -67,7 +67,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 2).AddIngredient(ItemID.DemoniteBar, 3).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 12).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 2).
+                AddIngredient(ItemID.DemoniteBar, 3).
+                AddIngredient<TrueShadowScale>(12).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

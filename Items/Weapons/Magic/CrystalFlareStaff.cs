@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
@@ -41,7 +41,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FrostStaff).AddIngredient(ItemID.FrostCore).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.IceMachine).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FrostStaff).
+                AddIngredient(ItemID.FrostCore).
+                AddIngredient<CoreofEleum>(3).
+                AddIngredient<VerstaltiteBar>(8).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.IceMachine).Register();
         }
     }
 }

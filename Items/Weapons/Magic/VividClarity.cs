@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -75,8 +75,26 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalRay>()).AddIngredient(ModContent.ItemType<ThornBlossom>()).AddIngredient(ModContent.ItemType<AsteroidStaff>()).AddIngredient(ModContent.ItemType<UltraLiquidator>()).AddIngredient(ModContent.ItemType<PhantasmalFury>()).AddIngredient(ModContent.ItemType<ShadowboltStaff>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalRay>()).AddIngredient(ModContent.ItemType<ThePrince>()).AddIngredient(ModContent.ItemType<AsteroidStaff>()).AddIngredient(ModContent.ItemType<UltraLiquidator>()).AddIngredient(ModContent.ItemType<PhantasmalFury>()).AddIngredient(ModContent.ItemType<ShadowboltStaff>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<ElementalRay>().
+                AddIngredient<ThornBlossom>().
+                AddIngredient<AsteroidStaff>().
+                AddIngredient<UltraLiquidator>().
+                AddIngredient<PhantasmalFury>().
+                AddIngredient<ShadowboltStaff>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
+            CreateRecipe().
+                AddIngredient<ElementalRay>().
+                AddIngredient<ThePrince>().
+                AddIngredient<AsteroidStaff>().
+                AddIngredient<UltraLiquidator>().
+                AddIngredient<PhantasmalFury>().
+                AddIngredient<ShadowboltStaff>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

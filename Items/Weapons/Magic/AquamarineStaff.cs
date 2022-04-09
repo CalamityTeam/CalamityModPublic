@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -53,8 +53,18 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RubyStaff).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<Navystone>(), 25).AddTile(TileID.Anvils).Register();
-            CreateRecipe(1).AddIngredient(ItemID.DiamondStaff).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddIngredient(ModContent.ItemType<Navystone>(), 25).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RubyStaff).
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<Navystone>(25).
+                AddTile(TileID.Anvils).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DiamondStaff).
+                AddIngredient<SeaPrism>(5).
+                AddIngredient<Navystone>(25).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

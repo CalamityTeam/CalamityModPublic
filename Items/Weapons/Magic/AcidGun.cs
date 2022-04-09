@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
@@ -50,7 +50,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 10).AddIngredient(ModContent.ItemType<Acidwood>(), 35).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SulfuricScale>(10).
+                AddIngredient<Acidwood>(35).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

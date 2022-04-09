@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -38,7 +38,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PrimordialEarth>()).AddIngredient(ItemID.AncientBattleArmorMaterial, 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<PrimordialEarth>()).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

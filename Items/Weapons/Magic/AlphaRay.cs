@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -86,7 +86,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Genisis>()).AddIngredient(ModContent.ItemType<Wingman>(), 2).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<Genisis>().
+                AddIngredient<Wingman>(2).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient<CosmiliteBar>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

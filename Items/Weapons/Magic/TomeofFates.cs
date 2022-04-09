@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,11 +40,6 @@ namespace CalamityMod.Items.Weapons.Magic
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 3;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddIngredient(ModContent.ItemType<MeldiateBar>(), 9).AddTile(TileID.Bookcases).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int i = Main.myPlayer;
@@ -82,6 +77,15 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, vector2.X, vector2.Y, value2.X, value2.Y, ModContent.ProjectileType<CosmicTentacle>(), num73, num74, i, num92, num91);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddIngredient<MeldiateBar>(9).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

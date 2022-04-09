@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.NaturesGift).AddIngredient(ItemID.JungleRose).AddIngredient(ItemID.Moonglow, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.NaturesGift).
+                AddIngredient(ItemID.JungleRose).
+                AddIngredient(ItemID.Moonglow, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

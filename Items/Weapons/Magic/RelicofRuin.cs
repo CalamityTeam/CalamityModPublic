@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -49,7 +49,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 2).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

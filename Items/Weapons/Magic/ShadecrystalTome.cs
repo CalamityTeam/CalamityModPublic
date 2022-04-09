@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,7 +50,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CrystalStorm).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CrystalStorm).
+                AddIngredient<VerstaltiteBar>(6).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

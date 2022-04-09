@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -65,7 +65,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EldritchTome>()).AddIngredient(ModContent.ItemType<TomeofFates>()).AddIngredient(ItemID.ShadowFlameHexDoll).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient<EldritchTome>().
+                AddIngredient<TomeofFates>().
+                AddIngredient(ItemID.ShadowFlameHexDoll).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

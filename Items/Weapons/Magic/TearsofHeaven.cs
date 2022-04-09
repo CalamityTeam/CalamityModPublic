@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
@@ -50,7 +50,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FrigidflashBolt>()).AddIngredient(ItemID.WaterBolt).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient<FrigidflashBolt>().
+                AddIngredient(ItemID.WaterBolt).
+                AddIngredient<SeaPrism>(15).
+                AddIngredient<CoreofCinder>(5).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

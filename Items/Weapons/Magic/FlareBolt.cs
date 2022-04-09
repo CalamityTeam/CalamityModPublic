@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 6).AddIngredient(ItemID.Obsidian, 9).AddIngredient(ItemID.Fireblossom, 2).AddIngredient(ItemID.LavaBucket).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 6).
+                AddIngredient(ItemID.Obsidian, 9).
+                AddIngredient(ItemID.Fireblossom, 2).
+                AddIngredient(ItemID.LavaBucket).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

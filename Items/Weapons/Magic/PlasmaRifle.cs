@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -81,8 +81,18 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ToxicFlask).AddIngredient(ItemID.Musket).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ItemID.ToxicFlask).AddIngredient(ItemID.TheUndertaker).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ToxicFlask).
+                AddIngredient(ItemID.Musket).
+                AddIngredient<UeliaceBar>(7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ToxicFlask).
+                AddIngredient(ItemID.TheUndertaker).
+                AddIngredient<UeliaceBar>(7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

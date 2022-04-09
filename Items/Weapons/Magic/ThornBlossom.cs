@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.DataStructures;
@@ -59,7 +59,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArchAmaryllis>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddIngredient(ModContent.ItemType<UnholyEssence>(), 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<ArchAmaryllis>().
+                AddIngredient<UeliaceBar>(10).
+                AddIngredient<UnholyEssence>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

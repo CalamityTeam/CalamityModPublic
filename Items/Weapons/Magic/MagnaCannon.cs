@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -48,7 +48,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpaceGun).AddIngredient(ItemID.Granite, 25).AddIngredient(ItemID.Obsidian, 15).AddIngredient(ItemID.Amber, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpaceGun).
+                AddIngredient(ItemID.Granite, 25).
+                AddIngredient(ItemID.Obsidian, 15).
+                AddIngredient(ItemID.Amber, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

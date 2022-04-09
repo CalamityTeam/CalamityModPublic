@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,8 +50,18 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<NightsRay>()).AddIngredient(ModContent.ItemType<ValkyrieRay>()).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CarnageRay>()).AddIngredient(ModContent.ItemType<ValkyrieRay>()).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<NightsRay>().
+                AddIngredient<ValkyrieRay>().
+                AddIngredient<LivingShard>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+            CreateRecipe().
+                AddIngredient<CarnageRay>().
+                AddIngredient<ValkyrieRay>().
+                AddIngredient<LivingShard>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
@@ -92,7 +92,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UndinesRetribution>()).AddIngredient(ModContent.ItemType<DivineGeode>(), 8).AddIngredient(ModContent.ItemType<UeliaceBar>(), 6).AddIngredient(ModContent.ItemType<UnholyEssence>(), 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<UndinesRetribution>().
+                AddIngredient<DivineGeode>(8).
+                AddIngredient<UeliaceBar>(6).
+                AddIngredient<UnholyEssence>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +36,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Tradewinds>()).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial).AddIngredient(ItemID.FossilOre, 25).AddIngredient(ModContent.ItemType<DesertFeather>(), 5).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient<Tradewinds>().
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient(ItemID.AncientBattleArmorMaterial).
+                AddIngredient(ItemID.FossilOre, 25).
+                AddIngredient<DesertFeather>(5).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

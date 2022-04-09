@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -55,7 +55,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpectreStaff).AddIngredient(ItemID.MagnetSphere).AddIngredient(ModContent.ItemType<DarkPlasma>(), 3).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpectreStaff).
+                AddIngredient(ItemID.MagnetSphere).
+                AddIngredient<DarkPlasma>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

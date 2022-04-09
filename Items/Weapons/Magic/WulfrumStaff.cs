@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
@@ -42,7 +42,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 12).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<WulfrumShard>(12).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

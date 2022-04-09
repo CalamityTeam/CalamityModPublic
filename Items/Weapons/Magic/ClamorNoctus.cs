@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
@@ -105,7 +105,13 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WyvernsCall>()).AddIngredient(ModContent.ItemType<Lumenite>(), 6).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<WyvernsCall>().
+                AddIngredient<Lumenite>(6).
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<ExodiumClusterOre>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

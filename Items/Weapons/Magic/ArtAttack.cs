@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +41,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RainbowRod).AddIngredient(ItemID.LargeRuby).AddIngredient(ItemID.CrystalShard).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RainbowRod).
+                AddIngredient(ItemID.LargeRuby).
+                AddIngredient(ItemID.CrystalShard).
+                AddIngredient<CalamityDust>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

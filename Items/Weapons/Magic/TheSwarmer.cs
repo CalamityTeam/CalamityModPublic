@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -35,11 +35,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, -5);
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.BeeGun).AddIngredient(ItemID.WaspGun).AddIngredient(ItemID.FragmentVortex, 20).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int i = 0; i <= 3; i++)
@@ -65,6 +60,16 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BeeGun).
+                AddIngredient(ItemID.WaspGun).
+                AddIngredient(ItemID.FragmentVortex, 20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

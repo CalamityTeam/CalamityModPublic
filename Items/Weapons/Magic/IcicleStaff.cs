@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -38,11 +38,6 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddRecipeGroup("AnyIceBlock", 25).AddIngredient(ItemID.Shiverthorn, 3).AddTile(TileID.Anvils).Register();
-        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -91,6 +86,15 @@ namespace CalamityMod.Items.Weapons.Magic
 			float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
 			Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<IcicleStaffProj>(), num73, num74, i, 0f, (float)Main.rand.Next(10));
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddRecipeGroup("AnyIceBlock", 25).
+                AddIngredient(ItemID.Shiverthorn, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +36,11 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddIngredient<UeliaceBar>(8).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

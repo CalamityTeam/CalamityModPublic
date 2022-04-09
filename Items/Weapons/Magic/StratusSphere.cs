@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
@@ -44,7 +44,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.NebulaArcanum).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.NebulaArcanum).
+                AddIngredient<Lumenite>(5).
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<ExodiumClusterOre>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

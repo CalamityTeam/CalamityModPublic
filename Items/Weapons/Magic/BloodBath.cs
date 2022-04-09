@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Magic
         }
 
         public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodSample>(), 8).AddIngredient(ItemID.Vertebrae, 3).AddIngredient(ItemID.CrimtaneBar, 2).AddTile(TileID.DemonAltar).Register();
-        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -100,6 +95,16 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(15));
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BloodSample>(8).
+                AddIngredient(ItemID.Vertebrae, 3).
+                AddIngredient(ItemID.CrimtaneBar, 2).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,7 +40,10 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 6).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<UnholyCore>(6).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

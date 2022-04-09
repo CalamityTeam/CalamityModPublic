@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Magic;
@@ -49,7 +49,16 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpellTome).AddIngredient(ModContent.ItemType<CosmicDischarge>()).AddIngredient(ModContent.ItemType<StaffoftheMechworm>(), 2).AddIngredient(ModContent.ItemType<Excelsus>(), 2).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 11).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 33).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpellTome).
+                AddIngredient<CosmicDischarge>().
+                AddIngredient<StaffoftheMechworm>(2).
+                AddIngredient<Excelsus>(2).
+                AddIngredient<AscendantSpiritEssence>(11).
+                AddIngredient<CosmiliteBar>(33).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -43,17 +43,24 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Purge>()).AddIngredient(ModContent.ItemType<PurgeGuzzler>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 12).AddIngredient(ModContent.ItemType<DivineGeode>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             Vector2 shootVelocity = velocity;
             Vector2 shootDirection = shootVelocity.SafeNormalize(Vector2.UnitX * player.direction);
             Projectile.NewProjectile(source, position, shootDirection, type, damage, knockback, player.whoAmI);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Purge>().
+                AddIngredient<PurgeGuzzler>().
+                AddIngredient<AuricBar>(5).
+                AddIngredient<UeliaceBar>(12).
+                AddIngredient<DivineGeode>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

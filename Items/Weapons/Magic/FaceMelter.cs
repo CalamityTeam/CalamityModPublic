@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -44,11 +44,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.TheAxe).AddIngredient(ItemID.MagicalHarp).AddIngredient(ModContent.ItemType<SirensSong>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-        }
-
         public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
@@ -90,6 +85,18 @@ namespace CalamityMod.Items.Weapons.Magic
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI);
                 return false;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.TheAxe).
+                AddIngredient(ItemID.MagicalHarp).
+                AddIngredient<SirensSong>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

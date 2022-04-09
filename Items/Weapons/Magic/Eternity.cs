@@ -61,7 +61,17 @@ namespace CalamityMod.Items.Weapons.Magic
             + 108.ToString("X2") + 251.ToString("X2") + ":";
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeethingDischarge>()).AddIngredient(ModContent.ItemType<SlitheringEels>()).AddIngredient(ModContent.ItemType<GammaFusillade>()).AddIngredient(ModContent.ItemType<PrimordialAncient>()).AddIngredient(ModContent.ItemType<Heresy>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 20).AddIngredient(ItemID.UnicornHorn, 5).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<SeethingDischarge>().
+                AddIngredient<SlitheringEels>().
+                AddIngredient<GammaFusillade>().
+                AddIngredient<PrimordialAncient>().
+                AddIngredient<Heresy>().
+                AddIngredient<DarkPlasma>(20).
+                AddIngredient(ItemID.UnicornHorn, 5).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

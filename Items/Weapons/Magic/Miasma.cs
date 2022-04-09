@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -50,7 +50,12 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.NimbusRod).AddIngredient(ModContent.ItemType<AquamarineStaff>()).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.NimbusRod).
+                AddIngredient<AquamarineStaff>().
+                AddIngredient<CorrodedFossil>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

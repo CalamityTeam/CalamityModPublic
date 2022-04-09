@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -35,7 +35,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FrostBolt>()).AddIngredient(ModContent.ItemType<FlareBolt>()).AddIngredient(ModContent.ItemType<EssenceofEleum>(), 2).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 2).AddTile(TileID.Bookcases).Register();
+            CreateRecipe().
+                AddIngredient<FrostBolt>().
+                AddIngredient<FlareBolt>().
+                AddIngredient<EssenceofEleum>(2).
+                AddIngredient<EssenceofChaos>(2).
+                AddTile(TileID.Bookcases).
+                Register();
         }
     }
 }

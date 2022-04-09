@@ -1,4 +1,4 @@
-using CalamityMod.Items.Ammo;
+﻿using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
@@ -61,15 +61,23 @@ namespace CalamityMod.Items.Weapons.Magic
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.BlizzardStaff).AddIngredient(ItemID.IceRod).AddIngredient(ModContent.ItemType<IcicleStaff>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 18).AddTile(TileID.IceMachine).Register();
-        }
-
         public override void UseStyle(Player player, Rectangle rectangle)
         {
             player.itemLocation.X -= 8f * player.direction;
             player.itemRotation = player.direction * MathHelper.ToRadians(-45f);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BlizzardStaff).
+                AddIngredient(ItemID.IceRod).
+                AddIngredient<IcicleStaff>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(40).
+                AddIngredient<VerstaltiteBar>(18).
+                AddTile(TileID.IceMachine).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -47,7 +47,15 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HallowedBar, 12).AddIngredient(ModContent.ItemType<AerialiteBar>(), 6).AddIngredient(ItemID.Ruby).AddIngredient(ItemID.SoulofSight).AddIngredient(ItemID.SoulofMight).AddIngredient(ItemID.SoulofFright).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HallowedBar, 12).
+                AddIngredient<AerialiteBar>(6).
+                AddIngredient(ItemID.Ruby).
+                AddIngredient(ItemID.SoulofSight).
+                AddIngredient(ItemID.SoulofMight).
+                AddIngredient(ItemID.SoulofFright).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }
