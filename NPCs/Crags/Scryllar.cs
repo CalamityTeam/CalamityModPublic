@@ -247,12 +247,15 @@ namespace CalamityMod.NPCs.Crags
             return spawnInfo.Player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        public static void DefineScryllarLoot(NPCLoot npcLoot)
         {
             npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<EssenceofChaos>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 2);
-            npcLoot.AddIf(() => DownedBossSystem.downedProvidence, ModContent.ItemType<LanternoftheSoul>(), 20);
+            var postProvidence = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedProvidence);
+            postProvidence.Add(ModContent.ItemType<Bloodstone>(), 2);
+            postProvidence.Add(ModContent.ItemType<LanternoftheSoul>(), 20);
         }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineScryllarLoot(npcLoot);
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
