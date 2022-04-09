@@ -1091,7 +1091,9 @@ namespace CalamityMod.NPCs.HiveMind
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<HiveMindBag>()));
 
             npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

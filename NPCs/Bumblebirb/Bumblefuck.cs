@@ -395,7 +395,9 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             npcLoot.Add(ModContent.ItemType<BumblebirbBag>());
             npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

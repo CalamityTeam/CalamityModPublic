@@ -392,7 +392,9 @@ namespace CalamityMod.NPCs.OldDuke
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<OldDukeBag>()));
 
             npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

@@ -223,8 +223,11 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-            npcLoot.AddLore(() => !Main.expertMode, ModContent.ItemType<KnowledgeAquaticScourge>());
-            npcLoot.AddLore(() => !Main.expertMode, ModContent.ItemType<KnowledgeSulphurSea>());            
+
+            // Lore
+            bool firstASKill() => !DownedBossSystem.downedAquaticScourge;
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeAquaticScourge>());
+            npcLoot.AddConditionalPerPlayer(firstASKill, ModContent.ItemType<KnowledgeSulphurSea>());            
         }
 
         public override void OnKill()

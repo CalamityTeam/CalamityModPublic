@@ -1509,7 +1509,10 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
 
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
+
             npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofCos>());
             npcLoot.AddIf(() => biomeType != 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianWings>());
             npcLoot.AddIf(() => biomeType == 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianAegis>());

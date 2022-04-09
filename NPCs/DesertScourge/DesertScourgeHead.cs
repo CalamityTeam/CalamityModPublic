@@ -592,7 +592,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
 
             // Lore
-            npcLoot.AddLore(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

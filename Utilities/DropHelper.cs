@@ -185,33 +185,35 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// Shorthand for shorthand: Registers an item to drop per-player, in Normal Mode only, on the specified condition. Intended for lore items.
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
         /// </summary>
         /// <param name="npcLoot">The NPC's NPCLoot object.</param>
-        /// <param name="firstKillLambda">A lambda which evaluates in real-time to whether the boss hasn't been killed yet.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item ID to drop.</param>
-        /// <returns>A LeadingConditionRule which you can attach more lore items to if you want.</returns>
-        public static LeadingConditionRule AddLore(this NPCLoot npcLoot, Func<bool> firstKillLambda, int itemID)
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this NPCLoot npcLoot, Func<bool> lambda, int itemID)
         {
-            LeadingConditionRule firstKill = new(If(firstKillLambda));
-            firstKill.Add(PerPlayer(itemID));
-            npcLoot.Add(firstKill);
-            return firstKill;
+            LeadingConditionRule lcr = new(If(lambda));
+            lcr.Add(PerPlayer(itemID));
+            npcLoot.Add(lcr);
+            return lcr;
         }
 
         /// <summary>
-        /// Shorthand for shorthand: Registers an item to drop per-player, in Normal Mode only, on the specified condition. Intended for lore items.
+        /// Shorthand for shorthand: Registers an item to drop per-player on the specified condition.<br />
+        /// Intended for lore items, but can be used generally for instanced drops.
         /// </summary>
         /// <param name="npcLoot">The NPC's NPCLoot object.</param>
-        /// <param name="firstKillLambda">A lambda which evaluates in real-time to whether the boss hasn't been killed yet.</param>
+        /// <param name="lambda">A lambda which evaluates in real-time to the condition that needs to be checked.</param>
         /// <param name="itemID">The item ID to drop.</param>
-        /// <returns>A LeadingConditionRule which you can attach more lore items to if you want.</returns>
-        public static LeadingConditionRule AddLore(this NPCLoot npcLoot, Func<DropAttemptInfo, bool> firstKillLambda, int itemID)
+        /// <returns>A LeadingConditionRule which you can attach more PerPlayer or other rules to as you want.</returns>
+        public static LeadingConditionRule AddConditionalPerPlayer(this NPCLoot npcLoot, Func<DropAttemptInfo, bool> lambda, int itemID)
         {
-            LeadingConditionRule firstKill = new(If(firstKillLambda));
-            firstKill.Add(PerPlayer(itemID));
-            npcLoot.AddNormalOnly(firstKill);
-            return firstKill;
+            LeadingConditionRule lcr = new(If(lambda));
+            lcr.Add(PerPlayer(itemID));
+            npcLoot.Add(lcr);
+            return lcr;
         }
         #endregion
 

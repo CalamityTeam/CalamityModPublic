@@ -731,8 +731,9 @@ namespace CalamityMod.NPCs.Leviathan
             npcLoot.Add(ModContent.ItemType<LeviathanTrophy>(), 10);
 
             // Lore
-            npcLoot.AddLore(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddLore(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeLeviathanandSiren>());
+            bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(info.npc);
+            npcLoot.AddConditionalPerPlayer(shouldDropLore , ModContent.ItemType<KnowledgeOcean>());
+            npcLoot.AddConditionalPerPlayer(shouldDropLore, ModContent.ItemType<KnowledgeLeviathanandSiren>());
 
             // Weapons.
             var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => Main.expertMode && ReadyToDropLoot(NPC)));

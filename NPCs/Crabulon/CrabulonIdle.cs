@@ -721,7 +721,9 @@ namespace CalamityMod.NPCs.Crabulon
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CrabulonBag>()));
-            npcLoot.AddLore(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCrabulon, ModContent.ItemType<KnowledgeCrabulon>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

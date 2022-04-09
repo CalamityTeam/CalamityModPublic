@@ -479,7 +479,9 @@ namespace CalamityMod.NPCs.Perforator
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PerforatorBag>()));
 
             npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
+            
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

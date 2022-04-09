@@ -1059,7 +1059,7 @@ namespace CalamityMod.NPCs.Cryogen
             npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
 
             // Lore
-            npcLoot.AddLore(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

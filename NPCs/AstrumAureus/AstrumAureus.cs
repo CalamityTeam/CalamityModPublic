@@ -344,7 +344,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             npcLoot.AddIf(() => !Main.expertMode && NPC.downedMoonlord, ModContent.ItemType<SquishyBeanMount>());
 
             npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
 
             // Other
             npcLoot.Add(ItemID.HallowedKey, 3);

@@ -479,7 +479,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npcLoot.Add(ModContent.ItemType<SamuraiBadge>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedCoreUnlimited>());
-            npcLoot.AddLore(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>());
         }
 
         public override void OnKill()

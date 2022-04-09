@@ -1001,7 +1001,9 @@ namespace CalamityMod.NPCs.Polterghast
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PolterghastBag>()));
 
             npcLoot.Add(ModContent.ItemType<PolterghastTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPolterghast, ModContent.ItemType<KnowledgePolterghast>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

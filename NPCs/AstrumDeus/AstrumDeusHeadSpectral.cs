@@ -287,8 +287,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
             npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstrumDeus>());
-            npcLoot.AddLore(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstralInfection>());
+
+            // Lore
+            bool firstDeusKill() => !DownedBossSystem.downedAstrumDeus;
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstrumDeus>());
+            npcLoot.AddConditionalPerPlayer(firstDeusKill, ModContent.ItemType<KnowledgeAstralInfection>());
+
             npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentSolar, 1, 16, 24);
             npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentVortex, 1, 16, 24);
             npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentNebula, 1, 16, 24);

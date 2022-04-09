@@ -2277,7 +2277,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 
             // Lore
-            npcLoot.AddLore(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
 
             // Fabsol Mount
             npcLoot.AddIf(() =>

@@ -785,7 +785,9 @@ namespace CalamityMod.NPCs.Signus
         {
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<SignusBag>()));
             npcLoot.AddIf(AtFullStrength, ModContent.ItemType<SignusTrophy>(), 10);
-            npcLoot.AddLore(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));

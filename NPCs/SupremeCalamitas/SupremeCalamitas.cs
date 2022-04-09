@@ -2735,10 +2735,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SCalBag>()));
-
-            // Lore item and trophy
             npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
 
             // Only drops in Malice because this is Leviathan's item
             npcLoot.AddIf(() => CalamityWorld.malice, ModContent.ItemType<GaelsGreatsword>());

@@ -2869,7 +2869,7 @@ namespace CalamityMod.NPCs.Yharon
             npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
 
             // Lore
-            npcLoot.AddLore(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
         }
 
         public override void BossLoot(ref string name, ref int potionType)

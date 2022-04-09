@@ -1205,7 +1205,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PlaguebringerGoliathBag>()));
 
             npcLoot.Add(ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
-            npcLoot.AddLore(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
