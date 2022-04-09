@@ -1204,11 +1204,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PlaguebringerGoliathBag>()));
 
-            npcLoot.Add(ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
@@ -1227,8 +1222,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     ModContent.ItemType<InfectedRemote>(),
                     ModContent.ItemType<TheSyringe>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
-                normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<Malachite>(), 10);
 
                 // Materials
                 normalOnly.Add(ItemID.Stinger, 1, 3, 5);
@@ -1243,7 +1238,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 normalOnly.Add(ModContent.ItemType<PlagueCaller>(), 10);
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Malachite>(), 10);
+            npcLoot.Add(ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
