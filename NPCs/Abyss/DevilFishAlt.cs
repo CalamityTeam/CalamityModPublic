@@ -294,7 +294,7 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => DevilFish.ChooseDevilfishLoot(npcLoot);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => DevilFish.DefineDevilFishLoot(npcLoot);
 
         public override void HitEffect(int hitDirection, double damage)
         {

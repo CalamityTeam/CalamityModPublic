@@ -294,15 +294,15 @@ namespace CalamityMod.NPCs.Abyss
             return 0f;
         }
 
-        public static void ChooseDevilfishLoot(NPCLoot npcLoot)
+        public static void DefineDevilFishLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 2);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 1, 2);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 2, 3);
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 1, 2, 2, 3));
+            postClone.Add(ModContent.ItemType<Lumenite>(), 2);
             npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ChaoticOre>(), 1, 3, 9);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => ChooseDevilfishLoot(npcLoot);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineDevilFishLoot(npcLoot);
 
         public override void HitEffect(int hitDirection, double damage)
         {
