@@ -967,16 +967,18 @@ namespace CalamityMod.NPCs
                     catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
-                    npcLoot.AddNormalOnly(ItemID.ShinyStone);
+                    var normalOnly = npcLoot.DefineNormalOnlyDropSet();
+                    normalOnly.Add(ItemID.ShinyStone);
 
                     // Would be in the bag otherwise
-                    npcLoot.AddNormalOnly(ModContent.ItemType<EssenceofCinder>(), 1, 5, 10);
-                    npcLoot.AddNormalOnly(ModContent.ItemType<AegisBlade>(), 10);
+                    normalOnly.Add(ModContent.ItemType<EssenceofCinder>(), 1, 5, 10);
+                    normalOnly.Add(ModContent.ItemType<AegisBlade>(), 10);
 
                     // If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.
                     // The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
-                    // TODO -- This drop needs to be instanced for each player
-                    npcLoot.AddIf(() => !NPC.downedGolemBoss && !Main.expertMode, ItemID.Picksaw);
+                    LeadingConditionRule firstGolemKill = new(DropHelper.If(() => !NPC.downedGolemBoss));
+                    firstGolemKill.Add(DropHelper.PerPlayer(ItemID.Picksaw));
+                    normalOnly.Add(firstGolemKill);
 
                     // Lore
                     npcLoot.AddIf(() => !NPC.downedGolemBoss, ModContent.ItemType<KnowledgeGolem>());

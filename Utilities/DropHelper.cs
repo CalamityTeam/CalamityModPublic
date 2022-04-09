@@ -586,6 +586,77 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Per Player Drop Rule
+        public class PerPlayerDropRule : CommonDrop
+        {
+            // Default instanced drops are protected for 15 minutes, because they are used for boss bags.
+            // You can customize this duration as you see fit. Calamity defaults it to 5 minutes.
+            private const int DefaultDropProtectionTime = 18000; // 5 minutes
+            private int protectionTime;
+            
+            public PerPlayerDropRule(int itemID, int denominator, int minQuantity = 1, int maxQuantity = 1, int numerator = 1, int protectFrames = DefaultDropProtectionTime)
+                : base(itemID, denominator, minQuantity, maxQuantity, numerator)
+            {
+                protectionTime = protectFrames;
+            }
+
+            public PerPlayerDropRule(int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+                : base(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator)
+            {
+                protectionTime = DefaultDropProtectionTime;
+            }
+
+            // Overriding CanDrop is unnecessary. This drop rule has no condition.
+            // If you want to use a condition with PerPlayerDropRule, use DropHelper.If
+
+            public override ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
+            {
+                ItemDropAttemptResult result = default;
+                if (info.rng.Next(chanceDenominator) < chanceNumerator)
+                {
+                    int stack = info.rng.Next(amountDroppedMinimum, amountDroppedMaximum + 1);
+                    TryDropInternal(info.npc, itemId, stack);
+                    result.State = ItemDropAttemptResultState.Success;
+                    return result;
+                }
+
+                result.State = ItemDropAttemptResultState.FailedRandomRoll;
+                return result;
+            }
+
+            // The contents of this method are more or less copied from CommonCode.DropItemLocalPerClientAndSetNPCMoneyTo0
+            private void TryDropInternal(NPC npc, int itemId, int stack)
+            {
+                if (itemId <= 0 || itemId >= ItemLoader.ItemCount)
+                    return;
+
+                // If server-side, then the item must be spawned for each client individually.
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    int idx = Item.NewItem(npc.GetItemSource_Loot(), npc.Center, itemId, stack, true, -1);
+                    Main.timeItemSlotCannotBeReusedFor[idx] = protectionTime;
+                    for (int i = 0; i < Main.maxPlayers; ++i)
+                        if (Main.player[i].active)
+                            NetMessage.SendData(MessageID.InstancedItem, i, -1, null, idx);
+                    Main.item[idx].active = false;
+                }
+
+                // Otherwise just drop the item.
+                else
+                    CommonCode.DropItemFromNPC(npc, itemId, stack);
+            }
+        }
+
+        public static IItemDropRule PerPlayer(int itemID, int denominator = 1, int minQuantity = 1, int maxQuantity = 1, int numerator = 1)
+        {
+            return new PerPlayerDropRule(itemID, denominator, minQuantity, maxQuantity, numerator);
+        }
+        public static IItemDropRule PerPlayer(int itemID, Fraction dropRate, int minQuantity = 1, int maxQuantity = 1)
+        {
+            return PerPlayer(itemID, dropRate.denominator, minQuantity, maxQuantity, dropRate.numerator);
+        }
+        #endregion
+
         #region Player Item Spawns
         /// <summary>
         /// Spawns a stack of one or more items for the given player.
