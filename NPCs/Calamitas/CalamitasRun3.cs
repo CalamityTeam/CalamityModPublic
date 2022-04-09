@@ -165,18 +165,16 @@ namespace CalamityMod.NPCs.Calamitas
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CalamitasBag>()));
-
             npcLoot.Add(ItemID.BrokenHeroSword);
-            npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
             
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Weapons
-                int[] weapons = new int[]
+                LeadingConditionRule postProvidence = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedProvidence));
+                normalOnly.Add(postProvidence);
+
+                // Items
+                int[] items = new int[]
                 {
                     ModContent.ItemType<TheEyeofCalamitas>(),
                     ModContent.ItemType<Animosity>(),
@@ -184,23 +182,27 @@ namespace CalamityMod.NPCs.Calamitas
                     ModContent.ItemType<BlightedEyeStaff>(),
                     ModContent.ItemType<ChaosStone>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CalamityRing>()));
+                normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
                 normalOnly.Add(ModContent.ItemType<CalamityDust>(), 1, 9, 14);
                 normalOnly.Add(ModContent.ItemType<BlightedLens>(), 1, 1, 2);
+                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 30, 40);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
                 normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<CalamityHood>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<CalamityRobes>())));
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Regenator>(), 10);
-            npcLoot.AddIf(() => !Main.expertMode && DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 30, 40);
+            npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
         }
 
         public override void OnKill()
