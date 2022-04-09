@@ -153,14 +153,12 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BrimstoneWaifuBag>()));
 
-            npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
+                LeadingConditionRule postProvidence = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedProvidence));
+                normalOnly.Add(postProvidence);
+                
                 // Weapons
                 int[] weapons = new int[]
                 {
@@ -169,23 +167,28 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     ModContent.ItemType<DormantBrimseeker>(),
                     ModContent.ItemType<RoseStone>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<Hellborn>(), 10);
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
+                postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 20, 30);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Abaddon>()));
+                normalOnly.Add(ModContent.ItemType<FabledTortoiseShell>(), 10);
+                postProvidence.Add(ModContent.ItemType<Brimrose>());
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<FabledTortoiseShell>(), 10);
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Hellborn>(), 10);
-            npcLoot.AddIf(() => !Main.expertMode && DownedBossSystem.downedProvidence, ModContent.ItemType<Brimrose>());
-            npcLoot.AddIf(() => !Main.expertMode && DownedBossSystem.downedProvidence, ModContent.ItemType<Bloodstone>(), 1, 20, 30);
+            npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
         }
 
         public override void OnKill()
