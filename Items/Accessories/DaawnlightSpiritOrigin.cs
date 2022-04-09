@@ -87,11 +87,11 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<DaedalusEmblem>().
-                AddIngredient<LeadCore>(3).
+                AddIngredient(ItemID.LunarBar).
                 AddIngredient<MysteriousCircuitry>(15).
                 AddIngredient<DubiousPlating>(15).
-                AddIngredient<AscendantSpiritEssence>(4).
-                AddTile<CosmicAnvil>().
+                AddIngredient<GalacticaSingularity>(4).
+                AddTile(TileID.LunarCraftingStation).
                 Register();
         }
     }
