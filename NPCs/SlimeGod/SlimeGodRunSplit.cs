@@ -534,13 +534,12 @@ namespace CalamityMod.NPCs.SlimeGod
                 for (int i = 0; i < heartAmt; i++)
                     Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
-            SlimeGodCore.PerformMiscDeathEffects(NPC);
+
+            if (SlimeGodCore.LastSlimeGodStanding())
+                SlimeGodCore.RealOnKill(NPC);
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            SlimeGodCore.DropSlimeGodLoot(npcLoot);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => SlimeGodCore.DefineSlimeGodLoot(npcLoot);
 
         public override bool CheckActive()
         {

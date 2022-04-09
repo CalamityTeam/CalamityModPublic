@@ -64,10 +64,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemID.Blindfold, 50);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Blindfold, 50);
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

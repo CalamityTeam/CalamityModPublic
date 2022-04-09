@@ -579,12 +579,24 @@ namespace CalamityMod.NPCs.SlimeGod
             potionType = ItemID.HealingPotion;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
+        public static void RealOnKill(NPC npc)
         {
-            DropSlimeGodLoot(npcLoot);
+            CalamityGlobalNPC.SetNewBossJustDowned(npc);
+
+            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedSlimeGod);
+
+            // Mark the Slime God as dead
+            DownedBossSystem.downedSlimeGod = true;
+            CalamityNetcode.SyncWorld();
         }
 
-        public static bool CanDropLoot()
+        public override void OnKill()
+        {
+            if (LastSlimeGodStanding())
+                RealOnKill(NPC);
+        }
+
+        public static bool LastSlimeGodStanding()
         {
             int slimeGodCount = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
                 NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
@@ -595,31 +607,13 @@ namespace CalamityMod.NPCs.SlimeGod
             return slimeGodCount <= 1;
         }
 
-        public override void OnKill() => PerformMiscDeathEffects(NPC);
-
-        public static void PerformMiscDeathEffects(NPC npc)
+        public static void DefineSlimeGodLoot(NPCLoot npcLoot)
         {
-            if (!CanDropLoot())
-                return;
+            // Every Slime God piece drops Gel, even if it's not the last one.
+            npcLoot.Add(ItemID.Gel, 1, 32, 48);
 
-            CalamityGlobalNPC.SetNewBossJustDowned(npc);
-
-            CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedSlimeGod);
-
-            // Mark the Slime God as dead
-            DownedBossSystem.downedSlimeGod = true;
-            CalamityNetcode.SyncWorld();
-        }
-
-        // This loot code is shared with every other Slime God component.
-        public static void DropSlimeGodLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<SlimeGodBag>()));
-
-            npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => CanDropLoot() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());
+            var mainDrops = npcLoot.DefineConditionalDropSet(LastSlimeGodStanding);
+            mainDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<SlimeGodBag>()));
 
             // Purified Jam is once per player, but drops for all players.
             npcLoot.AddIf(() =>
@@ -633,31 +627,40 @@ namespace CalamityMod.NPCs.SlimeGod
                 return false;
             }, ModContent.ItemType<PurifiedJam>(), 1, 6, 8);
 
-            // Gel always drops directly, even on Expert
-            npcLoot.Add(ItemID.Gel, 1, 180, 250);
-
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+            // Normal drops: Everything that would otherwise be in the bag
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
+            mainDrops.Add(normalOnly);
             {
-                // Materials
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<PurifiedGel>(), 1, 30, 45);
-
                 // Weapons
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<OverloadedBlaster>(), DropHelper.NormalWeaponDropRateInt);
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<AbyssalTome>(), DropHelper.NormalWeaponDropRateInt);
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<EldritchTome>(), DropHelper.NormalWeaponDropRateInt);
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<CorroslimeStaff>(), DropHelper.NormalWeaponDropRateInt);
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<CrimslimeStaff>(), DropHelper.NormalWeaponDropRateInt);
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimePuppetStaff>(), DropHelper.NormalWeaponDropRateInt);
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<OverloadedBlaster>(),
+                    ModContent.ItemType<AbyssalTome>(),
+                    ModContent.ItemType<EldritchTome>(),
+                    ModContent.ItemType<CorroslimeStaff>(),
+                    ModContent.ItemType<CrimslimeStaff>(),
+                    ModContent.ItemType<SlimePuppetStaff>(),
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+
+                // Materials
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<PurifiedGel>(), 1, 30, 45));
 
                 // Vanity
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodMask>(), 7);
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodMask2>(), 7);
+                normalOnly.Add(ModContent.ItemType<SlimeGodMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<SlimeGodMask2>(), 7);
 
                 // Equipment
-                npcLoot.AddIf(CanDropLoot, ModContent.ItemType<ManaOverloader>());
+                normalOnly.Add(ModContent.ItemType<ManaOverloader>());
             }
+
+            mainDrops.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => LastSlimeGodStanding() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());
         }
+
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineSlimeGodLoot(npcLoot);
 
         public override void HitEffect(int hitDirection, double damage)
         {
