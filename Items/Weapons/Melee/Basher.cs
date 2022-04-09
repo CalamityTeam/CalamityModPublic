@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -32,14 +32,18 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Blue;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 12).AddIngredient(ModContent.ItemType<Acidwood>(), 30).AddTile(TileID.Anvils).Register();
-        }
-
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(1).
+                AddIngredient<SulfuricScale>(12).
+                AddIngredient<Acidwood>(30).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

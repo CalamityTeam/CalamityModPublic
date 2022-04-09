@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ChlorophytePartisan).AddIngredient(ItemID.DarkLance).AddIngredient(ItemID.Gungnir).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ChlorophytePartisan).
+                AddIngredient(ItemID.DarkLance).
+                AddIngredient(ItemID.Gungnir).
+                AddIngredient<LivingShard>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

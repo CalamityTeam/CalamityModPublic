@@ -45,11 +45,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DepthBlade>()).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -66,6 +61,18 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<DepthBlade>().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Lumenite>(10).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

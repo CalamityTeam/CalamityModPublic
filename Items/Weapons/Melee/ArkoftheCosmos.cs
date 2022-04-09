@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -179,11 +178,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemType<FourSeasonsGalaxia>()).AddIngredient(ItemType<ArkoftheElements>()).AddIngredient(ItemType<AuricBar>(), 5).AddTile(TileType<CosmicAnvil>()).Register();
-        }
-
         public override ModItem Clone(Item item)
         {
             var clone = base.Clone(item);
@@ -233,6 +227,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
             spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<FourSeasonsGalaxia>().
+                AddIngredient<ArkoftheElements>().
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

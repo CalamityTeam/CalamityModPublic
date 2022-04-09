@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -48,11 +48,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.HallowedBar, 10).AddIngredient(ItemID.CrystalShard, 7).AddIngredient(ItemID.SoulofNight, 5).AddRecipeGroup("CursedFlameIchor", 5).AddIngredient(ItemID.SoulofMight, 3).AddIngredient(ItemID.SoulofSight, 3).AddIngredient(ItemID.SoulofFright, 3).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -79,6 +74,20 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.OnFire, 180);
                 target.AddBuff(BuffID.Frostburn, 120);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HallowedBar, 10).
+                AddIngredient(ItemID.CrystalShard, 7).
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddRecipeGroup("CursedFlameIchor", 5).
+                AddIngredient(ItemID.SoulofMight, 3).
+                AddIngredient(ItemID.SoulofSight, 3).
+                AddIngredient(ItemID.SoulofFright, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -49,11 +49,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GalileoGladius>()).AddIngredient(ModContent.ItemType<CosmicShiv>()).AddIngredient(ModContent.ItemType<Lucrecia>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -82,6 +77,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 int damage = player.GetWeaponDamage(player.ActiveItem());
                 CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<GalileoGladius>().
+                AddIngredient<CosmicShiv>().
+                AddIngredient<Lucrecia>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

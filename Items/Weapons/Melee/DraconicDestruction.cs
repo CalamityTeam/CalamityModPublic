@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -38,11 +38,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().devItem = true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddIngredient(ModContent.ItemType<CoreofCinder>(), 3).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddIngredient(ItemID.FragmentSolar, 10).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -54,6 +49,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Daybreak, 600);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<ShadowspecBar>(5).
+                AddIngredient<CoreofCinder>(3).
+                AddIngredient<CoreofEleum>(3).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddTile(ModContent.TileType<DraedonsForge>()).
+                Register();
         }
     }
 }

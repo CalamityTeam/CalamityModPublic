@@ -49,7 +49,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddIngredient(ModContent.ItemType<RuinousSoul>(), 3).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 16).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<Lumenite>(8).
+                AddIngredient<RuinousSoul>(3).
+                AddIngredient<ExodiumClusterOre>(16).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

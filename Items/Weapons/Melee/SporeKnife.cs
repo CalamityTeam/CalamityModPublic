@@ -32,11 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.JungleSpores, 10).AddIngredient(ItemID.Stinger, 5).AddTile(TileID.Anvils).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -57,6 +52,15 @@ namespace CalamityMod.Items.Weapons.Melee
             int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), Item.knockBack, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.JungleSpores, 10).
+                AddIngredient(ItemID.Stinger, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

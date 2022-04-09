@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Melee.Spears;
@@ -44,7 +44,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AmidiasTrident>()).AddIngredient(ModContent.ItemType<Atlantis>()).AddIngredient(ItemID.InfluxWaver).AddIngredient(ModContent.ItemType<SeaPrism>(), 20).AddIngredient(ModContent.ItemType<Tenebris>(), 25).AddIngredient(ModContent.ItemType<Lumenite>(), 50).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<AmidiasTrident>().
+                AddIngredient<Atlantis>().
+                AddIngredient(ItemID.InfluxWaver).
+                AddIngredient<SeaPrism>(20).
+                AddIngredient<Tenebris>(25).
+                AddIngredient<Lumenite>(50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

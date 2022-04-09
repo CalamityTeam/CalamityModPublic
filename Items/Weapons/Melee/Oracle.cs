@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
@@ -62,7 +62,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SolarFlare>()).AddIngredient(ModContent.ItemType<TheObliterator>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<SolarFlare>().
+                AddIngredient<TheObliterator>().
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

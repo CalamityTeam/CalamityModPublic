@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -35,11 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<SoulScythe>();
             Item.shootSpeed = 18f;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.DeathSickle).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 10).AddIngredient(ItemID.CursedFlame, 20).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -105,6 +100,16 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[num624].velocity *= 2f;
                 }
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.DeathSickle).
+                AddIngredient<PlagueCellCluster>(10).
+                AddIngredient(ItemID.CursedFlame, 20).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

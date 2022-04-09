@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -44,11 +44,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 12).AddIngredient(ItemID.FallenStar, 5).AddIngredient(ItemID.SoulofNight).AddIngredient(ItemID.SoulofLight).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -63,6 +58,17 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 180);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(12).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient(ItemID.SoulofNight).
+                AddIngredient(ItemID.SoulofLight).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

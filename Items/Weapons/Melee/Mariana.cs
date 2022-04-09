@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.ChlorophyteClaymore).AddIngredient(ItemID.Coral, 3).AddIngredient(ItemID.Starfish, 3).AddIngredient(ItemID.Seashell, 3).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetProjectileSource_Item(Item);
@@ -117,6 +112,20 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 59);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.ChlorophyteClaymore).
+                AddIngredient(ItemID.Coral, 3).
+                AddIngredient(ItemID.Starfish, 3).
+                AddIngredient(ItemID.Seashell, 3).
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenite>(10).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

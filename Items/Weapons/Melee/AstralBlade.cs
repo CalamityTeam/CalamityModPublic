@@ -40,11 +40,6 @@ namespace CalamityMod.Items.Weapons.Melee
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 8).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300);
@@ -94,6 +89,14 @@ namespace CalamityMod.Items.Weapons.Melee
                     d.noLight = false;
                 }
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AstralBar>(8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

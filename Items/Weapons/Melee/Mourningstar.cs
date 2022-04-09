@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shoot = ModContent.ProjectileType<MourningstarFlail>();
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.SolarEruption).AddIngredient(ModContent.ItemType<CoreofChaos>(), 6).AddIngredient(ModContent.ItemType<CoreofCinder>(), 6).AddIngredient(ModContent.ItemType<DivineGeode>(), 6).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float ai3 = (Main.rand.NextFloat() - 0.75f) * 0.7853982f; //0.5
@@ -51,6 +46,17 @@ namespace CalamityMod.Items.Weapons.Melee
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, ai3);
             Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, ai3X);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SolarEruption).
+                AddIngredient<CoreofChaos>(6).
+                AddIngredient<CoreofCinder>(6).
+                AddIngredient<DivineGeode>(6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

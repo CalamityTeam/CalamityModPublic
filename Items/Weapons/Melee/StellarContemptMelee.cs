@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -42,7 +42,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TruePaladinsHammerMelee>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.FragmentSolar, 10).AddIngredient(ItemID.FragmentNebula, 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<TruePaladinsHammerMelee>().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient(ItemID.FragmentNebula, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

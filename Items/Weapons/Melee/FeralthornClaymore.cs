@@ -33,11 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Lime;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 12).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
@@ -66,6 +61,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Projectile.NewProjectile(source, player.position.X + 40f + Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
             Projectile.NewProjectile(source, player.position.X - 40f + Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(damage * 0.25), 0f, Main.myPlayer);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<DraedonBar>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

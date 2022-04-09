@@ -40,11 +40,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 23f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.StarWrath).AddIngredient(ItemID.SoulofMight, 20).AddIngredient(ModContent.ItemType<DivineGeode>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.DarkShard).AddIngredient(ItemID.LightShard).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
@@ -110,6 +105,20 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.StarWrath).
+                AddIngredient(ItemID.SoulofMight, 20).
+                AddIngredient<DivineGeode>(10).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.DarkShard).
+                AddIngredient(ItemID.LightShard).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

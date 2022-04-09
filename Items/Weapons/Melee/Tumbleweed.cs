@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -37,7 +37,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Sunfury).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ItemID.SoulofMight, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Sunfury).
+                AddIngredient<GrandScale>().
+                AddIngredient(ItemID.SoulofMight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

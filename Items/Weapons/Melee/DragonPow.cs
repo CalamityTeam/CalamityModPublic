@@ -50,7 +50,18 @@ Summons a barrage of petals and waterfalls on enemy hits");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Mourningstar>()).AddIngredient(ItemID.DaoofPow).AddIngredient(ItemID.FlowerPow).AddIngredient(ItemID.Flairon).AddIngredient(ModContent.ItemType<BallOFugu>()).AddIngredient(ModContent.ItemType<Tumbleweed>()).AddIngredient(ModContent.ItemType<UrchinFlail>()).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<Mourningstar>().
+                AddIngredient(ItemID.DaoofPow).
+                AddIngredient(ItemID.FlowerPow).
+                AddIngredient(ItemID.Flairon).
+                AddIngredient<BallOFugu>().
+                AddIngredient<Tumbleweed>().
+                AddIngredient<UrchinFlail>().
+                AddIngredient<HellcasterFragment>(4).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

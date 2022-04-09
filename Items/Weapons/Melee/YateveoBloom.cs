@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Spears;
@@ -88,7 +88,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.JungleRose).AddIngredient(ItemID.RichMahogany, 15).AddIngredient(ItemID.JungleSpores, 12).AddIngredient(ItemID.Stinger, 4).AddIngredient(ItemID.Vine, 2).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.JungleRose).
+                AddIngredient(ItemID.RichMahogany, 15).
+                AddIngredient(ItemID.JungleSpores, 12).
+                AddIngredient(ItemID.Stinger, 4).
+                AddIngredient(ItemID.Vine, 2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

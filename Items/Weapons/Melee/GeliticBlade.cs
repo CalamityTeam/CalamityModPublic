@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -35,11 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 9f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurifiedGel>(), 30).AddIngredient(ItemID.Gel, 35).AddIngredient(ItemID.HellstoneBar, 10).AddTile(ModContent.TileType<StaticRefiner>()).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -56,6 +51,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(30).
+                AddIngredient(ItemID.Gel, 35).
+                AddIngredient(ItemID.HellstoneBar, 10).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }

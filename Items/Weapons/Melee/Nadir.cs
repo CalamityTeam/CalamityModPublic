@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -47,7 +47,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpatialLance>()).AddIngredient(ModContent.ItemType<TwistingNether>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<SpatialLance>().
+                AddIngredient<TwistingNether>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

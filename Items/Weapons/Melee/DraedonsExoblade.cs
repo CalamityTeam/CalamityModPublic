@@ -124,7 +124,15 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Terratomere>()).AddIngredient(ModContent.ItemType<AnarchyBlade>()).AddIngredient(ModContent.ItemType<FlarefrostBlade>()).AddIngredient(ModContent.ItemType<PhoenixBlade>()).AddIngredient(ModContent.ItemType<StellarStriker>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<Terratomere>().
+                AddIngredient<AnarchyBlade>().
+                AddIngredient<FlarefrostBlade>().
+                AddIngredient<PhoenixBlade>().
+                AddIngredient<StellarStriker>().
+                AddIngredient<MiracleMatter>().
+                AddTile(ModContent.TileType<DraedonsForge>().
+                Register();
         }
     }
 }

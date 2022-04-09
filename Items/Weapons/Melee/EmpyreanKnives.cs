@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -102,7 +102,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.VampireKnives).AddIngredient(ModContent.ItemType<MonstrousKnives>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.VampireKnives).
+                AddIngredient<MonstrousKnives>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

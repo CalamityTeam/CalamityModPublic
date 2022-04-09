@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee.Spears;
+﻿using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +38,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyGoldBar", 5).AddIngredient(ItemID.Granite, 9).AddIngredient(ItemID.Marble, 9).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyGoldBar", 5).
+                AddIngredient(ItemID.Granite, 9).
+                AddIngredient(ItemID.Marble, 9).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

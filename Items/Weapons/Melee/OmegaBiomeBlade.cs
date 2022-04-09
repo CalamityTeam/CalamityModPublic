@@ -201,11 +201,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 15f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemType<TrueBiomeBlade>()).AddIngredient(ItemType<CoreofCalamity>()).AddIngredient(ItemType<AstralBar>(), 3).AddIngredient(ItemType<BarofLife>(), 3).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         #region Saving and syncing attunements
         public override ModItem Clone(Item item)
         {
@@ -399,6 +394,17 @@ namespace CalamityMod.Items.Weapons.Melee
             Texture2D itemTexture = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/OmegaBiomeBladeExtra").Value;
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TrueBiomeBlade>().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<AstralBar>(3).
+                AddIngredient<BarofLife>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

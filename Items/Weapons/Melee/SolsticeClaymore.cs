@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
@@ -35,11 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<SolsticeBeam>();
             Item.shootSpeed = 16f;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.BeamSword).AddIngredient(ModContent.ItemType<AstralBar>(), 20).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -82,6 +77,17 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BeamSword).
+                AddIngredient<AstralBar>(20).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

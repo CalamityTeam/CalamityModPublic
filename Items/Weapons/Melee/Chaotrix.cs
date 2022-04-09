@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
@@ -44,7 +44,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 6).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<CruptixBar>(6).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

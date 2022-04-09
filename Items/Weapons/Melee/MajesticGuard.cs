@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -49,8 +49,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.AdamantiteSword).AddIngredient(ItemID.SoulofMight, 15).AddTile(TileID.MythrilAnvil).Register();
-            CreateRecipe(1).AddIngredient(ItemID.TitaniumSword).AddIngredient(ItemID.SoulofMight, 15).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.AdamantiteSword).
+                AddIngredient(ItemID.SoulofMight, 15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TitaniumSword).
+                AddIngredient(ItemID.SoulofMight, 15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

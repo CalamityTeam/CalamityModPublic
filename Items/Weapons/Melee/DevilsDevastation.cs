@@ -105,11 +105,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Devastation>()).AddIngredient(ModContent.ItemType<TrueForbiddenOathblade>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -173,6 +168,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.OnFire, 900);
                 SoundEngine.PlaySound(SoundID.Item14, target.position);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Devastation>().
+                AddIngredient<TrueForbiddenOathblade>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

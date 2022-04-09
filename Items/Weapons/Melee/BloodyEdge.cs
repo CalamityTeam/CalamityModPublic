@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -33,12 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.LightsBane).AddIngredient(ItemID.Muramasa).AddIngredient(ItemID.BladeofGrass).AddIngredient(ItemID.FieryGreatsword).AddTile(TileID.DemonAltar).Register();
-            CreateRecipe(1).AddIngredient(ItemID.BloodButcherer).AddIngredient(ItemID.Muramasa).AddIngredient(ItemID.BladeofGrass).AddIngredient(ItemID.FieryGreatsword).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -67,6 +61,24 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.LightsBane).
+                AddIngredient(ItemID.Muramasa).
+                AddIngredient(ItemID.BladeofGrass).
+                AddIngredient(ItemID.FieryGreatsword).
+                AddTile(TileID.DemonAltar).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BloodButcherer).
+                AddIngredient(ItemID.Muramasa).
+                AddIngredient(ItemID.BladeofGrass).
+                AddIngredient(ItemID.FieryGreatsword).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

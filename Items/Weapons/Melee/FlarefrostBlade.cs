@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 11f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 8).AddIngredient(ItemID.HellstoneBar, 8).AddIngredient(ItemID.SoulofLight, 3).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             int dustChoice = Main.rand.Next(2);
@@ -66,6 +61,16 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.OnFire, 180);
             target.AddBuff(BuffID.Frostburn, 180);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(8).
+                AddIngredient(ItemID.HellstoneBar, 8).
+                AddIngredient(ItemID.SoulofLight, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -44,12 +44,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TrueBloodyEdge>()).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
-            CreateRecipe(1).AddIngredient(ItemID.TrueNightsEdge).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -78,6 +72,22 @@ namespace CalamityMod.Items.Weapons.Melee
             int healAmount = Main.rand.Next(2) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TrueBloodyEdge>().
+                AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient<LivingShard>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TrueNightsEdge).
+                AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient<LivingShard>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

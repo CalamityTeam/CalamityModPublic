@@ -34,12 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LeechingDagger>()).AddIngredient(ModContent.ItemType<AncientShiv>()).AddIngredient(ModContent.ItemType<SporeKnife>()).AddIngredient(ModContent.ItemType<FlameburstShortsword>()).AddTile(TileID.DemonAltar).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodyRupture>()).AddIngredient(ModContent.ItemType<AncientShiv>()).AddIngredient(ModContent.ItemType<SporeKnife>()).AddIngredient(ModContent.ItemType<FlameburstShortsword>()).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -56,6 +50,24 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetProjectileSource_Item(Item);
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<LeechingDagger>().
+                AddIngredient<AncientShiv>().
+                AddIngredient<SporeKnife>().
+                AddIngredient<FlameburstShortsword>().
+                AddTile(TileID.DemonAltar).
+                Register();
+            CreateRecipe().
+                AddIngredient<BloodyRupture>().
+                AddIngredient<AncientShiv>().
+                AddIngredient<SporeKnife>().
+                AddIngredient<FlameburstShortsword>().
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

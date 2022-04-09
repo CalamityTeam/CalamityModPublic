@@ -33,11 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 7).AddTile(TileID.Anvils).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -58,6 +53,14 @@ namespace CalamityMod.Items.Weapons.Melee
             int boom = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), (int)(Item.damage * 0.75f * player.MeleeDamage()), Item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
             if (boom.WithinBounds(Main.maxProjectiles))
                 Main.projectile[boom].Calamity().forceMelee = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 7).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

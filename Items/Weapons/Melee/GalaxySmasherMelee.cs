@@ -53,7 +53,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StellarContemptMelee>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<StellarContemptMelee>).
+                AddIngredient<CosmiliteBar>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

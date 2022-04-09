@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,7 +38,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BlueMoon).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BlueMoon).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<Lumenite>(10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

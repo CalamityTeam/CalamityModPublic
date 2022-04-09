@@ -47,11 +47,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Mariana>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 7).AddIngredient(ModContent.ItemType<BarofLife>(), 2).AddIngredient(ModContent.ItemType<Lumenite>(), 20).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -60,6 +55,18 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.dust[num250].velocity *= 0.2f;
                 Main.dust[num250].noGravity = true;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Mariana>().
+                AddIngredient<UeliaceBar>(7).
+                AddIngredient<BarofLife>(2).
+                AddIngredient<Lumenite>(20).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -101,7 +101,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ThrowingKnife, 200).AddIngredient(ItemID.LifeCrystal).AddIngredient(ItemID.LesserHealingPotion, 5).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ThrowingKnife, 200).
+                AddIngredient(ItemID.LifeCrystal).
+                AddIngredient(ItemID.LesserHealingPotion, 5).
+                AddIngredient<VictoryShard>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

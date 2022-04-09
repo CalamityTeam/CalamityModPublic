@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -44,7 +44,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VictideBar>(), 3).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<VictideBar>(3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

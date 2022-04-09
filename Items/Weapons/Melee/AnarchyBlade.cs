@@ -40,11 +40,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Yellow;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<UnholyCore>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 3).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -87,6 +82,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrimstoneBoom>(), damage, Item.knockBack, Main.myPlayer);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<CoreofChaos>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

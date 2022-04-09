@@ -99,7 +99,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MajesticGuard>()).AddIngredient(ModContent.ItemType<BarofLife>(), 10).AddIngredient(ItemID.FragmentSolar, 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<MajesticGuard>().
+                AddIngredient<BarofLife>(10).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

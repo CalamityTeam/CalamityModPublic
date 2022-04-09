@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -36,7 +36,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PaladinsHammer).AddIngredient(ModContent.ItemType<PwnagehammerMelee>()).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddIngredient(ModContent.ItemType<CoreofChaos>(), 5).AddIngredient(ModContent.ItemType<CruptixBar>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PaladinsHammer).
+                AddIngredient<PwnagehammerMelee>().
+                AddIngredient<CalamityDust>(5).
+                AddIngredient<CoreofChaos>(5).
+                AddIngredient<CruptixBar>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

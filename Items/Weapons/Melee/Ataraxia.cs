@@ -133,7 +133,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient<AuricBar>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<AscendantSpiritEssence>(2).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

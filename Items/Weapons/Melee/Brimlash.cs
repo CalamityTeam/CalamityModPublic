@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -35,11 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 10f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 4).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3).AddIngredient(ModContent.ItemType<CalamityDust>(), 5).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -56,6 +51,16 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<UnholyCore>(4).
+                AddIngredient<EssenceofChaos>(3).
+                AddIngredient<CalamityDust>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

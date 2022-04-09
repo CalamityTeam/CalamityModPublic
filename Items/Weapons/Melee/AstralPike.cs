@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
@@ -40,11 +40,14 @@ namespace CalamityMod.Items.Weapons.Melee
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
 
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
+
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 8).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<AstralBar>(8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
-
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }

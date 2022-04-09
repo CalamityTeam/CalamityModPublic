@@ -81,7 +81,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 10).AddIngredient(ItemID.CrystalShard, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyAdamantiteBar", 10).
+                AddIngredient(ItemID.CrystalShard, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

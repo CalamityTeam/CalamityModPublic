@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee.Yoyos;
+﻿using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,7 +43,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DarkShard).AddIngredient(ItemID.LightShard).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DarkShard).
+                AddIngredient(ItemID.LightShard).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

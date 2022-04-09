@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 20f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StormSaber>()).AddIngredient(ModContent.ItemType<WindBlade>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 3).AddIngredient(ItemID.FragmentSolar, 10).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -48,6 +43,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 187, (float)(player.direction * 2), 0f, 150, default, 1.3f);
                 Main.dust[num250].velocity *= 0.2f;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<StormSaber>().
+                AddIngredient<WindBlade>().
+                AddIngredient<CoreofCinder>(3).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

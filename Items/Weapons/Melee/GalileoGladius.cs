@@ -49,11 +49,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -88,6 +83,16 @@ namespace CalamityMod.Items.Weapons.Melee
                     player.Calamity().galileoCooldown = 15;
                 }
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Lumenite>(8).
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<ExodiumClusterOre>(15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

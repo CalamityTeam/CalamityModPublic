@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 2).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 4).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -55,6 +50,16 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var source = player.GetProjectileSource_Item(Item);
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<Leech>(), (int)(Item.damage * 0.5f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f)), Item.knockBack, Main.myPlayer);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 2).
+                AddIngredient(ItemID.DemoniteBar, 5).
+                AddIngredient<TrueShadowScale>(4).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

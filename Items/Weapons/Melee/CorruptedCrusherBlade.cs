@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -52,7 +52,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EbonianGel>(), 15).AddIngredient(ItemID.EbonstoneBlock, 50).AddIngredient(ItemID.ShadowScale, 5).AddIngredient(ItemID.IronBar, 4).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient<EbonianGel>(15).
+                AddIngredient(ItemID.EbonstoneBlock, 50).
+                AddIngredient(ItemID.ShadowScale, 5).
+                AddIngredient(ItemID.IronBar, 4).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

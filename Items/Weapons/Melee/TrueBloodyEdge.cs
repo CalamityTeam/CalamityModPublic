@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 11f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodyEdge>()).AddIngredient(ItemID.BrokenHeroSword).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -72,6 +67,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BloodyEdge>().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

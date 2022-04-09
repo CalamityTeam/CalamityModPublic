@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
@@ -52,12 +52,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Floodtide>()).AddIngredient(ModContent.ItemType<Hellkite>()).AddIngredient(ModContent.ItemType<TemporalFloeSword>()).AddIngredient(ItemID.TerraBlade).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Floodtide>()).AddIngredient(ModContent.ItemType<Hellkite>()).AddIngredient(ModContent.ItemType<TemporalFloeSword>()).AddIngredient(ModContent.ItemType<TerraEdge>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -86,6 +80,16 @@ namespace CalamityMod.Items.Weapons.Melee
             int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TrueNightsStabber>().
+                AddIngredient<TrueExcaliburShortsword>().
+                AddIngredient<LivingShard>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

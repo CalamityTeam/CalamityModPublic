@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
             Item.shootSpeed = 10f;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BladecrestOathsword>()).AddIngredient(ModContent.ItemType<OldLordOathsword>()).AddIngredient(ItemID.SoulofFright, 5).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -106,6 +101,16 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.OnFire, 720);
                 SoundEngine.PlaySound(SoundID.Item14, target.position);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BladecrestOathsword>().
+                AddIngredient<OldLordOathsword>().
+                AddIngredient(ItemID.SoulofFright, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

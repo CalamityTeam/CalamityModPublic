@@ -54,7 +54,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Pwnhammer).AddIngredient(ItemID.HallowedBar, 7).AddIngredient(ItemID.SoulofMight, 3).AddIngredient(ItemID.SoulofSight, 3).AddIngredient(ItemID.SoulofFright, 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Pwnhammer).
+                AddIngredient(ItemID.HallowedBar, 7).
+                AddIngredient(ItemID.SoulofMight, 3).
+                AddIngredient(ItemID.SoulofSight, 3).
+                AddIngredient(ItemID.SoulofFright, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

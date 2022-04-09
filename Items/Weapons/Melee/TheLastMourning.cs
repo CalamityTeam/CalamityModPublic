@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.Projectiles.Melee;
@@ -87,7 +87,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BalefulHarvester>()).AddIngredient(ItemID.SoulofNight, 30).AddIngredient(ModContent.ItemType<ReaperTooth>(), 5).AddIngredient(ModContent.ItemType<RuinousSoul>(), 3).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<BalefulHarvester>().
+                AddIngredient(ItemID.SoulofNight, 30).
+                AddIngredient<ReaperTooth>(5).
+                AddIngredient<RuinousSoul>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

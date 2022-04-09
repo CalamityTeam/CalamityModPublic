@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,11 +31,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.BladeofGrass).AddIngredient(ItemID.LavaBucket).AddRecipeGroup("Boss2Material", 3).AddIngredient(ItemID.Deathweed, 5).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -54,6 +49,17 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Poisoned, 240);
             target.AddBuff(BuffID.Venom, 120);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.BladeofGrass).
+                AddIngredient(ItemID.LavaBucket).
+                AddRecipeGroup("Boss2Material", 3).
+                AddIngredient(ItemID.Deathweed, 5).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

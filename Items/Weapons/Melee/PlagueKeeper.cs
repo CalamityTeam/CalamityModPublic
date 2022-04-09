@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 9f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VirulentKatana>()).AddIngredient(ItemID.BeeKeeper).AddIngredient(ItemID.FragmentSolar, 10).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetProjectileSource_Item(Item);
@@ -77,6 +72,18 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.projectile[bee].Calamity().forceMelee = true;
                 }
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<VirulentKatana>().
+                AddIngredient(ItemID.BeeKeeper).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddIngredient<InfectedArmorPlating>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

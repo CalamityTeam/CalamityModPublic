@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -51,11 +51,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalShortsword>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
@@ -89,6 +84,15 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<ElementalShortsword>().
+                AddIngredient<CosmiliteBar>(8).
+                AddTile(ModContent.TileType<CosmicAnvil>().
+                Register();
         }
     }
 }

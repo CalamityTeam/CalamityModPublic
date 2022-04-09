@@ -154,11 +154,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemType<OmegaBiomeBlade>()).AddIngredient(ItemType<CosmiliteBar>(), 8).AddIngredient(ItemType<DarksunFragment>(), 8).AddTile(TileType<CosmicAnvil>()).Register();
-        }
-
         #region saving and syncing attunements
         public override ModItem Clone(Item item)
         {
@@ -314,6 +309,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, animFrame, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<OmegaBiomeBlade>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -32,11 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Red;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.TheHorsemansBlade).AddIngredient(ItemID.BookofSkulls).AddIngredient(ItemID.FragmentSolar, 20).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             if (crit)
@@ -55,6 +50,16 @@ namespace CalamityMod.Items.Weapons.Melee
             int type = Main.rand.NextBool() ? ModContent.ProjectileType<BalefulHarvesterProjectile>() : ProjectileID.FlamingJack;
             CalamityPlayer.HorsemansBladeOnHit(player, -1, (int)(damage * 1.5f), Item.knockBack, 0, type);
             target.AddBuff(BuffID.OnFire, 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.TheHorsemansBlade).
+                AddIngredient(ItemID.BookofSkulls).
+                AddIngredient(ItemID.FragmentSolar, 20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

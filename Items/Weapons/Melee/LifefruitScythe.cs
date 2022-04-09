@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -35,11 +35,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 12f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UeliaceBar>(), 15).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
@@ -62,6 +57,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
             player.statLife += 5;
             player.HealEffect(5);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<UeliaceBar>(15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

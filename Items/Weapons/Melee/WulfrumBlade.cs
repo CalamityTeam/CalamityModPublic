@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -37,7 +37,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 12).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<WulfrumShard>(12).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CrystalShard, 10).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddRecipeGroup("AnyCobaltBar", 8).AddIngredient(ItemID.PixieDust, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CrystalShard, 10).
+                AddIngredient<SeaPrism>(15).
+                AddRecipeGroup("AnyCobaltBar", 8).
+                AddIngredient(ItemID.PixieDust, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -47,11 +47,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.SoulofLight, 5).AddIngredient(ItemID.SoulofNight, 5).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -78,6 +73,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.immune = true;
                 player.immuneTime = Item.useTime / 5;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<BarofLife>(5).
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

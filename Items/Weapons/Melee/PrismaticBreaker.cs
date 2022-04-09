@@ -149,7 +149,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicRainbow>()).AddIngredient(ModContent.ItemType<SolsticeClaymore>()).AddIngredient(ModContent.ItemType<BarofLife>(), 3).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<CosmicRainbow>().
+                AddIngredient<SolsticeClaymore>().
+                AddIngredient<BarofLife>(3).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile(ModContent.TileType<CosmicAnvil>().
+                Register();
         }
     }
 }

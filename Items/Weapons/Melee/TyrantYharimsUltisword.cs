@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
+﻿using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 12f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TrueCausticEdge>()).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ItemID.FlaskofVenom, 5).AddIngredient(ItemID.ChlorophyteBar, 15).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -61,6 +56,17 @@ namespace CalamityMod.Items.Weapons.Melee
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 180);
             target.AddBuff(BuffID.Poisoned, 300);
             target.AddBuff(BuffID.Venom, 150);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TrueCausticEdge>().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient(ItemID.FlaskofVenom, 5).
+                AddIngredient(ItemID.ChlorophyteBar, 15).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

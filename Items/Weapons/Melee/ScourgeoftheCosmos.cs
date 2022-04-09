@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
@@ -36,7 +36,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ScourgeoftheCorruptor).AddIngredient(ModContent.ItemType<Bonebreaker>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ScourgeoftheCorruptor).
+                AddIngredient<Bonebreaker>().
+                AddIngredient<CosmiliteBar>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BoneJavelin, 150).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BoneJavelin, 150).
+                AddIngredient<CorrodedFossil>(15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

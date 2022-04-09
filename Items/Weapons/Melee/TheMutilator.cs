@@ -77,7 +77,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

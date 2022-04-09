@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -35,7 +35,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Vertebrae, 5).AddIngredient(ItemID.CrimtaneBar, 5).AddIngredient(ModContent.ItemType<BloodSample>(), 15).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Vertebrae, 5).
+                AddIngredient(ItemID.CrimtaneBar, 5).
+                AddIngredient<BloodSample>(15).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

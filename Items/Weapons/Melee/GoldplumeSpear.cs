@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
@@ -39,7 +39,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBar>(), 10).AddIngredient(ItemID.SunplateBlock, 4).AddTile(TileID.SkyMill).Register();
+            CreateRecipe().
+                AddIngredient<AerialiteBar>(10).
+                AddIngredient(ItemID.SunplateBlock, 4).
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

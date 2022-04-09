@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
@@ -174,7 +174,19 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GreatswordofBlah>()).AddIngredient(ItemID.TrueExcalibur).AddIngredient(ItemID.LargeDiamond).AddIngredient(ItemID.LightShard, 3).AddIngredient(ItemID.DarkShard, 3).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 10).AddIngredient(ItemID.SoulofLight, 20).AddIngredient(ItemID.SoulofNight, 20).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<GreatswordofBlah>().
+                AddIngredient(ItemID.TrueExcalibur).
+                AddIngredient(ItemID.LargeDiamond).
+                AddIngredient(ItemID.LightShard, 3).
+                AddIngredient(ItemID.DarkShard, 3).
+                AddIngredient<LivingShard>(10).
+                AddIngredient<GalacticaSingularity>(10).
+                AddIngredient(ItemID.SoulofLight, 20).
+                AddIngredient(ItemID.SoulofNight, 20).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

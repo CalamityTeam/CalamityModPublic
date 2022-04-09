@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
@@ -46,11 +46,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 15).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.IceMachine).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -69,6 +64,16 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             target.AddBuff(BuffID.Frostburn, 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<VerstaltiteBar>(15).
+                AddIngredient<SeaPrism>(15).
+                AddIngredient(ItemID.Ectoplasm, 5).
+                AddTile(TileID.IceMachine).
+                Register();
         }
     }
 }

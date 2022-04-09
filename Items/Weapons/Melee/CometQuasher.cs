@@ -149,7 +149,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MeteoriteBar, 25).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.MeteoriteBar, 25).
+                AddIngredient(ItemID.Ectoplasm, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -167,11 +167,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 12f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemType<BiomeBlade>()).AddIngredient(ItemID.SoulofFright, 1).AddIngredient(ItemID.SoulofMight, 1).AddIngredient(ItemID.SoulofSight, 1).AddIngredient(ItemID.PixieDust, 2).AddIngredient(ItemType<Stardust>(), 10).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         #region Saving and syncing attunements
 
         public override ModItem Clone(Item item)
@@ -384,6 +379,19 @@ namespace CalamityMod.Items.Weapons.Melee
             Texture2D itemTexture = Request<Texture2D>("CalamityMod/Projectiles/Melee/MendedBiomeBlade").Value; //Use the "projectile" sprite which is flipped so its consistent in lighting with the rest of the line, since its actual sprite is flipped so the swings may look normal
             spriteBatch.Draw(itemTexture, Item.Center - Main.screenPosition, null, lightColor, rotation, Item.Size * 0.5f, scale, SpriteEffects.None, 0f);
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BiomeBlade>().
+                AddIngredient(ItemID.SoulofFright, 1).
+                AddIngredient(ItemID.SoulofMight, 1).
+                AddIngredient(ItemID.SoulofSight, 1).
+                AddIngredient(ItemID.PixieDust, 2).
+                AddIngredient<Stardust>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

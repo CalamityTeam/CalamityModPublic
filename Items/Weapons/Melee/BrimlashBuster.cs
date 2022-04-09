@@ -36,11 +36,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 18f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Brimlash>()).AddIngredient(ModContent.ItemType<CoreofChaos>(), 3).AddIngredient(ItemID.FragmentSolar, 10).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -67,6 +62,16 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
             player.Calamity().brimlashBusterBoost = Main.rand.NextBool(3);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Brimlash>().
+                AddIngredient<CoreofChaos>(3).
+                AddIngredient(ItemID.FragmentSolar, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

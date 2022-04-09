@@ -34,11 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.HotPink;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BladeofEnmity>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-        }
-
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
             damage *= player.Calamity().animusBoost;
@@ -102,6 +97,15 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 player.Calamity().animusBoost = 1f;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BladeofEnmity>().
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

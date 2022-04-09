@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -42,11 +42,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CausticEdge>()).AddRecipeGroup("AnyEvilFlask", 5).AddIngredient(ItemID.FlaskofPoison, 5).AddIngredient(ItemID.Deathweed, 3).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -65,6 +60,17 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Poisoned, 300);
             target.AddBuff(BuffID.Venom, 150);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CausticEdge>().
+                AddRecipeGroup("AnyEvilFlask", 5).
+                AddIngredient(ItemID.FlaskofPoison, 5).
+                AddIngredient(ItemID.Deathweed, 3).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

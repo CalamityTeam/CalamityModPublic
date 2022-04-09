@@ -52,11 +52,6 @@ namespace CalamityMod.Items.Weapons.Melee
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 8;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 25).AddIngredient(ItemID.SoulofNight, 10).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5).AddIngredient(ItemID.Obsidian, 10).AddIngredient(ItemID.StoneBlock, 100).AddIngredient(ItemID.Amethyst, 2).AddTile(TileID.Anvils).Register();
-        }
-
         public override void UpdateInventory(Player player)
         {
             //Timers for the cooldown and usage of the weapon
@@ -294,6 +289,19 @@ namespace CalamityMod.Items.Weapons.Melee
                     player.fallStart = (int)(player.position.Y / 16f);
                 }
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 25).
+                AddIngredient(ItemID.SoulofNight, 10).
+                AddIngredient<EssenceofChaos>(5).
+                AddIngredient(ItemID.Obsidian, 10).
+                AddIngredient(ItemID.StoneBlock, 100).
+                AddIngredient(ItemID.Amethyst, 2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

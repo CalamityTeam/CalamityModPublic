@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -31,11 +31,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 84;
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.FieryGreatsword).AddIngredient(ModContent.ItemType<DraedonBar>(), 8).AddTile(TileID.MythrilAnvil).Register();
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -91,6 +86,15 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.OnFire, 300);
             SoundEngine.PlaySound(SoundID.Item14, target.position);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.FieryGreatsword).
+                AddIngredient<DraedonBar>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

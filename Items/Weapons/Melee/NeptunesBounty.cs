@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AbyssBlade>()).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<Phantoplasm>(), 5).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 15).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -60,6 +55,19 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AbyssBlade>().
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<Phantoplasm>(5).
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Lumenite>(15).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

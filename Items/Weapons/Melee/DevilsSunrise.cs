@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
@@ -56,7 +56,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Arkhalis).AddIngredient(ModContent.ItemType<DemonicBoneAsh>(), 10).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 25).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Arkhalis).
+                AddIngredient<DemonicBoneAsh>(10).
+                AddIngredient<BloodstoneCore>(25).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

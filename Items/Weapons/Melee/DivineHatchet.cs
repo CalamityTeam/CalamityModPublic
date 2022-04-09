@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,7 +37,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PossessedHatchet).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddIngredient(ModContent.ItemType<UeliaceBar>(), 9).AddIngredient(ModContent.ItemType<UnholyEssence>(), 8).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PossessedHatchet).
+                AddIngredient<DivineGeode>(5).
+                AddIngredient<UeliaceBar>(9).
+                AddIngredient<UnholyEssence>(8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Melee;
@@ -103,11 +103,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CatastropheClaymore>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<AstralBar>(), 10).AddIngredient(ItemID.MeteoriteBar, 10).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -128,6 +123,17 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Ichor, 60);
             target.AddBuff(BuffID.OnFire, 180);
             target.AddBuff(BuffID.Frostburn, 120);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CatastropheClaymore>().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<AstralBar>(10).
+                AddIngredient(ItemID.MeteoriteBar, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

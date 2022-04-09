@@ -138,11 +138,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.shootSpeed = 12f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddRecipeGroup("AnyWoodenSword").AddIngredient(ItemType<AerialiteBar>(), 5).AddIngredient(ItemID.HellstoneBar, 5).AddIngredient(ItemID.DirtBlock, 50).AddIngredient(ItemID.StoneBlock, 50).AddTile(TileID.Anvils).Register();
-        }
-
         #region Saving and syncing attunements
         public override ModItem Clone(Item item)
         {
@@ -323,6 +318,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddRecipeGroup("AnyWoodenSword").
+                AddIngredient(ItemType<AerialiteBar>(), 5).
+                AddIngredient(ItemID.HellstoneBar, 5).
+                AddIngredient(ItemID.DirtBlock, 50).
+                AddIngredient(ItemID.StoneBlock, 50).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

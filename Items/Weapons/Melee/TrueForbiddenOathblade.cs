@@ -50,11 +50,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ForbiddenOathblade>()).AddIngredient(ItemID.BrokenHeroSword).AddIngredient(ModContent.ItemType<CalamityDust>(), 3).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 3).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(3))
@@ -117,6 +112,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 target.AddBuff(BuffID.OnFire, 900);
                 SoundEngine.PlaySound(SoundID.Item14, target.position);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<ForbiddenOathblade>().
+                AddIngredient(ItemID.BrokenHeroSword).
+                AddIngredient<CalamityDust>(3).
+                AddIngredient<InfectedArmorPlating>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

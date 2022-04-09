@@ -126,12 +126,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Charge = reader.ReadSingle();
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.Starfury).AddIngredient(ItemID.EnchantedSword).AddIngredient(ItemType<PurifiedGel>(), 5).AddRecipeGroup("AnyCopperBar", 10).AddTile(TileID.Anvils).Register();
-            CreateRecipe(1).AddIngredient(ItemID.Starfury).AddIngredient(ItemID.Arkhalis).AddIngredient(ItemType<PurifiedGel>(), 5).AddRecipeGroup("AnyCopperBar", 10).AddTile(TileID.Anvils).Register();
-        }
-
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (Charge <= 0)
@@ -148,6 +142,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
             spriteBatch.Draw(barBG, drawPos, null, color , 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Starfury).
+                AddIngredient(ItemID.EnchantedSword).
+                AddIngredient<PurifiedGel>(5).
+                AddRecipeGroup("AnyCopperBar", 10).
+                AddTile(TileID.Anvils).
+                Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Starfury).
+                AddIngredient(ItemID.Arkhalis).
+                AddIngredient<PurifiedGel>(5).
+                AddRecipeGroup("AnyCopperBar", 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

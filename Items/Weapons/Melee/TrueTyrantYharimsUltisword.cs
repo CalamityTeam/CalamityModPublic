@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.Materials;
@@ -61,11 +61,6 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TyrantYharimsUltisword>()).AddIngredient(ModContent.ItemType<CoreofCalamity>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 15).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(5))
@@ -86,6 +81,16 @@ namespace CalamityMod.Items.Weapons.Melee
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
             target.AddBuff(BuffID.Poisoned, 300);
             target.AddBuff(BuffID.Venom, 150);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TyrantYharimsUltisword>().
+                AddIngredient<CoreofCalamity>().
+                AddIngredient<UeliaceBar>(15).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

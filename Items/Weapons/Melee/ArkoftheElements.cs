@@ -200,11 +200,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Charge = reader.ReadSingle();
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemType<TrueArkoftheAncients>()).AddIngredient(ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemType<CoreofCalamity>(), 5).AddIngredient(ItemType<BarofLife>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             float extraScale = 0.3f;
@@ -248,6 +243,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
             spriteBatch.Draw(barBG, drawPos, null, color, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, color * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<TrueArkoftheAncients>().
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient<CoreofCalamity>(5).
+                AddIngredient<BarofLife>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }
