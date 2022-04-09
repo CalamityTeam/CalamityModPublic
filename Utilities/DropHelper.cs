@@ -66,6 +66,37 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Recursive Drop Rate Mutator
+        private static int RecursivelyMutateDropRate(this IItemDropRule rule, int itemID, int newNumerator, int newDenominator)
+        {
+            if (rule is CommonDrop drop && drop.itemId == itemID)
+            {
+                drop.chanceNumerator = newNumerator;
+                drop.chanceDenominator = newDenominator;
+                return 1;
+            }
+            else if (rule is ItemDropWithConditionRule conditionalDrop && conditionalDrop.itemId == itemID)
+            {
+                conditionalDrop.chanceNumerator = newNumerator;
+                conditionalDrop.chanceDenominator = newDenominator;
+                return 1;
+            }
+            else if (rule is DropBasedOnExpertMode expertDrop)
+            {
+                int normalChanges = RecursivelyMutateDropRate(expertDrop.ruleForNormalMode, itemID, newNumerator, newDenominator);
+                int expertChanges = RecursivelyMutateDropRate(expertDrop.ruleForExpertMode, itemID, newNumerator, newDenominator);
+                return normalChanges + expertChanges;
+            }
+            else if (rule is DropBasedOnMasterMode masterDrop)
+            {
+                int defaultChanges = RecursivelyMutateDropRate(masterDrop.ruleForDefault, itemID, newNumerator, newDenominator);
+                int masterChanges = RecursivelyMutateDropRate(masterDrop.ruleForMasterMode, itemID, newNumerator, newDenominator);
+                return defaultChanges + masterChanges;
+            }
+            return 0;
+        }
+        #endregion
+
         #region Specific Drop Helpers
         // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
         /// <summary>
@@ -120,41 +151,6 @@ namespace CalamityMod
                 }
             }
             return r;
-        }
-
-        /// <summary>
-        /// Randomly peppers stacks of 1 of the specified item all across the given NPC's hitbox.<br></br>
-        /// Makes it appear as though the NPC "explodes" into a cloud of many identical items. Best used with floating items such as Souls.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
-        /// <param name="itemID">The ID of the item(s) to drop.</param>
-        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
-        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
-        /// <param name="stackSize">The number of items to place in each separate stack.</param>
-        /// <returns>The number of items dropped. Not always equal to quantity if stack size isn't 1.</returns>
-        public static int DropItemSpray(NPC npc, int itemID, int minQuantity = 1, int maxQuantity = 0, int stackSize = 1)
-        {
-            int quantity;
-
-            // If they're equal (or for some reason max is less??) then just drop the minimum amount.
-            if (maxQuantity <= minQuantity)
-                quantity = minQuantity;
-
-            // Otherwise pick a random amount to drop, inclusive.
-            else
-                quantity = Main.rand.Next(minQuantity, maxQuantity + 1);
-
-            int dropped = 0;
-            Vector2 pos = Vector2.Zero;
-            for (int i = 0; i < quantity; i += stackSize)
-            {
-                pos.X = Main.rand.NextFloat(npc.Hitbox.Left, npc.Hitbox.Right);
-                pos.Y = Main.rand.NextFloat(npc.Hitbox.Top, npc.Hitbox.Bottom);
-                Item.NewItem(npc.GetItemSource_Loot(), pos, itemID, stackSize);
-                dropped += stackSize;
-            }
-
-            return dropped;
         }
         #endregion
 
@@ -225,7 +221,17 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Global Drop Rule Conditions
+        #region Drop Rule Conditions
+        public static IItemDropRuleCondition HallowedBarsCondition = If((info) =>
+        {
+            // If the Early Hardmode Progression Rework is not enabled, then Hallowed Bars can always drop from Mechanical Bosses.
+            if (!CalamityConfig.Instance.EarlyHardmodeProgressionRework)
+                return true;
+
+            // If the Early Hardmode Progression Rework is enabled, then all 3 Mechanical Bosses must be defeated for Hallowed Bars to drop.
+            return NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3;
+        });
+
         public static IItemDropRuleCondition TarragonSetBonusHeartCondition = If((info) =>
         {
             // Tarragon hearts do not drop from the following:
@@ -450,6 +456,17 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Shorthand to add an arbitrary drop rule as a normal-only drop to an NPC.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="rule">The IItemDropRule to add.</param>
+        public static void AddNormalOnly(this NPCLoot npcLoot, IItemDropRule rule)
+        {
+            LeadingConditionRule normalOnly = npcLoot.DefineNormalOnlyDropSet();
+            normalOnly.Add(rule);
+        }
+
+        /// <summary>
         /// Registers a LeadingConditionRule for an NPC and returns it so you can add drops to that rule.
         /// </summary>
         /// <param name="npcLoot">The NPC's NPCLoot object.</param>
@@ -468,6 +485,105 @@ namespace CalamityMod
         /// <param name="npcLoot">The NPC's NPCLoot object.</param>
         /// <returns>A Normal Mode only LeadingConditionRule.</returns>
         public static LeadingConditionRule DefineNormalOnlyDropSet(this NPCLoot npcLoot) => npcLoot.DefineConditionalDropSet(new Conditions.NotExpert());
+
+        /// <summary>
+        /// This function does its best to replace all instances of the given item in the given NPC's drops with the specified chance.<br />
+        /// It tries to affect as many types of drop rule as possible.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="newNumerator">The new numerator to use.</param>
+        /// <param name="newDenominator">The new denominator to use.</param>
+        /// <param name="includeGlobalDrops">Whether or not to include global loot rules. Defaults to false. Generally, you should leave this as false.</param>
+        /// <returns>The number of changes made.</returns>
+        public static int ChangeDropRate(this NPCLoot npcLoot, int itemID, int newNumerator, int newDenominator, bool includeGlobalDrops = false)
+        {
+            int numChanges = 0;
+            var rules = npcLoot.Get(includeGlobalDrops);
+            foreach (IItemDropRule rule in rules)
+                rule.RecursivelyMutateDropRate(itemID, newNumerator, newDenominator);
+            return numChanges;
+        }
+
+        /// <summary>
+        /// This function does its best to replace all instances of the given item in the given NPC's drops with the specified chance.<br />
+        /// It tries to affect as many types of drop rule as possible.
+        /// </summary>
+        /// <param name="npcLoot">The NPC's NPCLoot object.</param>
+        /// <param name="itemID">The item to drop.</param>
+        /// <param name="dropRate">The new drop rate to use, as a DropHelper Fraction.</param>
+        /// <param name="includeGlobalDrops">Whether or not to include global loot rules. Defaults to false. Generally, you should leave this as false.</param>
+        /// <returns>The number of changes made.</returns>
+        public static int ChangeDropRate(this NPCLoot npcLoot, int itemID, Fraction dropRate, bool includeGlobalDrops = false)
+        {
+            return npcLoot.ChangeDropRate(itemID, dropRate.numerator, dropRate.denominator, includeGlobalDrops);
+        }
+        #endregion
+
+        #region "Calamity Style" Drop Rule
+        /// <summary>
+        /// Also known as the "Calamity Style" drop rule.<br />
+        /// Every item in the list has the given chance to drop individually.<br />
+        /// If no items drop, then one of them is forced to drop, chosen at random.
+        /// </summary>
+        public class AllOptionsAtOnceWithPityDropRule : OneFromOptionsDropRule
+        {
+            public AllOptionsAtOnceWithPityDropRule(int chanceNumerator, int chanceDenominator, params int[] itemIDs) : base(chanceDenominator, chanceNumerator, itemIDs)
+            { }
+
+            public new ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
+            {
+                bool droppedAnything = false;
+
+                // Roll for each drop individually.
+                foreach (int itemID in dropIds)
+                {
+                    bool rngRoll = info.player.RollLuck(chanceDenominator) < chanceNumerator;
+                    droppedAnything |= rngRoll;
+                    if (rngRoll)
+                        CommonCode.DropItemFromNPC(info.npc, itemID, 1);
+                }
+
+                // If everything fails to drop, force drop one item from the set.
+                if (!droppedAnything)
+                {
+                    int itemToDrop = dropIds[info.rng.Next(dropIds.Length)];
+                    CommonCode.DropItemFromNPC(info.npc, itemToDrop, 1);
+                }
+
+                // Calamity style drops cannot fail. You will always get at least one item.
+                ItemDropAttemptResult result = default;
+                result.State = ItemDropAttemptResultState.Success;
+                return result;
+            }
+
+            public new void ReportDroprates(List<DropRateInfo> drops, DropRateInfoChainFeed ratesInfo)
+            {
+                int numDrops = dropIds.Length;
+                float rawDropRate = chanceNumerator / (float)chanceDenominator;
+                // Combinatorics:
+                // OPTION 1: [The item drops = Raw Drop Rate]
+                // +
+                // OPTION 2: [ALL items fail to drop = (1-x)^n] * [This item is chosen as pity = 1/n]
+                float dropRateWithPityRoll = rawDropRate + (float)(Math.Pow(1f - rawDropRate, numDrops) * (1f / numDrops));
+                float dropRateAdjustedForParent = dropRateWithPityRoll * ratesInfo.parentDroprateChance;
+
+                // Report the drop rate of each individual item. This calculation includes the fact that each individual item can be guaranteed as pity.
+                foreach (int itemID in dropIds)
+                    drops.Add(new DropRateInfo(itemID, 1, 1, dropRateAdjustedForParent, ratesInfo.conditions));
+
+                Chains.ReportDroprates(ChainedRules, rawDropRate, drops, ratesInfo);
+            }
+        }
+
+        public static IItemDropRule CalamityStyle(int numerator, int denominator, params int[] itemIDs)
+        {
+            return new AllOptionsAtOnceWithPityDropRule(numerator, denominator, itemIDs);
+        }
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params int[] itemIDs)
+        {
+            return CalamityStyle(dropRateForEachItem.numerator, dropRateForEachItem.denominator, itemIDs);
+        }
         #endregion
 
         #region Player Item Spawns

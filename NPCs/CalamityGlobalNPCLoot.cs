@@ -1,6 +1,7 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
+﻿using System;
+using System.Threading;
 using CalamityMod.Events;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -12,19 +13,16 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
-using System.Threading;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using CalamityMod.Items;
 
 namespace CalamityMod.NPCs
 {
@@ -79,8 +77,10 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<PsychoticAmulet>(), 40, 20));
                     break;
 
-                // TODO -- ADJUST MOON CHARM DROP to 5% chance instead of vanilla 1.67%. Or delete existing and replace.
+                // Werewolf
+                // Moon Charm @ 5% INSTEAD OF 1.67%
                 case NPCID.Werewolf:
+                    npcLoot.ChangeDropRate(ItemID.MoonCharm, 1, 20);
                     break;
                 #endregion
 
@@ -186,7 +186,6 @@ namespace CalamityMod.NPCs
                 // Ice Golem
                 // 1-2 Essence of Eleum @ 100%
                 case NPCID.IceGolem:
-                    // TODO -- DELETE ICE FEATHER DROP and add our own with different conditions
                     npcLoot.Add(ModContent.ItemType<EssenceofEleum>(), 1, 1, 2);
                     break;
                 #endregion
@@ -288,8 +287,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Moth
-                // TODO -- ADJUST BUTTERFLY DUST DROP to 100% chance instead of vanilla 50%. Or delete existing and replace.
+                // Butterfly Dust @ 100% INSTEAD OF 50%
                 case NPCID.Moth:
+                    npcLoot.ChangeDropRate(ItemID.ButterflyDust, 1, 1);
                     break;
                 #endregion
 
@@ -305,7 +305,21 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Hardmode Dungeon Melee Skeletons
-                // TODO -- ADJUST WISP IN A BOTTLE DROP to 0.5% chance instead of vanilla 0.25%. Or delete existing and replace.
+                // Wisp in a Bottle @ 0.5% INSTEAD OF 0.25%
+                case NPCID.RustyArmoredBonesAxe:
+                case NPCID.RustyArmoredBonesFlail:
+                case NPCID.RustyArmoredBonesSword:
+                case NPCID.RustyArmoredBonesSwordNoArmor:
+                case NPCID.BlueArmoredBones:
+                case NPCID.BlueArmoredBonesMace:
+                case NPCID.BlueArmoredBonesNoPants:
+                case NPCID.BlueArmoredBonesSword:
+                case NPCID.HellArmoredBones:
+                case NPCID.HellArmoredBonesSpikeShield:
+                case NPCID.HellArmoredBonesMace:
+                case NPCID.HellArmoredBonesSword:
+                    npcLoot.ChangeDropRate(ItemID.WispinaBottle, 1, 200);
+                    break;
 
                 // Necromancer
                 // Wrath of the Ancients @ 4% Normal, 6.67% Expert+
@@ -321,12 +335,20 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Bone Lee
-                // TODO -- ADJUST BONE LEE'S BLACK BELT DROP to 25% chance instead of vanilla 8.33%. Or delete existing and replace.
-                // TODO -- ADJUST BONE LEE'S TABI DROP to 25% chance instead of vanilla 8.33%. Or delete existing and replace.
+                // Black Belt @ 25% INSTEAD OF 8.33%
+                // Tabi @ 25% INSTEAD OF 8.33%
+                case NPCID.BoneLee:
+                    npcLoot.ChangeDropRate(ItemID.BlackBelt, 1, 4);
+                    npcLoot.ChangeDropRate(ItemID.Tabi, 1, 4);
+                    break;
 
                 // Paladin
-                // TODO -- ADJUST PALADIN'S HAMMER DROP to 15% chance instead of vanilla 6.67%. Or delete existing and replace.
-                // TODO -- ADJUST PALADIN'S SHIELD DROP to 20% chance instead of vanilla 9.33%. Or delete existing and replace.
+                // Paladin's Hammer @ 15% INSTEAD OF 6.67%
+                // Paladin's Shield @ 20% INSTEAD OF 9.33%
+                case NPCID.Paladin:
+                    npcLoot.ChangeDropRate(ItemID.PaladinsHammer, 3, 20);
+                    npcLoot.ChangeDropRate(ItemID.PaladinsShield, 1, 5);
+                    break;
                 #endregion
 
                 #region Hell
@@ -354,10 +376,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Red Devil
+                // Fire Feather @ 10% INSTEAD OF 1.33%
                 // Demonic Bone Ash @ 33.33% Normal, 50% Expert+
                 // Essence of Chaos @ 50% Normal, 100% Expert+
                 case NPCID.RedDevil:
-                    // TODO -- ADJUST FIRE FEATHER DROP to 10% chance instead of vanilla 1.33%. Or delete existing and replace.
+                    npcLoot.ChangeDropRate(ItemID.FireFeather, 1, 10);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofChaos>(), 2, 1));
                     break;
@@ -427,12 +450,13 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Vampire / Vampire Bat (same enemy)
+                // Moon Stone @ 15% INSTEAD OF 2.86%
                 // Bat Hook @ 2.5% Normal, 5% Expert+
                 // 2-4 Solar Veil @ 50% IF Clone or Plant dead
                 // Darksun Fragment @ 50% IF Devourer of Gods dead
-                // TODO -- ADJUST MOON STONE DROP to 15% chance instead of vanilla 2.86%. Or delete existing and replace.
                 case NPCID.VampireBat:
                 case NPCID.Vampire:
+                    npcLoot.ChangeDropRate(ItemID.MoonStone, 3, 20);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.BatHook, 40, 20));
                     npcLoot.AddIf(() => DownedBossSystem.downedCalamitas || NPC.downedPlantBoss, ModContent.ItemType<SolarVeil>(), 2, 2, 4);
                     npcLoot.AddIf(() => DownedBossSystem.downedDoG, ModContent.ItemType<DarksunFragment>(), 2);
@@ -627,14 +651,18 @@ namespace CalamityMod.NPCs
 
                 #region Vanilla Bosses
                 case NPCID.KingSlime:
-                    // TODO -- Item sprays don't work right now. Make a new drop rule with spray behavior.
-                    // DropHelper.DropItemSpray(npc, ItemID.Gel, minGel, maxGel, 4);
-
-                    // Drop a huge spray of Gel items
+                    // Drop a huge spray of Gel items in chunks of 4
                     // More gel is not dropped on Expert because he has more minions, which increases the amount of gel provided.
-                    int minGel = 72;
-                    int maxGel = 100;
-                    npcLoot.Add(ItemID.Gel, 1, minGel, maxGel);
+                    DropOneByOne.Parameters kingSlimeGelSpray = new()
+                    {
+                        ChanceNumerator = 1,
+                        ChanceDenominator = 1,
+                        MinimumStackPerChunkBase = 4,
+                        MaximumStackPerChunkBase = 4,
+                        MinimumItemDropsCount = 18, // 18 * 4 = 72
+                        MaximumItemDropsCount = 25, // 25 * 4 = 100
+                    };
+                    npcLoot.Add(new DropOneByOne(ItemID.Gel, kingSlimeGelSpray));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.RoyalGel);
@@ -687,7 +715,16 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.QueenBee:
-                    // TODO -- Drop weapons Calamity style instead of mutually exclusive.
+                    // Remove the vanilla loot rule for Queen Bee's weapon drops.
+                    npcLoot.RemoveWhere((rule) =>
+                    {
+                        if (rule is DropBasedOnExpertMode expertDrop)
+                            return expertDrop.ruleForNormalMode is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.BeeGun;
+                        return false;
+                    });
+
+                    // Define a replacement rule which drops the weapons Calamity style.
+                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, ItemID.BeeKeeper, ItemID.BeesKnees, ItemID.BeeGun));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.HiveBackpack);
@@ -704,9 +741,17 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronHead:
-                    // TODO -- Item sprays don't work right now. Make a new drop rule with spray behavior.
-                    // DropHelper.DropItemSpray(npc, ItemID.Bone, 70, 100, 5);
-                    npcLoot.Add(ItemID.Bone, 1, 70, 100);
+                    // Drop a huge spray of Bone items in chunks of 5
+                    DropOneByOne.Parameters skeletronBoneSpray = new()
+                    {
+                        ChanceNumerator = 1,
+                        ChanceDenominator = 1,
+                        MinimumStackPerChunkBase = 5,
+                        MaximumStackPerChunkBase = 5,
+                        MinimumItemDropsCount = 14, // 14 * 5 = 70
+                        MaximumItemDropsCount = 20, // 20 * 5 = 100
+                    };
+                    npcLoot.Add(new DropOneByOne(ItemID.Bone, skeletronBoneSpray));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.BoneGlove);
@@ -716,11 +761,45 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.WallofFlesh:
-                    // TODO -- Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
-                    // Meowthrower, BlackHawkRemote, BlastBarrel
+                    // Remove the vanilla loot rule for Wall of Flesh's weapon drops.
+                    npcLoot.RemoveWhere((rule) =>
+                    {
+                        if (rule is LeadingConditionRule wofLCR)
+                            return wofLCR.ChainedRules[0] is OneFromOptionsNotScaledWithLuckDropRule weapons && weapons.dropIds[0] == ItemID.BreakerBlade;
+                        return false;
+                    });
 
-                    // TODO -- Drop emblems Calamity style instead of mutually exclusive -- this includes the Rogue Emblem.
-                    // RogueEmblem
+                    // Define a replacement rule which drops the weapons Calamity style.
+                    var wofWeapons = new int[]
+                    {
+                        ItemID.BreakerBlade,
+                        ItemID.ClockworkAssaultRifle,
+                        ModContent.ItemType<Meowthrower>(),
+                        ItemID.LaserRifle,
+                        ModContent.ItemType<BlackHawkRemote>(),
+                        ItemID.FireWhip,
+                        ModContent.ItemType<BlastBarrel>(),
+                    };
+                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofWeapons));
+
+                    // Remove the vanilla loot rule for Wall of Flesh's emblem drops.
+                    npcLoot.RemoveWhere((rule) =>
+                    {
+                        if (rule is LeadingConditionRule wofLCR)
+                            return wofLCR.ChainedRules[0] is OneFromOptionsNotScaledWithLuckDropRule emblems && emblems.dropIds[0] == ItemID.WarriorEmblem;
+                        return false;
+                    });
+
+                    // Define a replacement rule which drops the emblems Calamity style.
+                    var wofEmblems = new int[]
+                    {
+                        ItemID.WarriorEmblem,
+                        ItemID.RangerEmblem,
+                        ItemID.SorcererEmblem,
+                        ItemID.SummonerEmblem,
+                        ModContent.ItemType<RogueEmblem>(),
+                    };
+                    npcLoot.AddNormalOnly(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, wofEmblems));
 
                     // Would be in the bag otherwise
                     npcLoot.AddNormalOnly(ModContent.ItemType<Carnage>(), 10);
@@ -742,7 +821,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.TheDestroyer:
-                    // TODO -- Replace Hallowed Bars drop with one that has a LeadingConditionRule that respects the early hardmode progression rework.
+                    // Remove the vanilla loot rule for Hallowed Bars.
+                    npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.HallowedBar);
+
+                    // Define a replacement rule which respects the Early Hardmode Progression Rework.
+                    npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 15, 30));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.MechanicalWagonPiece);
@@ -752,9 +835,28 @@ namespace CalamityMod.NPCs
                     npcLoot.AddIf(ShouldDropMechLore, ModContent.ItemType<KnowledgeMechs>());
                     break;
 
-                case NPCID.Spazmatism:
                 case NPCID.Retinazer:
-                    // TODO -- Replace Hallowed Bars drop with one that has a LeadingConditionRule that respects the early hardmode progression rework.
+                case NPCID.Spazmatism:
+                    // Remove the vanilla loot rule for Hallowed Bars. This requires digging through the vanilla equivalent of "Last Twin Standing".
+                    try
+                    {
+                        var twinsRootRules = npcLoot.Get(false);
+                        IItemDropRule vanillaLastTwinStanding = twinsRootRules.Find((rule) => rule is LeadingConditionRule twinsLCR1 && twinsLCR1.condition is Conditions.MissingTwin);
+                        if (vanillaLastTwinStanding is LeadingConditionRule LCR_LTS)
+                        {
+                            IItemDropRuleChainAttempt twinsChain1 = LCR_LTS.ChainedRules.Find((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is LeadingConditionRule twinsLCR2 && twinsLCR2.condition is Conditions.NotExpert);
+                            if (twinsChain1.RuleToChain is LeadingConditionRule LCR_NotExpert)
+                            {
+                                LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                    chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is CommonDrop bars && bars.itemId == ItemID.HallowedBar);
+                            }
+                        }
+
+                        // Define a replacement rule which respects the Early Hardmode Progression Rework.
+                        npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 15, 30));
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal. These are done manually due to Last Twin Standing.
                     npcLoot.AddIf((info) => !Main.expertMode && IsLastTwinStanding(info), ItemID.MechanicalWheelPiece);
@@ -766,7 +868,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronPrime:
-                    // TODO -- Replace Hallowed Bars drop with one that has a LeadingConditionRule that respects the early hardmode progression rework.
+                    // Remove the vanilla loot rule for Hallowed Bars.
+                    npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.HallowedBar);
+
+                    // Define a replacement rule which respects the Early Hardmode Progression Rework.
+                    npcLoot.AddNormalOnly(ItemDropRule.ByCondition(DropHelper.HallowedBarsCondition, ItemID.HallowedBar, 15, 30));
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.MechanicalBatteryPiece);
@@ -777,12 +883,50 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Plantera:
-                    // TODO -- Drop weapons Calamity style instead of mutually exclusive -- this includes Bloom Stone.
+                    // Remove the vanilla loot rule for Plantera's weapon drops. This requires digging through the bizarre choices made in Plantera's drops.
+                    // Namely, Plantera always drops the Grenade Launcher on first kill and ignores her normal loot table.
+                    try
+                    {
+                        var planteraRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = planteraRootRules.Find((rule) => rule is LeadingConditionRule planteraLCR1 && planteraLCR1.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            IItemDropRuleChainAttempt planteraWeaponsChain = LCR_NotExpert.ChainedRules.Find((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is LeadingConditionRule planteraLCR2 && planteraLCR2.condition is Conditions.FirstTimeKillingPlantera);
+                            if (planteraWeaponsChain.RuleToChain is LeadingConditionRule LCR_FirstPlantera)
+                            {
+                                // Calamity removes this behavior entirely. Nothing special happens the first time you kill Plantera.
+                                LCR_FirstPlantera.ChainedRules.Clear();
+
+                                // Define a replacement rule which drops the weapons Calamity style.
+                                // Yes, this means Plantera no longer drops Rocket Is when she drops the Grenade Launcher.
+                                // I could not care less at this point.
+                                var planteraWeapons = new int[]
+                                {
+                                    ItemID.FlowerPow,
+                                    ItemID.Seedler,
+                                    ItemID.GrenadeLauncher,
+                                    ItemID.VenusMagnum,
+                                    ItemID.LeafBlower,
+                                    ItemID.NettleBurst, 
+                                    ItemID.WaspGun,
+                                    ItemID.PygmyStaff,
+                                };
+                                LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, planteraWeapons));
+                            }
+
+                            // Also, the Pygmy Staff drops separately from her normal weapon pool. Calamity fixes this.
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is CommonDrop pygmyStaff && pygmyStaff.itemId == ItemID.PygmyStaff);
+                        }
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.SporeSac);
 
                     // Would be in the bag otherwise
+                    npcLoot.AddNormalOnly(ModContent.ItemType<BloomStone>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<BlossomFlux>(), 10);
                     npcLoot.AddNormalOnly(ModContent.ItemType<LivingShard>(), 1, 12, 18);
 
@@ -794,7 +938,33 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Golem:
-                    // TODO -- Drop loot Calamity style instead of mutually exclusive.
+                    // Remove the vanilla loot rule for Golem's weapon drops. This requires digging through its loot rule tree.
+                    try
+                    {
+                        var golemRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = golemRootRules.Find((rule) => rule is LeadingConditionRule golemLCR && golemLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromRulesRule golemItems);
+
+                            // Define a replacement rule which drops the items Calamity style.
+                            // Yes, this means Golem no longer drops Stynger Bolts when it drops the Stynger.
+                            // I could not care less at this point.
+                            var golemItems = new int[]
+                            {
+                                ItemID.GolemFist,
+                                ItemID.PossessedHatchet,
+                                ItemID.Stynger,
+                                ItemID.HeatRay,
+                                ItemID.StaffofEarth,
+                                ItemID.EyeoftheGolem,
+                                ItemID.SunStone,
+                            };
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, golemItems));
+                        }
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.ShinyStone);
@@ -813,16 +983,61 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.DD2Betsy:
-                    // TODO -- Drop weapons Calamity style instead of mutually exclusive.
-                    // DD2SquireBetsySword aka Flying Dragon
-                    // MonkStaffT3 aka Sky Dragon's Fury
-                    // DD2BetsyBow aka Aerial Bane
-                    // ApprenticeStaffT3 aka Betsy's Wrath
+                    // Remove the vanilla loot rule for Betsy's weapon drops. This requires digging through her loot rule tree.
+                    try
+                    {
+                        var betsyRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = betsyRootRules.Find((rule) => rule is LeadingConditionRule betsyLCR && betsyLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule betsyWeapons);
+
+                            // Define a replacement rule which drops the weapons Calamity style.
+                            var betsyWeapons = new int[]
+                            {
+                                ItemID.DD2SquireBetsySword, // Flying Dragon
+                                ItemID.MonkStaffT3,         // Sky Dragon's Fury
+                                ItemID.DD2BetsyBow,         // Aerial Bane
+                                ItemID.ApprenticeStaffT3,   // Betsy's Wrath
+                            };
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, betsyWeapons));
+                        }
+                    }
+                    catch (ArgumentNullException) { }
                     break;
 
                 case NPCID.DukeFishron:
-                    // TODO -- Drop loot Calamity style instead of mutually exclusive -- this includes Calamity weapons.
-                    // DukesDecapitator
+                    // Remove the vanilla loot rule for Duke Fishron's weapon drops. This requires digging through his loot rule tree.
+                    try
+                    {
+                        var dukeRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = dukeRootRules.Find((rule) => rule is LeadingConditionRule dukeLCR && dukeLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsDropRule dukeWeapons);
+
+                            // Define a replacement rule which drops the items Calamity style.
+                            // This includes his wings, because they have a pathetically low drop rate normally.
+                            var dukeItems = new int[]
+                            {
+                                ItemID.Flairon,
+                                ItemID.Tsunami,
+                                ItemID.BubbleGun,
+                                ItemID.RazorbladeTyphoon,
+                                ItemID.TempestStaff,
+                                ModContent.ItemType<DukesDecapitator>(),
+                                ItemID.FishronWings,
+                            };
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, dukeItems));
+                        }
+
+                        // Remove the vanilla loot rule for Fishron Wings because it's part of the Calamity Style set.
+                        dukeRootRules.RemoveAll((rule) =>
+                            rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.FishronWings);
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.ShrimpyTruffle);
@@ -843,8 +1058,34 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.MoonLordCore:
-                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
-                    // UtensilPoker
+                    // Remove the vanilla loot rule for Moon Lord's weapon drops. This requires digging through his loot rule tree.
+                    try
+                    {
+                        var moonLordRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = moonLordRootRules.Find((rule) => rule is LeadingConditionRule moonLordLCR && moonLordLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsNotScaledWithLuckDropRule moonLordWeapons);
+
+                            // Define a replacement rule which drops the weapons Calamity style.
+                            var moonLordWeapons = new int[]
+                            {
+                                ItemID.Meowmere,
+                                ItemID.StarWrath,
+                                ItemID.Terrarian,
+                                ItemID.Celeb2,
+                                ItemID.SDMG,
+                                ItemID.LastPrism,
+                                ItemID.LunarFlareBook,
+                                ItemID.MoonlordTurretStaff, // Lunar Portal Staff
+                                ItemID.RainbowCrystalStaff,
+                                ModContent.ItemType<UtensilPoker>(),
+                            };
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, moonLordWeapons));
+                        }
+                    }
+                    catch (ArgumentNullException) { }
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(ItemID.GravityGlobe);
@@ -1148,8 +1389,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Spawn Mech Boss Hardmode Ores
-        // TODO -- not loot code, should be moved eventually
-        // TODO -- this should probably be moved to a thread like Aureus meteor
+        // TODO -- not loot code, should be moved eventually, and placed into a thread like Aureus meteor
         private void SpawnMechBossHardmodeOres()
         {
             if (!NPC.downedMechBossAny)
