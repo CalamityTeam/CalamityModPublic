@@ -617,7 +617,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(CanDropLoot), ModContent.ItemType<SlimeGodBag>()));
 
             npcLoot.AddIf(CanDropLoot, ModContent.ItemType<SlimeGodTrophy>(), 10);
-            npcLoot.AddIf(() => CanDropLoot() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>(), 10);
+            npcLoot.AddLore(() => CanDropLoot() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());
 
             // Purified Jam is once per player, but drops for all players.
             npcLoot.AddIf(() =>

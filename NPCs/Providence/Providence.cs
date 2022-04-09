@@ -1509,7 +1509,7 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<ProvidenceBag>()));
 
             npcLoot.Add(ModContent.ItemType<ProvidenceTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<KnowledgeProvidence>());
             npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofCos>());
             npcLoot.AddIf(() => biomeType != 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianWings>());
             npcLoot.AddIf(() => biomeType == 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianAegis>());
@@ -1537,7 +1537,7 @@ namespace CalamityMod.NPCs.Providence
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<BlazingCore>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BlazingCore>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);

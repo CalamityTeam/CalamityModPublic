@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs.OldDuke
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<OldDukeBag>()));
 
             npcLoot.Add(ModContent.ItemType<OldDukeTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedBoomerDuke, ModContent.ItemType<KnowledgeOldDuke>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -411,7 +411,7 @@ namespace CalamityMod.NPCs.OldDuke
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<MutatedTruffle>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<MutatedTruffle>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<OldDukeMask>(), 7);

@@ -479,7 +479,7 @@ namespace CalamityMod.NPCs.Perforator
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PerforatorBag>()));
 
             npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -503,11 +503,11 @@ namespace CalamityMod.NPCs.Perforator
                 normalOnly.Add(ItemID.CrimtaneBar, 1, 12, 15);
                 normalOnly.Add(ItemID.Vertebrae, 1, 12, 15);
                 normalOnly.Add(ItemID.CrimsonSeeds, 1, 12, 15);
-                normalOnly.Add(ModContent.ItemType<BloodSample>(), 1, 35, 45);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodSample>(), 1, 35, 45));
                 normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.Ichor, 1, 10, 20));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<BloodyWormTooth>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BloodyWormTooth>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<PerforatorMask>(), 7);

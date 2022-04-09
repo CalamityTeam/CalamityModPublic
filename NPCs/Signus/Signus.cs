@@ -785,7 +785,7 @@ namespace CalamityMod.NPCs.Signus
         {
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<SignusBag>()));
             npcLoot.AddIf(AtFullStrength, ModContent.ItemType<SignusTrophy>(), 10);
-            npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddLore(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
@@ -799,10 +799,10 @@ namespace CalamityMod.NPCs.Signus
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<TwistingNether>(), 1, 2, 3);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<SpectralVeil>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SpectralVeil>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<SignusMask>(), 7);

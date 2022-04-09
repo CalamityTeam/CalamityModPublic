@@ -1204,8 +1204,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PlaguebringerGoliathBag>()));
 
-            npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
+            npcLoot.Add(ModContent.ItemType<PlaguebringerGoliathTrophy>(), 10);
+            npcLoot.AddLore(() => !DownedBossSystem.downedPlaguebringer, ModContent.ItemType<KnowledgePlaguebringerGoliath>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -1231,10 +1231,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 // Materials
                 normalOnly.Add(ItemID.Stinger, 1, 3, 5);
                 normalOnly.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 10, 14);
-                normalOnly.Add(ModContent.ItemType<InfectedArmorPlating>(), 1, 13, 17);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<InfectedArmorPlating>(), 1, 13, 17));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<ToxicHeart>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ToxicHeart>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<PlaguebringerGoliathMask>(), 7);

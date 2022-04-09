@@ -1091,7 +1091,7 @@ namespace CalamityMod.NPCs.HiveMind
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<HiveMindBag>()));
 
             npcLoot.Add(ModContent.ItemType<HiveMindTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedHiveMind, ModContent.ItemType<KnowledgeHiveMind>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -1115,11 +1115,11 @@ namespace CalamityMod.NPCs.HiveMind
                 normalOnly.Add(ItemID.DemoniteBar, 1, 12, 15);
                 normalOnly.Add(ItemID.RottenChunk, 1, 12, 15);
                 normalOnly.Add(ItemID.CorruptSeeds, 1, 12, 15);
-                normalOnly.Add(ModContent.ItemType<TrueShadowScale>(), 1, 25, 30);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TrueShadowScale>(), 1, 25, 30));
                 normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.CursedFlame, 1, 10, 20));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<RottenBrain>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RottenBrain>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<HiveMindMask>(), 7);

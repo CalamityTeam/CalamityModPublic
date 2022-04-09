@@ -333,14 +333,18 @@ namespace CalamityMod.NPCs.AstrumAureus
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
 
+                // Equipment
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<GravistarSabaton>()));
+
                 // Other
-                normalOnly.Add(ModContent.ItemType<AstralJelly>(), 1, 9, 12);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AstralJelly>(), 1, 9, 12));
             }
 
             npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<LeonidProgenitor>(), 10);
+            npcLoot.AddIf(() => !Main.expertMode && NPC.downedMoonlord, ModContent.ItemType<SquishyBeanMount>());
 
             npcLoot.Add(ModContent.ItemType<AstrageldonTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
 
             // Other
             npcLoot.Add(ItemID.HallowedKey, 3);

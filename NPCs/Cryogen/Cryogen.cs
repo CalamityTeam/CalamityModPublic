@@ -1059,7 +1059,7 @@ namespace CalamityMod.NPCs.Cryogen
             npcLoot.Add(ModContent.ItemType<CryogenTrophy>(), 10);
 
             // Lore
-            npcLoot.AddIf(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedCryogen, ModContent.ItemType<KnowledgeCryogen>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -1084,7 +1084,7 @@ namespace CalamityMod.NPCs.Cryogen
                 normalOnly.Add(ModContent.ItemType<EssenceofEleum>(), 1, 4, 8);
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<SoulofCryogen>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<SoulofCryogen>()));
             }
 
             npcLoot.Add(ItemID.FrozenKey, 3);

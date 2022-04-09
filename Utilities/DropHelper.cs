@@ -195,7 +195,7 @@ namespace CalamityMod
         {
             LeadingConditionRule firstKill = new(If(firstKillLambda));
             firstKill.Add(PerPlayer(itemID));
-            npcLoot.AddNormalOnly(firstKill);
+            npcLoot.Add(firstKill);
             return firstKill;
         }
 

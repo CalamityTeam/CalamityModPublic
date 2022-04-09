@@ -786,7 +786,7 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<StormWeaverBag>()));
             npcLoot.AddIf(AtFullStrength, ModContent.ItemType<WeaverTrophy>(), 10);
-            npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddLore(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
@@ -797,7 +797,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 normalOnly.Add(ModContent.ItemType<TheStorm>(), 10);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<ArmoredShell>(), 1, 5, 8);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ArmoredShell>(), 1, 5, 8));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<StormWeaverMask>(), 7);

@@ -2738,7 +2738,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Lore item and trophy
             npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
 
             // Only drops in Malice because this is Leviathan's item
             npcLoot.AddIf(() => CalamityWorld.malice, ModContent.ItemType<GaelsGreatsword>());
@@ -2764,10 +2764,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<CalamitousEssence>(), 1, 18, 27);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CalamitousEssence>(), 1, 18, 27));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<Calamity>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Calamity>()));
 
                 // SCal vanity set (This drops all at once, or not at all)
                 normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<AshenHorns>(), 7).

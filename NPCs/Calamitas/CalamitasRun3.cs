@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             npcLoot.Add(ItemID.BrokenHeroSword);
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedCalamitas, ModContent.ItemType<KnowledgeCalamitasClone>());
             
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.Calamitas
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<CalamityRing>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CalamityRing>()));
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);

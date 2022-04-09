@@ -2858,18 +2858,18 @@ namespace CalamityMod.NPCs.Yharon
                 // TODO -- This drop needs to be instanced for each player
                 int soulFragMin = 15;
                 int soulFragMax = 22;
-                normalOnly.Add(ModContent.ItemType<HellcasterFragment>(), 1, soulFragMin, soulFragMax);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HellcasterFragment>(), 1, soulFragMin, soulFragMax));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<YharimsGift>());
-                normalOnly.Add(ModContent.ItemType<DrewsWings>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharimsGift>()));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DrewsWings>()));
             }
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<YharonTrophy>(), 10);
 
             // Lore
-            npcLoot.AddIf(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedYharon, ModContent.ItemType<KnowledgeYharon>());
         }
 
         public override void BossLoot(ref string name, ref int potionType)

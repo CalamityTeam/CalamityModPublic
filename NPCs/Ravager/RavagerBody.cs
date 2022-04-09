@@ -784,7 +784,7 @@ namespace CalamityMod.NPCs.Ravager
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<RavagerBag>()));
 
             npcLoot.Add(ModContent.ItemType<RavagerTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedRavager, ModContent.ItemType<KnowledgeRavager>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

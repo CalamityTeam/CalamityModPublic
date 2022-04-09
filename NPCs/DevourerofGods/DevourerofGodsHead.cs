@@ -2271,20 +2271,20 @@ namespace CalamityMod.NPCs.DevourerofGods
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DevourerofGodsBag>()));
 
             // Extraneous potions
-            npcLoot.Add(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15);
+            npcLoot.Add(DropHelper.PerPlayer(ModContent.ItemType<OmegaHealingPotion>(), 1, 5, 15));
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);
 
             // Lore
-            npcLoot.AddIf(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedDoG, ModContent.ItemType<KnowledgeDevourerofGods>());
 
             // Fabsol Mount
             npcLoot.AddIf(() =>
             {
                 CalamityPlayer mp = Main.player[Player.FindClosest(NPC.position, NPC.width, NPC.height)].Calamity();
                 return mp.vodka;
-            }, ModContent.ItemType<KnowledgeDevourerofGods>());
+            }, ModContent.ItemType<Fabsol>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -2305,11 +2305,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 normalOnly.Add(ModContent.ItemType<DevourerofGodsMask>(), 7);
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<CosmiliteBar>(), 1, 25, 35);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CosmiliteBar>(), 1, 25, 35));
                 normalOnly.Add(ModContent.ItemType<CosmiliteBrick>(), 1, 150, 250);
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<NebulousCore>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<NebulousCore>()));
             }
 
             npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Norfleet>(), 10);

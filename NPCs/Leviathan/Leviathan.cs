@@ -730,8 +730,8 @@ namespace CalamityMod.NPCs.Leviathan
             npcLoot.Add(ModContent.ItemType<LeviathanTrophy>(), 10);
 
             // Lore
-            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeOcean>());
-            npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeLeviathanandSiren>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeOcean>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<KnowledgeLeviathanandSiren>());
 
             // Weapons.
             var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => Main.expertMode && ReadyToDropLoot(NPC)));
@@ -760,7 +760,7 @@ namespace CalamityMod.NPCs.Leviathan
                 normalOnly.Add(ItemID.FishingPotion, 5, 5, 8);
                 normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
                 normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
-                normalOnly.Add(ModContent.ItemType<LeviathanAmbergris>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<LeviathanAmbergris>()));
             }
 
             npcLoot.AddIf(() => !DownedBossSystem.downedLeviathan && ReadyToDropLoot(NPC), ModContent.ItemType<TheCommunity>(), 10);

@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BrimstoneWaifuBag>()));
 
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -173,9 +173,8 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<Gehenna>());
-                normalOnly.Add(ModContent.ItemType<Abaddon>());
-                normalOnly.Add(ModContent.ItemType<Gehenna>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Abaddon>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BrimstoneWaifuMask>(), 7);

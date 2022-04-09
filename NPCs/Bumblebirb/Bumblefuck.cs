@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             npcLoot.Add(ModContent.ItemType<BumblebirbBag>());
             npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
-            npcLoot.AddIf(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 normalOnly.Add(ModContent.ItemType<EffulgentFeather>(), 1, 11, 17);
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<DynamoStemCells>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DynamoStemCells>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);

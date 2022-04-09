@@ -276,8 +276,8 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
-                normalOnly.Add(ModContent.ItemType<HideofAstrumDeus>());
+                normalOnly.Add(ModContent.ItemType<AstrumDeusMask>(), 7);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HideofAstrumDeus>()));
                 normalOnly.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Materials
@@ -285,10 +285,10 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(ModContent.ItemType<Stardust>(), 50, 80);
             }
 
-            npcLoot.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
-            npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 5);
-            npcLoot.AddIf(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstrumDeus>());
-            npcLoot.AddIf(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstralInfection>());
+            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
+            npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
+            npcLoot.AddLore(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstrumDeus>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedAstrumDeus, ModContent.ItemType<KnowledgeAstralInfection>());
             npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentSolar, 16, 24);
             npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentVortex, 16, 24);
             npcLoot.AddIf(() => !Main.expertMode, ItemID.FragmentNebula, 16, 24);

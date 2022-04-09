@@ -212,14 +212,19 @@ namespace CalamityMod.NPCs.AquaticScourge
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<AquaticScourgeMask>(), 7);
 
+                // Equipment
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AquaticEmblem>()));
+                normalOnly.Add(ModContent.ItemType<DeepDiver>(), 10);
+                normalOnly.Add(ModContent.ItemType<SeasSearing>(), 10);
+
                 // Fishing
                 normalOnly.Add(ModContent.ItemType<BleachedAnglingKit>());
             }
 
-            npcLoot.Add(ItemID.GreaterHealingPotion, 1, 8, 14);
+            npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<KnowledgeAquaticScourge>());
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<KnowledgeSulphurSea>());            
+            npcLoot.AddLore(() => !Main.expertMode, ModContent.ItemType<KnowledgeAquaticScourge>());
+            npcLoot.AddLore(() => !Main.expertMode, ModContent.ItemType<KnowledgeSulphurSea>());            
         }
 
         public override void OnKill()

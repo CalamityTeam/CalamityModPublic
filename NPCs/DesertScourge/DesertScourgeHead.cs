@@ -586,13 +586,13 @@ namespace CalamityMod.NPCs.DesertScourge
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<DesertScourgeBag>()));
 
             // Extraneous potions
-            npcLoot.Add(ItemID.LesserHealingPotion, 1, 8, 14);
+            npcLoot.Add(DropHelper.PerPlayer(ItemID.LesserHealingPotion, 1, 8, 14));
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DesertScourgeTrophy>(), 10);
 
             // Lore
-            npcLoot.AddIf(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
+            npcLoot.AddLore(() => !DownedBossSystem.downedDesertScourge, ModContent.ItemType<KnowledgeDesertScourge>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -617,10 +617,10 @@ namespace CalamityMod.NPCs.DesertScourge
                 normalOnly.Add(ItemID.Coral, 1, 5, 9);
                 normalOnly.Add(ItemID.Seashell, 1, 5, 9);
                 normalOnly.Add(ItemID.Starfish, 1, 5, 9);
-                normalOnly.Add(ModContent.ItemType<VictoryShard>(), 1, 7, 14);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VictoryShard>(), 1, 7, 14));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<OceanCrest>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<OceanCrest>()));
                 normalOnly.Add(ModContent.ItemType<SandyAnglingKit>());
             }
         }

@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<CeaselessVoidBag>()));
             npcLoot.AddIf(AtFullStrength, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
-            npcLoot.AddIf(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            npcLoot.AddLore(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
@@ -227,10 +227,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
 
                 // Materials
-                normalOnly.Add(ModContent.ItemType<DarkPlasma>(), 1, 2, 3);
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<DarkPlasma>(), 1, 2, 3));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<TheEvolution>());
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TheEvolution>()));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CeaselessVoidMask>(), 7);
