@@ -356,10 +356,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             return true;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ModContent.ItemType<RelicOfResilience>(), 4);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<RelicOfResilience>(), 4);
 
         public override void BossLoot(ref string name, ref int potionType)
         {
