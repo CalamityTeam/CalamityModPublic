@@ -394,23 +394,20 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<BumblebirbBag>());
-            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
                 // Weapons
-                int[] weapons = new int[]
+                int[] items = new int[]
                 {
                     ModContent.ItemType<GildedProboscis>(),
                     ModContent.ItemType<GoldenEagle>(),
                     ModContent.ItemType<RougeSlash>(),
                     ModContent.ItemType<BirdSeed>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
+                normalOnly.Add(ModContent.ItemType<Swordsplosion>(), 10);
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EffulgentFeather>(), 1, 11, 17);
@@ -422,7 +419,10 @@ namespace CalamityMod.NPCs.Bumblebirb
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            npcLoot.AddIf(() => !Main.expertMode, ModContent.ItemType<Swordsplosion>(), 10);
+            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
         }
 
         public override void OnKill()
