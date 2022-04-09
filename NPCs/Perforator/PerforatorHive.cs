@@ -478,16 +478,11 @@ namespace CalamityMod.NPCs.Perforator
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<PerforatorBag>()));
 
-            npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
-            
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
-
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
             {
-                // Weapons
-                int[] weapons = new int[]
+                // Weapons and such
+                int[] items = new int[]
                 {
                     ModContent.ItemType<VeinBurster>(),
                     ModContent.ItemType<BloodyRupture>(),
@@ -498,7 +493,7 @@ namespace CalamityMod.NPCs.Perforator
                     ModContent.ItemType<BloodClotStaff>(),
                     ModContent.ItemType<BloodstainedGlove>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<ToothBall>(), 1, 30, 50);
 
                 // Materials
@@ -515,6 +510,11 @@ namespace CalamityMod.NPCs.Perforator
                 normalOnly.Add(ModContent.ItemType<PerforatorMask>(), 7);
                 normalOnly.Add(ModContent.ItemType<BloodyVein>(), 10);
             }
+
+            npcLoot.Add(ModContent.ItemType<PerforatorTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedPerforator, ModContent.ItemType<KnowledgePerforators>());
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
