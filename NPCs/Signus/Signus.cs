@@ -783,14 +783,12 @@ namespace CalamityMod.NPCs.Signus
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<SignusBag>()));
-            npcLoot.AddIf(AtFullStrength, ModContent.ItemType<SignusTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(DropHelper.If(AtFullStrength));
+            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<SignusBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
-            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
+            fullStrengthDrops.Add(normalOnly);
             {
                 // Weapons
                 int[] weapons = new int[]
@@ -798,7 +796,7 @@ namespace CalamityMod.NPCs.Signus
                     ModContent.ItemType<CosmicKunai>(),
                     ModContent.ItemType<Cosmilamp>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TwistingNether>(), 1, 2, 3));
@@ -812,6 +810,11 @@ namespace CalamityMod.NPCs.Signus
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
+
+            fullStrengthDrops.Add(ModContent.ItemType<SignusTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
