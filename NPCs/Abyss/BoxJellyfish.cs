@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using CalamityMod.Items.Weapons.Magic;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -205,8 +206,8 @@ namespace CalamityMod.NPCs.Abyss
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.JellyfishNecklace, 100);
-            npcLoot.AddIf(() => NPC.downedBoss3 && !Main.expertMode, ModContent.ItemType<AbyssShocker>(), 50);
-            npcLoot.AddIf(() => NPC.downedBoss3 && Main.expertMode, ModContent.ItemType<AbyssShocker>(), 40);
+            var postSkeletron = npcLoot.DefineConditionalDropSet(() => NPC.downedBoss3);
+            postSkeletron.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<AbyssShocker>(), 50, 40));
         }
     }
 }

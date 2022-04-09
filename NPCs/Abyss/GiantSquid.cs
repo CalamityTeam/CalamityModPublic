@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -239,12 +240,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            int minCells = Main.expertMode ? 3 : 2;
-            int maxCells = Main.expertMode ? 6 : 4;
-            int inkBombDropRate = Main.expertMode ? 25 : 40;
-            npcLoot.Add(ModContent.ItemType<InkBomb>(), inkBombDropRate);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Lumenite>(), 2);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<DepthCells>(), 2, minCells, maxCells);
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            postClone.Add(ModContent.ItemType<Lumenite>(), 2);
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 2, 4, 3, 6));
         }
 
         public override void HitEffect(int hitDirection, double damage)

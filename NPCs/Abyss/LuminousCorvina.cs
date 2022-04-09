@@ -279,9 +279,9 @@ namespace CalamityMod.NPCs.Abyss
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 8, 15);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas, ModContent.ItemType<Voidstone>(), 2, 8, 15);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 1, 2);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 2, 3);
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 1, 2, 2, 3));
+            postClone.Add(ModContent.ItemType<Lumenite>(), 2);
         }
 
         public override void HitEffect(int hitDirection, double damage)

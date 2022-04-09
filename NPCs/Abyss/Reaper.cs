@@ -640,11 +640,14 @@ namespace CalamityMod.NPCs.Abyss
         {
             npcLoot.Add(ModContent.ItemType<Voidstone>(), 1, 40, 50);
             npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 1, 2, 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<ReaperTooth>(), 1, 3, 4);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<DeepSeaDumbbell>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast, ModContent.ItemType<Valediction>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && !Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 10, 17);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && Main.expertMode, ModContent.ItemType<DepthCells>(), 2, 14, 22);
+
+            var postPolter = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedPolterghast);
+            postPolter.Add(ModContent.ItemType<ReaperTooth>(), 1, 3, 4);
+            postPolter.Add(ModContent.ItemType<DeepSeaDumbbell>(), 3);
+            postPolter.Add(ModContent.ItemType<Valediction>(), 3);
+
+            var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 10, 17, 14, 22));
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -486,13 +487,26 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(EidolonWyrmHeadHuge.CanMinionsDropThings, ModContent.ItemType<Voidstone>(), 1, 30, 40);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<Voidstone>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<EidolicWail>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedPolterghast && EidolonWyrmHeadHuge.CanMinionsDropThings(), ModContent.ItemType<StardustStaff>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && EidolonWyrmHeadHuge.CanMinionsDropThings() && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 6, 8);
-            npcLoot.AddIf(() => DownedBossSystem.downedCalamitas && EidolonWyrmHeadHuge.CanMinionsDropThings() && !Main.expertMode, ModContent.ItemType<Lumenite>(), 1, 8, 11);
-            npcLoot.AddIf(() => NPC.downedPlantBoss && EidolonWyrmHeadHuge.CanMinionsDropThings(), ItemID.Ectoplasm, 1, 8, 12);
+            // Never drop anything if this Eidolon Wyrm is a minion during an AEW fight.
+            var aewMinionCondition = npcLoot.DefineConditionalDropSet(EidolonWyrmHeadHuge.CanMinionsDropThings);
+
+            // 30-40 Voidstone
+            aewMinionCondition.Add(ModContent.ItemType<Voidstone>(), 1, 30, 40);
+
+            // Post-Polterghast: Soul Edge, Eidolic Wail, Stardust Staff
+            LeadingConditionRule postPolter = new(DropHelper.If(() => DownedBossSystem.downedPolterghast));
+            aewMinionCondition.Add(postPolter);
+            postPolter.Add(ModContent.ItemType<SoulEdge>(), 3);
+            postPolter.Add(ModContent.ItemType<EidolicWail>(), 3);
+            postPolter.Add(ModContent.ItemType<StardustStaff>(), 3);
+
+            // Post-Clone: 6-8 Lumenyl (8-11 on Expert)
+            LeadingConditionRule postClone = new(DropHelper.If(() => DownedBossSystem.downedCalamitas));
+            aewMinionCondition.Add(postClone);
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenite>(), 1, 6, 8, 8, 11));
+
+            // Post-Plantera: 8-12 Ectoplasm
+            aewMinionCondition.Add(ItemDropRule.ByCondition(new Conditions.DownedPlantera(), ItemID.Ectoplasm, 1, 8, 12));
         }
 
         public override void HitEffect(int hitDirection, double damage)
