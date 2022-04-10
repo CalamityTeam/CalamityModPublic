@@ -10,22 +10,61 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
+    #region Fraction Struct (thanks Yorai)
+    public struct Fraction
+    {
+        internal readonly int numerator = 1;
+        internal readonly int denominator = 1;
+
+        public Fraction(int n, int d)
+        {
+            numerator = n < 0 ? 0 : n;
+            denominator = d <= 0 ? 1 : d;
+        }
+    }
+    #endregion
+
+    #region Weighted Item Stack Struct
+    public struct WeightedItemStack
+    {
+        public const float DefaultWeight = 1f;
+        public const float MinisiculeWeight = 1E-6f;
+
+        internal int itemID;
+        internal float weight;
+        internal int minQuantity;
+        internal int maxQuantity;
+
+        internal WeightedItemStack(int id, float w)
+        {
+            itemID = id;
+            weight = w;
+            minQuantity = 1;
+            maxQuantity = 1;
+        }
+
+        internal WeightedItemStack(int id, float w, int quantity)
+        {
+            itemID = id;
+            weight = w;
+            minQuantity = quantity;
+            maxQuantity = quantity;
+        }
+
+        internal WeightedItemStack(int id, float w, int min, int max)
+        {
+            itemID = id;
+            weight = w;
+            minQuantity = min;
+            maxQuantity = max;
+        }
+
+        internal int ChooseQuantity() => Main.rand.Next(minQuantity, maxQuantity + 1);
+    }
+    #endregion
+
     public static class DropHelper
     {
-        #region Fraction Struct (thanks Yorai)
-        public struct Fraction
-        {
-            internal readonly int numerator = 1;
-            internal readonly int denominator = 1;
-
-            public Fraction(int n, int d)
-            {
-                numerator = n < 0 ? 0 : n;
-                denominator = d <= 0 ? 1 : d;
-            }
-        }
-        #endregion
-
         #region Global Drop Chances
         /// <summary>
         /// Weapons in Normal Mode typically have a 1 in X chance of dropping, where X is this variable.
@@ -105,6 +144,10 @@ namespace CalamityMod
             BlockDrops(withSomeExceptions);
         }
         #endregion
+
+        //
+        // FOLLOWING SECTION: 1.4 LOOT CODE (bestiary compatible)
+        //
 
         #region Recursive Drop Rate Mutator
         private static int RecursivelyMutateDropRate(this IItemDropRule rule, int itemID, int newNumerator, int newDenominator)
@@ -772,6 +815,10 @@ namespace CalamityMod
         }
         #endregion
 
+        //
+        // FOLLOWING SECTION: LEGACY 1.3 LOOT CODE (treasure bags, etc.)
+        //
+
         #region Player Item Spawns
         /// <summary>
         /// Spawns a stack of one or more items for the given player.
@@ -781,7 +828,7 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to spawn. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to spawn. Defaults to 0, meaning the minimum quantity is always used.</param>
         /// <returns>The number of items spawned.</returns>
-        public static int DropItem(Player p, int itemID, int minQuantity = 1, int maxQuantity = 0)
+        public static int DropItem(IEntitySource source, Player p, int itemID, int minQuantity = 1, int maxQuantity = 0)
         {
             int quantity;
 
@@ -797,7 +844,7 @@ namespace CalamityMod
             if (quantity <= 0)
                 return 0;
 
-            //p.QuickSpawnItem(itemID, quantity);
+            p.QuickSpawnItem(source, itemID, quantity);
             return quantity;
         }
 
@@ -810,13 +857,13 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to spawn. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to spawn. Defaults to 0, meaning the minimum quantity is always used.</param>
         /// <returns>The number of items spawned.</returns>
-        public static int DropItemChance(Player p, int itemID, float chance, int minQuantity = 1, int maxQuantity = 0)
+        public static int DropItemChance(IEntitySource source, Player p, int itemID, float chance, int minQuantity = 1, int maxQuantity = 0)
         {
             // If you fail the roll to get the drop, stop immediately.
             if (Main.rand.NextFloat() > chance)
                 return 0;
 
-            return DropItem(p, itemID, minQuantity, maxQuantity);
+            return DropItem(source, p, itemID, minQuantity, maxQuantity);
         }
 
         /// <summary>
@@ -828,13 +875,13 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to spawn. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to spawn. Defaults to 0, meaning the minimum quantity is always used.</param>
         /// <returns>The number of items spawned.</returns>
-        public static int DropItemChance(Player p, int itemID, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
+        public static int DropItemChance(IEntitySource source, Player p, int itemID, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
         {
             // If you fail the roll to get the drop, stop immediately.
             if (Main.rand.Next(oneInXChance) != 0)
                 return 0;
 
-            return DropItem(p, itemID, minQuantity, maxQuantity);
+            return DropItem(source, p, itemID, minQuantity, maxQuantity);
         }
         #endregion
 
@@ -848,9 +895,9 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to spawn. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to spawn. Defaults to 0, meaning the minimum quantity is always used.</param>
         /// <returns>The number of items spawned.</returns>
-        public static int DropItemCondition(Player p, int itemID, bool condition, int minQuantity = 1, int maxQuantity = 0)
+        public static int DropItemCondition(IEntitySource source, Player p, int itemID, bool condition, int minQuantity = 1, int maxQuantity = 0)
         {
-            return condition ? DropItem(p, itemID, minQuantity, maxQuantity) : 0;
+            return condition ? DropItem(source, p, itemID, minQuantity, maxQuantity) : 0;
         }
 
         /// <summary>
@@ -863,9 +910,9 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to spawn. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to spawn. Defaults to 0, meaning the minimum quantity is always used.</param>
         /// <returns>The number of items spawned.</returns>
-        public static int DropItemCondition(Player p, int itemID, bool condition, float chance, int minQuantity = 1, int maxQuantity = 0)
+        public static int DropItemCondition(IEntitySource source, Player p, int itemID, bool condition, float chance, int minQuantity = 1, int maxQuantity = 0)
         {
-            return condition ? DropItemChance(p, itemID, chance, minQuantity, maxQuantity) : 0;
+            return condition ? DropItemChance(source, p, itemID, chance, minQuantity, maxQuantity) : 0;
         }
 
         /// <summary>
@@ -878,9 +925,9 @@ namespace CalamityMod
         /// <param name="minQuantity">The minimum number of items to spawn. Defaults to 1.</param>
         /// <param name="maxQuantity">The maximum number of items to spawn. Defaults to 0, meaning the minimum quantity is always used.</param>
         /// <returns>The number of items spawned.</returns>
-        public static int DropItemCondition(Player p, int itemID, bool condition, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
+        public static int DropItemCondition(IEntitySource source, Player p, int itemID, bool condition, int oneInXChance, int minQuantity = 1, int maxQuantity = 0)
         {
-            return condition ? DropItemChance(p, itemID, oneInXChance, minQuantity, maxQuantity) : 0;
+            return condition ? DropItemChance(source, p, itemID, oneInXChance, minQuantity, maxQuantity) : 0;
         }
         #endregion
 
@@ -891,7 +938,7 @@ namespace CalamityMod
         /// <param name="p">The player which should receive the item.</param>
         /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be spawned.</param>
         /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemFromSet(Player p, params int[] itemIDs)
+        public static bool DropItemFromSet(IEntitySource source, Player p, params int[] itemIDs)
         {
             // Can't choose anything from an empty array.
             if (itemIDs is null || itemIDs.Length == 0)
@@ -900,7 +947,7 @@ namespace CalamityMod
             // Choose which item to drop.
             int itemID = Main.rand.Next(itemIDs);
 
-            // p.QuickSpawnItem(itemID);
+            p.QuickSpawnItem(source, itemID);
             return true;
         }
 
@@ -911,13 +958,13 @@ namespace CalamityMod
         /// <param name="chance">The chance that the item will spawn. A decimal number <= 1.0.</param>
         /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be spawned.</param>
         /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemFromSetChance(Player p, float chance, params int[] itemIDs)
+        public static bool DropItemFromSetChance(IEntitySource source, Player p, float chance, params int[] itemIDs)
         {
             // If you fail the roll to get the drop, stop immediately.
             if (Main.rand.NextFloat() > chance)
                 return false;
 
-            return DropItemFromSet(p, itemIDs);
+            return DropItemFromSet(source, p, itemIDs);
         }
         #endregion
 
@@ -929,9 +976,9 @@ namespace CalamityMod
         /// <param name="condition">Any arbitrary Boolean condition to gate this spawn. If false, nothing is spawned.</param>
         /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be spawned.</param>
         /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemFromSetCondition(Player p, bool condition, params int[] itemIDs)
+        public static bool DropItemFromSetCondition(IEntitySource source, Player p, bool condition, params int[] itemIDs)
         {
-            return condition ? DropItemFromSet(p, itemIDs) : false;
+            return condition ? DropItemFromSet(source, p, itemIDs) : false;
         }
 
         /// <summary>
@@ -942,9 +989,9 @@ namespace CalamityMod
         /// <param name="chance">The chance that the items will spawn. A decimal number <= 1.0.</param>
         /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be spawned.</param>
         /// <returns>Whether an item was spawned.</returns>
-        public static bool DropItemFromSetCondition(Player p, bool condition, float chance, params int[] itemIDs)
+        public static bool DropItemFromSetCondition(IEntitySource source, Player p, bool condition, float chance, params int[] itemIDs)
         {
-            return condition ? DropItemFromSetChance(p, chance, itemIDs) : false;
+            return condition ? DropItemFromSetChance(source, p, chance, itemIDs) : false;
         }
         #endregion
 
@@ -956,7 +1003,7 @@ namespace CalamityMod
         /// <param name="chance">The chance that an item will drop. A decimal number <= 1.0.</param>
         /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
         /// <returns>The number of items dropped.</returns>
-        public static int DropEntireSet(Player p, float chance, params int[] itemIDs)
+        public static int DropEntireSet(IEntitySource source, Player p, float chance, params int[] itemIDs)
         {
             int numDrops = 0;
 
@@ -966,10 +1013,10 @@ namespace CalamityMod
 
             // Tally the total number of items dropped as the drop set is iterated through.
             for (int i = 0; i < itemIDs.Length; ++i)
-                numDrops += DropItemChance(p, itemIDs[i], chance);
+                numDrops += DropItemChance(source, p, itemIDs[i], chance);
 
             // If nothing at all was dropped, drop one thing at random.
-            numDrops += DropItemFromSetCondition(p, numDrops <= 0, itemIDs) ? 1 : 0;
+            numDrops += DropItemFromSetCondition(source, p, numDrops <= 0, itemIDs) ? 1 : 0;
             return numDrops;
         }
 
@@ -980,7 +1027,7 @@ namespace CalamityMod
         /// <param name="oneInXChance">The chance that the items will spawn is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
         /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
         /// <returns>The number of items dropped.</returns>
-        public static int DropEntireSet(Player p, int oneInXChance, params int[] itemIDs)
+        public static int DropEntireSet(IEntitySource source, Player p, int oneInXChance, params int[] itemIDs)
         {
             int numDrops = 0;
 
@@ -990,10 +1037,100 @@ namespace CalamityMod
 
             // Tally the total number of items dropped as the drop set is iterated through.
             for (int i = 0; i < itemIDs.Length; ++i)
-                numDrops += DropItemChance(p, itemIDs[i], oneInXChance);
+                numDrops += DropItemChance(source, p, itemIDs[i], oneInXChance);
 
             // If nothing at all was dropped, drop one thing at random.
-            numDrops += DropItemFromSetCondition(p, numDrops <= 0, itemIDs) ? 1 : 0;
+            numDrops += DropItemFromSetCondition(source, p, numDrops <= 0, itemIDs) ? 1 : 0;
+            return numDrops;
+        }
+        #endregion
+
+        #region Weighted Item Sets/Stacks Supporting Code
+        // int itemID --> WeightedItemStack
+        public static WeightedItemStack WeightStack(this int itemID) => WeightStack(itemID, WeightedItemStack.DefaultWeight);
+        public static WeightedItemStack WeightStack(this int itemID, float weight) => new WeightedItemStack(itemID, weight);
+        public static WeightedItemStack WeightStack(this int itemID, int quantity) => WeightStack(itemID, WeightedItemStack.DefaultWeight, quantity);
+        public static WeightedItemStack WeightStack(this int itemID, float weight, int quantity) => new WeightedItemStack(itemID, weight, quantity);
+        public static WeightedItemStack WeightStack(this int itemID, int min, int max) => WeightStack(itemID, WeightedItemStack.DefaultWeight, min, max);
+        public static WeightedItemStack WeightStack(this int itemID, float weight, int min, int max) => new WeightedItemStack(itemID, weight, min, max);
+
+        // ModItem generic parameter --> WeightedItemStack
+        public static WeightedItemStack WeightStack<T>() where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight);
+        public static WeightedItemStack WeightStack<T>(float weight) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight);
+        public static WeightedItemStack WeightStack<T>(int quantity) where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight, quantity);
+        public static WeightedItemStack WeightStack<T>(float weight, int quantity) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, quantity);
+        public static WeightedItemStack WeightStack<T>(int min, int max) where T : ModItem => WeightStack<T>(WeightedItemStack.DefaultWeight, min, max);
+        public static WeightedItemStack WeightStack<T>(float weight, int min, int max) where T : ModItem => WeightStack(ModContent.ItemType<T>(), weight, min, max);
+
+        // Separated implementation used so weighted random code isn't duplicated in two places.
+        public static WeightedItemStack RollWeightedRandom(WeightedItemStack[] stacks)
+        {
+            int i;
+            float[] breakpoints = new float[stacks.Length];
+            float totalWeight = 0f;
+
+            // Assign breakpoints based on the cumulative sum of weights thus far.
+            // Error check invalid weights by giving them an unbelievably small drop chance.
+            for (i = 0; i < stacks.Length; ++i)
+            {
+                float w = stacks[i].weight;
+                if (w <= 0f || float.IsNaN(w) || float.IsInfinity(w))
+                    w = WeightedItemStack.MinisiculeWeight;
+                breakpoints[i] = totalWeight += w;
+            }
+
+            // Iterate through the breakpoints until you find the first one that is surpassed. Drop that item.
+            float needle = Main.rand.NextFloat(totalWeight);
+            i = 0;
+            while (needle > breakpoints[i])
+                ++i;
+            return stacks[i];
+        }
+        #endregion
+
+        #region Player Weighted Set Spawns
+        /// <summary>
+        /// Chooses an item (or stack of items) from an array of drop definitions and spawns it for the given player.<br></br>
+        /// Each item is given a certain weight to spawn.
+        /// </summary>
+        /// <param name="p">The player which should receive the item(s).</param>
+        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
+        /// <returns>The number of items dropped.</returns>
+        public static int DropItemFromWeightedSet(IEntitySource source, Player p, params WeightedItemStack[] stacks)
+        {
+            // Can't choose anything from an empty array.
+            if (stacks is null || stacks.Length == 0)
+                return 0;
+
+            WeightedItemStack stk = RollWeightedRandom(stacks);
+            return DropItem(source, p, stk.itemID, stk.minQuantity, stk.maxQuantity);
+        }
+
+        /// <summary>
+        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
+        /// Always drops at least one of the defined stacks.
+        /// </summary>
+        /// <param name="p">The player which should receive the item(s).</param>
+        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
+        /// <returns>The number of items dropped.</returns>
+        public static int DropEntireWeightedSet(IEntitySource source, Player p, params WeightedItemStack[] stacks)
+        {
+            int numDrops = 0;
+
+            // Can't choose anything from an empty array.
+            if (stacks is null || stacks.Length == 0)
+                return numDrops;
+
+            for (int i = 0; i < stacks.Length; ++i)
+            {
+                WeightedItemStack stk = stacks[i];
+                numDrops += DropItemChance(source, p, stk.itemID, stk.weight, stk.minQuantity, stk.maxQuantity);
+            }
+
+            // If nothing at all was dropped, drop one thing at (weighted) random.
+            if (numDrops <= 0)
+                numDrops += DropItemFromWeightedSet(source, p, stacks);
+
             return numDrops;
         }
         #endregion
