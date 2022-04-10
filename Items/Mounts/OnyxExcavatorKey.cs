@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.Mounts
             Item.UseSound = SoundID.Item23;
             Item.noMelee = true;
             Item.mountType = ModContent.MountType<OnyxExcavator>();
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

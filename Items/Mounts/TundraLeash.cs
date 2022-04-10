@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Mounts
             Item.UseSound = SoundID.NPCHit56;
             Item.noMelee = true;
             Item.mountType = ModContent.MountType<AngryDogMount>();
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }
