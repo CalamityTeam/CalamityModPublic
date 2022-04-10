@@ -89,6 +89,9 @@ namespace CalamityMod
 
         public static T[,] ShaveOffEdge<T>(this T[,] array)
         {
+            if (array.GetLength(0) <= 2 || array.GetLength(1) <= 2)
+                return array;
+
             T[,] result = new T[array.GetLength(0) - 2, array.GetLength(1) - 2];
             for (int i = 0; i < result.GetLength(0); i++)
             {
