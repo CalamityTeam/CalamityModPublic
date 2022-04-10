@@ -37,6 +37,11 @@ namespace CalamityMod.NPCs.Signus
             DisplayName.SetDefault("Signus, Envoy of the Devourer");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 30f,
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -638,7 +643,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 1.0;
+            NPC.frameCounter += NPC.IsABestiaryIconDummy ? 1.65 : 1.0;
             if (NPC.ai[0] == 4f)
             {
                 if (NPC.frameCounter > 72.0) //12

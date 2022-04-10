@@ -35,6 +35,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DisplayName.SetDefault("Cataclysm");
             Main.npcFrameCount[NPC.type] = 9;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 36f,
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -76,7 +81,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 NPC.frameCounter += 0.15f;
                 if (NPC.frameCounter >= 1f)
+                {
                     CurrentFrame = (CurrentFrame + 1) % 12;
+                    NPC.frameCounter = 0;
+                }
             }
             else
             {

@@ -2942,7 +2942,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             opacity *= 0.75f;
 
             Texture2D forcefieldTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasShield").Value;
-            GameShaders.Misc["CalamityMod:SupremeShield"].UseImage0("Images/Misc/Perlin");
+            GameShaders.Misc["CalamityMod:SupremeShield"].UseImage1("Images/Misc/Perlin");
 
             Color forcefieldColor = Color.DarkViolet;
             Color secondaryForcefieldColor = Color.Red * 1.4f;
