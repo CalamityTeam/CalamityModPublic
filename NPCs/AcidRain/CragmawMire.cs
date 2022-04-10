@@ -454,7 +454,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = InPhase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/CragmawMire2").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/AcidRain/CragmawMire").Value;
-            Main.EntitySpriteDraw(texture, screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
+            Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
             return false;
         }
 

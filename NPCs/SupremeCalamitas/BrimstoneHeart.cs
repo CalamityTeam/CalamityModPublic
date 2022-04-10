@@ -99,6 +99,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             int frame = (int)Math.Round((float)Math.Pow(Math.Sin(Main.GlobalTimeWrappedHourly * 2.6f + NPC.whoAmI * 1.3f), 6D) * Main.npcFrameCount[NPC.type]);
             if (frame >= Main.npcFrameCount[NPC.type])
                 frame = Main.npcFrameCount[NPC.type] - 1;

@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.Astral
                     //hand
                     Gore.NewGore(NPC.direction == 1 ? NPC.Right : NPC.Left, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore2").Type);
                     //rest
-                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("Atlas/AtlasGore0").Type);
+                    Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore0").Type);
                     Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore1").Type);
                     Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore3").Type);
                     Gore.NewGore(NPC.Center, NPC.velocity * 0.5f, Mod.Find<ModGore>("AtlasGore5").Type);

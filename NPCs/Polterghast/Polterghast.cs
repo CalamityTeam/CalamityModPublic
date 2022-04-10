@@ -1106,6 +1106,9 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
