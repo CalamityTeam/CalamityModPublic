@@ -151,7 +151,7 @@ namespace CalamityMod.Schematics
                 }
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
-                    originalTiles[x, y] = new Tile(Main.tile[x + cornerX, y + cornerY]);
+                    originalTiles[x, y].CopyFrom(Main.tile[x + cornerX, y + cornerY]);
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
                     if (originalTiles[x, y].TileType != TileID.Containers)
@@ -162,17 +162,18 @@ namespace CalamityMod.Schematics
                 for (int y = 0; y < height; ++y)
                 {
                     SchematicMetaTile smt = schematic[x, y];
-                    string modChestStr = TileLoader.GetTile(smt.type)?.chest ?? "";
-                    bool isChest = smt.type == TileID.Containers || modChestStr != "";
+                    ref Tile t = ref smt.storedTile;
+                    string modChestStr = TileLoader.GetTile(t.TileType)?.ContainerName.GetDefault() ?? "";
+                    bool isChest = t.TileType == TileID.Containers || modChestStr != "";
 
                     // If the determined tile type is a chest and this is its top left corner, define it appropriately.
-                    if (isChest && smt.frameX % 36 == 0 && smt.frameY == 0)
+                    if (isChest && t.TileFrameX % 36 == 0 && t.TileFrameY == 0)
                     {
-                        Chest chest = PlaceChest(x + cornerX, y + cornerY, smt.type);
+                        Chest chest = PlaceChest(x + cornerX, y + cornerY, t.TileType);
                         // Use the appropriate chest delegate function to fill the chest.
                         if (chestDelegate is Action<Chest, int, bool>)
                         {
-                            (chestDelegate as Action<Chest, int, bool>)?.Invoke(chest, smt.type, specialCondition);
+                            (chestDelegate as Action<Chest, int, bool>)?.Invoke(chest, t.TileType, specialCondition);
                             specialCondition = true;
                         }
                         else if (chestDelegate is Action<Chest>)
@@ -180,8 +181,8 @@ namespace CalamityMod.Schematics
                     }
 
                     // This is where the meta tile keep booleans are applied.
-                    Tile t = Main.tile[x + cornerX, y + cornerY];
-                    smt.ApplyTo(ref t, originalTiles[x, y]);
+                    Tile worldTile = Main.tile[x + cornerX, y + cornerY];
+                    smt.ApplyTo(ref worldTile, ref originalTiles[x, y]);
                     TryToPlaceTileEntities(x + cornerX, y + cornerY, t);
 
                     // Activate the pile placement function if defined.

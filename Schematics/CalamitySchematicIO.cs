@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Reflection;
 using System.Text;
 using Terraria;
 using Terraria.ID;
@@ -15,71 +16,50 @@ namespace CalamityMod.Schematics
     // A struct parallel to Tile which, for modded tiles, stores offset tile and wall type IDs based on the schematic's mod name arrays.
     public struct SchematicMetaTile
     {
-        public byte bTileHeader, bTileHeader2, bTileHeader3;
-        public ushort sTileHeader;
-        public ushort type; // If >= TileID.Count, is a modded tile type; consult mod tile name array
-        public ushort wall; // If >= WallID.Count, is a modded wall type; consule mod wall name array
+        // If InputTile.TileType >= TileID.Count, is a modded tile type; consult mod tile name array
+        // If InputTile.WallType >= WallID.Count, is a modded wall type; consule mod wall name array
+        public Tile storedTile;
+
         internal readonly ushort originalType;
         internal readonly ushort originalWall;
-        public byte liquid;
-        public short frameX, frameY;
         public bool keepTile;
         public bool keepWall;
 
         public SchematicMetaTile(Tile t)
         {
-            bTileHeader = t.bTileHeader;
-            bTileHeader2 = t.bTileHeader2;
-            bTileHeader3 = t.bTileHeader3;
-            sTileHeader = t.sTileHeader;
-            type = t.TileType; // This is changed later if it's modded
-            wall = t.WallType; // This is changed later if it's modded
-            originalType = type; // This is never changed
-            originalWall = wall; // This is never changed
-            liquid = t.LiquidAmount;
-            frameX = t.TileFrameX;
-            frameY = t.TileFrameY;
+            storedTile = default;
+            storedTile.CopyFrom(t);
+            originalType = storedTile.TileType; // This is never changed
+            originalWall = storedTile.WallType; // This is never changed
             keepTile = false;
             keepWall = false;
         }
 
         // This function is used by the schematic placer to respect the keepTile and keepWall booleans.
-        public void ApplyTo(ref Tile target, Tile original)
+        public void ApplyTo(ref Tile target, ref Tile original)
         {
-            // This full-overwrite hypothetical tile is used to partially copy over various forms of data.
             // A lot of tile data is nefariously binary encoded into the tile header bytes.
-            Tile replacement = new Tile
-            {
-                bTileHeader = bTileHeader,
-                bTileHeader2 = bTileHeader2,
-                bTileHeader3 = bTileHeader3,
-                sTileHeader = sTileHeader,
-                type = type,
-                frameX = frameX,
-                frameY = frameY,
-                wall = wall,
-                liquid = liquid
-            };
+            // TODO -- Eventually improve this behavior, it will be needed when modded liquids roll around.
 
             if (!keepTile && !keepWall) // full overwrite
-                target.CopyFrom(replacement);
+                target.CopyFrom(storedTile);
             else if (keepTile && keepWall) // full preservation
                 target.CopyFrom(original);
-            else if (keepWall) // wall from original, tile from replacement
+            else if (keepWall) // overwrite from replacement/storage, then bring in the wall from the original
             {
-                target.CopyFrom(replacement);
+                target.CopyFrom(storedTile);
                 target.WallType = original.WallType;
-                target.wallFrameX(original.WallFrameX);
-                target.wallFrameY(original.WallFrameY);
-                target.wallColor(original.WallColor);
+                target.WallFrameX = original.WallFrameX;
+                target.WallFrameY = original.WallFrameY;
+                target.WallColor = original.WallColor;
             }
-            else if (keepTile) // tile from original, wall from replacement
+            else if (keepTile) // preserve the original, but bring in the wall from replacement/storage
             {
                 target.CopyFrom(original);
-                target.WallType = replacement.WallType;
-                target.wallFrameX(replacement.WallFrameX);
-                target.wallFrameY(replacement.WallFrameY);
-                target.wallColor(replacement.WallColor);
+                target.WallType = storedTile.WallType;
+                target.WallFrameX = storedTile.WallFrameX;
+                target.WallFrameY = storedTile.WallFrameY;
+                target.WallColor = storedTile.WallColor;
             }
         }
     }
@@ -127,19 +107,32 @@ namespace CalamityMod.Schematics
 
     public static class CalamitySchematicIO
     {
+        private static readonly FieldInfo LiquidDataInternalFlags = typeof(LiquidData).GetField("typeAndFlags", BindingFlags.Instance & BindingFlags.NonPublic);
+        private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance & BindingFlags.NonPublic);
+
         // A generous buffer of 1 megabyte is the default for schematics. If this somehow isn't big enough, they can get bigger.
         private const int SchematicBufferStartingSize = 1048576;
 
         // If true, written schematics will have all data GZip compressed except for the magic number header.
         public static bool UseCompression = true;
 
-        // This is a 3-byte magic number header for Calamity Schematic Files. CA1A5C = "CalaSC"
-        private static readonly byte[] SchematicMagicNumberHeader = new byte[]
+        // This is a 3-byte magic number header for Calamity Schematic Files created with TML 1.3. CA1A5C = "CalaSC"
+        // These schematics cannot be read anymore. Attempting to do so produces a harmless schematic with no data.
+        private static readonly byte[] SchematicMagicNumberHeader_TML13 = new byte[]
         {
             0xCA,
             0x1A,
             0x5C
         };
+
+        // This is a 3-byte magic number header for Calamity Schematic Files created with TML 1.4. CA145C = "CalaSC" but also "Ca14SC"
+        private static readonly byte[] SchematicMagicNumberHeader_TML14 = new byte[]
+        {
+            0xCA,
+            0x14,
+            0x5C
+        };
+
         private const byte UncompressedMagicNumber = 0x00;
         private const byte CompressedMagicNumber = 0xC0;
         private const string PreserveTileName = "_";
@@ -149,6 +142,7 @@ namespace CalamityMod.Schematics
         public static ushort PreserveWallID = 0;
 
         #region Export Helper Methods
+        // TODO -- technically this could use vanilla Tilemap
         private static Tile[,] GetTilesInRectangle(Rectangle area)
         {
             Tile[,] tiles = new Tile[area.Width, area.Height];
@@ -164,33 +158,26 @@ namespace CalamityMod.Schematics
         // This equality is slightly more strict than Tile.isTheSameAs because it checks type, wall and frame on non-active tiles.
         public static bool EqualToMetaTile(this Tile t, SchematicMetaTile smt)
         {
-            bool tileHeadersMatch = (t.bTileHeader == smt.bTileHeader) & (t.bTileHeader2 == smt.bTileHeader2) & (t.bTileHeader3 == smt.bTileHeader3) & (t.sTileHeader == smt.sTileHeader);
-            if (!tileHeadersMatch)
+            Tile compTile = smt.storedTile;
+            if (t.Get<TileWallWireStateData>().NonFrameBits != compTile.Get<TileWallWireStateData>().NonFrameBits)
                 return false;
 
-            bool typesMatch = t.TileType == smt.originalType;
-            if (!typesMatch)
+            if (t.WallType != compTile.WallType || t.LiquidAmount != compTile.LiquidAmount)
                 return false;
 
-            bool wallsMatch = t.WallType == smt.originalWall;
-            if (!wallsMatch)
+            if (t.LiquidAmount > 0 && t.LiquidType != compTile.LiquidType)
                 return false;
 
-            bool framesMatch = t.TileFrameX == smt.frameX;
-            framesMatch &= t.TileFrameY == smt.frameY;
-            // Wall frames are not checked separately because these are computed from binary headers.
-            // WallFrameX => (bTileHeader2 & 0xF) * 36;
-            // WallFrameY => (bTileHeader3 & 7) * 36;
-            if (!framesMatch)
+            if (t.TileType != compTile.TileType)
                 return false;
 
-            // Lava and honey state are not checked separately because these are computed from binary headers.
-            // lava() => (bTileHeader & 0x20) == 32;
-            // honey() => (bTileHeader & 0x40) == 64;
-            return t.LiquidAmount == smt.liquid;
+            if (Main.tileFrameImportant[t.TileType] && (t.TileFrameX != compTile.TileFrameX || t.TileFrameY != compTile.TileFrameY))
+                return false;
+
+            return true;
         }
 
-        private static int GetMetaTileIndex(IList<SchematicMetaTile> metaTiles, Tile toSearch)
+        private static int GetMetaTileIndex(IList<SchematicMetaTile> metaTiles, ref Tile toSearch)
         {
             int numTiles = metaTiles.Count;
             for (int i = 0; i < numTiles; ++i)
@@ -206,14 +193,14 @@ namespace CalamityMod.Schematics
         {
             // Special case: this meta tile demands that the original tile in the destination be preserved.
             // The meta index of this special mod tile name is always zero.
-            if (PreserveTileID > 0 && smt.type == PreserveTileID)
+            if (PreserveTileID > 0 && smt.storedTile.TileType == PreserveTileID)
             {
-                smt.type = TileID.Count;
+                smt.storedTile.TileType = TileID.Count;
                 smt.keepTile = true;
             }
-            else if (smt.type >= TileID.Count)
+            else if (smt.storedTile.TileType >= TileID.Count)
             {
-                ModTile mt = ModContent.GetModTile(smt.type);
+                ModTile mt = ModContent.GetModTile(smt.storedTile.TileType);
                 if (mt != null)
                 {
                     // This tile has a valid modded tile. Check if that ModTile is already registered to find its index.
@@ -228,20 +215,20 @@ namespace CalamityMod.Schematics
 
                     // Adjust the meta tile's type so that it points to the mod tile name array.
                     // typeOriginal is unaffected so that future searches will still function.
-                    smt.type = (ushort)(TileID.Count + tileNameIndex);
+                    smt.storedTile.TileType = (ushort)(TileID.Count + tileNameIndex);
                 }
             }
 
             // Special case: this meta tile demands that the original wall in the destination be preserved.
             // The meta index of this special mod wall name is always zero.
-            if (PreserveWallID > 0 && smt.wall == PreserveWallID)
+            if (PreserveWallID > 0 && smt.storedTile.WallType == PreserveWallID)
             {
-                smt.wall = WallID.Count;
+                smt.storedTile.WallType = WallID.Count;
                 smt.keepWall = true;
             }
-            else if (smt.wall >= WallID.Count)
+            else if (smt.storedTile.WallType >= WallID.Count)
             {
-                ModWall mw = ModContent.GetModWall(smt.wall);
+                ModWall mw = ModContent.GetModWall(smt.storedTile.WallType);
                 if (mw != null)
                 {
                     // This tile has a valid modded wall. Check if that ModWall is already registered to find its index.
@@ -256,7 +243,7 @@ namespace CalamityMod.Schematics
 
                     // Adjust the meta tile's wall so that it points to the mod wall name array.
                     // wallOriginal is unaffected so that future searches will still function.
-                    smt.wall = (ushort)(WallID.Count + wallNameIndex);
+                    smt.storedTile.WallType = (ushort)(WallID.Count + wallNameIndex);
                 }
             }
         }
@@ -274,8 +261,8 @@ namespace CalamityMod.Schematics
             for (int y = 0; y < height; ++y)
                 for (int x = 0; x < width; ++x)
                 {
-                    Tile t = tiles[x, y];
-                    int metaTileIndex = GetMetaTileIndex(schematic.uniqueTiles, t);
+                    ref Tile t = ref tiles[x, y];
+                    int metaTileIndex = GetMetaTileIndex(schematic.uniqueTiles, ref t);
 
                     // If this is a new tile not already registered, it must be added to uniqueTiles.
                     if (metaTileIndex == -1)
@@ -310,17 +297,25 @@ namespace CalamityMod.Schematics
             return schematic;
         }
 
+        // TML 1.4 changed tiles so that accessing the underlying binary data is extremely difficult.
+        // In fact, individual tiles cannot be meaningfully serialized using any tools available in either vanilla or TML.
+        // This is because tiles are just collections of pointers to backing arrays of data, which is how the world is now saved.
+        // We have to hack together a mechanism to serialize individual tiles for schematics.
         private static void WriteSchematicMetaTile(this BinaryWriter writer, SchematicMetaTile smt)
         {
-            writer.Write(smt.bTileHeader);
-            writer.Write(smt.bTileHeader2);
-            writer.Write(smt.bTileHeader3);
-            writer.Write(smt.sTileHeader);
-            writer.Write(smt.type);
-            writer.Write(smt.wall);
-            writer.Write(smt.frameX);
-            writer.Write(smt.frameY);
-            writer.Write(smt.liquid);
+            ref Tile t = ref smt.storedTile;
+
+            writer.Write(t.TileType); // perfectly efficient shorthand for t.Get<TileTypeData>();
+            writer.Write(t.WallType); // perfectly efficient shorthand for t.Get<WallTypeData>();
+
+            ref var liquidStruct = ref t.Get<LiquidData>();
+            writer.Write(liquidStruct.Amount);
+            writer.Write((byte)LiquidDataInternalFlags.GetValue(liquidStruct));
+
+            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
+            writer.Write(miscStateStruct.TileFrameX);
+            writer.Write(miscStateStruct.TileFrameY);
+            writer.Write((int)TileWallWireStateBitpack.GetValue(miscStateStruct));
         }
         #endregion
 
@@ -343,7 +338,7 @@ namespace CalamityMod.Schematics
                 // This is only included here if compression is turned off
                 if (!UseCompression)
                 {
-                    writer.Write(SchematicMagicNumberHeader);
+                    writer.Write(SchematicMagicNumberHeader_TML13);
                     writer.Write(UncompressedMagicNumber);
                 }
 
@@ -399,19 +394,18 @@ namespace CalamityMod.Schematics
             // If compression is enabled, replace the current rendered stream with a re-written compressed one.
             if (UseCompression)
             {
-                using (MemoryStream gzMem = new MemoryStream(renderedStream.Length))
-                {
-                    // Write the magic number outside the compressed region of data if compression is enabled.
-                    // This is the only way for a reading algorithm to know this is a compressed schematic.
-                    gzMem.Write(SchematicMagicNumberHeader, 0, SchematicMagicNumberHeader.Length);
-                    gzMem.WriteByte(CompressedMagicNumber);
+                using MemoryStream gzMem = new MemoryStream(renderedStream.Length);
 
-                    using (GZipStream gz = new GZipStream(gzMem, CompressionLevel.Optimal))
-                    {
-                        gz.Write(renderedStream, 0, renderedStream.Length);
-                    }
-                    renderedStream = gzMem.ToArray();
+                // Write the magic number outside the compressed region of data if compression is enabled.
+                // This is the only way for a reading algorithm to know this is a compressed schematic.
+                gzMem.Write(SchematicMagicNumberHeader_TML13, 0, SchematicMagicNumberHeader_TML13.Length);
+                gzMem.WriteByte(CompressedMagicNumber);
+
+                using (GZipStream gz = new GZipStream(gzMem, CompressionLevel.Optimal))
+                {
+                    gz.Write(renderedStream, 0, renderedStream.Length);
                 }
+                renderedStream = gzMem.ToArray();
             }
 
             // To prevent overwrites, every schematic has an incredibly precise timestamp in its filename.
@@ -427,48 +421,53 @@ namespace CalamityMod.Schematics
         private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
         {
             SchematicMetaTile smt = new SchematicMetaTile();
-            smt.bTileHeader = reader.ReadByte();
-            smt.bTileHeader2 = reader.ReadByte();
-            smt.bTileHeader3 = reader.ReadByte();
-            smt.sTileHeader = reader.ReadUInt16();
-            smt.type = reader.ReadUInt16();
-            smt.wall = reader.ReadUInt16();
-            smt.frameX = reader.ReadInt16();
-            smt.frameY = reader.ReadInt16();
-            smt.liquid = reader.ReadByte();
+            ref Tile t = ref smt.storedTile;
+
+            t.TileType = reader.ReadUInt16();
+            t.WallType = reader.ReadUInt16();
+
+            ref var liquidStruct = ref t.Get<LiquidData>();
+            liquidStruct.Amount = reader.ReadByte();
+            LiquidDataInternalFlags.SetValue(liquidStruct, reader.ReadByte());
+
+            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
+            miscStateStruct.TileFrameX = reader.ReadInt16();
+            miscStateStruct.TileFrameY = reader.ReadInt16();
+            TileWallWireStateBitpack.SetValue(miscStateStruct, reader.ReadInt32());
+
             return smt;
         }
 
         private static void ReplaceMetaIndicesWithLoadedIDs(ref SchematicMetaTile smt, string[] modTileNames, string[] modWallNames)
         {
             // If this schematic tile has a modded foreground tile, replace the meta index offset with that modded tile's ID.
-            if (smt.type >= TileID.Count)
+            if (smt.storedTile.TileType >= TileID.Count)
             {
                 // The first entry in modTileNames is always the special preserver name. If you hit this name, just set the keepTile flag.
-                string tileFullName = modTileNames[smt.type - TileID.Count];
+                string tileFullName = modTileNames[smt.storedTile.TileType - TileID.Count];
                 if (tileFullName == PreserveTileName)
                     smt.keepTile = true;
                 else
                 {
                     ModContent.SplitName(tileFullName, out string mod, out string tileName);
                     Mod theMod = ModLoader.GetMod(mod);
-                    // If that mod isn't loaded, spawn in a MysteryTile instead.
-                    smt.type = (ushort)(theMod is null ? ModContent.TileType<MysteryTile>() : theMod.Find<ModTile>(tileName).Type);
+                    // If that mod isn't loaded, spawn in a TML default UnloadedTile instead.
+                    smt.storedTile.TileType = (ushort)(theMod is null ? ModContent.TileType<UnloadedTile>() : theMod.Find<ModTile>(tileName).Type);
                 }
             }
             // If this schematic tile has a modded wall, replace the meta index offset with that modded wall's ID.
-            if (smt.wall >= WallID.Count)
+            if (smt.storedTile.WallType >= WallID.Count)
             {
                 // The first entry in modWallNames is always the special preserver name. If you hit this name, just set the keepWall flag.
-                string wallFullName = modWallNames[smt.wall - WallID.Count];
+                string wallFullName = modWallNames[smt.storedTile.WallType - WallID.Count];
                 if (wallFullName == PreserveTileName)
                     smt.keepWall = true;
                 else
                 {
                     ModContent.SplitName(wallFullName, out string mod, out string wallName);
                     Mod theMod = ModLoader.GetMod(mod);
-                    // tModLoader does not have a MysteryWall, so if that mod isn't loaded, this wall will disappear.
-                    smt.wall = (ushort)(theMod is null ? 0 : theMod.Find<ModWall>(wallName).Type);
+                    // If that mod isn't loaded, spawn in a TML default UnloadedWall instead.
+                    smt.storedTile.WallType = (ushort)(theMod is null ? ModContent.WallType<UnloadedWall>() : theMod.Find<ModWall>(wallName).Type);
                 }
             }
         }
@@ -486,14 +485,32 @@ namespace CalamityMod.Schematics
         }
 
         private const string InvalidFormatString = "Provided file is not a valid Calamity Schematic.";
+        private const string TML13ValidString = "An attempt was made to load a valid Calamity Schematic for TML 1.3. These files cannot be translated into TML 1.4. The schematic will show up empty.";
         private static SchematicMetaTile[,] ImportSchematic(Stream fileInputStream)
         {
             // 1: Header. First three bytes are a magic number. Fourth byte determines compression.
             byte[] header = fileInputStream.ReadBytes(4);
 
-            for (int i = 0; i < SchematicMagicNumberHeader.Length; ++i)
-                if (header[i] != SchematicMagicNumberHeader[i])
-                    throw new InvalidDataException($"{InvalidFormatString} The magic number signature is invalid.");
+            bool isTML13Schematic = true;
+            bool isTML14Schematic = true;
+            for (int i = 0; i < SchematicMagicNumberHeader_TML14.Length; ++i)
+            {
+                if (header[i] != SchematicMagicNumberHeader_TML13[i])
+                    isTML13Schematic = false;
+
+                if (header[i] != SchematicMagicNumberHeader_TML14[i])
+                    isTML14Schematic = false;
+            }
+
+            // If the schematic is neither TML 1.3 or TML 1.4 format, then it's crap.
+            if (!isTML13Schematic && !isTML14Schematic)
+                throw new InvalidDataException($"{InvalidFormatString} The magic number signature is invalid.");
+            else if (isTML13Schematic)
+            {
+                CalamityMod.Instance.Logger.Error(TML13ValidString);
+                SchematicMetaTile[,] empty = new SchematicMetaTile[0, 0];
+                return empty;
+            }
 
             bool compression = false;
             if (header[3] == CompressedMagicNumber)
