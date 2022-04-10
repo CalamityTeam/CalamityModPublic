@@ -93,10 +93,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ItemID.DivingHelmet, 20);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.DivingHelmet, 20);
 
         public override void HitEffect(int hitDirection, double damage)
         {

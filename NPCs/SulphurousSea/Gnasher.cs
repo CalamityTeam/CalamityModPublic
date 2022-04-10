@@ -108,10 +108,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.AddIf(() => Main.hardMode, ItemID.TurtleShell, 10);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => Main.hardMode, ItemID.TurtleShell, 10);
 
         public override void HitEffect(int hitDirection, double damage)
         {

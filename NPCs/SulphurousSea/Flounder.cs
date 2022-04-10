@@ -114,10 +114,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             return 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<AnechoicCoating>(), 2, 1, 1);
 
         public override void HitEffect(int hitDirection, double damage)
         {

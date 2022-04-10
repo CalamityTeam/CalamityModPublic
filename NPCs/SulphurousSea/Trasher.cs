@@ -333,7 +333,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             npcLoot.Add(ItemID.DivingHelmet, 20);
             npcLoot.Add(ModContent.ItemType<TrashmanTrashcan>(), 20);
-            npcLoot.AddIf(() => Main.hardMode, 10);
+            npcLoot.AddIf(() => Main.hardMode, ItemID.Gatligator, 10);
         }
 
         public override void HitEffect(int hitDirection, double damage)
