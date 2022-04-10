@@ -774,7 +774,6 @@ namespace CalamityMod
                 new List<int>() { ItemType<BloodOrb>(), ItemType<BouncingEyeball>() },
                 null
             );
-            AddSummons(bossChecklist, "Blood Moon", new List<int>() { ItemType<BloodIdol>() });
 
             // Goblin Army
             AddLoot(bossChecklist, "Goblin Army",
