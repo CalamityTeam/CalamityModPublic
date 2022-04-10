@@ -13,6 +13,7 @@ namespace CalamityMod.NPCs.Ravager
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Rock Pillar");
         }
 

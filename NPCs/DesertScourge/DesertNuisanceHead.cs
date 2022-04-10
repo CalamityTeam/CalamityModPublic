@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.alpha = 255;
+            NPC.Opacity = 0f;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -394,6 +394,12 @@ namespace CalamityMod.NPCs.DesertScourge
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

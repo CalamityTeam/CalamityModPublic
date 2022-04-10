@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("The Devourer of Gods");
         }
 

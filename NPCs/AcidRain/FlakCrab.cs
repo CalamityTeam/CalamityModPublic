@@ -176,13 +176,13 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void FindFrame(int frameHeight)
         {
-            if (TotalHits < TotalHitsNeededToDoDamage)
+            if (TotalHits < TotalHitsNeededToDoDamage && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frame.Y = 0;
                 return;
             }
 
-            if (FleeCountdownTimer > 0f)
+            if (FleeCountdownTimer > 0f || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter++ % 6 == 5)
                 {
@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     NPC.frame.Y = frameHeight * 3; // Frames 1 and 2 are for transitioning. Frame 0 is sitting still, and the rest are walking frames
                 }
-                if (FleeCountdownTimer <= 8)
+                if (FleeCountdownTimer <= 8 && !NPC.IsABestiaryIconDummy)
                     NPC.frame.Y = frameHeight;
             }
             else

@@ -312,6 +312,22 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                if (CurrentFrame < 10)
+                    CurrentFrame = 10;
+
+                NPC.frameCounter += 1.8f;
+                if (NPC.frameCounter >= 11f)
+                {
+                    CurrentFrame++;
+                    if (CurrentFrame >= Main.npcFrameCount[NPC.type])
+                        CurrentFrame = 10;
+
+                    NPC.frameCounter = 0;
+                }
+            }
+
             NPC.frame.Y = (int)(CurrentFrame * frameHeight);
         }
 

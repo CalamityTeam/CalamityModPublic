@@ -15,6 +15,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Sepulcher");
         }
 

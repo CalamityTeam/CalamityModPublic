@@ -314,7 +314,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 18f)
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) < 18f || NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter += 1.0;
                 if (NPC.frameCounter > 6.0)

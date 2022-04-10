@@ -13,6 +13,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Adult Eidolon Wyrm");
         }
 

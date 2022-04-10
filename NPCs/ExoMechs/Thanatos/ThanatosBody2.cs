@@ -49,6 +49,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("XM-05 Thanatos");
             Main.npcFrameCount[NPC.type] = 5;
         }
