@@ -219,6 +219,7 @@ namespace CalamityMod.Items
                 { ItemID.HelFire, autoReuse },
                 { ItemID.HellfireArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.HellwingBow, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.HeroShield, Do(DefenseDelta(+10)) },
                 { ItemID.HolyArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.HornetStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.IceBlade, Do(DamageExact(26), UseTimeExact(33)) },
