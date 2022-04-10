@@ -16,6 +16,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Angry Dog");
             Main.npcFrameCount[NPC.type] = 9;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Velocity = 1.2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

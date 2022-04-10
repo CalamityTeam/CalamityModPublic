@@ -138,6 +138,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             DisplayName.SetDefault("XF-09 Ares");
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitScale = 0.6f,
+                Scale = 0.4f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -857,9 +863,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             // Use telegraph frames when using deathrays
             NPC.frameCounter += 1D;
-            if (AIState == (float)Phase.Normal || NPC.Calamity().newAI[3] == 0f)
+            if ((AIState == (float)Phase.Normal || NPC.Calamity().newAI[3] == 0f) && !NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frameCounter >= 6D)
                 {
@@ -903,6 +912,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         frameX = frameY = 4;
                 }
             }
+            NPC.frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -1063,6 +1073,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         public void DrawArm(SpriteBatch spriteBatch, Vector2 handPosition, Color glowmaskColor, int direction, bool backArm)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return;
+
             if (LightningDrawer is null)
                 LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
             if (LightningBackgroundDrawer is null)

@@ -7,7 +7,6 @@ namespace CalamityMod.Systems
 {
     public class StormWeaverBackgroundScene : ModSceneEffect
     {
-        public override int Music => Main.curMusic;
         public override SceneEffectPriority Priority => SceneEffectPriority.BossMedium;
 
         public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>());

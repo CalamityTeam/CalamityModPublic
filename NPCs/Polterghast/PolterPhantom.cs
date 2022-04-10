@@ -479,6 +479,9 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             NPC.frameCounter += 1.0;
             if (NPC.frameCounter > 6.0)
             {

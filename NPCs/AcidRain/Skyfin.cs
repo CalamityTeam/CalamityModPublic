@@ -22,6 +22,11 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Skyfin");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Rotation = MathHelper.Pi
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

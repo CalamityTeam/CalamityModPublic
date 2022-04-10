@@ -7,7 +7,6 @@ namespace CalamityMod.Systems
 {
     public class SCalBackgroundScene : ModSceneEffect
     {
-        public override int Music => Main.curMusic;
         public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
 
         public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) || SCalSky.OverridingIntensity > 0f;

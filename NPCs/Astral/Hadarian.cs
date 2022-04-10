@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Astral
                 }
             }
 
-            if (NPC.velocity.X == 0f && NPC.velocity.Y == 0f)
+            if ((NPC.velocity.X == 0f && NPC.velocity.Y == 0f) && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frame.Y = 0;
                 NPC.frameCounter = 0.0;
@@ -129,6 +129,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+
             if (NPC.ai[0] == 0f)
             {
                 Vector2 position = NPC.Bottom - new Vector2(19f, 42f);

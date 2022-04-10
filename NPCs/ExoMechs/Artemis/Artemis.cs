@@ -136,6 +136,15 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             DisplayName.SetDefault(NameToDisplay);
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 15;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = -50f,
+                PortraitPositionYOverride = -40f,
+                PortraitScale = 0.75f,
+                Scale = 0.45f,
+                Rotation = MathHelper.Pi - MathHelper.PiOver4
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -1126,6 +1135,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             // Use telegraph frames before each attack
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.6f;
             NPC.frameCounter += 1D;
@@ -1200,6 +1212,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     }
                 }
             }
+            NPC.frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
         }
 
         public float FlameTrailWidthFunction(float completionRatio) => MathHelper.SmoothStep(21f, 8f, completionRatio) * ChargeFlash;
@@ -1266,7 +1279,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // This is created to allow easy duplication of them when drawing the charge.
             void drawInstance(Vector2 drawOffset, Color baseColor)
             {
-                if (CalamityConfig.Instance.Afterimages)
+                if (CalamityConfig.Instance.Afterimages && !NPC.IsABestiaryIconDummy)
                 {
                     for (int i = 1; i < numAfterimages; i += 2)
                     {
@@ -1288,6 +1301,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             // Draw ribbons near the main thruster
             for (int direction = -1; direction <= 1; direction += 2)
             {
+                if (NPC.IsABestiaryIconDummy)
+                    break;
+
                 Vector2 ribbonOffset = -Vector2.UnitY.RotatedBy(NPC.rotation) * 14f;
                 ribbonOffset += Vector2.UnitX.RotatedBy(NPC.rotation) * direction * 26f;
 
@@ -1318,7 +1334,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             Color baseInstanceColor = Color.Lerp(drawColor, Color.White, ChargeFlash);
             baseInstanceColor.A = (byte)(int)(255f - ChargeFlash * 255f);
 
-            spriteBatch.EnterShaderRegion();
+            if (!NPC.IsABestiaryIconDummy)
+                spriteBatch.EnterShaderRegion();
 
             drawInstance(Vector2.Zero, baseInstanceColor);
             if (instanceCount > 1)
@@ -1333,7 +1350,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             }
 
             texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/Artemis/ArtemisGlow").Value;
-            if (CalamityConfig.Instance.Afterimages)
+            if (CalamityConfig.Instance.Afterimages && !NPC.IsABestiaryIconDummy)
             {
                 for (int i = 1; i < numAfterimages; i += 2)
                 {
@@ -1350,7 +1367,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
             spriteBatch.Draw(texture, center, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0f);
 
-            spriteBatch.ExitShaderRegion();
+            if (!NPC.IsABestiaryIconDummy)
+                spriteBatch.ExitShaderRegion();
 
             // Draw a flame trail on the thrusters if needed. This happens during charges.
             if (ChargeFlash > 0f)
