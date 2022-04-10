@@ -245,6 +245,9 @@ namespace CalamityMod.NPCs.Ravager
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                return true;
+
             Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
             float drawPositionX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
             float drawPositionY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;

@@ -1511,11 +1511,26 @@ namespace CalamityMod.NPCs.Providence
             // Drops Rune of Cos on first kill
             npcLoot.AddIf(() => !DownedBossSystem.downedProvidence, ModContent.ItemType<RuneofCos>());
 
-            // TODO -- do these lambdas work
-            npcLoot.AddIf(() => biomeType != 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianWings>());
-            npcLoot.AddIf(() => biomeType == 2 || !hasTakenDaytimeDamage, ModContent.ItemType<ElysianAegis>());
-            npcLoot.AddIf(() => challenge, ModContent.ItemType<ProfanedSoulCrystal>());
-            npcLoot.AddIf(() => CalamityWorld.malice || !hasTakenDaytimeDamage, ModContent.ItemType<ProfanedMoonlightDye>());
+            npcLoot.AddIf(info =>
+            {
+                Providence prov = info.npc.ModNPC<Providence>();
+                return prov.biomeType != 2 || !prov.hasTakenDaytimeDamage;
+            }, ModContent.ItemType<ElysianWings>());
+            npcLoot.AddIf(info =>
+            {
+                Providence prov = info.npc.ModNPC<Providence>();
+                return prov.biomeType == 2 || !prov.hasTakenDaytimeDamage;
+            }, ModContent.ItemType<ElysianAegis>());
+            npcLoot.AddIf(info =>
+            {
+                Providence prov = info.npc.ModNPC<Providence>();
+                return prov.challenge;
+            }, ModContent.ItemType<ProfanedSoulCrystal>());
+            npcLoot.AddIf(info =>
+            {
+                Providence prov = info.npc.ModNPC<Providence>();
+                return CalamityWorld.malice || !prov.hasTakenDaytimeDamage;
+            }, ModContent.ItemType<ProfanedMoonlightDye>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

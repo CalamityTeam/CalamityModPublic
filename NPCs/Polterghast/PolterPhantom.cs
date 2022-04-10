@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.Polterghast
                 {
                     Color color38 = drawColor;
 
-                    if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
+                    if (!NPC.IsABestiaryIconDummy && Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
                         color38 = Color.Lerp(color38, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
                     color38 = Color.Lerp(color38, color36, amount9);
@@ -442,7 +442,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color = NPC.GetAlpha(drawColor);
 
-            if (Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
+            if (!NPC.IsABestiaryIconDummy && Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
                 color = Color.Lerp(color, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
             Vector2 vector43 = NPC.Center - screenPos;
@@ -451,7 +451,11 @@ namespace CalamityMod.NPCs.Polterghast
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterPhantomGlow").Value;
-            Color color42 = Color.Lerp(Color.White, (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f || Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f) ? Color.Red : Color.Black, 0.5f);
+            Color c = Color.Red;
+            if (!NPC.IsABestiaryIconDummy && (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f || Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f))
+                c = Color.Black;
+
+            Color color42 = Color.Lerp(Color.White, c, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {

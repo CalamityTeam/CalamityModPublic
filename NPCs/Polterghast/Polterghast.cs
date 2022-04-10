@@ -1064,7 +1064,8 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
-            spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+            Color c = NPC.IsABestiaryIconDummy ? Color.White : NPC.GetAlpha(drawColor);
+            spriteBatch.Draw(texture2D15, vector43, NPC.frame, c, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterghastGlow").Value;
 
