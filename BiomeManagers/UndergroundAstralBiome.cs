@@ -25,5 +25,8 @@ namespace CalamityMod.BiomeManagers
             return !player.ZoneDungeon && (BiomeTileCounterSystem.AstralTiles > 950 || (player.ZoneSnow && BiomeTileCounterSystem.AstralTiles > 300)) && 
                 (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight);
         }
+
+        // Just slightly above the above-ground astral biomes.
+        public override float GetWeight(Player player) => 0.51f;
     }
 }
