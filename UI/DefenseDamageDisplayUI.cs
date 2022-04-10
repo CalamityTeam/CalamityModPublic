@@ -20,7 +20,7 @@ namespace CalamityMod.UI
 
             string defenseDamageText = (-defenseDamage).ToString();
             Texture2D defenseDamageIcon = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DefenseDamage").Value;
-            Vector2 defenseDamageIconCenter = new Vector2(Main.screenWidth - Main.UIScale * 96f, Main.UIScale * 4f) + defenseDamageIcon.Size() * 0.5f;
+            Vector2 defenseDamageIconCenter = new Vector2(Main.screenWidth - Main.UIScale * 328f, Main.UIScale * 16f) + defenseDamageIcon.Size() * 0.5f;
             Rectangle defenseDamageIconArea = Utils.CenteredRectangle(defenseDamageIconCenter, defenseDamageIcon.Size() * Main.UIScale);
             Vector2 defenseDamageTextArea = FontAssets.MouseText.Value.MeasureString(defenseDamageText);
             Vector2 defenseDamageTextDrawPosition = defenseDamageIconCenter + new Vector2(6f, 16f) - defenseDamageTextArea * 0.5f;
