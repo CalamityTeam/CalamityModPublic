@@ -308,7 +308,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(spawnPosition.X, spawnPosition.Y);
-                    if (!(tileAtPosition.HasTile && Main.tileSolid[tileAtPosition.TileType]))
+                    if (!tileAtPosition.HasTile)
                         NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), spawnPosition.X, spawnPosition.Y, NPCID.AngryNimbus);
                 }
 
