@@ -732,7 +732,9 @@ namespace CalamityMod
             Main.tileFrameImportant[mt.Type] = true;
             Main.tileNoAttach[mt.Type] = true;
             Main.tileOreFinderPriority[mt.Type] = 500;
+            TileID.Sets.BasicChest[mt.Type] = true;
             TileID.Sets.HasOutlines[mt.Type] = true;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             if (offset)
                 TileObjectData.newTile.DrawYOffset = 4;
@@ -885,7 +887,9 @@ namespace CalamityMod
             Main.tileContainer[mt.Type] = true;
             Main.tileWaterDeath[mt.Type] = false;
             Main.tileLavaDeath[mt.Type] = false;
+            TileID.Sets.BasicDresser[mt.Type] = true;
             TileID.Sets.HasOutlines[mt.Type] = true;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.Origin = new Point16(1, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
