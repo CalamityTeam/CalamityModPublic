@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -38,16 +38,19 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<TrueShadowScale>(), 30, 40);
-            DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
-            DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
-            DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
-            DropHelper.DropItem(player, ItemID.CorruptSeeds, 10, 15);
+            DropHelper.DropItem(s, player, ModContent.ItemType<TrueShadowScale>(), 30, 40);
+            DropHelper.DropItem(s, player, ItemID.DemoniteBar, 9, 14);
+            DropHelper.DropItem(s, player, ItemID.RottenChunk, 10, 20);
+            DropHelper.DropItemCondition(s, player, ItemID.CursedFlame, Main.hardMode, 15, 30);
+            DropHelper.DropItem(s, player, ItemID.CorruptSeeds, 10, 15);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<PerfectDark>(w),
                 DropHelper.WeightStack<LeechingDagger>(w),
                 DropHelper.WeightStack<Shadethrower>(w),
@@ -59,11 +62,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<RottenBrain>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<RottenBrain>());
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<HiveMindMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RottingEyeball>(), 10);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<HiveMindMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<RottingEyeball>(), 10);
         }
     }
 }

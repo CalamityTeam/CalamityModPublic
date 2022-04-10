@@ -43,7 +43,8 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             BossRushEvent.End();
-            DropHelper.DropItem(Main.LocalPlayer, ModContent.ItemType<Rock>());
+            Player p = Main.LocalPlayer;
+            DropHelper.DropItem(p.GetItemSource_Misc(ModContent.ItemType<Rock>()), p, ModContent.ItemType<Rock>());
             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.BossRushTierFiveEndText", BossRushEvent.XerocTextColor);
         }
     }

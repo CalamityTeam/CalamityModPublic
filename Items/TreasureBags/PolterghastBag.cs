@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -46,15 +46,18 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 10, 20);
-            DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 40, 50);
+            DropHelper.DropItem(s, player, ModContent.ItemType<RuinousSoul>(), 10, 20);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Phantoplasm>(), 40, 50);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<TerrorBlade>(w),
                 DropHelper.WeightStack<BansheeHook>(w),
                 DropHelper.WeightStack<DaemonsFlame>(w),
@@ -65,11 +68,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<Affliction>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Affliction>());
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Ectoheart>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostThree);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<PolterghastMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<PolterghastMask>(), 7);
         }
     }
 }

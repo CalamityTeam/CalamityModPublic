@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
@@ -34,25 +34,28 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<DarkPlasma>(), 4, 6);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DarkPlasma>(), 4, 6);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VoidConcentrationStaff>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<MirrorBlade>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<VoidConcentrationStaff>(), DropHelper.BagWeaponDropRateInt);
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<TheEvolution>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<TheEvolution>());
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CeaselessVoidMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<CeaselessVoidMask>(), 7);
             if (Main.rand.NextBool(20))
             {
-                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
-                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
-                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerHelm>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerChestplate>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerLeggings>());
             }
         }
     }

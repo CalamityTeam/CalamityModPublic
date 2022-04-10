@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.PermanentBoosters;
@@ -38,13 +38,16 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
-            DropHelper.DropItem(player, ItemID.GlowingMushroom, 25, 35);
-            DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);
+            DropHelper.DropItem(s, player, ItemID.GlowingMushroom, 25, 35);
+            DropHelper.DropItem(s, player, ItemID.MushroomGrassSeeds, 5, 10);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<MycelialClaws>(w),
                 DropHelper.WeightStack<Fungicide>(w),
                 DropHelper.WeightStack<HyphaeRod>(w),
@@ -53,11 +56,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<FungalClump>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<MushroomPlasmaRoot>(), CalamityWorld.revenge && !player.Calamity().rageBoostOne);
+            DropHelper.DropItem(s, player, ModContent.ItemType<FungalClump>());
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<MushroomPlasmaRoot>(), CalamityWorld.revenge && !player.Calamity().rageBoostOne);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CrabulonMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<CrabulonMask>(), 7);
         }
     }
 }

@@ -43,35 +43,38 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 
         public override void RightClick(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             //Modded materials
-            DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
-            DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<PrismShard>(), DownedBossSystem.downedDesertScourge, 5, 10);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Items.Placeables.SeaPrism>(), DownedBossSystem.downedDesertScourge, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<MolluskHusk>(), DownedBossSystem.downedCLAMHardMode, 0.12f, 2, 5);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Items.Placeables.Navystone>(), 10, 30);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Items.Placeables.EutrophicSand>(), 10, 30);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<PrismShard>(), DownedBossSystem.downedDesertScourge, 5, 10);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Items.Placeables.SeaPrism>(), DownedBossSystem.downedDesertScourge, 0.2f, 2, 5);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<MolluskHusk>(), DownedBossSystem.downedCLAMHardMode, 0.12f, 2, 5);
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, DownedBossSystem.downedCLAMHardMode, 0.07f,
+            DropHelper.DropItemFromSetCondition(s, player, DownedBossSystem.downedCLAMHardMode, 0.07f,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),
                 ModContent.ItemType<ClamorRifle>());
 
             //Bait
-            DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ApprenticeBait, 3, 2, 3);
+            DropHelper.DropItemChance(s, player, ItemID.MasterBait, 10, 1, 2);
+            DropHelper.DropItemChance(s, player, ItemID.JourneymanBait, 5, 1, 3);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<SeaMinnowItem>(), 5, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.ApprenticeBait, 3, 2, 3);
 
             //Potions
-            DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
+            DropHelper.DropItemChance(s, player, ItemID.ObsidianSkinPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.SwiftnessPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.IronskinPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.NightOwlPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.ShinePotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.MiningPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.HeartreachPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
             int healingPotID = ItemID.LesserHealingPotion;
             int manaPotID = ItemID.LesserManaPotion;
             if (DownedBossSystem.downedDoG)
@@ -94,11 +97,11 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
                 healingPotID = ItemID.HealingPotion;
                 manaPotID = ItemID.ManaPotion;
             }
-            DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
+            DropHelper.DropItemChance(s, player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
-            DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
+            DropHelper.DropItem(s, player, ItemID.SilverCoin, 10, 90);
+            DropHelper.DropItemChance(s, player, ItemID.GoldCoin, 0.5f, 1, 5);
         }
     }
 }

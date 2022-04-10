@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
@@ -29,7 +29,9 @@ namespace CalamityMod.Items.Fishing
 
         public override void RightClick(Player player)
         {
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 10);
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofEleum>(), 5, 10);
         }
     }
 }

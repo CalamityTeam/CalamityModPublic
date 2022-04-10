@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -26,25 +26,28 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             int fishingAccChance = !Main.expertMode ? 15 : 12;
             int fishFindAccChance = !Main.expertMode ? 10 : 9;
             int anglerArmorChance = !Main.expertMode ? 5 : 4;
             int potionChance = !Main.expertMode ? 5 : 4;
             int bugNetChance = !Main.expertMode ? 20 : 18;
             // Fishing
-            DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, fishingAccChance);
-            DropHelper.DropItemChance(player, ItemID.TackleBox, fishingAccChance);
-            DropHelper.DropItemChance(player, ItemID.AnglerEarring, fishingAccChance);
-            DropHelper.DropItemChance(player, ItemID.FishermansGuide, fishFindAccChance);
-            DropHelper.DropItemChance(player, ItemID.WeatherRadio, fishFindAccChance);
-            DropHelper.DropItemChance(player, ItemID.Sextant, fishFindAccChance);
-            DropHelper.DropItemChance(player, ItemID.AnglerHat, anglerArmorChance);
-            DropHelper.DropItemChance(player, ItemID.AnglerVest, anglerArmorChance);
-            DropHelper.DropItemChance(player, ItemID.AnglerPants, anglerArmorChance);
-            DropHelper.DropItemChance(player, ItemID.FishingPotion, potionChance, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.SonarPotion, potionChance, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.CratePotion, potionChance, 2, 3);
-            DropHelper.DropItemCondition(player, ItemID.GoldenBugNet, NPC.downedBoss3, bugNetChance, 1, 1);
+            DropHelper.DropItemChance(s, player, ItemID.HighTestFishingLine, fishingAccChance);
+            DropHelper.DropItemChance(s, player, ItemID.TackleBox, fishingAccChance);
+            DropHelper.DropItemChance(s, player, ItemID.AnglerEarring, fishingAccChance);
+            DropHelper.DropItemChance(s, player, ItemID.FishermansGuide, fishFindAccChance);
+            DropHelper.DropItemChance(s, player, ItemID.WeatherRadio, fishFindAccChance);
+            DropHelper.DropItemChance(s, player, ItemID.Sextant, fishFindAccChance);
+            DropHelper.DropItemChance(s, player, ItemID.AnglerHat, anglerArmorChance);
+            DropHelper.DropItemChance(s, player, ItemID.AnglerVest, anglerArmorChance);
+            DropHelper.DropItemChance(s, player, ItemID.AnglerPants, anglerArmorChance);
+            DropHelper.DropItemChance(s, player, ItemID.FishingPotion, potionChance, 2, 3);
+            DropHelper.DropItemChance(s, player, ItemID.SonarPotion, potionChance, 2, 3);
+            DropHelper.DropItemChance(s, player, ItemID.CratePotion, potionChance, 2, 3);
+            DropHelper.DropItemCondition(s, player, ItemID.GoldenBugNet, NPC.downedBoss3, bugNetChance, 1, 1);
         }
     }
 }

@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
@@ -39,14 +39,17 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofEleum>(), 5, 9);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Avalanche>(w),
                 DropHelper.WeightStack<GlacialCrusher>(w),
                 DropHelper.WeightStack<EffluviumBow>(w),
@@ -57,11 +60,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<ColdDivinity>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<SoulofCryogen>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<ColdDivinity>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CryogenMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<CryogenMask>(), 7);
         }
     }
 }

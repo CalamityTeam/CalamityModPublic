@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -38,13 +38,16 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // siren & levi are available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)
-				player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+				player.TryGettingDevArmor(s);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Greentide>(w),
                 DropHelper.WeightStack<Leviatitan>(w),
                 DropHelper.WeightStack<SirensSong>(w),
@@ -56,20 +59,20 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheCommunity>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<LeviathanAmbergris>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<TheCommunity>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<AnahitaMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<LeviathanMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<AnahitaMask>(), 7);
 
             // Fishing
-            DropHelper.DropItemChance(player, ItemID.HotlineFishingHook, 10);
-            DropHelper.DropItemChance(player, ItemID.BottomlessBucket, 10);
-            DropHelper.DropItemChance(player, ItemID.SuperAbsorbantSponge, 10);
-            DropHelper.DropItemChance(player, ItemID.FishingPotion, 5, 5, 8);
-            DropHelper.DropItemChance(player, ItemID.SonarPotion, 5, 5, 8);
-            DropHelper.DropItemChance(player, ItemID.CratePotion, 5, 5, 8);
+            DropHelper.DropItemChance(s, player, ItemID.HotlineFishingHook, 10);
+            DropHelper.DropItemChance(s, player, ItemID.BottomlessBucket, 10);
+            DropHelper.DropItemChance(s, player, ItemID.SuperAbsorbantSponge, 10);
+            DropHelper.DropItemChance(s, player, ItemID.FishingPotion, 5, 5, 8);
+            DropHelper.DropItemChance(s, player, ItemID.SonarPotion, 5, 5, 8);
+            DropHelper.DropItemChance(s, player, ItemID.CratePotion, 5, 5, 8);
         }
     }
 }

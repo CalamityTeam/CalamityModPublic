@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +29,9 @@ namespace CalamityMod.Items.Fishing
 
         public override void RightClick(Player player)
         {
-            DropHelper.DropItem(player, ItemID.SoulofNight, 2, 5);
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+            DropHelper.DropItem(s, player, ItemID.SoulofNight, 2, 5);
         }
     }
 }

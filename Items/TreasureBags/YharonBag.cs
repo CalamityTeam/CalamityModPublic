@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
@@ -40,11 +40,14 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<DragonRage>(w),
                 DropHelper.WeightStack<TheBurningSky>(w),
                 DropHelper.WeightStack<DragonsBreath>(w),
@@ -56,19 +59,19 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<DrewsWings>());
-            DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<YharimsCrystal>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DrewsWings>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<YharimsGift>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<YharimsCrystal>(), 0.1f);
 
             int soulFragMin = 22;
             int soulFragMax = 28;
-            DropHelper.DropItem(player, ModContent.ItemType<HellcasterFragment>(), soulFragMin, soulFragMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<HellcasterFragment>(), soulFragMin, soulFragMax);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<YharonMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ForgottenDragonEgg>(), 10);
-            DropHelper.DropItemChance(player, ModContent.ItemType<McNuggets>(), 10);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<FoxDrive>(), CalamityWorld.revenge);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<YharonMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<ForgottenDragonEgg>(), 10);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<McNuggets>(), 10);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<FoxDrive>(), CalamityWorld.revenge);
         }
     }
 }

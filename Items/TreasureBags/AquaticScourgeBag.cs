@@ -38,13 +38,16 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // AS is available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)
-				player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+				player.TryGettingDevArmor(s);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<SubmarineShocker>(w),
                 DropHelper.WeightStack<Barinautical>(w),
                 DropHelper.WeightStack<Downpour>(w),
@@ -54,15 +57,15 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<AquaticEmblem>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeepDiver>(), 0.1f);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeasSearing>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AquaticEmblem>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<DeepDiver>(), 0.1f);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<SeasSearing>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(player, ModContent.ItemType<BleachedAnglingKit>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<BleachedAnglingKit>());
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -26,17 +26,20 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
             int barMin = !Main.expertMode ? 1 : 2;
             int barMax = 3;
             int coreMin = 1;
             int coreMax = !Main.expertMode ? 2 : 3;
-            DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
         }
     }
 }

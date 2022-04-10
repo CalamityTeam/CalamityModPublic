@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
@@ -29,20 +29,9 @@ namespace CalamityMod.Items.Fishing
 
         public override void RightClick(Player player)
         {
-            DropHelper.DropItem(player, ModContent.ItemType<BloodOrb>(), 5, 15);
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+            DropHelper.DropItem(s, player, ModContent.ItemType<BloodOrb>(), 5, 15);
         }
-
-        /*public override void RightClick(Player player)
-        {
-            if (Main.rand.NextBool(3))
-                DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
-            else if (Main.rand.NextBool(2))
-                DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
-            else
-            {
-                DropHelper.DropItem(player, ModContent.ItemType<CheatTestThing>(), 1, 1);
-                DropHelper.DropItem(player, ModContent.ItemType<TheCamper>(), 1, 1);
-            }
-        }*/
     }
 }

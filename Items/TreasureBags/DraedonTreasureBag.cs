@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
@@ -39,56 +39,59 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<ExoPrism>(), 30, 40);
+            DropHelper.DropItem(s, player, ModContent.ItemType<ExoPrism>(), 30, 40);
 
             // Weapons
             // Higher chance due to how the drops work
             float w = DropHelper.BagWeaponDropRateFloat * 2f;
             if (DownedBossSystem.downedAres)
             {
-                DropHelper.DropEntireWeightedSet(player,
+                DropHelper.DropEntireWeightedSet(s, player,
                     DropHelper.WeightStack<PhotonRipper>(w),
                     DropHelper.WeightStack<TheJailor>(w)
                 );
             }
             if (DownedBossSystem.downedThanatos)
             {
-                DropHelper.DropEntireWeightedSet(player,
+                DropHelper.DropEntireWeightedSet(s, player,
                     DropHelper.WeightStack<SpineOfThanatos>(w),
                     DropHelper.WeightStack<RefractionRotor>(w)
                 );
             }
             if (DownedBossSystem.downedArtemisAndApollo)
             {
-                DropHelper.DropEntireWeightedSet(player,
+                DropHelper.DropEntireWeightedSet(s, player,
                     DropHelper.WeightStack<SurgeDriver>(w),
                     DropHelper.WeightStack<TheAtomSplitter>(w)
                 );
             }
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<DraedonsHeart>());
-            DropHelper.DropItem(player, ModContent.ItemType<ExoThrone>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<DraedonsHeart>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<ExoThrone>());
 
             // Vanity
             // Higher chance due to how the drops work
             float maskDropRate = 1f / 3.5f;
             if (DownedBossSystem.downedThanatos)
-                DropHelper.DropItemChance(player, ModContent.ItemType<ThanatosMask>(), maskDropRate);
+                DropHelper.DropItemChance(s, player, ModContent.ItemType<ThanatosMask>(), maskDropRate);
 
             if (DownedBossSystem.downedArtemisAndApollo)
             {
-                DropHelper.DropItemChance(player, ModContent.ItemType<ArtemisMask>(), maskDropRate);
-                DropHelper.DropItemChance(player, ModContent.ItemType<ApolloMask>(), maskDropRate);
+                DropHelper.DropItemChance(s, player, ModContent.ItemType<ArtemisMask>(), maskDropRate);
+                DropHelper.DropItemChance(s, player, ModContent.ItemType<ApolloMask>(), maskDropRate);
             }
 
             if (DownedBossSystem.downedAres)
-                DropHelper.DropItemChance(player, ModContent.ItemType<AresMask>(), maskDropRate);
+                DropHelper.DropItemChance(s, player, ModContent.ItemType<AresMask>(), maskDropRate);
 
-            DropHelper.DropItemChance(player, ModContent.ItemType<DraedonMask>(), maskDropRate);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<DraedonMask>(), maskDropRate);
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
@@ -37,16 +37,19 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 10, 16);
-            DropHelper.DropItem(player, ItemID.Coral, 7, 11);
-            DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
-            DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
+            DropHelper.DropItem(s, player, ModContent.ItemType<VictoryShard>(), 10, 16);
+            DropHelper.DropItem(s, player, ItemID.Coral, 7, 11);
+            DropHelper.DropItem(s, player, ItemID.Seashell, 7, 11);
+            DropHelper.DropItem(s, player, ItemID.Starfish, 7, 11);
 
             // Weapons
             // Set up the base drop set, which includes Scourge of the Desert at its normal drop chance.
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<AquaticDischarge>(w),
                 DropHelper.WeightStack<Barinade>(w),
                 DropHelper.WeightStack<StormSpray>(w),
@@ -57,13 +60,13 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<OceanCrest>());
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<DesertScourgeMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<DesertScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItem(player, ModContent.ItemType<SandyAnglingKit>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<SandyAnglingKit>());
         }
     }
 }

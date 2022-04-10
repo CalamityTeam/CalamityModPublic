@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -38,11 +38,14 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<InsidiousImpaler>(w),
                 DropHelper.WeightStack<FetidEmesis>(w),
                 DropHelper.WeightStack<SepticSkewer>(w),
@@ -53,11 +56,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<MutatedTruffle>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheReaper>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<MutatedTruffle>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<TheReaper>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<OldDukeMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<OldDukeMask>(), 7);
         }
     }
 }

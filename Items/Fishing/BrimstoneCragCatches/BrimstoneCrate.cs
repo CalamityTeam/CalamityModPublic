@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Crags;
 using CalamityMod.World;
@@ -36,35 +36,38 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
         public override void RightClick(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             //Vanilla materials
-            DropHelper.DropItem(player, ItemID.Obsidian, 2, 5);
-            DropHelper.DropItemChance(player, ItemID.Hellstone, 0.25f, 2, 5);
-            DropHelper.DropItemChance(player, ItemID.HellstoneBar, 0.1f, 1, 3);
+            DropHelper.DropItem(s, player, ItemID.Obsidian, 2, 5);
+            DropHelper.DropItemChance(s, player, ItemID.Hellstone, 0.25f, 2, 5);
+            DropHelper.DropItemChance(s, player, ItemID.HellstoneBar, 0.1f, 1, 3);
 
             //Modded materials
-            DropHelper.DropItem(player, ModContent.ItemType<DemonicBoneAsh>(), 1, 4);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BlightedLens>(), Main.hardMode, 0.15f, 2, 6);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyCore>(), DownedBossSystem.downedBrimstoneElemental, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence && DownedBossSystem.downedPolterghast, 0.1f, 1, 3);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DemonicBoneAsh>(), 1, 4);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<BlightedLens>(), Main.hardMode, 0.15f, 2, 6);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyCore>(), DownedBossSystem.downedBrimstoneElemental, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence && DownedBossSystem.downedPolterghast, 0.1f, 1, 3);
 
             // Weapons (none)
 
             //Bait
-            DropHelper.DropItemChance(player, ItemID.MasterBait, 10, 1, 2);
-            DropHelper.DropItemChance(player, ItemID.JourneymanBait, 5, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ApprenticeBait, 3, 2, 3);
+            DropHelper.DropItemChance(s, player, ItemID.MasterBait, 10, 1, 2);
+            DropHelper.DropItemChance(s, player, ItemID.JourneymanBait, 5, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.ApprenticeBait, 3, 2, 3);
 
             //Potions
-            DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.IronskinPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.NightOwlPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.ShinePotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.MiningPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.HeartreachPotion, 10, 1, 3);
-            DropHelper.DropItemChance(player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
-            DropHelper.DropItemChance(player, ItemID.InfernoPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.ObsidianSkinPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.SwiftnessPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.IronskinPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.NightOwlPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.ShinePotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.MiningPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.HeartreachPotion, 10, 1, 3);
+            DropHelper.DropItemChance(s, player, ItemID.TrapsightPotion, 10, 1, 3); //Dangersense Potion
+            DropHelper.DropItemChance(s, player, ItemID.InfernoPotion, 10, 1, 3);
             int healingPotID = ItemID.LesserHealingPotion;
             int manaPotID = ItemID.LesserManaPotion;
             if (DownedBossSystem.downedDoG)
@@ -87,11 +90,11 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
                 healingPotID = ItemID.HealingPotion;
                 manaPotID = ItemID.ManaPotion;
             }
-            DropHelper.DropItemChance(player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
+            DropHelper.DropItemChance(s, player, Main.rand.NextBool(2) ? healingPotID : manaPotID, 0.25f, 2, 5);
 
             //Money
-            DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
-            DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);
+            DropHelper.DropItem(s, player, ItemID.SilverCoin, 10, 90);
+            DropHelper.DropItemChance(s, player, ItemID.GoldCoin, 0.5f, 1, 5);
         }
     }
 }

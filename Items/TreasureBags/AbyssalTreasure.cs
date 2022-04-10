@@ -1,4 +1,4 @@
-using CalamityMod.Items.Potions;
+﻿using CalamityMod.Items.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,6 +26,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Loops 4 times to compensate for dropping only one treasure now
             for (int i = 0; i < 4; i++)
             {
@@ -50,7 +53,7 @@ namespace CalamityMod.Items.TreasureBags
                         ItemID.LifeforcePotion,
                         ItemID.InfernoPotion
                     });
-                    DropHelper.DropItem(player, potionType);
+                    DropHelper.DropItem(s, player, potionType);
                 }
                 else
                 {
@@ -62,16 +65,16 @@ namespace CalamityMod.Items.TreasureBags
                             {
                                 sglowstickAmt += Main.rand.Next(1, 7);
                             }
-                            DropHelper.DropItem(player, ItemID.SpelunkerGlowstick, sglowstickAmt);
+                            DropHelper.DropItem(s, player, ItemID.SpelunkerGlowstick, sglowstickAmt);
                             break;
                         case 1:
-                            DropHelper.DropItem(player, ItemID.HellfireArrow, 10, 20);
+                            DropHelper.DropItem(s, player, ItemID.HellfireArrow, 10, 20);
                             break;
                         case 2:
-                            DropHelper.DropItem(player, ModContent.ItemType<SunkenStew>());
+                            DropHelper.DropItem(s, player, ModContent.ItemType<SunkenStew>());
                             break;
                         case 3:
-                            DropHelper.DropItem(player, ItemID.StickyDynamite);
+                            DropHelper.DropItem(s, player, ItemID.StickyDynamite);
                             break;
                         default:
                             int coinCount = 5000 + Main.rand.Next(-100, 101);
@@ -89,7 +92,7 @@ namespace CalamityMod.Items.TreasureBags
                                         ptCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     coinCount -= 1000000 * ptCoinAmt;
-                                    DropHelper.DropItem(player, ItemID.PlatinumCoin, ptCoinAmt);
+                                    DropHelper.DropItem(s, player, ItemID.PlatinumCoin, ptCoinAmt);
                                 }
                                 else if (coinCount > 10000)
                                 {
@@ -103,7 +106,7 @@ namespace CalamityMod.Items.TreasureBags
                                         auCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     coinCount -= 10000 * auCoinAmt;
-                                    DropHelper.DropItem(player, ItemID.GoldCoin, auCoinAmt);
+                                    DropHelper.DropItem(s, player, ItemID.GoldCoin, auCoinAmt);
                                 }
                                 else if (coinCount > 100)
                                 {
@@ -117,7 +120,7 @@ namespace CalamityMod.Items.TreasureBags
                                         agCoinAmt /= Main.rand.Next(3) + 1;
                                     }
                                     coinCount -= 100 * agCoinAmt;
-                                    DropHelper.DropItem(player, ItemID.SilverCoin, agCoinAmt);
+                                    DropHelper.DropItem(s, player, ItemID.SilverCoin, agCoinAmt);
                                 }
                                 else
                                 {
@@ -135,7 +138,7 @@ namespace CalamityMod.Items.TreasureBags
                                         cuCoinAmt = 1;
                                     }
                                     coinCount -= cuCoinAmt;
-                                    DropHelper.DropItem(player, ItemID.CopperCoin, cuCoinAmt);
+                                    DropHelper.DropItem(s, player, ItemID.CopperCoin, cuCoinAmt);
                                 }
                             }
                             break;

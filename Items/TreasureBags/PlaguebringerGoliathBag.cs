@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -38,16 +38,19 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
-            DropHelper.DropItem(player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
-            DropHelper.DropItem(player, ItemID.Stinger, 4, 8);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
+            DropHelper.DropItem(s, player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
+            DropHelper.DropItem(s, player, ItemID.Stinger, 4, 8);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<VirulentKatana>(w), // Virulence
                 DropHelper.WeightStack<DiseasedPike>(w),
                 DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
@@ -62,12 +65,12 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ToxicHeart>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<Malachite>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<ToxicHeart>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<Malachite>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PlagueCaller>(), 10);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<PlagueCaller>(), 10);
         }
     }
 }

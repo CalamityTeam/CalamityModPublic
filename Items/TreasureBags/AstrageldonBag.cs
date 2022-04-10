@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
@@ -41,16 +41,19 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<AstralJelly>(), 12, 16);
-            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 30, 40);
-            DropHelper.DropItem(player, ItemID.FallenStar, 20, 30);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AstralJelly>(), 12, 16);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Stardust>(), 30, 40);
+            DropHelper.DropItem(s, player, ItemID.FallenStar, 20, 30);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Nebulash>(w),
                 DropHelper.WeightStack<AuroraBlazer>(w),
                 DropHelper.WeightStack<AlulaAustralis>(w),
@@ -59,15 +62,15 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
-            DropHelper.DropItem(player, ModContent.ItemType<GravistarSabaton>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<LeonidProgenitor>(), 0.1f);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
+            DropHelper.DropItem(s, player, ModContent.ItemType<GravistarSabaton>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<LeonidProgenitor>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<AureusMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<AureusMask>(), 7);
 
             // Other
-            DropHelper.DropItemCondition(player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);
         }
     }
 }

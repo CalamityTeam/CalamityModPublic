@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
@@ -37,13 +37,16 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
             // No Gel is dropped here because the boss drops Gel directly
-            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 40, 52);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PurifiedGel>(), 40, 52);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<OverloadedBlaster>(w),
                 DropHelper.WeightStack<AbyssalTome>(w),
                 DropHelper.WeightStack<EldritchTome>(w),
@@ -53,11 +56,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<ManaOverloader>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
+            DropHelper.DropItem(s, player, ModContent.ItemType<ManaOverloader>());
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
 
             // Vanity
-            DropHelper.DropItemFromSetChance(player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+            DropHelper.DropItemFromSetChance(s, player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -49,15 +49,18 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBar>(), 30, 39);
-            DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CosmiliteBar>(), 30, 39);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Excelsus>(w),
                 DropHelper.WeightStack<TheObliterator>(w),
                 DropHelper.WeightStack<Deathwind>(w),
@@ -67,14 +70,14 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), 0.1f);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CosmicDischarge>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<NebulousCore>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<Norfleet>(), 0.1f);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<CosmicDischarge>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<DevourerofGodsMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<DevourerofGodsMask>(), 7);
 
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<CosmicPlushie>(), CalamityWorld.death && player.difficulty == 2);
         }
     }
 }

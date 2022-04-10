@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
@@ -37,17 +37,20 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<CalamityDust>(), 14, 18);
-            DropHelper.DropItem(player, ModContent.ItemType<BlightedLens>(), 1, 3);
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CalamityDust>(), 14, 18);
+            DropHelper.DropItem(s, player, ModContent.ItemType<BlightedLens>(), 1, 3);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<TheEyeofCalamitas>(w),
                 DropHelper.WeightStack<Animosity>(w),
                 DropHelper.WeightStack<CalamitasInferno>(w),
@@ -56,15 +59,15 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<Regenator>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CalamityRing>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<Regenator>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<CalamitasMask>(), 7);
             if (Main.rand.NextBool(10))
             {
-                DropHelper.DropItem(player, ModContent.ItemType<CalamityHood>());
-                DropHelper.DropItem(player, ModContent.ItemType<CalamityRobes>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityHood>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityRobes>());
             }
         }
     }

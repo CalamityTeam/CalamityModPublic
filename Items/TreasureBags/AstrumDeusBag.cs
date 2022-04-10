@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -40,15 +40,18 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 60, 90);
-            DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Stardust>(), 60, 90);
+            DropHelper.DropItem(s, player, ItemID.FallenStar, 30, 50);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<TheMicrowave>(w),
                 DropHelper.WeightStack<StarSputter>(w),
                 DropHelper.WeightStack<Starfall>(w),
@@ -57,11 +60,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<HideofAstrumDeus>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
+            DropHelper.DropItem(s, player, ModContent.ItemType<HideofAstrumDeus>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<AstrumDeusMask>(), 7);
         }
     }
 }

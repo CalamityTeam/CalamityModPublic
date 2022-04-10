@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Weapons.Magic;
@@ -38,14 +38,17 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<GildedProboscis>(w),
                 DropHelper.WeightStack<GoldenEagle>(w),
                 DropHelper.WeightStack<RougeSlash>(w),
@@ -53,12 +56,12 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), 0.1f);
-            DropHelper.DropItem(player, ModContent.ItemType<DynamoStemCells>());
-            DropHelper.DropItemCondition(player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge && !player.Calamity().rageBoostThree);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<Swordsplosion>(), 0.1f);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DynamoStemCells>());
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<RedLightningContainer>(), CalamityWorld.revenge && !player.Calamity().rageBoostThree);
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<BumblefuckMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<BumblefuckMask>(), 7);
         }
     }
 }

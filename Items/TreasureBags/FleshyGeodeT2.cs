@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -25,6 +25,9 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
             int barMin = !Main.expertMode ? 5 : 7;
             int barMax = !Main.expertMode ? 10 : 12;
@@ -34,15 +37,15 @@ namespace CalamityMod.Items.TreasureBags
             int bloodstoneMax = !Main.expertMode ? 60 : 70;
             int lifeAlloyChance = !Main.expertMode ? 2 : 1;
             int coreofCalChance = !Main.expertMode ? 3 : 2;
-            DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<Bloodstone>(), bloodstoneMin, bloodstoneMax);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BarofLife>(), lifeAlloyChance, 1, 1);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CoreofCalamity>(), coreofCalChance, 1, 1);
+            DropHelper.DropItem(s, player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Bloodstone>(), bloodstoneMin, bloodstoneMax);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<BarofLife>(), lifeAlloyChance, 1, 1);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<CoreofCalamity>(), coreofCalChance, 1, 1);
         }
     }
 }

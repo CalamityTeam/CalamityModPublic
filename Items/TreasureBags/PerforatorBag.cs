@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -38,16 +38,19 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<BloodSample>(), 45, 60);
-            DropHelper.DropItem(player, ItemID.CrimtaneBar, 15, 20);
-            DropHelper.DropItem(player, ItemID.Vertebrae, 15, 20);
-            DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
-            DropHelper.DropItem(player, ItemID.CrimsonSeeds, 10, 15);
+            DropHelper.DropItem(s, player, ModContent.ItemType<BloodSample>(), 45, 60);
+            DropHelper.DropItem(s, player, ItemID.CrimtaneBar, 15, 20);
+            DropHelper.DropItem(s, player, ItemID.Vertebrae, 15, 20);
+            DropHelper.DropItemCondition(s, player, ItemID.Ichor, Main.hardMode, 15, 30);
+            DropHelper.DropItem(s, player, ItemID.CrimsonSeeds, 10, 15);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<VeinBurster>(w),
                 DropHelper.WeightStack<BloodyRupture>(w),
                 DropHelper.WeightStack<SausageMaker>(w),
@@ -60,11 +63,11 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<BloodyWormTooth>());
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<PerforatorMask>(), 7);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyVein>(), 10);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<PerforatorMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<BloodyVein>(), 10);
         }
     }
 }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Armor.Vanity;
+﻿using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
@@ -34,29 +34,33 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<ArmoredShell>(), 7, 10);
+            DropHelper.DropItem(s, player, ModContent.ItemType<ArmoredShell>(), 7, 10);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheStorm>(), DropHelper.BagWeaponDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StormDragoon>(), DropHelper.BagWeaponDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Thunderstorm>(), 0.1f);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<TheStorm>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<StormDragoon>(), DropHelper.BagWeaponDropRateInt);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<Thunderstorm>(), 0.1f);
 
-            // Equipment (None yet boohoo)
+            // Equipment
+            // Stay tuned for Definitely Not Charged Perforator Runald's Band As A Single Item
 
             // Vanity
-            DropHelper.DropItemChance(player, ModContent.ItemType<StormWeaverMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<StormWeaverMask>(), 7);
             if (Main.rand.NextBool(20))
             {
-                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerHelm>());
-                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerChestplate>());
-                DropHelper.DropItem(player, ModContent.ItemType<AncientGodSlayerLeggings>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerHelm>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerChestplate>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<AncientGodSlayerLeggings>());
             }
 
             // Light Pet
-            DropHelper.DropItemChance(player, ModContent.ItemType<LittleLight>(), 8);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<LittleLight>(), 8);
         }
     }
 }

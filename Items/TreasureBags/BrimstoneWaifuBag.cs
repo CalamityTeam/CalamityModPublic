@@ -1,4 +1,4 @@
-using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
@@ -39,15 +39,18 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor(player.GetItemSource_OpenItem(Item.type));
+            // IEntitySource my beloathed
+            var s = player.GetItemSource_OpenItem(Item.type);
+
+            player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 25, 35);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 25, 35);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
-            DropHelper.DropEntireWeightedSet(player,
+            DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Brimlance>(w),
                 DropHelper.WeightStack<SeethingDischarge>(w),
                 DropHelper.WeightStack<DormantBrimseeker>(w),
@@ -55,15 +58,15 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());
-            DropHelper.DropItem(player, ModContent.ItemType<Gehenna>());
-            DropHelper.DropItemChance(player, ModContent.ItemType<Hellborn>(), 0.1f);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FabledTortoiseShell>(), 0.1f);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
+            DropHelper.DropItem(s, player, ModContent.ItemType<Abaddon>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<Gehenna>());
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<Hellborn>(), 0.1f);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<FabledTortoiseShell>(), 0.1f);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
 
             // Vanity
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<CharredRelic>(), CalamityWorld.revenge);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs.SulphurousSea;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -145,41 +147,6 @@ namespace CalamityMod
         }
         #endregion
 
-        //
-        // FOLLOWING SECTION: 1.4 LOOT CODE (bestiary compatible)
-        //
-
-        #region Recursive Drop Rate Mutator
-        private static int RecursivelyMutateDropRate(this IItemDropRule rule, int itemID, int newNumerator, int newDenominator)
-        {
-            if (rule is CommonDrop drop && drop.itemId == itemID)
-            {
-                drop.chanceNumerator = newNumerator;
-                drop.chanceDenominator = newDenominator;
-                return 1;
-            }
-            else if (rule is ItemDropWithConditionRule conditionalDrop && conditionalDrop.itemId == itemID)
-            {
-                conditionalDrop.chanceNumerator = newNumerator;
-                conditionalDrop.chanceDenominator = newDenominator;
-                return 1;
-            }
-            else if (rule is DropBasedOnExpertMode expertDrop)
-            {
-                int normalChanges = RecursivelyMutateDropRate(expertDrop.ruleForNormalMode, itemID, newNumerator, newDenominator);
-                int expertChanges = RecursivelyMutateDropRate(expertDrop.ruleForExpertMode, itemID, newNumerator, newDenominator);
-                return normalChanges + expertChanges;
-            }
-            else if (rule is DropBasedOnMasterMode masterDrop)
-            {
-                int defaultChanges = RecursivelyMutateDropRate(masterDrop.ruleForDefault, itemID, newNumerator, newDenominator);
-                int masterChanges = RecursivelyMutateDropRate(masterDrop.ruleForMasterMode, itemID, newNumerator, newDenominator);
-                return defaultChanges + masterChanges;
-            }
-            return 0;
-        }
-        #endregion
-
         #region Specific Drop Helpers
         // Code copied from Player.QuickSpawnClonedItem, which was added by TML.
         /// <summary>
@@ -273,6 +240,46 @@ namespace CalamityMod
             IItemDropRule normalRule = ItemDropRule.Common(itemID, dropRateInt, minNormal, maxNormal);
             IItemDropRule expertRule = ItemDropRule.Common(itemID, dropRateInt, minExpert, maxExpert);
             return new DropBasedOnExpertMode(normalRule, expertRule);
+        }
+
+        public static bool DropRevBagAccessories(IEntitySource source, Player p)
+        {
+            return DropItemFromSetCondition(source, p, CalamityWorld.revenge, 0.05f, ModContent.ItemType<StressPills>(), ModContent.ItemType<Laudanum>(), ModContent.ItemType<HeartofDarkness>());
+        }
+        #endregion
+
+        //
+        // FOLLOWING SECTION: 1.4 LOOT CODE (bestiary compatible)
+        //
+
+        #region Recursive Drop Rate Mutator
+        private static int RecursivelyMutateDropRate(this IItemDropRule rule, int itemID, int newNumerator, int newDenominator)
+        {
+            if (rule is CommonDrop drop && drop.itemId == itemID)
+            {
+                drop.chanceNumerator = newNumerator;
+                drop.chanceDenominator = newDenominator;
+                return 1;
+            }
+            else if (rule is ItemDropWithConditionRule conditionalDrop && conditionalDrop.itemId == itemID)
+            {
+                conditionalDrop.chanceNumerator = newNumerator;
+                conditionalDrop.chanceDenominator = newDenominator;
+                return 1;
+            }
+            else if (rule is DropBasedOnExpertMode expertDrop)
+            {
+                int normalChanges = RecursivelyMutateDropRate(expertDrop.ruleForNormalMode, itemID, newNumerator, newDenominator);
+                int expertChanges = RecursivelyMutateDropRate(expertDrop.ruleForExpertMode, itemID, newNumerator, newDenominator);
+                return normalChanges + expertChanges;
+            }
+            else if (rule is DropBasedOnMasterMode masterDrop)
+            {
+                int defaultChanges = RecursivelyMutateDropRate(masterDrop.ruleForDefault, itemID, newNumerator, newDenominator);
+                int masterChanges = RecursivelyMutateDropRate(masterDrop.ruleForMasterMode, itemID, newNumerator, newDenominator);
+                return defaultChanges + masterChanges;
+            }
+            return 0;
         }
         #endregion
 
