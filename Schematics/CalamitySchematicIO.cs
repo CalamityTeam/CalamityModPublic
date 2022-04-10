@@ -338,7 +338,7 @@ namespace CalamityMod.Schematics
                 // This is only included here if compression is turned off
                 if (!UseCompression)
                 {
-                    writer.Write(SchematicMagicNumberHeader_TML13);
+                    writer.Write(SchematicMagicNumberHeader_TML14);
                     writer.Write(UncompressedMagicNumber);
                 }
 
@@ -398,7 +398,7 @@ namespace CalamityMod.Schematics
 
                 // Write the magic number outside the compressed region of data if compression is enabled.
                 // This is the only way for a reading algorithm to know this is a compressed schematic.
-                gzMem.Write(SchematicMagicNumberHeader_TML13, 0, SchematicMagicNumberHeader_TML13.Length);
+                gzMem.Write(SchematicMagicNumberHeader_TML14, 0, SchematicMagicNumberHeader_TML14.Length);
                 gzMem.WriteByte(CompressedMagicNumber);
 
                 using (GZipStream gz = new GZipStream(gzMem, CompressionLevel.Optimal))
