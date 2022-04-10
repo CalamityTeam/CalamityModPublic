@@ -1359,7 +1359,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenite>(), 1, 50, 108, 65, 135));
-            postClone.Add(ItemID.Ectoplasm, 21, 32);
+            postClone.Add(ItemID.Ectoplasm, 1, 21, 32);
         }
 
         public override void OnKill()
