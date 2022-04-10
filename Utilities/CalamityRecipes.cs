@@ -50,7 +50,8 @@ namespace CalamityMod
             CreateRecipe()
                 .AddIngredient(ItemID.EmptyBullet, 20)
                 .AddIngredient(ItemID.ExplosivePowder, 1)
-                .AddTile(TileID.MythrilAnvil).ReplaceResult(ItemID.RocketI, 20);
+                .AddTile(TileID.MythrilAnvil)
+                .ReplaceResult(ItemID.RocketI, 20);
 
             CreateRecipe()
                 .AddIngredient(ItemID.StoneBlock, 5)
@@ -737,6 +738,13 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddRecipeGroup("IronBar", 5);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Bloody Tear
+            r = CreateRecipe(ItemID.BloodMoonStarter);
+            r.AddIngredient(ModContent.ItemType<BloodOrb>(), 10);
+            r.AddRecipeGroup("AnyCopperBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 

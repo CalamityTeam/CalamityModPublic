@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<FrigidBulwark>().
+                AddIngredient(ItemID.FrozenShield).
                 AddIngredient<DeificAmulet>().
                 AddIngredient<GalacticaSingularity>(5).
                 AddIngredient<DivineGeode>(10).
