@@ -25,13 +25,13 @@ namespace CalamityMod
 
         [Header("Graphics Changes")]
 
-        [Label("$Mods.CalamityMod.Afterimages")]
+        [Label("Afterimages")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
         public bool Afterimages { get; set; }
 
-        [Label("$Mods.CalamityMod.MaxParticles")]
+        [Label("MaxParticles")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0, 1000)]
@@ -39,19 +39,19 @@ namespace CalamityMod
         [Tooltip("Sets the maximum of particle effects that can exist at once.\nParticles are separate from dust and gores.\nTurn down to improve performance.")]
         public int ParticleLimit { get; set; }
 
-        [Label("$Mods.CalamityMod.ScreenshakeOff")]
+        [Label("ScreenshakeOff")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Disables all screen-shaking effects.")]
         public bool DisableScreenShakes { get; set; }
 
-        [Label("$Mods.CalamityMod.StealthInvisibility")]
+        [Label("StealthInvisibility")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Enables players gradually turning invisible as their Rogue Stealth increases.\nThis effect is visually similar to Shroomite armor's stealth.")]
         public bool StealthInvisbility { get; set; }
 
-        [Label("$Mods.CalamityMod.ShopAlert")]
+        [Label("ShopAlert")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Adds an icon that appears over Town NPCs when they have new items in their shops.")]
@@ -59,25 +59,25 @@ namespace CalamityMod
 
         [Header("UI Changes")]
 
-        [Label("$Mods.CalamityMod.BossHealthBar")]
+        [Label("BossHealthBar")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Enables Calamity's boss health bar in the bottom right corner of the screen.")]
         public bool BossHealthBar { get; set; }
 
-        [Label("$Mods.CalamityMod.BossHealthBarExtra")]
+        [Label("BossHealthBarExtra")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Adds extra info to the Calamity boss health bar.\nThis displays either the boss's exact health or number of remaining parts or segments.")]
         public bool BossHealthBarExtraInfo { get; set; }
 
-        [Label("$Mods.CalamityMod.DebuffDisplay")]
+        [Label("DebuffDisplay")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Adds an array of debuff icons above all bosses and minibosses.")]
         public bool DebuffDisplay { get; set; }
 
-        [Label("$Mods.CalamityMod.CooldownDisplay")]
+        [Label("CooldownDisplay")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f,2f)]
@@ -87,25 +87,25 @@ namespace CalamityMod
         [Tooltip("Displays all the important cooldowns on your UI under your buffs and debuffs. Set this to 1 to have it display in a more compact way, and to 0 to entirely disable the UI")]
         public float CooldownDisplay { get; set; }
 
-        [Label("$Mods.CalamityMod.VanillaCooldownDisplay")]
+        [Label("VanillaCooldownDisplay")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Adds custom cooldown displays for Chaos State and Potion Sickness.\nThis doesn't remove them from your buff list, but can help with visibility nontheless")]
         public bool VanillaCooldownDisplay { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
-        [Label("$Mods.CalamityMod.MeterLock")]
+        [Label("MeterLock")]
         [DefaultValue(true)]
         [Tooltip("Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
         public bool MeterPosLock { get; set; }
 
-        [Label("$Mods.CalamityMod.StealthMeter")]
+        [Label("StealthMeter")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Enables the Stealth Meter UI, which shows the player's current stealth level.\nThe Stealth Meter is always hidden if not wearing Rogue armor.")]
         public bool StealthBar { get; set; }
 
-        [Label("$Mods.CalamityMod.StealthMeterX")]
+        [Label("StealthMeterX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 3840f)]
@@ -113,7 +113,7 @@ namespace CalamityMod
         [Tooltip("The X position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float StealthMeterPosX { get; set; }
 
-        [Label("$Mods.CalamityMod.StealthMeterY")]
+        [Label("StealthMeterY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 2160f)]
@@ -121,13 +121,13 @@ namespace CalamityMod
         [Tooltip("The Y position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float StealthMeterPosY { get; set; }
 
-        [Label("$Mods.CalamityMod.ChargeMeter")]
+        [Label("ChargeMeter")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Enables the Charge Meter UI, which shows the charge level of the player's currently held Arsenal item.\nThe Charge Meter is always hidden if not holding a chargable arsenal item.")]
         public bool ChargeMeter { get; set; }
 
-        [Label("$Mods.CalamityMod.ChargeMeterX")]
+        [Label("ChargeMeterX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 3840f)]
@@ -135,7 +135,7 @@ namespace CalamityMod
         [Tooltip("The X position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float ChargeMeterPosX { get; set; }
 
-        [Label("$Mods.CalamityMod.ChargeMeterY")]
+        [Label("ChargeMeterY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 2160f)]
@@ -143,13 +143,13 @@ namespace CalamityMod
         [Tooltip("The Y position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float ChargeMeterPosY { get; set; }
 
-        [Label("$Mods.CalamityMod.SpeedrunTimer")]
+        [Label("SpeedrunTimer")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Enables a Speedrun Timer.")]
         public bool SpeedrunTimer { get; set; }
 
-        [Label("$Mods.CalamityMod.SpeedrunTimerX")]
+        [Label("SpeedrunTimerX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(-800f, 800f)]
@@ -157,7 +157,7 @@ namespace CalamityMod
         [Tooltip("The X position of the Speedrun Timer.")]
         public float SpeedrunTimerPosX { get; set; }
 
-        [Label("$Mods.CalamityMod.SpeedrunTimerY")]
+        [Label("SpeedrunTimerY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(16f, 1000f)]
@@ -167,7 +167,7 @@ namespace CalamityMod
 
         [Header("General Gameplay Changes")]
 
-        [Label("$Mods.CalamityMod.EarlyHMRework")]
+        [Label("EarlyHMRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Demon Altars no longer spawn ores and crimson/corruption blocks when broken.\n" +
@@ -177,19 +177,19 @@ namespace CalamityMod
             "The third mech boss spawns Hallowed Ore on first kill")]
         public bool EarlyHardmodeProgressionRework { get; set; }
 
-        [Label("$Mods.CalamityMod.Proficiency")]
+        [Label("Proficiency")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.")]
         public bool Proficiency { get; set; }
 
-        [Label("$Mods.CalamityMod.BossZen")]
+        [Label("BossZen")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("While a boss is alive, all players near a boss receive the Boss Effects buff, which drastically reduces enemy spawn rates.")]
         public bool BossZen { get; set; }
 
-        [Label("$Mods.CalamityMod.NPCNightSpawn")]
+        [Label("NPCNightSpawn")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Allows you to determine if town NPCs (including the Old Man) can spawn at night.")]
@@ -198,7 +198,7 @@ namespace CalamityMod
         private const int MinTownNPCSpawnMultiplier = 1;
         private const int MaxTownNPCSpawnMultiplier = 10;
 
-        [Label("$Mods.CalamityMod.NPCExtraSpawn")]
+        [Label("NPCExtraSpawn")]
         [BackgroundColor(192, 54, 64, 192)]
         [Range(MinTownNPCSpawnMultiplier, MaxTownNPCSpawnMultiplier)]
         [Increment(1)]
@@ -210,7 +210,7 @@ namespace CalamityMod
         private const float MinBossHealthBoost = 0f;
         private const float MaxBossHealthBoost = 900f;
 
-        [Label("$Mods.CalamityMod.BossHPBoost")]
+        [Label("BossHPBoost")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(MinBossHealthBoost, MaxBossHealthBoost)]
@@ -222,19 +222,19 @@ namespace CalamityMod
 
         [Header("Expert Mode Changes")]
 
-        [Label("$Mods.CalamityMod.ExpertDebuffReduction")]
+        [Label("ExpertDebuffReduction")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("Disables Expert Mode doubling the duration of all debuffs inflicted on the player.\nCalamity is balanced with the assumption that this setting is enabled.")]
         public bool NerfExpertDebuffs { get; set; }
 
-        [Label("$Mods.CalamityMod.ChillWaterRework")]
+        [Label("ChillWaterRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
         [Tooltip("When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.")]
         public bool ReworkChilledWater { get; set; }
 
-        [Label("$Mods.CalamityMod.ExpertSafeTowns")]
+        [Label("ExpertSafeTowns")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Counteracts Expert Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.\nThis can have unintended side effects such as making critters difficult to find.")]
@@ -245,7 +245,7 @@ namespace CalamityMod
         private const float MinMeterShake = 0f;
         private const float MaxMeterShake = 4f;
 
-        [Label("$Mods.CalamityMod.RipperBarShake")]
+        [Label("RipperBarShake")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(MinMeterShake, MaxMeterShake)]
@@ -255,7 +255,7 @@ namespace CalamityMod
         [Tooltip("How much the Rage and Adrenaline Meters shake while in use.\nSet to zero to disable the shaking entirely.")]
         public float MeterShake { get; set; }
 
-        [Label("$Mods.CalamityMod.RageX")]
+        [Label("RageX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 3840f)]
@@ -263,7 +263,7 @@ namespace CalamityMod
         [Tooltip("The X position of the Rage Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float RageMeterPosX { get; set; }
 
-        [Label("$Mods.CalamityMod.RageY")]
+        [Label("RageY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 2160f)]
@@ -271,7 +271,7 @@ namespace CalamityMod
         [Tooltip("The Y position of the Rage Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float RageMeterPosY { get; set; }
 
-        [Label("$Mods.CalamityMod.AdrenalineX")]
+        [Label("AdrenalineX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 3840f)]
@@ -279,7 +279,7 @@ namespace CalamityMod
         [Tooltip("The X position of the Adrenaline Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
         public float AdrenalineMeterPosX { get; set; }
 
-        [Label("$Mods.CalamityMod.AdrenalineY")]
+        [Label("AdrenalineY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 2160f)]
@@ -289,25 +289,25 @@ namespace CalamityMod
 
         [Header("Boss Rush Curses")]
 
-        [Label("$Mods.CalamityMod.BRCurseAccessory")]
+        [Label("BRCurseAccessory")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Limits the player to five accessories during the Boss Rush.")]
         public bool BossRushAccessoryCurse { get; set; }
 
-        [Label("$Mods.CalamityMod.BRCurseHealth")]
+        [Label("BRCurseHealth")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Disables all health regeneration during the Boss Rush.")]
         public bool BossRushHealthCurse { get; set; }
 
-        [Label("$Mods.CalamityMod.BRCurseDash")]
+        [Label("BRCurseDash")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("Disables all dashes during the Boss Rush.")]
         public bool BossRushDashCurse { get; set; }
 
-        [Label("$Mods.CalamityMod.BRCurseImmunity")]
+        [Label("BRCurseImmunity")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
         [Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
