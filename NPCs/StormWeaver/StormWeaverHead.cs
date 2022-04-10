@@ -784,19 +784,21 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBagByCondition(DropHelper.If(AtFullStrength), ModContent.ItemType<StormWeaverBag>()));
-            npcLoot.AddIf(AtFullStrength, ModContent.ItemType<WeaverTrophy>(), 10);
-            
-            // Lore
-            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
+            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(AtFullStrength);
+            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<StormWeaverBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
-            var normalOnly = npcLoot.DefineConditionalDropSet(DropHelper.If(() => !Main.expertMode && AtFullStrength()));
+            LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
+            fullStrengthDrops.Add(normalOnly);
             {
                 // Weapons
-                normalOnly.Add(ModContent.ItemType<TheStorm>(), 4);
-                normalOnly.Add(ModContent.ItemType<StormDragoon>(), 4);
-                normalOnly.Add(ModContent.ItemType<TheStorm>(), 10);
+                int[] weapons = new int[]
+                {
+                    ModContent.ItemType<StormDragoon>(),
+                    ModContent.ItemType<TheStorm>(),
+                };
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+                normalOnly.Add(ModContent.ItemType<Thunderstorm>(), 10);
 
                 // Materials
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<ArmoredShell>(), 1, 5, 8));
@@ -808,6 +810,11 @@ namespace CalamityMod.NPCs.StormWeaver
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerChestplate>())).
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
+
+            fullStrengthDrops.Add(ModContent.ItemType<WeaverTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
