@@ -2846,7 +2846,7 @@ namespace CalamityMod.NPCs.Yharon
                     ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
                     ModContent.ItemType<FinalDawn>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
                 normalOnly.Add(ModContent.ItemType<YharimsCrystal>(), 10);
 
                 // Vanity
@@ -2855,10 +2855,7 @@ namespace CalamityMod.NPCs.Yharon
                 normalOnly.Add(ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
-                // TODO -- This drop needs to be instanced for each player
-                int soulFragMin = 15;
-                int soulFragMax = 22;
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HellcasterFragment>(), 1, soulFragMin, soulFragMax));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HellcasterFragment>(), 1, 15, 22));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharimsGift>()));
