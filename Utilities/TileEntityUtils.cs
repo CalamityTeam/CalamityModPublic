@@ -36,7 +36,7 @@ namespace CalamityMod
             int left = i - t.TileFrameX % (width * sheetSquare) / sheetSquare;
             int top = j - t.TileFrameY % (height * sheetSquare) / sheetSquare;
 
-            byte chargerType = GetInstance<T>().type;
+            int chargerType = GetInstance<T>().Type;
             bool exists = TileEntity.ByPosition.TryGetValue(new Point16(left, top), out TileEntity te);
             return exists && te.type == chargerType ? (T)te : null;
         }
