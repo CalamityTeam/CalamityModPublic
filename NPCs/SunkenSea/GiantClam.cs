@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.SunkenSea
                 ModContent.ItemType<Poseidon>(),
                 ModContent.ItemType<ShellfishStaff>(),
             };
-            npcLoot.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+            npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
             // Equipment
             npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<GiantPearl>(), 3);

@@ -199,10 +199,7 @@ namespace CalamityMod.NPCs.SunkenSea
             return 0f;
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<EutrophicShank>(), 3);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<EutrophicShank>(), 3);
 
         public override void HitEffect(int hitDirection, double damage)
         {
