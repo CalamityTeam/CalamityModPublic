@@ -561,7 +561,7 @@ namespace CalamityMod.World
                     if ((num8 != num6 || (n != num4 && n != num5)) && Main.tile[n, num8].WallType == 0)
                     {
                         Main.tile[n, num8].Get<TileWallWireStateData>().HasTile = false;
-                        Main.tile[n, num8].WallType = wall;
+                        Main.tile[n, num8].WallType = (ushort)wall;
                     }
                 }
             }
