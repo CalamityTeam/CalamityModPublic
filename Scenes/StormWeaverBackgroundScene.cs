@@ -1,5 +1,6 @@
 ﻿using CalamityMod.NPCs.StormWeaver;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
@@ -13,7 +14,14 @@ namespace CalamityMod.Systems
 
         public override void SpecialVisuals(Player player)
         {
-            player.ManageSpecialBiomeVisuals("CalamityMod:StormWeaverFlash", IsSceneEffectActive(player));
+            bool useFlash = IsSceneEffectActive(player);
+            if (SkyManager.Instance["CalamityMod:StormWeaverFlash"] != null && useFlash != SkyManager.Instance["CalamityMod:StormWeaverFlash"].IsActive())
+            {
+                if (useFlash)
+                    SkyManager.Instance.Activate("CalamityMod:StormWeaverFlash", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:StormWeaverFlash");
+            }
         }
     }
 }
