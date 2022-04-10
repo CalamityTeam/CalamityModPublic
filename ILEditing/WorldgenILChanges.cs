@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -18,41 +18,23 @@ namespace CalamityMod.ILEditing
             var cursor = new ILCursor(il);
 
             // Determine the area which determines the held item.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(36)))
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<WorldGen>("AddBuriedChest")))
             {
-                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the pyramid item selector value.");
+                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the AddBuriedChest method.");
                 return;
             }
-
-            int startOfItemSelection = cursor.Index;
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdloc(34)))
-            {
-                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the pyramid loot room left position.");
-                return;
-            }
-            int endOfItemSelection = cursor.Index;
-
-            // And delete it completely with intent to replace it.
-            // Nuances with compliation appear to make simple a load + remove by constant not work.
-            cursor.Index = startOfItemSelection;
-            cursor.RemoveRange(endOfItemSelection - startOfItemSelection);
 
             // And select the item type directly.
-            cursor.Emit(OpCodes.Ldloc, 36);
-            cursor.EmitDelegate<Func<int, int>>(choice =>
+            cursor.EmitDelegate<Func<int>>(() =>
             {
-                switch (choice)
-                {
-                    case 0:
-                        return ItemID.SandstorminaBottle;
-
-                    // TODO - Replace this with an amber hook in 1.4 to make more sense thematically.
-                    case 1:
-                        return ItemID.RubyHook;
-                    case 2:
-                    default:
-                        return ItemID.FlyingCarpet;
-                }
+                int choice = WorldGen.genRand.Next(3);
+                if (choice == 0)
+                    choice = ItemID.AmberHook;
+                else if (choice == 1)
+                    choice = ItemID.SandstorminaBottle;
+                else if (choice == 2)
+                    choice = ItemID.FlyingCarpet;
+                return choice;
             });
             cursor.Emit(OpCodes.Stloc, 36);
         }
