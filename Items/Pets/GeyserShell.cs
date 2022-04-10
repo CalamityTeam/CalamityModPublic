@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -28,6 +29,7 @@ namespace CalamityMod.Items.Pets
             Item.buffType = ModContent.BuffType<FlakPetBuff>();
             Item.rare = ItemRarityID.LightPurple;
             Item.UseSound = SoundID.Item2;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

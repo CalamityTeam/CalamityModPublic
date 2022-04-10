@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -26,10 +27,10 @@ namespace CalamityMod.Items.Pets
             Item.shoot = ModContent.ProjectileType<DannyDevitoPet>();
             Item.buffType = ModContent.BuffType<DannyDevito>();
             Item.UseSound = SoundID.NPCDeath13;
-
             Item.value = Item.sellPrice(gold: 1);
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().devItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

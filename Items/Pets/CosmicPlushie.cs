@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -31,6 +32,7 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.sellPrice(gold: 7);
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.Calamity().devItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)
