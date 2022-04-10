@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,21 +6,25 @@ namespace CalamityMod.Prefixes
 {
     public class QuietPrefix : RogueAccessoryPrefix
     {
+        public override string Name => "Quiet";
         public QuietPrefix() : base(1.02f) { }
     }
 
     public class CloakedPrefix : RogueAccessoryPrefix
     {
+        public override string Name => "Cloaked";
         public CloakedPrefix() : base(1.04f) { }
     }
 
     public class CamouflagedPrefix : RogueAccessoryPrefix
     {
+        public override string Name => "Camouflaged";
         public CamouflagedPrefix() : base(1.06f) { }
     }
 
     public class SilentPrefix : RogueAccessoryPrefix
     {
+        public override string Name => "Silent";
         public SilentPrefix() : base(1.08f) { }
     }
 

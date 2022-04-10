@@ -205,9 +205,10 @@ namespace CalamityMod
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.FireGauntlet).ToList().ForEach(s =>
             {
-                for (int i = 0; i < s.requiredItem.Count; i++)
+                s.requiredItem = new List<Item>();
+                for (int i = 0; i < 3; i++)
                 {
-                    s.requiredItem[i] = new Item();
+                    s.requiredItem.Add(new Item());
                 }
                 s.requiredItem[0].SetDefaults(ItemID.MagmaStone, false);
                 s.requiredItem[0].stack = 1;
@@ -226,9 +227,10 @@ namespace CalamityMod
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.SpiritFlame).ToList().ForEach(s =>
             {
-                for (int i = 0; i < s.requiredItem.Count; i++)
+                s.requiredItem = new List<Item>();
+                for (int i = 0; i < 4; i++)
                 {
-                    s.requiredItem[i] = new Item();
+                    s.requiredItem.Add(new Item());
                 }
                 s.requiredItem[0].SetDefaults(ItemID.DjinnLamp, false);
                 s.requiredItem[0].stack = 1;

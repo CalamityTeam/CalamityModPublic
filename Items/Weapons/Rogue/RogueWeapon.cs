@@ -33,22 +33,22 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override int ChoosePrefix(UnifiedRandom rand)
         {
             WeightedRandom<string> newPrefix = new WeightedRandom<string>();
-            newPrefix.Add("CalamityMod/PointyWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/SharpWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/FeatheredWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/SleekWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/HeftyWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/MightyWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/GloriousWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/SerratedWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/ViciousWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/LethalWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/FlawlessWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/RadicalWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/BluntWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/FlimsyWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/UnbalancedWeaponPrefix", 1);
-            newPrefix.Add("CalamityMod/AtrociousWeaponPrefix", 1);
+            newPrefix.Add("CalamityMod/Pointy", 1);
+            newPrefix.Add("CalamityMod/Sharp", 1);
+            newPrefix.Add("CalamityMod/Feathered", 1);
+            newPrefix.Add("CalamityMod/Sleek", 1);
+            newPrefix.Add("CalamityMod/Hefty", 1);
+            newPrefix.Add("CalamityMod/Mighty", 1);
+            newPrefix.Add("CalamityMod/Glorious", 1);
+            newPrefix.Add("CalamityMod/Serrated", 1);
+            newPrefix.Add("CalamityMod/Vicious", 1);
+            newPrefix.Add("CalamityMod/Lethal", 1);
+            newPrefix.Add("CalamityMod/Flawless", 1);
+            newPrefix.Add("CalamityMod/Radical", 1);
+            newPrefix.Add("CalamityMod/Blunt", 1);
+            newPrefix.Add("CalamityMod/Flimsy", 1);
+            newPrefix.Add("CalamityMod/Unbalanced", 1);
+            newPrefix.Add("CalamityMod/Atrocious", 1);
             return ModContent.Find<ModPrefix>(newPrefix.Get()).Type;
         }
 
