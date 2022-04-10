@@ -3222,80 +3222,10 @@ namespace CalamityMod.CalPlayer
 
         public static void UnderworldTeleport(Player player, bool syncData = false)
         {
-            int teleportStartX = 100;
-            int teleportRangeX = Main.maxTilesX - 200;
-            int teleportStartY = Main.maxTilesY - 200;
-            int teleportRangeY = 50;
-            bool flag = false;
-            int num = 0;
-            int num2 = 0;
-            int num3 = 0;
-            int width = player.width;
-            Vector2 vector = new Vector2((float)num2, (float)num3) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
-            while (!flag && num < 1000)
-            {
-                num++;
-                num2 = teleportStartX + Main.rand.Next(teleportRangeX);
-                num3 = teleportStartY + Main.rand.Next(teleportRangeY);
-                vector = new Vector2((float)num2, (float)num3) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
-                if (!Collision.SolidCollision(vector, width, player.height))
-                {
-                    int i = 0;
-                    while (i < 100)
-                    {
-                        Tile tile = Main.tile[num2, num3 + i];
-                        vector = new Vector2((float)num2, (float)(num3 + i)) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
-                        Vector4 vector2 = Collision.SlopeCollision(vector, player.velocity, width, player.height, player.gravDir, false);
-                        bool arg_1FF_0 = !Collision.SolidCollision(vector, width, player.height);
-                        if (vector2.Z == player.velocity.X && vector2.Y == player.velocity.Y && vector2.X == vector.X)
-                        {
-                            bool arg_1FE_0 = vector2.Y == vector.Y;
-                        }
-                        if (arg_1FF_0)
-                        {
-                            i++;
-                        }
-                        else
-                        {
-                            if (tile.HasTile && !tile.HasUnactuatedTile && Main.tileSolid[(int)tile.TileType])
-                            {
-                                break;
-                            }
-                            i++;
-                        }
-                    }
-                    if (!Collision.LavaCollision(vector, width, player.height) && Collision.HurtTiles(vector, player.velocity, width, player.height, false).Y <= 0f)
-                    {
-                        Collision.SlopeCollision(vector, player.velocity, width, player.height, player.gravDir, false);
-                        if (Collision.SolidCollision(vector, width, player.height) && i < 99)
-                        {
-                            Vector2 vector3 = Vector2.UnitX * 16f;
-                            if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                            {
-                                vector3 = -Vector2.UnitX * 16f;
-                                if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                                {
-                                    vector3 = Vector2.UnitY * 16f;
-                                    if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                                    {
-                                        vector3 = -Vector2.UnitY * 16f;
-                                        if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
-                                        {
-                                            flag = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (!flag)
-            {
-                return;
-            }
-            ModTeleport(player, vector, syncData, false);
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                player.DemonConch();
+            else if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
+                NetMessage.SendData(MessageID.RequestTeleportationByServer, -1, -1, null, 2);
         }
 
         public static void DungeonTeleport(Player player, bool syncData = false)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -35,10 +36,10 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void Update(GameTime gameTime)
         {
-            if (YIndex == -1)
+            if (YIndex == -1 || BossRushEvent.BossRushActive)
             {
                 UpdateYIndex();
-                if (YIndex == -1)
+                if (YIndex == -1 || BossRushEvent.BossRushActive)
                     Filters.Scene["CalamityMod:Yharon"].Deactivate();
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Events;
 using CalamityMod.NPCs.SupremeCalamitas;
 using Microsoft.Xna.Framework;
 using Terraria;

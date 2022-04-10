@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -35,10 +36,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void Update(GameTime gameTime)
         {
-            if (LevIndex == -1)
+            if (LevIndex == -1 || BossRushEvent.BossRushActive)
             {
                 UpdateLIndex();
-                if (LevIndex == -1)
+                if (LevIndex == -1 || BossRushEvent.BossRushActive)
                     Filters.Scene["CalamityMod:Leviathan"].Deactivate();
             }
         }

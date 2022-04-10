@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -37,6 +37,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Despawn safety, make sure to target another player if the current player target is too far away
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles && npc.type == NPCID.EaterofWorldsHead)
                 npc.TargetClosest();
+
+            // Fade in.
+            npc.Opacity = MathHelper.Clamp(npc.Opacity + 0.08f, 0f, 1f);
 
             float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if ((npc.position.Y / 16f) < Main.worldSurface || malice)
