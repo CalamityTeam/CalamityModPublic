@@ -29,7 +29,7 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = true;
             Item.noUseGraphic = true;
             Item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }
