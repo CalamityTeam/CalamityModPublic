@@ -1952,6 +1952,11 @@ namespace CalamityMod.NPCs
                     canBreakPlayerDefense = true;
                     break;
 
+                case NPCID.ChatteringTeethBomb:
+                    npc.damage = 100;
+                    canBreakPlayerDefense = true;
+                    break;
+
                 case NPCID.LarvaeAntlion:
                     npc.lifeMax = 15;
                     break;
