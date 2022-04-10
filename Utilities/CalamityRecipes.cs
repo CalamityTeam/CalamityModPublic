@@ -93,6 +93,38 @@ namespace CalamityMod
                 AddIngredient<SuperDummy>().
                 AddTile(TileID.Anvils).
                 ReplaceResult(ItemID.TargetDummy);
+
+            EditLeatherRecipe();
+            EditPhoenixBlasterRecipe();
+            EditFlamarangRecipe();
+            EditTerraBladeRecipe();
+            EditFireGauntletRecipe();
+            EditSpiritFlameRecipe();
+            EditBeetleArmorRecipes();
+            EditGoblinArmySummonRecipe();
+            EditEvilBossSummonRecipes();
+            EditEarlyHardmodeRecipes();
+            EditMechBossSummonRecipes();
+            EditPumpkinMoonSummonRecipe();
+            EditFrostMoonSummonRecipe();
+            EditWingRecipes();
+            EditEvilBulletRecipes();
+            EditPhasesaberRecipes();
+            EditOpticStaffRecipe();
+            AstralAlternatives();
+            EditShroomiteBarRecipe();
+            EditChlorophyteBarRecipe(); // Don't remove this in 1.4 since it has 1 less ore required than that version
+            EditHardmodeOreSetRecipes();
+
+            AddPotionRecipes();
+            AddCookedFood();
+            AddToolRecipes();
+            AddProgressionRecipes();
+            AddEarlyGameWeaponRecipes();
+            AddEarlyGameAccessoryRecipes();
+            AddArmorRecipes();
+            AddAnkhShieldRecipes();
+            AddAlternateHardmodeRecipes();
         }
 
         // Change Leather's recipe to require 2 Rotten Chunks/Vertebrae
