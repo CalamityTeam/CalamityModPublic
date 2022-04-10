@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item122;
             Item.consumable = true;
-            Item.rare = ItemRarityID.Purple;
+            Item.rare = ItemRarityID.Purple;  // Not researchable, only drops one time.
         }
 
         public override bool CanUseItem(Player player) => !player.Calamity().rageBoostThree;
