@@ -68,19 +68,10 @@ namespace CalamityMod.Projectiles.Summon
 
             if (!initialized)
             {
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 SpawnDust();
                 SpawnTentacles();
                 initialized = true;
             }
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             bool correctMinion = Projectile.type == ModContent.ProjectileType<PlantSummon>();
             player.AddBuff(ModContent.BuffType<PlantationBuff>(), 3600);
             if (correctMinion)
@@ -186,7 +177,9 @@ namespace CalamityMod.Projectiles.Summon
                                 velocity.Normalize();
                                 velocity *= projSpeed;
                                 velocity *= speedMult;
-                                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, velocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, velocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                if (Main.projectile.IndexInRange(p))
+                                    Main.projectile[p].originalDamage = Projectile.originalDamage;
                             }
                             Projectile.netUpdate = true;
                         }
@@ -283,7 +276,9 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 Vector2 projVelocity = whereIsTarget * 2f;
                                 int projDmg = (int)(Projectile.damage * 1.5f);
-                                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVelocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 1f);
+                                int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVelocity, projType, projDmg, Projectile.knockBack, Projectile.owner, 0f, 1f);
+                                if (Main.projectile.IndexInRange(p))
+                                    Main.projectile[p].originalDamage = Projectile.originalDamage;
                             }
                             if (Main.rand.NextBool(3))
                             {
@@ -407,7 +402,9 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = -8; i <= 8; i += 8)
             {
                 Vector2 perturbedSpeed = projVelocity.RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, perturbedSpeed, projType, projDmg, Projectile.knockBack * attackMult, Projectile.owner, Main.rand.Next(3), 1f);
+                int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, perturbedSpeed, projType, projDmg, Projectile.knockBack * attackMult, Projectile.owner, Main.rand.Next(3), 1f);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
             }
         }
 
@@ -466,7 +463,9 @@ namespace CalamityMod.Projectiles.Summon
                 int tentacleAmt = 6;
                 for (int tentacleIndex = 0; tentacleIndex < tentacleAmt; tentacleIndex++)
                 {
-                    Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlantTentacle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, tentacleIndex, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
+                    int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlantTentacle>(), Projectile.damage, Projectile.knockBack, Projectile.owner, tentacleIndex, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
             }
         }

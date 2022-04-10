@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -47,7 +47,9 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 if (Main.rand.NextBool(2))
                     type = ModContent.ProjectileType<CatastropheSummon>();
-                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

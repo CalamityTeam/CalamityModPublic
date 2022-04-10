@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -42,7 +42,10 @@ namespace CalamityMod.Items.Weapons.Summon
                 position = Main.MouseWorld;
                 velocity.X = 0;
                 velocity.Y = 0;
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 30f);
+                int p = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 30f);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
+
                 player.UpdateMaxTurrets();
                 //projectile.ai[1] is attack cooldown.  Setting it here prevents immediate attacks
             }

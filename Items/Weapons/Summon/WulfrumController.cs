@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -42,7 +42,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 position = Main.MouseWorld;
                 velocity.X = 0;
                 velocity.Y = 0;
-                Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage, knockback, player.whoAmI, 0f, 1f);
+                int droid = Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 1f);
+                if (Main.projectile.IndexInRange(droid))
+                    Main.projectile[droid].originalDamage = Item.damage;
             }
             return false;
         }

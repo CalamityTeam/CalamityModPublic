@@ -58,8 +58,6 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
@@ -67,13 +65,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 1f / 255f, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0f / 255f);
             Projectile.frameCounter++;
@@ -162,7 +153,9 @@ namespace CalamityMod.Projectiles.Summon
                         targetDist = speed / targetDist;
                         velocity.X *= targetDist;
                         velocity.Y *= targetDist;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, projectileType, Projectile.damage, 5f, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, projectileType, Projectile.damage, 5f, Projectile.owner, 0f, 0f);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                         SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                         Projectile.ai[0] = 10f;
                     }
@@ -178,6 +171,7 @@ namespace CalamityMod.Projectiles.Summon
                                 velocityY *= -1f;
                             int flame = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2), velocityX, velocityY, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             Main.projectile[flame].aiStyle = 1;
+                            Main.projectile[flame].originalDamage = Projectile.originalDamage;
                         }
                         SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                         Projectile.ai[0] = 20f;

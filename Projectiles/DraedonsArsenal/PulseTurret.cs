@@ -29,20 +29,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             if (Projectile.velocity.Y < 12f)
             {
                 Projectile.velocity.Y += 0.5f;

@@ -56,8 +56,6 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -65,13 +63,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[index].velocity *= 2f;
                     Main.dust[index].scale *= 1.15f;
                 }
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             float scalar = (float)Main.mouseTextColor / 200f - 0.35f;
             scalar *= 0.2f;
@@ -119,6 +110,7 @@ namespace CalamityMod.Projectiles.Summon
                         int spore = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner, 0f, 0f);
                         Main.projectile[spore].minion = true;
                         Main.projectile[spore].minionSlots = 0f;
+                        Main.projectile[spore].originalDamage = Projectile.originalDamage;
                     }
                     SoundEngine.PlaySound(SoundID.Item42, Projectile.position);
                     Projectile.ai[0] = 60f;

@@ -58,7 +58,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 if (!player.HasCooldown(Cooldowns.UniverseSplitter.ID))
                 {
                     player.AddCooldown(Cooldowns.UniverseSplitter.ID, CalamityUtils.SecondsToFrames(45));
-                    Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                    int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Item.damage;
                     for (int i = 0; i < 36; i++)
                     {
                         float angle = MathHelper.TwoPi / 36f * i + Main.rand.NextFloat(MathHelper.TwoPi / 36f);
@@ -78,9 +80,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            // TODO -- Draedon's remote appears to not exist as of 1.4 porting. Is this intentional or did something go wrong?
             CreateRecipe(1).AddIngredient(ModContent.ItemType<Abomination>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-            //CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonsRemote>()).AddIngredient(ModContent.ItemType<Abomination>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

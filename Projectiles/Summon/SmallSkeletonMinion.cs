@@ -50,20 +50,10 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 Variant = Main.rand.Next(3);
                 Projectile.netUpdate = true;
                 Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             Projectile.frameCounter++;
             if (Projectile.frameCounter % 6f == 5f)
             {
@@ -110,7 +100,9 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.ai[0] % 60f == 59f && Main.myPlayer == Projectile.owner)
             {
                 int type = Utils.SelectRandom(Main.rand, ModContent.ProjectileType<BoneMatter>(), ModContent.ProjectileType<BoneMatter2>());
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
             }
             if (potentialTarget is null)
             {
@@ -181,7 +173,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Rectangle frame = new Rectangle(Variant * Projectile.width, Projectile.frame * Projectile.height, Projectile.width, Projectile.height);
             SpriteEffects spriteEffects = (Projectile.spriteDirection == 1) ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(ModContent.Request<Texture2D>(Texture).Value, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, Projectile.Size / 2f, 1f, spriteEffects, 0);
             return false;
         }
 

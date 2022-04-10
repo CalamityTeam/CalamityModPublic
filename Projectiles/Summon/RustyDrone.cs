@@ -58,8 +58,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.damage = 1; // For the initial tiny prick effect
                 Projectile.Damage();
                 Projectile.damage = oldDamage;
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 Projectile.Center -= Vector2.UnitY * 1400f;
                 Projectile.localAI[0] += 1f;
             }
@@ -67,13 +65,6 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.alpha = (int)MathHelper.Lerp(Projectile.alpha, 0f, 0.02f);
                 Projectile.velocity = Vector2.UnitY * 10f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
@@ -138,8 +129,10 @@ namespace CalamityMod.Projectiles.Summon
                 Utils.PoofOfSmoke(Projectile.Center);
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
                         (int)(ExplosionShrapnelBaseDamage * player.MinionDamage()), 2f, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
                 Projectile.Kill();
             }

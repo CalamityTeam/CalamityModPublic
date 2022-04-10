@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Placeables.Ores;
@@ -64,7 +64,9 @@ namespace CalamityMod.Items.Weapons.Summon
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
-            Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI, siriusSlots, 30f);
+            int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI, siriusSlots, 30f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
 

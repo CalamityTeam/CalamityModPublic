@@ -54,8 +54,6 @@ namespace CalamityMod.Projectiles.Summon
             if (spawnDust)
             {
                 Projectile.Calamity().lineColor = -1;
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -67,13 +65,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num228].velocity = dustVel;
                 }
                 spawnDust = false;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<VileFeederSummon>();

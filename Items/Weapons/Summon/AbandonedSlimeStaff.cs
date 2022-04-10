@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -71,6 +71,7 @@ namespace CalamityMod.Items.Weapons.Summon
             velocity.X = 0;
             velocity.Y = 0;
             int slime = Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, (int)(damage * damageMult), knockback, player.whoAmI);
+            Main.projectile[slime].originalDamage = (int)(Item.damage * damageMult);
             Main.projectile[slime].minionSlots = slimeSlots;
             return false;
         }

@@ -55,7 +55,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.OnlyOneSentry(player, type);
-            Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            int turret = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(turret))
+                Main.projectile[turret].originalDamage = Item.damage;
+
             player.UpdateMaxTurrets();
             return false;
         }

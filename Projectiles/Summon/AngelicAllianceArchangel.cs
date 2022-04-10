@@ -52,22 +52,12 @@ namespace CalamityMod.Projectiles.Summon
             // Initialization and dust
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 10; i++)
                 {
                     Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                 }
                 Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             // Rotate around the player
             double deg = Projectile.ai[1];
             double rad = deg * (Math.PI / 180);
@@ -118,7 +108,9 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner)
                     {
                         int type = ModContent.ProjectileType<AngelRay>();
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * 0.5f, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * 0.5f, type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                     Projectile.ai[0] = 0f;
                     Projectile.netUpdate = true;

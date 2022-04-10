@@ -72,6 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                 float blueHue = Main.rgbToHsl(Color.Blue).X;
                 Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(10f, 10f);
                 Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), spawnPosition, Main.rand.NextVector2CircularEdge(9f, 9f), ModContent.ProjectileType<MortalityBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                bolt.originalDamage = Projectile.originalDamage;
                 bolt.localAI[0] = Utils.SelectRandom(Main.rand, redHue, greenHue, blueHue);
             }
         }

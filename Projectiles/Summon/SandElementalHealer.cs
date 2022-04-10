@@ -65,8 +65,6 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -74,13 +72,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[sand].velocity *= 2f;
                     Main.dust[sand].scale *= 1.15f;
                 }
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             Projectile.frameCounter++;

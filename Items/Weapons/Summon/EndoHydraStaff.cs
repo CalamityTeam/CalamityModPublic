@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -56,12 +56,18 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 if (bodyExists)
                 {
-                    Projectile.NewProjectileDirect(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
+                    int p = Projectile.NewProjectile(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Item.damage;
                 }
                 else
                 {
                     bodyIndex = Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                    Projectile.NewProjectile(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
+                    int head = Projectile.NewProjectile(source, player.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), damage, knockback, player.whoAmI, bodyIndex);
+                    if (Main.projectile.IndexInRange(bodyIndex))
+                        Main.projectile[bodyIndex].originalDamage = Item.damage;
+                    if (Main.projectile.IndexInRange(head))
+                        Main.projectile[head].originalDamage = Item.damage;
                     for (int i = 0; i < 72; i++)
                     {
                         Dust dust = Dust.NewDustPerfect(Main.projectile[bodyIndex].Center, 113);

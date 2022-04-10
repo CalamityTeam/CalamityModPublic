@@ -40,8 +40,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -53,12 +51,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[brim].velocity = dustVel;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
             bool correctMinion = Projectile.type == ModContent.ProjectileType<Catastromini>();
             if (correctMinion)

@@ -44,9 +44,6 @@ namespace CalamityMod.Projectiles.Summon
             //On spawn effects
             if (Projectile.localAI[0] == 0f)
             {
-                //Set constants
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 //Spawn dust
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
@@ -59,14 +56,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[fire].velocity = dustVel;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-
-            //Flexible minion damage update
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //Update frames
@@ -259,7 +248,9 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 velocity = targetVec - Projectile.Center;
                 velocity.Normalize();
                 velocity *= projSpeed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
                 Projectile.netUpdate = true;
             }
         }

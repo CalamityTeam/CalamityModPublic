@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -35,8 +35,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            ResetDamage();
-
             // Prevent clumping of other slime puppets near this one.
             Projectile.MinionAntiClump();
 
@@ -71,22 +69,6 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Vector2.Dot(Projectile.oldVelocity.SafeNormalize(Vector2.Zero), Projectile.velocity.SafeNormalize(Vector2.Zero)) < 0.87)
                 Projectile.ai[0] = 50f;
-        }
-
-        public void ResetDamage()
-        {
-            // Initialize minion damage values the moment the projectile is spawned.
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1f;
-            }
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
         }
 
         public override void Kill(int timeLeft)

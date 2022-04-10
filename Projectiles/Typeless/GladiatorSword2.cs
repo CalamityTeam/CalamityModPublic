@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -35,20 +35,6 @@ namespace CalamityMod.Projectiles.Typeless
             bool flag64 = Projectile.type == ModContent.ProjectileType<GladiatorSword2>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.AverageDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] += 1f;
-            }
-            if (player.AverageDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.AverageDamage());
-                Projectile.damage = damage2;
-            }
 
             if (!modPlayer.gladiatorSword)
             {

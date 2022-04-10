@@ -64,19 +64,6 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             Projectile.spriteDirection = AltTexture.ToDirectionInt();
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<ViridVanguardBlade>();
             player.AddBuff(ModContent.BuffType<ViridVanguardBuff>(), 3600);
             if (isProperProjectile)

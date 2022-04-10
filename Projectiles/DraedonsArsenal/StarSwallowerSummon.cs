@@ -113,8 +113,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
 
-            AdjustDamage(player);
-
             // Gravity effect.
             Projectile.velocity.Y = MathHelper.Clamp(Projectile.velocity.Y + 0.4f, -11f, 11f);
 
@@ -143,23 +141,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
             Projectile.MinionAntiClump();
             ManipulateFrames(minimumFrame, maximumFrame);
-        }
-
-        public void AdjustDamage(Player player)
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int newDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = newDamage;
-            }
         }
 
         public void HandleHop(Vector2 targetPosition)

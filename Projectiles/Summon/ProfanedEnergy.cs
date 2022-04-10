@@ -47,8 +47,6 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (count == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
                 for (int i = 0; i < 5; i++)
                 {
@@ -72,13 +70,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[fire].position = Projectile.Center;
                 }
                 count += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             if (Projectile.owner == Main.myPlayer)
             {

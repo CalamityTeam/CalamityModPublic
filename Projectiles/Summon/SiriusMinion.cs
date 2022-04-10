@@ -72,8 +72,6 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 50;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -84,12 +82,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] += 1f;
             }
 
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
-            }
             if (Projectile.owner == Main.myPlayer)
             {
                 if (Projectile.ai[1] != 0f)
@@ -142,6 +134,8 @@ namespace CalamityMod.Projectiles.Summon
                     velocity.Y *= targetDist;
                     float damageMult = ((float)Math.Log(Projectile.ai[0], MathHelper.E)) + 1f;
                     int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<SiriusBeam>(), (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(beam))
+                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
                     Main.projectile[beam].penetrate = (int)Projectile.ai[0];
                     Projectile.ai[1] = 30f;
                 }

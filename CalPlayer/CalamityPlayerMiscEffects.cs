@@ -2990,7 +2990,10 @@ namespace CalamityMod.CalPlayer
                         int projectile = Projectile.NewProjectile(source, Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
                             ModContent.ProjectileType<GhostlyMine>(), (int)(3750 * Player.MinionDamage()), 1f, Player.whoAmI, ai1, 0f);
                         if (projectile.WithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[projectile].originalDamage = 3750;
                             Main.projectile[projectile].Calamity().forceTypeless = true;
+                        }
                     }
                 }
             }

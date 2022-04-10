@@ -42,20 +42,6 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Player player = Main.player[Projectile.owner];
-            if (count == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                count += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             Projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(6.28318548f * Projectile.ai[0] / 300f)) * 0.5f);
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 300f)
@@ -85,7 +71,9 @@ namespace CalamityMod.Projectiles.Summon
                         float startOffsetY = Main.rand.NextFloat(15f, 200f) * (Main.rand.NextBool() ? -1f : 1f);
                         Vector2 startPos = new Vector2(Projectile.position.X + startOffsetX, Projectile.position.Y + startOffsetY);
                         Vector2 speed = new Vector2(0f, 0f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPos, speed, ModContent.ProjectileType<LanternFlame>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                 }
             }

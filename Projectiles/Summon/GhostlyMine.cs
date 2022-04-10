@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -37,18 +37,9 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             if (start)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
                 Projectile.ai[1] = Projectile.ai[0];
                 start = false;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             double deg = (double)Projectile.ai[1];
             double rad = deg * (Math.PI / 180);

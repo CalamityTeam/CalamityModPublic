@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -45,6 +45,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 Projectile blossom = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI, 0f, 0f);
                 blossom.ai[0] = MathHelper.TwoPi * i / 4f;
                 blossom.rotation = blossom.ai[0];
+                blossom.originalDamage = Item.damage;
             }
             return false;
         }

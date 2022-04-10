@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
@@ -77,7 +77,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 playerPos.X = (float)Main.mouseX + Main.screenPosition.X;
                 playerPos.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 spinningpoint = spinningpoint.RotatedBy(MathHelper.PiOver2, default);
-                Projectile.NewProjectile(source, playerPos + spinningpoint, spinningpoint, type, damage, knockback, player.whoAmI, 0f, 0f);
+                int p = Projectile.NewProjectile(source, playerPos + spinningpoint, spinningpoint, type, damage, knockback, player.whoAmI, 0f, 0f);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

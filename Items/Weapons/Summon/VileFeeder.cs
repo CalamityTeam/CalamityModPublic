@@ -68,7 +68,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
                 Vector2 spinningpoint = new Vector2(num78, num79);
                 spinningpoint = spinningpoint.RotatedBy(MathHelper.PiOver2, default);
-                Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 0f);
+                int p = Projectile.NewProjectile(source, vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, knockback, i, 0f, 0f);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

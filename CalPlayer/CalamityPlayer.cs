@@ -3495,7 +3495,9 @@ namespace CalamityMod.CalPlayer
                         }
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<HowlsHeartHowl>()] < 1)
                         {
-                            Projectile.NewProjectile(source, Player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartHowl>(), (int)(HowlsHeart.HowlDamage * Player.MinionDamage()), 1f, Player.whoAmI, 0f, 1f);
+                            int p = Projectile.NewProjectile(source, Player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartHowl>(), (int)(HowlsHeart.HowlDamage * Player.MinionDamage()), 1f, Player.whoAmI, 0f, 1f);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = HowlsHeart.HowlDamage;
                         }
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<HowlsHeartCalcifer>()] < 1)
                         {

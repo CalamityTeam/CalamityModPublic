@@ -30,20 +30,6 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (setDamage)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                setDamage = false;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             Projectile.velocity = Vector2.Zero;
 
             Projectile.frameCounter++;
@@ -75,6 +61,8 @@ namespace CalamityMod.Projectiles.Summon
                         speed.Normalize();
                         speed *= 15f;
                         int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + speed, speed, ModContent.ProjectileType<IceSentryShard>(), Projectile.damage / 2, Projectile.knockBack / 2, Projectile.owner);
+                        if (Main.projectile.IndexInRange(shard))
+                            Main.projectile[shard].originalDamage = Projectile.originalDamage / 2;
                     }
                 }
             }
@@ -113,7 +101,9 @@ namespace CalamityMod.Projectiles.Summon
                             speed *= 8f;
                             if (Projectile.ai[1] >= 300f)
                                 speed = speed.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-5, 6))) * 1.5f + npc.velocity / 2f;
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<IceSentryFrostBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<IceSentryFrostBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }
                     }
                 }

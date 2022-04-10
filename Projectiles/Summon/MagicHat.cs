@@ -84,15 +84,7 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dustEffects].velocity *= 2f;
                     Main.dust[dustEffects].scale *= 1.15f;
                 }
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //finding an enemy, then shooting projectiles if it's detected
@@ -133,7 +125,9 @@ namespace CalamityMod.Projectiles.Summon
                             });
                             float velocityX = Main.rand.NextFloat(-10f, 10f);
                             float velocityY = Main.rand.NextFloat(-15f, -8f);
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }
                     }
                 }

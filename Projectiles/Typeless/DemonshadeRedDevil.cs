@@ -56,11 +56,6 @@ namespace CalamityMod.Projectiles.Typeless
                 }
             }
             dust--;
-            if (dust == 2)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.AverageDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-            }
             if (dust >= 0)
             {
                 int num501 = 50;
@@ -70,13 +65,6 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
-            }
-            if (player.AverageDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.AverageDamage());
-                Projectile.damage = damage2;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)

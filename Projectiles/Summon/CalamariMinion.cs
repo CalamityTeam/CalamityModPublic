@@ -48,8 +48,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (Projectile.localAI[1] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage(); //66% = 1.66
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage; //300 * 1.66 = 498 (new value)
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
@@ -62,13 +60,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num228].velocity = vector7;
                 }
                 Projectile.localAI[1] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * //1.66 498 / 1.66 = 300 (original value)
-                    player.MinionDamage()); //300 * 1.15 = 345 (new value)
-                Projectile.damage = damage2;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
@@ -322,7 +313,9 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             SoundEngine.PlaySound(SoundID.Item111, (int)Projectile.position.X, (int)Projectile.position.Y);
                             Vector2 inkShootVelocity = Projectile.SafeDirectionTo(shootPosition, Vector2.UnitY) * inkShootSpeed;
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Vector2.UnitY * 20f, inkShootVelocity, projID, Projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Vector2.UnitY * 20f, inkShootVelocity, projID, Projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                             Projectile.netUpdate = true;
                         }
                     }

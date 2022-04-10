@@ -40,8 +40,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
@@ -52,13 +50,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num228].noGravity = true;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
@@ -239,7 +230,9 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, perturbedSpeed, projectileType, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, targetIndex, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, perturbedSpeed, projectileType, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner, targetIndex, 0f);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }
                         Projectile.netUpdate = true;
                     }

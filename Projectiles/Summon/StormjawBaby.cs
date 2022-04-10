@@ -60,8 +60,6 @@ namespace CalamityMod.Projectiles.Summon
             // Handle stuff on spawn & variable damage
             if (dust == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -79,13 +77,6 @@ namespace CalamityMod.Projectiles.Summon
 
         private void SummonChecks()
         {
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             bool projTypeCheck = Projectile.type == ModContent.ProjectileType<StormjawBaby>();
             player.AddBuff(ModContent.BuffType<StormjawBuff>(), 3600);
             if (projTypeCheck)

@@ -2,6 +2,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,7 +53,8 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
+                    var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
+                    p.originalDamage = 95;
                 }
             }
             player.GetDamage(DamageClass.Summon) += 0.2f;

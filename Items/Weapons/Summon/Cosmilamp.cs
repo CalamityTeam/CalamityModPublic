@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
@@ -62,7 +62,9 @@ namespace CalamityMod.Items.Weapons.Summon
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<CosmilampMinion>(), damage, knockback, player.whoAmI, 0f, 0f);
+            int p = Projectile.NewProjectile(source, vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<CosmilampMinion>(), damage, knockback, player.whoAmI, 0f, 0f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Item.damage;
             return false;
         }
     }

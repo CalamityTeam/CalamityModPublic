@@ -41,10 +41,12 @@ namespace CalamityMod.Items.Accessories
                 const int damage = 1200;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center, Vector2.Zero,
+                    var duke = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero,
                         ModContent.ProjectileType<YoungDuke>(),
                         (int)(damage * player.MinionDamage()),
                         6.5f, Main.myPlayer, 0f, 0f);
+
+                    duke.originalDamage = damage;
                 }
             }
         }

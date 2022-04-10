@@ -28,19 +28,6 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             NPC target = Projectile.Center.MinionHoming(845f, player, false);
             // No sense in targeting something below this sentry.
             if (target != null)
@@ -59,10 +46,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = (float)Math.Atan(Math.Abs(target.Center.X - Projectile.Center.X) / 450f);
                     angle *= Math.Sign(target.Center.X - Projectile.Center.X);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top + Vector2.UnitY * 7f,
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top + Vector2.UnitY * 7f,
                         new Vector2(0f, -Main.rand.NextFloat(21f, 30.5f)).RotatedBy(angle),
                         ModContent.ProjectileType<OldDukeSharkVomit>(), Projectile.damage, 5f,
                         Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
             }
             Projectile.velocity.Y += 0.5f;

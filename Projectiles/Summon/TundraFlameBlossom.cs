@@ -54,8 +54,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.rotation += MathHelper.ToRadians(5f);
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 36; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, 179);
@@ -63,13 +61,6 @@ namespace CalamityMod.Projectiles.Summon
                     dust.velocity = Vector2.One.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(2f, 7f);
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
             }
             int fireRate = 130;
             float fireSpeed = 6f;
@@ -91,8 +82,9 @@ namespace CalamityMod.Projectiles.Summon
                     int count = Projectile.ai[1] % (2 * fireRate) == (2 * fireRate - 1) ? 4 : 3;
                     for (int i = 0; i < count; i++)
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, -Vector2.UnitY.RotatedBy(MathHelper.TwoPi / count * i + Projectile.ai[0]) * fireSpeed,
+                        int orb = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, -Vector2.UnitY.RotatedBy(MathHelper.TwoPi / count * i + Projectile.ai[0]) * fireSpeed,
                             ModContent.ProjectileType<TundraFlameBlossomsOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Main.projectile[orb].originalDamage = Projectile.originalDamage;
                     }
                 }
             }

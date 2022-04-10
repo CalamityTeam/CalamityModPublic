@@ -69,11 +69,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
                 Projectile newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 (newBlade.ModProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
+                newBlade.originalDamage = Item.damage;
                 newBlade.netUpdate = true;
                 swordCount++;
 
                 newBlade = Projectile.NewProjectileDirect(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
                 (newBlade.ModProjectile as ViridVanguardBlade).AltTexture = swordCount % 2 == 1;
+                newBlade.originalDamage = Item.damage;
                 newBlade.netUpdate = true;
                 swordCount++;
 

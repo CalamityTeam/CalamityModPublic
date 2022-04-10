@@ -45,26 +45,25 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.timeLeft = 2;
             }
 
-            SetProjectileDamage();
+            Initialize();
 
             Time++;
             NPC potentialTarget = Projectile.Center.MinionHoming(950f, Owner);
             if (Time % 50 == 49 && Main.myPlayer == Projectile.owner && potentialTarget != null)
             {
                 Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center).RotatedByRandom(0.25f) * 8f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<WitherBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int bolt = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<WitherBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Main.projectile[bolt].originalDamage = Projectile.originalDamage;
             }
             Projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * 150f;
             Projectile.rotation += MathHelper.ToRadians(5f);
             OffsetAngle += MathHelper.ToRadians(4f);
         }
 
-        public void SetProjectileDamage()
+        public void Initialize()
         {
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 36; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, 179);
@@ -72,13 +71,6 @@ namespace CalamityMod.Projectiles.Summon
                     dust.velocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(2f, 7f);
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Owner.MinionDamage());
-                Projectile.damage = trueDamage;
             }
         }
 

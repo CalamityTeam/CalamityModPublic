@@ -60,13 +60,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] = 1f;
             }
 
-            // Re-adjust damage as needed.
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             Projectile.velocity.Y = MathHelper.Clamp(Projectile.velocity.Y + 0.004f, -12f, 12f);
             Projectile.frameCounter++;
 
@@ -112,9 +105,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public void DoInitializationEffects()
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
             int dustQuantity = 36;
             for (int d = 0; d < dustQuantity; d++)
             {
@@ -148,7 +138,9 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.WithinRange(target.Center, 200f))
                     acornShootVelocity = (target.Center - acornSpawnPosition).SafeNormalize(-Vector2.UnitY) * acornShootSpeed;
 
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int acorn = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(acorn))
+                    Main.projectile[acorn].originalDamage = Projectile.originalDamage;
             }
         }
 

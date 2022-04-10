@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -38,7 +38,9 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2) //throws a flask
             {
-                Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MK2FlaskSummon>(), damage, knockback, player.whoAmI);
+                int p = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<MK2FlaskSummon>(), damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }

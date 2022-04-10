@@ -53,7 +53,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(ModContent.BuffType<Nightwither>(), 180);
             float x4 = Main.rgbToHsl(new Color(103, 203, Main.DiscoB)).X;
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SiriusExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, Projectile.whoAmI);
+            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SiriusExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, Projectile.whoAmI);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = Projectile.originalDamage;
         }
     }
 }

@@ -52,20 +52,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.frame = 0;
             }
 
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguebringerSummon>();
             player.AddBuff(ModContent.BuffType<PlaguebringerSummonBuff>(), 3600);
             if (correctMinion)

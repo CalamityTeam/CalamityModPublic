@@ -47,8 +47,6 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 Projectile.velocity.Y = Main.rand.NextFloat(8f, 11f) * Main.rand.NextBool(2).ToDirectionInt();
                 Projectile.velocity.Y = Main.rand.NextFloat(3f, 5f) * Main.rand.NextBool(2).ToDirectionInt();
 
@@ -56,13 +54,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] = Main.rand.Next(1, (int)MidnightSunBeacon.MachineGunRate);
             }
 
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<MidnightSunUFO>();
             player.AddBuff(ModContent.BuffType<MidnightSunBuff>(), 3600);
             if (isProperProjectile)
@@ -103,7 +94,9 @@ namespace CalamityMod.Projectiles.Summon
                     if (Projectile.ai[0] % MidnightSunBeacon.MachineGunRate == Projectile.localAI[0] && potentialTarget.Top.Y > Projectile.Bottom.Y)
                     {
                         Vector2 laserVelocity = Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                     Projectile.MinionAntiClump(0.35f);
                     Projectile.ai[1] = 0f;
@@ -122,7 +115,9 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
                             Vector2 laserVelocity = Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.UnitY);
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
+                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }
                     }
                 }

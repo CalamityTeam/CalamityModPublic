@@ -65,8 +65,6 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0f / 255f);
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 25;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -75,13 +73,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[fire].scale *= 1.15f;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             if (Projectile.owner == Main.myPlayer)
             {
@@ -132,7 +123,10 @@ namespace CalamityMod.Projectiles.Summon
                     velocity *= shootSpeed;
                     int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ProjectileID.HeatRay, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (beam.WithinBounds(Main.maxProjectiles))
+                    {
                         Main.projectile[beam].Calamity().forceMinion = true;
+                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
+                    }
                     Projectile.ai[0] = 50f;
                 }
             }

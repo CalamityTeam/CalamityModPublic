@@ -29,20 +29,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
 
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
-            }
-
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
             {
@@ -85,7 +71,9 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.1f);
                     velocity.X *= (potentialTarget.Center.X - Projectile.Center.X < 0).ToDirectionInt();
 
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                     Projectile.ai[1] = 0f;
                     Projectile.netUpdate = true;
                 }

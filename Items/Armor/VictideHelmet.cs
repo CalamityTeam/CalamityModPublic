@@ -52,7 +52,9 @@ namespace CalamityMod.Items.Armor
                 var source = player.GetProjectileSource_Item(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 7;
                 }
             }
             player.ignoreWater = true;

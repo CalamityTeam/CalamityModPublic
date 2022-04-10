@@ -76,9 +76,6 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.localAI[0] == 0f)
             {
                 DeltaPosition = DeltaPositionMoving = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
                 Projectile.netUpdate = true;
 
                 if (!Main.dedServ)
@@ -94,14 +91,6 @@ namespace CalamityMod.Projectiles.Summon
 
                 Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             Time++;
 
             if (Time % (60f + totalHeads * 6f) == 59f + totalHeads * 6f)
@@ -119,7 +108,11 @@ namespace CalamityMod.Projectiles.Summon
                 if (targetAliveAndInLineOfSight && target.CanBeChasedBy() && Main.myPlayer == Projectile.owner)
                 {
                     if (Time % 40f == 24f)
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    {
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 6f, ModContent.ProjectileType<EndoRay>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                    }
 
                     if (Time % 40f >= 33f)
                         Projectile.frame = Main.projFrames[Projectile.type] - 1;

@@ -41,8 +41,6 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
@@ -55,13 +53,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dusty].velocity = vector7;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             Projectile.frameCounter++;
@@ -265,7 +256,9 @@ namespace CalamityMod.Projectiles.Summon
                         velocity.Y += Main.rand.NextFloat(-30f, 30f) * 0.05f;
                         velocity.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
 
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, (int)(Projectile.damage * dmgMult), Projectile.knockBack, Projectile.owner, targetIndex, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, (int)(Projectile.damage * dmgMult), Projectile.knockBack, Projectile.owner, targetIndex, 0f);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * dmgMult);
                         Projectile.netUpdate = true;
                     }
                 }
@@ -283,7 +276,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
 

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
@@ -47,7 +47,9 @@ namespace CalamityMod.Items.Weapons.Summon
             CalamityUtils.KillShootProjectiles(true, type, player);
             CalamityPlayer modPlayer = player.Calamity();
             bool hasSummonerSet = modPlayer.WearingPostMLSummonerSet;
-            Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockback, player.whoAmI, 0f, 0f);
+            int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockback, player.whoAmI, 0f, 0f);
+            if (Main.projectile.IndexInRange(p))
+                Main.projectile[p].originalDamage = (int)(Item.damage * (hasSummonerSet ? 1f : 0.66f));
             return false;
         }
 

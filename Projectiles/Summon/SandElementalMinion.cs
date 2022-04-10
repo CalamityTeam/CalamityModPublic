@@ -60,8 +60,6 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
@@ -69,13 +67,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             if (Math.Abs(Projectile.velocity.X) > 0.2f)
             {
@@ -253,7 +244,9 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 value19 = vector46 - Projectile.Center;
                         value19.Normalize();
                         value19 *= scaleFactor3;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, value19, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, value19, num658, Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                         Projectile.netUpdate = true;
                     }
                 }
