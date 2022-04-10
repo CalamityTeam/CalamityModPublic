@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.SummonItems
             Item.shoot = ModContent.ProjectileType<TerminusHoldout>();
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }
