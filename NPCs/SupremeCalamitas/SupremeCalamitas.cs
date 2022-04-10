@@ -2735,17 +2735,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SCalBag>()));
-            npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
-
-            // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
-
-            // Only drops in Malice because this is Leviathan's item
-            npcLoot.AddIf(() => CalamityWorld.malice, ModContent.ItemType<GaelsGreatsword>());
-
-            // Levi drops directly from the boss so that you cannot obtain it by difficulty swapping bags
-            // It is one of extremely few Deathmode exclusive drops in the game
-            npcLoot.AddIf(() => CalamityWorld.death, ModContent.ItemType<Levi>());
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -2761,7 +2750,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     ModContent.ItemType<Vigilance>(),
                     ModContent.ItemType<Sacrifice>(),
                 };
-                normalOnly.Add(ItemDropRule.OneFromOptions(DropHelper.NormalWeaponDropRateInt, weapons));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Materials
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CalamitousEssence>(), 1, 18, 27));
@@ -2775,6 +2764,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalRobes>())).
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<SCalBoots>())));
             }
+
+            // One of the only Death-exclusive drops in the mod, as requested by Leviathan: Levi pet
+            npcLoot.AddIf(() => CalamityWorld.death, ModContent.ItemType<Levi>());
+
+            // The only Malice-exclusive drop in the mod, as requested by Leviathan: Gael's Greatsword
+            npcLoot.AddIf(() => CalamityWorld.malice, ModContent.ItemType<GaelsGreatsword>());
+
+            npcLoot.Add(ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
+
+            // Lore
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedSCal, ModContent.ItemType<KnowledgeCalamitas>());
         }
         #endregion
 
