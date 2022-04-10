@@ -47,8 +47,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.FrostsparkBoots).
-                AddIngredient(ItemID.LavaWaders).
+                AddIngredient(ItemID.TerrasparkBoots).
                 AddIngredient<HarpyRing>().
                 AddIngredient<EssenceofCinder>(5).
                 AddIngredient(ItemID.SoulofMight).

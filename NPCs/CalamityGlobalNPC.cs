@@ -1952,32 +1952,29 @@ namespace CalamityMod.NPCs
                     canBreakPlayerDefense = true;
                     break;
 
+                case NPCID.LarvaeAntlion:
+                    npc.lifeMax = 15;
+                    break;
+
                 // Reduce prehardmode desert enemy stats pre-Desert Scourge
                 case NPCID.WalkingAntlion:
-
-                    if (!DownedBossSystem.downedDesertScourge)
-                    {
-                        npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
-                        npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
-                        npc.defDamage = npc.damage;
-                        npc.defense /= 2;
-                        npc.defDefense = npc.defense;
-                    }
-                    else
-                        canBreakPlayerDefense = true;
-
+                case NPCID.GiantWalkingAntlion:
+                    npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
+                    npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+                    npc.defDamage = npc.damage;
+                    npc.defense /= 2;
+                    npc.defDefense = npc.defense;
+                    canBreakPlayerDefense = true;
                     break;
 
                 case NPCID.Antlion:
                 case NPCID.FlyingAntlion:
-                    if (!DownedBossSystem.downedDesertScourge)
-                    {
-                        npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
-                        npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
-                        npc.defDamage = npc.damage;
-                        npc.defense /= 2;
-                        npc.defDefense = npc.defense;
-                    }
+                case NPCID.GiantFlyingAntlion:
+                    npc.lifeMax = (int)(npc.lifeMax * DesertEnemyStatMultiplier);
+                    npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+                    npc.defDamage = npc.damage;
+                    npc.defense /= 2;
+                    npc.defDefense = npc.defense;
                     break;
 
                 // Reduce Dungeon Guardian HP
@@ -1988,31 +1985,20 @@ namespace CalamityMod.NPCs
 
                 // Reduce Tomb Crawler stats
                 case NPCID.TombCrawlerHead:
-
-                    npc.lifeMax = (int)(npc.lifeMax * (DownedBossSystem.downedDesertScourge ? 0.6 : 0.45));
-                    if (!DownedBossSystem.downedDesertScourge)
-                    {
-                        npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
-                        npc.defDamage = npc.damage;
-                        // Tomb Crawler Head has 0 defense so there is no need to reduce it
-                    }
-                    else
-                        canBreakPlayerDefense = true;
-
+                    npc.lifeMax = (int)(npc.lifeMax * 0.5);
+                    npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+                    npc.defDamage = npc.damage;
+                    // Tomb Crawler Head has 0 defense so there is no need to reduce it
+                    canBreakPlayerDefense = true;
                     break;
 
                 case NPCID.TombCrawlerBody:
                 case NPCID.TombCrawlerTail:
-
-                    npc.lifeMax = (int)(npc.lifeMax * (DownedBossSystem.downedDesertScourge ? 0.6 : 0.45));
-                    if (!DownedBossSystem.downedDesertScourge)
-                    {
-                        npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
-                        npc.defDamage = npc.damage;
-                        npc.defense /= 2;
-                        npc.defDefense = npc.defense;
-                    }
-
+                    npc.lifeMax = (int)(npc.lifeMax * 0.5);
+                    npc.damage = (int)(npc.damage * DesertEnemyStatMultiplier);
+                    npc.defDamage = npc.damage;
+                    npc.defense /= 2;
+                    npc.defDefense = npc.defense;
                     break;
 
                 // Fix Sharkron hitboxes
