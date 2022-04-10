@@ -267,10 +267,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot)
-        {
-            npcLoot.Add(ModContent.ItemType<SupremeCatastropheTrophy>(), 10);
-        }
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<SupremeCatastropheTrophy>(), 10);
 
         public override bool CheckActive() => false;
 
