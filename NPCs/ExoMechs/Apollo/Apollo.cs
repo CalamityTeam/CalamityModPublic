@@ -1584,7 +1584,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 ModContent.NPCType<Artemis.Artemis>(),
                 ModContent.NPCType<Apollo>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return true;
+            return false;
         }
 
         public override void BossLoot(ref string name, ref int potionType)

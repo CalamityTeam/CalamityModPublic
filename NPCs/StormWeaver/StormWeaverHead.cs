@@ -748,7 +748,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 ModContent.NPCType<StormWeaverBody>(),
                 ModContent.NPCType<StormWeaverTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return true;
+            return false;
         }
 
         public static bool AtFullStrength() => !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;

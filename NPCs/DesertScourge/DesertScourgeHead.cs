@@ -577,7 +577,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 ModContent.NPCType<DesertScourgeBody>(),
                 ModContent.NPCType<DesertScourgeTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return true;
+            return false;
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

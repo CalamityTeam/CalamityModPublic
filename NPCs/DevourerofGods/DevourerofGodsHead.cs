@@ -2262,7 +2262,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 ModContent.NPCType<DevourerofGodsBody>(),
                 ModContent.NPCType<DevourerofGodsTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return true;
+            return false;
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

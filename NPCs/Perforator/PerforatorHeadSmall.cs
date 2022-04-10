@@ -509,7 +509,7 @@ namespace CalamityMod.NPCs.Perforator
                 ModContent.NPCType<PerforatorBodySmall>(),
                 ModContent.NPCType<PerforatorTailSmall>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return true;
+            return false;
         }
 
         public override void OnKill()

@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override bool SpecialOnKill()
         {
             if (ShouldNotDropThings())
-                return true;
+                return false;
 
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
                 ModContent.NPCType<AstrumDeusHeadSpectral>(),
@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 ModContent.NPCType<AstrumDeusTailSpectral>());
             NPC.position = Main.npc[closestSegmentID].position;
 
-            return true;
+            return false;
         }
 
         public override void OnKill()

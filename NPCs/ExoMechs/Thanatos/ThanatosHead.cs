@@ -1126,7 +1126,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 ModContent.NPCType<ThanatosBody2>(),
                 ModContent.NPCType<ThanatosTail>());
             NPC.position = Main.npc[closestSegmentID].position;
-            return true;
+            return false;
         }
 
         public override void OnKill()
