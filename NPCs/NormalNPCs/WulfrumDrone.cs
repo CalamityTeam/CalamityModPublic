@@ -206,8 +206,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 3);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new Fraction(7, 100));
-            // TODO -- does this work?
-            npcLoot.AddIf(() => Supercharged, ModContent.ItemType<EnergyCore>());
+            npcLoot.AddIf(info => info.npc.ModNPC<WulfrumDrone>().Supercharged, ModContent.ItemType<EnergyCore>());
         }
     }
 }
