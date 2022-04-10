@@ -159,7 +159,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
             if (Main.mouseItem.type == ItemType<FourSeasonsGalaxia>())
-                item.ModItem.HoldItem(Main.player[Main.myPlayer]);
+                item.ModItem?.HoldItem(Main.player[Main.myPlayer]);
 
             if (clone is FourSeasonsGalaxia a && item.ModItem is FourSeasonsGalaxia a2)
                 a.mainAttunement = a2.mainAttunement;
@@ -201,7 +201,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
         {
-            flat += (int)(Item.damage * (mainAttunement.DamageMultiplier - 1f));
+            flat += (int)(Item.damage * ((mainAttunement?.DamageMultiplier ?? 1f) - 1f));
         }
 
         public void SafeCheckAttunements()
