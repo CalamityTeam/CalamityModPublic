@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Text;
 using Terraria;
 using Terraria.Chat;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -267,7 +268,7 @@ namespace CalamityMod
 
         public static void StartSandstorm()
         {
-            typeof(Terraria.GameContent.Events.Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+            Sandstorm.StartSandstorm();
         }
 
         public static void StopSandstorm()
