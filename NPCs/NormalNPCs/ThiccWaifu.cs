@@ -97,6 +97,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     DoBehavior_TornadoSummon();
                     break;
                 case AttackState.LightningBladeSlice:
+                    DoBehavior_LightningBladeSlice();
                     break;
                 case AttackState.NimbusSummon:
                     DoBehavior_NimbusSummon();
@@ -250,7 +251,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
 
-            if (AttackTimer > cloudSummonDelay + cloudSummonRate * totalCloudWavesToSummon)
+            if (AttackTimer >= cloudSummonDelay + cloudSummonRate * totalCloudWavesToSummon)
             {
                 CurrentAttackState = AttackState.Hover;
                 AttackTimer = 0f;
@@ -305,7 +306,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             else if ((AttackTimer - nimbusSummonDelay) % nimbusSummonRate == nimbusSummonRate - 1)
             {
                 Point spawnPosition = (NPC.Center + NPC.ai[2].ToRotationVector2() * 300f).ToPoint();
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.AngryNimbus) < totalNimbiToSummon)
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(spawnPosition.X, spawnPosition.Y);
                     if (!tileAtPosition.HasTile)
@@ -324,7 +325,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 
             // Return to hovering after the nimbi have been summoned.
-            if (AttackTimer >= nimbusSummonRate * totalNimbiToSummon)
+            if (AttackTimer >= nimbusSummonDelay + nimbusSummonRate * totalNimbiToSummon)
             {
                 NPC.ai[2] = 0f;
                 CurrentAttackState = AttackState.Hover;
@@ -365,7 +366,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/NormalNPCs/ThiccWaifuAttack").Value;
-            SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects direction = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (CurrentAttackState != AttackState.Hover)
                 Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, direction, 0);
             else
