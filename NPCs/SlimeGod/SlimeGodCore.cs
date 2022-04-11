@@ -618,6 +618,9 @@ namespace CalamityMod.NPCs.SlimeGod
             // Purified Jam is once per player, but drops for all players.
             npcLoot.AddIf(() =>
             {
+                if (!LastSlimeGodStanding())
+                    return false;
+
                 CalamityPlayer mp = Main.LocalPlayer.Calamity();
                 if (!mp.revJamDrop)
                 {
