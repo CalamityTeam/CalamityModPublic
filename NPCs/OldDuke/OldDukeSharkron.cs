@@ -22,6 +22,11 @@ namespace CalamityMod.NPCs.OldDuke
         {
             DisplayName.SetDefault("Sulphurous Sharkron");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.65f,
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -202,6 +207,9 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
             if (NPC.spriteDirection == -1)
                 spriteEffects = SpriteEffects.None;

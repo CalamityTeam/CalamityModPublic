@@ -2153,8 +2153,9 @@ namespace CalamityMod.NPCs
             SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (invertedDirection)
                 effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Vector2 screenOffset = npc.IsABestiaryIconDummy ? Vector2.Zero : Main.screenPosition;
             spriteBatch.Draw(texture,
-                             npc.Center - Main.screenPosition + offset,
+                             npc.Center - screenOffset + offset,
                              npc.frame,
                              Color.White,
                              npc.rotation,
@@ -2192,13 +2193,14 @@ namespace CalamityMod.NPCs
             Color drawColor = npc.GetAlpha(startingColor);
             Texture2D npcTexture = texture ?? TextureAssets.Npc[npc.type].Value;
             Vector2 origin = npc.Size * 0.5f;
+            Vector2 screenOffset = npc.IsABestiaryIconDummy ? Vector2.Zero : Main.screenPosition;
             int afterimageCounter = 1;
             while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityConfig.Instance.Afterimages)
             {
                 Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
                 colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];
                 spriteBatch.Draw(npcTexture,
-                                 npc.oldPos[afterimageCounter] + npc.Size / 2f - Main.screenPosition + Vector2.UnitY * npc.gfxOffY,
+                                 npc.oldPos[afterimageCounter] + npc.Size / 2f - screenOffset + Vector2.UnitY * npc.gfxOffY,
                                  npc.frame,
                                  colorToDraw,
                                  rotationCalculation.Invoke(npc, afterimageCounter),

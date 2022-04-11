@@ -33,6 +33,13 @@ namespace CalamityMod.NPCs.Calamitas
             DisplayName.SetDefault("Calamitas");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.65f,
+                PortraitScale = 0.65f
+            };
+            value.Position.Y -= 10f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

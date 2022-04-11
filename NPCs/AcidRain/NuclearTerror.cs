@@ -74,6 +74,13 @@ namespace CalamityMod.NPCs.AcidRain
             Main.npcFrameCount[NPC.type] = 14;
             NPCID.Sets.TrailCacheLength[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+            };
+            value.Position.X -= 10f;
+            value.Position.Y += 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

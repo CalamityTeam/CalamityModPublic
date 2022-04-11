@@ -62,6 +62,15 @@ namespace CalamityMod.NPCs.Yharon
             DisplayName.SetDefault("Jungle Dragon, Yharon");
             Main.npcFrameCount[NPC.type] = 7;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.3f,
+                PortraitScale = 0.4f,
+                PortraitPositionYOverride = -16f
+            };
+            value.Position.X -= 26f;
+            value.Position.Y -= 14f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

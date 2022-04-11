@@ -33,6 +33,14 @@ namespace CalamityMod.NPCs.Ravager
         {
             DisplayName.SetDefault("Ravager");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.5f,
+                PortraitPositionYOverride = -40f,
+                PortraitScale = 0.6f,
+            };
+            value.Position.Y -= 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -88,6 +96,9 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             NPC.frameCounter += 0.15f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
@@ -644,19 +655,27 @@ namespace CalamityMod.NPCs.Ravager
             vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Color.Blue);
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Value, vector,
-                NPC.frame, color, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+                NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+            float legOffset = 20f;
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - screenPos.X + 28f, center.Y - screenPos.Y + 20f), //72
+            if (NPC.IsABestiaryIconDummy)
+            {
+                color2 = Color.White;
+                legOffset = 66f;
+            }
+
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 28f, center.Y - screenPos.Y + legOffset), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value.Height)),
-                color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - screenPos.X - 112f, center.Y - screenPos.Y + 20f), //72
+                color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 112f, center.Y - screenPos.Y + legOffset), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Height)),
-                color2, 0f, default, 1f, SpriteEffects.None, 0f);
+                color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()))
             {
-                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - 70f, center.Y - screenPos.Y - 75f),
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - NPC.scale * 75f),
                     new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Height)),
-                    color2, 0f, default, 1f, SpriteEffects.None, 0f);
+                    color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             }
         }
 

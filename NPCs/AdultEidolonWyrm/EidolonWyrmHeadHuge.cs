@@ -79,6 +79,14 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adult Eidolon Wyrm");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.7f,
+                PortraitPositionYOverride = 2f
+            };
+            value.Position.Y -= 32f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -1335,14 +1343,16 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.Opacity = 1f;
+                return;
+            }
+
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value;
             SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 center = NPC.Center;
-            Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
-            Vector2 vector = center - screenPos;
-            vector -= new Vector2(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value.Height) * 0.5f;
-            vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
-            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value, vector,
-                new Microsoft.Xna.Framework.Rectangle?(NPC.frame), Color.White, NPC.rotation, vector11, 1f, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, center - screenPos, NPC.frame, Color.White, NPC.rotation, texture.Size() * 0.5f, NPC.scale, spriteEffects, 0f);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

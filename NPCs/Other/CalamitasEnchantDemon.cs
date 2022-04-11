@@ -13,6 +13,7 @@ namespace CalamityMod.NPCs.Other
         public ref float FadeAwayTimer => ref NPC.ai[1];
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Demon");
             Main.npcFrameCount[NPC.type] = 5;
         }

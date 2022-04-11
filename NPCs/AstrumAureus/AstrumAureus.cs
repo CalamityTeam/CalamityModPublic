@@ -38,6 +38,14 @@ namespace CalamityMod.NPCs.AstrumAureus
             DisplayName.SetDefault("Astrum Aureus");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.27f,
+                PortraitScale = 0.45f,
+                PortraitPositionYOverride = -24f
+            };
+            value.Position.Y -= 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

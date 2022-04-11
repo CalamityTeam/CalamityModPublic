@@ -811,6 +811,15 @@ namespace CalamityMod.NPCs.Leviathan
         {
             int width = 1011;
             int height = 486;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.2f,
+                PortraitScale = 0.3f,
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
 
             if (!initialised)
             {

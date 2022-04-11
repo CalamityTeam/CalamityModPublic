@@ -49,6 +49,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             DisplayName.SetDefault("The Plaguebringer Goliath");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.5f,
+                PortraitPositionXOverride = -80f,
+                PortraitPositionYOverride = -8f,
+                SpriteDirection = 1
+            };
+            value.Position.X -= 92f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

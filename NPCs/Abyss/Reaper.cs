@@ -28,8 +28,12 @@ namespace CalamityMod.NPCs.Abyss
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                PortraitPositionXOverride = -46f
+                Scale = 0.3f,
+                PortraitPositionXOverride = -34f,
+                PortraitPositionYOverride = -10f,
             };
+            value.Position.X -= 12f;
+            value.Position.Y -= 50f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

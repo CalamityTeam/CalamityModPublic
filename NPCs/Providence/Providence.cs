@@ -83,6 +83,14 @@ namespace CalamityMod.NPCs.Providence
             DisplayName.SetDefault("Providence, the Profaned Goddess");
             Main.npcFrameCount[NPC.type] = 3;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.2f,
+                PortraitScale = 0.32f,
+                PortraitPositionYOverride = 16f
+            };
+            value.Position.Y += 6f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -1751,6 +1759,9 @@ namespace CalamityMod.NPCs.Providence
 
         public override void FindFrame(int frameHeight) //9 total frames
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             if (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon)
             {
                 if (!useDefenseFrames)
