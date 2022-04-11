@@ -155,7 +155,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Register();
             CreateRecipe().
                 AddIngredient(ItemID.Starfury).
-                AddIngredient(ItemID.Arkhalis).
+                AddIngredient(ItemID.Terragrim).
                 AddIngredient<PurifiedGel>(5).
                 AddRecipeGroup("AnyCopperBar", 10).
                 AddTile(TileID.Anvils).

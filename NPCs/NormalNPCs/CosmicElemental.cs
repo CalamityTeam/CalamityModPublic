@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npcLoot.Add(ItemDropRule.Common(ItemID.BoneSword, 20).OnFailedRoll(
                         ItemDropRule.Common(ItemID.Starfury, 50)).OnFailedRoll(
                         ItemDropRule.Common(ItemID.EnchantedSword, 50)).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.Arkhalis, 100)));
+                        ItemDropRule.Common(ItemID.Terragrim, 100)));
         }
     }
 }
