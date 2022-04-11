@@ -44,6 +44,13 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Mauler");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.425f,
+                PortraitScale = 0.9f
+            };
+            value.Position.X -= 10f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -410,6 +417,15 @@ namespace CalamityMod.NPCs.AcidRain
         public override void FindFrame(int frameHeight)
         {
             NPC.frame.Y = CurrentFrame * frameHeight;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter++;
+                if (NPC.frameCounter >= 5)
+                {
+                    CurrentFrame = (CurrentFrame + 1) % Main.npcFrameCount[NPC.type];
+                    NPC.frameCounter = 0;
+                }
+            }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

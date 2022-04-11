@@ -12,6 +12,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public const int SlowdownTime = 45;
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Microbial Cluster");
         }
 

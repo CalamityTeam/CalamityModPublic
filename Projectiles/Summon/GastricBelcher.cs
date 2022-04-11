@@ -47,9 +47,6 @@ namespace CalamityMod.Projectiles.Summon
             //On spawn effects
             if (!initialized)
             {
-                //Set constants
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 //Spawn dust
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
@@ -67,14 +64,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[water].velocity = dustVel;
                 }
                 initialized = true;
-            }
-
-            //Flexible minion damage update
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)(modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //Update frames

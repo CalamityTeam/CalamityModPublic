@@ -40,8 +40,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (dust == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
@@ -54,12 +52,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[green].velocity = dustVel;
                 }
                 dust += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 8)
@@ -207,6 +199,7 @@ namespace CalamityMod.Projectiles.Summon
             velocity.Normalize();
             velocity *= 10f;
             int bolt = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Main.projectile[bolt].originalDamage = Projectile.originalDamage;
             Main.projectile[bolt].netUpdate = true;
             Projectile.netUpdate = true;
         }

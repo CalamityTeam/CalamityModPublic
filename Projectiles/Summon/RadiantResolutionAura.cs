@@ -45,9 +45,6 @@ namespace CalamityMod.Projectiles.Summon
             // Ensure that the projectile using this AI is the correct projectile and that the owner has the appropriate buffs.
             VerifyIdentityOfCaller();
 
-            // Handle dynamic minion damage.
-            HandleDynamicMinionDamage();
-
             // Store the allocated slots in the minionSlots field so that the amount of slots the projectile is holding
             // is always correct.
             Projectile.minionSlots = Projectile.ai[0];
@@ -95,23 +92,6 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public void HandleDynamicMinionDamage()
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] += 1f;
-            }
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Owner.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-        }
-
         public void AttackTarget(NPC target, int radiantOrbAppearRate, int radiantOrbDamage)
         {
             if (GeneralTimer % 35f == 34f)
@@ -120,7 +100,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = radiantOrbDamage / 2;
                 }
             }
 
@@ -128,12 +110,16 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
                 Vector2 bootlegRadianceOrbVelocity = Projectile.SafeDirectionTo(target.Center) * 2f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
+                int p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
+                if (Main.projectile.IndexInRange(p2))
+                    Main.projectile[p2].originalDamage = radiantOrbDamage;
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = radiantOrbDamage / 2;
                 }
             }
         }

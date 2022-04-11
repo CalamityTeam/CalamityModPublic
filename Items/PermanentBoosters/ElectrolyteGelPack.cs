@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item122;
-            Item.consumable = true;
+            Item.consumable = true;  // Not researchable, only drops one time.
         }
 
         public override bool CanUseItem(Player player)

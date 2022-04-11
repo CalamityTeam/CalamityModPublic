@@ -91,6 +91,8 @@ namespace CalamityMod.Items.Weapons.Summon
             bodyIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperBody>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, 0f);
             limbsIndex = Projectile.NewProjectile(source, spawnPosition, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockback, owner.whoAmI, attackMode, bodyIndex);
             Main.projectile[bodyIndex].ai[1] = limbsIndex;
+            Main.projectile[bodyIndex].originalDamage = (int)(damage * dmgMult);
+            Main.projectile[limbsIndex].originalDamage = (int)(damage * dmgMult);
         }
 
         public override void AddRecipes()

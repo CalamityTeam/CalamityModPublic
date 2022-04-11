@@ -66,8 +66,6 @@ namespace CalamityMod.Projectiles.Summon
             //Spawn effects
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 Projectile.localAI[0] += 1f;
                 AttackMode = (int)Projectile.ai[0];
                 Projectile.ai[0] = 0f;
@@ -86,14 +84,6 @@ namespace CalamityMod.Projectiles.Summon
                 float rotateratio = 0.007f;
                 float rotation = (Math.Abs(body.velocity.X) + Math.Abs(body.velocity.Y)) * rotateratio;
                 Projectile.rotation += rotation * body.direction;
-            }
-
-            //Damage Update
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //Keep the limbs in place
@@ -170,11 +160,19 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float dmgmult = 0.8f;
                     Vector2 pspeed1 = new Vector2(Main.rand.NextFloat(3f, 8f), Main.rand.NextFloat(3f, 8f)).RotatedBy(MathHelper.ToRadians(i + 20 + MathHelper.ToDegrees(Projectile.rotation)));
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed1, ModContent.ProjectileType<EndoIceShard>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
+                    int[] projectiles = new int[3];
+
+                    projectiles[0] = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed1, ModContent.ProjectileType<EndoIceShard>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
                     Vector2 pspeed2 = pspeed1.RotatedBy(MathHelper.ToRadians(Main.rand.Next(5, 13))) * Main.rand.NextFloat(0.6f, 1.3f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed2, ModContent.ProjectileType<EndoIceShard>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
+                    projectiles[1] = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed2, ModContent.ProjectileType<EndoIceShard>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
                     Vector2 pspeed3 = pspeed1.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-12, -1))) * Main.rand.NextFloat(0.6f, 1.3f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed3, ModContent.ProjectileType<EndoIceShard>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
+                    projectiles[2] = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed3, ModContent.ProjectileType<EndoIceShard>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
+
+                    for (int j = 0; j < projectiles.Length; j++)
+                    {
+                        if (Main.projectile.IndexInRange(projectiles[j]))
+                            Main.projectile[projectiles[j]].originalDamage = Projectile.originalDamage;
+                    }
                 }
             }
         }
@@ -203,6 +201,8 @@ namespace CalamityMod.Projectiles.Summon
                 float dmgmult = 0.9f;
                 Vector2 pspeed1 = new Vector2(0.9f, 0.9f).RotatedBy(MathHelper.ToRadians(i + 20 + MathHelper.ToDegrees(Projectile.rotation)));
                 int flame = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, pspeed1, ModContent.ProjectileType<EndoFire>(), (int)(Projectile.damage * dmgmult), 1f, Projectile.owner, 0f, 0f);
+                if (Main.projectile.IndexInRange(flame))
+                    Main.projectile[flame].originalDamage = Projectile.originalDamage;
             }
         }
     }

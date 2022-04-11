@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -15,10 +16,10 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void Update(GameTime gameTime)
         {
-            if (YIndex == -1)
+            if (YIndex == -1 || BossRushEvent.BossRushActive)
             {
                 UpdateYIndex();
-                if (YIndex == -1)
+                if (YIndex == -1 || BossRushEvent.BossRushActive)
                     isActive = false;
             }
 
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.YIndex].Center);
                 }
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.66f;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensity * 0.66f;
             }
             return 0.66f;
         }
@@ -77,7 +78,7 @@ namespace CalamityMod.NPCs.Yharon
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = this.GetIntensity();
-                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(77, 19, 0) * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), new Color(77, 19, 0) * intensity);
             }
         }
 

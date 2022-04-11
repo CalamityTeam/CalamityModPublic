@@ -70,6 +70,14 @@ namespace CalamityMod.NPCs.ExoMechs
         {
             DisplayName.SetDefault("Draedon");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 30f,
+                Scale = 0.7f,
+                PortraitScale = 0.85f
+            };
+            value.Position.Y += 45f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -625,7 +633,8 @@ namespace CalamityMod.NPCs.ExoMechs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            spriteBatch.EnterShaderRegion();
+            if (!NPC.IsABestiaryIconDummy)
+                spriteBatch.EnterShaderRegion();
 
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Texture2D glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/ExoMechs/DraedonGlowmask").Value;
@@ -635,17 +644,22 @@ namespace CalamityMod.NPCs.ExoMechs
             Vector2 origin = frame.Size() * 0.5f;
             Color color = NPC.GetAlpha(drawColor);
             SpriteEffects direction = NPC.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(MathHelper.Clamp(1f - HologramEffectTimer / HologramFadeinTime, 0f, 1f) * 0.38f);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(color);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(color.A / 255f);
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(new Vector2(16f, Main.npcFrameCount[NPC.type]));
-            GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
+
+            if (!NPC.IsABestiaryIconDummy)
+            {
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseOpacity(MathHelper.Clamp(1f - HologramEffectTimer / HologramFadeinTime, 0f, 1f) * 0.38f);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSecondaryColor(color);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].UseSaturation(color.A / 255f);
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].Shader.Parameters["frameCount"].SetValue(new Vector2(16f, Main.npcFrameCount[NPC.type]));
+                GameShaders.Misc["CalamityMod:TeleportDisplacement"].Apply();
+            }
 
             spriteBatch.Draw(texture, drawPosition, frame, drawColor * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
 
-            spriteBatch.ExitShaderRegion();
+            if (!NPC.IsABestiaryIconDummy)
+                spriteBatch.ExitShaderRegion();
 
-            if (HologramEffectTimer >= HologramFadeinTime)
+            if (HologramEffectTimer >= HologramFadeinTime || NPC.IsABestiaryIconDummy)
                 spriteBatch.Draw(glowmask, drawPosition, frame, Color.White * NPC.Opacity, NPC.rotation, origin, NPC.scale, direction, 0f);
 
             return false;

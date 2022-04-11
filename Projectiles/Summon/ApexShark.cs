@@ -46,8 +46,6 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
@@ -59,13 +57,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num228].velocity = vector7;
                 }
                 Projectile.localAI[0]++;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 6)

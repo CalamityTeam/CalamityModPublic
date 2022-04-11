@@ -64,19 +64,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.frame = 0;
             }
 
-            if (!initialized)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                initialized = true;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             if (player.Calamity().plantera)
             {
                 Projectile.timeLeft = 2;

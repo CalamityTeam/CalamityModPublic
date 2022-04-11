@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Mounts
             Item.value = Item.buyPrice(platinum: 1);
             Item.rare = ItemRarityID.Cyan;
             Item.Calamity().devItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

@@ -17,6 +17,13 @@ namespace CalamityMod.NPCs.Leviathan
         {
             DisplayName.SetDefault("???");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = -6f,
+                Scale = 0.65f,
+                PortraitScale = 0.75f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -55,6 +62,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             NPC.frameCounter += 0.1f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;

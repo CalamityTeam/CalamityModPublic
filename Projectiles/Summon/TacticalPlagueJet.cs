@@ -57,9 +57,6 @@ namespace CalamityMod.Projectiles.Summon
             // Frame 1 spawning effects.
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
                 // Spawn dust.
                 for (int i = 0; i < 45; i++)
                 {
@@ -83,15 +80,6 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.frame = 0;
-
-            // Correct for minion damage changes every single frame.
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
 
             player.AddBuff(ModContent.BuffType<TacticalPlagueEngineBuff>(), 3600);
             bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<TacticalPlagueJet>();
@@ -192,7 +180,10 @@ namespace CalamityMod.Projectiles.Summon
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))
+                    {
                         Main.projectile[projIndex].Calamity().forceMinion = true;
+                        Main.projectile[projIndex].originalDamage = Projectile.originalDamage;
+                    }
                 }
 
                 // Prevent minion clumping while firing.

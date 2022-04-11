@@ -67,8 +67,6 @@ namespace CalamityMod.Projectiles.Summon
             //on spawn effects and flexible minions
             if (!dust)
             {
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 16;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
@@ -82,13 +80,6 @@ namespace CalamityMod.Projectiles.Summon
                 }
 
                 dust = true;
-            }
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //Bool setup
@@ -212,7 +203,9 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner)
                     {
                         Vector2 laserVel = Projectile.SafeDirectionTo(objectivepos) * laserSpeed;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                         Projectile.netUpdate = true;
                     }
                 }

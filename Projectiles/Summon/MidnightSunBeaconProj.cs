@@ -39,8 +39,10 @@ namespace CalamityMod.Projectiles.Summon
 
             if (Projectile.ai[1] == 1f)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 30f, ModContent.ProjectileType<MidnightSunUFO>(), Projectile.damage, Projectile.knockBack,
+                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 30f, ModContent.ProjectileType<MidnightSunUFO>(), Projectile.damage, Projectile.knockBack,
                     Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
                 Projectile.Kill();
             }
             if (Projectile.ai[1] > 0)

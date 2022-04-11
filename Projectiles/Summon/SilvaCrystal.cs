@@ -37,19 +37,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (Projectile.localAI[1] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[1] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
-            }
             bool flag64 = Projectile.type == ModContent.ProjectileType<SilvaCrystal>();
             if (!modPlayer.silvaSummon)
             {
@@ -180,7 +167,9 @@ namespace CalamityMod.Projectiles.Summon
                                 vector156 = Projectile.Center + vector155.RotatedByRandom(0.78539818525314331) * (Main.rand.NextFloat() * 0.5f + 0.75f);
                             }
                             float x4 = Main.rgbToHsl(new Color(Main.DiscoR, 203, 103)).X;
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector156, Vector2.Zero, ModContent.ProjectileType<SilvaCrystalExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, (float)Projectile.whoAmI);
+                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector156, Vector2.Zero, ModContent.ProjectileType<SilvaCrystalExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner, x4, (float)Projectile.whoAmI);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                             num31 = num1083;
                         }
                         return;

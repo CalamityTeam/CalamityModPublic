@@ -48,13 +48,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] = 1f;
             }
 
-            // Dynamically adjust damage of the minion.
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int newDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = newDamage;
-            }
-
             // Fade in.
             Projectile.alpha = Utils.Clamp(Projectile.alpha - 8, 0, 255);
 
@@ -78,9 +71,6 @@ namespace CalamityMod.Projectiles.Summon
 
         internal void DoInitializationEffects()
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
             // Release a burst of fire dust on spawn.
             if (Main.dedServ)
                 return;
@@ -154,7 +144,10 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 shootVelocity = (Target.Center - spawnPosition).SafeNormalize(-Vector2.UnitY).RotatedByRandom(0.09f) * Main.rand.NextFloat(19f, 31f);
             int soul = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, rng.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (Main.projectile.IndexInRange(soul))
+            {
+                Main.projectile[soul].originalDamage = Projectile.originalDamage;
                 Main.projectile[soul].Calamity().forceMinion = true;
+            }
         }
 
         public override void PostDraw(Color lightColor)

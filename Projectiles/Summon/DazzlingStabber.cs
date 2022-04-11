@@ -45,7 +45,6 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3());
 
             ApplyPlayerBuffs();
-            AdjustDamageDynamically();
             UpdateFrames();
 
             NPC potentialTarget = Projectile.Center.MinionHoming(1100f, Owner);
@@ -65,21 +64,6 @@ namespace CalamityMod.Projectiles.Summon
                     Owner.Calamity().providenceStabber = false;
                 if (Owner.Calamity().providenceStabber)
                     Projectile.timeLeft = 2;
-            }
-        }
-
-        public void AdjustDamageDynamically()
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1f;
-            }
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                Projectile.damage = trueDamage;
             }
         }
 

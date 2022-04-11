@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -15,10 +16,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void Update(GameTime gameTime)
         {
-            if (LevIndex == -1)
+            if (LevIndex == -1 || BossRushEvent.BossRushActive)
             {
                 UpdateLIndex();
-                if (LevIndex == -1)
+                if (LevIndex == -1 || BossRushEvent.BossRushActive)
                     isActive = false;
             }
 
@@ -47,7 +48,7 @@ namespace CalamityMod.NPCs.Leviathan
                 if (Main.npc[LevIndex].Calamity().newAI[3] < spawnAnimationTimer)
                     intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[LevIndex].Calamity().newAI[3] / spawnAnimationTimer);
 
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar * intensity;
             }
             return 0f;
         }
@@ -82,7 +83,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 15) * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), new Color(0, 0, 15) * intensity);
             }
         }
 

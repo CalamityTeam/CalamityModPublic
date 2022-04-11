@@ -25,6 +25,13 @@ namespace CalamityMod.NPCs.PlagueEnemies
             DisplayName.SetDefault("Plaguebringer");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.7f,
+                PortraitScale = 0.8f,
+            };
+            value.Position.X += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -598,14 +605,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
             if (NPC.life <= 0)
             {
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg4").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg5").Type, 1f);
-                }
                 NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
                 NPC.width = 100;

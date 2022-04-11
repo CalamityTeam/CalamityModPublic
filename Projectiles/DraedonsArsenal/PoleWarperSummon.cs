@@ -73,26 +73,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void Initialize(Player player)
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
             for (int i = 0; i < 45; i++)
             {
                 float angle = MathHelper.TwoPi / 45f * i;
                 Vector2 velocity = angle.ToRotationVector2() * 4f;
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 261, velocity);
                 dust.noGravity = true;
-            }
-        }
-
-        // While this projectile cannot attack, the projectiles it shoots derive from the damage.
-        public void AdjustDamage(Player player)
-        {
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
             }
         }
 

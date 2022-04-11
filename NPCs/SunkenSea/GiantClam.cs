@@ -37,6 +37,12 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Giant Clam");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+            };
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -393,7 +399,7 @@ namespace CalamityMod.NPCs.SunkenSea
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
-            Main.EntitySpriteDraw(texture, screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
+            Main.EntitySpriteDraw(texture, NPC.Center - screenPos, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, NPC.frame.Size() * 0.5f, NPC.scale, 0, 0);
             return false;
         }
 
@@ -408,7 +414,7 @@ namespace CalamityMod.NPCs.SunkenSea
             vector -= new Vector2((float)glowmask.Width, (float)(glowmask.Height / Main.npcFrameCount[NPC.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 4f + NPC.gfxOffY);
             Color color = new Color(127 - NPC.alpha, 127 - NPC.alpha, 127 - NPC.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.EntitySpriteDraw(glowmask, vector, NPC.frame, color, NPC.rotation, vector11, 1f, spriteEffects, 0);
+            Main.EntitySpriteDraw(glowmask, vector, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0);
         }
 
         public override void OnKill()

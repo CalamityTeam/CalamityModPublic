@@ -42,8 +42,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityGlobalProjectile modProj = Projectile.Calamity();
             if (dust == 0f)
             {
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int num227 = 0; num227 < dustAmt; num227++)
                 {
@@ -56,12 +54,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dusty].velocity = vector7;
                 }
                 dust += 1f;
-            }
-            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
             bool projTypeCheck = Projectile.type == ModContent.ProjectileType<HauntedDishes>();
             player.AddBuff(ModContent.BuffType<HauntedDishesBuff>(), 3600);

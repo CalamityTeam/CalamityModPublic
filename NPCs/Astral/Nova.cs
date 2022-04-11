@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using Terraria.GameContent.ItemDropRules;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -261,8 +262,8 @@ namespace CalamityMod.NPCs.Astral
         {
             var exploded = npcLoot.DefineConditionalDropSet((info) => info.npc.ai[3] <= -10000f);
             exploded.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Stardust>(), 1, 2, 3, 3, 4));
-            exploded.Add(ModContent.ItemType<StellarCannon>(), 7);
             exploded.Add(ModContent.ItemType<GloriousEnd>(), 7);
+            exploded.Add(ItemDropRule.ByCondition(DropHelper.If(() => DownedBossSystem.downedAstrumAureus), ModContent.ItemType<StellarCannon>(), 7));
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

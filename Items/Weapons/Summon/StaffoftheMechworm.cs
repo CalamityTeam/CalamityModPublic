@@ -65,11 +65,17 @@ namespace CalamityMod.Items.Weapons.Summon
 
             int curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormHead>(), damage, knockback, owner.whoAmI, 0f, 0f);
             curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
+            if (Main.projectile.IndexInRange(curr))
+                Main.projectile[curr].originalDamage = damage;
             int prev = curr;
             curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
+            if (Main.projectile.IndexInRange(curr))
+                Main.projectile[curr].originalDamage = damage;
             Main.projectile[prev].localAI[1] = curr;
             prev = curr;
             curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormTail>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
+            if (Main.projectile.IndexInRange(curr))
+                Main.projectile[curr].originalDamage = damage;
             Main.projectile[prev].localAI[1] = curr;
 
             tailIndex = curr;
@@ -89,6 +95,10 @@ namespace CalamityMod.Items.Weapons.Summon
             var m = Main.projectileIdentity;
             Main.projectile[tailIndex].ai[0] = Main.projectile[body].identity;
             Main.projectile[tailIndex].netUpdate = true;
+            if (Main.projectile.IndexInRange(body))
+                Main.projectile[body].originalDamage = damage;
+            if (Main.projectile.IndexInRange(body2))
+                Main.projectile[body2].originalDamage = damage;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -1,4 +1,5 @@
-﻿using CalamityMod.NPCs;
+﻿using CalamityMod.Events;
+using CalamityMod.NPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
@@ -102,6 +103,13 @@ namespace CalamityMod.Skies
 
         public override void Update(GameTime gameTime)
         {
+            if (SCalIndex == -1)
+            {
+                UpdateSCalIndex();
+                if (SCalIndex == -1)
+                    isActive = false;
+            }
+
             if (isActive && intensity < 1f)
             {
                 intensity += 0.01f;
@@ -171,13 +179,14 @@ namespace CalamityMod.Skies
                 float x = 0f;
                 if (SCalIndex != -1)
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.SCalIndex].Center);
+                float intensityFactor = BossRushEvent.BossRushActive ? -0.2f : intensity;
 
-                return 1f - Utils.SmoothStep(3000f, 6000f, x);
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityFactor;
             }
             return 0f;
         }
 
-        public override Color OnTileColor(Color inColor) => new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - GetIntensity()));
+        public override Color OnTileColor(Color inColor) => new(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - GetIntensity()));
 
         private bool UpdateSCalIndex()
         {
@@ -203,7 +212,7 @@ namespace CalamityMod.Skies
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = GetIntensity();
-                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), Color.Black * intensity);
             }
 
             // Draw cinders.

@@ -4,6 +4,7 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -48,7 +49,9 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<WaterElementalMinion>(), (int)(65 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+                    int anahita = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<WaterElementalMinion>(), (int)(65 * player.MinionDamage()), 2f, Main.myPlayer);
+                    if (Main.projectile.IndexInRange(anahita))
+                        Main.projectile[anahita].originalDamage = 65;
                 }
             }
         }

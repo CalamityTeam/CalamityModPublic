@@ -61,8 +61,6 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
@@ -70,13 +68,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 16)
@@ -207,7 +198,9 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetCenter, 0, 0))
                     {
                         Vector2 fireballshootVelocity = Projectile.SafeDirectionTo(targetCenter) * fireballShootSpeed;
-                        Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, fireballshootVelocity, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, fireballshootVelocity, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                         Projectile.netUpdate = true;
                     }
                 }

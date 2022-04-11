@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +25,7 @@ Consuming it does something that cannot be reversed");
             Item.useTime = 30;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item4;
-            Item.consumable = true;
+            Item.consumable = true; // Not researchable, only drops one time.
         }
 
         public override bool CanUseItem(Player player)

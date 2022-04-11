@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item4;
             Item.consumable = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

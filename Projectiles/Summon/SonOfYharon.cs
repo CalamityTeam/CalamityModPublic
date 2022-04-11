@@ -61,13 +61,6 @@ namespace CalamityMod.Projectiles.Summon
             // Perform minion checks.
             PerformMinionChecks();
 
-            // Dynamically adjust damage if it changes.
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             // Handle frame logic.
             if (Projectile.FinalExtraUpdate())
                 Projectile.frameCounter++;
@@ -126,9 +119,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public void PerformInitialization()
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
             for (int i = 0; i < 45; i++)
             {
                 Dust fire = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(55f, 55f), 244);
@@ -248,7 +238,7 @@ namespace CalamityMod.Projectiles.Summon
             Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
             int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
             int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle(0, y6, texture2D13.Width, num214), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), Projectile.scale, spriteEffects, 0);
             return false;
         }
     }

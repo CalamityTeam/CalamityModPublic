@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Arkhalis).
+                AddIngredient(ItemID.Terragrim).
                 AddIngredient<DemonicBoneAsh>(10).
                 AddIngredient<BloodstoneCore>(25).
                 AddTile(TileID.LunarCraftingStation).

@@ -67,8 +67,6 @@ namespace CalamityMod.Projectiles.Summon
             //dust and flexible damage
             if (dust)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
@@ -77,13 +75,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].scale *= 1.15f;
                 }
                 dust = false;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //framing
@@ -316,7 +307,9 @@ namespace CalamityMod.Projectiles.Summon
                             Vector2 projVect = targetLocation - Projectile.Center;
                             projVect.Normalize();
                             projVect *= scaleFactor4;
-                            Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVect, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVect, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * 0.6);
                             Projectile.netUpdate = true;
                         }
                     }
@@ -344,6 +337,8 @@ namespace CalamityMod.Projectiles.Summon
                                 {
                                     Main.projectile[bee].frame = 2;
                                 }
+                                if (Main.projectile.IndexInRange(bee))
+                                    Main.projectile[bee].originalDamage = (int)(Projectile.originalDamage * 0.8f);
                                 Projectile.netUpdate = true;
                             }
                         }

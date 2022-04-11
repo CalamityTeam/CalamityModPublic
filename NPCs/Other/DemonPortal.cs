@@ -12,7 +12,11 @@ namespace CalamityMod.NPCs.Other
     public class DemonPortal : ModNPC
     {
         public ref float Time => ref NPC.ai[0];
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Mysterious Portal");
+        public override void SetStaticDefaults()
+        {
+            this.HideFromBestiary();
+            DisplayName.SetDefault("Mysterious Portal");
+        }
 
         public override void SetDefaults()
         {

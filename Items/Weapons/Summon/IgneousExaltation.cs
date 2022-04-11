@@ -49,7 +49,9 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2 && totalMinionSlots < player.maxMinions)
             {
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                int p = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
                 int swordCount = 0;
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {

@@ -41,19 +41,6 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.frame = 0;
             }
             Player player = Main.player[Projectile.owner];
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             bool canExplode = Projectile.Center.ClosestNPCAt(MinExplodeDistance) != null;
             if (player.HasMinionAttackTargetNPC)
             {
@@ -68,22 +55,32 @@ namespace CalamityMod.Projectiles.Summon
                     // Goop projectiles
                     for (int i = 0; i < 3; i++)
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                             ModContent.ProjectileType<FrogGore1>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                        p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                             ModContent.ProjectileType<FrogGore2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    int p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore3>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    if (Main.projectile.IndexInRange(p2))
+                        Main.projectile[p2].originalDamage = Projectile.originalDamage;
+                    p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore4>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    if (Main.projectile.IndexInRange(p2))
+                        Main.projectile[p2].originalDamage = Projectile.originalDamage;
+                    p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore5>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p2))
+                        Main.projectile[p2].originalDamage = Projectile.originalDamage;
                 }
                 // WoF vomit sound.
                 SoundEngine.PlaySound(SoundID.NPCKilled, Projectile.Center, 13);

@@ -11,6 +11,7 @@ namespace CalamityMod.NPCs.DesertScourge
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Desert Scourge");
         }
 

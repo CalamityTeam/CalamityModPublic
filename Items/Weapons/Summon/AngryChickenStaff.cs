@@ -43,7 +43,9 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 position = Main.MouseWorld;
-                Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                int dragon = Projectile.NewProjectile(source, position, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(dragon))
+                    Main.projectile[dragon].originalDamage = Item.damage;
             }
             return false;
         }

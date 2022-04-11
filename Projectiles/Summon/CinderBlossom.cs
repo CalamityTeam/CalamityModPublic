@@ -65,13 +65,6 @@ namespace CalamityMod.Projectiles.Summon
                 Initialize(player);
                 Projectile.localAI[0] = 1f;
             }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             if (Projectile.owner == Main.myPlayer)
             {
                 NPC potentialTarget = Projectile.Center.MinionHoming(700f, player);
@@ -80,7 +73,9 @@ namespace CalamityMod.Projectiles.Summon
                     if (Time++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
                         Vector2 velocity = Projectile.SafeDirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Cinder>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                 }
             }
@@ -88,8 +83,6 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void Initialize(Player player)
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
             for (int i = 0; i < 36; i++)
             {
                 Dust dust = Dust.NewDustPerfect(Projectile.Center, 6);

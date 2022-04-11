@@ -36,19 +36,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<PlaguebringerMK2>();
             player.AddBuff(ModContent.BuffType<FuelCellBundleBuff>(), 3600);
             if (isProperProjectile)
@@ -81,18 +68,22 @@ namespace CalamityMod.Projectiles.Summon
                 int timeNeeded = (int)MathHelper.Lerp(60f, 18f, MathHelper.Clamp(Projectile.localAI[1] / 320f, 0f, 1f));
                 if (Projectile.ai[0] >= timeNeeded && Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center,
+                    int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center,
                         Projectile.SafeDirectionTo(potentialTarget.Center) * 14f,
                         ModContent.ProjectileType<MK2RocketNormal>(),
                         (int)(Projectile.damage * 0.9),
                         3f,
                         Projectile.owner);
-                    Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center,
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
+                    p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center,
                         Projectile.SafeDirectionTo(potentialTarget.Center) * 11.5f,
                         ModContent.ProjectileType<MK2RocketHoming>(),
                         (int)(Projectile.damage * 0.9),
                         3f,
                         Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                     Projectile.ai[0] = 0;
                 }
                 else Projectile.ai[0]++;

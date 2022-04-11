@@ -40,21 +40,14 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
                         Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SkeletalDragonChild>(), Projectile.damage, Projectile.knockBack, player.whoAmI, Projectile.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
                 Projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
             }
             bool isProperProjectile = Projectile.type == ModContent.ProjectileType<SkeletalDragonMother>();
             player.AddBuff(ModContent.BuffType<BloodDragonsBuff>(), 3600);
@@ -106,7 +99,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Projectile.owner == player.whoAmI && Projectile.spriteDirection == (Projectile.SafeDirectionTo(target.Center).X > 0).ToDirectionInt())
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                 }
             }

@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int spike = 0; spike < 4; spike++)
                     {
                         randomSpread = Main.rand.Next(-200, 200) / 100;
-                        for (int x = 0; x < 4; x++)
+                        for (int x = 1; x <= 4; x++)
                             Gore.NewGore(NPC.Center, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoShieldGore" + x).Type, 1f);
                     }
                 }

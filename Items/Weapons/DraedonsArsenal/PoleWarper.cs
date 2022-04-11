@@ -56,6 +56,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             Projectile north = Projectile.NewProjectileDirect(source, Main.MouseWorld + Vector2.UnitY * 30f, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             Projectile south = Projectile.NewProjectileDirect(source, Main.MouseWorld - Vector2.UnitY * 30f, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+            north.originalDamage = Item.damage;
+            south.originalDamage = Item.damage;
             north.ai[1] = 1f;
             south.ai[1] = 0f;
 

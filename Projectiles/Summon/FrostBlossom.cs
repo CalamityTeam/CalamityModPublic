@@ -65,8 +65,6 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.Opacity = 1f - (float)Math.Sin(Projectile.ai[1] / 45f) * 0.075f - 0.075f; // Range of 1f to 0.85f
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 36; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, 113);
@@ -75,13 +73,6 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 Projectile.localAI[0] += 1f;
             }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
             if (Projectile.owner == Main.myPlayer)
             {
                 NPC potentialTarget = Projectile.Center.MinionHoming(500f, player);
@@ -89,7 +80,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Projectile.ai[1]++ % 35f == 34f && Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 20f, ModContent.ProjectileType<FrostBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
                 }
             }

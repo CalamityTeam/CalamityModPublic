@@ -77,8 +77,6 @@ namespace CalamityMod.Projectiles.Summon
             //Spawn effects
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 AttackMode = (int)Projectile.ai[0];
                 LimbID = (int)Projectile.ai[1];
                 Projectile.ai[0] = 0f;
@@ -98,13 +96,6 @@ namespace CalamityMod.Projectiles.Summon
             }
             Projectile.localAI[1] = AttackMode;
 
-            //Damage Update
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
-            }
             //Variables
             float mindistance = 2000f;
             float longdistance = AttackMode != 2 ? 1300f : 1200f;
@@ -295,7 +286,9 @@ namespace CalamityMod.Projectiles.Summon
                                     aimlaser = aimlaser.RotatedBy(MathHelper.ToRadians(30 * -laserdirection));
                                     float angularChange = (MathHelper.Pi / 180f) * 1.1f * laserdirection;
                                     //aimlaser *= 12f;
-                                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, aimlaser, ModContent.ProjectileType<EndoBeam>(), Projectile.damage, 0f, Projectile.owner, angularChange, (float)Projectile.whoAmI);
+                                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, aimlaser, ModContent.ProjectileType<EndoBeam>(), Projectile.damage, 0f, Projectile.owner, angularChange, (float)Projectile.whoAmI);
+                                    if (Main.projectile.IndexInRange(p))
+                                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                                     laserdirection *= -1;
                                     break;
 

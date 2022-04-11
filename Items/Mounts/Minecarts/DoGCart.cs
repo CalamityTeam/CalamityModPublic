@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts.Minecarts
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
             Item.UseSound = SoundID.Item68;
             Item.noMelee = true;
             Item.mountType = ModContent.MountType<DoGCartMount>();
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

@@ -45,12 +45,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             Player player = Main.player[Projectile.owner];
             Projectile.Center = player.Center + AngularOffsetRelativeToPlayer.ToRotationVector2() * OffsetDistanceFromPlayer;
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-            }
-            AdjustDamage(player);
             GrantBuffs(player);
 
             NPC potentialTarget = Projectile.Center.MinionHoming(960f, player);
@@ -65,17 +59,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Projectile.localAI[0] = 1f;
             }
             Time++;
-        }
-        // While this projectile cannot attack, the projectiles it shoots derive from the damage.
-        public void AdjustDamage(Player player)
-        {
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
         }
         public void GrantBuffs(Player player)
         {

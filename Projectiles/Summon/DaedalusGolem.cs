@@ -73,8 +73,6 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.timeLeft = 2;
             }
 
-            AdjustMinionDamage();
-
             // Fall down.
             if (Projectile.velocity.Y < 15f)
                 Projectile.velocity.Y += Gravity;
@@ -150,37 +148,24 @@ namespace CalamityMod.Projectiles.Summon
                             if (Main.rand.NextBool(2))
                                 initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
+                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
+                            if (Main.projectile.IndexInRange(p))
+                                Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }
                     }
                 }
                 else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == Projectile.owner)
                 {
                     Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
             }
             else if (potentialTarget is null && AttackTimer != 0)
             {
                 AttackTimer = 0;
                 Projectile.netUpdate = true;
-            }
-        }
-
-        public void AdjustMinionDamage()
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] += 1f;
-            }
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int newDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Owner.MinionDamage());
-                Projectile.damage = newDamage;
             }
         }
 

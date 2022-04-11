@@ -22,7 +22,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
             if (ModContent.GetModItem(headItemType) is IExtendedHat extendedHatDrawer)
             {
-                if (extendedHatDrawer.PreDrawExtension(drawInfo))
+                if (extendedHatDrawer.PreDrawExtension(drawInfo) && !drawInfo.drawPlayer.dead)
                 {
                     int dyeShader = drawPlayer.dye?[0].dye ?? 0;
 

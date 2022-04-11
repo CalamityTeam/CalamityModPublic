@@ -32,8 +32,6 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[Projectile.owner];
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 for (int i = 0; i < 56; i++)
                 {
                     float angle = MathHelper.TwoPi / 56f * i;
@@ -43,13 +41,6 @@ namespace CalamityMod.Projectiles.Summon
                     dust.noGravity = true;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter % 5f == 4f)
@@ -68,7 +59,11 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.ai[0]++ % 30f == 29f)
                 {
                     if (Projectile.owner == Main.myPlayer)
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), Projectile.damage, 4f, Projectile.owner);
+                    {
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY) * 11f, ModContent.ProjectileType<FlyingOrthoceraStream>(), Projectile.damage, 4f, Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
+                    }
                 }
             }
             else

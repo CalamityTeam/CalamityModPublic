@@ -39,7 +39,6 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             ProvidePlayerMinionBuffs();
-            DynamicallyUpdateDamage();
             GenerateVisuals();
             NPC potentialTarget = Projectile.Center.MinionHoming(750f, Owner);
             if (potentialTarget is null)
@@ -61,20 +60,6 @@ namespace CalamityMod.Projectiles.Summon
                 Owner.Calamity().eyeOfNight = false;
             if (Owner.Calamity().eyeOfNight)
                 Projectile.timeLeft = 2;
-        }
-
-        internal void DynamicallyUpdateDamage()
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1f;
-            }
-            if (Owner.MinionDamage() == Projectile.Calamity().spawnedPlayerMinionDamageValue)
-                return;
-            int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-            Projectile.damage = trueDamage;
         }
 
         internal void GenerateVisuals()
@@ -110,7 +95,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == Projectile.owner && HoverTime % 70f == 69f)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
                 HoverTime++;
             }
 

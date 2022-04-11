@@ -55,7 +55,9 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Valkyrie>(), (int)(20 * player.MinionDamage()), 0f, Main.myPlayer, 0f, 0f);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Valkyrie>(), (int)(20 * player.MinionDamage()), 0f, Main.myPlayer, 0f, 0f);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 20;
                 }
             }
             player.GetDamage(DamageClass.Summon) += 0.11f;

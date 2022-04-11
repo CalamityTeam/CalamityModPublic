@@ -8,7 +8,11 @@ namespace CalamityMod.NPCs.DesertScourge
 {
     public class DesertNuisanceTail : ModNPC
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("A Desert Nuisance");
+        public override void SetStaticDefaults()
+        {
+            this.HideFromBestiary();
+            DisplayName.SetDefault("A Desert Nuisance");
+        }
 
         public override void SetDefaults()
         {

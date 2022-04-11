@@ -104,6 +104,8 @@ namespace CalamityMod.NPCs.Astral
         {
             Vector2 offset = new Vector2(0f, 10f);
             Vector2 origin = new Vector2(67f, 23f);
+            if (NPC.IsABestiaryIconDummy)
+                drawColor = Color.White;
 
             //draw shark
             spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - screenPos + offset, NPC.frame, drawColor, NPC.rotation, origin, 1f, NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);

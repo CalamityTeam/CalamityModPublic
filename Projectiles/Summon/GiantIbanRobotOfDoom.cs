@@ -73,29 +73,12 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
-            InitializeValues(player);
             HandleCooldowns(player);
             ManipulatePlayerValues(player);
             RegisterRightClick(player);
             SetFrames(player);
             SetSpriteDirection(player);
             player.AddBuff(LeftIconActive ? ModContent.BuffType<AndromedaSmallBuff>() : ModContent.BuffType<AndromedaBuff>(), 2);
-        }
-        public void InitializeValues(Player player)
-        {
-            if (Projectile.localAI[0] == 0f)
-            {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-                Projectile.localAI[0] = 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
         }
         public void HandleCooldowns(Player player)
         {
@@ -388,6 +371,7 @@ namespace CalamityMod.Projectiles.Summon
                                                                            8f,
                                                                            Projectile.owner,
                                                                            Projectile.whoAmI);
+                    deathLaser.originalDamage = damage;
                     if (player.HeldItem != null && deathLaser.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         if (player.HeldItem.CountsAsClass<MagicDamageClass>())

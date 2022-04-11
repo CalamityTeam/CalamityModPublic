@@ -98,9 +98,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             int totalHeads = CalamityUtils.CountProjectiles(Projectile.type);
             CurrentPositionOffset = IdealPositionOffset = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
             Projectile.netUpdate = true;
 
             if (Main.dedServ)
@@ -157,7 +154,11 @@ namespace CalamityMod.Projectiles.Summon
 
             // Shoot the actual canister.
             if (Main.myPlayer == Projectile.owner && Time % canisterShootRate == canisterShootRate - 1)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            {
+                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
+            }
         }
 
         public void MoveTowardsDestination(Vector2 returnPosition)

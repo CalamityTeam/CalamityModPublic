@@ -1,5 +1,6 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using CalamityMod.NPCs.AcidRain;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.SummonItems
@@ -28,6 +29,7 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = true;
             Item.noUseGraphic = true;
             Item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

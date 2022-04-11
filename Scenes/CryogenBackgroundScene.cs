@@ -1,6 +1,7 @@
 ﻿using CalamityMod.NPCs.Cryogen;
 using CalamityMod.Skies;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Systems
@@ -19,7 +20,14 @@ namespace CalamityMod.Systems
 
         public override void SpecialVisuals(Player player)
         {
-            player.ManageSpecialBiomeVisuals("CalamityMod:Cryogen", IsSceneEffectActive(player));
+            bool useCryogen = IsSceneEffectActive(player);
+            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
+            {
+                if (useCryogen)
+                    SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
+                else
+                    SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
+            }
         }
     }
 }

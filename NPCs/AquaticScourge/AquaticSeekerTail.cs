@@ -10,6 +10,7 @@ namespace CalamityMod.NPCs.AquaticScourge
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Aquatic Seeker");
         }
 

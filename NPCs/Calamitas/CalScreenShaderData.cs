@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -35,10 +36,10 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void Update(GameTime gameTime)
         {
-            if (CalIndex == -1)
+            if (CalIndex == -1 || BossRushEvent.BossRushActive)
             {
                 UpdateCalIndex();
-                if (CalIndex == -1)
+                if (CalIndex == -1 || BossRushEvent.BossRushActive)
                     Filters.Scene["CalamityMod:CalamitasRun3"].Deactivate();
             }
         }

@@ -73,14 +73,6 @@ namespace CalamityMod.Projectiles.Summon
                 Initialize(Owner);
                 Projectile.ai[0] = 1f;
             }
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    Owner.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
-
             NPC potentialTarget = Projectile.Center.MinionHoming(720f, Owner);
 
             if (potentialTarget is null)
@@ -123,8 +115,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 velocity = (target.Center - Projectile.Center) / 15f;
                     int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    Main.projectile[beam].ai[0] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
-                    Main.projectile[beam].Damage();
+                    if (Main.projectile.IndexInRange(beam))
+                    {
+                        Main.projectile[beam].originalDamage = Projectile.originalDamage;
+                        Main.projectile[beam].ai[0] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
+                        Main.projectile[beam].Damage();
+                    }
                 }
                 PupilScale = 1.5f;
             }
@@ -144,9 +140,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public void Initialize(Player player)
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
             if (!Main.dedServ)
                 return;
 

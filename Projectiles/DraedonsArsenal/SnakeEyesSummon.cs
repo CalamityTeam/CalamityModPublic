@@ -70,7 +70,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Initialize(player);
                 Projectile.localAI[0] = 1f;
             }
-            AdjustDamage(player);
             GrantBuffs(player);
             NPC potentialTarget = Projectile.Center.MinionHoming(820f, player);
             if (potentialTarget == null || SufferingFromSeparationAnxiety)
@@ -111,8 +110,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public void Initialize(Player player)
         {
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
             Destination = Projectile.Center - Vector2.UnitY * 180f;
             for (int i = 0; i < 45; i++)
             {
@@ -120,18 +117,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Vector2 velocity = angle.ToRotationVector2() * 4f;
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + velocity * 2.75f, 39, velocity);
                 dust.noGravity = true;
-            }
-        }
-
-        // While this projectile cannot attack, the projectiles it shoots derive from the damage.
-        public void AdjustDamage(Player player)
-        {
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = trueDamage;
             }
         }
 

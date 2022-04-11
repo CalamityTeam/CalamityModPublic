@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
 
             if (Main.netMode != NetmodeID.Server)
-                TextureBlue = Mod.Assets.Request<Texture2D>("Projectiles/Ranged/GodSlayerSlugBlue").Value;
+                TextureBlue = Mod.Assets.Request<Texture2D>("Projectiles/Ranged/GodSlayerSlugBlue", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void SetDefaults()

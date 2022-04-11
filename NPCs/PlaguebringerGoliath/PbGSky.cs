@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
@@ -15,10 +16,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void Update(GameTime gameTime)
         {
-            if (PbGIndex == -1)
+            if (PbGIndex == -1 || BossRushEvent.BossRushActive)
             {
                 UpdatePbGIndex();
-                if (PbGIndex == -1)
+                if (PbGIndex == -1 || BossRushEvent.BossRushActive)
                     isActive = false;
             }
 
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.PbGIndex].Center);
                 }
-                return 1f - Utils.SmoothStep(3000f, 6000f, x);
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensity;
             }
             return 0f;
         }
@@ -77,7 +78,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (maxDepth >= 0 && minDepth < 0)
             {
                 float intensity = this.GetIntensity();
-                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Black * intensity);
+                spriteBatch.Draw(TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth * 2, Main.screenHeight * 2), Color.Black * intensity);
             }
         }
 

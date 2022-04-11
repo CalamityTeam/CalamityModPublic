@@ -29,6 +29,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
         {
             DisplayName.SetDefault("Brimstone Elemental");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.5f,
+                PortraitScale = 0.64f
+            };
+            value.Position.Y -= 24f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

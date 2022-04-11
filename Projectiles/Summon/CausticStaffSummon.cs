@@ -41,8 +41,6 @@ namespace CalamityMod.Projectiles.Summon
             //Spawn dust and record initial damage values
             if (!initialized)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
@@ -55,15 +53,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dusty].velocity = vector7;
                 }
                 initialized = true;
-            }
-
-            //if minion damage changes, update it
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             //If the correct minion, set bools and apply buffs
@@ -287,6 +276,8 @@ namespace CalamityMod.Projectiles.Summon
             targetVec.Normalize();
             targetVec *= speedMult;
             int spike = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, debuffToInflict, 0f);
+            if (Main.projectile.IndexInRange(spike))
+                Main.projectile[spike].originalDamage = Projectile.originalDamage;
             debuffToInflict++;
             if (debuffToInflict >= 5f)
                 debuffToInflict = 0f;

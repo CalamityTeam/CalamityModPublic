@@ -41,9 +41,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (Projectile.localAI[0] == 0f)
             {
-                Projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
-                Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
-
                 rotationVariation = Main.rand.NextDouble() * 0.015;
 
                 int dustAmt = 36;
@@ -57,12 +54,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[astral].velocity = dustVel;
                 }
                 Projectile.localAI[0] += 1f;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    Projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
             bool correctMinion = Projectile.type == ModContent.ProjectileType<AstralProbeSummon>();
             player.AddBuff(ModContent.BuffType<AstralProbeBuff>(), 3600);

@@ -173,7 +173,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             Initialize();
             HandleBuffs();
-            HandleFlexibleDamage();
             UpdateSegments();
 
             // Fade in rapidly.
@@ -271,8 +270,6 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < Segments.Length; i++)
                 Segments[i].CurrentPosition = Projectile.Center - Projectile.velocity.SafeNormalize(Vector2.UnitY) * i * 0.2f;
 
-            Projectile.Calamity().spawnedPlayerMinionDamageValue = Owner.MinionDamage();
-            Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
             Projectile.ai[1] = 1f;
             if (Main.myPlayer == Projectile.owner)
             {
@@ -297,16 +294,6 @@ namespace CalamityMod.Projectiles.Summon
                 Owner.Calamity().sepulcher = false;
             if (Owner.Calamity().sepulcher)
                 Projectile.timeLeft = 2;
-        }
-
-        public void HandleFlexibleDamage()
-        {
-            // Adjust the damage of this projectile if the owner's current minion damage factor has changed for any reason.
-            if (Owner.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int trueDamage = (int)(Projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / Projectile.Calamity().spawnedPlayerMinionDamageValue * Owner.MinionDamage());
-                Projectile.damage = trueDamage;
-            }
         }
 
         public void UpdateSegments()
@@ -418,7 +405,9 @@ namespace CalamityMod.Projectiles.Summon
                 int segmentToFireFrom = 60 - AttackTimer % 60;
                 Vector2 spawnPosition = Segments[segmentToFireFrom].CurrentPosition;
                 Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * 8f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartMinion>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<BrimstoneDartMinion>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Projectile.originalDamage;
             }
 
             if (Main.myPlayer == Projectile.owner && AttackTimer > 430)

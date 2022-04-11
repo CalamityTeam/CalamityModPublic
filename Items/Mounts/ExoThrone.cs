@@ -2,6 +2,7 @@
 using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -28,6 +29,7 @@ namespace CalamityMod.Items.Mounts
 
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

@@ -56,7 +56,9 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.MinionDamage()), 0f, Main.myPlayer, 38f, 0f);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.MinionDamage()), 0f, Main.myPlayer, 38f, 0f);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = 190;
                 }
             }
             player.GetDamage(DamageClass.Summon) += 0.4f;

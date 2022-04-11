@@ -50,8 +50,6 @@ namespace CalamityMod.Projectiles.Summon
             CalamityGlobalProjectile modProj = Projectile.Calamity();
             if (spawnDust)
             {
-                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
-                modProj.spawnedPlayerMinionProjectileDamageValue = Projectile.damage;
                 int dustAmt = 20;
                 for (int d = 0; d < dustAmt; d++)
                 {
@@ -60,12 +58,6 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[water].scale *= 1.15f;
                 }
                 spawnDust = false;
-            }
-            if (player.MinionDamage() != Projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
-                Projectile.damage = damage2;
             }
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<Shellfish>();

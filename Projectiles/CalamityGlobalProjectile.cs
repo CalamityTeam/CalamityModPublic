@@ -54,10 +54,8 @@ namespace CalamityMod.Projectiles
 
         // Damage Adjusters
         private bool setDamageValues = true;
-        public float spawnedPlayerMinionDamageValue = 1f;
         public float PierceResistHarshness = 0.12f;
         public float PierceResistCap = 0.8f;
-        public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
 
         // Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
@@ -1884,20 +1882,6 @@ namespace CalamityMod.Projectiles
             if (projectile.ModProjectile != null && projectile.ModProjectile.Mod.Name.Equals("CalamityMod"))
                 goto SKIP_CALAMITY;
 
-            if ((projectile.minion || projectile.sentry) && !ProjectileID.Sets.StardustDragon[projectile.type]) //For all other mods and vanilla, exclude dragon due to bugs
-            {
-                if (setDamageValues)
-                {
-                    spawnedPlayerMinionDamageValue = player.MinionDamage();
-                    spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                    setDamageValues = false;
-                }
-                if (player.MinionDamage() != spawnedPlayerMinionDamageValue)
-                {
-                    int damage2 = (int)(spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * player.MinionDamage());
-                    projectile.damage = damage2;
-                }
-            }
             SKIP_CALAMITY:
 
             // If rogue projectiles are not internally throwing while in-flight, they can never critically strike.

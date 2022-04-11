@@ -31,6 +31,15 @@ namespace CalamityMod.NPCs.Bumblebirb
             DisplayName.SetDefault("The Dragonfolly");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.5f,
+                PortraitScale = 0.85f,
+                PortraitPositionYOverride = 14f
+            };
+            value.Position.X += 20f;
+            value.Position.Y += 8f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
@@ -393,7 +402,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<BumblebirbBag>());
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BumblebirbBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

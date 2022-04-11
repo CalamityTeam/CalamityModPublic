@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -39,7 +39,11 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             Point mouseTileCoords = Main.MouseWorld.ToTileCoordinates();
             if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).IsTileSolidGround())
-                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.UnitY * 4f, type, damage, knockback, player.whoAmI, 0f, 0f);
+            {
+                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.UnitY * 4f, type, damage, knockback, player.whoAmI, 0f, 0f);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
+            }
             return false;
         }
 

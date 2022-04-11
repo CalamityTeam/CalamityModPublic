@@ -52,7 +52,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            var scanner = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            scanner.originalDamage = Item.damage;
+
             int totalOwnedScanners = player.ownedProjectileCounts[type];
             int currentScannerIndex = 0;
             foreach (Projectile projectile in Main.projectile)
