@@ -664,6 +664,7 @@ namespace CalamityMod
                 NPCID.WallofFlesh,
                 NPCID.WallofFleshEye,
                 NPCID.PirateShipCannon,
+                NPCID.QueenSlimeBoss,
                 NPCID.Probe,
                 NPCID.Retinazer,
                 NPCID.Spazmatism,
@@ -674,6 +675,7 @@ namespace CalamityMod
                 NPCID.PrimeVice,
                 NPCID.Plantera,
                 NPCID.PlanterasTentacle,
+                NPCID.HallowBoss,
                 NPCID.Everscream,
                 NPCID.SantaNK1,
                 NPCID.IceQueen,
@@ -926,7 +928,11 @@ namespace CalamityMod
                 ProjectileID.UnholyTridentHostile,
                 ProjectileID.FrostBeam,
                 ProjectileID.CursedFlameHostile,
-                ProjectileID.Stinger
+                ProjectileID.Stinger,
+                ProjectileID.BloodShot,
+                ProjectileID.BloodNautilusTears,
+                ProjectileID.BloodNautilusShot,
+                ProjectileID.RockGolemRock
             };
 
             debuffList = new List<int>()
@@ -1268,6 +1274,9 @@ namespace CalamityMod
                 NPCID.LeechHead,
                 NPCID.LeechBody,
                 NPCID.LeechTail,
+                NPCID.QueenSlimeMinionBlue,
+                NPCID.QueenSlimeMinionPink,
+                NPCID.QueenSlimeMinionPurple,
                 NPCID.TheDestroyerBody,
                 NPCID.TheDestroyerTail,
                 NPCID.EaterofWorldsBody,
@@ -1836,7 +1845,8 @@ namespace CalamityMod
                 NPCID.BigBaldZombie,
                 NPCID.SmallBaldZombie,
                 NPCID.BigZombie,
-                NPCID.SmallZombie
+                NPCID.SmallZombie,
+                NPCID.MaggotZombie
                 // halloween zombies not included because they don't drop shackles or zombie arms
             };
 
@@ -1886,7 +1896,8 @@ namespace CalamityMod
                 NPCID.ArmoredSkeleton,
                 NPCID.HeavySkeleton,
                 NPCID.SkeletonArcher,
-                NPCID.GreekSkeleton
+                NPCID.GreekSkeleton,
+                NPCID.SporeSkeleton
             };
 
             angryBonesList = new List<int>()
@@ -1960,6 +1971,9 @@ namespace CalamityMod
                 NPCID.LeechHead,
                 NPCID.LeechBody,
                 NPCID.LeechTail,
+                NPCID.QueenSlimeMinionBlue,
+                NPCID.QueenSlimeMinionPink,
+                NPCID.QueenSlimeMinionPurple,
                 NPCID.Probe,
                 NPCID.Bee,
                 NPCID.BeeSmall,
@@ -2208,8 +2222,8 @@ namespace CalamityMod
                 ProjectileID.Beenade,
                 ProjectileID.Bee,
                 ProjectileID.GiantBee,
-                ProjectileType<AeroExplosive>()
-                //ProjectileID.ScarabBomb
+                ProjectileType<AeroExplosive>(),
+                ProjectileID.ScarabBomb
             };
 
             ZeroContactDamageNPCList = new List<int>
@@ -2260,7 +2274,7 @@ namespace CalamityMod
                 NPCID.CultistBoss,
                 NPCID.GolemHeadFree,
                 NPCID.MoonLordFreeEye,
-                //NPCID.BloodSquid,
+                NPCID.BloodSquid,
                 NPCID.PlanterasHook
             };
 
@@ -2284,7 +2298,7 @@ namespace CalamityMod
                 NPCID.BloodFeeder,
                 NPCID.DesertBeast,
                 NPCID.ChaosElemental,
-                //NPCID.BloodMummy,
+                NPCID.BloodMummy,
                 NPCID.CorruptSlime,
                 NPCID.Slimeling,
                 NPCID.Corruptor,
@@ -2334,7 +2348,7 @@ namespace CalamityMod
                 NPCID.PigronHallow,
                 NPCID.Pixie,
                 NPCID.PossessedArmor,
-                //NPCID.RockGolem,
+                NPCID.RockGolem,
                 NPCID.DesertScorpionWalk,
                 NPCID.DesertScorpionWall,
                 NPCID.Slimer,
@@ -2361,7 +2375,7 @@ namespace CalamityMod
                 NPCID.Parrot,
                 NPCID.PirateCorsair,
                 NPCID.PirateDeckhand,
-                //NPCID.PiratesCurse,
+                NPCID.PirateGhost,
                 NPCID.BlueArmoredBonesMace,
                 NPCID.BlueArmoredBonesSword,
                 NPCID.BoneLee,
@@ -2407,13 +2421,13 @@ namespace CalamityMod
                 NPCID.Yeti,
                 NPCID.ZombieElf,
                 NPCID.ZombieElfBeard,
-                NPCID.ZombieElfGirl
-                //NPCID.BloodEelHead,
-                //NPCID.BloodEelBody,
-                //NPCID.BloodEelTail,
-                //NPCID.HemogoblinShark,
-                //NPCID.WanderingEyeFish,
-                //NPCID.ZombieMerman,
+                NPCID.ZombieElfGirl,
+                NPCID.BloodEelHead,
+                NPCID.BloodEelBody,
+                NPCID.BloodEelTail,
+                NPCID.GoblinShark,
+                NPCID.EyeballFlyingFish,
+                NPCID.ZombieMerman
             };
 
             BoundNPCIDs = new List<int>
@@ -2424,7 +2438,7 @@ namespace CalamityMod
                 NPCID.SleepingAngler,
                 NPCID.BartenderUnconscious,
                 NPCID.WebbedStylist,
-                //NPCID.GolferRescue
+                NPCID.GolferRescue
             };
 
             // Collections
@@ -2514,11 +2528,13 @@ namespace CalamityMod
                 { NPCID.QueenBee, Item.buyPrice(0, 15)},
                 { NPCID.SkeletronHead, Item.buyPrice(0, 20) },
                 { NPCID.WallofFlesh, Item.buyPrice(0, 25)},
+                { NPCID.QueenSlimeBoss, Item.buyPrice(0, 30)},
                 { NPCID.Spazmatism, Item.buyPrice(0, 40)},
                 { NPCID.Retinazer, Item.buyPrice(0, 40)},
                 { NPCID.TheDestroyer, Item.buyPrice(0, 40)},
                 { NPCID.SkeletronPrime, Item.buyPrice(0, 40)},
                 { NPCID.Plantera, Item.buyPrice(0, 50)},
+                { NPCID.HallowBoss, Item.buyPrice(0, 60)},
                 { NPCID.Golem, Item.buyPrice(0, 60)},
                 { NPCID.DukeFishron, Item.buyPrice(0, 75) },
                 { NPCID.CultistBoss, Item.buyPrice(1) },
@@ -2577,7 +2593,10 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<EidolonWyrmHeadHuge>(), 42 }
+                { NPCType<EidolonWyrmHeadHuge>(), 42 },
+                { NPCID.QueenSlimeBoss, 43 },
+                { NPCID.HallowBoss, 44 },
+                { NPCID.Deerclops, 45 }
             };
 
             bossMinionList = new List<int>()
@@ -2619,6 +2638,9 @@ namespace CalamityMod
                 NPCID.WallofFleshEye,
                 NPCID.TheHungry,
                 NPCID.TheHungryII,
+                NPCID.QueenSlimeMinionBlue,
+                NPCID.QueenSlimeMinionPink,
+                NPCID.QueenSlimeMinionPurple,
                 NPCID.PrimeCannon,
                 NPCID.PrimeLaser,
                 NPCID.PrimeSaw,

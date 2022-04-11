@@ -1288,6 +1288,10 @@ namespace CalamityMod.NPCs
                     SetNewBossJustDowned(npc);
                     break;
 
+                case NPCID.Deerclops:
+                    SetNewBossJustDowned(npc);
+                    break;
+
                 case NPCID.QueenBee:
                     SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedQueenBee);
                     SetNewBossJustDowned(npc);
@@ -1322,6 +1326,10 @@ namespace CalamityMod.NPCs
                             CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                         }
                     }
+                    break;
+
+                case NPCID.QueenSlimeBoss:
+                    SetNewBossJustDowned(npc);
                     break;
 
                 case NPCID.TheDestroyer:
@@ -1370,6 +1378,10 @@ namespace CalamityMod.NPCs
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                         CalamityUtils.DisplayLocalizedText(key2, messageColor2);
                     }
+                    break;
+
+                case NPCID.HallowBoss:
+                    SetNewBossJustDowned(npc);
                     break;
 
                 case NPCID.Everscream:

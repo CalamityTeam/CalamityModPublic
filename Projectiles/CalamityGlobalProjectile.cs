@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
@@ -401,6 +401,12 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.Cthulunado:
                 case ProjectileID.PhantasmalSphere:
                 case ProjectileID.PhantasmalDeathray:
+                case ProjectileID.RockGolemRock:
+                case ProjectileID.HallowBossLastingRainbow:
+                case ProjectileID.FairyQueenSunDance:
+                case ProjectileID.FairyQueenLance:
+                case ProjectileID.DeerclopsIceSpike:
+                case ProjectileID.DeerclopsRangedProjectile:
                     canBreakPlayerDefense = true;
                     break;
 

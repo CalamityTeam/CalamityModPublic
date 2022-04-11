@@ -272,6 +272,21 @@ namespace CalamityMod.CalPlayer
                             texture = TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<EidolonWyrmHeadHuge>()]].Value;
                             break;
 
+                        // Queen Slime
+                        case 43:
+                            texture = TextureAssets.NpcHeadBoss[38].Value;
+                            break;
+
+                        // Empress of Light
+                        case 44:
+                            texture = TextureAssets.NpcHeadBoss[37].Value;
+                            break;
+
+                        // Deerclops
+                        case 45:
+                            texture = TextureAssets.NpcHeadBoss[39].Value;
+                            break;
+
                         default:
                             break;
                     }

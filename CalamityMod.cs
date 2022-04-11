@@ -427,6 +427,7 @@ namespace CalamityMod
                 { NPCID.Crawdad, 0.2f },
                 { NPCID.Crawdad2, 0.2f },
                 { NPCID.CultistBoss, 0.15f },
+                { NPCID.Deerclops, 0.05f },
                 { NPCID.DD2Betsy, 0.1f },
                 { NPCID.DD2OgreT2, 0.1f },
                 { NPCID.DD2OgreT3, 0.15f },
@@ -480,6 +481,7 @@ namespace CalamityMod
                 { NPCID.PirateShipCannon, 0.15f },
                 { NPCID.Plantera, 0.15f },
                 { NPCID.PlanterasTentacle, 0.1f },
+                { NPCID.HallowBoss, 0.15f },
                 { NPCID.PossessedArmor, 0.25f },
                 { NPCID.PresentMimic, 0.3f },
                 { NPCID.PrimeCannon, 0.2f },
@@ -535,10 +537,12 @@ namespace CalamityMod
                 { NPCID.EaterofWorldsTail, 7200 },
                 { NPCID.BrainofCthulhu, 5400 }, // 1:30 (90 seconds)
                 { NPCID.Creeper, 1800 }, // 0:30 (30 seconds)
+                { NPCID.Deerclops, 5400 }, // 1:30 (90 seconds)
                 { NPCID.QueenBee, 7200 }, // 2:00 (120 seconds)
                 { NPCID.SkeletronHead, 9000 }, // 2:30 (150 seconds)
                 { NPCID.WallofFlesh, 7200 }, // 2:00 (120 seconds)
                 { NPCID.WallofFleshEye, 7200 },
+                { NPCID.QueenSlimeBoss, 7200 }, // 2:00 (120 seconds)
                 { NPCID.Spazmatism, 10800 }, // 3:00 (180 seconds)
                 { NPCID.Retinazer, 10800 },
                 { NPCID.TheDestroyer, 10800 }, // 3:00 (180 seconds)
@@ -546,6 +550,7 @@ namespace CalamityMod
                 { NPCID.TheDestroyerTail, 10800 },
                 { NPCID.SkeletronPrime, 10800 }, // 3:00 (180 seconds)
                 { NPCID.Plantera, 10800 }, // 3:00 (180 seconds)
+                { NPCID.HallowBoss, 10800 }, // 3:00 (180 seconds)
                 { NPCID.Golem, 9000 }, // 2:30 (150 seconds)
                 { NPCID.GolemHead, 3600 }, // 1:00 (60 seconds)
                 { NPCID.DukeFishron, 9000 }, // 2:30 (150 seconds)
@@ -634,6 +639,7 @@ namespace CalamityMod
                 { NPCID.LeechHead, bitingEnemeyVelocityScale },
                 { NPCID.LeechBody, velocityScaleMin },
                 { NPCID.LeechTail, velocityScaleMin },
+                { NPCID.QueenSlimeBoss, velocityScaleMin },
                 { NPCID.Spazmatism, velocityScaleMin }, // Increases in phase 2
                 { NPCID.Retinazer, velocityScaleMin },
                 { NPCID.TheDestroyer, bitingEnemeyVelocityScale },
@@ -646,6 +652,7 @@ namespace CalamityMod
                 { NPCID.PrimeVice, velocityScaleMin },
                 { NPCID.Plantera, velocityScaleMin }, // Increases in phase 2
                 { NPCID.PlanterasTentacle, bitingEnemeyVelocityScale },
+                { NPCID.HallowBoss, velocityScaleMin },
                 { NPCID.Golem, velocityScaleMin },
                 { NPCID.GolemFistLeft, velocityScaleMin },
                 { NPCID.GolemFistRight, velocityScaleMin },

@@ -1103,7 +1103,44 @@ namespace CalamityMod.NPCs
                 npc.height = 90;
                 npc.dontTakeDamage = false;
             }
+            else if (npc.type == NPCID.HallowBoss)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 32f;
+            }
             else if (npc.type == NPCID.Plantera)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 32f;
+            }
+            else if (CalamityLists.DestroyerIDs.Contains(npc.type))
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.25);
+                npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
+                npc.npcSlots = 10f;
+            }
+            else if (npc.type == NPCID.Probe)
+            {
+                if (CalamityWorld.death)
+                    npc.lifeMax = (int)(npc.lifeMax * 2.0);
+
+                npc.scale = CalamityWorld.death ? 2f : 1.2f;
+            }
+            else if (npc.type == NPCID.SkeletronPrime)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 12f;
+            }
+            else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 0.65);
+            }
+            else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 10f;
+            }
+            else if (npc.type == NPCID.QueenSlimeBoss)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 32f;
@@ -1143,6 +1180,11 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 1.4);
                 npc.scale = 1.25f;
             }
+            else if (npc.type == NPCID.Deerclops)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 1.2);
+                npc.npcSlots = 12f;
+            }
             else if (npc.type == NPCID.BrainofCthulhu)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.2);
@@ -1177,34 +1219,6 @@ namespace CalamityMod.NPCs
                 npc.knockBackResist = 0f;
             }
 
-            if (CalamityLists.DestroyerIDs.Contains(npc.type))
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
-                npc.npcSlots = 10f;
-            }
-            else if (npc.type == NPCID.Probe)
-            {
-                if (CalamityWorld.death)
-                    npc.lifeMax = (int)(npc.lifeMax * 2.0);
-
-                npc.scale = CalamityWorld.death ? 2f : 1.2f;
-            }
-            else if (npc.type == NPCID.SkeletronPrime)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 1.2);
-                npc.npcSlots = 12f;
-            }
-            else if (npc.type <= NPCID.PrimeLaser && npc.type >= NPCID.PrimeCannon)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 0.65);
-            }
-            else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 1.2);
-                npc.npcSlots = 10f;
-            }
-
             if (CalamityLists.revengeanceLifeStealExceptionList.Contains(npc.type))
             {
                 npc.canGhostHeal = false;
@@ -1221,7 +1235,10 @@ namespace CalamityMod.NPCs
             {
                 // Regular organic desert enemies.
                 case NPCID.Antlion:
+                case NPCID.GiantWalkingAntlion:
                 case NPCID.FlyingAntlion:
+                case NPCID.GiantFlyingAntlion:
+                case NPCID.LarvaeAntlion:
                 case NPCID.WalkingAntlion:
                 case NPCID.TombCrawlerHead:
                 case NPCID.TombCrawlerBody:
@@ -1239,6 +1256,7 @@ namespace CalamityMod.NPCs
                 case NPCID.Mummy:
                 case NPCID.DarkMummy:
                 case NPCID.LightMummy:
+                case NPCID.BloodMummy:
                 case NPCID.Tumbleweed:
                 case NPCID.SandShark:
                 case NPCID.SandsharkCorrupt:
@@ -1285,6 +1303,10 @@ namespace CalamityMod.NPCs
                     break;
 
                 // Regular slimes.
+                case NPCID.QueenSlimeBoss:
+                case NPCID.QueenSlimeMinionBlue:
+                case NPCID.QueenSlimeMinionPink:
+                case NPCID.QueenSlimeMinionPurple:
                 case NPCID.DungeonSlime:
                 case NPCID.BabySlime:
                 case NPCID.BlackSlime:
@@ -1329,6 +1351,13 @@ namespace CalamityMod.NPCs
                 case NPCID.DiabolistWhite:
                     VulnerableToHeat = false;
                     VulnerableToCold = true;
+                    VulnerableToSickness = false;
+                    VulnerableToWater = true;
+                    break;
+
+                // Spore skeleton.
+                case NPCID.SporeSkeleton:
+                    VulnerableToHeat = true;
                     VulnerableToSickness = false;
                     VulnerableToWater = true;
                     break;
@@ -1402,6 +1431,7 @@ namespace CalamityMod.NPCs
                 case NPCID.GolemFistRight:
                 case NPCID.GolemHead:
                 case NPCID.GolemHeadFree:
+                case NPCID.RockGolem:
                     VulnerableToSickness = false;
                     VulnerableToWater = true;
                     break;
@@ -1440,6 +1470,7 @@ namespace CalamityMod.NPCs
                 case NPCID.MartianSaucerCannon:
                 case NPCID.MartianSaucerCore:
                 case NPCID.MartianSaucerTurret:
+                case NPCID.ChatteringTeethBomb:
                     VulnerableToElectricity = true;
                     VulnerableToSickness = false;
                     break;
@@ -1464,10 +1495,21 @@ namespace CalamityMod.NPCs
                 case NPCID.Reaper:
                 case NPCID.Poltergeist:
                 case NPCID.Pixie:
+                case NPCID.PirateGhost:
                     VulnerableToSickness = false;
                     break;
 
                 // Organic enemies.
+                case NPCID.HallowBoss:
+                case NPCID.Gnome:
+                case NPCID.BloodEelHead:
+                case NPCID.BloodEelBody:
+                case NPCID.BloodEelTail:
+                case NPCID.BloodSquid:
+                case NPCID.BloodNautilus:
+                case NPCID.GoblinShark:
+                case NPCID.EyeballFlyingFish:
+                case NPCID.ZombieMerman:
                 case NPCID.CultistArcherBlue:
                 case NPCID.CultistArcherWhite:
                 case NPCID.CultistBoss:
@@ -1483,6 +1525,7 @@ namespace CalamityMod.NPCs
                 case NPCID.GiantFungiBulb:
                 case NPCID.FungiBulb:
                 case NPCID.MushiLadybug:
+                case NPCID.SporeBat:
                 case NPCID.ZombieMushroom:
                 case NPCID.ZombieMushroomHat:
                 case NPCID.ManEater:
@@ -1546,6 +1589,7 @@ namespace CalamityMod.NPCs
                 case NPCID.BigSwampZombie:
                 case NPCID.BigTwiggyZombie:
                 case NPCID.BigZombie:
+                case NPCID.MaggotZombie:
                 case NPCID.BloodZombie:
                 case NPCID.FemaleZombie:
                 case NPCID.PincushionZombie:
@@ -1791,6 +1835,7 @@ namespace CalamityMod.NPCs
                 case NPCID.ZombieElf:
                 case NPCID.ZombieElfBeard:
                 case NPCID.ZombieElfGirl:
+                case NPCID.Deerclops:
                     VulnerableToHeat = true;
                     VulnerableToCold = false;
                     VulnerableToSickness = true;
@@ -1949,6 +1994,14 @@ namespace CalamityMod.NPCs
                 case NPCID.PumpkingBlade:
                 case NPCID.SantaNK1:
                 case NPCID.DukeFishron:
+                case NPCID.RockGolem:
+                case NPCID.BloodEelHead:
+                case NPCID.BloodNautilus:
+                case NPCID.GoblinShark:
+                case NPCID.ZombieMerman:
+                case NPCID.HallowBoss:
+                case NPCID.QueenSlimeBoss:
+                case NPCID.Deerclops:
                     canBreakPlayerDefense = true;
                     break;
 
@@ -5268,9 +5321,15 @@ namespace CalamityMod.NPCs
                 case NPCID.SkeletronHead:
                     return NPC.downedBoss3;
 
+                case NPCID.Deerclops:
+                    return NPC.downedDeerclops;
+
                 case NPCID.WallofFlesh:
                 case NPCID.WallofFleshEye:
                     return Main.hardMode;
+
+                case NPCID.QueenSlimeBoss:
+                    return NPC.downedQueenSlime;
 
                 case NPCID.TheDestroyer:
                 case NPCID.TheDestroyerBody:
@@ -5286,6 +5345,9 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Plantera:
                     return NPC.downedPlantBoss;
+
+                case NPCID.HallowBoss:
+                    return NPC.downedEmpressOfLight;
 
                 case NPCID.Golem:
                 case NPCID.GolemHead:
