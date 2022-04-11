@@ -605,14 +605,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
             if (NPC.life <= 0)
             {
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg2").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg3").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg4").Type, 1f);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Pbg5").Type, 1f);
-                }
                 NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
                 NPC.width = 100;
