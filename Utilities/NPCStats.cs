@@ -1,4 +1,4 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -185,6 +185,8 @@ namespace CalamityMod
 
                 { NPCID.BrainofCthulhu, 0.9 },
 
+                { NPCID.Deerclops, 1 },
+
                 { ModContent.NPCType<HiveMind>(), 0.9 },
 
                 { ModContent.NPCType<PerforatorHive>(), 0.9 },
@@ -198,6 +200,8 @@ namespace CalamityMod
 
                 { NPCID.WallofFlesh, 1.5 },
                 { NPCID.WallofFleshEye, 1.5 },
+
+                { NPCID.QueenSlimeBoss, 1 },
 
                 { ModContent.NPCType<Cryogen>(), 1.15 },
 
@@ -225,6 +229,8 @@ namespace CalamityMod
 
                 { NPCID.Plantera, 1.15 },
                 { NPCID.PlanterasTentacle, 1.15 },
+
+                { NPCID.HallowBoss, 0.6875 },
 
                 { ModContent.NPCType<Leviathan>(), 1.2 },
                 { ModContent.NPCType<Siren>(), 0.8 },
