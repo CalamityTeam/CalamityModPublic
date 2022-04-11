@@ -402,7 +402,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<BumblebirbBag>());
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<BumblebirbBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
