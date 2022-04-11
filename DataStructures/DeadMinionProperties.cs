@@ -10,16 +10,17 @@ namespace CalamityMod.DataStructures
     public class DeadMinionProperties
     {
         public int Type;
+        public int Damage;
         public int OriginalDamage;
         public float RequiredMinionSlots;
         public float OriginalKnockback;
         public float[] AIValues;
         public virtual bool DisallowMultipleEntries => false;
-        public DeadMinionProperties(int type, float requiredMinionSlots, int originalDamage, float originalKnockback, float[] aiValues)
+        public DeadMinionProperties(int type, float requiredMinionSlots, int originalDamage, int damage, float originalKnockback, float[] aiValues)
         {
             Type = type;
             RequiredMinionSlots = requiredMinionSlots;
-            OriginalDamage = originalDamage;
+            Damage = damage;
             AIValues = aiValues;
             OriginalKnockback = originalKnockback;
         }
@@ -30,11 +31,12 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int copy = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, Type, OriginalDamage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
+            int copy = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, Type, Damage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
 
             if (Main.projectile.IndexInRange(copy))
             {
                 Main.projectile[copy].Calamity().RequiresManualResurrection = true;
+                Main.projectile[copy].originalDamage = OriginalDamage;
 
                 // Set the amount of slots as needed for the minion.
                 // This is specifically done for logarithmic minions and should have no negative affect on anything else.
@@ -47,8 +49,8 @@ namespace CalamityMod.DataStructures
     {
         public int HeadCount;
         public override bool DisallowMultipleEntries => true;
-        public DeadEndoHydraProperties(int headCount, int originalDamage, float originalKnockback)
-            : base(ModContent.ProjectileType<EndoHydraBody>(), 0f, originalDamage, originalKnockback, null)
+        public DeadEndoHydraProperties(int headCount, int originalDamage, int damage, float originalKnockback)
+            : base(ModContent.ProjectileType<EndoHydraBody>(), 0f, originalDamage, damage, originalKnockback, null)
         {
             HeadCount = headCount;
 
@@ -63,15 +65,17 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int body = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), OriginalDamage, OriginalKnockback, owner.whoAmI);
+            int body = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), Damage, OriginalKnockback, owner.whoAmI);
 
             // If there was not enough space for even the body to be created, don't both trying to create even more projectiles needlessly.
             if (!Main.projectile.IndexInRange(body))
                 return;
 
+            Main.projectile[body].originalDamage = OriginalDamage;
             while (HeadCount > 0)
             {
-                Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), OriginalDamage, OriginalKnockback, owner.whoAmI, body);
+                int head = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), Damage, OriginalKnockback, owner.whoAmI, body);
+                Main.projectile[head].originalDamage = OriginalDamage;
                 HeadCount--;
             }
         }
@@ -81,8 +85,8 @@ namespace CalamityMod.DataStructures
     {
         public int AttackMode;
         public override bool DisallowMultipleEntries => true;
-        public DeadEndoCooperProperties(int attackMode, float requiredMinionSlots, int originalDamage, float originalKnockback)
-            : base(ModContent.ProjectileType<EndoHydraBody>(), requiredMinionSlots, originalDamage, originalKnockback, null)
+        public DeadEndoCooperProperties(int attackMode, float requiredMinionSlots, int originalDamage, int damage, float originalKnockback)
+            : base(ModContent.ProjectileType<EndoHydraBody>(), requiredMinionSlots, originalDamage, damage, originalKnockback, null)
         {
             AttackMode = attackMode;
         }
@@ -93,7 +97,9 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            Endogenesis.SummonEndoCooper(new EntitySource_ByProjectileSourceId(1), AttackMode, Main.MouseWorld, OriginalDamage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
+            Endogenesis.SummonEndoCooper(new EntitySource_ByProjectileSourceId(1), AttackMode, Main.MouseWorld, Damage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
+            Main.projectile[bodyIndex].originalDamage = OriginalDamage;
+            Main.projectile[limbsIndex].originalDamage = OriginalDamage;
             Main.projectile[bodyIndex].Calamity().RequiresManualResurrection = true;
             Main.projectile[limbsIndex].Calamity().RequiresManualResurrection = true;
         }

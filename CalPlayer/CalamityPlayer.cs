@@ -4122,9 +4122,9 @@ namespace CalamityMod.CalPlayer
 
                     // Handle unique edge-cases in terms of summoning logic.
                     if (projectile.type == endoHydraBodyType)
-                        deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.damage, projectile.knockBack);
+                        deadMinionProperties = new DeadEndoHydraProperties(endoHydraHeadCount, projectile.originalDamage, projectile.damage, projectile.knockBack);
                     else if (projectile.type == endoCooperType)
-                        deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.damage, projectile.knockBack);
+                        deadMinionProperties = new DeadEndoCooperProperties((int)projectile.ai[0], projectile.minionSlots, projectile.originalDamage, projectile.damage, projectile.knockBack);
                     else
                     {
                         float[] aiToCopy = projectile.ai;
@@ -4132,7 +4132,7 @@ namespace CalamityMod.CalPlayer
                         // If blacklisted from copying AI state values, zero out the AI values to feed to the copy.
                         if (CalamityLists.DontCopyOriginalMinionAIList.Contains(projectile.type))
                             aiToCopy = new float[aiToCopy.Length];
-                        deadMinionProperties = new DeadMinionProperties(projectile.type, projectile.minionSlots, projectile.damage, projectile.knockBack, aiToCopy);
+                        deadMinionProperties = new DeadMinionProperties(projectile.type, projectile.minionSlots, projectile.originalDamage, projectile.damage, projectile.knockBack, aiToCopy);
                     }
 
                     // Refuse to add duplicate entries of a certain type if an entry already exists and
