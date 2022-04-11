@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -13,6 +15,7 @@ namespace CalamityMod.Tiles.FurnitureExo
 {
     public class ExoChairTile : ModTile
     {
+        public const int NextStyleHeight = 40;
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -37,6 +40,8 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 
             AddMapEntry(new Color(71, 95, 114), Language.GetText("MapObject.Chair"));
+            TileID.Sets.CanBeSatOnForNPCs[Type] = true;
+            TileID.Sets.CanBeSatOnForPlayers[Type] = true;
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Chairs };
         }
@@ -54,11 +59,6 @@ namespace CalamityMod.Tiles.FurnitureExo
             num = fail ? 1 : 3;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<ExoChair>());
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             int xFrameOffset = Main.tile[i, j].TileFrameX;
@@ -72,6 +72,66 @@ namespace CalamityMod.Tiles.FurnitureExo
                 spriteBatch.Draw(glowmask, drawPosition, new Rectangle(xFrameOffset, yFrameOffset, 18, 18), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             else if (trackTile.IsHalfBlock)
                 spriteBatch.Draw(glowmask, drawPosition + new Vector2(0f, 8f), new Rectangle(xFrameOffset, yFrameOffset, 18, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<ExoChair>());
+        }
+
+        public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+
+            info.TargetDirection = -1;
+            if (tile.TileFrameX != 0)
+            {
+                info.TargetDirection = 1;
+            }
+
+            info.AnchorTilePosition.X = i;
+            info.AnchorTilePosition.Y = j;
+
+            if (tile.TileFrameY % NextStyleHeight == 0)
+            {
+                info.AnchorTilePosition.Y++;
+            }
+        }
+
+        public override bool RightClick(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                player.GamepadEnableGrappleCooldown();
+                player.sitting.SitDown(player, i, j);
+            }
+            return true;
+        }
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+
+            if (!player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance))
+            {
+                return;
+            }
+
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurnitureExo.ExoChair>();
+
+            if (Main.tile[i, j].TileFrameX / 18 < 1)
+            {
+                player.cursorItemIconReversed = true;
+            }
+        }
+
+        public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
+        {
+            return settings.player.IsWithinSnappngRangeToTile(i, j, PlayerSittingHelper.ChairSittingMaxDistance);
         }
     }
 }
