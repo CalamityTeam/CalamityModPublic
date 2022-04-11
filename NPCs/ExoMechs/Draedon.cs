@@ -475,7 +475,7 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.Calamity().CanHaveBossHealthBar = !NPC.dontTakeDamage;
             NPC.Calamity().ShouldCloseHPBar = HasBeenKilled;
 
-            bool leaving = DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 7f + 200f;
+            bool leaving = DefeatTimer > DelayBeforeDefeatStandup + TalkDelay * 8f + 200f;
 
             // Fade away and disappear when leaving.
             if (leaving)
