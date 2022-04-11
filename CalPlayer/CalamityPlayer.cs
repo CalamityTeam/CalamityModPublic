@@ -364,7 +364,7 @@ namespace CalamityMod.CalPlayer
 
         #region Pet
         public bool thirdSage = false;
-        public bool thirdSageH = true;
+        public bool thirdSageH = false;
         public bool perfmini = false;
         public bool akato = false;
         public bool yharonPet = false;
