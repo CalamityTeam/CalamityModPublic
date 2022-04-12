@@ -107,9 +107,6 @@ namespace CalamityMod.Schematics
 
     public static class CalamitySchematicIO
     {
-        private static readonly FieldInfo LiquidDataInternalFlags = typeof(LiquidData).GetField("typeAndFlags", BindingFlags.Instance & BindingFlags.NonPublic);
-        private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance & BindingFlags.NonPublic);
-
         // A generous buffer of 1 megabyte is the default for schematics. If this somehow isn't big enough, they can get bigger.
         private const int SchematicBufferStartingSize = 1048576;
 
@@ -140,6 +137,79 @@ namespace CalamityMod.Schematics
         // These two fields are set to a non-zero value when the CalamitySchematicExporter mod loads.
         public static ushort PreserveTileID = 0;
         public static ushort PreserveWallID = 0;
+
+        #region Direct Serialization Read/Write
+        // None of this is actually needed because each individual non-runtime liquid field is accessible
+        //
+        // csllllll
+        // c = currently checking liquid for settling
+        // s = skip liquid while settling
+        // l = liquid ID (6 bits, 64 max liquids)
+        // private static readonly FieldInfo LiquidDataInternalFlags = typeof(LiquidData).GetField("typeAndFlags", BindingFlags.Instance & BindingFlags.NonPublic);
+        // private static readonly byte LiquidIDBitsMask = 0x3F;
+        // private static readonly byte RuntimeLiquidBitsMask = 0xC0;
+
+        // wwwwsssh YYYXXXXN NnnCCCCC cccccait
+        // t = HasTile
+        // i = IsActuated (inActive)
+        // a = HasActuator
+        // c = TileColor
+        // C = WallColor
+        // n = TileFrameNumber
+        // N = WallFrameNumber
+        // X = WallFrameX / 36
+        // Y = WallFrameY / 36
+        // h = IsHalfBrick
+        // s = Slope
+        // w = Wire 1-4
+        private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance & BindingFlags.NonPublic);
+        // private static readonly uint NonFrameBitsMask = 0xFF001FFF;
+        private static readonly uint RuntimeFrameBitsMask = 0x00FFE000;
+
+        private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
+        {
+            SchematicMetaTile smt = new SchematicMetaTile();
+            ref Tile t = ref smt.storedTile;
+
+            t.TileType = reader.ReadUInt16();
+            t.WallType = reader.ReadUInt16();
+
+            ref var liquidStruct = ref t.Get<LiquidData>();
+            liquidStruct.Amount = reader.ReadByte();
+            liquidStruct.LiquidType = reader.ReadByte();
+
+            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
+            miscStateStruct.TileFrameX = reader.ReadInt16();
+            miscStateStruct.TileFrameY = reader.ReadInt16();
+
+            // Add the saved NonFrameBits onto the existing runtime-only flag data of the tile.
+            int currentWallWireState = (int)TileWallWireStateBitpack.GetValue(miscStateStruct);
+            int tileRuntimeBits = (int)(currentWallWireState & RuntimeFrameBitsMask);
+            int newWallWireState = reader.ReadInt32() + tileRuntimeBits;
+            TileWallWireStateBitpack.SetValue(miscStateStruct, newWallWireState);
+
+            return smt;
+        }
+
+        private static void WriteSchematicMetaTile(this BinaryWriter writer, SchematicMetaTile smt)
+        {
+            ref Tile t = ref smt.storedTile;
+
+            writer.Write(t.TileType); // perfectly efficient shorthand for t.Get<TileTypeData>();
+            writer.Write(t.WallType); // perfectly efficient shorthand for t.Get<WallTypeData>();
+
+            ref var liquidStruct = ref t.Get<LiquidData>();
+            writer.Write(liquidStruct.Amount);
+            byte liquidID = (byte)liquidStruct.LiquidType;
+            writer.Write(liquidID);
+
+            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
+            writer.Write(miscStateStruct.TileFrameX);
+            writer.Write(miscStateStruct.TileFrameY);
+            // Save only the NonFrameBits. The remainder of the bits are runtime only data that should not be serialized.
+            writer.Write(miscStateStruct.NonFrameBits);
+        }
+        #endregion
 
         #region Export Helper Methods
         // TODO -- technically this could use vanilla Tilemap
@@ -296,27 +366,6 @@ namespace CalamityMod.Schematics
 
             return schematic;
         }
-
-        // TML 1.4 changed tiles so that accessing the underlying binary data is extremely difficult.
-        // In fact, individual tiles cannot be meaningfully serialized using any tools available in either vanilla or TML.
-        // This is because tiles are just collections of pointers to backing arrays of data, which is how the world is now saved.
-        // We have to hack together a mechanism to serialize individual tiles for schematics.
-        private static void WriteSchematicMetaTile(this BinaryWriter writer, SchematicMetaTile smt)
-        {
-            ref Tile t = ref smt.storedTile;
-
-            writer.Write(t.TileType); // perfectly efficient shorthand for t.Get<TileTypeData>();
-            writer.Write(t.WallType); // perfectly efficient shorthand for t.Get<WallTypeData>();
-
-            ref var liquidStruct = ref t.Get<LiquidData>();
-            writer.Write(liquidStruct.Amount);
-            writer.Write((byte)LiquidDataInternalFlags.GetValue(liquidStruct));
-
-            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
-            writer.Write(miscStateStruct.TileFrameX);
-            writer.Write(miscStateStruct.TileFrameY);
-            writer.Write((int)TileWallWireStateBitpack.GetValue(miscStateStruct));
-        }
         #endregion
 
         #region Export
@@ -418,26 +467,6 @@ namespace CalamityMod.Schematics
         #endregion
 
         #region Import Helper Methods
-        private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
-        {
-            SchematicMetaTile smt = new SchematicMetaTile();
-            ref Tile t = ref smt.storedTile;
-
-            t.TileType = reader.ReadUInt16();
-            t.WallType = reader.ReadUInt16();
-
-            ref var liquidStruct = ref t.Get<LiquidData>();
-            liquidStruct.Amount = reader.ReadByte();
-            LiquidDataInternalFlags.SetValue(liquidStruct, reader.ReadByte());
-
-            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
-            miscStateStruct.TileFrameX = reader.ReadInt16();
-            miscStateStruct.TileFrameY = reader.ReadInt16();
-            TileWallWireStateBitpack.SetValue(miscStateStruct, reader.ReadInt32());
-
-            return smt;
-        }
-
         private static void ReplaceMetaIndicesWithLoadedIDs(ref SchematicMetaTile smt, string[] modTileNames, string[] modWallNames)
         {
             // If this schematic tile has a modded foreground tile, replace the meta index offset with that modded tile's ID.
