@@ -3468,14 +3468,6 @@ namespace CalamityMod.CalPlayer
             // Increase wall placement speed to speed up early game a bit and make building more fun
             Player.wallSpeed += 0.5f;
 
-            // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
-            float accRunSpeedMin = Player.accRunSpeed * 0.5f;
-            Player.accRunSpeed += Player.accRunSpeed * moveSpeedStat * 0.002f;
-
-            if (Player.accRunSpeed < accRunSpeedMin)
-                Player.accRunSpeed = accRunSpeedMin;
-
             #region MeleeSpeed
             float meleeSpeedMult = 0f;
             if (bBlood)
