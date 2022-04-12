@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +29,18 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.Swiftness)
             {
                 player.moveSpeed -= 0.1f;
+            }
+            else if (type == BuffID.WellFed)
+            {
+                player.moveSpeed -= 0.15f;
+            }
+            else if (type == BuffID.WellFed2)
+            {
+                player.moveSpeed -= 0.225f;
+            }
+            else if (type == BuffID.WellFed3)
+            {
+                player.moveSpeed -= 0.3f;
             }
             else if (type == BuffID.Shine)
             {
