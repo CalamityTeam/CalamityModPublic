@@ -436,7 +436,7 @@ namespace CalamityMod.World
                     // Then also add 10 blocks because these things seem to always like to appear standing on the floor.
                     int finalVerticalOffset = 18;
                     bool _ = true;
-                    SchematicManager.PlaceSchematic<Action<Chest>>("Astral Beacon", new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
+                    SchematicManager.PlaceSchematic<Action<Chest>>(SchematicManager.AstralBeaconKey, new Point(i, (int)height + finalVerticalOffset), SchematicAnchor.Center, ref _);
                     WorldGen.gen = false;
                 }
             }

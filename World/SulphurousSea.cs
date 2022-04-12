@@ -858,9 +858,8 @@ namespace CalamityMod.World
                 }
 
                 // Otherwise, decide which pile should be created.
-                bool createLargePile = WorldGen.genRand.NextBool(3);
-                int pileVariant = WorldGen.genRand.Next(4);
-                string schematicName = $"{(createLargePile ? "Large " : string.Empty)}Sulphurous Scrap {pileVariant + 1}";
+                int pileVariant = WorldGen.genRand.Next(7);
+                string schematicName = $"Sulphurous Scrap {pileVariant + 1}";
                 Vector2? wrappedSchematicArea = SchematicManager.GetSchematicArea(schematicName);
 
                 // Create a log message if for some reason the schematic in question doesn't exist.
