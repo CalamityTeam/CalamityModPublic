@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Tools
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
 
         public override bool AltFunctionUse(Player player) => true;
 

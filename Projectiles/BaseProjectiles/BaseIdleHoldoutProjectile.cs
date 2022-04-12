@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 
                 if (Main.myPlayer == player.whoAmI && !bladeIsPresent)
                 {
-                    int damage = (int)(heldItem.damage * player.GetDamage(heldItem.DamageType));
+                    int damage = (int)(heldItem.damage * player.GetDamage(heldItem.DamageType).Base);
                     float kb = player.GetWeaponKnockback(heldItem, heldItem.knockBack);
                     Projectile.NewProjectile(player.GetProjectileSource_Item(heldItem), player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
                 }

@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
         {
             player.GetDamage(DamageClass.Melee) += 0.1f;
             player.GetCritChance(DamageClass.Melee) += 7;
-            player.meleeSpeed += 0.1f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
         }
 
         public override void AddRecipes()

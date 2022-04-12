@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
-            player.meleeSpeed += 0.18f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.18f;
             player.GetDamage(DamageClass.Melee) += 0.12f;
             player.GetCritChance(DamageClass.Melee) += 10;
             player.lavaMax += 240;

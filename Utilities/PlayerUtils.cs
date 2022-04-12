@@ -15,13 +15,13 @@ namespace CalamityMod
     {
         #region Damage
         // These functions factor in TML 0.11 allDamage to get the player's total damage boost which affects the specified class.
-        public static float MeleeDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee) - 1f;
-        public static float RangedDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Ranged) - 1f;
-        public static float MagicDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Magic) - 1f;
-        public static float MinionDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f;
-        public static float ThrownDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing) - 1f;
-        public static float RogueDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing) + player.Calamity().throwingDamage - 2f;
-        public static float AverageDamage(this Player player) => player.GetDamage<GenericDamageClass>() + (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive + player.GetDamage(DamageClass.Magic).Additive + player.GetDamage(DamageClass.Summon).Additive + player.Calamity().throwingDamage - 5f) / 5f;
+        public static float MeleeDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 1f;
+        public static float RangedDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Ranged).Additive - 1f;
+        public static float MagicDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Magic).Additive - 1f;
+        public static float MinionDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon).Additive - 1f;
+        public static float ThrownDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive - 1f;
+        public static float RogueDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive + player.Calamity().throwingDamage - 2f;
+        public static float AverageDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive + player.GetDamage(DamageClass.Magic).Additive + player.GetDamage(DamageClass.Summon).Additive + player.Calamity().throwingDamage - 5f) / 5f;
         #endregion
 
         public static bool StandingStill(this Player player, float velocity = 0.05f) => player.velocity.Length() < velocity;

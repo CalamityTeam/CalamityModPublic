@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetDamage(DamageClass.Summon) += 0.05f;
-            player.minionKB += 1.5f;
+            player.GetKnockback<SummonDamageClass>() += 1.5f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }

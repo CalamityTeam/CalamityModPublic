@@ -41,9 +41,9 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override float UseTimeMultiplier(Player player) => 1f + (player.Calamity().hellbornBoost * (1f / 600f));
 
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat) => damage *= 1f + player.Calamity().hellbornBoost * (1f / 600f);
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage *= 1f + player.Calamity().hellbornBoost * (1f / 600f);
 
-        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback, ref float flat) => knockback *= 1f + (player.Calamity().hellbornBoost * (1f / 600f));
+        public override void ModifyWeaponKnockback(Player player, ref StatModifier knockback) => knockback *= 1f + (player.Calamity().hellbornBoost * (1f / 600f));
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 

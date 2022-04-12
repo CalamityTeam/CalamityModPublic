@@ -175,7 +175,7 @@ namespace CalamityMod.CalPlayer
             {
                 // player.rangedCrit already contains the crit stat of the held item, no need to grab it separately.
                 // Don't store the base 4% because you're not removing it.
-                spiritOriginConvertedCrit = Player.GetCritChance(DamageClass.Ranged) - 4;
+                spiritOriginConvertedCrit = (int)(Player.GetCritChance(DamageClass.Ranged) - 4);
                 Player.GetCritChance(DamageClass.Ranged) = 4;
             }
 
@@ -2375,7 +2375,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense -= 10;
                 Player.moveSpeed -= 0.1f;
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
-                Player.minionKB += 0.5f;
+                Player.GetKnockback<SummonDamageClass>().Base += 0.5f;
             }
 
             if (rRage)
@@ -2410,7 +2410,7 @@ namespace CalamityMod.CalPlayer
                 Player.pickSpeed -= 0.05f;
                 Player.GetDamage<GenericDamageClass>() += 0.06f;
                 AllCritBoost(2);
-                Player.minionKB += 1f;
+                Player.GetKnockback<SummonDamageClass>().Base += 1f;
                 Player.moveSpeed += 0.06f;
             }
 
@@ -2432,7 +2432,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.maxMinions += 2;
                 Player.GetDamage<GenericDamageClass>() += 0.12f;
-                Player.minionKB += 1.2f;
+                Player.GetKnockback<SummonDamageClass>().Base += 1.2f;
                 Player.pickSpeed -= 0.15f;
                 if (Main.eclipse || !Main.dayTime)
                     Player.statDefense += 15;
@@ -2574,7 +2574,7 @@ namespace CalamityMod.CalPlayer
                 throwingDamage += 0.1f;
 
             if (CalamityLists.javelinList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.armorPenetration += 5;
+                Player.GetArmorPenetration(DamageClass.Generic) += 5;
 
             if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
                 throwingVelocity += 0.1f;
@@ -2668,7 +2668,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += integerTypeBoost;
                 Player.GetDamage<GenericDamageClass>() += damageBoost;
                 AllCritBoost(critBoost);
-                Player.minionKB += floatTypeBoost;
+                Player.GetKnockback<SummonDamageClass>().Base += floatTypeBoost;
                 Player.moveSpeed += floatTypeBoost * 0.5f;
                 flightTimeMult += floatTypeBoost;
             }
@@ -3254,7 +3254,7 @@ namespace CalamityMod.CalPlayer
                     if (offenseBuffs)
                     {
                         Player.GetDamage(DamageClass.Summon) += 0.15f;
-                        Player.minionKB += 0.15f;
+                        Player.GetKnockback<SummonDamageClass>().Base += 0.15f;
                         Player.moveSpeed += 0.1f;
                         Player.statDefense -= 15;
                         Player.ignoreWater = true;
@@ -3909,15 +3909,15 @@ namespace CalamityMod.CalPlayer
             //not sure where else this should go
             if (forbiddenCirclet)
             {
-                float rogueDmg = Player.GetDamage(DamageClass.Throwing) + throwingDamage - 1f;
-                float minionDmg = Player.GetDamage(DamageClass.Summon);
+                float rogueDmg = Player.GetDamage(DamageClass.Throwing).Base + throwingDamage - 1f;
+                float minionDmg = Player.GetDamage(DamageClass.Summon).Base;
                 if (minionDmg < rogueDmg)
                 {
-                    Player.GetDamage(DamageClass.Summon) += rogueDmg - Player.GetDamage(DamageClass.Summon);
+                    Player.GetDamage(DamageClass.Summon) += rogueDmg - Player.GetDamage(DamageClass.Summon).Base;
                 }
                 if (rogueDmg < minionDmg)
                 {
-                    throwingDamage = minionDmg - Player.GetDamage(DamageClass.Throwing) + 1f;
+                    throwingDamage = minionDmg - Player.GetDamage(DamageClass.Throwing).Base + 1f;
                 }
             }
 
@@ -3951,17 +3951,17 @@ namespace CalamityMod.CalPlayer
         #region Stat Meter
         private void UpdateStatMeter()
         {
-            float allDamageStat = Player.GetDamage<GenericDamageClass>() - 1f;
-            damageStats[0] = (int)((Player.GetDamage(DamageClass.Melee) + allDamageStat - 1f) * 100f);
-            damageStats[1] = (int)((Player.GetDamage(DamageClass.Ranged) + allDamageStat - 1f) * 100f);
-            damageStats[2] = (int)((Player.GetDamage(DamageClass.Magic) + allDamageStat - 1f) * 100f);
-            damageStats[3] = (int)((Player.GetDamage(DamageClass.Summon) + allDamageStat - 1f) * 100f);
+            float allDamageStat = Player.GetDamage<GenericDamageClass>().Base - 1f;
+            damageStats[0] = (int)((Player.GetDamage(DamageClass.Melee).Base + allDamageStat - 1f) * 100f);
+            damageStats[1] = (int)((Player.GetDamage(DamageClass.Ranged).Base + allDamageStat - 1f) * 100f);
+            damageStats[2] = (int)((Player.GetDamage(DamageClass.Magic).Base + allDamageStat - 1f) * 100f);
+            damageStats[3] = (int)((Player.GetDamage(DamageClass.Summon).Base + allDamageStat - 1f) * 100f);
             damageStats[4] = (int)((throwingDamage + allDamageStat - 1f) * 100f);
             damageStats[5] = (int)(trueMeleeDamage * 100D);
-            critStats[0] = Player.GetCritChance(DamageClass.Melee);
-            critStats[1] = Player.GetCritChance(DamageClass.Ranged);
-            critStats[2] = Player.GetCritChance(DamageClass.Magic);
-            critStats[3] = Player.GetCritChance(DamageClass.Throwing) + throwingCrit;
+            critStats[0] = (int)Player.GetCritChance(DamageClass.Melee);
+            critStats[1] = (int)Player.GetCritChance(DamageClass.Ranged);
+            critStats[2] = (int)Player.GetCritChance(DamageClass.Magic);
+            critStats[3] = (int)Player.GetCritChance(DamageClass.Throwing) + throwingCrit;
             ammoReductionRanged = (int)(100f *
                 (Player.ammoBox ? 0.8f : 1f) *
                 (Player.ammoPotion ? 0.8f : 1f) *
@@ -3972,7 +3972,7 @@ namespace CalamityMod.CalPlayer
             // Cancel out defense damage for the purposes of the stat meter.
             defenseStat = Player.statDefense + CurrentDefenseDamage;
             DRStat = (int)(Player.endurance * 100f);
-            meleeSpeedStat = (int)((1f - Player.meleeSpeed) * (100f / Player.meleeSpeed));
+            meleeSpeedStat = (int)((1f - Player.GetAttackSpeed(DamageClass.Melee)) * (100f / Player.GetAttackSpeed(DamageClass.Melee)));
             manaCostStat = (int)(Player.manaCost * 100f);
             rogueVelocityStat = (int)((throwingVelocity - 1f) * 100f);
 
@@ -3986,7 +3986,7 @@ namespace CalamityMod.CalPlayer
 
             minionSlotStat = Player.maxMinions;
             manaRegenStat = Player.manaRegen;
-            armorPenetrationStat = Player.armorPenetration;
+            armorPenetrationStat = (int)Player.GetArmorPenetration(DamageClass.Generic);
             moveSpeedStat = (int)((Player.moveSpeed - 1f) * 100f);
             wingFlightTimeStat = Player.wingTimeMax / 60f;
             float trueJumpSpeedBoost = Player.jumpSpeedBoost +

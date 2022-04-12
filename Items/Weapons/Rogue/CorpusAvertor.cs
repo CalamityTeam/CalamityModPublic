@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
 
         // Gains 10% of missing health as base damage.
-        public override void SafeModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public override void SafeModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            flat += lifeAmount * 0.1f * player.RogueDamage();
+            damage.Flat += lifeAmount * 0.1f * player.RogueDamage();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

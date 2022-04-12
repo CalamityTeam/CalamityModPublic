@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
         }
 
-        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 18;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 18;
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 

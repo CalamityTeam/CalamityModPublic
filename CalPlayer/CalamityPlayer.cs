@@ -2947,14 +2947,14 @@ namespace CalamityMod.CalPlayer
                         var source = Player.GetProjectileSource_SetBonus(1);
                         Player.manaRegenDelay = (int)Player.maxRegenDelay;
                         Player.statMana -= stormMana;
-                        float dmgMult = Player.RogueDamage() + Player.GetDamage(DamageClass.Summon) - 1f;
+                        float dmgMult = Player.RogueDamage() + Player.GetDamage(DamageClass.Summon).Base - 1f;
                         int damage = (int)(ForbiddenCirclet.tornadoBaseDmg * dmgMult);
                         if (Player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(damage * (0.05f * ((Player.buffTime[Player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
                             damage -= sickPenalty;
                         }
-                        float kBack = ForbiddenCirclet.tornadoBaseKB + Player.minionKB;
+                        float kBack = ForbiddenCirclet.tornadoBaseKB + Player.GetKnockback(DamageClass.Summon).Base;
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             int mark = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<CircletMark>(), damage, kBack, Player.whoAmI);
@@ -3601,13 +3601,13 @@ namespace CalamityMod.CalPlayer
             if (GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
 
-            Player.meleeSpeed += meleeSpeedMult;
+            Player.GetAttackSpeed(DamageClass.Melee) += meleeSpeedMult;
 
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
                 Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
             {
-                float newMeleeSpeed = 1f + ((Player.meleeSpeed - 1f) * 0.25f);
-                Player.meleeSpeed = newMeleeSpeed;
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * 0.25f);
+                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
             }
             #endregion
 
@@ -4455,10 +4455,10 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Get Weapon Damage And KB
-        public override void ModifyWeaponDamage(Item item, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
         {
             if (flamethrowerBoost && item.CountsAsClass<RangedDamageClass>() && (item.useAmmo == AmmoID.Gel || CalamityLists.flamethrowerList.Contains(item.type)))
-                flat += item.damage * (hoverboardBoost ? 0.35f : 0.25f);
+                damage += (hoverboardBoost ? 0.35f : 0.25f);
 
             if (item.CountsAsClass<RangedDamageClass>())
                 acidRoundMultiplier = item.useTime / 20D;
@@ -4467,16 +4467,16 @@ namespace CalamityMod.CalPlayer
 
             // Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
             if (desertProwler && (item.CountsAsClass<RangedDamageClass>() || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
-                flat += 1f;
+                damage.Flat += 1f;
         }
 
-        public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback, ref float flat)
+        public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
         {
             if (auricBoost)
-                flat += item.knockBack * ((1f - modStealth) * 0.5f);
+                knockback.Flat += item.knockBack * ((1f - modStealth) * 0.5f);
 
             if (whiskey)
-                flat += item.knockBack * 0.04f;
+                knockback.Flat += item.knockBack * 0.04f;
 
             if (tequila && Main.dayTime)
                 knockback += item.knockBack * 0.03f;
@@ -4712,7 +4712,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
             {
-                int penetratableDefense = Math.Max(target.defense - Player.armorPenetration, 0);
+                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0);
                 int penetratedDefense = Math.Min(penetratableDefense, 5);
                 damage += (int)(0.5f * penetratedDefense);
             }
@@ -4781,7 +4781,7 @@ namespace CalamityMod.CalPlayer
             {
                 // Add more true melee damage to the true melee projectile that scales with melee speed
                 // This is done because melee speed does nothing to melee weapons that are purely projectiles
-                damageMult += trueMeleeDamage + ((1f - Player.meleeSpeed) * (100f / Player.meleeSpeed) / 100f * 0.25f);
+                damageMult += trueMeleeDamage + ((1f - Player.GetAttackSpeed(DamageClass.Melee)) * (100f / Player.GetAttackSpeed(DamageClass.Melee)) / 100f * 0.25f);
             }
 
             if (screwdriver)
@@ -4882,7 +4882,7 @@ namespace CalamityMod.CalPlayer
             {
                 penetrateAmt += 5;
             }
-            int penetratableDefense = Math.Max(target.defense - Player.armorPenetration, 0); //if find how much defense we can penetrate
+            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0); //if find how much defense we can penetrate
             int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
             damage += (int)(0.5f * penetratedDefense);
             #endregion
@@ -9573,67 +9573,67 @@ namespace CalamityMod.CalPlayer
             if (summonLevel >= 12500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.12f;
-                Player.minionKB += 3.0f;
+                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
             }
             else if (summonLevel >= 10500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.1f;
-                Player.minionKB += 3.0f;
+                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
             }
             else if (summonLevel >= 9100)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.09f;
-                Player.minionKB += 2.7f;
+                Player.GetKnockback(DamageClass.Summon).Base += 2.7f;
             }
             else if (summonLevel >= 7800)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.08f;
-                Player.minionKB += 2.4f;
+                Player.GetKnockback(DamageClass.Summon).Base += 2.4f;
             }
             else if (summonLevel >= 6600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.minionKB += 2.1f;
+                Player.GetKnockback(DamageClass.Summon).Base += 2.1f;
             }
             else if (summonLevel >= 5500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.minionKB += 1.8f;
+                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
             }
             else if (summonLevel >= 4500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.06f;
-                Player.minionKB += 1.8f;
+                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
             }
             else if (summonLevel >= 3600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.05f;
-                Player.minionKB += 1.5f;
+                Player.GetKnockback(DamageClass.Summon).Base += 1.5f;
             }
             else if (summonLevel >= 2800)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.minionKB += 1.2f;
+                Player.GetKnockback(DamageClass.Summon).Base += 1.2f;
             }
             else if (summonLevel >= 2100)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.minionKB += 0.9f;
+                Player.GetKnockback(DamageClass.Summon).Base += 0.9f;
             }
             else if (summonLevel >= 1500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.minionKB += 0.6f;
+                Player.GetKnockback(DamageClass.Summon).Base += 0.6f;
             }
             else if (summonLevel >= 1000)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.minionKB += 0.3f;
+                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
             }
             else if (summonLevel >= 600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.02f;
-                Player.minionKB += 0.3f;
+                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
             }
             else if (summonLevel >= 300)
                 Player.GetDamage(DamageClass.Summon) += 0.02f;

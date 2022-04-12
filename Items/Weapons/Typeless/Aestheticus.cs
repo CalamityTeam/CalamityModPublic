@@ -40,13 +40,13 @@ namespace CalamityMod.Items.Weapons.Typeless
         }
 
         // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            float formula = 5f * (player.GetDamage(DamageClass.Generic) - 1f);
-            formula += player.GetDamage(DamageClass.Melee) - 1f;
-            formula += player.GetDamage(DamageClass.Ranged) - 1f;
-            formula += player.GetDamage(DamageClass.Magic) - 1f;
-            formula += player.GetDamage(DamageClass.Summon) - 1f;
+            float formula = 5f * (player.GetDamage(DamageClass.Generic).Base - 1f);
+            formula += player.GetDamage(DamageClass.Melee).Base - 1f;
+            formula += player.GetDamage(DamageClass.Ranged).Base - 1f;
+            formula += player.GetDamage(DamageClass.Magic).Base - 1f;
+            formula += player.GetDamage(DamageClass.Summon).Base - 1f;
             formula += player.Calamity().throwingDamage - 1f;
             damage += formula;
         }

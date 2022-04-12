@@ -199,9 +199,9 @@ namespace CalamityMod.Items.Weapons.Melee
             return true;
         }
 
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            flat += (int)(Item.damage * ((mainAttunement?.DamageMultiplier ?? 1f) - 1f));
+            damage += (mainAttunement?.DamageMultiplier ?? 1f) - 1f;
         }
 
         public void SafeCheckAttunements()
