@@ -164,7 +164,7 @@ namespace CalamityMod.Schematics
         // w = Wire 1-4
         private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance & BindingFlags.NonPublic);
         // private static readonly uint NonFrameBitsMask = 0xFF001FFF;
-        private static readonly uint RuntimeFrameBitsMask = 0x00FFE000;
+        // private static readonly uint RuntimeFrameBitsMask = 0x00FFE000;
 
         private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
         {
@@ -183,10 +183,13 @@ namespace CalamityMod.Schematics
             miscStateStruct.TileFrameY = reader.ReadInt16();
 
             // Add the saved NonFrameBits onto the existing runtime-only flag data of the tile.
-            int currentWallWireState = (int)TileWallWireStateBitpack.GetValue(miscStateStruct);
-            int tileRuntimeBits = (int)(currentWallWireState & RuntimeFrameBitsMask);
-            int newWallWireState = reader.ReadInt32() + tileRuntimeBits;
-            TileWallWireStateBitpack.SetValue(miscStateStruct, newWallWireState);
+            // int currentWallWireState = (int)TileWallWireStateBitpack.GetValue(miscStateStruct);
+            // int tileRuntimeBits = (int)(currentWallWireState & RuntimeFrameBitsMask);
+            // int newWallWireState = reader.ReadInt32() + tileRuntimeBits;
+            // TileWallWireStateBitpack.SetValue(miscStateStruct, newWallWireState);
+
+            // Advised by Chicken Bones to clear runtime bits, not preserve them from existing tile
+            TileWallWireStateBitpack.SetValue(miscStateStruct, reader.ReadInt32());
 
             return smt;
         }
