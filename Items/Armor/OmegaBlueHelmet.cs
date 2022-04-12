@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Armor
                 "This effect has a 25 second cooldown";
 
             CalamityPlayer mp = player.Calamity();
-            player.armorPenetration += 15;
+            player.GetArmorPenetration<GenericDamageClass>() += 15;
             player.maxMinions += 2;
             mp.wearingRogueArmor = true;
             mp.omegaBlueSet = true;

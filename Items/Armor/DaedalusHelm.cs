@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeSpeed += 0.15f;
+            player.GetAttackSpeed(DamageClass.Melee) += 0.15f;
             player.GetDamage(DamageClass.Melee) += 0.1f;
             player.GetCritChance(DamageClass.Melee) += 10;
         }

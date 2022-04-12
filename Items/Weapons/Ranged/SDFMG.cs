@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 15;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 15;
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.holyMinions = true;
-            player.minionKB += 2.5f;
+            player.GetKnockback<SummonDamageClass>() += 2.5f;
             player.GetDamage(DamageClass.Summon) += 0.1f;
         }
 

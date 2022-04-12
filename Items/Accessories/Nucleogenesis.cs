@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.holyMinions = true; //holy flames
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
-            player.minionKB += 3f;
+            player.GetKnockback<SummonDamageClass>() += 3f;
             player.GetDamage(DamageClass.Summon) += 0.15f;
         }
 

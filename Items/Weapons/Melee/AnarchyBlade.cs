@@ -47,10 +47,10 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Gains 10% of missing health as base damage.
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            flat += lifeAmount * 0.1f * player.MeleeDamage();
+            damage.Flat += lifeAmount * 0.1f * player.MeleeDamage();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             // Initialize the animation max time if necessary.
             if (Owner.itemAnimationMax == 0)
-                Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.meleeSpeed);
+                Owner.itemAnimationMax = (int)(Owner.ActiveItem().useAnimation * Owner.GetAttackSpeed(DamageClass.Melee));
 
             // Decide the current phase state of the blade.
             DecideCurrentState();

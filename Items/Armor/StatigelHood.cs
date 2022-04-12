@@ -56,18 +56,18 @@ namespace CalamityMod.Items.Armor
                 }
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Summon).Base - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
                 else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon) - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Summon).Base - 1f)), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionKB += 1.5f;
+            player.GetKnockback<SummonDamageClass>() += 1.5f;
         }
 
         public override void AddRecipes()

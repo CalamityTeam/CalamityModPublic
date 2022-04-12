@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Accessories
                         bool magic = player.ActiveItem().CountsAsClass<MagicDamageClass>();
                         if (summon)
                         {
-                            player.minionKB += 0.1f;
+                            player.GetKnockback<SummonDamageClass>() += 0.1f;
                             player.AddBuff(BuffID.Bewitched, 60, true);
                         }
                         else if (rogue)
@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else if (melee)
                         {
-                            player.meleeSpeed += 0.1f;
+                            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)

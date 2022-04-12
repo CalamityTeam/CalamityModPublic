@@ -80,11 +80,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         // Add both the player's dedicated rogue damage and stealth strike damage as applicable.
         // Rogue weapons are internally throwing so they already benefit from throwing damage boosts.
         // 5E-06 to prevent downrounding is not needed anymore, added by TML itself
-        public sealed override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public sealed override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             CalamityPlayer mp = player.Calamity();
 
-            SafeModifyWeaponDamage(player, ref damage, ref flat);
+            SafeModifyWeaponDamage(player, ref damage);
 
             // Both regular rogue damage stat and stealth damage are added to the weapon simultaneously.
             damage += mp.throwingDamage + mp.stealthDamage - 1f;
@@ -94,11 +94,11 @@ namespace CalamityMod.Items.Weapons.Rogue
                 damage *= StealthStrikePrefixBonus;
         }
 
-        public virtual void SafeModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat) { }
+        public virtual void SafeModifyWeaponDamage(Player player, ref StatModifier damage) { }
 
         // Simply add the player's dedicated rogue crit chance.
         // Rogue crit isn't boosted by Calamity universal crit boosts, so this won't double-add universal crit.
-        public override void ModifyWeaponCrit(Player player, ref int crit)
+        public override void ModifyWeaponCrit(Player player, ref float crit)
         {
             crit += player.Calamity().throwingCrit;
         }

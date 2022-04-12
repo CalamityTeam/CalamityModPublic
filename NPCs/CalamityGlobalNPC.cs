@@ -460,7 +460,7 @@ namespace CalamityMod.NPCs
                 }
 
                 Item heldItem = Main.player[owner].ActiveItem();
-                int totalDamage = (int)(150 * Main.player[owner].GetDamage(DamageClass.Summon));
+                int totalDamage = (int)(150 * Main.player[owner].GetDamage(DamageClass.Summon).Base);
                 bool forbidden = Main.player[owner].head == ArmorIDs.Head.AncientBattleArmor && Main.player[owner].body == ArmorIDs.Body.AncientBattleArmor && Main.player[owner].legs == ArmorIDs.Legs.AncientBattleArmor;
                 bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>());
 
@@ -2367,7 +2367,7 @@ namespace CalamityMod.NPCs
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
                     (wither > 0 ? WitherDebuff.DefenseReduction : 0) -
-                    Main.LocalPlayer.armorPenetration -
+                    (int)Main.LocalPlayer.GetArmorPenetration<GenericDamageClass>() -
                     miscDefenseLoss;
 
             // Defense can never be negative and has a minimum value of zero.
@@ -3921,13 +3921,13 @@ namespace CalamityMod.NPCs
             {
                 int critOver100 = 0;
                 if (projectile.DamageType == DamageClass.Melee)
-                    critOver100 = player.GetCritChance(DamageClass.Melee) - 100;
+                    critOver100 = (int)player.GetCritChance(DamageClass.Melee) - 100;
                 else if (projectile.DamageType == DamageClass.Ranged)
-                    critOver100 = player.GetCritChance(DamageClass.Ranged) - 100;
+                    critOver100 = (int)player.GetCritChance(DamageClass.Ranged) - 100;
                 else if (projectile.DamageType == DamageClass.Magic)
-                    critOver100 = player.GetCritChance(DamageClass.Magic) - 100;
+                    critOver100 = (int)player.GetCritChance(DamageClass.Magic) - 100;
                 else if (projectile.DamageType == DamageClass.Throwing) // Also covers rogue
-                    critOver100 = player.GetCritChance(DamageClass.Throwing) - 100;
+                    critOver100 = (int)player.GetCritChance(DamageClass.Throwing) - 100;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
                 // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.

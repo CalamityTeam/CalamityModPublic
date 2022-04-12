@@ -73,14 +73,14 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 8;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
         //Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
         //all damage boosts should still apply
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             float damageMult = (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive - 2f) / 2f;
-            damage += damageMult - player.GetDamage(DamageClass.Melee) + 1f;
+            damage += damageMult - player.GetDamage(DamageClass.Melee).Base + 1f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

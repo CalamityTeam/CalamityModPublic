@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetProjectileSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
             int elementalDmg = (int)(90 * player.MinionDamage());
-            float kBack = 2f + player.minionKB;
+            float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
                 player.ownedProjectileCounts[healer] > 1 || player.ownedProjectileCounts[sandy] > 1 ||

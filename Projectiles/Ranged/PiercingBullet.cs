@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Ranged
             damage = (int)(damage * (1 / (1 - target.Calamity().DR)));
 
             //Then proceed to ignore all defense
-            int penetratableDefense = Math.Max(target.defense - Main.player[Projectile.owner].armorPenetration, 0);
+            int penetratableDefense = (int)Math.Max(target.defense - Main.player[Projectile.owner].GetArmorPenetration<GenericDamageClass>(), 0);
             int penetratedDefense = Math.Min(penetratableDefense, target.defense);
             damage += (int)(0.5f * penetratedDefense);
         }

@@ -62,7 +62,7 @@ namespace CalamityMod.Buffs.DamageOverTime
                 // Only deal damage once every several frames.
                 if (applicator.miscCounter % FramesPerDamageTick == 0)
                 {
-                    int dmg = (int)(BaseDamage * cgn.somaShredStacks * applicator.GetDamage(DamageClass.Ranged));
+                    int dmg = (int)(BaseDamage * cgn.somaShredStacks * applicator.GetDamage(DamageClass.Ranged).Base);
                     Projectile tick = Projectile.NewProjectileDirect(target.GetSpawnSource_ForProjectile(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, applicator.whoAmI, target.whoAmI);
                     tick.DamageType = DamageClass.Ranged; // Uncommon for DirectStrikes, but it needs to be able to crit.
                     tick.Calamity().canSupercrit = true;

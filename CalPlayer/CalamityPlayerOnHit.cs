@@ -658,7 +658,7 @@ namespace CalamityMod.CalPlayer
                     {
                         double useTimeMultiplier = 0.85 + (item.useTime * item.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                         double wingTimeFraction = Player.wingTimeMax / 20D;
-                        double meleeStatMultiplier = (double)(Player.GetDamage(DamageClass.Melee) * (float)(Player.GetCritChance(DamageClass.Melee) / 10D));
+                        double meleeStatMultiplier = (double)(Player.GetDamage(DamageClass.Melee).Base * (float)(Player.GetCritChance(DamageClass.Melee) / 10D));
 
                         if (Player.wingTime < Player.wingTimeMax)
                             Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -751,7 +751,7 @@ namespace CalamityMod.CalPlayer
                 {
                     double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                     double wingTimeFraction = Player.wingTimeMax / 20D;
-                    double meleeStatMultiplier = Player.GetDamage(DamageClass.Melee) * (float)(Player.GetCritChance(DamageClass.Melee) / 10D);
+                    double meleeStatMultiplier = Player.GetDamage(DamageClass.Melee).Base * (float)(Player.GetCritChance(DamageClass.Melee) / 10D);
 
                     if (Player.wingTime < Player.wingTimeMax)
                         Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));

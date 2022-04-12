@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<GenericDamageClass>() += 0.06f;
-            player.minionKB += 0.5f;
+            player.GetKnockback<SummonDamageClass>() += 0.5f;
             player.moveSpeed += 0.1f;
             player.panic = true;
         }

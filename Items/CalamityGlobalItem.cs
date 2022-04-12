@@ -873,7 +873,7 @@ namespace CalamityMod.Items
         #endregion
 
         #region Modify Weapon Damage
-        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage, ref float flat)
+        public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage)
         {
             // Nerf yoyo glove and bag because it's bad and stupid and dumb and bad.
             if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
@@ -977,7 +977,7 @@ namespace CalamityMod.Items
             else if (set == "MonkTier3")
             {
                 player.GetDamage(DamageClass.Summon) += 0.3f;
-                player.meleeSpeed += 0.1f;
+                player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
                 player.GetDamage(DamageClass.Melee) += 0.1f;
                 player.GetCritChance(DamageClass.Melee) += 10;
                 player.setBonus += "\n10% increased melee damage, melee critical strike chance and melee speed\n" +
@@ -1064,7 +1064,7 @@ namespace CalamityMod.Items
                     break;
                 case ItemID.MonkAltShirt:
                     player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.meleeSpeed -= 0.1f;
+                    player.GetAttackSpeed(DamageClass.Melee) -= 0.1f;
                     break;
                 case ItemID.MonkAltPants:
                     player.GetDamage(DamageClass.Summon) -= 0.1f;
@@ -1108,7 +1108,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FireGauntlet)
             {
                 player.GetDamage(DamageClass.Melee) += 0.04f;
-                player.meleeSpeed += 0.04f;
+                player.GetAttackSpeed(DamageClass.Melee) += 0.04f;
             }
 
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
@@ -1300,7 +1300,7 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.minionKB += 2f;
+                    player.GetKnockback(DamageClass.Summon).Base += 2f;
                     player.GetDamage(DamageClass.Summon) += 0.05f;
                 }
             }

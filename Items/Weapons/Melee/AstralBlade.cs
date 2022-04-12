@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults
-        public override void ModifyWeaponCrit(Player player, ref int crit) => crit += 25;
+        public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 25;
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
