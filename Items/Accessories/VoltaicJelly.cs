@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.accessory = true;
             Item.rare = ItemRarityID.Green;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             Item.height = 26;
             Item.value = 0; // lul intentionally has zero value
             Item.Calamity().customRarity = CalamityRarity.HotPink;
-            Item.accessory = true;
+            Item.accessory = true; // lul cannot be duplicated in Journey Mode
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

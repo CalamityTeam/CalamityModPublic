@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

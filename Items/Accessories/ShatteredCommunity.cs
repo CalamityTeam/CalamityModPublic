@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Audio;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -52,6 +53,7 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // Not overriding these Clones makes tooltips fail to function correctly due to HoverItem spaghetti.

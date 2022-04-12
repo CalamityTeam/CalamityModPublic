@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,6 +23,7 @@ Stealth strikes also have +10 armor penetration, deal 10% more damage, and heal 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.accessory = true;
             Item.rare = ItemRarityID.Pink;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -55,6 +56,7 @@ namespace CalamityMod.Items.Accessories
             ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
             ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

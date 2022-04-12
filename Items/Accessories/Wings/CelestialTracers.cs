@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -38,6 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

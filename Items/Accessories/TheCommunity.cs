@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Rainbow;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

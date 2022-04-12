@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -32,6 +33,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

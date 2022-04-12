@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {

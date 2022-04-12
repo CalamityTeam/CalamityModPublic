@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

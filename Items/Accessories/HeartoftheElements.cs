@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
@@ -28,6 +30,7 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Cyan;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Rainbow;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded)

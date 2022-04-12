@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -62,6 +63,7 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.Calamity().donorItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // The pet is purely visual and does not affect the functionality of the item.

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System.Linq;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.accessory = true;
             Item.rare = ItemRarityID.Pink;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

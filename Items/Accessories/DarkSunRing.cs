@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -33,6 +34,7 @@ namespace CalamityMod.Items.Accessories
             Item.lifeRegen = 1;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
