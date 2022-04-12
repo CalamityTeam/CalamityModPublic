@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(platinum: 6, gold: 50);
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(gold: 66, silver: 66, copper: 66);
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
 
         public void DrawPulsingAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)

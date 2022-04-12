@@ -1,7 +1,9 @@
-using CalamityMod.Tiles.Abyss;
+﻿using CalamityMod.Tiles.Abyss;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items.Materials
 {
     public class Lumenite : ModItem
@@ -26,6 +28,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 80);
             Item.rare = ItemRarityID.Lime;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
     }
 }

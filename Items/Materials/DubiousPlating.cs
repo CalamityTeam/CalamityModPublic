@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DraedonRust;
             Item.value = Item.sellPrice(silver: 6);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
     }
 }

@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 45);
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
     }
 }

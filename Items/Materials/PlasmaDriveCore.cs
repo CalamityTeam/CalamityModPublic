@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using System;
 using Terraria.GameContent;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.buyPrice(0, 0, 0, 0);
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DraedonRust;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
