@@ -109,7 +109,7 @@ namespace CalamityMod.World
         public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
-            string mapKey = "Workshop";
+            string mapKey = RustedWorkshopKey;
 
             do
             {
@@ -176,7 +176,7 @@ namespace CalamityMod.World
         public static void PlaceResearchFacility(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
-            string mapKey = "Research Facility";
+            string mapKey = ResearchOutpostKey;
 
             do
             {
@@ -248,7 +248,7 @@ namespace CalamityMod.World
         public static void PlaceHellLab(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
-            string mapKey = "Hell Laboratory";
+            string mapKey = HellLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
@@ -320,7 +320,7 @@ namespace CalamityMod.World
         public static void PlaceSunkenSeaLab(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
-            string mapKey = "Sunken Sea Laboratory";
+            string mapKey = SunkenSeaLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
@@ -394,7 +394,7 @@ namespace CalamityMod.World
         public static void PlaceIceLab(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
-            string mapKey = "Ice Laboratory";
+            string mapKey = IceLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
 
@@ -472,7 +472,7 @@ namespace CalamityMod.World
         public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
-            string mapKey = "Plague Laboratory";
+            string mapKey = PlagueLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
 

@@ -106,7 +106,7 @@ namespace CalamityMod.World.Planets
 
             // TODO -- This should probably use PlacementAnchor.Center and just provide the center of the planetoid...
             bool hasPlacedLogAndSchematic = false;
-            SchematicManager.PlaceSchematic("Planetoid Laboratory", new Point(origin.X - 33, origin.Y - 17), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(DraedonStructures.FillPlanetoidLaboratoryChest));
+            SchematicManager.PlaceSchematic(SchematicManager.PlanetoidLabKey, new Point(origin.X - 33, origin.Y - 17), SchematicAnchor.TopLeft, ref hasPlacedLogAndSchematic, new Action<Chest, int, bool>(DraedonStructures.FillPlanetoidLaboratoryChest));
             CalamityWorld.PlanetoidLabCenter = origin.ToWorldCoordinates();
 
             //PLACE BREAKABLE GRASS AND TREES

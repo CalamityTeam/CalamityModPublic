@@ -12,6 +12,30 @@ namespace CalamityMod.Schematics
 {
     public static class SchematicManager
     {
+        internal const string RustedWorkshopKey = "Rusted Workshop";
+        internal const string RustedWorkshopFilename = "Schematics/RustedWorkshop.csch";
+
+        internal const string ResearchOutpostKey = "Research Outpost";
+        internal const string ResearchOutpostFilename = "Schematics/ResearchOutpost.csch";
+
+        internal const string SunkenSeaLabKey = "Sunken Sea Laboratory";
+        internal const string SunkenSeaLabFilename = "Schematics/DraedonsLab_SunkenSea.csch";
+
+        internal const string PlanetoidLabKey = "Planetoid Laboratory";
+        internal const string PlanetoidLabFilename = "Schematics/DraedonsLab_Planetoid.csch";
+
+        internal const string PlagueLabKey = "Plague Laboratory";
+        internal const string PlagueLabFilename = "Schematics/DraedonsLab_Plague.csch";
+
+        internal const string HellLabKey = "Hell Laboratory";
+        internal const string HellLabFilename = "Schematics/DraedonsLab_Hell.csch";
+
+        internal const string IceLabKey = "Ice Laboratory";
+        internal const string IceLabFilename = "Schematics/DraedonsLab_Ice.csch";
+
+        internal const string AstralBeaconKey = "Astral Beacon";
+        internal const string AstralBeaconFilename = "Schematics/AstralBeacon.csch";
+        
         internal static Dictionary<string, SchematicMetaTile[,]> TileMaps;
         internal static Dictionary<string, PilePlacementFunction> PilePlacementMaps;
         public delegate void PilePlacementFunction(int x, int y, Rectangle placeInArea);
@@ -23,26 +47,25 @@ namespace CalamityMod.Schematics
             TileMaps = new Dictionary<string, SchematicMetaTile[,]>
             {
                 // Draedon's Arsenal world gen structures
-                ["Workshop"] = CalamitySchematicIO.LoadSchematic("Schematics/Workshop.csch"),
-                ["Research Facility"] = CalamitySchematicIO.LoadSchematic("Schematics/ResearchFacility.csch"),
-                ["Hell Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/HellLaboratory.csch"),
-                ["Sunken Sea Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/SunkenSeaLaboratory.csch"),
-                ["Ice Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/IceLaboratory.csch"),
-                ["Plague Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlagueLaboratory.csch"),
-                ["Planetoid Laboratory"] = CalamitySchematicIO.LoadSchematic("Schematics/PlanetoidLaboratory.csch"),
+                [RustedWorkshopKey] = CalamitySchematicIO.LoadSchematic(RustedWorkshopFilename),
+                [ResearchOutpostKey] = CalamitySchematicIO.LoadSchematic(ResearchOutpostFilename),
+                [SunkenSeaLabKey] = CalamitySchematicIO.LoadSchematic(SunkenSeaLabFilename),
+                [PlanetoidLabKey] = CalamitySchematicIO.LoadSchematic(PlanetoidLabFilename),
+                [PlagueLabKey] = CalamitySchematicIO.LoadSchematic(PlagueLabFilename),
+                [HellLabKey] = CalamitySchematicIO.LoadSchematic(HellLabFilename),
+                [IceLabKey] = CalamitySchematicIO.LoadSchematic(IceLabFilename),
 
                 // Astral world gen structures
-                ["Astral Beacon"] = CalamitySchematicIO.LoadSchematic("Schematics/AstralBeacon.csch"),
+                [AstralBeaconKey] = CalamitySchematicIO.LoadSchematic(AstralBeaconFilename),
 
                 // Sulphurous Sea scrap world gen structures
-                ["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile1.csch").ShaveOffEdge(),
-                ["Sulphurous Scrap 2"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile2.csch").ShaveOffEdge(),
-                ["Sulphurous Scrap 3"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile3.csch").ShaveOffEdge(),
-                ["Sulphurous Scrap 4"] = CalamitySchematicIO.LoadSchematic("Schematics/SmallScrapPile4.csch").ShaveOffEdge(),
-                ["Large Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile1.csch").ShaveOffEdge(),
-                ["Large Sulphurous Scrap 2"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile2.csch").ShaveOffEdge(),
-                ["Large Sulphurous Scrap 3"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile3.csch").ShaveOffEdge(),
-                ["Large Sulphurous Scrap 4"] = CalamitySchematicIO.LoadSchematic("Schematics/LargeScrapPile4.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 1"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap1.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 2"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap2.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 3"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap3.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 4"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap4.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 5"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap5.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 6"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap6.csch").ShaveOffEdge(),
+                ["Sulphurous Scrap 7"] = CalamitySchematicIO.LoadSchematic("Schematics/SulphurousScrap7.csch").ShaveOffEdge(),
             };
         }
         internal static void Unload()
