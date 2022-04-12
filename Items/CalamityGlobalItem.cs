@@ -1102,7 +1102,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
                 player.buffImmune[BuffID.OnFire] = true;
 
-            if (item.type == ItemID.FrogLeg)
+            if (item.type == ItemID.FrogLeg || item.type == ItemID.EmpressFlightBooster)
                 player.jumpSpeedBoost -= 1.2f;
 
             if (item.type == ItemID.FireGauntlet)
@@ -1499,18 +1499,15 @@ namespace CalamityMod.Items
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            float moveSpeedBoost = modPlayer.moveSpeedStat * 0.001f;
 
             float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
-                (modPlayer.reaverSpeed ? 0.1f : 0f) +
-                moveSpeedBoost;
+                (modPlayer.reaverSpeed ? 0.1f : 0f);
 
             float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.1f : 0f) +
-                moveSpeedBoost;
+                (modPlayer.draconicSurge ? 0.1f : 0f);
 
             flightSpeedMult = MathHelper.Clamp(flightSpeedMult, 0.5f, 1.5f);
             speed *= flightSpeedMult;
