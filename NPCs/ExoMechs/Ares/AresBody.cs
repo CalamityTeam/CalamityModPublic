@@ -1308,15 +1308,15 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
             mainDrops.Add(normalOnly);
 
-            bool ThanatosLoot() => npc.type == ModContent.NPCType<ThanatosHead>() || DownedBossSystem.downedThanatos;
-            bool AresLoot() => npc.type == ModContent.NPCType<AresBody>() || DownedBossSystem.downedAres;
-            bool ApolloLoot() => npc.type == ModContent.NPCType<Apollo.Apollo>() || DownedBossSystem.downedArtemisAndApollo;
+            bool ThanatosLoot(DropAttemptInfo info) => info.npc.type == ModContent.NPCType<ThanatosHead>() || DownedBossSystem.downedThanatos;
+            bool AresLoot(DropAttemptInfo info) => info.npc.type == ModContent.NPCType<AresBody>() || DownedBossSystem.downedAres;
+            bool ApolloLoot(DropAttemptInfo info) => info.npc.type == ModContent.NPCType<Apollo.Apollo>() || DownedBossSystem.downedArtemisAndApollo;
 
             // Trophies
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<ThanatosHead>()), ModContent.ItemType<ThanatosTrophy>()));
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<AresBody>()), ModContent.ItemType<AresTrophy>()));
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ArtemisTrophy>()));
-            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ApolloTrophy>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<ThanatosHead>()), ModContent.ItemType<ThanatosTrophy>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<AresBody>()), ModContent.ItemType<AresTrophy>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ArtemisTrophy>()));
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ApolloTrophy>()));
 
             // Lore item
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs), ModContent.ItemType<KnowledgeExoMechs>()));

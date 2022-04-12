@@ -1538,7 +1538,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 Providence prov = info.npc.ModNPC<Providence>();
                 return CalamityWorld.malice || !prov.hasTakenDaytimeDamage;
-            }, ModContent.ItemType<ProfanedMoonlightDye>());
+            }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 3, 4);
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
