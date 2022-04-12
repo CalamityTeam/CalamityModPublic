@@ -23,6 +23,8 @@ namespace CalamityMod
             numerator = n < 0 ? 0 : n;
             denominator = d <= 0 ? 1 : d;
         }
+
+        public static implicit operator float(Fraction f) => f.numerator / (float)f.denominator;
     }
     #endregion
 
@@ -691,19 +693,39 @@ namespace CalamityMod
         /// Every item in the list has the given chance to drop individually.<br />
         /// If no items drop, then one of them is forced to drop, chosen at random.
         /// </summary>
-        public class AllOptionsAtOnceWithPityDropRule : OneFromOptionsDropRule
+        public class AllOptionsAtOnceWithPityDropRule : IItemDropRule
         {
-            public AllOptionsAtOnceWithPityDropRule(int chanceNumerator, int chanceDenominator, params int[] itemIDs) : base(chanceDenominator, chanceNumerator, itemIDs)
-            { }
+            public int[] itemIDs;
+            public Fraction dropRate;
+            public bool usesLuck;
+            public List<IItemDropRuleChainAttempt> ChainedRules { get; set; }
 
-            public new ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
+            public AllOptionsAtOnceWithPityDropRule(int numerator, int denominator, bool luck, params int[] itemIDs)
+            {
+                dropRate = new Fraction(numerator, denominator);
+                this.itemIDs = itemIDs;
+                usesLuck = luck;
+                ChainedRules = new List<IItemDropRuleChainAttempt>();
+            }
+
+            public AllOptionsAtOnceWithPityDropRule(Fraction dropRate, bool luck, params int[] itemIDs)
+            {
+                this.dropRate = dropRate;
+                this.itemIDs = itemIDs;
+                usesLuck = luck;
+                ChainedRules = new List<IItemDropRuleChainAttempt>();
+            }
+
+            public bool CanDrop(DropAttemptInfo info) => true;
+
+            public ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
             {
                 bool droppedAnything = false;
 
                 // Roll for each drop individually.
-                foreach (int itemID in dropIds)
+                foreach (int itemID in itemIDs)
                 {
-                    bool rngRoll = info.player.RollLuck(chanceDenominator) < chanceNumerator;
+                    bool rngRoll = usesLuck ? info.player.RollLuck(dropRate.denominator) < dropRate.numerator : info.rng.NextFloat() < dropRate;
                     droppedAnything |= rngRoll;
                     if (rngRoll)
                         CommonCode.DropItemFromNPC(info.npc, itemID, 1);
@@ -712,7 +734,7 @@ namespace CalamityMod
                 // If everything fails to drop, force drop one item from the set.
                 if (!droppedAnything)
                 {
-                    int itemToDrop = dropIds[info.rng.Next(dropIds.Length)];
+                    int itemToDrop = itemIDs[info.rng.Next(itemIDs.Length)];
                     CommonCode.DropItemFromNPC(info.npc, itemToDrop, 1);
                 }
 
@@ -722,10 +744,10 @@ namespace CalamityMod
                 return result;
             }
 
-            public new void ReportDroprates(List<DropRateInfo> drops, DropRateInfoChainFeed ratesInfo)
+            public void ReportDroprates(List<DropRateInfo> drops, DropRateInfoChainFeed ratesInfo)
             {
-                int numDrops = dropIds.Length;
-                float rawDropRate = chanceNumerator / (float)chanceDenominator;
+                int numDrops = itemIDs.Length;
+                float rawDropRate = dropRate;
                 // Combinatorics:
                 // OPTION 1: [The item drops = Raw Drop Rate]
                 // +
@@ -734,20 +756,22 @@ namespace CalamityMod
                 float dropRateAdjustedForParent = dropRateWithPityRoll * ratesInfo.parentDroprateChance;
 
                 // Report the drop rate of each individual item. This calculation includes the fact that each individual item can be guaranteed as pity.
-                foreach (int itemID in dropIds)
+                foreach (int itemID in itemIDs)
                     drops.Add(new DropRateInfo(itemID, 1, 1, dropRateAdjustedForParent, ratesInfo.conditions));
 
                 Chains.ReportDroprates(ChainedRules, rawDropRate, drops, ratesInfo);
             }
         }
 
-        public static IItemDropRule CalamityStyle(int numerator, int denominator, params int[] itemIDs)
+        public static IItemDropRule CalamityStyle(int numerator, int denominator, params int[] itemIDs) => CalamityStyle(numerator, denominator, true, itemIDs);
+        public static IItemDropRule CalamityStyle(int numerator, int denominator, bool luck, params int[] itemIDs)
         {
-            return new AllOptionsAtOnceWithPityDropRule(numerator, denominator, itemIDs);
+            return new AllOptionsAtOnceWithPityDropRule(numerator, denominator, luck, itemIDs);
         }
-        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params int[] itemIDs)
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, params int[] itemIDs) => CalamityStyle(dropRateForEachItem, true, itemIDs);
+        public static IItemDropRule CalamityStyle(Fraction dropRateForEachItem, bool luck, params int[] itemIDs)
         {
-            return CalamityStyle(dropRateForEachItem.numerator, dropRateForEachItem.denominator, itemIDs);
+            return new AllOptionsAtOnceWithPityDropRule(dropRateForEachItem, luck, itemIDs);
         }
         #endregion
 
