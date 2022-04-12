@@ -153,6 +153,21 @@ namespace CalamityMod.Items
                     DropHelper.DropItem(s, player, ModContent.ItemType<LivingShard>(), 16, 22);
                     break;
 
+                case ItemID.FairyQueenBossBag:
+                    // Drop weapons Calamity style instead of mutually exclusive -- this includes Calamity weapons.
+                    int[] empressWeapons = new int[]
+                    {
+                        ItemID.FairyQueenMagicItem,
+                        ItemID.FairyQueenRangedItem,
+                        ItemID.EmpressBlade,
+                        ItemID.RainbowWhip,
+                        ItemID.PiercingStarlight,
+                        ItemID.RainbowWings
+                    };
+                    DropHelper.DropEntireSet(s, player, DropHelper.BagWeaponDropRateInt, empressWeapons);
+                    DropHelper.BlockDrops(empressWeapons);
+                    break;
+
                 case ItemID.GolemBossBag:
                     // Drop loot Calamity style instead of mutually exclusive.
                     int[] golemItems = new int[]

@@ -894,6 +894,11 @@ namespace CalamityMod.NPCs
                     wofLore.Add(DropHelper.PerPlayer(ModContent.ItemType<KnowledgeWallofFlesh>()));
                     break;
 
+                case NPCID.QueenSlimeBoss:
+                    // Expert+ drops are also available on Normal
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.VolatileGelatin));
+                    break;
+
                 case NPCID.TheDestroyer:
                     // Remove the vanilla loot rule for Hallowed Bars.
                     npcLoot.RemoveWhere((rule) => rule is ItemDropWithConditionRule conditionalRule && conditionalRule.itemId == ItemID.HallowedBar);
@@ -982,7 +987,7 @@ namespace CalamityMod.NPCs
                                     ItemID.GrenadeLauncher,
                                     ItemID.VenusMagnum,
                                     ItemID.LeafBlower,
-                                    ItemID.NettleBurst, 
+                                    ItemID.NettleBurst,
                                     ItemID.WaspGun,
                                     ItemID.PygmyStaff,
                                 };
@@ -1009,6 +1014,41 @@ namespace CalamityMod.NPCs
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedPlantBoss, ModContent.ItemType<KnowledgePlantera>());
+                    break;
+
+                case NPCID.HallowBoss:
+                    // Remove the vanilla loot rule for Empress of Light's weapon drops. This requires digging through her loot rule tree.
+                    try
+                    {
+                        var empressRootRules = npcLoot.Get(false);
+                        IItemDropRule notExpert = empressRootRules.Find((rule) => rule is LeadingConditionRule empressLCR && empressLCR.condition is Conditions.NotExpert);
+                        if (notExpert is LeadingConditionRule LCR_NotExpert)
+                        {
+                            LCR_NotExpert.ChainedRules.RemoveAll((chainAttempt) =>
+                                chainAttempt is Chains.TryIfSucceeded c && c.RuleToChain is OneFromOptionsDropRule empressWeapons);
+
+                            // Define a replacement rule which drops the items Calamity style.
+                            // This includes her wings, because they have a pathetically low drop rate normally.
+                            var empressItems = new int[]
+                            {
+                                ItemID.FairyQueenMagicItem,
+                                ItemID.FairyQueenRangedItem,
+                                ItemID.EmpressBlade,
+                                ItemID.RainbowWhip,
+                                ItemID.PiercingStarlight,
+                                ItemID.RainbowWings
+                            };
+                            LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, empressItems));
+                        }
+
+                        // Remove the vanilla loot rule for Empress Wings because it's part of the Calamity Style set.
+                        empressRootRules.RemoveAll((rule) =>
+                            rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.RainbowWings);
+                    }
+                    catch (ArgumentNullException) { }
+
+                    // Expert+ drops are also available on Normal
+                    npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.EmpressFlightBooster));
                     break;
 
                 case NPCID.Golem:
