@@ -99,6 +99,7 @@ namespace CalamityMod
             EditPhoenixBlasterRecipe();
             EditFlamarangRecipe();
             EditTerraBladeRecipe();
+            EditZenithRecipe();
             EditFireGauntletRecipe();
             EditSpiritFlameRecipe();
             EditBeetleArmorRecipes();
@@ -196,6 +197,44 @@ namespace CalamityMod
                 s.requiredItem[2].stack = 7;
 
                 s.createItem.SetDefaults(ItemID.TerraBlade, false);
+                s.createItem.stack = 1;
+            });
+        }
+
+        // Change Zenith's recipe to require 5 Auric Bars (forces Zenith to be post-Yharon)
+        private static void EditZenithRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.Zenith).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Count; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.CopperShortsword, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.EnchantedSword, false);
+                s.requiredItem[1].stack = 1;
+                s.requiredItem[2].SetDefaults(ItemID.BeeKeeper, false);
+                s.requiredItem[2].stack = 1;
+                s.requiredItem[3].SetDefaults(ItemID.Starfury, false);
+                s.requiredItem[3].stack = 1;
+                s.requiredItem[4].SetDefaults(ItemID.Seedler, false);
+                s.requiredItem[4].stack = 1;
+                s.requiredItem[5].SetDefaults(ItemID.TheHorsemansBlade, false);
+                s.requiredItem[5].stack = 1;
+                s.requiredItem[6].SetDefaults(ItemID.InfluxWaver, false);
+                s.requiredItem[6].stack = 1;
+                s.requiredItem[7].SetDefaults(ItemID.StarWrath, false);
+                s.requiredItem[7].stack = 1;
+                s.requiredItem[8].SetDefaults(ItemID.Meowmere, false);
+                s.requiredItem[8].stack = 1;
+                s.requiredItem[9].SetDefaults(ItemID.TerraBlade, false);
+                s.requiredItem[9].stack = 1;
+                s.requiredItem[10].SetDefaults(ModContent.ItemType<AuricBar>(), false);
+                s.requiredItem[10].stack = 5;
+
+                s.createItem.SetDefaults(ItemID.Zenith, false);
                 s.createItem.stack = 1;
             });
         }
