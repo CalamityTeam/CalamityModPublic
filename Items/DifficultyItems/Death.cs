@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -46,6 +47,7 @@ namespace CalamityMod.Items.DifficultyItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item119;
             Item.consumable = false;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // Can only be used in Revengeance Mode.

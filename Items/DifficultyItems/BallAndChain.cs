@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.DifficultyItems
             Item.width = 32;
             Item.height = 50;
             Item.rare = ItemRarityID.Blue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player) => false;

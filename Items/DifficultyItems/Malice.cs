@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -44,6 +45,7 @@ namespace CalamityMod.Items.DifficultyItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item119;
             Item.consumable = false;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle rectangle)
