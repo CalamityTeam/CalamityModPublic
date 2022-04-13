@@ -4,6 +4,7 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using ReLogic.Content;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.LightRed;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

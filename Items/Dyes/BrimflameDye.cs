@@ -6,6 +6,7 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Placeables;
 using ReLogic.Content;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -22,6 +23,7 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.Pink;
             Item.value = Item.sellPrice(0, 0, 75, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

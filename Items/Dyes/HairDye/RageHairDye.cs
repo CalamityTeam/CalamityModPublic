@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes.HairDye
 {
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Dyes.HairDye
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.consumable = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

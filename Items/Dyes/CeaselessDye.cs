@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using ReLogic.Content;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -18,9 +19,10 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetDefaults()
         {
-            Item.rare = ItemRarityID.Red; //Shouldn't this be purple smh :/
+            Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.value = Item.sellPrice(0, 4, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()
