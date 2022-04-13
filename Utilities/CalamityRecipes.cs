@@ -1078,9 +1078,7 @@ namespace CalamityMod
 
             // Lucky Horseshoe
             r = CreateRecipe(ItemID.LuckyHorseshoe);
-            r.AddIngredient(ItemID.SunplateBlock, 10);
-            r.AddIngredient(ItemID.Cloud, 10);
-            r.AddRecipeGroup("AnyGoldBar", 5);
+            r.AddRecipeGroup("AnyGoldBar", 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 
