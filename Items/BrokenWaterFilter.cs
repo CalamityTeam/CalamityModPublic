@@ -2,6 +2,8 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items
 {
     public class BrokenWaterFilter : ModItem
@@ -17,6 +19,7 @@ namespace CalamityMod.Items
             Item.height = 34;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void UpdateInventory(Player player)
         {

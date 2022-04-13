@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items
             Item.value = 0;
             Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool AltFunctionUse(Player player)

@@ -1,4 +1,4 @@
-using CalamityMod.Tiles;
+﻿using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.autoReuse = true;
-            Item.consumable = true;
+            Item.consumable = true; // This item cannot be researched/duped.
         }
     }
 }
