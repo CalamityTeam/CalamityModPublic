@@ -1,9 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,8 +23,6 @@ namespace CalamityMod.Schematics
         internal byte LiquidType;
         internal TileWallWireStateData miscState;
 
-        internal readonly ushort originalType;
-        internal readonly ushort originalWall;
         public bool keepTile;
         public bool keepWall;
 
@@ -36,9 +33,6 @@ namespace CalamityMod.Schematics
             LiquidAmount = 0;
             LiquidType = 0;
             miscState = new TileWallWireStateData();
-
-            originalType = 0;
-            originalWall = 0;
             keepTile = false;
             keepWall = false;
         }
@@ -50,9 +44,6 @@ namespace CalamityMod.Schematics
             LiquidAmount = t.LiquidAmount;
             LiquidType = (byte)t.LiquidType;
             miscState = t.Get<TileWallWireStateData>();
-
-            originalType = TileType; // This is never changed
-            originalWall = WallType; // This is never changed
             keepTile = false;
             keepWall = false;
         }
@@ -71,7 +62,7 @@ namespace CalamityMod.Schematics
                 ref var targetMiscState = ref target.Get<TileWallWireStateData>();
                 targetMiscState.TileFrameX = miscState.TileFrameX;
                 targetMiscState.TileFrameY = miscState.TileFrameY;
-                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, miscState.NonFrameBits);
+                CalamitySchematicIO.AssignMiscState(targetMiscState, miscState.NonFrameBits);
             }
             else if (keepTile && keepWall) // full preservation
             {
@@ -83,9 +74,9 @@ namespace CalamityMod.Schematics
                 ref var targetMiscState = ref target.Get<TileWallWireStateData>();
                 targetMiscState.TileFrameX = original.miscState.TileFrameX;
                 targetMiscState.TileFrameY = original.miscState.TileFrameY;
-                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, original.miscState.NonFrameBits);
+                CalamitySchematicIO.AssignMiscState(targetMiscState, original.miscState.NonFrameBits);
             }
-            else if (keepWall) // Start with replacmenet, then splice in wall data from original
+            else if (keepWall) // Start with replacement, then splice in wall data from original
             {
                 target.TileType = TileType;
                 target.WallType = original.WallType;
@@ -95,7 +86,7 @@ namespace CalamityMod.Schematics
                 ref var targetMiscState = ref target.Get<TileWallWireStateData>();
                 targetMiscState.TileFrameX = miscState.TileFrameX;
                 targetMiscState.TileFrameY = miscState.TileFrameY;
-                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, miscState.NonFrameBits);
+                CalamitySchematicIO.AssignMiscState(targetMiscState, miscState.NonFrameBits);
 
                 // Wall splice
                 // All relevant fields are contained in the above bitpack, so assign them a second time
@@ -114,7 +105,7 @@ namespace CalamityMod.Schematics
                 ref var targetMiscState = ref target.Get<TileWallWireStateData>();
                 targetMiscState.TileFrameX = original.miscState.TileFrameX;
                 targetMiscState.TileFrameY = original.miscState.TileFrameY;
-                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, original.miscState.NonFrameBits);
+                CalamitySchematicIO.AssignMiscState(targetMiscState, original.miscState.NonFrameBits);
 
                 // Wall splice
                 // All relevant fields are contained in the above bitpack, so assign them a second time
@@ -201,8 +192,21 @@ namespace CalamityMod.Schematics
         public static ushort PreserveWallID = 0;
 
         #region Direct Serialization Read/Write
-
-        internal static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static void AssignMiscState(TileWallWireStateData target, int source)
+        {
+            target.HasTile = TileDataPacking.GetBit(source, 0);               // 0
+            target.IsActuated = TileDataPacking.GetBit(source, 1);            // 1
+            target.HasActuator = TileDataPacking.GetBit(source, 2);           // 2
+            target.TileColor = (byte)TileDataPacking.Unpack(source, 3, 5);    // 3-7
+            target.WallColor = (byte)TileDataPacking.Unpack(source, 8, 5);    // 8-12
+            target.TileFrameNumber = TileDataPacking.Unpack(source, 13, 2);   // 13-14
+            target.WallFrameNumber = TileDataPacking.Unpack(source, 15, 2);   // 15-16
+            target.WallFrameX = TileDataPacking.Unpack(source, 17, 4);        // 17-20
+            target.WallFrameY = TileDataPacking.Unpack(source, 21, 3);        // 21-23
+            target.IsHalfBlock = TileDataPacking.GetBit(source, 24);          // 24
+            target.Slope = (SlopeType)TileDataPacking.Unpack(source, 25, 3);  // 25-27
+            target.WireData = TileDataPacking.Unpack(source, 28, 4);          // 28-31
+        }
 
         private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
         {
@@ -211,13 +215,11 @@ namespace CalamityMod.Schematics
             smt.WallType = reader.ReadUInt16();
             smt.LiquidAmount = reader.ReadByte();
             smt.LiquidType = reader.ReadByte();
-
             smt.miscState.TileFrameX = reader.ReadInt16();
             smt.miscState.TileFrameY = reader.ReadInt16();
-
             // Advised by Chicken Bones to clear runtime bits, not preserve them from existing tile
-            // Only the NonFrameBits are loaded in
-            TileWallWireStateBitpack.SetValue(smt.miscState, reader.ReadInt32());
+            // This clears runtime bits because the read-in integer has them all zeroed out
+            AssignMiscState(smt.miscState, reader.ReadInt32());
             return smt;
         }
 

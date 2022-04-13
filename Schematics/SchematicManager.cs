@@ -175,7 +175,10 @@ namespace CalamityMod.Schematics
 
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
-                    originalTiles[x, y] = new SchematicMetaTile(Main.tile[x + cornerX, y + cornerY]);
+                {
+                    Tile t = Main.tile[x + cornerX, y + cornerY];
+                    originalTiles[x, y] = new SchematicMetaTile(t);
+                }
 
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
