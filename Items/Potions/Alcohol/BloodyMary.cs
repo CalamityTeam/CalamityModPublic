@@ -31,6 +31,7 @@ Reduces life regen by 2 and defense by 4%");
             Item.buffType = ModContent.BuffType<BloodyMaryBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 60, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }
