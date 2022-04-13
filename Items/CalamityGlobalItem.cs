@@ -1105,6 +1105,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FrogLeg || item.type == ItemID.EmpressFlightBooster)
                 player.jumpSpeedBoost -= 1.2f;
 
+            if (item.type == ItemID.Magiluminescence)
+                player.moveSpeed -= 0.2f;
+
             if (item.type == ItemID.FireGauntlet)
             {
                 player.GetDamage(DamageClass.Melee) += 0.04f;
