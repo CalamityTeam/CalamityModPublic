@@ -139,32 +139,8 @@ namespace CalamityMod.Schematics
         public static ushort PreserveWallID = 0;
 
         #region Direct Serialization Read/Write
-        // None of this is actually needed because each individual non-runtime liquid field is accessible
-        //
-        // csllllll
-        // c = currently checking liquid for settling
-        // s = skip liquid while settling
-        // l = liquid ID (6 bits, 64 max liquids)
-        // private static readonly FieldInfo LiquidDataInternalFlags = typeof(LiquidData).GetField("typeAndFlags", BindingFlags.Instance & BindingFlags.NonPublic);
-        // private static readonly byte LiquidIDBitsMask = 0x3F;
-        // private static readonly byte RuntimeLiquidBitsMask = 0xC0;
 
-        // wwwwsssh YYYXXXXN NnnCCCCC cccccait
-        // t = HasTile
-        // i = IsActuated (inActive)
-        // a = HasActuator
-        // c = TileColor
-        // C = WallColor
-        // n = TileFrameNumber
-        // N = WallFrameNumber
-        // X = WallFrameX / 36
-        // Y = WallFrameY / 36
-        // h = IsHalfBrick
-        // s = Slope
-        // w = Wire 1-4
-        private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance & BindingFlags.NonPublic);
-        // private static readonly uint NonFrameBitsMask = 0xFF001FFF;
-        // private static readonly uint RuntimeFrameBitsMask = 0x00FFE000;
+        private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance | BindingFlags.NonPublic);
 
         private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
         {
@@ -181,12 +157,6 @@ namespace CalamityMod.Schematics
             ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
             miscStateStruct.TileFrameX = reader.ReadInt16();
             miscStateStruct.TileFrameY = reader.ReadInt16();
-
-            // Add the saved NonFrameBits onto the existing runtime-only flag data of the tile.
-            // int currentWallWireState = (int)TileWallWireStateBitpack.GetValue(miscStateStruct);
-            // int tileRuntimeBits = (int)(currentWallWireState & RuntimeFrameBitsMask);
-            // int newWallWireState = reader.ReadInt32() + tileRuntimeBits;
-            // TileWallWireStateBitpack.SetValue(miscStateStruct, newWallWireState);
 
             // Advised by Chicken Bones to clear runtime bits, not preserve them from existing tile
             TileWallWireStateBitpack.SetValue(miscStateStruct, reader.ReadInt32());
