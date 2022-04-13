@@ -184,6 +184,52 @@ namespace CalamityMod
         #endregion
 
         /// <summary>
+        /// Draws a treasure bag in the world in the exact same way as how Terraria 1.4's bags are drawn.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="spriteBatch">The spritebatch.</param>
+        /// <param name="rotation">The rotation of the item.</param>
+        /// <param name="scale">The scale of the item.</param>
+        /// <param name="whoAmI">Index reference for <see cref="Main.itemFrameCounter"/>.</param>
+        public static bool DrawTreasureBagInWorld(Item item, SpriteBatch spriteBatch, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D texture = TextureAssets.Item[item.type].Value;
+            Rectangle frame = texture.Frame();
+
+            // Use special item animations if applicable.
+            if (Main.itemAnimations[item.type] != null)
+                frame = Main.itemAnimations[item.type].GetFrame(texture, Main.itemFrameCounter[whoAmI]);
+
+            Vector2 frameOrigin = frame.Size() * 0.5f;
+            Vector2 offset = new Vector2(item.width / 2 - frameOrigin.X, item.height - frame.Height);
+            Vector2 drawPos = item.position - Main.screenPosition + frameOrigin + offset;
+
+            float localTime = item.timeSinceItemSpawned / 240f + Main.GlobalTimeWrappedHourly * 0.04f;
+
+            // Transform the global time value's incremental form into a unit-interval triangle wave.
+            float time = Main.GlobalTimeWrappedHourly % 4f / 2f;
+            if (time >= 1f)
+                time = 2f - time;
+            time = time * 0.5f + 0.5f;
+
+            // Draw the outer pulse effect.
+            for (int i = 0; i < 4; i++)
+            {
+                Vector2 pulseOffset = Vector2.UnitY.RotatedBy((i / 4f + localTime) * MathHelper.TwoPi) * time * 8f;
+                spriteBatch.Draw(texture, drawPos + pulseOffset, frame, new Color(90, 70, 255, 50), rotation, frameOrigin, scale, 0, 0);
+            }
+
+            // Draw the inner pulse effect.
+            for (int i = 0; i < 3; i++)
+            {
+                Vector2 pulseOffset = Vector2.UnitY.RotatedBy((i / 3f + localTime) * MathHelper.TwoPi) * time * 4f;
+                spriteBatch.Draw(texture, drawPos + pulseOffset, frame, new Color(140, 120, 255, 77), rotation, frameOrigin, scale, 0, 0);
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Calculates perspective matrices for usage by vertex shaders.
         /// </summary>
         /// <param name="viewMatrix">The view matrix.</param>

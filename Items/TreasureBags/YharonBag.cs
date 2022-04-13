@@ -14,6 +14,8 @@ using Terraria.ID;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Materials;
 using Terraria.GameContent.Creative;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -39,6 +41,11 @@ namespace CalamityMod.Items.TreasureBags
         }
 
         public override bool CanRightClick() => true;
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
+        }
 
         public override void OpenBossBag(Player player)
         {
