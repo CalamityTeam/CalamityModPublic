@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -35,6 +36,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.shootSpeed = 14f;
             Item.shoot = ModContent.ProjectileType<SparklingBeam>();
             Item.value = Item.sellPrice(silver: 40);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override Vector2? HoldoutOrigin() //so it looks normal when holding

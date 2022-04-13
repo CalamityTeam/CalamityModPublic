@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.Potions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -35,6 +36,7 @@ The life regen boost is stronger if below 75% health
             Item.consumable = true;
             Item.healLife = 240;
             Item.potion = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void OnConsumeItem(Player player)

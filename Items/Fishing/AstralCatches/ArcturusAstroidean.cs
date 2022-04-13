@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.value = Item.sellPrice(silver: 10);
             Item.rare = ItemRarityID.Orange;
             Item.bait = 40;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

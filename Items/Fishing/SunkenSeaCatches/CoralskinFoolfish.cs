@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 7);
             Item.rare = ItemRarityID.Green;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

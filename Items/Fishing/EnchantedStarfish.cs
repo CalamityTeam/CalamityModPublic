@@ -2,6 +2,8 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items.Fishing
 {
     public class EnchantedStarfish : ModItem
@@ -24,6 +26,7 @@ namespace CalamityMod.Items.Fishing
             Item.consumable = true;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 50);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool? UseItem(Player player)

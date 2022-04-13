@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items.Fishing.FishingRods
 {
     public class WulfrumRod : ModItem
@@ -26,6 +28,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<WulfrumBobber>();
             Item.value = Item.buyPrice(0, 1, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.width = 30;
             Item.height = 30;
             Item.uniqueStack = true;
-            Item.rare = ItemRarityID.Quest;
+            Item.rare = ItemRarityID.Quest; // Questfish cannot be researched.
         }
 
         public override bool IsQuestFish()

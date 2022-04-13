@@ -13,6 +13,7 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 using CrateTile = CalamityMod.Tiles.Abyss.AbyssalCrateTile;
 
@@ -40,6 +41,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

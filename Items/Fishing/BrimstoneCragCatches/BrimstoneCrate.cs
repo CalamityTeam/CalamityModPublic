@@ -1,10 +1,10 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Crags;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

@@ -1,7 +1,8 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Projectiles.Typeless;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -26,6 +27,7 @@ Pull Velocity: {SerpentsBiteHook.PullSpeed}");
             Item.rare = ItemRarityID.LightRed;
             Item.width = 30;
             Item.height = 32;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

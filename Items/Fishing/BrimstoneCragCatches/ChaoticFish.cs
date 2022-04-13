@@ -2,6 +2,7 @@
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 10);
             Item.rare = ItemRarityID.Green;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick()

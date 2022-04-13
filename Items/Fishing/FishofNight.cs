@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Fishing
             Item.height = 34;
             Item.rare = ItemRarityID.Orange;
             Item.value = Item.sellPrice(gold: 1);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick()

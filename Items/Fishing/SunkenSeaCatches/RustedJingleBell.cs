@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
             Item.value = Item.sellPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

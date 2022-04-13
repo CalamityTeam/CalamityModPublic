@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -35,6 +36,7 @@ Revenge is a dish best served flaming hot");
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DrizzlefishFireball>();
             Item.shootSpeed = 11f;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override Vector2? HoldoutOrigin() //so it looks normal when holding

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.shoot = ModContent.ProjectileType<Astrophage>();
             Item.buffType = ModContent.BuffType<AstrophageBuff>();
             Item.rare = ItemRarityID.LightRed;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)
