@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
