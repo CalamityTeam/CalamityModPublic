@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -35,6 +36,7 @@ Reduces defense by 6% and life regen by 1
             Item.healLife = 200;
             Item.healMana = 200;
             Item.value = Item.buyPrice(0, 5, 30, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void OnConsumeItem(Player player)

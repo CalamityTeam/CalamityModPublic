@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -31,6 +32,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(900f);
             Item.value = Item.buyPrice(0, 2, 60, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void AddRecipes()

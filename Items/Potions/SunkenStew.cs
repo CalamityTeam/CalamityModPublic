@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -37,6 +38,7 @@ namespace CalamityMod.Items.Potions
             Item.potion = true;
             Item.healLife = 120;
             Item.healMana = 150;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

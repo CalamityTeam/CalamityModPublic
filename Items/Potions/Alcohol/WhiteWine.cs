@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -32,6 +33,7 @@ Reduces defense by 6% and life regen by 1");
             Item.buffType = ModContent.BuffType<WhiteWineBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
             Item.value = Item.buyPrice(0, 4, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override bool? UseItem(Player player)

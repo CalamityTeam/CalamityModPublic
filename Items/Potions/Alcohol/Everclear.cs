@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -30,6 +31,7 @@ Reduces life regen by 10 and defense by 30%");
             Item.buffType = ModContent.BuffType<EverclearBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(60f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

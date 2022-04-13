@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -30,6 +31,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.buffType = ModContent.BuffType<Trippy>();
             Item.buffTime = CalamityUtils.SecondsToFrames(3600f);
             Item.value = Item.buyPrice(0, 50, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

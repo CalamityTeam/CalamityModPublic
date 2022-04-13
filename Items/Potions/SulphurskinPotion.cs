@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -31,6 +32,7 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<SulphurskinBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(150f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -2,6 +2,7 @@
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Potions
             Item.value = Item.buyPrice(0, 4, 50, 0);
             Item.buffType = BuffID.MagicPower;
             Item.buffTime = CalamityUtils.SecondsToFrames(360f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override bool? UseItem(Player player)

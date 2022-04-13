@@ -4,6 +4,7 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -30,6 +31,7 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<Revivify>();
             Item.buffTime = CalamityUtils.SecondsToFrames(180f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -32,6 +33,7 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<Soaring>();
             Item.buffTime = CalamityUtils.SecondsToFrames(360f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

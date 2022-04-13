@@ -1,7 +1,8 @@
-using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -30,6 +31,7 @@ Makes you floaty and reduces defense by 10%");
             Item.buffType = ModContent.BuffType<CaribbeanRumBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 5, 30, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

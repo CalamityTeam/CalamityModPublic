@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.buyPrice(0, 6, 50, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void AddRecipes()

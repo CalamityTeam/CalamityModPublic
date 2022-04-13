@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Potions
             Item.useTurn = true;
             Item.buffType = BuffID.WellFed;
             Item.buffTime = CalamityUtils.SecondsToFrames(1800f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

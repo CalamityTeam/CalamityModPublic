@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Potions
             Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void AddRecipes()

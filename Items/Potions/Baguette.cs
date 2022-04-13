@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -33,6 +34,7 @@ namespace CalamityMod.Items.Potions
 
             Item.buffType = ModContent.BuffType<BaguetteBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void OnConsumeItem(Player player)

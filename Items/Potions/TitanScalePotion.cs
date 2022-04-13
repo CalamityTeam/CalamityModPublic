@@ -4,6 +4,7 @@ using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -31,6 +32,7 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<TitanScale>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

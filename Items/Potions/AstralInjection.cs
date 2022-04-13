@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -30,6 +31,7 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<AstralInjectionBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(5f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void OnConsumeItem(Player player)
