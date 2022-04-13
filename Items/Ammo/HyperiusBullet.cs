@@ -3,6 +3,8 @@ using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items.Ammo
 {
     public class HyperiusBullet : ModItem
@@ -28,6 +30,7 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<HyperiusBulletProj>();
             Item.shootSpeed = 16f;
             Item.ammo = AmmoID.Bullet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

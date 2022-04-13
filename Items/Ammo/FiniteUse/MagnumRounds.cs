@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Typeless.FiniteUse;
+﻿using CalamityMod.Projectiles.Typeless.FiniteUse;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo.FiniteUse
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Ammo.FiniteUse
             Item.shoot = ModContent.ProjectileType<MagnumRound>();
             Item.shootSpeed = 12f;
             Item.ammo = ModContent.ItemType<MagnumRounds>(); // CONSIDER -- Would item.type work here instead of a self reference?
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
     }
 }

@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<BloodfireBulletProj>();
             Item.shootSpeed = 4.8f;
             Item.ammo = ItemID.MusketBall;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

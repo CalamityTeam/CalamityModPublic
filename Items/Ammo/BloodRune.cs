@@ -1,6 +1,7 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -21,14 +22,13 @@ namespace CalamityMod.Items.Ammo
             Item.maxStack = 999;
             Item.consumable = true;
             Item.knockBack = 10f;
-
             Item.value = Item.buyPrice(gold: 1);
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.Calamity().donorItem = true;
-
             Item.shoot = ModContent.ProjectileType<IceBarrageMain>();
             Item.shootSpeed = 0f;
             Item.ammo = Item.type;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
     }
 }

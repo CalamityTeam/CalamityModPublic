@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items.Ammo
 {
     public class RubberMortarRound : ModItem
@@ -27,6 +29,7 @@ namespace CalamityMod.Items.Ammo
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.ammo = AmmoID.Bullet;
             Item.shoot = ModContent.ProjectileType<RubberMortarRoundProj>();
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

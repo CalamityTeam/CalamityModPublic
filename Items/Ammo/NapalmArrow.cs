@@ -3,6 +3,8 @@ using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items.Ammo
 {
     public class NapalmArrow : ModItem
@@ -27,6 +29,7 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
             Item.shootSpeed = 13f;
             Item.ammo = AmmoID.Arrow;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

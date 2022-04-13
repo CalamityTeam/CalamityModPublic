@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Ammo
             Item.shootSpeed = 5f;
             Item.ammo = AmmoID.Bullet;
             Item.maxStack = 999;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
     }
 }

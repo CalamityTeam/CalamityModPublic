@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Items.Ammo
             Item.value = Item.buyPrice(0, 0, 5, 0);
             Item.rare = ItemRarityID.Orange;
             Item.maxStack = 999;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             Item.consumable = true;
             return;
         }

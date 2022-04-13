@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -32,6 +33,7 @@ namespace CalamityMod.Items.Ammo
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Arrow;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

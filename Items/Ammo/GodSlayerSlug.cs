@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -32,6 +33,7 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();
             Item.shootSpeed = 6f;
             Item.ammo = ItemID.MusketBall;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()
