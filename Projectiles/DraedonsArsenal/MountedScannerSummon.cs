@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
                                          Projectile.SafeDirectionTo(target.Center, Vector2.UnitY),
                                          ModContent.ProjectileType<MountedScannerLaser>(),
                                          Projectile.damage,
@@ -104,6 +104,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                          Projectile.owner,
                                          0f,
                                          Projectile.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                        Main.projectile[p].originalDamage = Item.damage;
                 }
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
             }

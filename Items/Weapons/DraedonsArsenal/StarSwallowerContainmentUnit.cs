@@ -54,7 +54,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Point mouseTileCoords = Main.MouseWorld.ToTileCoordinates();
             if (!CalamityUtils.ParanoidTileRetrieval(mouseTileCoords.X, mouseTileCoords.Y).HasTile)
             {
-                Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                if (Main.projectile.IndexInRange(p))
+                    Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
         }
