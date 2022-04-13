@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Materials;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            DisplayName.SetDefault("Treasure Bag (Jungle Dragon, Yharon)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
@@ -34,6 +35,7 @@ namespace CalamityMod.Items.TreasureBags
             Item.height = 24;
             Item.rare = ItemRarityID.Cyan;
             Item.expert = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override bool CanRightClick() => true;

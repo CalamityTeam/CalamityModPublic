@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.TreasureBags
             Item.width = 24;
             Item.height = 24;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

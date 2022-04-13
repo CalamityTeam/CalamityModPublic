@@ -10,6 +10,8 @@ using CalamityMod.Items.Weapons.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
 namespace CalamityMod.Items.TreasureBags
@@ -20,7 +22,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Coffer");
+            DisplayName.SetDefault("Treasure Coffer (Supreme Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.TreasureBags
             Item.height = 24;
             Item.rare = ItemRarityID.Purple;
             Item.expert = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override bool CanRightClick() => true;
