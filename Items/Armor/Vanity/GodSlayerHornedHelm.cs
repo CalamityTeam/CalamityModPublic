@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.vanity = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

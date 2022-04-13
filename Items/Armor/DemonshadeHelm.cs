@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.DataStructures;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -28,6 +29,7 @@ namespace CalamityMod.Items.Armor
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

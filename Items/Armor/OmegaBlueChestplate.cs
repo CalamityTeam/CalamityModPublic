@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -26,6 +27,7 @@ No positive life regen");
             Item.rare = ItemRarityID.Red;
             Item.defense = 28;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

@@ -3,6 +3,7 @@ using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.Armor
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.Calamity().donorItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

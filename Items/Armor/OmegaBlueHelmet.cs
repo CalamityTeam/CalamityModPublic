@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using System.Linq;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -39,6 +40,7 @@ namespace CalamityMod.Items.Armor
             Item.rare = ItemRarityID.Red;
             Item.defense = 19;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

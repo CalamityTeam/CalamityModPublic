@@ -3,6 +3,7 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Armor
             Item.rare = ItemRarityID.Red;
             Item.defense = 22;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

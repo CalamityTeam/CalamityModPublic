@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.sellPrice(platinum: 7, gold: 35, silver: 84);
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.Calamity().donorItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

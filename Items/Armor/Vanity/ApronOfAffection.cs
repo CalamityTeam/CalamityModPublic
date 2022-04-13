@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.Calamity().donorItem = true;
 
             Item.vanity = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

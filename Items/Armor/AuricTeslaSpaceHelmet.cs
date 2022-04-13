@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(1, 80, 0, 0);
             Item.defense = 12; //132
             Item.Calamity().customRarity = CalamityRarity.Violet;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

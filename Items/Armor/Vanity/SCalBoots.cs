@@ -1,5 +1,6 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.height = 20;
             Item.rare = ItemRarityID.Blue;
             Item.vanity = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

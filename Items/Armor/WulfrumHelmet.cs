@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 0, 75, 0);
             Item.rare = ItemRarityID.Blue;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

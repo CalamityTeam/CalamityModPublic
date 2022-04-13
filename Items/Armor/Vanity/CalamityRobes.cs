@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.vanity = true;
             Item.Calamity().donorItem = true;
             Item.value = Item.sellPrice(gold: 2);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }
