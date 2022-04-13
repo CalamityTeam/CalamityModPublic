@@ -67,17 +67,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     if (aimingAtTarget || Projectile.Distance(potentialTarget.Center) < 45f)
                     {
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PulseRifleFire"), shootPosition);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shootPosition,
+                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shootPosition,
                                                  Vector2.Normalize(potentialTarget.Center - shootPosition) * 12f,
                                                  ModContent.ProjectileType<PulseTurretShot>(),
                                                  Projectile.damage,
                                                  Projectile.knockBack,
                                                  Projectile.owner);
+                        if (Main.projectile.IndexInRange(p))
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                         if (Projectile.ai[0] % 120f == 119f)
                         {
                             for (int i = -1; i <= 1; i += 2)
                             {
-                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shootPosition,
+                                int p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shootPosition,
                                                          (potentialTarget.Center - shootPosition).SafeNormalize(Vector2.UnitY).RotatedBy(i * MathHelper.ToRadians(28f)) * 7f,
                                                          ModContent.ProjectileType<PulseTurretShot>(),
                                                          Projectile.damage,
@@ -85,6 +87,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                                          Projectile.owner,
                                                          0f,
                                                          1f);
+                                if (Main.projectile.IndexInRange(p2))
+                                    Main.projectile[p2].originalDamage = Projectile.originalDamage;
                             }
                         }
 

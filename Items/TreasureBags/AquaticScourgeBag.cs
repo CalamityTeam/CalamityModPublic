@@ -10,6 +10,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
 using Terraria.GameContent.Creative;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -38,6 +40,11 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(Item);
 
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
+        }
+
         public override void OpenBossBag(Player player)
         {
             // IEntitySource my beloathed
@@ -45,7 +52,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // AS is available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)
-				player.TryGettingDevArmor(s);
+                player.TryGettingDevArmor(s);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
