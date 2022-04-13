@@ -100,6 +100,7 @@ namespace CalamityMod
             EditFlamarangRecipe();
             EditTerraBladeRecipe();
             EditZenithRecipe();
+            EditMagiluminescenceRecipe();
             EditFireGauntletRecipe();
             EditSpiritFlameRecipe();
             EditBeetleArmorRecipes();
@@ -235,6 +236,17 @@ namespace CalamityMod
 
                 s.createItem.SetDefaults(ItemID.Zenith, false);
                 s.createItem.stack = 1;
+            });
+        }
+
+        // Change Magiluminescence's recipe to require more ingredients
+        private static void EditMagiluminescenceRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.Magiluminescence).ToList().ForEach(s =>
+            {
+                s.requiredItem[0].stack = 20;
+                s.requiredItem[1].stack = 15;
             });
         }
 

@@ -495,6 +495,10 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Magiluminescence nerf and clear explanation of what it actually does
+            if (item.type == ItemID.Magiluminescence)
+                EditTooltipByNum(0, (line) => line.Text = "Doubles movement acceleration and deceleration");
+
             // Magic Power Potion nerf
             if (item.type == ItemID.MagicPowerPotion)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased magic damage");
