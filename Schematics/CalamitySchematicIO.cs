@@ -16,48 +16,112 @@ namespace CalamityMod.Schematics
     // A struct parallel to Tile which, for modded tiles, stores offset tile and wall type IDs based on the schematic's mod name arrays.
     public struct SchematicMetaTile
     {
-        // If InputTile.TileType >= TileID.Count, is a modded tile type; consult mod tile name array
-        // If InputTile.WallType >= WallID.Count, is a modded wall type; consule mod wall name array
-        public Tile storedTile;
+        // If TileType >= TileID.Count, is a modded tile type; consult mod tile name array
+        // If WallType >= WallID.Count, is a modded wall type; consule mod wall name array
+        internal ushort TileType;
+        internal ushort WallType;
+        internal byte LiquidAmount;
+        internal byte LiquidType;
+        internal TileWallWireStateData miscState;
 
         internal readonly ushort originalType;
         internal readonly ushort originalWall;
         public bool keepTile;
         public bool keepWall;
 
+        public SchematicMetaTile()
+        {
+            TileType = 0;
+            WallType = 0;
+            LiquidAmount = 0;
+            LiquidType = 0;
+            miscState = new TileWallWireStateData();
+
+            originalType = 0;
+            originalWall = 0;
+            keepTile = false;
+            keepWall = false;
+        }
+
         public SchematicMetaTile(Tile t)
         {
-            storedTile = default;
-            CalamitySchematicIO.CopyTile(ref storedTile, t);
-            originalType = storedTile.TileType; // This is never changed
-            originalWall = storedTile.WallType; // This is never changed
+            TileType = t.TileType;
+            WallType = t.WallType;
+            LiquidAmount = t.LiquidAmount;
+            LiquidType = (byte)t.LiquidType;
+            miscState = t.Get<TileWallWireStateData>();
+
+            originalType = TileType; // This is never changed
+            originalWall = WallType; // This is never changed
             keepTile = false;
             keepWall = false;
         }
 
         // This function is used by the schematic placer to respect the keepTile and keepWall booleans.
-        public void ApplyTo(int x, int y, Tile original)
+        public void ApplyTo(int x, int y, SchematicMetaTile original)
         {
             Tile target = Main.tile[x, y];
             if (!keepTile && !keepWall) // full overwrite
-                CalamitySchematicIO.CopyTile(ref target, storedTile);
-            else if (keepTile && keepWall) // full preservation
-                CalamitySchematicIO.CopyTile(ref target, original);
-            else if (keepWall) // overwrite from replacement/storage, then bring in the wall from the original
             {
-                CalamitySchematicIO.CopyTile(ref target, storedTile);
-                target.WallType = original.WallType;
-                target.WallFrameX = original.WallFrameX;
-                target.WallFrameY = original.WallFrameY;
-                target.WallColor = original.WallColor;
+                target.TileType = TileType;
+                target.WallType = WallType;
+                target.LiquidAmount = LiquidAmount;
+                target.LiquidType = LiquidType;
+
+                ref var targetMiscState = ref target.Get<TileWallWireStateData>();
+                targetMiscState.TileFrameX = miscState.TileFrameX;
+                targetMiscState.TileFrameY = miscState.TileFrameY;
+                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, miscState.NonFrameBits);
             }
-            else if (keepTile) // preserve the original, but bring in the wall from replacement/storage
+            else if (keepTile && keepWall) // full preservation
             {
-                CalamitySchematicIO.CopyTile(ref target, original);
-                target.WallType = storedTile.WallType;
-                target.WallFrameX = storedTile.WallFrameX;
-                target.WallFrameY = storedTile.WallFrameY;
-                target.WallColor = storedTile.WallColor;
+                target.TileType = original.TileType;
+                target.WallType = original.WallType;
+                target.LiquidAmount = original.LiquidAmount;
+                target.LiquidType = original.LiquidType;
+
+                ref var targetMiscState = ref target.Get<TileWallWireStateData>();
+                targetMiscState.TileFrameX = original.miscState.TileFrameX;
+                targetMiscState.TileFrameY = original.miscState.TileFrameY;
+                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, original.miscState.NonFrameBits);
+            }
+            else if (keepWall) // Start with replacmenet, then splice in wall data from original
+            {
+                target.TileType = TileType;
+                target.WallType = original.WallType;
+                target.LiquidAmount = LiquidAmount;
+                target.LiquidType = LiquidType;
+
+                ref var targetMiscState = ref target.Get<TileWallWireStateData>();
+                targetMiscState.TileFrameX = miscState.TileFrameX;
+                targetMiscState.TileFrameY = miscState.TileFrameY;
+                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, miscState.NonFrameBits);
+
+                // Wall splice
+                // All relevant fields are contained in the above bitpack, so assign them a second time
+                targetMiscState.WallColor = original.miscState.WallColor;
+                targetMiscState.WallFrameNumber = original.miscState.WallFrameNumber;
+                targetMiscState.WallFrameX = original.miscState.WallFrameX;
+                targetMiscState.WallFrameY = original.miscState.WallFrameY;
+            }
+            else if (keepTile) // Start with original, then splice in wall data from replacement
+            {
+                target.TileType = original.TileType;
+                target.WallType = WallType;
+                target.LiquidAmount = original.LiquidAmount;
+                target.LiquidType = original.LiquidType;
+
+                ref var targetMiscState = ref target.Get<TileWallWireStateData>();
+                targetMiscState.TileFrameX = original.miscState.TileFrameX;
+                targetMiscState.TileFrameY = original.miscState.TileFrameY;
+                CalamitySchematicIO.TileWallWireStateBitpack.SetValue(targetMiscState, original.miscState.NonFrameBits);
+
+                // Wall splice
+                // All relevant fields are contained in the above bitpack, so assign them a second time
+                targetMiscState.WallColor = miscState.WallColor;
+                targetMiscState.WallFrameNumber = miscState.WallFrameNumber;
+                targetMiscState.WallFrameX = miscState.WallFrameX;
+                targetMiscState.WallFrameY = miscState.WallFrameY;
             }
         }
     }
@@ -136,27 +200,6 @@ namespace CalamityMod.Schematics
         public static ushort PreserveTileID = 0;
         public static ushort PreserveWallID = 0;
 
-        #region Copy Tile
-        private static readonly FieldInfo TilePointerID = typeof(Tile).GetField("TileId", BindingFlags.Instance | BindingFlags.NonPublic);
-
-        // Tile.CopyFrom is a pointer reassignment, so manually copying every field is necessary here.
-        internal static void CopyTile(ref Tile dest, Tile source, bool copyID = false)
-        {
-            dest.TileType = source.TileType;
-            dest.WallType = source.WallType;
-            dest.LiquidAmount = source.LiquidAmount;
-            dest.LiquidType = source.LiquidType;
-            dest.TileFrameX = source.TileFrameX;
-            dest.TileFrameY = source.TileFrameY;
-            var sourceMiscState = source.Get<TileWallWireStateData>();
-            var destMiscState = dest.Get<TileWallWireStateData>();
-            TileWallWireStateBitpack.SetValue(destMiscState, sourceMiscState.NonFrameBits);
-
-            if (copyID)
-                TilePointerID.SetValue(dest, TilePointerID.GetValue(source));
-        }
-        #endregion
-
         #region Direct Serialization Read/Write
 
         internal static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -164,42 +207,30 @@ namespace CalamityMod.Schematics
         private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
         {
             SchematicMetaTile smt = new SchematicMetaTile();
-            ref Tile t = ref smt.storedTile;
+            smt.TileType = reader.ReadUInt16();
+            smt.WallType = reader.ReadUInt16();
+            smt.LiquidAmount = reader.ReadByte();
+            smt.LiquidType = reader.ReadByte();
 
-            t.TileType = reader.ReadUInt16();
-            t.WallType = reader.ReadUInt16();
-
-            ref var liquidStruct = ref t.Get<LiquidData>();
-            liquidStruct.Amount = reader.ReadByte();
-            liquidStruct.LiquidType = reader.ReadByte();
-
-            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
-            miscStateStruct.TileFrameX = reader.ReadInt16();
-            miscStateStruct.TileFrameY = reader.ReadInt16();
+            smt.miscState.TileFrameX = reader.ReadInt16();
+            smt.miscState.TileFrameY = reader.ReadInt16();
 
             // Advised by Chicken Bones to clear runtime bits, not preserve them from existing tile
-            TileWallWireStateBitpack.SetValue(miscStateStruct, reader.ReadInt32());
-
+            // Only the NonFrameBits are loaded in
+            TileWallWireStateBitpack.SetValue(smt.miscState, reader.ReadInt32());
             return smt;
         }
 
         private static void WriteSchematicMetaTile(this BinaryWriter writer, SchematicMetaTile smt)
         {
-            ref Tile t = ref smt.storedTile;
-
-            writer.Write(t.TileType); // perfectly efficient shorthand for t.Get<TileTypeData>();
-            writer.Write(t.WallType); // perfectly efficient shorthand for t.Get<WallTypeData>();
-
-            ref var liquidStruct = ref t.Get<LiquidData>();
-            writer.Write(liquidStruct.Amount);
-            byte liquidID = (byte)liquidStruct.LiquidType;
-            writer.Write(liquidID);
-
-            ref var miscStateStruct = ref t.Get<TileWallWireStateData>();
-            writer.Write(miscStateStruct.TileFrameX);
-            writer.Write(miscStateStruct.TileFrameY);
+            writer.Write(smt.TileType);
+            writer.Write(smt.WallType);
+            writer.Write(smt.LiquidAmount);
+            writer.Write(smt.LiquidType);
+            writer.Write(smt.miscState.TileFrameX);
+            writer.Write(smt.miscState.TileFrameY);
             // Save only the NonFrameBits. The remainder of the bits are runtime only data that should not be serialized.
-            writer.Write(miscStateStruct.NonFrameBits);
+            writer.Write(smt.miscState.NonFrameBits);
         }
         #endregion
 
@@ -220,20 +251,19 @@ namespace CalamityMod.Schematics
         // This equality is slightly more strict than Tile.isTheSameAs because it checks type, wall and frame on non-active tiles.
         public static bool EqualToMetaTile(this Tile t, SchematicMetaTile smt)
         {
-            Tile compTile = smt.storedTile;
-            if (t.Get<TileWallWireStateData>().NonFrameBits != compTile.Get<TileWallWireStateData>().NonFrameBits)
+            if (t.Get<TileWallWireStateData>().NonFrameBits != smt.miscState.NonFrameBits)
                 return false;
 
-            if (t.WallType != compTile.WallType || t.LiquidAmount != compTile.LiquidAmount)
+            if (t.WallType != smt.WallType || t.LiquidAmount != smt.LiquidAmount)
                 return false;
 
-            if (t.LiquidAmount > 0 && t.LiquidType != compTile.LiquidType)
+            if (t.LiquidAmount > 0 && t.LiquidType != smt.LiquidType)
                 return false;
 
-            if (t.TileType != compTile.TileType)
+            if (t.TileType != smt.TileType)
                 return false;
 
-            if (Main.tileFrameImportant[t.TileType] && (t.TileFrameX != compTile.TileFrameX || t.TileFrameY != compTile.TileFrameY))
+            if (Main.tileFrameImportant[t.TileType] && (t.TileFrameX != smt.miscState.TileFrameX || t.TileFrameY != smt.miscState.TileFrameY))
                 return false;
 
             return true;
@@ -255,14 +285,14 @@ namespace CalamityMod.Schematics
         {
             // Special case: this meta tile demands that the original tile in the destination be preserved.
             // The meta index of this special mod tile name is always zero.
-            if (PreserveTileID > 0 && smt.storedTile.TileType == PreserveTileID)
+            if (PreserveTileID > 0 && smt.TileType == PreserveTileID)
             {
-                smt.storedTile.TileType = TileID.Count;
+                smt.TileType = TileID.Count;
                 smt.keepTile = true;
             }
-            else if (smt.storedTile.TileType >= TileID.Count)
+            else if (smt.TileType >= TileID.Count)
             {
-                ModTile mt = ModContent.GetModTile(smt.storedTile.TileType);
+                ModTile mt = ModContent.GetModTile(smt.TileType);
                 if (mt != null)
                 {
                     // This tile has a valid modded tile. Check if that ModTile is already registered to find its index.
@@ -277,20 +307,20 @@ namespace CalamityMod.Schematics
 
                     // Adjust the meta tile's type so that it points to the mod tile name array.
                     // typeOriginal is unaffected so that future searches will still function.
-                    smt.storedTile.TileType = (ushort)(TileID.Count + tileNameIndex);
+                    smt.TileType = (ushort)(TileID.Count + tileNameIndex);
                 }
             }
 
             // Special case: this meta tile demands that the original wall in the destination be preserved.
             // The meta index of this special mod wall name is always zero.
-            if (PreserveWallID > 0 && smt.storedTile.WallType == PreserveWallID)
+            if (PreserveWallID > 0 && smt.WallType == PreserveWallID)
             {
-                smt.storedTile.WallType = WallID.Count;
+                smt.WallType = WallID.Count;
                 smt.keepWall = true;
             }
-            else if (smt.storedTile.WallType >= WallID.Count)
+            else if (smt.WallType >= WallID.Count)
             {
-                ModWall mw = ModContent.GetModWall(smt.storedTile.WallType);
+                ModWall mw = ModContent.GetModWall(smt.WallType);
                 if (mw != null)
                 {
                     // This tile has a valid modded wall. Check if that ModWall is already registered to find its index.
@@ -305,7 +335,7 @@ namespace CalamityMod.Schematics
 
                     // Adjust the meta tile's wall so that it points to the mod wall name array.
                     // wallOriginal is unaffected so that future searches will still function.
-                    smt.storedTile.WallType = (ushort)(WallID.Count + wallNameIndex);
+                    smt.WallType = (ushort)(WallID.Count + wallNameIndex);
                 }
             }
         }
@@ -462,10 +492,10 @@ namespace CalamityMod.Schematics
         private static void ReplaceMetaIndicesWithLoadedIDs(ref SchematicMetaTile smt, string[] modTileNames, string[] modWallNames)
         {
             // If this schematic tile has a modded foreground tile, replace the meta index offset with that modded tile's ID.
-            if (smt.storedTile.TileType >= TileID.Count)
+            if (smt.TileType >= TileID.Count)
             {
                 // The first entry in modTileNames is always the special preserver name. If you hit this name, just set the keepTile flag.
-                string tileFullName = modTileNames[smt.storedTile.TileType - TileID.Count];
+                string tileFullName = modTileNames[smt.TileType - TileID.Count];
                 if (tileFullName == PreserveTileName)
                     smt.keepTile = true;
                 else
@@ -473,14 +503,14 @@ namespace CalamityMod.Schematics
                     ModContent.SplitName(tileFullName, out string mod, out string tileName);
                     Mod theMod = ModLoader.GetMod(mod);
                     // If that mod isn't loaded, spawn in a TML default UnloadedTile instead.
-                    smt.storedTile.TileType = (ushort)(theMod is null ? ModContent.TileType<UnloadedTile>() : theMod.Find<ModTile>(tileName).Type);
+                    smt.TileType = (ushort)(theMod is null ? ModContent.TileType<UnloadedTile>() : theMod.Find<ModTile>(tileName).Type);
                 }
             }
             // If this schematic tile has a modded wall, replace the meta index offset with that modded wall's ID.
-            if (smt.storedTile.WallType >= WallID.Count)
+            if (smt.WallType >= WallID.Count)
             {
                 // The first entry in modWallNames is always the special preserver name. If you hit this name, just set the keepWall flag.
-                string wallFullName = modWallNames[smt.storedTile.WallType - WallID.Count];
+                string wallFullName = modWallNames[smt.WallType - WallID.Count];
                 if (wallFullName == PreserveTileName)
                     smt.keepWall = true;
                 else
@@ -488,7 +518,7 @@ namespace CalamityMod.Schematics
                     ModContent.SplitName(wallFullName, out string mod, out string wallName);
                     Mod theMod = ModLoader.GetMod(mod);
                     // If that mod isn't loaded, spawn in a TML default UnloadedWall instead.
-                    smt.storedTile.WallType = (ushort)(theMod is null ? ModContent.WallType<UnloadedWall>() : theMod.Find<ModWall>(wallName).Type);
+                    smt.WallType = (ushort)(theMod is null ? ModContent.WallType<UnloadedWall>() : theMod.Find<ModWall>(wallName).Type);
                 }
             }
         }
