@@ -1,7 +1,8 @@
-using CalamityMod.NPCs.NormalNPCs;
+﻿using CalamityMod.NPCs.NormalNPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Critters
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Critters
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Blue;
             Item.Calamity().donorItem = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

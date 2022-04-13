@@ -1,7 +1,8 @@
-using CalamityMod.NPCs.SunkenSea;
+﻿using CalamityMod.NPCs.SunkenSea;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Critters
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Critters
             Item.bait = 20;
             Item.makeNPC = (short)ModContent.NPCType<SeaMinnow>();
             Item.rare = ItemRarityID.Green;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

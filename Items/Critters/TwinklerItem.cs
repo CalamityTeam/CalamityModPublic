@@ -1,7 +1,8 @@
-using CalamityMod.NPCs.Astral;
+﻿using CalamityMod.NPCs.Astral;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Critters
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Critters
             Item.bait = 40;
             Item.makeNPC = (short)ModContent.NPCType<Twinkler>();
             Item.rare = ItemRarityID.Green;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

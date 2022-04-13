@@ -1,7 +1,8 @@
-using CalamityMod.NPCs.AcidRain;
+﻿using CalamityMod.NPCs.AcidRain;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Critters
 {
@@ -28,6 +29,7 @@ namespace CalamityMod.Items.Critters
             Item.height = 24;
             Item.makeNPC = (short)ModContent.NPCType<FlakBaby>();
             Item.rare = ItemRarityID.LightPurple;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }
