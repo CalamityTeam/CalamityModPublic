@@ -172,9 +172,14 @@ namespace CalamityMod.Schematics
                     if (t.TileType == TileID.Trees || t.TileType == TileID.PineTree || t.TileType == TileID.Cactus)
                         WorldGen.KillTile(x + cornerX, y + cornerY);
                 }
+
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
-                    originalTiles[x, y].CopyFrom(Main.tile[x + cornerX, y + cornerY]);
+                {
+                    Tile worldTile = Main.tile[x + cornerX, y + cornerY];
+                    CalamitySchematicIO.CopyTile(ref originalTiles[x, y], worldTile, true);
+                }
+
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
                     if (originalTiles[x, y].TileType != TileID.Containers)
@@ -185,7 +190,7 @@ namespace CalamityMod.Schematics
                 for (int y = 0; y < height; ++y)
                 {
                     SchematicMetaTile smt = schematic[x, y];
-                    ref Tile t = ref smt.storedTile;
+                    Tile t = smt.storedTile;
                     string modChestStr = TileLoader.GetTile(t.TileType)?.ContainerName.GetDefault() ?? "";
                     bool isChest = t.TileType == TileID.Containers || modChestStr != "";
 
@@ -204,8 +209,7 @@ namespace CalamityMod.Schematics
                     }
 
                     // This is where the meta tile keep booleans are applied.
-                    Tile worldTile = Main.tile[x + cornerX, y + cornerY];
-                    smt.ApplyTo(ref worldTile, ref originalTiles[x, y]);
+                    smt.ApplyTo(x + cornerX, y + cornerY, originalTiles[x, y]);
                     TryToPlaceTileEntities(x + cornerX, y + cornerY, t);
 
                     // Activate the pile placement function if defined.

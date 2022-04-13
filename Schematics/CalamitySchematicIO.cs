@@ -28,7 +28,7 @@ namespace CalamityMod.Schematics
         public SchematicMetaTile(Tile t)
         {
             storedTile = default;
-            storedTile.CopyFrom(t);
+            CalamitySchematicIO.CopyTile(ref storedTile, t);
             originalType = storedTile.TileType; // This is never changed
             originalWall = storedTile.WallType; // This is never changed
             keepTile = false;
@@ -36,18 +36,16 @@ namespace CalamityMod.Schematics
         }
 
         // This function is used by the schematic placer to respect the keepTile and keepWall booleans.
-        public void ApplyTo(ref Tile target, ref Tile original)
+        public void ApplyTo(int x, int y, Tile original)
         {
-            // A lot of tile data is nefariously binary encoded into the tile header bytes.
-            // TODO -- Eventually improve this behavior, it will be needed when modded liquids roll around.
-
+            Tile target = Main.tile[x, y];
             if (!keepTile && !keepWall) // full overwrite
-                target.CopyFrom(storedTile);
+                CalamitySchematicIO.CopyTile(ref target, storedTile);
             else if (keepTile && keepWall) // full preservation
-                target.CopyFrom(original);
+                CalamitySchematicIO.CopyTile(ref target, original);
             else if (keepWall) // overwrite from replacement/storage, then bring in the wall from the original
             {
-                target.CopyFrom(storedTile);
+                CalamitySchematicIO.CopyTile(ref target, storedTile);
                 target.WallType = original.WallType;
                 target.WallFrameX = original.WallFrameX;
                 target.WallFrameY = original.WallFrameY;
@@ -55,7 +53,7 @@ namespace CalamityMod.Schematics
             }
             else if (keepTile) // preserve the original, but bring in the wall from replacement/storage
             {
-                target.CopyFrom(original);
+                CalamitySchematicIO.CopyTile(ref target, original);
                 target.WallType = storedTile.WallType;
                 target.WallFrameX = storedTile.WallFrameX;
                 target.WallFrameY = storedTile.WallFrameY;
@@ -138,9 +136,30 @@ namespace CalamityMod.Schematics
         public static ushort PreserveTileID = 0;
         public static ushort PreserveWallID = 0;
 
+        #region Copy Tile
+        private static readonly FieldInfo TilePointerID = typeof(Tile).GetField("TileId", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        // Tile.CopyFrom is a pointer reassignment, so manually copying every field is necessary here.
+        internal static void CopyTile(ref Tile dest, Tile source, bool copyID = false)
+        {
+            dest.TileType = source.TileType;
+            dest.WallType = source.WallType;
+            dest.LiquidAmount = source.LiquidAmount;
+            dest.LiquidType = source.LiquidType;
+            dest.TileFrameX = source.TileFrameX;
+            dest.TileFrameY = source.TileFrameY;
+            var sourceMiscState = source.Get<TileWallWireStateData>();
+            var destMiscState = dest.Get<TileWallWireStateData>();
+            TileWallWireStateBitpack.SetValue(destMiscState, sourceMiscState.NonFrameBits);
+
+            if (copyID)
+                TilePointerID.SetValue(dest, TilePointerID.GetValue(source));
+        }
+        #endregion
+
         #region Direct Serialization Read/Write
 
-        private static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static readonly FieldInfo TileWallWireStateBitpack = typeof(TileWallWireStateData).GetField("bitpack", BindingFlags.Instance | BindingFlags.NonPublic);
 
         private static SchematicMetaTile ReadSchematicMetaTile(this BinaryReader reader)
         {
