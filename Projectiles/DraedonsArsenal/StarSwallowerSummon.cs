@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                              Projectile.knockBack,
                                              Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = Item.damage;
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                     SoundEngine.PlaySound(SoundID.Item13, spawnPosition);
                 }
                 if (AcidShootTimer > 48)

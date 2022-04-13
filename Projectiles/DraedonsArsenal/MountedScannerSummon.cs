@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                          0f,
                                          Projectile.whoAmI);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = Item.damage;
+                        Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
             }

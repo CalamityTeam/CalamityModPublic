@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                                  Projectile.knockBack,
                                                  Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
-                            Main.projectile[p].originalDamage = Item.damage;
+                            Main.projectile[p].originalDamage = Projectile.originalDamage;
                         if (Projectile.ai[0] % 120f == 119f)
                         {
                             for (int i = -1; i <= 1; i += 2)
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                                                          0f,
                                                          1f);
                                 if (Main.projectile.IndexInRange(p2))
-                                    Main.projectile[p2].originalDamage = Item.damage;
+                                    Main.projectile[p2].originalDamage = Projectile.originalDamage;
                             }
                         }
 
