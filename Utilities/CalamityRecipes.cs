@@ -5,6 +5,7 @@ using CalamityMod.Items.Critters;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
@@ -234,6 +235,7 @@ namespace CalamityMod
                 s.requiredItem[10].SetDefaults(ModContent.ItemType<AuricBar>(), false);
                 s.requiredItem[10].stack = 5;
 
+                s.requiredTile[0] = ModContent.TileType<CosmicAnvil>();
                 s.createItem.SetDefaults(ItemID.Zenith, false);
                 s.createItem.stack = 1;
             });
