@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Soaring Potion");
             Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
                 "Restores a fraction of your wing flight time after a true melee strike\n" +
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<Soaring>();
             Item.buffTime = CalamityUtils.SecondsToFrames(360f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

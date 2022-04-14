@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Beetle Juice");
         }
 
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 16);
             Item.rare = ItemRarityID.LightRed;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

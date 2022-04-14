@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Titan Heart");
             Tooltip.SetDefault("Also used at the Astral Beacon");
         }
@@ -20,7 +21,5 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 1);
             Item.rare = ItemRarityID.LightRed;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-        }
-    }
+        }    }
 }

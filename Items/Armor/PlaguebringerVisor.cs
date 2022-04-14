@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Plaguebringer Visor");
             Tooltip.SetDefault("15% increased minion damage\n" +
             "+20 max life");
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Armor
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

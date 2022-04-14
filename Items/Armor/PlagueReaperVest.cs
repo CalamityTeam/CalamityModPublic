@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Plague Reaper Vest");
             Tooltip.SetDefault("Reduces the damage caused to you by the plague\n" +
                 "15% increased ranged damage and 5% increased ranged critical strike chance");
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 24, 0, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 14;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

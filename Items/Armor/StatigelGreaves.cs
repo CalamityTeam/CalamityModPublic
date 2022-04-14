@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Statigel Greaves");
             Tooltip.SetDefault("5% increased damage and movement speed");
         }
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 3, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.defense = 8;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

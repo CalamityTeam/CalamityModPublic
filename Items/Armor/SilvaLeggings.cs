@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Silva Leggings");
             Tooltip.SetDefault("10% increased movement speed\n" +
                 "12% increased damage and critical strike chance");
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Armor
             Item.defense = 39;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

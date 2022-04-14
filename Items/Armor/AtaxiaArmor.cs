@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hydrothermic Armor");
             Tooltip.SetDefault("+20 max life\n" +
                 "8% increased damage and 4% increased critical strike chance");
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 24, 0, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 20;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

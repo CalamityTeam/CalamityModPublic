@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Cobalt Kunai");
             Tooltip.SetDefault("Stealth strikes fire three homing cobalt energy bolts");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

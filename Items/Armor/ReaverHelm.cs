@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
         //Defense and DR Helm
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Reaver Helm");
             Tooltip.SetDefault("15% increased damage reduction but 30% decreased damage\n" +
                 "+50 max life\n" +
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 30; //63 => 73 w/ set bonus (+5 w/ Reaver Rage)
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

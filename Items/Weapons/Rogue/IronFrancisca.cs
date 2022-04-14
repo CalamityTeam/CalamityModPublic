@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Iron Francisca");
             Tooltip.SetDefault("The franciscas do more damage for a short time when initially thrown\n" +
                                "Stealth strikes pierce infinitely");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

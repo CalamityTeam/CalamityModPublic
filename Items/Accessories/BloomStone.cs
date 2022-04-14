@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloom Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "You quickly regenerate life while on the ground\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

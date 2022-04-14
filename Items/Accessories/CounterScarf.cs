@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Counter Scarf");
             Tooltip.SetDefault("True melee strikes deal 10% more damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().dodgeScarf;

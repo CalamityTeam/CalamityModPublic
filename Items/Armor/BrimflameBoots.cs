@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Brimflame Boots");
             Tooltip.SetDefault("5% increased magic damage\n" +
                 "5% increased movement speed");
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 15;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

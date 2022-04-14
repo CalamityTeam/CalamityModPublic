@@ -9,6 +9,7 @@ namespace CalamityMod.Items.DifficultyItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ball and Chain");
             Tooltip.SetDefault("So heavy...\n" +
                 "Favorite this item to disable any dashes granted by equipment.");
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.DifficultyItems
             Item.width = 32;
             Item.height = 50;
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player) => false;

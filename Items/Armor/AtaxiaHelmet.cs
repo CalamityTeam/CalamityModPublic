@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "Temporary immunity to lava and immunity to fire damage");
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 6; //40
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

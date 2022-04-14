@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Titan Heart Mask");
             Tooltip.SetDefault("5% increased rogue damage and knockback\n" +
             "Rogue weapons inflict the Astral Infection debuff");
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 12, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.defense = 12; //43
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

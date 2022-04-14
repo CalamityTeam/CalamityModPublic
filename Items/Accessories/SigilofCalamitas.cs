@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Sigil of Calamitas");
             Tooltip.SetDefault("15% increased magic damage and 10% decreased mana usage\n" +
                 "+100 max mana\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

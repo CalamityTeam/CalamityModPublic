@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(249, 81, 0)).UseSecondaryColor(new Color(255, 203, 106));
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Nightmare Dye");
         }
 
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Dyes
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = Item.sellPrice(0, 5, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

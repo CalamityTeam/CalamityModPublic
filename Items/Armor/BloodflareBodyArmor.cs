@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloodflare Body Armor");
             Tooltip.SetDefault("12% increased damage and 8% increased critical strike chance\n" +
                        "You regenerate life quickly and gain +30 defense while in lava\n" +
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 48, 0, 0);
             Item.defense = 35;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

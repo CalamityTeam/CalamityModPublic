@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Sulphurous Helmet");
             Tooltip.SetDefault("4% increased rogue damage\n" +
                 "2% increased rogue critical strike chance\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.defense = 5;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

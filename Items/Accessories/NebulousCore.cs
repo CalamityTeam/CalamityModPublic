@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Nebulous Core");
             Tooltip.SetDefault("10% increased damage\n" +
                                "Summons floating nebula stars to protect you\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

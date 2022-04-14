@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Asgard's Valor");
             Tooltip.SetDefault("Grants immunity to knockback\n" +
                 "Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Lime;
             Item.defense = 16;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

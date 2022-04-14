@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Glaive");
             Tooltip.SetDefault(@"Stacks up to 3
 Stealth strikes are super fast and pierce infinitely");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void SafeSetDefaults()

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Plaguenade");
             Tooltip.SetDefault("Releases a swarm of angry plague bees\n" +
                 "Stealth strikes spawn more bees and generate a larger explosion");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

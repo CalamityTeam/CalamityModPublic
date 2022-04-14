@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Demonic Bone Ash");
         }
 
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 6);
             Item.rare = ItemRarityID.Orange;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

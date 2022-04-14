@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloodflare Cuisses");
             Tooltip.SetDefault("17% increased movement speed, 10% increased damage and 7% increased critical strike chance");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.defense = 29;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

@@ -22,6 +22,7 @@ namespace CalamityMod.Items
                 "Teleportation is disabled while Chaos State is active\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -31,7 +32,6 @@ namespace CalamityMod.Items
             Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

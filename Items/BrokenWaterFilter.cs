@@ -12,6 +12,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Broken Water Filter");
             Tooltip.SetDefault("Favorite this item to disable natural Acid Rain spawns");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {
@@ -19,7 +20,6 @@ namespace CalamityMod.Items
             Item.height = 34;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void UpdateInventory(Player player)
         {

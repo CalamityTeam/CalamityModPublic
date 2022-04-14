@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Teratoma");
             Tooltip.SetDefault("Summons the Hive Mind when used in the corruption\n" +
                 "Not consumable");
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.SummonItems
             Item.useTime = 45;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Affliction");
             Tooltip.SetDefault("Gives you and all other players on your team +1 life regen,\n" +
                                "+10% max life, 7% damage reduction, 13 defense, and 10% increased damage");
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

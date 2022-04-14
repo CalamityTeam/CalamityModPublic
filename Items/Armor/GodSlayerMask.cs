@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("God Slayer Mask");
             Tooltip.SetDefault("14% increased rogue damage and critical strike chance, 5% increased movement speed");
         }
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 75, 0, 0);
             Item.defense = 29; //96
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

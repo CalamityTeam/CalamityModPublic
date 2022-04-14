@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Shattered Community");
             Tooltip.SetDefault("Ruined by unknowable hatred, it still contains (most of) the power of The Community...\n" +
                 "You generate rage over time and rage does not fade away out of combat\n" +
@@ -53,7 +54,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // Not overriding these Clones makes tooltips fail to function correctly due to HoverItem spaghetti.

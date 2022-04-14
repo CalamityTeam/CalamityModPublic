@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Feral Double Rod");
             Tooltip.SetDefault("Fires two lines at once.\n" +
                 "Just as you have tamed the jungle monster, you can now tame the fish in the sea.");
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             DisplayName.SetDefault("Brimstone Fish"); //Future potion ingredient
             Tooltip.SetDefault("Fire is a living being");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void SetDefaults()
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 8);
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

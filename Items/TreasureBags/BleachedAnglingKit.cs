@@ -12,6 +12,7 @@ namespace CalamityMod.Items.TreasureBags
             DisplayName.SetDefault("Bleached Angling Kit");
             Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
             "{$CommonItemTooltip.RightClickToOpen}");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SetDefaults()
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.TreasureBags
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.Pink;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

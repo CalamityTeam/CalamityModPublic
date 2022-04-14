@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Phantomic Artifact");
             Tooltip.SetDefault("Whenever your minions hit an enemy you will gain a random phantomic buff, does not stack with downgrades\n" +
                 "These buffs will either boost your defense, summon damage, or life regen for a while\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

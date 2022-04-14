@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Prototype Plasma Drive Core");
             Tooltip.SetDefault("Despite all the time it spent in storage, its furnace still burns strong");
         }
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.buyPrice(0, 0, 0, 0);
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)

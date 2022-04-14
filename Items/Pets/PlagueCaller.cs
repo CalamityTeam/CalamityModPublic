@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Plague Caller");
             Tooltip.SetDefault("Summons a baby Plaguebringer pet");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Pets
             Item.shoot = ModContent.ProjectileType<PlaguebringerBab>();
             Item.buffType = ModContent.BuffType<PlaguebringerBabBuff>();
             Item.rare = ItemRarityID.Lime;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

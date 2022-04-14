@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Forbidden Circlet");
             Tooltip.SetDefault("10% increased summon damage and 15% increased rogue velocity");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(gold: 25);
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

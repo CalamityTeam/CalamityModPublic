@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Omega Healing Potion");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void AddRecipes()

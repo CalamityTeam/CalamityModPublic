@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Flesh Totem");
             Tooltip.SetDefault("Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 20 second cooldown");
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Yellow;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

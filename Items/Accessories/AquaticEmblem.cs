@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Aquatic Emblem");
             Tooltip.SetDefault("Most ocean enemies become friendly and provides waterbreathing\n" +
                 "Being underwater slowly boosts your defense over time but also slows movement speed\n" +
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

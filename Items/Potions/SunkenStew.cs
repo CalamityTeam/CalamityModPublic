@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Potions
             Tooltip.SetDefault("Only gives 50 seconds of Potion Sickness\n" +
                "Grants Well Fed\n" +
                "60 minute duration");
+               CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void SetDefaults()
@@ -38,7 +39,6 @@ namespace CalamityMod.Items.Potions
             Item.potion = true;
             Item.healLife = 120;
             Item.healMana = 150;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Armor
         //Exploration and Mining Helm
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Reaver Headgear");
             Tooltip.SetDefault("10% increased pick speed and 20% increased block/wall placement speed\n" +
                 "Temporary immunity to lava and can move freely through liquids");
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 7; //40
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

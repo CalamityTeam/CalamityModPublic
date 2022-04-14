@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Fox Drive");
             Tooltip.SetDefault("'It contains 1 file on it'\n'Fox.cs'");
         }
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.sellPrice(gold: 30);
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

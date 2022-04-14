@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Sulphurous Leggings");
             Tooltip.SetDefault("Movement speed increased by 10%\n" +
                 "Movement speed increased by 35% while submerged in liquid");
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.defense = 5;
             Item.rare = ItemRarityID.Green;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

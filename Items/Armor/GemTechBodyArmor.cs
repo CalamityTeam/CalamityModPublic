@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Gem Tech Body Armor");
             Tooltip.SetDefault("You sunk low enough for me to reach.");
         }
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.sellPrice(platinum: 9, gold: 79, silver: 80);
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

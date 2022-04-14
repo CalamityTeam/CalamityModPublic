@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Anechoic Coating");
             Tooltip.SetDefault("Reduces creatures' ability to detect you in the abyss");
         }
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<AnechoicCoatingBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(240f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

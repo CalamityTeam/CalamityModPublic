@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Armor
         
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Cirrus' Dress");
             Tooltip.SetDefault("Here, this should help you drink as much alcohol as you want!\n" +
                 "5% increased magic damage and critical strike chance\n" +
@@ -41,7 +42,6 @@ namespace CalamityMod.Items.Armor
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
             Item.defense = 8;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

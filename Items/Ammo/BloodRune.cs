@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Blood Rune");
             Tooltip.SetDefault("Used with the Ice Barrage \n" +
                 "Found in some sort of runic landscape");
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<IceBarrageMain>();
             Item.shootSpeed = 0f;
             Item.ammo = Item.type;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
     }
 }

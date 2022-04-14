@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The Community");
             Tooltip.SetDefault("The heart of (most of) the Terraria community\n" +
                 "Starts off with weak buffs to all of your stats\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Rainbow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

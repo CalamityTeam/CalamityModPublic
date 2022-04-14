@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Plagued Fuel Pack");
             Tooltip.SetDefault("5% increased rogue damage and 15% increased rogue projectile velocity\n" +
                 "Stealth generates 10% faster\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         //Todo : Check if the slot contains the other rogue jetpack, in which case, let the player swap accs

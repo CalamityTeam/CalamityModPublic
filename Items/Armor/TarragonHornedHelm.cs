@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Tarragon Horned Helm");
             Tooltip.SetDefault("Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 50, 0, 0);
             Item.defense = 3; //98
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

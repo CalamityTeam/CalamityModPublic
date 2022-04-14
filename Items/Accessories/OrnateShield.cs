@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ornate Shield");
             Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor\n" +
                 "Grants a frost dash");
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Pink;
             Item.defense = 8;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

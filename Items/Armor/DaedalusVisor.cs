@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Daedalus Facemask");
             Tooltip.SetDefault("13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%\n" +
                 "5% increased movement speed");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.defense = 7; //37
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.DifficultyItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Death");
             Tooltip.SetDefault("Enables/disables Death Mode, can only be used in Revengeance Mode.\n" +
 
@@ -47,7 +48,6 @@ namespace CalamityMod.Items.DifficultyItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item119;
             Item.consumable = false;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // Can only be used in Revengeance Mode.

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("God Slayer Leggings");
             Tooltip.SetDefault("5% increased movement speed\n" +
                 "10% increased damage and critical strike chance");
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 45, 0, 0);
             Item.defense = 35;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

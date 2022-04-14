@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Silva Horned Hood");
             Tooltip.SetDefault("10% increased minion damage");
         }
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Armor
             Item.defense = 13; //110
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

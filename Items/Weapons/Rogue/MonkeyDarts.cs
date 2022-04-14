@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Monkey Darts");
             Tooltip.SetDefault("Stealth strikes throw 3 bouncing darts at high speed\n" + "'Perfect for popping'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

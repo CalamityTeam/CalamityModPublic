@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             DisplayName.SetDefault("Chaotic Fish");
             Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
             "Right click to extract essence");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SetDefaults()
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 10);
             Item.rare = ItemRarityID.Green;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick()

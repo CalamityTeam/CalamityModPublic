@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rusty Medallion");
             Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Blue;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

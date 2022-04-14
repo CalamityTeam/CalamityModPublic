@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Pearl of Enthrallment");
             Tooltip.SetDefault("Summons a water elemental to fight for you\n" +
                 "The elemental stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity7BuyPrice;
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded)

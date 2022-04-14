@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Elemental Gauntlet");
             Tooltip.SetDefault("Melee attacks and projectiles inflict on fire, frostburn and holy flames\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

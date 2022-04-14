@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Tarragon Helm");
             Tooltip.SetDefault("Helm of the disciple of ancients\n" +
                 "Temporary immunity to lava\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 50, 0, 0);
             Item.defense = 33; //98
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

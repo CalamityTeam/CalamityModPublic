@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hydrothermic Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
                 "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 15; //53
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

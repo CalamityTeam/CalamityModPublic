@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Wulfrum Fishing Pole");
             Tooltip.SetDefault("This barely works, but it's better than nothing.");
         }
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<WulfrumBobber>();
             Item.value = Item.buyPrice(0, 1, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Potion of Omniscience");
             Tooltip.SetDefault("Highlights nearby creatures, enemy projectiles,\n" +
                 "danger sources, and treasure");
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<Omniscience>();
             Item.buffTime = CalamityUtils.SecondsToFrames(900f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.SummonItems.Invasion
 {
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Martian Distress Beacon");
             Tooltip.SetDefault("Summons the Martian Madness\n" +
                 "Not consumable");

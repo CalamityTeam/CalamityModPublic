@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rover Drive");
             Tooltip.SetDefault("Activates a protective shield that grants 15 defense for 10 seconds\n" +
             //Actually 10.1 seconds at full power with a dissipation across 0.1666 seconds but whatever
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

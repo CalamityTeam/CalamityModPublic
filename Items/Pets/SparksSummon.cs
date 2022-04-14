@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Enchanted Butterfly");
             Tooltip.SetDefault("Feed him butterflies to keep him strong!\n" +
                 "Summons a mysterious dragonfly light pet\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.sellPrice(gold: 1);
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

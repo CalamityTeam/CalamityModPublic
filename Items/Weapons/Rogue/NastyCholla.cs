@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 Explodes into cactus spikes after roughly 3 seconds
 Can hurt town NPCs
 Stealth strikes throw five at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

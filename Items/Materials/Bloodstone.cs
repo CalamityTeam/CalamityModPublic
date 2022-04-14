@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
             DisplayName.SetDefault("Bloodstone");
         }
 
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.sellPrice(silver: 60);
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
         }
     }
 }

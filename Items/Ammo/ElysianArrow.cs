@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Elysian Arrow");
             Tooltip.SetDefault("Summons meteors from the sky on death");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<ElysianArrowProj>();
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Arrow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

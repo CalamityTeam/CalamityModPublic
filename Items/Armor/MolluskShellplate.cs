@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Mollusk Shellplate");
             Tooltip.SetDefault("10% increased damage and 6% increased critical strike chance\n" +
                                "15% decreased movement speed");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 20, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.defense = 22;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

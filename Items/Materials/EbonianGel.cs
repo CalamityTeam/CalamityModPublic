@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Blighted Gel");
         }
 
@@ -21,9 +22,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 6);
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (Item.notAmmo)

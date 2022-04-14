@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Shock Grenade");
             Tooltip.SetDefault("Throws a grenade that explodes into a burst of lightning\n" +
                 "Stealth strikes cause the grenade to leave an electrifying aura when it explodes");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ace's Apron of Affection");
             Tooltip.SetDefault("Great for hugging people");
         }
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.Calamity().donorItem = true;
 
             Item.vanity = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

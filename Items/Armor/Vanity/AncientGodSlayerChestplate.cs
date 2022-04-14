@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ancient God Slayer Chestplate");
         }
 
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.Calamity().customRarity = (CalamityRarity)14;
             Item.vanity = true;
             Item.value = Item.buyPrice(0, 60, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

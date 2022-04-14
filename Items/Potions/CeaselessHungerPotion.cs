@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Ceaseless Hunger Potion");
             Tooltip.SetDefault("Causes you to suck up all items in the world");
         }
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<CeaselessHunger>();
             Item.buffTime = CalamityUtils.SecondsToFrames(10f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

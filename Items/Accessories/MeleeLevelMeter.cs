@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Melee Level Meter");
             Tooltip.SetDefault("Tells you how high your melee proficiency is");
         }
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = Item.buyPrice(0, 6, 0, 0);
             Item.rare = ItemRarityID.Blue;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

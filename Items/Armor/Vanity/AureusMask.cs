@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Astrum Aureus Mask");
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.height = 28;
             Item.rare = ItemRarityID.Blue;
             Item.vanity = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

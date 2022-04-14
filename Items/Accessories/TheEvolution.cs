@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The Evolution");
             Tooltip.SetDefault("You reflect projectiles when they hit you\n" +
                                 "Reflected projectiles deal no damage to you\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.rare = ItemRarityID.Purple;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

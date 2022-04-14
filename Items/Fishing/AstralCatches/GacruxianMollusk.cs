@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Gacruxian Mollusk");
             Tooltip.SetDefault("Releases homing sparks while traveling\n" +
             "Stealth strikes release homing snails that create even more sparks");
@@ -40,7 +41,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.Calamity().rogue = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

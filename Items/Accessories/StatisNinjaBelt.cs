@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Statis' Ninja Belt");
             Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
                 "Increased fall damage resistance by 35 blocks\n" +
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.rare = ItemRarityID.Purple;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(54, 164, 66)).UseSecondaryColor(new Color(224, 115, 65));
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Reaver Dye");
         }
 
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.Lime;
             Item.value = Item.sellPrice(0, 1, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

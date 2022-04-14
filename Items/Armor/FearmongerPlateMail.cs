@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Fearmonger Plate Mail");
             Tooltip.SetDefault("+100 max life and 8% increased damage reduction\n" +
             "5% increased damage and critical strike chance");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(gold: 60);
             Item.defense = 50;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

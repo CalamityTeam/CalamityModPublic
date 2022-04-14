@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Fearmonger Greaves");
             Tooltip.SetDefault("6% increased damage\n" +
             "50% increased minion knockback\n" +
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(gold: 45);
             Item.defense = 44;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

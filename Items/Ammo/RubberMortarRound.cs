@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Rubber Mortar Round");
             Tooltip.SetDefault("Large blast radius\n" +
                 "Will destroy tiles on each bounce\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Ammo
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.ammo = AmmoID.Bullet;
             Item.shoot = ModContent.ProjectileType<RubberMortarRoundProj>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

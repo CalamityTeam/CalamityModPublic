@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Demonshade Greaves");
             Tooltip.SetDefault("Shadow speed");
         }
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

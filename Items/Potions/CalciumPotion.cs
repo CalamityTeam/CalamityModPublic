@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Calcium Potion");
             Tooltip.SetDefault("Grants immunity to fall damage");
         }
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<CalciumBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

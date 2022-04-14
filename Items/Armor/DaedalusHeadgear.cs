@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Daedalus Mask");
             Tooltip.SetDefault("5% increased minion damage");
         }
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.defense = 3; //33
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Blunder Booster");
             Tooltip.SetDefault("12% increased rogue damage and 15% increased rogue projectile velocity\n" +
                 "Stealth generates 10% faster\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         //Todo - Check if its trying to replace the other rogue jetpack. If its the case, return true.

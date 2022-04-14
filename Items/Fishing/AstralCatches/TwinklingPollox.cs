@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         {
             DisplayName.SetDefault("Twinkling Pollox"); //Bass substitute
             Tooltip.SetDefault("The scales gleam like crystals");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void SetDefaults()
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

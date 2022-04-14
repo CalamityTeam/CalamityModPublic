@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Suspicious Looking Jelly Bean");
             Tooltip.SetDefault("JELLY BEAN");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Mounts
             Item.value = Item.buyPrice(platinum: 1);
             Item.rare = ItemRarityID.Cyan;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

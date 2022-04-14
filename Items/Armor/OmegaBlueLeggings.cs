@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Omega Blue Tentacles");
             Tooltip.SetDefault(@"12% increased movement speed
 12% increased damage and critical strike chance");
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.rare = ItemRarityID.Red;
             Item.defense = 22;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

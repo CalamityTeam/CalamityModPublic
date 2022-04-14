@@ -9,6 +9,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloodworm");
             Tooltip.SetDefault("Summons The Old Duke if used as bait in the sulphur sea");
         }

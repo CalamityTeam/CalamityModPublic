@@ -12,8 +12,10 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Astral Injection");
             Tooltip.SetDefault("Gives mana sickness and hurts you when used, but you regenerate mana extremely quickly even while moving or casting spells");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void SetDefaults()
@@ -31,7 +33,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<AstralInjectionBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(5f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void OnConsumeItem(Player player)

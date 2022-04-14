@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Holy Wrath Potion");
             Tooltip.SetDefault("Increases damage by 12% and your attacks inflict holy fire\n" +
                 "While this potion's buff is active the Wrath Potion's buff is disabled");
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<HolyWrathBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

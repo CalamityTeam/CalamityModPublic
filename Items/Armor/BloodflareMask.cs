@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloodflare Ram Mask");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
                 "10% increased melee damage and critical strike chance");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.defense = 49; //85
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

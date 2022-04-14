@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Umbraphile Regalia");
             Tooltip.SetDefault("10% increased rogue damage and 10% increased rogue crit");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 24, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 16;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Polaris Parrotfish");
             Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
                 "Projectile hits grant buffs to the weapon and the player\n" +
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<PolarStar>();
             Item.shootSpeed = 15f;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

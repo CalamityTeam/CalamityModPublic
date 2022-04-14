@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Delicious Meat");
             Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n'So very delicious'");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
         public override void SetDefaults()
         {
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Potions
             Item.useTurn = true;
             Item.buffType = BuffID.WellFed;
             Item.buffTime = CalamityUtils.SecondsToFrames(1800f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

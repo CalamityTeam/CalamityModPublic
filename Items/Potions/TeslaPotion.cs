@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Tesla Potion");
             Tooltip.SetDefault("Summons an aura of electricity that electrifies and slows enemies\n" +
                 "Aura damage is reduced on bosses\n" +
@@ -34,7 +35,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<TeslaBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

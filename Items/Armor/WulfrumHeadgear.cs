@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Wulfrum Headgear");
             Tooltip.SetDefault("10% increased ranged damage");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 0, 75, 0);
             Item.rare = ItemRarityID.Blue;
             Item.defense = 2; //7
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

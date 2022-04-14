@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Procyonid Prawn");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void SetDefaults()
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 5);
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

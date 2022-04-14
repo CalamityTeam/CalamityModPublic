@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Shroomite Visage");
             Tooltip.SetDefault("25% increased ranged damage for flamethrowers");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Yellow;
             Item.defense = 11; //62
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -14,6 +14,7 @@ namespace CalamityMod.Items
             Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
                                "Holding out the crystal slows the player down\n" +
                                "At the end of its life, the crystal heals the player for 70 HP");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,6 @@ namespace CalamityMod.Items
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;

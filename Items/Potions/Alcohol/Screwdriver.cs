@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Screwdriver");
             Tooltip.SetDefault(@"Do you have a screw loose?
 Multiplies piercing projectile damage by 1.05
@@ -31,7 +32,6 @@ Reduces life regen by 1");
             Item.buffType = ModContent.BuffType<ScrewdriverBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 4, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

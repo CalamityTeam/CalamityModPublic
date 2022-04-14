@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Whiskey");
             Tooltip.SetDefault(@"The burning sensation makes it tastier
 Boosts damage and knockback by 4% and critical strike chance by 2%
@@ -31,7 +32,6 @@ Reduces defense by 5%");
             Item.buffType = ModContent.BuffType<WhiskeyBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 1, 30, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

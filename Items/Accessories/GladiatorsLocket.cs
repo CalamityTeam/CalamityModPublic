@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Gladiator's Locket");
             Tooltip.SetDefault("Summons two spirit swords to protect you");
         }
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Orange;
             Item.defense = 5;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded)

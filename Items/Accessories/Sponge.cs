@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The Sponge");
             Tooltip.SetDefault("15% increased damage reduction\n" +
                 "+30 max life and mana\n" +
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

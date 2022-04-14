@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Web Ball");
             Tooltip.SetDefault(@"Throws a web-covered ball that covers enemies in cobwebs to slow them down
 Stealth strikes slow enemies down longer");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

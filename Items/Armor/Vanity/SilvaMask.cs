@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Silva Mask");
         }
 
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.vanity = true;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

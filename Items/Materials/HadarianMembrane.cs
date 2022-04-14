@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Hadarian Membrane");
             Tooltip.SetDefault("The membrane of an astral creature's wings");
         }
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 50);
             Item.rare = ItemRarityID.Lime;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Reaper Tooth");
             Tooltip.SetDefault("Sharp enough to cut diamonds");
         }
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

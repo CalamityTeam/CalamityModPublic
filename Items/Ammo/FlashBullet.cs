@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Flash Round");
             Tooltip.SetDefault("Gives off a concussive blast that confuses enemies in a large area for a short time");
         }
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<FlashBulletProj>();
             Item.shootSpeed = 12f;
             Item.ammo = AmmoID.Bullet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Purified Gel");
         }
 
@@ -19,7 +20,5 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 2, 50, 0);
             Item.rare = ItemRarityID.LightRed;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-        }
-    }
+        }    }
 }

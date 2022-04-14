@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Eye of Desolation");
             Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
                 "Summons Calamitas when used during nighttime\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.SummonItems
             Item.useTime = 45;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

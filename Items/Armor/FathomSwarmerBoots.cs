@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Fathom Swarmer Greaves");
             Tooltip.SetDefault("4% increased minion damage\n" +
                 "Grants the ability to swim\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 18, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 15;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

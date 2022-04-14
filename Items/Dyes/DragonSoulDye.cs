@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Dyes
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/DragonSoulDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass");
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Dragon Soul Dye");
         }
 
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Dyes
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = Item.sellPrice(0, 8, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

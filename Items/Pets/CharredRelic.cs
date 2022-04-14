@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Charred Relic");
             Tooltip.SetDefault("Contains a small amount of brimstone");
         }
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Pets
             Item.Calamity().devItem = true;
 
             Item.UseSound = SoundID.NPCHit51;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

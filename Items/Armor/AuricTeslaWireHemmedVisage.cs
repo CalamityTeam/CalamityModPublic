@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
             Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage\n" +
                                "Not moving boosts all damage and critical strike chance");
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(1, 80, 0, 0);
             Item.defense = 24; //132
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

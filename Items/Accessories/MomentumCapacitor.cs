@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Momentum Capacitor");
             Tooltip.SetDefault("TOOLTIP LINE HERE\n" +
                                "Rogue projectiles that enter the field get a constant acceleration and 15% damage boost\n" +
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.accessory = true;
             Item.rare = ItemRarityID.Pink;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Baby Ghost Bell");
         }
 
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Critters
             Item.height = 24;
             Item.makeNPC = (short)ModContent.NPCType<GhostBellSmall>();
             Item.rare = ItemRarityID.Green;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

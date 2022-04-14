@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws bouncing darts\n" +
             "Stealth strikes ignore gravity and bounce more vigorously\n" +
             "They additionally leak slime and cover enemies in dark sludge");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

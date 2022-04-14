@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Jelly-Charged Battery");
             Tooltip.SetDefault("+1 max minions and 7% minion damage\n" +
                                "Minion attacks spawn orbs of energy and inflict Electrified");
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.accessory = true;
             Item.rare = ItemRarityID.LightRed;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

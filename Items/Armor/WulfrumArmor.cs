@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Wulfrum Armor");
             Tooltip.SetDefault("3% increased critical strike chance");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 0, 50, 0);
             Item.rare = ItemRarityID.Blue;
             Item.defense = 2;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

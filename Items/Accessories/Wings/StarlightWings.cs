@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Starlight Wings");
             Tooltip.SetDefault("Wings of the Nightingale\n" +
                 "Horizontal speed: 7.50\n" +
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

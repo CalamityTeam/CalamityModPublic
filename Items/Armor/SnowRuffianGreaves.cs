@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Snow Ruffian Greaves");
             Tooltip.SetDefault("5% increased movement speed");
         }
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 0, 75, 0);
             Item.rare = ItemRarityID.Blue;
             Item.defense = 1; //4
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

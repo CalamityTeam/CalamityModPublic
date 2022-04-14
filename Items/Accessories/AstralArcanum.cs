@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Astral Arcanum");
             Tooltip.SetDefault("Provides immunity to the astral infection debuff\n" +
                 "Boosts life regen even while under the effects of a damaging debuff\n" +
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

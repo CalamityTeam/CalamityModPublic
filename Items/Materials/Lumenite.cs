@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Lumenyl");
             Tooltip.SetDefault("A shard of lumenous energy");
         }
@@ -28,7 +29,5 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 80);
             Item.rare = ItemRarityID.Lime;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-        }
-    }
+        }    }
 }

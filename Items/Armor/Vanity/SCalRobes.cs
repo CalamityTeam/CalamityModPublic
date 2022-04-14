@@ -7,7 +7,11 @@ namespace CalamityMod.Items.Armor.Vanity
     [AutoloadEquip(EquipType.Body)]
     public class SCalRobes : ModItem
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Calamitous Robes");
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            DisplayName.SetDefault("Calamitous Robes");
+        }
 
         public override void SetDefaults()
         {
@@ -15,7 +19,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.height = 20;
             Item.rare = ItemRarityID.Blue;
             Item.vanity = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

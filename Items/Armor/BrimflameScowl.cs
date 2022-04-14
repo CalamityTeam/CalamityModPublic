@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Brimflame Cowl");
             Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
                 "Increases maximum mana by 70 and reduces mana usage by 10%\n" +
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 11;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         private void UpdateFrenzy(Player player)

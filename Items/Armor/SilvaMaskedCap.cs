@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Silva Masked Cap");
             Tooltip.SetDefault("23% increased magic damage and 13% increased magic critical strike chance\n" +
                 "+100 max mana and 19% reduced mana usage");
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.defense = 21; //110
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

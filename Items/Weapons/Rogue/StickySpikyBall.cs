@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Sticky Spiky Ball");
             Tooltip.SetDefault(@"Throws a spiky ball that sticks to everything
 Stealth strikes throw seven at once and last a lot longer");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

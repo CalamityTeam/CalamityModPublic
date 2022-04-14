@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Triboluminescent Etomer");
             Tooltip.SetDefault("Summons an electric troublemaker\n" +
                 "A little note is attached:\n" +
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.buyPrice(gold: 4);
             Item.rare = ItemRarityID.Orange;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

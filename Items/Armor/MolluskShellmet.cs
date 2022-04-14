@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Mollusk Shellmet");
             Tooltip.SetDefault("5% increased damage and 4% increased critical strike chance\n" +
                                "You can move freely through liquids");
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.defense = 18;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

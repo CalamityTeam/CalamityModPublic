@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Shattering Potion");
             Tooltip.SetDefault("Increases melee and rogue damage and critical strike chance by 8%\n" +
                 "Melee and rogue attacks break enemy armor\n" +
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<ArmorShattering>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

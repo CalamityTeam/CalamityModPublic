@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Profaned Shard");
             Tooltip.SetDefault("A shard of the unholy flame\n" +
                 "Summons the Profaned Guardians when used in the hallow or underworld during daytime\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
             DisplayName.SetDefault("Sunken Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

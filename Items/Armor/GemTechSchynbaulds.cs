@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Gem Tech Schynbaulds");
             Tooltip.SetDefault("If they hurt you, kick them down.");
         }
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.sellPrice(platinum: 7, gold: 35, silver: 84);
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Prismatic Regalia");
             Tooltip.SetDefault("12% increased magic damage and 15% increased magic crit\n" +
                 "20% decreased non-magic damage\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Armor
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

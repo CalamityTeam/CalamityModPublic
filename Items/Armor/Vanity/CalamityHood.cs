@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hood of Calamity");
             ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.vanity = true;
             Item.Calamity().donorItem = true;
             Item.value = Item.sellPrice(gold: 2);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

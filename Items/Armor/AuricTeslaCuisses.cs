@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Auric Tesla Cuisses");
             Tooltip.SetDefault("10% increased movement speed\n" +
                 "12% increased damage and 5% increased critical strike chance\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(1, 8, 0, 0);
             Item.defense = 44;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

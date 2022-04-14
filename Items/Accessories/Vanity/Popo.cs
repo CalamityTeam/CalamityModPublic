@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Magic Scarf and Hat");
             Tooltip.SetDefault("Don't let the demons steal your nose\n" +
                 "Transforms the holder into a snowman");
@@ -34,7 +35,6 @@ namespace CalamityMod.Items.Accessories.Vanity
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

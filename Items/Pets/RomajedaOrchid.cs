@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Romajeda Orchid");
             Tooltip.SetDefault("Summons a never forgotten friend");
         }
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.buyPrice(gold: 40);
             Item.rare = ItemRarityID.Pink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("God Slayer Visage");
         }
 
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.value = Item.buyPrice(0, 8, 0, 0);
             Item.vanity = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

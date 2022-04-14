@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Elysian Aegis");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
                                "Grants immunity to knockback, and the Burning, On Fire!, and Holy Flames debuffs\n" +
@@ -35,7 +36,6 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.defense = 18;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

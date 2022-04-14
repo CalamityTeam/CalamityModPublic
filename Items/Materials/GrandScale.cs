@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Grand Scale");
             Tooltip.SetDefault("Large scale of an apex predator");
         }
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 4, 50, 0);
             Item.rare = ItemRarityID.Lime;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

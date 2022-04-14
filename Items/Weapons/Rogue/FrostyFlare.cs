@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Sticks to enemies\n" +
                 "Generates a localized hailstorm\n" +
                 "Stealth strikes trail snowflakes and summon phantom copies instead of ice shards");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

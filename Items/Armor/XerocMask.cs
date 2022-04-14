@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Empyrean Mask");
             Tooltip.SetDefault("Wrath of the cosmos\n" +
                 "11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
@@ -45,7 +46,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 40, 0, 0);
             Item.rare = ItemRarityID.Red;
             Item.defense = 20; //71
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

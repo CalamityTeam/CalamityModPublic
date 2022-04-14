@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Ascendant Spirit Essence");
             Tooltip.SetDefault("A catalyst of the highest caliber formed by fusing powerful souls");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
@@ -28,9 +29,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = Item.sellPrice(gold: 40);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             Texture2D texture = TextureAssets.Item[Item.type].Value;

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Margarita");
             Tooltip.SetDefault(@"One of the best drinks ever created, enjoy it while it lasts
 Reduces the duration of most debuffs
@@ -36,7 +37,6 @@ Reduces defense by 6% and life regen by 1
             Item.healLife = 200;
             Item.healMana = 200;
             Item.value = Item.buyPrice(0, 5, 30, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void OnConsumeItem(Player player)

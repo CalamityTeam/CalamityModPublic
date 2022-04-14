@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Tarragon Throwing Dart");
             Tooltip.SetDefault(@"Fires a piercing dart with reduced immunity frames
 Stealth strikes erupt into thorns on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

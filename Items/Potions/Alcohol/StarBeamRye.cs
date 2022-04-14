@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Star Beam Rye");
             Tooltip.SetDefault(@"Made from some stuff I found near the Astral Meteor crash site, don't worry it's safe, trust me
 Boosts max mana by 50, magic damage by 8%,
@@ -32,7 +33,6 @@ Reduces defense by 6% and life regen by 1");
             Item.buffType = ModContent.BuffType<StarBeamRyeBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 4, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

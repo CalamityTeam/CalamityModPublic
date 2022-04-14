@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Sulphurskin Potion");
             Tooltip.SetDefault("Reduces the effects of the sulphuric waters");
         }
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<SulphurskinBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(150f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(255, 166, 94)).UseSecondaryColor(new Color(238, 93, 82));
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Astral Orange Dye");
         }
 
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.Cyan;
             Item.value = Item.sellPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

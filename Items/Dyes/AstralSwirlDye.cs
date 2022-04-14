@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(42, 147, 154)).UseSecondaryColor(new Color(238, 93, 82)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Astral Swirl Dye");
         }
 
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.Cyan;
             Item.value = Item.sellPrice(0, 3, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

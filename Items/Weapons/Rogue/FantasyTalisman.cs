@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires high velocity talismans that ignore gravity
 Talismans attach to enemies, causing them to release lost souls
 Stealth strikes release more souls and leave behind souls as they travel");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

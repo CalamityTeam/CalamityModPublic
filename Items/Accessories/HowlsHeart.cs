@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Howl's Heart");
             Tooltip.SetDefault("Summons Howl to fight for you, Calcifer to light your way, and Turnip-Head to follow you around\n" +
             "Placing this accessory in vanity slots will summon the trio without the combat or exploration utilities");
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.Red;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().howlsHeart;

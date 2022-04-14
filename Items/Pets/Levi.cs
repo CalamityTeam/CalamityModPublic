@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Levi");
             Tooltip.SetDefault("Summons a baby Leviathan pet");
         }
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.sellPrice(gold: 40);
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

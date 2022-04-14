@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Tarragon Breastplate");
             Tooltip.SetDefault("Breastplate of the exiler\n" +
                     "10% increased damage and 5% increased critical strike chance\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 40, 0, 0);
             Item.defense = 37;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

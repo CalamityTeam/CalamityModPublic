@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Revivify Potion");
             Tooltip.SetDefault("Causes enemy attacks to heal you for a fraction of their damage");
         }
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<Revivify>();
             Item.buffTime = CalamityUtils.SecondsToFrames(180f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

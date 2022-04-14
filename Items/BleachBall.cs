@@ -12,6 +12,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Bleach Ball");
             Tooltip.SetDefault("Favorite this item to prevent the Aquatic Scourge from naturally spawning near you");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {
@@ -19,7 +20,6 @@ namespace CalamityMod.Items
             Item.height = 46;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateInventory(Player player)

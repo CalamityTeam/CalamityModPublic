@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 The brimstone sac appears to contain fuel
 Revenge is a dish best served flaming hot");
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -36,7 +37,6 @@ Revenge is a dish best served flaming hot");
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DrizzlefishFireball>();
             Item.shootSpeed = 11f;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override Vector2? HoldoutOrigin() //so it looks normal when holding

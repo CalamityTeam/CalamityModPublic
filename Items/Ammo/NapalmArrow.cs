@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Napalm Arrow");
             Tooltip.SetDefault("Explodes into fire shards");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<NapalmArrowProj>();
             Item.shootSpeed = 13f;
             Item.ammo = AmmoID.Arrow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

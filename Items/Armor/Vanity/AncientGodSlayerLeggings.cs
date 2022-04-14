@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ancient God Slayer Leggings");
         }
 
@@ -19,7 +20,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.Calamity().customRarity = (CalamityRarity)14;
             Item.value = Item.buyPrice(0, 45, 0, 0);
             Item.vanity = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

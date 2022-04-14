@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Enhanced Nano Round");
             Tooltip.SetDefault("Confuses enemies and releases a cloud of nanites when enemies die");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<EnhancedNanoRoundProj>();
             Item.shootSpeed = 8f;
             Item.ammo = AmmoID.Bullet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

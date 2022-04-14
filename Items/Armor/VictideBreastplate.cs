@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Victide Breastplate");
             Tooltip.SetDefault("5% increased damage reduction and critical strike chance\n" +
                 "+5 defense and 10% increased damage reduction while submerged in liquid");
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.defense = 5; //9
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

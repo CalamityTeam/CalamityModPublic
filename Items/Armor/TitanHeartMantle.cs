@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Titan Heart Mantle");
             Tooltip.SetDefault("45% chance to not consume rogue items\n" +
             "5% boosted rogue knockback but 15% lowered rogue attack speed");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 12, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.defense = 17;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

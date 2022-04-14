@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Regenator");
             Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Lime;
             Item.defense = 10;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

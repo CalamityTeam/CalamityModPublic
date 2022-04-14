@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Heron Rod");
             Tooltip.SetDefault("Increased fishing power in space.\n" + //John Steinbeck quote but fish instead of snake
                 "A silent head and beak lanced down and plucked it out by the head,\n" +
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shoot = ModContent.ProjectileType<HeronBobber>();
             Item.value = Item.buyPrice(0, 4, 0, 0);
             Item.rare = ItemRarityID.Orange;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

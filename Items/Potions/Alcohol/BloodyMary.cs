@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Bloody Mary");
             Tooltip.SetDefault(@"Extra spicy and bloody!
 Boosts damage by 15%, movement speed by 10%, melee speed by 15% and crit chance by 7% during a Blood Moon
@@ -31,7 +32,6 @@ Reduces life regen by 2 and defense by 4%");
             Item.buffType = ModContent.BuffType<BloodyMaryBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 60, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

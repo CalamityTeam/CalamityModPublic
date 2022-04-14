@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Arcturus Astroidean");
             Tooltip.SetDefault("Increases fishing power if used in the Astral Infection or Sulphurous Sea");
         }
@@ -20,8 +21,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 10);
             Item.rare = ItemRarityID.Orange;
-            Item.bait = 40;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            Item.bait = 40; 
         }
     }
 }

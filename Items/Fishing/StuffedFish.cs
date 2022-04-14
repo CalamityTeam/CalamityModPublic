@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Stuffed Fish");
             Tooltip.SetDefault("Right click to extract herbs and seeds");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SetDefaults()
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Fishing
             Item.height = 30;
             Item.rare = ItemRarityID.Green;
             Item.value = Item.sellPrice(silver: 50);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick()

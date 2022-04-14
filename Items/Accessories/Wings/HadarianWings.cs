@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hadarian Wings");
             Tooltip.SetDefault("Powered by the Astral Infection\n" +
                 "Hold down to hover during flight, greatly extending flight duration\n" +
@@ -35,7 +36,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
             Item.rare = ItemRarityID.Cyan;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

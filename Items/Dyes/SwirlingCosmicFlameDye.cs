@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(52, 212, 229)).UseSecondaryColor(new Color(255, 115, 221)).UseImage("Images/Misc/noise").UseSaturation(1f);
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Swirling Cosmic Flame Dye");
         }
 
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Dyes
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = Item.sellPrice(0, 7, 50, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

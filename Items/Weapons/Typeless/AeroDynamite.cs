@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Skynamite");
             Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
             "Throws a floaty explosive that defies gravity");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SetDefaults()

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(153, 200, 193)).UseSecondaryColor(new Color(236, 244, 213)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Aerialite Dye");
         }
 
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.Orange;
             Item.value = Item.sellPrice(0, 0, 50, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

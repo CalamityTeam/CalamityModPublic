@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 Fades away and slows down over time
 Lost souls released later deal less damage
 Stealth strikes don't slow down and souls always deal full damage");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

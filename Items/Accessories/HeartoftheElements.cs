@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Heart of the Elements");
             Tooltip.SetDefault("The heart of the world\n" +
                 "Summons all elementals to protect you");
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Cyan;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Rainbow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded)

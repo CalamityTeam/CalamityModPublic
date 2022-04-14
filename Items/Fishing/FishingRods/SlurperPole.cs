@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Slurper Pole");
             Tooltip.SetDefault("Can fish in lava.\n" + //Charles Spurgeon quote
                 "It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.");
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shoot = ModContent.ProjectileType<SlurperBobber>();
             Item.value = Item.buyPrice(0, 4, 0, 0);
             Item.rare = ItemRarityID.Orange;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

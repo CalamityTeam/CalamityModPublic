@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Gravity Normalizer Potion");
             Tooltip.SetDefault("Disables the low gravity of space and grants immunity to the distorted debuff");
         }
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<GravityNormalizerBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Pineapple");
             Tooltip.SetDefault("Summons a pineapple");
         }
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.buyPrice(gold: 4);
             Item.rare = ItemRarityID.Orange;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

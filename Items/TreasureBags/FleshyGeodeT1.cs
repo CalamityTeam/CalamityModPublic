@@ -12,6 +12,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             DisplayName.SetDefault("Fleshy Geode");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SetDefaults()
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.TreasureBags
             Item.width = 24;
             Item.height = 24;
             Item.rare = ItemRarityID.Yellow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
         internal const float StealthStrikeDamageMultiplier = 0.1f;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rotten Dogtooth");
             Tooltip.SetDefault($"Makes Stealth strikes inflict Armor Crunch, deal {(int)(StealthStrikeDamageMultiplier * 100)}% more damage and cost 1 less unit of stealth.");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
             Item.rare = ItemRarityID.Blue;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

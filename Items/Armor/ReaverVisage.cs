@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
         //Jump/Flight Boosts and Movement Speed Helm
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Reaver Visage");
             Tooltip.SetDefault("10% increased jump speed and 15% increased movement speed");
         }
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.defense = 13; //46
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

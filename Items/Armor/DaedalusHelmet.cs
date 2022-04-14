@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Daedalus Headgear");
             Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
                 "Reduces ammo usage by 20%");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.defense = 9; //39
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

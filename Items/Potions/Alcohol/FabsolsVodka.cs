@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Fabsol's Vodka");
             Tooltip.SetDefault("Boosts all damage stats by 8% but lowers defense by 10%\n" +
                                "Increases immune time after being struck\n" +
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Potions.Alcohol
             Item.buffType = ModContent.BuffType<FabsolVodkaBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(900f);
             Item.value = Item.buyPrice(0, 2, 60, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void AddRecipes()

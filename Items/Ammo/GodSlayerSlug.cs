@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("God Slayer Slug");
             Tooltip.SetDefault("Heavy ammunition with unlimited piercing that tears through spacetime\n" +
                 "After a slug lands a hit, if it strikes a wall or runs out of targets to pierce,\n" +
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<GodSlayerSlugProj>();
             Item.shootSpeed = 6f;
             Item.ammo = ItemID.MusketBall;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

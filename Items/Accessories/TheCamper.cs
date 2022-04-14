@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("In rest may we find victory.\n" +
                 "You deal 90% less damage unless stationary\n" +
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
             Item.defense = 10;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

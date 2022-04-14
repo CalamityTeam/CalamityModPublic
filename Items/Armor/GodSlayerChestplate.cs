@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("God Slayer Chestplate");
             Tooltip.SetDefault("+60 max life\n" +
                        "Enemies take damage when they hit you\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.defense = 41;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

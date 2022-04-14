@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Potions
         public int frame = 0;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Draconic Elixir");
             Tooltip.SetDefault("Greatly increases wing flight time and speed and increases defense by 16\n" +
                 "Silva invincibility heals you to half HP when triggered\n" +
@@ -37,7 +38,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<DraconicSurgeBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override bool CanUseItem(Player player) => !player.HasCooldown(Cooldowns.DraconicElixir.ID);

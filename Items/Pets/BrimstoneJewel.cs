@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Brimstone Jewel");
             Tooltip.SetDefault("The ultimate reward for defeating such a beast...\n" +
                 "Who knew she'd be so darn cute!");
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.sellPrice(gold: 40);
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

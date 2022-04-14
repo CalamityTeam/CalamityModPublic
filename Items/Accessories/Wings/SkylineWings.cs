@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Skyline Wings");
             Tooltip.SetDefault("Horizontal speed: 6.25\n" +
                 "Acceleration multiplier: 1.0\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

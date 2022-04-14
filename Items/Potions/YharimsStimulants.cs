@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Yharim's Stimulants");
             Tooltip.SetDefault("Gives decent buffs to ALL offensive and defensive stats");
         }
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<YharimPower>();
             Item.buffTime = CalamityUtils.SecondsToFrames(1800f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bear's Eye");
             Tooltip.SetDefault("Summons a pet guardian angel");
         }
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Pets
             Item.shoot = ModContent.ProjectileType<Bear>();
             Item.buffType = ModContent.BuffType<BearBuff>();
             Item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Permafrost's Concoction");
             Tooltip.SetDefault(@"Increases maximum mana by 50 and reduces mana cost by 15%
 Increases life regen as life decreases
@@ -24,7 +25,6 @@ You are encased in an ice barrier for 3 seconds when revived");
             Item.height = 34;
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;
             Item.rare = ItemRarityID.Pink;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

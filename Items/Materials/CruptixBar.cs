@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Scoria Bar");
             Tooltip.SetDefault("The smoke feels warm");
         }
@@ -33,9 +34,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 1, silver: 20);
             Item.rare = ItemRarityID.Yellow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CruptixBar_Animated").Value;

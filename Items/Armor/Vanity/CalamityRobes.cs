@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Robes of Calamity");
         }
 
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.vanity = true;
             Item.Calamity().donorItem = true;
             Item.value = Item.sellPrice(gold: 2);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

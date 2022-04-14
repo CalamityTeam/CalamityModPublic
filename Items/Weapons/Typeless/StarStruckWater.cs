@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             DisplayName.SetDefault("Star Struck Water");
             Tooltip.SetDefault("Spreads the astral infection to some blocks");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SetDefaults()

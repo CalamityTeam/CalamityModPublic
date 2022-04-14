@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Photosynthesis Potion");
             Tooltip.SetDefault("You regen life quickly while not moving, this effect is five times as strong during daytime\n" +
                 "Dropped hearts heal more HP");
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<PhotosynthesisBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

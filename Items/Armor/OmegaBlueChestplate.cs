@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Omega Blue Chestplate");
             Tooltip.SetDefault(@"12% increased damage and 8% increased critical strike chance
 Your attacks inflict Crush Depth
@@ -27,7 +28,6 @@ No positive life regen");
             Item.rare = ItemRarityID.Red;
             Item.defense = 28;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Plague Cell Canister");
         }
 
@@ -19,7 +20,5 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-        }
-    }
+        }    }
 }

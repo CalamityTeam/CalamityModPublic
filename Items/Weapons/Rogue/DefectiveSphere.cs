@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
 Stacks up to 5
 Stealth strikes launch all 4 sphere types at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void SafeSetDefaults()

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Overloaded Sludge");
             Tooltip.SetDefault("It looks corrupted\n" +
                 "Summons the Slime God\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.SummonItems
             Item.useTime = 45;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

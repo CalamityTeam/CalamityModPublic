@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Asgardian Aegis");
             Tooltip.SetDefault("Grants immunity to knockback\n" +
                 "Immune to most debuffs\n" +
@@ -38,7 +39,6 @@ namespace CalamityMod.Items.Accessories
             Item.defense = 28;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

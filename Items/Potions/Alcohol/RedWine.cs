@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Red Wine");
             Tooltip.SetDefault(@"Too dry for my taste
 Reduces life regen by 1");
@@ -30,7 +31,6 @@ Reduces life regen by 1");
             Item.consumable = true;
             Item.potion = true;
             Item.value = Item.buyPrice(0, 0, 65, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override bool CanUseItem(Player player)

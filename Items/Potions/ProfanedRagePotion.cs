@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Profaned Rage Potion");
             Tooltip.SetDefault("Increases critical strike chance by 12%\n" +
                 "While this potion's buff is active the Rage Potion's buff is disabled");
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<ProfanedRageBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

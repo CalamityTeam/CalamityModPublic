@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Miracle Matter");
             Tooltip.SetDefault("Its amorphous form contains untold potential\n" + "One is required for every Exo Weapon");
         }
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(platinum: 6, gold: 50);
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)

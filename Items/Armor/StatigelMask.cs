@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Statigel Mask");
             Tooltip.SetDefault("10% increased rogue damage and 34% chance to not consume rogue items\n" +
                 "7% increased rogue critical strike chance and 5% increased movement speed");
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.rare = ItemRarityID.LightRed;
             Item.defense = 6; //23
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Wulfrum Helmet");
             Tooltip.SetDefault("10% increased minion damage");
         }
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 0, 75, 0);
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

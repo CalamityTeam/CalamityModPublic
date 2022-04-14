@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Corrosive Spine");
             Tooltip.SetDefault("10% increased movement speed\n" +
                                "All rogue weapons inflict venom and spawn clouds on enemy hits\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Pink;
             Item.defense = 4;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

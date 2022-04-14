@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Acid Round");
             Tooltip.SetDefault("Explodes into acid that inflicts the plague\n" +
                 "Does more damage the higher the target's defense");
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<AcidBulletProj>();
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Bullet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

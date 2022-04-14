@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Auric Tesla Body Armor");
             Tooltip.SetDefault("+100 max life\n" +
                        "8% increased damage and 5% increased critical strike chance\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(1, 44, 0, 0);
             Item.defense = 48;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

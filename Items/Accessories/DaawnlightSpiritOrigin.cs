@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Daawnlight Spirit Origin");
             Tooltip.SetDefault("All nearby enemies and bosses are marked with bullseyes\n" +
                 "Ranged attacks that strike a bullseye always critically strike and deal massive damage\n" +
@@ -63,7 +64,6 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // The pet is purely visual and does not affect the functionality of the item.

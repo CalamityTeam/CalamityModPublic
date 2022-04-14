@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Penumbra Potion");
             Tooltip.SetDefault("Rogue stealth generates 15% faster while moving\n"
                 + "At night, stealth also generates 15% faster while standing still\n"
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<PenumbraBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Calamitas' Brew");
             Tooltip.SetDefault("Adds abyssal flames to your melee and rogue projectiles and melee attacks\n" +
                                "Increases your movement speed by 5%");
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<AbyssalWeapon>();
             Item.buffTime = CalamityUtils.SecondsToFrames(900f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

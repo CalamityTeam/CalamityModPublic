@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ashen Horns");
             ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Armor.Vanity
             Item.height = 20;
             Item.rare = ItemRarityID.Blue;
             Item.vanity = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Demonshade Breastplate");
             Tooltip.SetDefault("20% increased melee speed, 15% increased damage and critical strike chance\n" +
                 "Enemies take ungodly damage when they touch you\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Armor
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

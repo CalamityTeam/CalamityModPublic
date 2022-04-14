@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Dynamo Stem Cells");
             Tooltip.SetDefault(@"10% increased movement speed
 Ranged weapons have a chance to fire mini swarmers");
@@ -23,7 +24,6 @@ Ranged weapons have a chance to fire mini swarmers");
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

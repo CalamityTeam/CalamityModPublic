@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Celestial Tracers");
             Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
                 "Counts as wings\n" +
@@ -39,7 +40,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

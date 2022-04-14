@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Crystal Piercer");
             Tooltip.SetDefault("Throws a crystal javelin that pierces infinitely\n" +
             "Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

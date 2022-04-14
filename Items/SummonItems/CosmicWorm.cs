@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Cosmic Worm");
             Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "SENTINEL WARNING TOOLTIP LINE HERE\n" +
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 Attaches to enemies and summons a localized storm of god slayer kunai
 Stealth strikes home in faster and summon kunai at a faster rate
 Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SafeSetDefaults()

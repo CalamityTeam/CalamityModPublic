@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ethereal Extorter");
             Tooltip.SetDefault(@"Rogue projectiles explode into homing souls on death
 10% increased rogue damage and +10 maximum stealth, however, life regen is reduced by 1");
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

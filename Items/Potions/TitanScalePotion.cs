@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Titan Scale Potion");
             Tooltip.SetDefault("Increases knockback, defense by 5 and damage reduction by 5%\n" +
                 "Increases defense by 25 and damage reduction by 10% for a few seconds after a true melee strike");
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Potions
             Item.buffType = ModContent.BuffType<TitanScale>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

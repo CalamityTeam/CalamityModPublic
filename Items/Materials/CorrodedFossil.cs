@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Corroded Fossil");
             Tooltip.SetDefault("It's very sturdy");
         }
@@ -20,7 +21,5 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 3, 0, 0);
             Item.rare = ItemRarityID.Pink;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-        }
-    }
+        }    }
 }

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Aerospec Headgear");
             Tooltip.SetDefault("8% increased rogue damage and 5% increased movement speed");
             ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Armor
             Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.rare = ItemRarityID.Orange;
             Item.defense = 4; //17
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

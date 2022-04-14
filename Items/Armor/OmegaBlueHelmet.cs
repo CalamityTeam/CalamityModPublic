@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Omega Blue Helmet");
             Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance");
@@ -40,7 +41,6 @@ namespace CalamityMod.Items.Armor
             Item.rare = ItemRarityID.Red;
             Item.defense = 19;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

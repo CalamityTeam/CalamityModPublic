@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Fireball");
             Tooltip.SetDefault(@"A great-tasting cinnamon whiskey
 Multiplies all fire-based debuff damage by 1.5
@@ -31,7 +32,6 @@ Reduces life regen by 1");
             Item.buffType = ModContent.BuffType<FireballBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

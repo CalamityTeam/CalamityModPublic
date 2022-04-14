@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Galactica Singularity");
             Tooltip.SetDefault("A shard of the cosmos");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 24));
@@ -22,9 +23,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 96);
             Item.rare = ItemRarityID.Red;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

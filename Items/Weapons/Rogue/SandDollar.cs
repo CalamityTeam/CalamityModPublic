@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Sand Dollar");
             Tooltip.SetDefault("Stacks up to 2\n" +
             "Stealth strikes throw 2 long ranged sand dollars that explode into coral shards on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 2;
         }
 
         public override void SafeSetDefaults()

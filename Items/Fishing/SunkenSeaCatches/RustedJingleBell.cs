@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DisplayName.SetDefault("Rusted Jingle Bell");
             Tooltip.SetDefault("Summons a baby ghost bell light pet\n" +
                 "Provides a moderate amount of light while underwater");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.buffType = ModContent.BuffType<BabyGhostBellBuff>();
             Item.value = Item.sellPrice(gold: 5);
             Item.rare = ItemRarityID.Orange;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

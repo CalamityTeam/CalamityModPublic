@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Statis' Void Sash");
             Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
                 "Grants immunity to fall damage\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
         public const float TeleportRange = 845f;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Spectral Veil");
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "TOOLTIP LINE HERE\n" +
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

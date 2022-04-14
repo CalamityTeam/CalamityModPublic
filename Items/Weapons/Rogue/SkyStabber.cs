@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
                 "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
                 "Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 4;
         }
 
         public override void SafeSetDefaults()

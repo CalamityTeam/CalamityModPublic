@@ -16,6 +16,7 @@ namespace CalamityMod.Items
                 "Regenerates 1 million life per second\n" +
                 "Will not die when taking damage over time from debuffs\n" +
                 "Right click to kill all super dummies");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,6 @@ namespace CalamityMod.Items
             Item.value = 0;
             Item.rare = ItemRarityID.Blue;
             Item.autoReuse = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool AltFunctionUse(Player player)

@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Tooltip.SetDefault("Fires a concentrated laser to annihilate your foes\n" +
                 "Defeated enemies explode into prism shards");
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -36,7 +37,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.shootSpeed = 14f;
             Item.shoot = ModContent.ProjectileType<SparklingBeam>();
             Item.value = Item.sellPrice(silver: 40);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override Vector2? HoldoutOrigin() //so it looks normal when holding

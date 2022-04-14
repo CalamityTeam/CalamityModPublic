@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Crumbling Potion");
             Tooltip.SetDefault("Increases melee and rogue critical strike chance by 5%\n" +
                 "Melee and rogue attacks break enemy armor");
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Potions
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<ArmorCrumbling>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
 
         public override void AddRecipes()

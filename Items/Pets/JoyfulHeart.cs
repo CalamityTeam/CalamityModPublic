@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Joyful Heart");
             Tooltip.SetDefault("It's oddly warm. Attracts the forbidden one.");
         }
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Pets
             Item.shoot = ModContent.ProjectileType<LadShark>();
             Item.buffType = ModContent.BuffType<LadBuff>();
             Item.UseSound = SoundID.Item2;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

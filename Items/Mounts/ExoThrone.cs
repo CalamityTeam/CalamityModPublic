@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Mounts
                 "Replaced\n" +
                 "Also replaced\n" +
                 "A comfortable gamer is a dangerous gamer");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Mounts
 
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

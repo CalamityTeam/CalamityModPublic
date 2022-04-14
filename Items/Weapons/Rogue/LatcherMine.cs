@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Breaks upon hitting blocks\n" +
                                "Stealth Strike Effect: On explosion, fire and shrapnel are released\n" +
                                "Stealth strike mines can stick to the ground and last much longer when doing so");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SafeSetDefaults()

@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 Launch Velocity: {SerpentsBiteHook.LaunchSpeed}
 Reelback Velocity: {SerpentsBiteHook.ReelbackSpeed}
 Pull Velocity: {SerpentsBiteHook.PullSpeed}");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -27,7 +28,6 @@ Pull Velocity: {SerpentsBiteHook.PullSpeed}");
             Item.rare = ItemRarityID.LightRed;
             Item.width = 30;
             Item.height = 32;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

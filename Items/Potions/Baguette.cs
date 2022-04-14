@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Potions
             Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n" +
             "Boosts the effects of Red Wine\n" +
             "[c/FCE391:je suis Monte]");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void SetDefaults()
@@ -34,7 +35,6 @@ namespace CalamityMod.Items.Potions
 
             Item.buffType = ModContent.BuffType<BaguetteBuff>();
             Item.buffTime = CalamityUtils.SecondsToFrames(300f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
         public override void OnConsumeItem(Player player)

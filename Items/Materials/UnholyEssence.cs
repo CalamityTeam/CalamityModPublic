@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Unholy Essence");
             Tooltip.SetDefault("The essence of profaned creatures");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
@@ -22,9 +23,7 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.buyPrice(0, 6, 50, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
