@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Astral;
-using CalamityMod.Tiles.AstralDesert;
-using CalamityMod.Tiles.AstralSnow;
-using CalamityMod.Tiles.Crags;
-using CalamityMod.Tiles.Ores;
-using CalamityMod.Tiles.SunkenSea;
+﻿using System.Collections.Generic;
 using CalamityMod.World;
 using CalamityMod.World.Planets;
 using Microsoft.Xna.Framework;
@@ -49,7 +41,7 @@ namespace CalamityMod.Systems
             int DungeonChestIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Dungeon"));
             if (DungeonChestIndex != -1)
             {
-                tasks.Insert(DungeonChestIndex + 1, new PassLegacy("Calamity Mod: Biome Chests", MiscWorldgenRoutines.GenerateBiomeChests));
+                tasks.Insert(DungeonChestIndex + 1, new PassLegacy("CalamityDungeonBiomeChests", MiscWorldgenRoutines.GenerateBiomeChests));
             }
 
             int WaterFromSandIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Remove Water From Sand"));
@@ -86,12 +78,23 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
+            // TODO -- Most of the below worldgen should be spaced out at better points of generation
+
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
             {
+                int currentFinalIndex = FinalIndex;
+                tasks.Insert(++currentFinalIndex, new PassLegacy("GemDepthAdjustment", (progress, config) =>
+                {
+                    progress.Message = "Reallocating gem deposits to match cavern depth";
+                    MiscWorldgenRoutines.SmartGemGen();
+                }));
+
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Planetoids", Planetoid.GenerateAllBasePlanetoids));
+
                 //Not touching this yet because the Crags will be reworked in the future
                 #region BrimstoneCrag
-                tasks.Insert(FinalIndex + 1, new PassLegacy("BrimstoneCrag", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("BrimstoneCrag", (progress, config) =>
                 {
                     progress.Message = "Uncovering the ruins of a fallen empire";
 
@@ -130,22 +133,23 @@ namespace CalamityMod.Systems
                 int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
                 if (SulphurIndex != -1)
                 {
-                    tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", (progress, config) =>
+                    tasks.Insert(SulphurIndex + 1, new PassLegacy("SulphurSea", (progress, config) =>
                     {
-                        progress.Message = "Polluting the ocean";
+                        progress.Message = "Polluting one of the oceans";
                         SulphurousSea.PlaceSulphurSea();
                     }));
                 }
 
-                tasks.Insert(FinalIndex + 2, new PassLegacy("SpecialShrines", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("SpecialShrines", (progress, config) =>
                 {
-                    progress.Message = "Placing Special Shrines";
+                    progress.Message = "Placing hidden shrines";
                     UndergroundShrines.PlaceShrines();
                 }));
 
 
-                tasks.Insert(FinalIndex + 3, new PassLegacy("Rust and Dust", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("DraedonStructures", (progress, config) =>
                 {
+                    progress.Message = "Rust and Dust";
                     List<Point> workshopPositions = new List<Point>();
                     int workshopCount = Main.maxTilesX / 900;
                     int labCount = Main.maxTilesX / 1500;
@@ -174,32 +178,24 @@ namespace CalamityMod.Systems
                     }
                 }));
 
-                tasks.Insert(FinalIndex + 4, new PassLegacy("Abyss", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Abyss", (progress, config) =>
                 {
-                    progress.Message = "Discovering the new Challenger Deep"; //Putting the Mariana Trench to shame
+                    progress.Message = "Discovering the new Challenger Deep";
                     Abyss.PlaceAbyss();
                 }));
 
-                tasks.Insert(FinalIndex + 5, new PassLegacy("Sulphur2", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("SulphurSea2", (progress, config) =>
                 {
-                    progress.Message = "Polluting the ocean more";
+                    progress.Message = "Further polluting one of the oceans";
                     SulphurousSea.FinishGeneratingSulphurSea();
                 }));
 
-                tasks.Insert(FinalIndex + 6, new PassLegacy("IWannaRock", (progress, config) =>
+                tasks.Insert(++currentFinalIndex, new PassLegacy("Roxcalibur", (progress, config) =>
                 {
                     progress.Message = "I Wanna Rock";
                     MiscWorldgenRoutines.PlaceRoxShrine();
                 }));
-
-                tasks.Insert(FinalIndex + 7, new PassLegacy("GoodGameDesignGemGen", (progress, config) =>
-                {
-                    progress.Message = "Good Game Design Gem Gen";
-                    MiscWorldgenRoutines.SmartGemGen();
-                }));
             }
-
-            tasks.Add(new PassLegacy("Planetoid Test", Planetoid.GenerateAllBasePlanetoids));
         }
 
         // An Astral Meteor always falls at the beginning of Hardmode.

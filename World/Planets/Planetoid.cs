@@ -14,7 +14,7 @@ namespace CalamityMod.World.Planets
 
         public static void GenerateAllBasePlanetoids(GenerationProgress progress, GameConfiguration config)
         {
-            progress.Message = "Creating a new solar system";
+            progress.Message = "Enriching low Terraria orbit";
             var config2 = WorldGenConfiguration.FromEmbeddedPath("Terraria.GameContent.WorldBuilding.Configuration.json");
 
             int GrassPlanetoidCount = Main.maxTilesX / 1100;
