@@ -222,8 +222,7 @@ namespace CalamityMod.Schematics
         public static ushort PreserveWallID = 0;
 
         #region Direct Serialization Read/Write
-        // ref is used for the target data since TileWallWireStateData is a value type, meaning that a copy is passed into this method, not a reference to
-        // original state itself.
+        // TileWallWireStateData is a value type, so it must be passed as ref to make changes.
         internal static void AssignMiscState(ref TileWallWireStateData target, int source)
         {
             target.HasTile = TileDataPacking.GetBit(source, 0);               // 0

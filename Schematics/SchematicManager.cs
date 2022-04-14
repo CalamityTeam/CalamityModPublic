@@ -193,11 +193,6 @@ namespace CalamityMod.Schematics
                     smt.ApplyTo(x + cornerX, y + cornerY, originalTiles[x, y]);
                     Tile worldTile = Main.tile[x + cornerX, y + cornerY];
 
-                    // FRAME DATA SEEMS CORRUPTED. Not sure what's going on.
-                    // NOTE
-                    // UNCOMMENTING THIS LINE MAKES THE GAME CRASH WITH NO ERROR IN LOG
-                    // Framing.SelfFrame8Way(x + cornerX, y + cornerY, worldTile, true);
-
                     // If the determined tile type is a chest and this is its top left corner, define it appropriately.
                     // Skip this step if this schematic position preserves tiles.
                     bool isChest = worldTile.TileType == TileID.Containers || TileID.Sets.BasicChest[worldTile.TileType];
