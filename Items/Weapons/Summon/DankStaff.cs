@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Dank Staff");
             Tooltip.SetDefault("Summons a dank creeper to fight for you");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

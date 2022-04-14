@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires a chain of comets\n" +
             "Fires a bigger, more powerful comet every four rounds\n" +
             "Look to the stars for a galaxy far, far away");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

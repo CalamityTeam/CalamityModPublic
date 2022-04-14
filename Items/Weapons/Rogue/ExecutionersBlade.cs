@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Executioner's Blade");
             Tooltip.SetDefault("Throws a stream of homing blades\n" +
                 "Stealth strikes summon a guillotine of blades on hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

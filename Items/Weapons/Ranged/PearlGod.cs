@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Your life is mine...\n" +
                 "Fires shockblast rounds that emit massive explosions and steal enemy life as well as additional bullets\n" +
                 "Every seventh shot fires a massive shockblast");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

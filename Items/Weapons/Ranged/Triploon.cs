@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Triploon");
             Tooltip.SetDefault("Launches three harpoons");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

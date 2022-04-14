@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Finesse\n" +
                 "Striking an enemy makes you immune for a short time\n" +
                 "Fires a DNA chain");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

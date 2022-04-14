@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -22,6 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault(@"Each shot casts a radiant beam of holy light from the sky
 Converts musket balls into illuminated bullets
 Fighting 'til the war's won");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

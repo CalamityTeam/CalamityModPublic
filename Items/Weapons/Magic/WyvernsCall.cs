@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault(@"I call upon the mythical Wyvern to shower the lands with its grace
 Fires wyverns and colored feathers from the sky that stick to enemies and tiles and explode");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

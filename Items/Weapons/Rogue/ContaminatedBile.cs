@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Contaminated Bile");
             Tooltip.SetDefault("Throws a flask of sickly green, irradiated bile which explodes on collision\n" +
                                "Stealth strikes make the explosion much more violent and powerful");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

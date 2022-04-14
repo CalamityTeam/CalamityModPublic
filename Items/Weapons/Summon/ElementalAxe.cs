@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Elemental Axe");
             Tooltip.SetDefault("Summons an elemental axe to fight for you");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

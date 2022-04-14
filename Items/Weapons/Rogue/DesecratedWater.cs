@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Desecrated Water");
             Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
 Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

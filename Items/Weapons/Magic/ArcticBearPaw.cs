@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Arctic Bear Paw");
             Tooltip.SetDefault(@"The savage mauling that fits in your pocket
 Fires spiritual claws that ignore walls and confuse enemies");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {

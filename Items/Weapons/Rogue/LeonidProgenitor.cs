@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
                 "Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
                 "Stealth strikes lob a bombshell that additionally splits into comets on hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

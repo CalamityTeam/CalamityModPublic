@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Sticks to enemies\n" +
                 "Generates a localized hailstorm\n" +
                 "Stealth strikes trail snowflakes and summon phantom copies instead of ice shards");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

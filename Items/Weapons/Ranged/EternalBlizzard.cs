@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Eternal Blizzard");
             Tooltip.SetDefault("Fires an additional icicle arrow that shatters on impact");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {

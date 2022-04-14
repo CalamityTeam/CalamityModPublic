@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Sandstorm");
             Tooltip.SetDefault("Fires sand bullets that explode and slow enemies on hit\n" +
                 "50% chance to not consume sand");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Pierce the heart of even the most heavily-armored foe\n" +
                 "Fires a .70 caliber sniper round that bypasses enemy defense and DR\n" +
                 "Rounds mark enemies for death and summon a swarm of additional bullets on crits");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

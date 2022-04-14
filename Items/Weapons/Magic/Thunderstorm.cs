@@ -1,8 +1,9 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class Thunderstorm : ModItem
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Thunderstorm");
             Tooltip.SetDefault("Make it rain");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Throws a very bouncy ball that richochets off walls and enemies
 Receives a small boost in damage and velocity after bouncing off an enemy
 Stealth strikes provide a bigger boost after richocheting");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

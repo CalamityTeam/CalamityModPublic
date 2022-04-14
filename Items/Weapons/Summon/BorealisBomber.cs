@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             "Aureus bombers explode on enemy impact\n" +
             "Does not consume minion slots");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Melee.Spears;
+﻿using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Insidious Impaler");
             Tooltip.SetDefault("Fires a harpoon that sticks to enemies and explodes");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

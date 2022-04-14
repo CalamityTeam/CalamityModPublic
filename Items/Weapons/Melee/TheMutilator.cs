@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("The Mutilator");
             Tooltip.SetDefault("Striking an enemy below 20% life will trigger a bloodsplosion\n" +
                 "Bloodsplosions cause hearts to drop that can be picked up to heal you");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

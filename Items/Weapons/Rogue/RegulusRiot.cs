@@ -1,8 +1,9 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Regulus Riot");
             Tooltip.SetDefault(@"Fires a swift homing disk
 Stealth strikes explode into energy stars");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

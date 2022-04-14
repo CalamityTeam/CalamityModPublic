@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws an eyeball that bounces off of surfaces.\n" +
                                "Knockback is much stronger during a blood moon\n" +
                                "Stealth strikes cause the eyeballs to move much faster and bounce more energetically");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SafeSetDefaults()
         {

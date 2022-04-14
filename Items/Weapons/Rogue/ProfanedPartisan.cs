@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Profaned Partisan");
             Tooltip.SetDefault(@"Fires an unholy spear that explodes on death
 Stealth strikes spawn smaller spears to fly along side it");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

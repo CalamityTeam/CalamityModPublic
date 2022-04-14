@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Throws a fuel container with trace amounts of plutonium that causes a nuclear explosion\n" +
                                "The explosion does not occur if there are no tiles below it\n" +
                                "Stealth strikes leave a lingering irradiated zone after the explosion dissipates");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

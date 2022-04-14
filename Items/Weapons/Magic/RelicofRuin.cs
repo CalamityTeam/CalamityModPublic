@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Relic of Ruin");
             Tooltip.SetDefault("Casts a spread of sand blades");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

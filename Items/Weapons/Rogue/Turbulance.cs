@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires a cloudy javelin that bursts into wind slashes on hit
 Wind slashes home if the javelin crits
 Stealth strikes are trailed by homing wind slashes");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

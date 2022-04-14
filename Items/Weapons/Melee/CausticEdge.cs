@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Caustic Edge");
             Tooltip.SetDefault("Inflicts poison and venom on enemy hits");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

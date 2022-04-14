@@ -4,6 +4,7 @@ using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Omniblade");
             Tooltip.SetDefault("An ancient blade forged by the legendary Omnir");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

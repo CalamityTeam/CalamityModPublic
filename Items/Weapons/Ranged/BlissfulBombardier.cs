@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Blissful Bombardier");
             Tooltip.SetDefault("Fires flare rockets\n" +
                 "Rockets will destroy tiles with tile-destroying ammo");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

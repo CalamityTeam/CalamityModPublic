@@ -1,7 +1,8 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                               +"Throws a stardust javelin trailed by rising stardust shards\n"
                               +"Explodes into additional stardust shards upon hitting enemies\n"
                               +"Stealth strikes cause the stardust shards to fly alongside the javelin instead of rising");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

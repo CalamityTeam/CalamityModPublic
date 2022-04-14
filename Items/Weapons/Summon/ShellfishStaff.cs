@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Shellfish Staff");
             Tooltip.SetDefault("Summons a shellfish to fight for you\n" +
                                "Takes up 2 minion slots");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

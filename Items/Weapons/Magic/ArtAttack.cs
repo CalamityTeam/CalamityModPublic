@@ -2,6 +2,7 @@
 using CalamityMod.Projectiles.Magic;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Casts a star that follows the mouse that creates a rainbow trail as it moves\n" +
                 "Once a full shape is created with the trail all enemies within it take damage proportional to how long it took to draw the shape\n" +
                 "And the audience goes wild!");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

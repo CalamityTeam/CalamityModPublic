@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Fires random utensils in bursts of three\n" +
                 "Grants Well Fed on enemy hits\n" +
                 "Stealth strikes replace any utensil with a powerful butcher knife");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

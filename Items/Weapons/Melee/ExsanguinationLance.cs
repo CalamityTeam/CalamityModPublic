@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Vulcanite Lance");
             Tooltip.SetDefault("Explodes on enemy hits and summons homing flares on critical hits");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

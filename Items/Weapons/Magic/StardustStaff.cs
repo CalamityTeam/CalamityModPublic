@@ -1,10 +1,11 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
                 "Fires a spread of ancient light and has a chance to fire a spinning ice cluster");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Genisis");
             Tooltip.SetDefault("Fires a Y-shaped beam of destructive energy and a spread of lasers");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

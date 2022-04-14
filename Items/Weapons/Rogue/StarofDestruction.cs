@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Fires a huge destructive mine that explodes into destruction bolts\n" +
             "Amount of bolts scales with enemies hit, up to 16\n" +
             "Stealth strikes always explode into the max amount of bolts");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

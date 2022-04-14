@@ -13,6 +13,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 
@@ -86,6 +87,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Using RMB otherwise switches between the current attunement and an extra stored one\n" +
                                "Main Attunement : [None]\n" +
                                "Secondary Attunement: [None]\n"); //Theres potential for flavor text as well but im not a writer
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         #region tooltip editing

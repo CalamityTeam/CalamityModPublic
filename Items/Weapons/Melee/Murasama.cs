@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "ID and power-level locked\n" +
                 "Prove your strength or have the correct user ID to wield this sword");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

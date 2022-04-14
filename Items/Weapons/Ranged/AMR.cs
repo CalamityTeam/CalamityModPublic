@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Anti-materiel Rifle");
             Tooltip.SetDefault("Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR\n" +
                 "If you crit the target a second swarm of bullets will fire");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

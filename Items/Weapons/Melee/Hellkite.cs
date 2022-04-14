@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Hellkite");
             Tooltip.SetDefault("Contains the power of an ancient drake\n" +
                 "Summons flame geyser explosions on enemy hits");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

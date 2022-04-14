@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Cinder Blossom Staff");
             Tooltip.SetDefault("Summons a really hot flower over your head\n" +
                 "There can only be one flower");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

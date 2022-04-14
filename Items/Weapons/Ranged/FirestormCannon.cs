@@ -1,8 +1,9 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Firestorm Cannon");
             Tooltip.SetDefault("70% chance to not consume flares\n" +
                 "Right click to fire a spread of flares");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

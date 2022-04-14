@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
                                "So you're telling me that the prince exploded, and then turned into a flower?\n" +
                                "-Dain, the sailor druid");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

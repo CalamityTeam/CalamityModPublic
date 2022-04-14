@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Clock Gatlignum");
             Tooltip.SetDefault("33% chance to not consume ammo\n" +
                 "Converts musket balls into strings of 3 high velocity bullets");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

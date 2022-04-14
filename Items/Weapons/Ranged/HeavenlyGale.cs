@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -34,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 ProjectileType<GreenExoArrow>(),
                 ProjectileType<BlueExoArrow>()
             };
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

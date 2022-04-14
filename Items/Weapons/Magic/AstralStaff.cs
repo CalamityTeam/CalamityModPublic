@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Astral Staff");
             Tooltip.SetDefault("Summons a large crystal from the sky that has a large area of effect on impact.");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Magic;
@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Brimblade");
             Tooltip.SetDefault("Throws a blade that splits on enemy hits\n" +
             "Stealth strikes split further and cause the player to launch a barrage of brimstone darts");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

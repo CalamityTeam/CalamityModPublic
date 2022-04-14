@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Enemies that touch the gun while it's being fired trigger a massive explosion\n" +
                 "After the explosion, this gun gains a massive boost to damage, fire rate and knockback for 10 seconds\n" +
                 "These stat bonuses slowly decay over time");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

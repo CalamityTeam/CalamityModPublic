@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Clothier's Wrath");
             Tooltip.SetDefault("Shoots 3 shadowflame skulls");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

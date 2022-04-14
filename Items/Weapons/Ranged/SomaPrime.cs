@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles;
@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -23,6 +24,7 @@ Shred deals 75 DPS per stack and scales with your ranged stats
 Damage ticks of Shred can also critically strike or supercrit
 Replaces standard bullets with High Velocity Bullets
 80% chance to not consume ammo");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

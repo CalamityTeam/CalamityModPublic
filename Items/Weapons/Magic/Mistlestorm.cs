@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Mistlestorm");
             Tooltip.SetDefault("Casts a storm of pine needles and leaves");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

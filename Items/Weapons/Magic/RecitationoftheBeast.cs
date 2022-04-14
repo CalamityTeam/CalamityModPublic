@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("A thousand years sealed in the demon's realm will teach you a thing or two\n" +
                                "Summons beast scythes around the player in a small circle,\n" +
                                "before firing toward the cursor and home in to nearby enemies");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

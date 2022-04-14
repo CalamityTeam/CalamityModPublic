@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Creates a massive explosion on impact
 Explodes into spikes and homing energy
 Stealth strikes release energy as they fly");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

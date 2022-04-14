@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Gamma Heart");
             Tooltip.SetDefault("Summons radioactive heads that are bound by your body");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

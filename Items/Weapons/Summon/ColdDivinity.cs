@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
                 "They take some time to regenerate after launching themselves at the target, however\n" +
                 "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

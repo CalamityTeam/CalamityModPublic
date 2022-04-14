@@ -1,10 +1,11 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Astralachnea Staff");
             Tooltip.SetDefault("Fires a spread of homing astral spider fangs");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

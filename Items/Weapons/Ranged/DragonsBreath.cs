@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -27,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Right click fires full auto and mixes the bullets randomly, but does 20% less damage\n" +
                 "This weapon has no randomness to its spread pattern\n" +
                 "66% chance to not consume ammo");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

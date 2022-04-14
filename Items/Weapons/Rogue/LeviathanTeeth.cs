@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Leviathan Teeth");
             Tooltip.SetDefault("Rapidly throws a variety of poisonous fangs that stick to enemies\n" +
                 "Stealth strikes cause 3 very fast teeth to be thrown, ignoring gravity and inflicting extreme knockback");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

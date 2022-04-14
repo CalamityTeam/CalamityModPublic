@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
             "Fires seeds, spiky balls, and spore clouds from afar to poison targets\n" +
             "Enrages when you get under 75% health and begins ramming enemies\n" +
             "Occupies 3 minion slots and there can only be one");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

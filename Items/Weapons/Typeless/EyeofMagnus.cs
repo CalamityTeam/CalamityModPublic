@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Tooltip.SetDefault("Fires powerful beams that reduce enemy protection\n" +
                 "This weapon scales with all your damage stats at once\n" +
                 "Heals mana and health on hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

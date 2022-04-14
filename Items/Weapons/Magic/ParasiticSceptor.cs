@@ -1,9 +1,10 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Parasitic Scepter");
             Tooltip.SetDefault("Fires a spread of water leeches that latch onto enemies, dealing a stacking damage over time");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

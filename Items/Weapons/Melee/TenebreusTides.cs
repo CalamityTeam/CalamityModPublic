@@ -5,6 +5,7 @@ using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Inundatio ex Laminis\n" +
                 "Shoots a water spear that pierces enemies and terrain\n" +
                 "Striking enemies summon liquid blades and spears to assault the struck foe");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

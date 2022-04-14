@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Shadowdrop Staff");
             Tooltip.SetDefault("Summons dark aura rain from the sky");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

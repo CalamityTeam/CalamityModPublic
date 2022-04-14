@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 ModContent.ProjectileType<MadAlchemistsCocktailPurple>(),
                 ModContent.ProjectileType<MadAlchemistsCocktailAlt>()
             };
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         // Rest in peace Mad Cock, you will not be missed.

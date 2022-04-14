@@ -7,6 +7,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Eternity");
             Tooltip.SetDefault("Hexes a possible nearby enemy, trapping them in a brilliant display of destruction\n" +
                 "This line is modified in ModifyTooltips");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

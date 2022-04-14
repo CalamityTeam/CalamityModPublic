@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Storm Saber");
             Tooltip.SetDefault("Fires two homing storm beams\n" +
             "One from blade and one from the sky");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

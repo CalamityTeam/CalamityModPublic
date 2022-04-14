@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Burning Sea");
             Tooltip.SetDefault("Fires a bouncing brimstone fireball that splits into homing fireballs upon collision with water");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

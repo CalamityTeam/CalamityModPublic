@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Projectiles.Ranged;
@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Launches a powerful exo rocket to nuke anything and everything\n" +
                 "Rockets are surrounded by an invisible damaging aura and split into damaging beams on hit\n" +
                 "66% chance to not consume rockets");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

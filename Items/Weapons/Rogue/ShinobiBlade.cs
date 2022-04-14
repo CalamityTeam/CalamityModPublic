@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Shinobi Blade");
             Tooltip.SetDefault("Throws a fast blade that spawns healing orbs when it kills an enemy\n" +
                 "Stealth strikes cause 3 blades to be thrown at once");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()
