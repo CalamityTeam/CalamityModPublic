@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Calcium Potion");
             Tooltip.SetDefault("Grants immunity to fall damage");
         }
@@ -20,7 +22,7 @@ namespace CalamityMod.Items.Potions
             Item.height = 18;
             Item.useTurn = true;
             Item.maxStack = 30;
-            Item.value = Item.buyPrice(0, 2, 0, 0);
+            Item.value = Item.buyPrice(0, 0, 20, 0);
             Item.rare = ItemRarityID.Blue;
             Item.useAnimation = 17;
             Item.useTime = 17;
@@ -28,20 +30,20 @@ namespace CalamityMod.Items.Potions
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<CalciumBuff>();
-            Item.buffTime = CalamityUtils.SecondsToFrames(900f);
+            Item.buffTime = CalamityUtils.SecondsToFrames(1200f);
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.BottledWater).
+            CreateRecipe(4).
+                AddIngredient(ItemID.BottledWater, 4).
                 AddIngredient<AncientBoneDust>().
                 AddTile(TileID.Bottles).
                 Register();
 
-            CreateRecipe().
+            CreateRecipe(4).
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<BloodOrb>(10).
+                AddIngredient<BloodOrb>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

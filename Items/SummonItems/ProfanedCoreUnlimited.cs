@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Profaned Core");
             Tooltip.SetDefault("The core of the unholy flame\n" +
                 "Summons Providence when used in the hallow or underworld\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.SummonItems
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

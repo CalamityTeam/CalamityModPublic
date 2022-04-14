@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Terra Edge");
             Tooltip.SetDefault("Heals the player on enemy hits\n" +
                 "Fires a beam that inflicts ichor for a short time");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

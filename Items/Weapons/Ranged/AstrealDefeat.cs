@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "The mother strongly discouraged acts of violence throughout her life\n" +
                 "Though she kept this bow close, to protect her family in times of great disaster\n" +
                 "All arrows are converted to Astreal Arrows that emit flames as they travel");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

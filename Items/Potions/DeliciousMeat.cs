@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Delicious Meat");
             Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n'So very delicious'");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
         public override void SetDefaults()
         {

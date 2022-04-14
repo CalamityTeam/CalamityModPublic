@@ -1,4 +1,5 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables
@@ -7,6 +8,7 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
             DisplayName.SetDefault("Abyss Gravel");
         }
 

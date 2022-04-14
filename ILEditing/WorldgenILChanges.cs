@@ -13,30 +13,23 @@ namespace CalamityMod.ILEditing
     {
         #region Replacement of Pharaoh Set in Pyramids
         // Note: There is no need to replace the other Pharaoh piece, due to how the vanilla code works.
+        // The other Pharaoh vanity piece is added automatically if the mask is found in the chest.
         private static void ReplacePharaohSetInPyramids(ILContext il)
         {
             var cursor = new ILCursor(il);
 
-            // Determine the area which determines the held item.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCallOrCallvirt<WorldGen>("AddBuriedChest")))
+            // Find the instruction which loads in the item ID of the Pharaoh's Mask.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ItemID.PharaohsMask)))
             {
-                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the AddBuriedChest method.");
+                LogFailure("Pharaoh Set Pyramid Replacement", "Could not locate the Pharaoh's Mask item ID.");
                 return;
             }
 
-            // And select the item type directly.
-            cursor.EmitDelegate<Func<int>>(() =>
-            {
-                int choice = WorldGen.genRand.Next(3);
-                if (choice == 0)
-                    choice = ItemID.AmberHook;
-                else if (choice == 1)
-                    choice = ItemID.SandstorminaBottle;
-                else if (choice == 2)
-                    choice = ItemID.FlyingCarpet;
-                return choice;
-            });
-            cursor.Emit(OpCodes.Stloc, 36);
+            // Replace the Pharaoh's Mask with the Amber Hook.
+            // THIS INT CAST IS MANDATORY. DO NOT REMOVE IT.
+            // In TML's DLL, despite item IDs being shorts (16 bits), the hardcoded 848 here is a 32-bit integer literal.
+            // As such, it must be replaced with a 32-bit integer literal or the branches of the switch will misalign and the IL edit fails.
+            cursor.Next.Operand = (int)ItemID.AmberHook;
         }
         #endregion Replacement of Pharaoh Set in Pyramids
 

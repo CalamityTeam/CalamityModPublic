@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "The aurora reduces the damage of the next projectile hit by a flat 100\n" +
                 "This effect lasts up to 20 seconds and has a 30 second cooldown\n" +
                 "50% chance to not consume bullets");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

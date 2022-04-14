@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Sea's Searing");
             Tooltip.SetDefault("Fires a string of bubbles summoning a shower of bubbles on hit\n" +
                 "Right click to fire a slower, larger water blast that summons a water spout");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

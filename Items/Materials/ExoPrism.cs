@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Exo Prism");
             Tooltip.SetDefault("Fractal energies shimmer across its surface");
         }
@@ -24,9 +25,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(gold: 60);
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public void DrawBackAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {
             float pulse = Main.GlobalTimeWrappedHourly * 0.75f % 1f;

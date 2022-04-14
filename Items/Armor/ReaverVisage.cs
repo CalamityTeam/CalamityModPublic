@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Armor
         //Jump/Flight Boosts and Movement Speed Helm
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Reaver Visage");
             Tooltip.SetDefault("10% increased jump speed and 15% increased movement speed");
         }

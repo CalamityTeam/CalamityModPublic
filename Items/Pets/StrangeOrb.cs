@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Strange Orb");
             Tooltip.SetDefault("Summons a miniature Ocean Spirit light pet\n" +
                 "Provides a large amount of light while underwater");
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Pets
             Item.CloneDefaults(ItemID.WispinaBottle);
             Item.shoot = ModContent.ProjectileType<SirenYoung>();
             Item.buffType = ModContent.BuffType<SirenLightPetBuff>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

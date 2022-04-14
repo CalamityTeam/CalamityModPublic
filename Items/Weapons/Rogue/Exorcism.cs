@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a hallowed cross which explodes into a flash of light that damages nearby enemies, closer enemies receiving more damage\n" +
                                "As the cross travels downwards, the damage inflicted by both the cross and flash increases constantly\n" +
                                "Stealth strikes cause the cross to be thrown with full damage immediately. Hallowed stars fall when the cross explodes");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

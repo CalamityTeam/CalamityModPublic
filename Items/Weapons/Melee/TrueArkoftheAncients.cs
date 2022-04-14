@@ -11,6 +11,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -37,6 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Ark of the Ancients");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "A heavenly blade forged to vanquish all evil");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Abyssal Diving Suit");
             Tooltip.SetDefault("Transforms the holder into an armored diver\n" +
                 "Increases max movement speed and acceleration while underwater but you move slowly outside of water\n" +
@@ -56,7 +57,6 @@ namespace CalamityMod.Items.Accessories
             ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
             ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Fires a blood beam that heals you on enemy hits\n" +
                 "The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

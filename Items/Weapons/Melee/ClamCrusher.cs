@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Clam Crusher");
             Tooltip.SetDefault("Launches a huge clam that stuns enemies for a short amount of time\n" +
                                "Starts being affected by gravity and does much more damage after being airborne for a while");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -27,7 +27,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float sineTime = sin(uTime); // Saved so that I don't have the compute this multiple times. Shaders have a limited number of mathematical instructions you can use - 64.
     float2 modifiedCoords = coords;
     float4 color = tex2D(uImage0, coords);
@@ -43,7 +43,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     color.rgb *= 0.2 + pow(noiseColor.rgb, 3); // Squash the color to the upper and lower bounds and add a bit of lightness to it.
     color.rgb *= lerp(uColor, uSecondaryColor, interpolationValue); // Blend with the secondary color.
     color.rgb *= 1.7 + (sineTime * 0.5 + 1.5) * interpolationValue; // Range of 1.7 to 3.7, can cause certain spots to become very bright.
-    return color * sampleColor.a;
+    return color;
 }
 technique Technique1
 {

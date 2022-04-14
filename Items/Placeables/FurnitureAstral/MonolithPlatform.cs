@@ -1,12 +1,14 @@
-
+﻿
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.FurnitureAstral
 {
     public class MonolithPlatform : ModItem
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 200;
         }
 
         public override void SetDefaults()

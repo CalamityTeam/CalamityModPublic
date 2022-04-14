@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using WallTiles = CalamityMod.Walls;
 using Terraria.ID;
 

@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Holding right click rapidly absorbs energy into the blade until it is sufficiently charged\n" +
                 "Left clicking will either swing the blade as usual or cause you to fly in the direction of the cursor, depending on if the blade was fully charged\n" +
                 "After flying the amount of charge the blade has is reduced to zero again");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

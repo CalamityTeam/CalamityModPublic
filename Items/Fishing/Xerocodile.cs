@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Xerocodile");
             Tooltip.SetDefault("Right click to extract blood orbs");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SetDefaults()
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Fishing
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 10);
             Item.rare = ItemRarityID.Green;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick()

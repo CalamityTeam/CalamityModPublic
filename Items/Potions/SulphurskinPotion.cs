@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Sulphurskin Potion");
             Tooltip.SetDefault("Reduces the effects of the sulphuric waters");
         }

@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Acceleration Round");
             Tooltip.SetDefault("Gains speed over time");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<AccelerationBulletProj>();
             Item.shootSpeed = 1f;
             Item.ammo = AmmoID.Bullet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

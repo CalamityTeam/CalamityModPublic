@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Sun God Staff");
             Tooltip.SetDefault("Summons a solar god spirit to protect you\n" +
                 "There can only be one spirit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Profaned Soul Crystal");
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
@@ -56,7 +57,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.RarityHotPinkBuyPrice;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded)

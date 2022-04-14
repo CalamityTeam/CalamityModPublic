@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Shield of the Ocean");
             Tooltip.SetDefault("Increased defense by 5 when submerged in liquid\n" +
             "Increases movement speed and life regen while wearing the Victide armor");
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Green;
             Item.defense = 2;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

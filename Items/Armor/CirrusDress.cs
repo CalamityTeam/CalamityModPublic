@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -23,6 +24,7 @@ namespace CalamityMod.Items.Armor
         
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Cirrus' Dress");
             Tooltip.SetDefault("Here, this should help you drink as much alcohol as you want!\n" +
                 "5% increased magic damage and critical strike chance\n" +

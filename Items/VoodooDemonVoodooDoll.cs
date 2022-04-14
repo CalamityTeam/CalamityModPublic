@@ -1,6 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Voodoo Demon Voodoo Doll");
             Tooltip.SetDefault("Favorite this item to prevent voodoo demons from spawning near you");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {

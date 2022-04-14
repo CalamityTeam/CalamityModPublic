@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Dyes
 
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Exo Dye");
         }
 
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Dyes
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = Item.sellPrice(0, 10, 0, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

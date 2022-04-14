@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Auric Bar");
             Tooltip.SetDefault("Godlike power emanates from the metal");
         }
@@ -34,9 +35,7 @@ namespace CalamityMod.Items.Materials
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override void UseStyle(Player player, Rectangle heldItemFrame)
         {
             player.itemLocation += new Vector2(-10f * player.direction, 10f * player.gravDir).RotatedBy(player.itemRotation);

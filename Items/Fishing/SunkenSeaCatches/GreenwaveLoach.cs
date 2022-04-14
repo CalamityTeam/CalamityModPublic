@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         {
             DisplayName.SetDefault("Greenwave Loach");
             Tooltip.SetDefault("An endangered fish that is highly prized in the market");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void SetDefaults()
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Orange;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

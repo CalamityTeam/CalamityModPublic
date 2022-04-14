@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Astral Solution");
             Tooltip.SetDefault("Used by the Clentaminator\n" +
             "Spreads the Astral Infection");

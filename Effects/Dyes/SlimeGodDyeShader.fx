@@ -23,7 +23,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
     float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, frac(framedCoords.y - uTime * 0.27)) * 0.5) * 1.5;
     float verticalFlowMovement = (sin(framedCoords.x * 14.71 + framedCoords.y * 13.5 - uTime * 1.6) * 0.5 + 0.5) * noiseColor.r;
@@ -42,7 +42,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     // Handle sludge fades based on noise.
     color = lerp(color, float4(uSecondaryColor * 0.375, 1), pow(noiseColor.r, 3) * 0.3 + verticalFlowMovement * 0.3 + 0.13) * color.a;
     
-    return color * (1 + (1 - outlineFade) * 0.1) * sampleColor.a;
+    return color * (1 + (1 - outlineFade) * 0.1);
 }
 technique Technique1
 {

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Piggy");
         }
 
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Critters
             Item.value = Item.sellPrice(gold: 10);
             Item.rare = ItemRarityID.Blue;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

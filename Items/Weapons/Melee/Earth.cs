@@ -7,6 +7,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Ice meteors freeze enemies\n" +
                 "Flame meteors explode\n" +
                 "Green meteors spawn healing orbs");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

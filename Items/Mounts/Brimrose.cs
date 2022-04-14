@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Brimrose");
             Tooltip.SetDefault("Summons a brimrose mount");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Mounts
             Item.value = Item.buyPrice(platinum: 1, gold: 50);
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

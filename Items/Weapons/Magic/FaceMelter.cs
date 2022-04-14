@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("WOOO!! FAAAAAAANTASYY WORLDDDDD!\n" +
                 "Fires music notes\n" +
                 "Right click summons an amplifier that shoots towards your mouse");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

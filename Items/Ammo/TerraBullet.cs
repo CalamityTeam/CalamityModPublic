@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Terra Bullet");
             Tooltip.SetDefault("Explodes and splits into homing terra shards on death");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<TerraBulletMain>();
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Bullet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

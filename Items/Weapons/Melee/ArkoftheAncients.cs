@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -31,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Fractured Ark");
             Tooltip.SetDefault("This line gets set in ModifyTooltips\n" +
                 "A worn down and rusty blade once wielded against the evil of this world, ready to be of use once more");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

@@ -1370,7 +1370,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.SkeletonMerchant)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), true, Item.buyPrice(0, 1, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), true, Item.buyPrice(0, 0, 20, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.Marrow, Main.hardMode, Item.buyPrice(0, 36));
             }
         }

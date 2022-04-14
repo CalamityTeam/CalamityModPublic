@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Ammo
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Holy Fire Bullet");
             Tooltip.SetDefault("Explosive holy bullets");
         }
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
             Item.shootSpeed = 6f;
             Item.ammo = AmmoID.Bullet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

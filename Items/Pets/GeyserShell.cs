@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Geyser Shell");
             Tooltip.SetDefault("Summons a little flak hermit");
         }
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Pets
             Item.buffType = ModContent.BuffType<FlakPetBuff>();
             Item.rare = ItemRarityID.LightPurple;
             Item.UseSound = SoundID.Item2;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

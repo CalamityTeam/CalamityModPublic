@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -23,7 +24,8 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            DisplayName.SetDefault("Treasure Bag (Polterghast)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
@@ -35,6 +37,11 @@ namespace CalamityMod.Items.TreasureBags
             Item.height = 34;
             Item.rare = ItemRarityID.Cyan;
             Item.expert = true;
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

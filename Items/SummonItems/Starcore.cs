@@ -11,6 +11,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Starcore");
             Tooltip.SetDefault("May the stars guide your way\n" +
                 "Summons Astrum Deus at the Astral Beacon, but is not consumed");
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.SummonItems
             Item.width = 34;
             Item.height = 40;
             Item.rare = ItemRarityID.Cyan;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void AddRecipes()

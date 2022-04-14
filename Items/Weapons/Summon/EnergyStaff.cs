@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Energy Staff");
             Tooltip.SetDefault("Summons a profaned energy turret to fight for you");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

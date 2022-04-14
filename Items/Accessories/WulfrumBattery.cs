@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Wulfrum Battery");
             Tooltip.SetDefault("7% increased summon damage");
         }
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.accessory = true;
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

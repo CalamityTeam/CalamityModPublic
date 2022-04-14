@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -24,6 +25,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                                $"This reformation can only happen {ArtifactOfResilienceBulwark.MaxReformations} times.\n" +
                                "You gain a small cooldown when summoning a new bulwark.\n" +
                                "If a bulwark already exists, using this item will relocate it");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

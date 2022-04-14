@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Icicle Arrow");
             Tooltip.SetDefault("Shatters into shards on impact");
         }
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Ammo
             Item.shootSpeed = 1.0f;
             Item.ammo = AmmoID.Arrow;
             Item.maxStack = 999;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
     }
 }

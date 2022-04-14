@@ -1,8 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Hitting enemies will inflict the crush depth debuff\n" +
                 "The lower the enemies' defense, the more damage they take from this debuff\n" +
                 "Right click to use without hammering down walls");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Baby Flak Crab");
         }
 
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Critters
             Item.height = 24;
             Item.makeNPC = (short)ModContent.NPCType<FlakBaby>();
             Item.rare = ItemRarityID.LightPurple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

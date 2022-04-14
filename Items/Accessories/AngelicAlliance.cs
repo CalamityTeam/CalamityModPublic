@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Angelic Alliance");
             Tooltip.SetDefault("Call upon the force of heaven to empower your attacks and minions\n" +
             "Courage, Enlightenment, Bliss. United in Judgement\n" +
@@ -36,7 +37,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = 10;
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

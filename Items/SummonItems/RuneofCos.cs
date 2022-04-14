@@ -16,6 +16,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rune of Kos");
             Tooltip.SetDefault("A relic of the profaned flame\n" +
                 "Contains the power hunted relentlessly by the sentinels of the cosmic devourer\n" +
@@ -34,7 +35,6 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

@@ -1,10 +1,11 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Fetid Emesis");
             Tooltip.SetDefault("40% chance to not consume ammo\n" +
             "Has a chance to release rotten chunks instead of bullets");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

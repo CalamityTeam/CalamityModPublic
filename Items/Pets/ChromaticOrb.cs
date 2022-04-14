@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Chromatic Orb");
             Tooltip.SetDefault("It glows warmly in your hand\n" +
                 "Summons an ancient dragon light pet that highlights nearby enemies and danger sources\n" +
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.sellPrice(gold: 3);
             Item.rare = ItemRarityID.Cyan;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

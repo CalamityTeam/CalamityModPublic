@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Releases a gigantic, slow-moving vortex\n" +
                                "The vortex releases exo tentacles that thrash at nearby enemies\n" +
                                "After a few seconds the vortex slows down, becomes unstable, and explodes");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

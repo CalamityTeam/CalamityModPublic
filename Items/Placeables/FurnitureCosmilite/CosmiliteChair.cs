@@ -1,6 +1,7 @@
 
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rift Reeler");
             Tooltip.SetDefault("Fires three to five lines at once. Can fish in lava.\n" +
                 "The battlefield is a scene of constant chaos.\n" + //Napoleon Bonaparte quote reference
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.shoot = ModContent.ProjectileType<ChaoticSpreadBobber>();
             Item.value = Item.buyPrice(0, 80, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rampart of Deities");
             Tooltip.SetDefault("Causes stars to fall and gives increased immune time when damaged\n" +
                 "Provides life regeneration and reduces the cooldown of healing potions\n" +
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Accessories
             Item.defense = 18;
             Item.accessory = true;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

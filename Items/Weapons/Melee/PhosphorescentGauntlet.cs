@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Releases rapid sulphurous punches\n" +
                 "On use, you lunge in the direction of the mouse\n" +
                 "On collision, you are knocked back");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

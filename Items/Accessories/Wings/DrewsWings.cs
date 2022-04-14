@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Drew's Wings");
             Tooltip.SetDefault("Absolutely Fabulous\n" +
                 "Horizontal speed: 12.00\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

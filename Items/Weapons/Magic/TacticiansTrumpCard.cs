@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Tactician's Trump Card");
             Tooltip.SetDefault("Faint memories of a Princess from the future cross your mind...\n" +
                 "Fires a sword beam that electrifies enemies on hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

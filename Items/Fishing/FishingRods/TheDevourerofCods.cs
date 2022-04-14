@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The Devourer of Cods");
             Tooltip.SetDefault("Fires ten lines at once. Line never snaps and can fish from lava.\n" +
                 "The devourer was once just an Eater of Shoals.");
@@ -34,7 +35,6 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.value = Item.buyPrice(1, 80, 0, 0);
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

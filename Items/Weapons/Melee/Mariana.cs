@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Mariana");
             Tooltip.SetDefault("Tropical and deadly\n" +
                 "Enemies explode into water orbs on hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

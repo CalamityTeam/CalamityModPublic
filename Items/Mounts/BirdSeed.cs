@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Folly Feed");
             Tooltip.SetDefault("Summons a monstrosity");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Mounts
             Item.UseSound = SoundID.NPCHit51;
             Item.noMelee = true;
             Item.mountType = ModContent.MountType<BUMBLEDOGE>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             if (Projectile.velocity.X > 0.25f)
-                Projectile.spriteDirection = 1;
-            else if (Projectile.velocity.X < -0.25f)
                 Projectile.spriteDirection = -1;
+            else if (Projectile.velocity.X < -0.25f)
+                Projectile.spriteDirection = 1;
 
             NPC potentialTarget = Projectile.Center.MinionHoming(1200f, player);
             if (potentialTarget is null)

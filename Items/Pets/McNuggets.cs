@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("McNuggets");
             Tooltip.SetDefault("These chicken nuggets aren't for you to eat!");
         }
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Pets
 
             Item.value = Item.sellPrice(gold: 30);
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

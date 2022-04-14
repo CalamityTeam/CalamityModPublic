@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Suspicious Scrap");
             Tooltip.SetDefault("Looks like it may be part of a greater whole...");
         }
@@ -25,9 +26,7 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.buyPrice(0, 0, 0, 20);
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.DraedonRust;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D tex = TextureAssets.Item[Item.type].Value;

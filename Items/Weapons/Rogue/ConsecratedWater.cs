@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
                                "The pillar is destroyed if there's no tiles below it\n" +
                                "Stealth strikes create three flame pillars instead of one on impact");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

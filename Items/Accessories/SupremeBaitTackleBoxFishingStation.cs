@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Supreme Bait Tackle Box Fishing Station");
             Tooltip.SetDefault("The ultimate fishing accessory\n" +
                 "Increases fishing skill by 80\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Accessories
             player.fishingSkill += 80;
             player.accFishingLine = true;
             player.accTackleBox = true;
+            player.accLavaFishing = true;
             player.Calamity().fishingStation = true;
             player.sonarPotion = true;
         }
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.AnglerHat).
                 AddIngredient(ItemID.AnglerVest).
                 AddIngredient(ItemID.AnglerPants).
-                AddIngredient(ItemID.AnglerTackleBag).
+                AddIngredient(ItemID.LavaproofTackleBag).
                 AddIngredient(ItemID.FishingPotion, 5).
                 AddIngredient(ItemID.CratePotion, 5).
                 AddIngredient(ItemID.SonarPotion, 5).

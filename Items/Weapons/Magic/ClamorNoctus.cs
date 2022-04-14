@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault(@"Let the sky fall
 Fires night wyverns and stars from the sky that stick to enemies and tiles and explode");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

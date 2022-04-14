@@ -13,6 +13,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             DisplayName.SetDefault("Comet Shard");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item29;
             Item.consumable = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

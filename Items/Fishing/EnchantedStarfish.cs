@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Enchanted Starfish");
             Tooltip.SetDefault("Permanently increases maximum mana by 20");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Fishing
             Item.consumable = true;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 50);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool? UseItem(Player player)

@@ -1,5 +1,6 @@
 ﻿using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
@@ -13,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Eye of Night");
             Tooltip.SetDefault("Summons a diseased eyeball that fires cells which attach to enemies and inflict cursed flames");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

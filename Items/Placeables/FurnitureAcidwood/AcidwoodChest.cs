@@ -1,5 +1,6 @@
 using CalamityMod.Tiles.FurnitureAcidwood;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
@@ -7,6 +8,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

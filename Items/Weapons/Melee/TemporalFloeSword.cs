@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("The iceman cometh...\n" +
                 "Fires a frozen sword beam that splits into two more beams\n" +
                 "The direction of the beams depends on in game time");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

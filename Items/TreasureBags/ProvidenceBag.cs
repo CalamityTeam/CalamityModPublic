@@ -10,6 +10,9 @@ using CalamityMod.NPCs.Providence;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.GameContent.Creative;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -19,7 +22,8 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Treasure Bag");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            DisplayName.SetDefault("Treasure Bag (Providence, the Profaned Goddess)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
@@ -34,6 +38,11 @@ namespace CalamityMod.Items.TreasureBags
         }
 
         public override bool CanRightClick() => true;
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            return CalamityUtils.DrawTreasureBagInWorld(Item, spriteBatch, ref rotation, ref scale, whoAmI);
+        }
 
         public override void OpenBossBag(Player player)
         {

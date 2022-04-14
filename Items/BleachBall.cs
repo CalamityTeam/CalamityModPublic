@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Bleach Ball");
             Tooltip.SetDefault("Favorite this item to prevent the Aquatic Scourge from naturally spawning near you");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {

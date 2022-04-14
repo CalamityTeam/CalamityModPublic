@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Bloodfire Arrow");
             Tooltip.SetDefault("Heals you a small amount on enemy hits");
         }
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<BloodfireArrowProj>();
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Arrow;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

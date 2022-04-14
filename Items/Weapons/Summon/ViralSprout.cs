@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Viral Sprout");
             Tooltip.SetDefault("Summons a sage spirit to fight for you\n" +
                 "Inflicts Sage Poison, a debuff that becomes stronger the more spirits you own");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

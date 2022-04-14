@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Plates
 {
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Placeables.Plates
         {
             DisplayName.SetDefault("Cinderplate");
             Tooltip.SetDefault("It resonates with otherworldly energy.");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
         }
 
         public override void SetDefaults()

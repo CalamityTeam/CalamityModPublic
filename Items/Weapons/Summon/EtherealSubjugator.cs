@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Ethereal Subjugator");
             Tooltip.SetDefault("Summons a phantom to protect you\n" +
             "Each phantom takes only half of a minion slot");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

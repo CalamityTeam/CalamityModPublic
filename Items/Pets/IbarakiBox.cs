@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
             Tooltip.SetDefault("As the ice melts in the springs\n" +
                 "And waves wash the old moss’ hair...\n" +
@@ -39,7 +40,6 @@ namespace CalamityMod.Items.Pets
             Item.value = Item.buyPrice(gold: 5);
             Item.rare = ItemRarityID.LightRed;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool AltFunctionUse(Player player) => true;

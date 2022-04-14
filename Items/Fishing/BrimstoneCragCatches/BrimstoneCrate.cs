@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
             DisplayName.SetDefault("Brimstone Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick() => true;

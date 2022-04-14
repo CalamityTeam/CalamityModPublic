@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Jungle Dragon Egg");
             Tooltip.SetDefault("An imitation of the egg that bore the loyal guardian of the tyrant king\n" +
                                "Summons Jungle Dragon, Yharon when used in the jungle\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = false;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

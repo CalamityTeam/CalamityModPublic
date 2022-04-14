@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         {
             DisplayName.SetDefault("Sunken Sailfish"); //Potion material
             Tooltip.SetDefault("Zooming at 60 miles per hour");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void SetDefaults()
@@ -20,7 +21,6 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 7);
             Item.rare = ItemRarityID.Green;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

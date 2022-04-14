@@ -1,6 +1,7 @@
 using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Banners
 {
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Overloaded Soldier");
         }
 

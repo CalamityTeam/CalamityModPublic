@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Calamity");
             Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, summoning a burning sigil around it\n" +
                 "Enemies touching the sigil take immense damage and are inflicted with Vulnerability Hex\n" +
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Purple;
             Item.value = CalamityGlobalItem.RarityVioletBuyPrice;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

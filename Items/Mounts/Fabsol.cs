@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Mounts
             DisplayName.SetDefault("Princess Spirit in a Bottle");
             Tooltip.SetDefault("Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form\n" +
                 "Mounting will transform Cirrus, dismounting transforms her back");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Mounts
             Item.value = Item.buyPrice(platinum: 3);
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

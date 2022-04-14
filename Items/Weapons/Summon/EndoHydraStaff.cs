@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Endo Hydra Staff");
             Tooltip.SetDefault("Summons a frigid entity with a head\n" +
                                "If the entity already exists, using this item again will cause it to gain more heads");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -55,6 +55,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             GrantBuffs(player);
             NPC potentialTarget = Projectile.Center.MinionHoming(1400f, player);
+
+            // Teleport near the target if very far away from them.
+            if (!Projectile.WithinRange(player.Center, 4200f))
+            {
+                Projectile.Center = player.Center + Vector2.UnitY * North.ToDirectionInt() * 25f;
+            }
+
             if (potentialTarget is null)
             {
                 PlayerMovement(player);

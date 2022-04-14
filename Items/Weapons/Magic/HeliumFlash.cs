@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("The power of a galaxy, if only for mere moments\n" +
             "Launches volatile star cores which erupt into colossal fusion blasts");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

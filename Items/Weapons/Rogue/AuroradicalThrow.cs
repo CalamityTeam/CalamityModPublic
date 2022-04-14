@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.GameContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
                             "Split stars home in on nearby enemies after a few seconds\n" +
                             "Stealth strikes summon a meteor upon enemy impact");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Armor
         //Exploration and Mining Helm
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Reaver Headgear");
             Tooltip.SetDefault("10% increased pick speed and 20% increased block/wall placement speed\n" +
                 "Temporary immunity to lava and can move freely through liquids");

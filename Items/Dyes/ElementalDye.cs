@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Dyes
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(Mod.Assets.Request<Effect>("Effects/Dyes/ElementalDyeShader", AssetRequestMode.ImmediateLoad).Value), "DyePass").UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Elemental Dye");
         }
 
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(0, 2, 50, 0);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
         public override void AddRecipes()

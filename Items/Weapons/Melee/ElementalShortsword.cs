@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Elemental Shiv");
             Tooltip.SetDefault("Don't underestimate the power of shivs\n" +
                 "Shoots a rainbow shiv that spawns additional shivs on hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

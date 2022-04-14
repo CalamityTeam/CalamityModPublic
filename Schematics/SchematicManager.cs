@@ -157,7 +157,7 @@ namespace CalamityMod.Schematics
             }
 
             // Make an array for the tiles that used to be where this schematic will be pasted.
-            Tile[,] originalTiles = new Tile[width, height];
+            SchematicMetaTile[,] originalTiles = new SchematicMetaTile[width, height];
 
             // Schematic area pre-processing has three steps.
             // Step 1: Kill all trees and cacti specifically. This prevents ugly tree/cactus pieces from being restored later.
@@ -176,8 +176,8 @@ namespace CalamityMod.Schematics
             for (int x = 0; x < width; ++x)
                 for (int y = 0; y < height; ++y)
                 {
-                    Tile worldTile = Main.tile[x + cornerX, y + cornerY];
-                    CalamitySchematicIO.CopyTile(ref originalTiles[x, y], worldTile, true);
+                    Tile t = Main.tile[x + cornerX, y + cornerY];
+                    originalTiles[x, y] = new SchematicMetaTile(t);
                 }
 
             for (int x = 0; x < width; ++x)
@@ -190,27 +190,40 @@ namespace CalamityMod.Schematics
                 for (int y = 0; y < height; ++y)
                 {
                     SchematicMetaTile smt = schematic[x, y];
-                    Tile t = smt.storedTile;
-                    string modChestStr = TileLoader.GetTile(t.TileType)?.ContainerName.GetDefault() ?? "";
-                    bool isChest = t.TileType == TileID.Containers || modChestStr != "";
+                    smt.ApplyTo(x + cornerX, y + cornerY, originalTiles[x, y]);
+                    Tile worldTile = Main.tile[x + cornerX, y + cornerY];
+
+                    // FRAME DATA SEEMS CORRUPTED. Not sure what's going on.
+                    // NOTE
+                    // UNCOMMENTING THIS LINE MAKES THE GAME CRASH WITH NO ERROR IN LOG
+                    // Framing.SelfFrame8Way(x + cornerX, y + cornerY, worldTile, true);
 
                     // If the determined tile type is a chest and this is its top left corner, define it appropriately.
-                    if (isChest && t.TileFrameX % 36 == 0 && t.TileFrameY == 0)
+                    // Skip this step if this schematic position preserves tiles.
+                    bool isChest = worldTile.TileType == TileID.Containers || TileID.Sets.BasicChest[worldTile.TileType];
+                    if (!smt.keepTile && isChest && worldTile.TileFrameX % 36 == 0 && worldTile.TileFrameY == 0)
                     {
-                        Chest chest = PlaceChest(x + cornerX, y + cornerY, t.TileType);
-                        // Use the appropriate chest delegate function to fill the chest.
-                        if (chestDelegate is Action<Chest, int, bool>)
+                        // If a chest already exists "near" this position, then the corner was likely already defined.
+                        // Do not do anything if a chest was already defined.
+                        // FindChestByGuessing checks a 2x2 space starting in the given position, so nudge it up and left by 1.
+                        int chestIndex = Chest.FindChestByGuessing(x + cornerX - 1, y + cornerY - 1);
+                        if (chestIndex == -1)
                         {
-                            (chestDelegate as Action<Chest, int, bool>)?.Invoke(chest, t.TileType, specialCondition);
-                            specialCondition = true;
+                            chestIndex = Chest.CreateChest(x + cornerX, y + cornerY, -1);
+                            Chest chest = Main.chest[chestIndex];
+                            // Use the appropriate chest delegate function to fill the chest.
+                            if (chestDelegate is Action<Chest, int, bool>)
+                            {
+                                (chestDelegate as Action<Chest, int, bool>)?.Invoke(chest, worldTile.TileType, specialCondition);
+                                specialCondition = true;
+                            }
+                            else if (chestDelegate is Action<Chest>)
+                                (chestDelegate as Action<Chest>)?.Invoke(chest);
                         }
-                        else if (chestDelegate is Action<Chest>)
-                            (chestDelegate as Action<Chest>)?.Invoke(chest);
                     }
 
-                    // This is where the meta tile keep booleans are applied.
-                    smt.ApplyTo(x + cornerX, y + cornerY, originalTiles[x, y]);
-                    TryToPlaceTileEntities(x + cornerX, y + cornerY, t);
+                    // Now that the tile data is correctly set, place appropriate tile entities.
+                    TryToPlaceTileEntities(x + cornerX, y + cornerY, worldTile);
 
                     // Activate the pile placement function if defined.
                     Rectangle placeInArea = new Rectangle(x, y, width, height);
@@ -239,22 +252,6 @@ namespace CalamityMod.Schematics
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TEDraedonLabTurret>());
             else if (tileType == ModContent.TileType<LabHologramProjector>())
                 TileEntity.PlaceEntityNet(x, y, ModContent.TileEntityType<TELabHologramProjector>());
-        }
-
-        private static Chest PlaceChest(int x, int y, int chestType)
-        {
-            int chestIndex = Chest.FindEmptyChest(x, y, chestType);
-            Main.chest[chestIndex] = new Chest()
-            {
-                x = x,
-                y = y
-            };
-            Main.chest[chestIndex].item = new Item[Main.chest[chestIndex].item.Length];
-            for (int i = 0; i < Main.chest[chestIndex].item.Length; i++)
-            {
-                Main.chest[chestIndex].item[i] = new Item();
-            }
-            return Main.chest[chestIndex];
         }
         #endregion
     }

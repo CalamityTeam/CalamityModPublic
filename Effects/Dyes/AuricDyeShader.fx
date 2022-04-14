@@ -23,7 +23,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     
     // Define a baseline gold color. This will be used when creating a reflective metal texture.
     float3 goldColor = float3(228 / 255.0, 175 / 255.0, 72 / 255.0);
@@ -42,7 +42,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     
     // Use a specialized blend method to create the shine effect.
     color.rgb = (length(color.rgb) <= 0.5) ? 2 * color.rgb * goldColor : 1 - 2 * (1 - color.rgb) * (1 - goldColor);
-    return (color + noiseColor * 0.45) * color.a * sampleColor.a;
+    return (color + noiseColor * 0.45) * color.a;
 }
 technique Technique1
 {

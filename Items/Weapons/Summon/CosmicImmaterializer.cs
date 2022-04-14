@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "The orb will fire swarms of homing energy bolts when enemies are detected by it\n" +
                                "Requires 10 minion slots to use and there can only be one energy spiral\n" +
                                "Without a summoner armor set bonus this minion will deal less damage");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

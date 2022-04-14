@@ -2,6 +2,7 @@ using CalamityMod.Tiles.DraedonStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.DraedonStructures
 {
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Charging Station");
             Tooltip.SetDefault("Charges Draedon's Arsenal items using Power Cells\n" +
                 "Place both an item and Power Cells into the Charging Station to charge the item");

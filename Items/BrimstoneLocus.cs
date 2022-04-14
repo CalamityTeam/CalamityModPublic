@@ -20,7 +20,7 @@ namespace CalamityMod.Items
             Item.height = 20;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            Item.value = 0;
+            Item.value = 0; // This item cannot be researched.
         }
 
         public override void AddRecipes()

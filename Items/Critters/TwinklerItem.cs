@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Critters
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Twinkler");
         }
 
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Critters
             Item.bait = 40;
             Item.makeNPC = (short)ModContent.NPCType<Twinkler>();
             Item.rare = ItemRarityID.Green;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Dragon Scales");
             Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
                                "Rogue projectiles create slow fireballs as they travel\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

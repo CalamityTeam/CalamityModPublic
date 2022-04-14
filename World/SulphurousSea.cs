@@ -697,6 +697,7 @@ namespace CalamityMod.World
             TileID.MatureHerbs,
             TileID.Pots,
             TileID.Pumpkins, // Happens during Halloween
+            TileID.FallenLog
         };
 
         public static List<int> WallsForSulphSeaToDestroy = new()

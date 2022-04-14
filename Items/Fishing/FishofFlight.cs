@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Fish of Flight");
             Tooltip.SetDefault("Right click to extract souls");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override void SetDefaults()
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Fishing
             Item.height = 30;
             Item.rare = ItemRarityID.Orange;
             Item.value = Item.sellPrice(gold: 1);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
         public override bool CanRightClick()

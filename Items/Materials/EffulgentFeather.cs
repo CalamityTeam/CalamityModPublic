@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Effulgent Feather");
             Tooltip.SetDefault("It vibrates with fluffy golden energy");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 11));
@@ -22,7 +23,5 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 6, 50, 0);
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-        }
-    }
+        }    }
 }

@@ -1,4 +1,5 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
@@ -6,6 +7,7 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 200;
         }
 
         public override void SetDefaults()

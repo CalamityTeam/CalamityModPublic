@@ -2,6 +2,7 @@ using CalamityMod.Tiles.DraedonStructures;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.DraedonStructures
 {
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Power Cell Factory");
             Tooltip.SetDefault("Produces Draedon Power Cells over time\n" + "One cell is produced every 15 seconds");
         }

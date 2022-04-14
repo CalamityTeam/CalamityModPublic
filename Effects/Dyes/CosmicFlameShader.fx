@@ -23,7 +23,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float2 swirlOffset = float2(sin(uTime * 0.26 + 1.754) * 0.31, sin(uTime * 0.26) * 0.16) * uSaturation;
     float4 color = tex2D(uImage0, coords);
     float4 noiseColor = tex2D(uImage1, frac(float2(framedCoords.x, framedCoords.y + uTime * 0.16) + swirlOffset - uWorldPosition * 0.0006) * 0.26);
@@ -46,7 +46,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     
     // And create stars based on a noise texture that rise upward.
     color = lerp(color, float4(starColor, 1) * color.a, fadeToNormal * pow(brightnessFactor, 6) * 0.15);
-    return color * (1 + brightnessFactor) * sampleColor.a;
+    return color * (1 + brightnessFactor);
 }
 technique Technique1
 {

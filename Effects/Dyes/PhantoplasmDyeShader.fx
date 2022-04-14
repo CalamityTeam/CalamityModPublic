@@ -23,7 +23,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, frac(framedCoords.y + uTime * 0.7)));
     float4 color = tex2D(uImage0, coords);
     float normalizedDistanceFromCenter = distance(framedCoords, float2(0.5, 0.5)) * 2;
@@ -39,7 +39,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 blendedColor = (color + endFadeColor) * 0.5 - 0.05;
     blendedColor *= 1.4;
     blendedColor.a = 1;
-    return blendedColor * color.a * (1 + lerp(0.07, 0.3, fadeToSecondaryColor) + noiseColor.g * 0.1) * sampleColor.a;
+    return blendedColor * color.a * (1 + lerp(0.07, 0.3, fadeToSecondaryColor) + noiseColor.g * 0.1);
 }
 technique Technique1
 {

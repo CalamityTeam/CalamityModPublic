@@ -1,12 +1,14 @@
 using CalamityMod.Tiles.FurnitureAcidwood;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
     public class AcidwoodSink : ModItem
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             Tooltip.SetDefault("Counts as a water source");
         }
 

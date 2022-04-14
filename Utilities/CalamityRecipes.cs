@@ -5,6 +5,7 @@ using CalamityMod.Items.Critters;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
@@ -21,79 +22,93 @@ namespace CalamityMod
 {
     internal class CalamityRecipes
     {
-        private static Recipe CreateRecipe() => CalamityMod.Instance.CreateRecipe(ItemID.None);
         private static Recipe CreateRecipe(int itemID, int stack = 1) => CalamityMod.Instance.CreateRecipe(itemID, stack);
 
         public static void AddRecipes()
         {
-            CreateRecipe()
-                .AddIngredient(ItemID.Vertebrae, 2)
-                .AddTile(TileID.WorkBenches)
-                .ReplaceResult(ItemID.Leather);
+            CreateRecipe(ItemID.Leather).
+                AddIngredient(ItemID.Vertebrae, 2).
+                AddTile(TileID.WorkBenches).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.Lens)
-                .AddIngredient(ItemID.BlackDye)
-                .AddTile(TileID.DyeVat)
-                .ReplaceResult(ItemID.BlackLens);
+            CreateRecipe(ItemID.BlackLens).
+                AddIngredient(ItemID.Lens).
+                AddIngredient(ItemID.BlackDye).
+                AddTile(TileID.DyeVat).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<Stardust>(5)
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.FallenStar);
+            CreateRecipe(ItemID.FallenStar).
+                AddIngredient<Stardust>(5).
+                AddTile(TileID.Anvils).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<HallowedOre>(4)
-                .AddTile(TileID.AdamantiteForge)
-                .ReplaceResult(ItemID.HallowedBar);
+            CreateRecipe(ItemID.HallowedBar).
+                AddIngredient<HallowedOre>(4).
+                AddTile(TileID.AdamantiteForge).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.EmptyBullet, 20)
-                .AddIngredient(ItemID.ExplosivePowder, 1)
-                .AddTile(TileID.MythrilAnvil)
-                .ReplaceResult(ItemID.RocketI, 20);
+            CreateRecipe(ItemID.RocketI, 20).
+                AddIngredient(ItemID.EmptyBullet, 20).
+                AddIngredient(ItemID.ExplosivePowder, 1).
+                AddTile(TileID.MythrilAnvil).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.StoneBlock, 5)
-                .AddIngredient(ItemID.Ruby, 2)
-                .AddIngredient(ItemID.HealingPotion)
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.LifeCrystal);
+            CreateRecipe(ItemID.LifeCrystal).
+                AddIngredient(ItemID.StoneBlock, 5).
+                AddIngredient(ItemID.Ruby, 2).
+                AddIngredient(ItemID.HealingPotion).
+                AddTile(TileID.Anvils).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient<PlantyMush>(10)
-                .AddIngredient<LivingShard>()
-                .AddTile(TileID.MythrilAnvil)
-                .ReplaceResult(ItemID.LifeFruit);
+            CreateRecipe(ItemID.LifeFruit).
+                AddIngredient<PlantyMush>(10).
+                AddIngredient<LivingShard>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.Torch, 33)
-                .AddIngredient<SeaPrism>()
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.UltrabrightTorch, 33);
+            CreateRecipe(ItemID.UltrabrightTorch, 33).
+                AddIngredient(ItemID.Torch, 33).
+                AddIngredient<SeaPrism>().
+                AddTile(TileID.Anvils).
+                Register();
 
-            CreateRecipe()
-                .AddIngredient(ItemID.PiggyBank)
-                .AddIngredient(ItemID.Feather, 2)
-                .AddIngredient<BloodOrb>()
-                .AddIngredient(ItemID.GoldCoin, 15)
-                .AddRecipeGroup("AnyGoldBar", 8)
-                .AddTile(TileID.Anvils)
-                .ReplaceResult(ItemID.MoneyTrough);
-
-            CreateRecipe().
+            CreateRecipe(ItemID.MoneyTrough).
                 AddIngredient(ItemID.PiggyBank).
                 AddIngredient(ItemID.Feather, 2).
                 AddIngredient<BloodOrb>().
                 AddIngredient(ItemID.GoldCoin, 15).
                 AddRecipeGroup("AnyGoldBar", 8).
                 AddTile(TileID.Anvils).
-                ReplaceResult(ItemID.MoneyTrough);
+                Register();
 
-            CreateRecipe().
+            CreateRecipe(ItemID.TargetDummy).
                 AddIngredient<SuperDummy>().
-                AddTile(TileID.Anvils).
-                ReplaceResult(ItemID.TargetDummy);
+                Register();
+
+            CreateRecipe(ItemID.DemonConch).
+                AddIngredient<DemonicBoneAsh>().
+                AddIngredient(ItemID.HellstoneBar, 4).
+                AddTile(TileID.Hellforge).
+                Register();
+
+            CreateRecipe(ItemID.FlameWakerBoots).
+                AddIngredient(ItemID.Silk, 8).
+                AddIngredient(ItemID.Obsidian, 2).
+                AddTile(TileID.Loom).
+                Register();
+
+            CreateRecipe(ItemID.LavaFishingHook).
+                AddIngredient(ItemID.Seashell).
+                AddIngredient(ItemID.HellstoneBar, 10).
+                AddTile(TileID.Hellforge).
+                Register();
+
+            CreateRecipe(ItemID.StaffofRegrowth).
+                AddIngredient(ItemID.RichMahogany, 10).
+                AddIngredient(ItemID.JungleSpores, 5).
+                AddIngredient(ItemID.JungleRose).
+                AddTile(TileID.WorkBenches).
+                Register();
 
             EditLeatherRecipe();
             EditPhoenixBlasterRecipe();
@@ -234,6 +249,7 @@ namespace CalamityMod
                 s.requiredItem[10].SetDefaults(ModContent.ItemType<AuricBar>(), false);
                 s.requiredItem[10].stack = 5;
 
+                s.requiredTile[0] = ModContent.TileType<CosmicAnvil>();
                 s.createItem.SetDefaults(ItemID.Zenith, false);
                 s.createItem.stack = 1;
             });
@@ -1076,9 +1092,7 @@ namespace CalamityMod
 
             // Lucky Horseshoe
             r = CreateRecipe(ItemID.LuckyHorseshoe);
-            r.AddIngredient(ItemID.SunplateBlock, 10);
-            r.AddIngredient(ItemID.Cloud, 10);
-            r.AddRecipeGroup("AnyGoldBar", 5);
+            r.AddRecipeGroup("AnyGoldBar", 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Vanquisher Arrow");
             Tooltip.SetDefault("Pierces through tiles\n" +
                 "Spawns extra homing arrows as it travels");
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Ammo
             Item.shootSpeed = 10f;
             Item.ammo = AmmoID.Arrow;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

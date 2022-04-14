@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Little Light");
             Tooltip.SetDefault("It's been looking for you for a long time.\n" +
                 "Summons a small construct that follows you and provides a great amount of light\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Pets
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.Calamity().donorItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

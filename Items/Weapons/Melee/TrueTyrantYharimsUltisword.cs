@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires blazing, hyper, and sunlight blades\n" +
                 "Gives the player the tyrant's fury buff on enemy hits\n" +
                 "This buff increases melee damage by 30% and melee crit chance by 10%");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

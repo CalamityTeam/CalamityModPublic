@@ -1,8 +1,9 @@
-using CalamityMod.Items.Placeables.FurnitureAstral;
+﻿using CalamityMod.Items.Placeables.FurnitureAstral;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
         }
 
         public override void SetDefaults()

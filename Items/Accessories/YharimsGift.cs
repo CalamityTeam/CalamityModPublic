@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Yharim's Gift");
             Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
                                "Flaming meteors rain down while invincibility is active\n" +
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.rare = ItemRarityID.Purple;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

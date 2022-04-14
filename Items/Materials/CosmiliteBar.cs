@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Materials
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Cosmilite Bar");
             Tooltip.SetDefault("A chunk of durable and highly resilient cosmic steel");
         }
@@ -34,9 +35,7 @@ namespace CalamityMod.Items.Materials
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CosmiliteBar_Animated").Value;

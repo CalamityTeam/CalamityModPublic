@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Ores
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
             DisplayName.SetDefault("Scoria Ore");
         }
 

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Icy Bullet");
             Tooltip.SetDefault("Can hit up to three times\nBreaks into ice shards on last impact");
         }
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Ammo
             Item.shootSpeed = 5f;
             Item.ammo = AmmoID.Bullet;
             Item.maxStack = 999;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
     }
 }

@@ -4,6 +4,7 @@ using CalamityMod.Items.Fishing.AstralCatches;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Gravity Normalizer Potion");
             Tooltip.SetDefault("Disables the low gravity of space and grants immunity to the distorted debuff");
         }

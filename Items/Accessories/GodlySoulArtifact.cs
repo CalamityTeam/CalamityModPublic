@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Godly Soul Artifact");
             Tooltip.SetDefault("Loyalty\n" +
                 "For each Fiery Draconid you have summoned, you gain 1 minion slot");
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

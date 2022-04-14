@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Aerialite Bar");
         }
 
@@ -28,9 +29,7 @@ namespace CalamityMod.Items.Materials
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override void AddRecipes()
         {
             CreateRecipe().

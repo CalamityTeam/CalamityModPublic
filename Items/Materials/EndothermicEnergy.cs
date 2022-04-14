@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
             DisplayName.SetDefault("Endothermic Energy");
             Tooltip.SetDefault("Its deathly chill sucks the life from its surroundings");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Red;
             Item.value = Item.sellPrice(gold: 2);
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)

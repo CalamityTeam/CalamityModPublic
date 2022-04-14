@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
             DisplayName.SetDefault("Bloodfire Bullet");
             Tooltip.SetDefault("Accelerates your life regeneration on hit\n" + "Deals bonus damage based on your current life regeneration");
         }
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Ammo
             Item.shoot = ModContent.ProjectileType<BloodfireBulletProj>();
             Item.shootSpeed = 4.8f;
             Item.ammo = ItemID.MusketBall;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void AddRecipes()

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Blood Pact");
             Tooltip.SetDefault("Doubles your max HP\n" +
                 "Allows you to be critically hit 25% of the time\n" +
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Yellow;
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

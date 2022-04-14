@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Skynamite");
             Tooltip.SetDefault("You don't need an aerodynamics major to use this\n" +
             "Throws a floaty explosive that defies gravity");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
         public override void SetDefaults()

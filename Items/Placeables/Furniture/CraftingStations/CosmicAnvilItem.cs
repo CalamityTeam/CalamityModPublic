@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Cosmic Anvil");
             Tooltip.SetDefault("An otherworldly anvil capable of withstanding the pressures of stellar collapse\n" +
                 "Also functions as every previous tier of anvil");

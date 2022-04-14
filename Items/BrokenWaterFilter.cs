@@ -2,6 +2,8 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
+
 namespace CalamityMod.Items
 {
     public class BrokenWaterFilter : ModItem
@@ -10,6 +12,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Broken Water Filter");
             Tooltip.SetDefault("Favorite this item to disable natural Acid Rain spawns");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
         public override void SetDefaults()
         {

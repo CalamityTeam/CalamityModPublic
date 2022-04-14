@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.DataStructures;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Demonshade Helm");
             Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance");
         }

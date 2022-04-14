@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Resilient Candle");
             Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
                 "'Neither rain nor wind can snuff its undying flame'");

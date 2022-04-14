@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Ashes of Annihilation");
             Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));
@@ -27,9 +28,7 @@ namespace CalamityMod.Items.Materials
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(gold: 66, silver: 66, copper: 66);
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public void DrawPulsingAfterimage(SpriteBatch spriteBatch, Vector2 baseDrawPosition, Rectangle frame, float baseScale)
         {
             float pulse = Main.GlobalTimeWrappedHourly * 0.68f % 1f;

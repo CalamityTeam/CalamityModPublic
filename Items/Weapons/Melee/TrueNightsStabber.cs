@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("True Night's Stabber");
             Tooltip.SetDefault("Don't underestimate the power of stabby knives");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Tooltip.SetDefault("15% decreased movement speed\n" +
                 "Immune to Astral Infection and Feral Bite\n" +
                 "Increased regeneration at lower health");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

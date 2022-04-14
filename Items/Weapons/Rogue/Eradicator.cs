@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Eradicator");
             Tooltip.SetDefault("Throws a disk that fires lasers at nearby enemies\n" +
             "Stealth strikes stick to enemies and unleash a barrage of lasers in all directions");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

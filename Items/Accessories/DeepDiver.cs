@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Deep Diver");
             Tooltip.SetDefault("15% increased damage, movement speed and +15 defense while underwater\n" +
                                 "While underwater you gain the ability to dash great distances");
@@ -23,7 +24,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Pink;
             Item.defense = 8;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

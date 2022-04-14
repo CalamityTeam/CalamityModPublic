@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items
                 "Teleportation is disabled while Chaos State is active\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

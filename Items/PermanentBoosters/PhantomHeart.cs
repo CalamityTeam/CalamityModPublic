@@ -13,6 +13,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             DisplayName.SetDefault("Phantom Heart");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -26,7 +27,6 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.consumable = true;
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

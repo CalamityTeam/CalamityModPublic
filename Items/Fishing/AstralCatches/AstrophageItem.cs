@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Astrophage");
             Tooltip.SetDefault("Summons an astrophage to follow you around");
         }
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.shoot = ModContent.ProjectileType<Astrophage>();
             Item.buffType = ModContent.BuffType<AstrophageBuff>();
             Item.rare = ItemRarityID.LightRed;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

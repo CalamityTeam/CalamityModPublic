@@ -1,9 +1,10 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -16,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Clockwork Bow");
             Tooltip.SetDefault("Hold left click to load up to six precision bolts\n" +
                 "The more precision bolts are loaded, the harder they hit");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

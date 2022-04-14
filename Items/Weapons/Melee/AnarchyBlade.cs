@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("The lower your life the more damage this blade does\n" +
                 "Your hits will generate a large explosion\n" +
                 "If you're below 50% life your hits have a chance to instantly kill regular enemies");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

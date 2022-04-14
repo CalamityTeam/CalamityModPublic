@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Stat Meter");
             Tooltip.SetDefault("Displays almost all player stats");
         }
@@ -24,7 +25,6 @@ namespace CalamityMod.Items.Accessories
             Item.height = 26;
             Item.value = Item.buyPrice(0, 6, 0, 0);
             Item.rare = ItemRarityID.Blue;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

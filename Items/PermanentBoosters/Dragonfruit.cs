@@ -16,6 +16,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Tooltip.SetDefault("Though somewhat bland, what taste can be described is unlike any other experienced\n" +
                                "Permanently increases maximum life by 25\n" +
                                "Can only be used if the max amount of life fruit has been consumed");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -29,7 +30,6 @@ namespace CalamityMod.Items.PermanentBoosters
             Item.consumable = true;
             Item.rare = ItemRarityID.Red;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override bool CanUseItem(Player player)

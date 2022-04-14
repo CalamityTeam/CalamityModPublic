@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Gastric Belcher Staff");
             Tooltip.SetDefault("Summons aquatic aberrations to protect you\n" +
             "Aberrations fire vomit at nearby enemies with every third attack firing bubbles");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

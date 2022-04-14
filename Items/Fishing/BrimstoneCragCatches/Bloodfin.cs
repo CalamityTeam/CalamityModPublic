@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 Grants a buff that boosts life regen for 10 seconds
 The life regen boost is stronger if below 75% health
 10 second duration");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void SetDefaults()
@@ -36,7 +37,6 @@ The life regen boost is stronger if below 75% health
             Item.consumable = true;
             Item.healLife = 240;
             Item.potion = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
         }
 
         public override void OnConsumeItem(Player player)

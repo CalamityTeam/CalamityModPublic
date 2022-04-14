@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "The spear creates a Scarlet Blast upon hitting an enemy\n" +
                 "Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy\n" +
                 "'Divine Spear \"Spear the Gungnir\"'");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SafeSetDefaults()

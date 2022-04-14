@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Ammo.FiniteUse
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Explosive Shotgun Shell");
         }
 
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Ammo.FiniteUse
             Item.shoot = ModContent.ProjectileType<ExplosiveShotgunShell>();
             Item.shootSpeed = 12f;
             Item.ammo = ModContent.ItemType<ExplosiveShells>(); // CONSIDER -- Would item.type work here instead of a self reference?
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
         }
     }
 }

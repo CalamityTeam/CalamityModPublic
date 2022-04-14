@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
                 "Fires rainbow beams that change their behavior based on their color\n" +
                 "Right click for true melee");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

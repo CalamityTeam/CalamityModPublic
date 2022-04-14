@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Radiating Crystal");
             Tooltip.SetDefault("The crystal contains traces of holothurin\n" +
                 "Summons a radiator light pet\n" +
@@ -25,7 +26,6 @@ namespace CalamityMod.Items.Pets
             Item.buffType = ModContent.BuffType<RadiatorBuff>();
             Item.value = Item.sellPrice(silver: 20);
             Item.rare = ItemRarityID.Orange;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

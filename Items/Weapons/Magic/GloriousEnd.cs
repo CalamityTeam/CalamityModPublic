@@ -1,7 +1,8 @@
-using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,6 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
             "This explosion hurts both enemies and the player\n" +
             "Releasing the cursor before the star explodes will cause it to explode prematurely for less damage\n" +
             "Mounts are disabled while this weapon is in use");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

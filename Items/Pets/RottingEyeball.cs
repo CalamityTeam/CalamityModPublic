@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rotting Eyeball");
             Tooltip.SetDefault("Summons a corrupted conglomeration");
         }
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Pets
             Item.rare = 3;
             Item.shoot = ModContent.ProjectileType<MiniHiveMind>();
             Item.buffType = ModContent.BuffType<HiveMindPet>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

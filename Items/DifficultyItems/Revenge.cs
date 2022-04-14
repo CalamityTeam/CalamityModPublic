@@ -15,6 +15,7 @@ namespace CalamityMod.Items.DifficultyItems
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Revengeance");
             Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in Expert Mode.\n" +
 
@@ -49,7 +50,6 @@ namespace CalamityMod.Items.DifficultyItems
             Item.rare = ItemRarityID.Purple;
             Item.UseSound = SoundID.Item119;
             Item.consumable = false;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

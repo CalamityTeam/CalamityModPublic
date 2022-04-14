@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Occult Skull Crown");
             Tooltip.SetDefault("Only a fool would ever wear this...\n" +
                                "You constantly gain rage over time and rage does not fade away when out of combat\n" +
@@ -33,7 +34,6 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateEquip(Player player)

@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Old Die");
             Tooltip.SetDefault("Lucky for you, the curse doesn't affect you. Mostly.\n" +
                                "Increases the randomness of attack damage");
@@ -22,7 +23,6 @@ namespace CalamityMod.Items.Accessories
             Item.rare = ItemRarityID.Orange;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

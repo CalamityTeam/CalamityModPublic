@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Materials
 
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
             DisplayName.SetDefault("Shadowspec Bar");
             Tooltip.SetDefault("A vile, black metal, so horrendous and powerful as to defy explanation");
         }
@@ -36,9 +37,7 @@ namespace CalamityMod.Items.Materials
             Item.value = Item.sellPrice(platinum: 1, gold: 92);
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
         }
-
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frameI, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Materials/ShadowspecBar_Animated").Value;

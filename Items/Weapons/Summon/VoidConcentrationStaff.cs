@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -18,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Requires three minion slots to use\n" +
                                "Only one may exist\n" +
                                "Right click to launch a black hole that grows in size");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

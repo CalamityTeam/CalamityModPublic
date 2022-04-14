@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Mounts
                 "with complete disregard for all the creatures that inhabit these lands. I am sure the EPA and PETA would like\n" +
                 "to have a word with you afterwards.\n" +
                 "The power of the destruction scales with the highest powered pickaxe in your inventory");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -28,7 +29,6 @@ namespace CalamityMod.Items.Mounts
             Item.UseSound = SoundID.Item23;
             Item.noMelee = true;
             Item.mountType = ModContent.MountType<OnyxExcavator>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

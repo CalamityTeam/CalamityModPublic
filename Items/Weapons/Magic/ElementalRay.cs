@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Vortex beams act like fast lightning and electrify enemies on hit\n" +
                 "Stardust beams release small stars that home on enemy hits");
             Item.staff[Item.type] = true;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

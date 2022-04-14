@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Spadefish");
             Tooltip.SetDefault("How can a fish be used to dig through the ground?\n" +
                 "Some questions are best left unanswered.");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
@@ -31,7 +32,6 @@ namespace CalamityMod.Items.Fishing
             Item.rare = ItemRarityID.Green;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
     }
 }

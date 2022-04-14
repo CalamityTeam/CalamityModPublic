@@ -23,11 +23,11 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
     float interval = cos(uTime * 7 + framedCoords.x * 4) / 2 + 0.5;
     float4 returnColor = float4(lerp(uColor, uSecondaryColor, interval), 1); // Fade between two colors depending on the time and x position on the texture in a 0-1 cosine linear interpolation. The color can vary.
-    return returnColor * color * sampleColor.a; // And multiply by the original color to give it a blend effect.
+    return returnColor * color; // And multiply by the original color to give it a blend effect.
 }
 technique Technique1
 {

@@ -1,4 +1,4 @@
-using Terraria.DataStructures;
+﻿using Terraria.DataStructures;
 using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee;
@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
 
             ProjectileDeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()

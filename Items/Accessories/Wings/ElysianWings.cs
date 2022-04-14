@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Elysian Wings");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
                 "Horizontal speed: 9.75\n" +
@@ -30,7 +31,6 @@ namespace CalamityMod.Items.Accessories.Wings
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.accessory = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -1,11 +1,13 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusPlatform : ModItem
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 200;
         }
 
         public override void SetDefaults()

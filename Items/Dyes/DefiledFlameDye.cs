@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(106, 190, 48)).UseSecondaryColor(new Color(204, 248, 48)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
             DisplayName.SetDefault("Defiled Flame Dye");
         }
 
@@ -21,7 +22,6 @@ namespace CalamityMod.Items.Dyes
         {
             Item.rare = ItemRarityID.LightRed;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
     }
 }

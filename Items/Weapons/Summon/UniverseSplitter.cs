@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "An ancient artifact from a previous age, it waits for your command...\n" +
                                "This is a terrible idea, but it isn't yours anyways... right?");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
         public override void SetDefaults()
