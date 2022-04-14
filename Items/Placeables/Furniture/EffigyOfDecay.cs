@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Effigy of Decay");
             Tooltip.SetDefault("When placed down, nearby players can breathe underwater\n" +
                                "This effect does not work in the abyss\n" +

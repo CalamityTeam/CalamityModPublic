@@ -3,12 +3,14 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Astral;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AstralBeaconItem : ModItem
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Astral Beacon");
             Tooltip.SetDefault("Summons Astrum Deus in exchange for specific offerings");
         }

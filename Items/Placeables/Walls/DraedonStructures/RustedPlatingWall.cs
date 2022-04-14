@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using WallTiles = CalamityMod.Walls.DraedonStructures;
 using TileItems = CalamityMod.Items.Placeables.DraedonStructures;
 using Terraria.ID;
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Walls.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 400;
         }
 
         public override void SetDefaults()

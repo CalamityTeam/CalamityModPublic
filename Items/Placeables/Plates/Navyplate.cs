@@ -2,6 +2,7 @@ using CalamityMod.Items.Placeables.Walls;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Plates
 {
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Placeables.Plates
         {
             DisplayName.SetDefault("Navyplate");
             Tooltip.SetDefault("It resonates with otherworldly energy.");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
         }
 
         public override void SetDefaults()

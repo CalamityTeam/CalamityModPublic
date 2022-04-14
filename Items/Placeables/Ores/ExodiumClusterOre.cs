@@ -2,6 +2,7 @@ using CalamityMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
@@ -9,6 +10,7 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
             DisplayName.SetDefault("Exodium Cluster");
             Tooltip.SetDefault("A cold cluster from the great unknown.");
         }

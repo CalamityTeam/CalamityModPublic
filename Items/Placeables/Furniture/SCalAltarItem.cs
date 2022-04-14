@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Altar of the Accursed");
             Tooltip.SetDefault("Offer Ashes of Calamity at this altar to summon the Witch\n" +
                 "Doing so will create a square arena of blocks, with the altar at its center\n" +

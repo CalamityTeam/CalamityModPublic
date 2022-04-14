@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Crimson Effigy");
             Tooltip.SetDefault("When placed down nearby players have their damage increased by 15% and defense by 10\n" +
                 "Nearby players also suffer a 10% decrease to their maximum health");

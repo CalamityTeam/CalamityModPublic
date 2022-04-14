@@ -1,12 +1,18 @@
-using CalamityMod.Tiles.FurnitureStratus;
+﻿using CalamityMod.Tiles.FurnitureStratus;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusStarPlatformItem : ModItem
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Stratus Star Platform");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Stratus Star Platform");
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 200;
+        }
+
         public override void SetDefaults()
         {
             Item.width = 26;

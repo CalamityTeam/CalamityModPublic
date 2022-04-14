@@ -1,4 +1,5 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using WallTiles = CalamityMod.Walls;
 using Terraria.ID;
 
@@ -6,6 +7,10 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class BrimstoneSlagWall : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 400;
+        }
         public override void SetDefaults()
         {
             Item.width = 12;

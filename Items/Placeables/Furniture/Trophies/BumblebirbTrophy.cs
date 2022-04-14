@@ -1,5 +1,6 @@
 using CalamityMod.Tiles.Furniture;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
@@ -8,6 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Dragonfolly Trophy");
         }
 
