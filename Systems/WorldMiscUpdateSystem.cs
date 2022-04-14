@@ -42,8 +42,10 @@ namespace CalamityMod.Systems
                 HandleDraedonSummoning();
             }
 
-            // Sunken Sea Location...duh
-            SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom, WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);
+            // Sunken Sea Location
+            // This moved in 1.4, it's now officially the "lower half of the Underground Desert" until its worldgen gets fixed
+            Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
+            SunkenSeaLocation = new Rectangle(ugDesert.Left, ugDesert.Center.Y, ugDesert.Width, ugDesert.Height / 2);
 
             // Player variable, always finds the closest player relative to the center of the map
             int closestPlayer = Player.FindClosest(new Vector2(Main.maxTilesX / 2, (float)Main.worldSurface / 2f) * 16f, 0, 0);

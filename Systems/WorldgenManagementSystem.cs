@@ -49,8 +49,10 @@ namespace CalamityMod.Systems
             {
                 tasks.Insert(WaterFromSandIndex + 1, new PassLegacy("SunkenSea", (progress, config) =>
                 {
-                    progress.Message = "Making the world more wet";
-                    SunkenSea.Place(new Point(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom));
+                    progress.Message = "Partially flooding an overblown desert";
+                    int sunkenSeaX = WorldGen.UndergroundDesertLocation.Left;
+                    int sunkenSeaY = WorldGen.UndergroundDesertLocation.Center.Y;
+                    SunkenSea.Place(new Point(sunkenSeaX, sunkenSeaY));
                 }));
             }
 
@@ -78,7 +80,7 @@ namespace CalamityMod.Systems
                 CustomTemple.NewJungleTempleLihzahrdAltar();
             });
 
-            // TODO -- Most of the below worldgen should be spaced out at better points of generation
+            // TODO -- Most of the below worldgen should be spaced out at better points of generation instead of all crammed at the end
 
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
@@ -151,7 +153,13 @@ namespace CalamityMod.Systems
                 {
                     progress.Message = "Rust and Dust";
                     List<Point> workshopPositions = new List<Point>();
+
+                    // Small: 4, Normal: 7, Large: 9
+                    // Tries to scale up reasonably for XL worlds
                     int workshopCount = Main.maxTilesX / 900;
+
+                    // Small: 2, Normal: 4, Large: 5
+                    // Tries to scale up reasonably for XL worlds
                     int labCount = Main.maxTilesX / 1500;
 
                     DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions);
