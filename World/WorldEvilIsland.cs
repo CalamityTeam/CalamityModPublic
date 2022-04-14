@@ -26,8 +26,8 @@ namespace CalamityMod.World
                 yIslandGen = WorldGen.genRand.Next(95, 126);
                 yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
-                int checkAreaX = 180;
-                int checkAreaY = 95;
+                int checkAreaX = 160;
+                int checkAreaY = 90;
                 potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
             }
             while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
