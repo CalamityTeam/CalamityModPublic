@@ -76,40 +76,43 @@ namespace CalamityMod.Schematics
             {
                 Main.tile[x, y].TileType = TileType;
                 Main.tile[x, y].WallType = WallType;
-                Main.tile[x, y].LiquidAmount = LiquidAmount;
 
+                Main.tile[x, y].LiquidAmount = LiquidAmount;
                 ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
+                targetLiquidState.LiquidType = LiquidType;
+
                 ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
                 targetMiscState.TileFrameX = miscState.TileFrameX;
                 targetMiscState.TileFrameY = miscState.TileFrameY;
-                targetLiquidState.LiquidType = LiquidType;
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
             }
             else if (keepTile && keepWall) // full preservation
             {
                 Main.tile[x, y].TileType = original.TileType;
                 Main.tile[x, y].WallType = original.WallType;
-                Main.tile[x, y].LiquidAmount = original.LiquidAmount;
 
+                Main.tile[x, y].LiquidAmount = original.LiquidAmount;
                 ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
-                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
                 targetLiquidState.LiquidType = LiquidType;
+
+                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
                 targetMiscState.TileFrameX = original.miscState.TileFrameX;
                 targetMiscState.TileFrameY = original.miscState.TileFrameY;
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
             }
             else if (keepWall) // Start with replacement, then splice in wall data from original
             {
                 Main.tile[x, y].TileType = TileType;
                 Main.tile[x, y].WallType = original.WallType;
-                Main.tile[x, y].LiquidAmount = LiquidAmount;
 
+                Main.tile[x, y].LiquidAmount = LiquidAmount;
                 ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
-                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
                 targetLiquidState.LiquidType = LiquidType;
+
+                ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
                 targetMiscState.TileFrameX = miscState.TileFrameX;
                 targetMiscState.TileFrameY = miscState.TileFrameY;
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, miscState.NonFrameBits);
 
                 // Wall splice
                 // All relevant fields are contained in the above bitpack, so assign them a second time
@@ -122,14 +125,15 @@ namespace CalamityMod.Schematics
             {
                 Main.tile[x, y].TileType = original.TileType;
                 Main.tile[x, y].WallType = WallType;
-                Main.tile[x, y].LiquidAmount = original.LiquidAmount;
 
+                Main.tile[x, y].LiquidAmount = original.LiquidAmount;
                 ref var targetLiquidState = ref Main.tile[x, y].Get<LiquidData>();
+                targetLiquidState.LiquidType = LiquidType;
+
                 ref var targetMiscState = ref Main.tile[x, y].Get<TileWallWireStateData>();
+                CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
                 targetMiscState.TileFrameX = original.miscState.TileFrameX;
                 targetMiscState.TileFrameY = original.miscState.TileFrameY;
-                targetLiquidState.LiquidType = LiquidType;
-                CalamitySchematicIO.AssignMiscState(ref targetMiscState, original.miscState.NonFrameBits);
 
                 // Wall splice
                 // All relevant fields are contained in the above bitpack, so assign them a second time
