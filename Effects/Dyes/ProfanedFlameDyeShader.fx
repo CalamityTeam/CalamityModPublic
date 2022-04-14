@@ -23,7 +23,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
     
     // Read the fade map as a streak.
@@ -41,7 +41,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     transformColor = lerp(transformColor, float3(206 / 255, 116 / 255, 59 / 255), orangeFade);
     color.rgb = lerp(color.rgb, transformColor, fadeMapColor.r);
     opacity *= color.a;
-    return color * opacity * sampleColor.a;
+    return color * opacity;
 }
 technique Technique1
 {

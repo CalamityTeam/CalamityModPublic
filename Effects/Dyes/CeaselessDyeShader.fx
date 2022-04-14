@@ -29,12 +29,12 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
-    coords.x += randomness(uTime + framedCoords.y).x * 0.09 * (1 - framedCoords.y); // Add an X offset based on a noise function, giving a moon lord void-esque shader effect.
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
+    coords.x += randomness(uTime + framedCoords.y).x * (1 - framedCoords.y) * 6 / uImageSize0.x; // Add an X offset based on a noise function, giving a moon lord void-esque shader effect.
     float4 color = tex2D(uImage0, coords);
     float4 returnColor = color * 0.1;
     returnColor.a = color.a;
-    return returnColor * sampleColor.a;
+    return returnColor;
 }
 technique Technique1
 {

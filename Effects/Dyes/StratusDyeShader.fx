@@ -24,7 +24,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
     float sineTime = sin(uTime); // Saved so that I don't have the compute this multiple times. Shaders have a limited number of mathematical instructions you can use - 64.
     float2 modifiedCoords = coords;
@@ -41,7 +41,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
         color.rgb *= 1.6; // Sometimes give light "patches" depending on the swaying noise image.
     }
     color.rgb *= 1.6; // Brighten the shader over time.
-    return color * sampleColor.a;
+    return color;
 }
 technique Technique1
 {

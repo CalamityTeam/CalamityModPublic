@@ -23,7 +23,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float3 idealColor = uColor;
     float depth = sin(uTime * 3 + framedCoords.x * 2) * 0.05;
     if (framedCoords.y < 0.425 + depth)
@@ -33,7 +33,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 color = tex2D(uImage0, coords);
     float luminosity = (color.r + color.g + color.b) / 3;
     color.rgb = luminosity * idealColor * 1.6; // Average out the colors.
-    return color * sampleColor.a;
+    return color;
 }
 technique Technique1
 {

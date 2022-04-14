@@ -27,7 +27,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
 
 float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 framedCoords = InverseLerp(uLegacyArmorSourceRect.wx, uLegacyArmorSourceRect.wx + uLegacyArmorSourceRect.yz, uLegacyArmorSourceRect.wx + coords * uLegacyArmorSourceRect.yz);
+    float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
     
     float4 noiseColor = tex2D(uImage1, coords);
@@ -40,7 +40,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     colorMap.rgb *= brightness;
     colorMap.rgb = colorMap.rgb - colorMap.rgb % Variance; // Slice the return color map to make pixels appear less varied and more extreme
     
-    return colorMap * color * sampleColor.a;
+    return colorMap * color;
 }
 technique Technique1
 {
