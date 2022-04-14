@@ -1,6 +1,7 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using System;
 using Terraria;
 using Terraria.ID;
 
@@ -8,6 +9,95 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        #region Soaring Insignia Changes
+        private static void RemoveSoaringInsigniaInfiniteWingTime(ILContext il)
+        {
+            // Prevent the infinite flight effect.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("empressBrooch")))
+            {
+                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia bool.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4_0);
+        }
+
+        private static void NerfSoaringInsigniaRunAcceleration(ILContext il)
+        {
+            // Nerf the run acceleration boost from 2x to 1.1x.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("empressBrooch")))
+            {
+                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia bool.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+            {
+                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia run acceleration multiplier.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1.1f);
+
+            // Prevent the rocket boots infinite flight effect.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("empressBrooch")))
+            {
+                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia bool.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4_0);
+        }
+        #endregion
+
+        #region Magiluminescence Changes
+        private static void NerfMagiluminescence(ILContext il)
+        {
+            // Nerf the run acceleration boost from 2x to 1.25x.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("hasMagiluminescence")))
+            {
+                LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence bool.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+            {
+                LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence run acceleration multiplier.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1.25f);
+
+            // Nerf the max run speed boost from 1.2x to 1x.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
+            {
+                LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence max run speed multiplier.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1f);
+
+            // Nerf the acc run speed boost from 1.2x to 1x.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
+            {
+                LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence acc run speed multiplier.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1f);
+
+            // Nerf the run slowdown boost from 2x to 1.25x.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
+            {
+                LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence run slowdown multiplier.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 1.25f);
+        }
+        #endregion
+
         #region Jump Speed Changes
         private static void FixJumpHeightBoosts(ILContext il)
         {

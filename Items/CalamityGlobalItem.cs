@@ -1102,11 +1102,11 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
                 player.buffImmune[BuffID.OnFire] = true;
 
-            if (item.type == ItemID.FrogLeg || item.type == ItemID.EmpressFlightBooster)
-                player.jumpSpeedBoost -= 1.2f;
+            if (item.type == ItemID.EmpressFlightBooster)
+                player.jumpSpeedBoost -= 1.9f;
 
-            if (item.type == ItemID.Magiluminescence)
-                player.moveSpeed -= 0.2f;
+            if (item.type == ItemID.FrogLeg)
+                player.jumpSpeedBoost -= 1.2f;
 
             if (item.type == ItemID.FireGauntlet)
             {

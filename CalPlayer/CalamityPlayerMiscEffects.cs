@@ -2626,7 +2626,8 @@ namespace CalamityMod.CalPlayer
                 (soaring ? 0.1 : 0D) +
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
-                (draconicSurge ? 0.2 : 0D);
+                (draconicSurge ? 0.2 : 0D) +
+                (Player.empressBrooch ? 0.5 : 0D);
 
             if (harpyRing)
                 Player.moveSpeed += 0.1f;
@@ -2680,8 +2681,8 @@ namespace CalamityMod.CalPlayer
             {
                 bool offenseBuffs = (Main.dayTime && !Player.wet) || Player.lavaWet;
                 if (offenseBuffs)
-                        flightTimeMult += 0.1;
-                }
+                    flightTimeMult += 0.1;
+            }
 
             // Increase wing time
             if (Player.wingTimeMax > 0)

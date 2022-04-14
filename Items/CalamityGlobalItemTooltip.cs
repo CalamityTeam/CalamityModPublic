@@ -495,9 +495,16 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
-            // Magiluminescence nerf and clear explanation of what it actually does
+            // Magiluminescence nerf and clear explanation of what it actually does.
             if (item.type == ItemID.Magiluminescence)
-                EditTooltipByNum(0, (line) => line.Text = "Doubles movement acceleration and deceleration");
+                EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x");
+
+            // Soaring Insignia nerf and clear explanation of what it actually does.
+            if (item.type == ItemID.EmpressFlightBooster)
+            {
+                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 50%");
+                EditTooltipByNum(1, (line) => line.Text = "Increases movement and jump speed by 10% and acceleration by 1.1x");
+            }
 
             // Magic Power Potion nerf
             if (item.type == ItemID.MagicPowerPotion)

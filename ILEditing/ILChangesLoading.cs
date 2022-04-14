@@ -66,7 +66,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
             // Movement speed balance
+            //IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
             IL.Terraria.Player.UpdateJumpHeight += FixJumpHeightBoosts;
+            //IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
+            IL.Terraria.Player.Update += NerfMagiluminescence;
             IL.Terraria.Player.Update += JumpSpeedAdjustment;
             IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
@@ -140,7 +143,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
             // Movement speed balance
+            //IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
             IL.Terraria.Player.UpdateJumpHeight -= FixJumpHeightBoosts;
+            //IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
+            IL.Terraria.Player.Update -= NerfMagiluminescence;
             IL.Terraria.Player.Update -= JumpSpeedAdjustment;
             IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update -= RunSpeedAdjustments;
