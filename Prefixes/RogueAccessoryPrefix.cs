@@ -51,6 +51,8 @@ namespace CalamityMod.Prefixes
             valueMult *= extraValue;
         }
 
+        public override bool CanRoll(Item item) => GetType() != typeof(RogueAccessoryPrefix);
+
         public override float RollChance(Item item)
         {
             if (item.vanity)
