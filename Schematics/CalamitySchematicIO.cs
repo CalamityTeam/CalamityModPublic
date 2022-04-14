@@ -63,6 +63,8 @@ namespace CalamityMod.Schematics
                 Slope = tileMiscState.Slope,
                 WireData = tileMiscState.WireData,
             };
+            miscState.TileFrameX = t.TileFrameX;
+            miscState.TileFrameY = t.TileFrameY;
 
             keepTile = false;
             keepWall = false;
