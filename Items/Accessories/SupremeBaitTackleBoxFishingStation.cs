@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Accessories
             player.fishingSkill += 80;
             player.accFishingLine = true;
             player.accTackleBox = true;
+            player.accLavaFishing = true;
             player.Calamity().fishingStation = true;
             player.sonarPotion = true;
         }
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.AnglerHat).
                 AddIngredient(ItemID.AnglerVest).
                 AddIngredient(ItemID.AnglerPants).
-                AddIngredient(ItemID.AnglerTackleBag).
+                AddIngredient(ItemID.LavaproofTackleBag).
                 AddIngredient(ItemID.FishingPotion, 5).
                 AddIngredient(ItemID.CratePotion, 5).
                 AddIngredient(ItemID.SonarPotion, 5).
