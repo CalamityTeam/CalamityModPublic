@@ -46,49 +46,22 @@ namespace CalamityMod.Schematics
             LiquidAmount = t.LiquidAmount;
             LiquidType = (byte)t.LiquidType;
 
-            // The variables from the tile/wall data are manually extracted and stored in locals instead of directly setting misc to it.
-            // This is done to ensure that all information from t.Get<TileWallWireStateData>() is copied into distinct value types.
-            TileWallWireStateData originalState = t.Get<TileWallWireStateData>();
-            bool hasTile = originalState.HasTile;
-            bool isActuated = originalState.IsActuated;
-            bool hasActuator = originalState.HasActuator;
-
-            byte tileColor = originalState.TileColor;
-            byte wallColor = originalState.WallColor;
-
-            int tileFrameNumber = originalState.TileFrameNumber;
-            int wallFrameNumber = originalState.WallFrameNumber;
-
-            int wallFrameX = originalState.WallFrameX;
-            int wallFrameY = originalState.WallFrameY;
-
-            bool isHalfBrick = originalState.IsHalfBlock;
-            SlopeType slope = originalState.Slope;
-
-            int wireData = originalState.WireData;
-            bool redWire = originalState.RedWire;
-            bool blueWire = originalState.BlueWire;
-            bool greenWire = originalState.GreenWire;
-            bool yellowWire = originalState.YellowWire;
-
+            // Explicitly construct a new TileWallWireStateData which copies each field one by one.
+            TileWallWireStateData tileMiscState = t.Get<TileWallWireStateData>();
             miscState = new TileWallWireStateData()
             {
-                HasTile = hasTile,
-                IsActuated = isActuated,
-                HasActuator = hasActuator,
-                TileColor = tileColor,
-                WallColor = wallColor,
-                TileFrameNumber = tileFrameNumber,
-                WallFrameNumber = wallFrameNumber,
-                WallFrameX = wallFrameX,
-                WallFrameY = wallFrameY,
-                IsHalfBlock = isHalfBrick,
-                Slope = slope,
-                WireData = wireData,
-                RedWire = redWire,
-                BlueWire = blueWire,
-                GreenWire = greenWire,
-                YellowWire = yellowWire
+                HasTile = tileMiscState.HasTile,
+                IsActuated = tileMiscState.IsActuated,
+                HasActuator = tileMiscState.HasActuator,
+                TileColor = tileMiscState.TileColor,
+                WallColor = tileMiscState.WallColor,
+                TileFrameNumber = tileMiscState.TileFrameNumber,
+                WallFrameNumber = tileMiscState.WallFrameNumber,
+                WallFrameX = tileMiscState.WallFrameX,
+                WallFrameY = tileMiscState.WallFrameY,
+                IsHalfBlock = tileMiscState.IsHalfBlock,
+                Slope = tileMiscState.Slope,
+                WireData = tileMiscState.WireData,
             };
 
             keepTile = false;
