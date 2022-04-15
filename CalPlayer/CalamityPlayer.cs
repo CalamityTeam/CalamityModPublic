@@ -5359,9 +5359,19 @@ namespace CalamityMod.CalPlayer
             }
 
             // Reduce damage from vanilla traps
+
+            // Explosives
             // 350 in normal, 450 in expert
             if (proj.type == ProjectileID.Explosives)
                 damage = (int)(damage * (Main.expertMode ? 0.225 : 0.35));
+
+            // Rolling Cacti
+            // 45 in normal, 65 in expert for cactus
+            // 30 in normal, 36 in expert for spikes
+            else if (proj.type == ProjectileID.RollingCactus || proj.type == ProjectileID.RollingCactusSpike)
+                damage = (int)(damage * (Main.expertMode ? 0.3 : 0.5));
+
+            // Boulders
             if (Main.expertMode)
             {
                 // 140 in normal, 182 in expert

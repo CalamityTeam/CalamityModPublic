@@ -4032,6 +4032,13 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            // Cap lance damage.
+            if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
+            {
+                if (damage > 1000)
+                    damage = 1000;
+            }
+
             // Apply balancing resists/vulnerabilities.
             BalancingChangesManager.ApplyFromProjectile(npc, ref damage, projectile);
 
