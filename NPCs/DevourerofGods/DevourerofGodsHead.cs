@@ -2180,6 +2180,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+
             float disintegrationFactor = DeathAnimationTimer / 800f;
             if (disintegrationFactor > 0f)
             {
@@ -2194,9 +2197,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool useOtherTextures = Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
+            bool useOtherTextures = (Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60) || NPC.IsABestiaryIconDummy;
             Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
+            if (NPC.IsABestiaryIconDummy)
+                NPC.frame = texture2D15.Frame();
 
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;

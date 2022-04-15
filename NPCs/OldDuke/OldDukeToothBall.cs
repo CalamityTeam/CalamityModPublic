@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using Terraria.Audio;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -254,6 +255,13 @@ namespace CalamityMod.NPCs.OldDuke
                 Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer);
             }
 
+            return true;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
             return true;
         }
 

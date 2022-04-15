@@ -16,6 +16,12 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Cnidrion");
             Main.npcFrameCount[NPC.type] = 10;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.8f,
+            };
+            value.Position.X += 48f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

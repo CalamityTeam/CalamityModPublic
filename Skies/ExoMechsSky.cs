@@ -135,6 +135,9 @@ namespace CalamityMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
+            if (!CanSkyBeActive)
+                return;
+
             if (maxDepth >= float.MaxValue)
             {
                 // Draw lightning in the background based on TextureAssets.MagicPixel.Value.

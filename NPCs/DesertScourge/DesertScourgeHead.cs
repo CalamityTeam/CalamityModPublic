@@ -20,6 +20,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -646,6 +647,13 @@ namespace CalamityMod.NPCs.DesertScourge
                     Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            if (NPC.IsABestiaryIconDummy)
+                NPC.Opacity = 1f;
+            return true;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
