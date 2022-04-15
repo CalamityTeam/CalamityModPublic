@@ -8,6 +8,37 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        #region Magnet Flower and Arcane Flower Changes
+        private static void DecreaseMagnetFlowerAndArcaneFlowerManaCost(ILContext il)
+        {
+            // Decrease the mana cost.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ItemID.ArcaneFlower)))
+            {
+                LogFailure("Decrease Arcane Flower Mana Cost", "Could not locate the Arcane Flower item ID.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.08f)))
+            {
+                LogFailure("Decrease Arcane Flower Mana Cost", "Could not locate the Arcane Flower decreased mana cost value.");
+                return;
+            }
+            cursor.Next.Operand = 0.2f;
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ItemID.MagnetFlower)))
+            {
+                LogFailure("Decrease Magnet Flower Mana Cost", "Could not locate the Magnet Flower item ID.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.08f)))
+            {
+                LogFailure("Decrease Magnet Flower Mana Cost", "Could not locate the Magnet Flower decreased mana cost value.");
+                return;
+            }
+            cursor.Next.Operand = 0.2f;
+        }
+        #endregion
+
         #region Soaring Insignia Changes
         private static void RemoveSoaringInsigniaInfiniteWingTime(ILContext il)
         {
@@ -68,8 +99,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence run acceleration multiplier.");
                 return;
             }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1.25f);
+            cursor.Next.Operand = 1.25f;
 
             // Nerf the max run speed boost from 1.2x to 1x.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
@@ -77,8 +107,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence max run speed multiplier.");
                 return;
             }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f);
+            cursor.Next.Operand = 1f;
 
             // Nerf the acc run speed boost from 1.2x to 1x.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.2f)))
@@ -86,8 +115,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence acc run speed multiplier.");
                 return;
             }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1f);
+            cursor.Next.Operand = 1f;
 
             // Nerf the run slowdown boost from 2x to 1.25x.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
@@ -95,8 +123,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Magiluminescence Nerf", "Could not locate the Magiluminescence run slowdown multiplier.");
                 return;
             }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1.25f);
+            cursor.Next.Operand = 1.25f;
         }
         #endregion
 

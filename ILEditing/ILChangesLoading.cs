@@ -78,6 +78,7 @@ namespace CalamityMod.ILEditing
             // Mana regen balance
             IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
             IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
+            IL.Terraria.Player.ApplyEquipFunctional += DecreaseMagnetFlowerAndArcaneFlowerManaCost;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
@@ -156,6 +157,7 @@ namespace CalamityMod.ILEditing
             // Mana regen balance
             IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
             IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
+            IL.Terraria.Player.ApplyEquipFunctional -= DecreaseMagnetFlowerAndArcaneFlowerManaCost;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;

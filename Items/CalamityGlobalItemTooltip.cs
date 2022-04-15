@@ -495,6 +495,10 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Arcane and Magnet Flower buffs.
+            if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
+                EditTooltipByNum(0, (line) => line.Text = "20% reduced mana usage");
+
             // Magiluminescence nerf and clear explanation of what it actually does.
             if (item.type == ItemID.Magiluminescence)
                 EditTooltipByNum(0, (line) => line.Text = "Increases movement acceleration and deceleration by 1.25x");
