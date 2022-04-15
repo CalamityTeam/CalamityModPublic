@@ -38,6 +38,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
@@ -4027,8 +4028,9 @@ namespace CalamityMod.NPCs
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
+                    double pointBlankShotDamageMultiplier = 1D + (projectile.Calamity().pointBlankShotDuration / CalamityGlobalProjectile.basePointBlankShotDuration * 0.5);
+                    damage = (int)(damage * pointBlankShotDamageMultiplier);
                     projectile.Calamity().pointBlankShotDuration = 0;
-                    damage = (int)(damage * 1.5);
                 }
             }
 
