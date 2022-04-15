@@ -66,14 +66,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
             // Movement speed balance
-            //IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
             IL.Terraria.Player.UpdateJumpHeight += FixJumpHeightBoosts;
-            //IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
-            IL.Terraria.Player.Update += NerfMagiluminescence;
             IL.Terraria.Player.Update += JumpSpeedAdjustment;
             IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
             IL.Terraria.Player.Update += ReduceWingHoverVelocities;
+            IL.Terraria.Player.Update += NerfMagiluminescence;
+            IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
+            IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
 
             // Mana regen balance
             IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
@@ -92,6 +92,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
+            // TODO -- Beat Lava Slimes once and for all
             //IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Main.UpdateTime += BloodMoonsRequire200MaxLife;
 

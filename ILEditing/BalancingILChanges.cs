@@ -1,7 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using System;
 using Terraria;
 using Terraria.ID;
 
@@ -14,40 +13,43 @@ namespace CalamityMod.ILEditing
         {
             // Prevent the infinite flight effect.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("empressBrooch")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Player>("empressBrooch")))
             {
-                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia bool.");
+                LogFailure("Soaring Insignia Infinite Flight Removal", "Could not locate the Soaring Insignia bool.");
                 return;
             }
-            cursor.Remove();
+
+            // AND with 0 (false) so that the Soaring Insignia is never considered equipped and thus infinite flight never triggers.
             cursor.Emit(OpCodes.Ldc_I4_0);
+            cursor.Emit(OpCodes.And);
         }
 
         private static void NerfSoaringInsigniaRunAcceleration(ILContext il)
         {
             // Nerf the run acceleration boost from 2x to 1.1x.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("empressBrooch")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Player>("empressBrooch")))
             {
-                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia bool.");
+                LogFailure("Soaring Insignia Mobility Nerf", "Could not locate the Soaring Insignia bool.");
                 return;
             }
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(2f)))
             {
-                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia run acceleration multiplier.");
+                LogFailure("Soaring Insignia Mobility Nerf", "Could not locate the Soaring Insignia run acceleration multiplier.");
                 return;
             }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 1.1f);
+            cursor.Next.Operand = 1.1f;
 
             // Prevent the rocket boots infinite flight effect.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("empressBrooch")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Player>("empressBrooch")))
             {
-                LogFailure("Soaring Insignia Nerf", "Could not locate the Soaring Insignia bool.");
+                LogFailure("Soaring Insignia Mobility Nerf", "Could not locate the Soaring Insignia bool.");
                 return;
             }
-            cursor.Remove();
+
+            // AND with 0 (false) so that the Soaring Insignia is never considered equipped and thus infinite rocket boots never triggers.
             cursor.Emit(OpCodes.Ldc_I4_0);
+            cursor.Emit(OpCodes.And);
         }
         #endregion
 
