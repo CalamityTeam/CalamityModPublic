@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles
 
         // Point-blank shot timer.
         public int pointBlankShotDuration = 0;
-        public const int basePointBlankShotDuration = 12;
+        public const int basePointBlankShotDuration = 18;
 
         // Temporary damage reduction effects.
         public int damageReductionTimer = 0;
