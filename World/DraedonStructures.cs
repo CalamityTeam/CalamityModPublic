@@ -323,6 +323,8 @@ namespace CalamityMod.World
             string mapKey = SunkenSeaLabKey;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             SchematicMetaTile[,] schematic = TileMaps[mapKey];
+            int labWidth = schematic.GetLength(0);
+            int labHeight = schematic.GetLength(1);
 
             do
             {
@@ -330,15 +332,16 @@ namespace CalamityMod.World
                 Rectangle ugDesert = WorldGen.UndergroundDesertLocation;
                 int placementPositionX = -1;
 
-                // 50% chance to be on either the left or the right
+                // 50% chance to be on either the left or the right.
+                // If it's on the right then shove it left because all schematics are placed based on their top left corner.
                 if (WorldGen.genRand.NextBool())
                     placementPositionX = WorldGen.genRand.Next(ugDesert.Left - 20, ugDesert.Left + 10);
                 else
-                    placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20);
+                    placementPositionX = WorldGen.genRand.Next(ugDesert.Right - 10, ugDesert.Right + 20) - labWidth;
 
                 // Somewhere in the middle third of the Sunken Sea, which itself is in the lower half of the Underground Desert
-                int sunkenSeaHeight = ugDesert.Height / 2;
-                int placementPositionY = (int)(ugDesert.Center.Y + Main.rand.NextFloat(0.33f, 0.67f) * sunkenSeaHeight);
+                int sunkenSeaHeight = ugDesert.Height / 4;
+                int placementPositionY = (int)(ugDesert.Center.Y + Main.rand.NextFloat(0.33f, 0.67f) * sunkenSeaHeight) - labHeight;
 
                 placementPoint = new Point(placementPositionX, placementPositionY);
                 Vector2 schematicSize = new Vector2(schematic.GetLength(0), schematic.GetLength(1));

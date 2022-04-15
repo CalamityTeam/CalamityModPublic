@@ -304,10 +304,10 @@ namespace CalamityMod.World
 
         // Adds tile variation to generated tile clusters and generates open areas with sea prism ore called "Tits"
         // Generates sea prism crystals on prism ore and occasionally on navystone
-        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, int biomeAreaX, int biomeAreaY, float overallBiomeScale)
+        private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 terrainApplicationScaleVector, float overallBiomeScale)
         {
-            int num = (int)(terrainApplicationScaleVector.X * clusters.Width);
-            int num2 = (int)(terrainApplicationScaleVector.Y * clusters.Height);
+            int totalClusterZoneWidth = (int)(terrainApplicationScaleVector.X * clusters.Width);
+            int totalClusterZoneHeight = (int)(terrainApplicationScaleVector.Y * clusters.Height);
             bool genCentalHole = true;
             Rectangle rectangle = default;
 
@@ -317,28 +317,28 @@ namespace CalamityMod.World
 
             // Where to place the giant hole? "Center of the Sunken Sea", defined as follows:
             // Dead center horizontally, and 1/3 of the way down the area
-            Point point = new Point(start.X + biomeAreaX / 2, start.Y + (int)(biomeAreaY * 0.33f));
+            Point point = new Point(start.X + totalClusterZoneWidth / 2, start.Y + (int)(totalClusterZoneHeight * 0.33f));
 
             ShapeData holeShape = new ShapeData();
             float outerRadiusPercentage = WorldGen.genRand.Next(40, 56) * 0.01f; //Small radius for ore patch to fit inside holes
 
             // Y coordinate of the "bottom" of the Sunken Sea, 70% of the way down.
-            int sunkenSeaBottom = start.Y + (int)(biomeAreaY * 0.7f);
+            int sunkenSeaBottom = start.Y + (int)(totalClusterZoneHeight * 0.7f);
             int smallHoles = 0;
 
             // Scale amount of holes with world size
             // 4 on Small, 6 on Normal (rounds down), 8 on Large
             int totalHoleCount = (int)(4f * overallBiomeScale);
 
-            for (int i = -20; i < num + 20; i++)
+            for (int i = -20; i < totalClusterZoneWidth + 20; i++)
             {
-                for (int j = -20; j < num2 + 20; j++)
+                for (int j = -20; j < totalClusterZoneHeight + 20; j++)
                 {
                     if (genCentalHole)
                     {
                         // Set the rectangle for the central hole
                         genCentalHole = false;
-                        rectangle = new Rectangle(start.X + biomeAreaX / 2 - radius, start.Y + (int)(biomeAreaY * 0.33f) - radius, diameter, diameter);
+                        rectangle = new Rectangle(start.X + totalClusterZoneWidth / 2 - radius, start.Y + (int)(totalClusterZoneHeight * 0.33f) - radius, diameter, diameter);
 
                         WorldUtils.Gen(point, new Shapes.Circle(radius), Actions.Chain(new GenAction[]
                         {
@@ -392,9 +392,7 @@ namespace CalamityMod.World
                     }
 
                     // Set the point for non-central holes
-                    // X = RAND(Left edge + 30, Right edge - 30)
-                    // Y = RAND(Top edge + 20, Bottom calculated earlier)
-                    int smallHoleX = WorldGen.genRand.Next(start.X + 30, start.X + biomeAreaX - 30);
+                    int smallHoleX = WorldGen.genRand.Next(start.X + 30, start.X + totalClusterZoneWidth - 30);
                     int smallHoleY = WorldGen.genRand.Next(start.Y + 20, sunkenSeaBottom);
                     point = new Point(smallHoleX, smallHoleY);
 
@@ -464,9 +462,9 @@ namespace CalamityMod.World
                     }
                 }
             }
-            for (int k = -20; k < num + 20; k++)
+            for (int k = -20; k < totalClusterZoneWidth + 20; k++)
             {
-                for (int l = -20; l < num2 + 20; l++)
+                for (int l = -20; l < totalClusterZoneHeight + 20; l++)
                 {
                     int num5 = k + start.X;
                     int num6 = l + start.Y;
@@ -615,7 +613,7 @@ namespace CalamityMod.World
             PlaceClusters(clusterGroup, origin, arbitrary42GodVector);
 
             // "Now place the rest of the Sunken Sea" except it's called Tile Variance
-            AddTileVariance(clusterGroup, origin, arbitrary42GodVector, sunkenSeaAreaX, sunkenSeaAreaY, scale);
+            AddTileVariance(clusterGroup, origin, arbitrary42GodVector, scale);
 
             // Re-frame everything in some arbitrary radius
             int totalWidth = (int)(arbitrary42GodVector.X * clusterGroup.Width);
