@@ -905,6 +905,14 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
+            // Gelatin Crystal (Queen Slime summon)
+            r = CreateRecipe(ItemID.QueenSlimeCrystal);
+            r.AddIngredient(ItemID.CrystalShard, 20);
+            r.AddIngredient(ItemID.PinkGel, 10);
+            r.AddIngredient(ItemID.SoulBottleLight, 5);
+            r.AddTile(TileID.Solidifier);
+            r.Register();
+
             // Temple Key
             r = CreateRecipe(ItemID.TempleKey);
             r.AddIngredient(ItemID.JungleSpores, 15);
