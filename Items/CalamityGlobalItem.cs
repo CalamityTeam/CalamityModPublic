@@ -139,7 +139,15 @@ namespace CalamityMod.Items
             if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
                 item.rare = ItemRarityID.LightRed;
 
-            //Let every accessory be equipped in vanity slots
+            // Volatile Gelatin is pre-mech post-WoF so it should use the pink rarity.
+            if (item.type == ItemID.VolatileGelatin)
+                item.rare = ItemRarityID.Pink;
+
+            // Soaring Insignia is post-Golem so it should use the yellow rarity.
+            if (item.type == ItemID.EmpressFlightBooster)
+                item.rare = ItemRarityID.Yellow;
+
+            // Let every accessory be equipped in vanity slots
             if (item.accessory)
                 item.canBePlacedInVanityRegardlessOfConditions = true;
 
@@ -152,11 +160,14 @@ namespace CalamityMod.Items
                 case ItemID.BrainOfConfusion:
                 case ItemID.HiveBackpack:
                 case ItemID.BoneGlove:
+                case ItemID.DemonHeart:
+                case ItemID.VolatileGelatin:
                 case ItemID.MechanicalBatteryPiece:
                 case ItemID.MechanicalWagonPiece:
                 case ItemID.MechanicalWheelPiece:
                 case ItemID.MinecartMech:
                 case ItemID.SporeSac:
+                case ItemID.EmpressFlightBooster:
                 case ItemID.ShinyStone:
                 case ItemID.ShrimpyTruffle:
                 case ItemID.GravityGlobe:
