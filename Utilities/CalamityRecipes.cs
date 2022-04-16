@@ -909,7 +909,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.QueenSlimeCrystal);
             r.AddIngredient(ItemID.CrystalShard, 20);
             r.AddIngredient(ItemID.PinkGel, 10);
-            r.AddIngredient(ItemID.SoulBottleLight, 5);
+            r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddTile(TileID.Solidifier);
             r.Register();
 
