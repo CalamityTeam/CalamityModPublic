@@ -21,6 +21,15 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Earth Elemental");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.6f,
+                PortraitPositionYOverride = -20f
+            };
+            value.Position.X += 28f;
+            value.Position.Y -= 56f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
