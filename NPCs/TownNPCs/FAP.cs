@@ -407,6 +407,13 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OddMushroom>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
+
+            if (NPC.downedEmpressOfLight)
+            {
+                shop.item[nextSlot].SetDefaults(ItemID.EmpressButterfly);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
+                nextSlot++;
+            }
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.
