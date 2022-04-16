@@ -342,6 +342,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ClothierVoodooDoll)
                 EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
 
+            if (item.type == ItemID.DeerThing)
+                EditTooltipByNum(0, (line) => line.Text += " when used in the snow or ice biome");
+
             if (item.type == ItemID.GuideVoodooDoll)
                 EditTooltipByNum(0, (line) => line.Text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
 
@@ -350,6 +353,9 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
                 EditTooltipByNum(0, (line) => line.Text += " when used during nighttime");
+
+            if (item.type == ItemID.QueenSlimeCrystal)
+                EditTooltipByNum(0, (line) => line.Text += " when used in the hallow");
 
             if (item.type == ItemID.TruffleWorm)
                 EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the ocean");
