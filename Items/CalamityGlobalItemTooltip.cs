@@ -241,6 +241,10 @@ namespace CalamityMod.Items
             // Numerous random tooltip edits which don't fit into another category
             #region Various Tooltip Edits
 
+            // Destroy this disgusting meme tooltip.
+            if (item.type == ItemID.GelBalloon)
+                EditTooltipByNum(0, (line) => line.Text = "");
+
             // Teleporters not working while a boss is alive.
             if (item.type == ItemID.Teleporter)
                 EditTooltipByName("Placeable", (line) => line.Text += "\nCannot be used while a boss is alive");
