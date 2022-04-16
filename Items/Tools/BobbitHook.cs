@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 using CalamityMod.Projectiles.Typeless;
 
 using static Terraria.ModLoader.ModContent;
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bobbit Hook");
             Tooltip.SetDefault($@"Retracts upon attaching to a tile with extreme speeds
 Reach: {BobbitHead.GrappleRangInTiles}
