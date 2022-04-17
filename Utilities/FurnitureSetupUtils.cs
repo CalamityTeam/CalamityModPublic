@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace CalamityMod
 {
@@ -30,24 +31,37 @@ namespace CalamityMod
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
-            int spawnX = i - tile.TileFrameX / 18;
+            int spawnX = i - tile.TileFrameX / 18 + (tile.TileFrameX >= 72 ? 5 : 2);
             int spawnY = j + 2;
-            spawnX += tile.TileFrameX >= 72 ? 5 : 2;
             if (tile.TileFrameY % 38 != 0)
             {
                 spawnY--;
             }
-            player.FindSpawn();
-            if (player.SpawnX == spawnX && player.SpawnY == spawnY)
+
+            if (!Player.IsHoveringOverABottomSideOfABed(i, j))
             {
-                player.RemoveSpawn();
-                Main.NewText("Spawn point removed!", 255, 240, 20);
+                if (player.IsWithinSnappngRangeToTile(i, j, PlayerSleepingHelper.BedSleepingMaxDistance))
+                {
+                    player.GamepadEnableGrappleCooldown();
+                    player.sleeping.StartSleeping(player, i, j);
+                }
             }
-            else if (Player.CheckSpawn(spawnX, spawnY))
+            else
             {
-                player.ChangeSpawn(spawnX, spawnY);
-                Main.NewText("Spawn point set!", 255, 240, 20);
+                player.FindSpawn();
+
+                if (player.SpawnX == spawnX && player.SpawnY == spawnY)
+                {
+                    player.RemoveSpawn();
+                    Main.NewText(Language.GetTextValue("Game.SpawnPointRemoved"), byte.MaxValue, 240, 20);
+                }
+                else if (Player.CheckSpawn(spawnX, spawnY))
+                {
+                    player.ChangeSpawn(spawnX, spawnY);
+                    Main.NewText(Language.GetTextValue("Game.SpawnPointSet"), byte.MaxValue, 240, 20);
+                }
             }
+
             return true;
         }
 
@@ -581,6 +595,10 @@ namespace CalamityMod
             Main.tileLavaDeath[mt.Type] = !lavaImmune;
             Main.tileWaterDeath[mt.Type] = false;
             TileID.Sets.HasOutlines[mt.Type] = true;
+            TileID.Sets.CanBeSleptIn[mt.Type] = true;
+            TileID.Sets.InteractibleByNPCs[mt.Type] = true;
+            TileID.Sets.IsValidSpawnPoint[mt.Type] = true;
+            TileID.Sets.DisableSmartCursor[mt.Type] = true;
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
