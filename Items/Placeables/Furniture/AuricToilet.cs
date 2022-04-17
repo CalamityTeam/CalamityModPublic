@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.FurnitureBotanic;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Placeables.FurnitureSilva;
@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Placeables.Furniture
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Auric Toilet");
-            Tooltip.SetDefault("This was used by the gods");
+            Tooltip.SetDefault("This was used by the gods \n" +
+                "Sitting on such a throne would be a disgrace to all");
         }
 
         public override void SetDefaults()
