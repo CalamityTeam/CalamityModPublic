@@ -112,6 +112,7 @@ namespace CalamityMod.CalPlayer
         public double trueMeleeDamage = 0D;
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
+        public const float projectileMeleeWeaponMeleeSpeedMultiplier = 0.25f;
         public bool brimlashBusterBoost = false;
         public int evilSmasherBoost = 0;
         public int hellbornBoost = 0;
@@ -3599,6 +3600,13 @@ namespace CalamityMod.CalPlayer
                 Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
             {
                 float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * 0.25f);
+                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
+            }
+
+            // Reduce melee speed bonus by 0.25x for non-true melee weapons.
+            if (Player.ActiveItem().DamageType == DamageClass.Melee && Player.ActiveItem().shoot != ProjectileID.None && !Player.ActiveItem().Calamity().trueMelee)
+            {
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
                 Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
             }
             #endregion
