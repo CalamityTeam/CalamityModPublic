@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureExo
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Bed");
             AddMapEntry(new Color(71, 95, 114), name);
-            TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Beds };
         }
 

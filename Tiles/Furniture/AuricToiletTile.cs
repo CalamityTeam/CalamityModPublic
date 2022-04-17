@@ -37,8 +37,8 @@ namespace CalamityMod.Tiles.Furniture
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Auric Toilet");
-            AddMapEntry(new Color(191, 142, 111), name);
             TileID.Sets.DisableSmartCursor[Type] = true;
+            AddMapEntry(new Color(191, 142, 111), name);
             AdjTiles = new int[] { TileID.Chairs };
         }
 
