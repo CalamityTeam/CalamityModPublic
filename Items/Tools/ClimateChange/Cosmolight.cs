@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Tools.ClimateChange
 {
@@ -10,6 +11,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
     {
         public override void SetStaticDefaults()
         {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Cosmolight");
             Tooltip.SetDefault("Changes night to day and vice versa\n" +
                 "Does not work while a boss is alive");
