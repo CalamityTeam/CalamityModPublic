@@ -4768,15 +4768,6 @@ namespace CalamityMod.CalPlayer
 
             #region MultiplierBoosts
             double damageMult = 1.0;
-            if (isSummon)
-            {
-                if (heldItem.type > ItemID.None)
-                {
-                    if (heldItem.CountsAsClass<SummonDamageClass>() && !heldItem.Calamity().rogue)
-                        damageMult += 0.1;
-                }
-            }
-
             if (isTrueMelee)
             {
                 // Add more true melee damage to the true melee projectile that scales with melee speed

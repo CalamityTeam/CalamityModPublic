@@ -19,7 +19,9 @@ namespace CalamityMod.Items.Accessories
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
                 "20% increased true melee damage\n" +
                 "Temporary immunity to lava\n" +
-                "Increased melee knockback");
+                "Increased melee knockback\n" +
+                "Enables auto swing for melee weapons\n" +
+                "Increases the size of melee weapons");
         }
 
         public override void SetDefaults()
@@ -35,6 +37,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eGauntlet = true;
+            player.autoReuseGlove = true;
+            player.meleeScaleGlove = true;
         }
 
         public override void AddRecipes()

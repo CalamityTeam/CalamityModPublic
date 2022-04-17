@@ -628,12 +628,12 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.TitanGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
-            if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove)
+            if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove || item.type == ItemID.BerserkerGlove)
                 EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
             if (item.type == ItemID.FireGauntlet)
             {
                 string extraLine = "\n10% increased true melee damage";
-                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("10%", "14%") + extraLine);
+                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
             }
 
             // On Fire! debuff immunities
@@ -642,10 +642,6 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
-
-            // Spectre Hood's lifesteal is heavily nerfed, so it only reduces magic damage by 20% instead of 40%
-            if (item.type == ItemID.SpectreHood)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("40%", "20%"));
 
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)

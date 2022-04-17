@@ -1014,7 +1014,13 @@ namespace CalamityMod.Items
                 player.GetCritChance(DamageClass.Magic) += 15;
                 player.setBonus += "\n10% increased minion damage and 15% increased magic critical strike chance";
             }
-            else if (set == "SolarFlare")
+            else if (set == "SpectreHealing")
+            {
+                player.GetDamage(DamageClass.Magic) += 0.2f;
+                player.setBonus = "Reduces Magic damage by 20% and converts it to healing force\n" +
+                    "Magic damage done to enemies heals the player with lowest health";
+            }
+            else if (set == "Solar")
             {
                 modPlayer.dashMod = 0;
             }
@@ -1033,10 +1039,6 @@ namespace CalamityMod.Items
 
                 case ItemID.WizardHat:
                     player.GetDamage(DamageClass.Magic) -= 0.1f;
-                    break;
-
-                case ItemID.SpectreHood:
-                    player.GetDamage(DamageClass.Magic) += 0.2f;
                     break;
 
                 case ItemID.SquireGreatHelm:
@@ -1121,8 +1123,8 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.FireGauntlet)
             {
-                player.GetDamage(DamageClass.Melee) += 0.04f;
-                player.GetAttackSpeed(DamageClass.Melee) += 0.04f;
+                player.GetDamage(DamageClass.Melee) += 0.02f;
+                player.GetAttackSpeed(DamageClass.Melee) += 0.02f;
             }
 
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
