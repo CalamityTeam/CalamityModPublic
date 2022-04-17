@@ -1,10 +1,14 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class PinkTiledWallUnsafe : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 400;
+        }
         public override void SetDefaults()
         {
             Item.width = 12;
