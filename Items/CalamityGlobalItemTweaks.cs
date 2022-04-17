@@ -17,7 +17,7 @@ namespace CalamityMod.Items
             IItemTweak[] pointBlank = Do(PointBlank);
             IItemTweak[] autoReuse = Do(AutoReuse);
             IItemTweak[] maxStack999 = Do(MaxStack(999));
-            IItemTweak[] nonConsumableBossSummon = Do(MaxStack(1), NotConsumable);
+            IItemTweak[] nonConsumableBossSummon = Do(MaxStack(1), NotConsumable, UseTimeExact(10));
 
             // Please keep this strictly alphabetical. It's the only way to keep it sane. Thanks in advance.
             // - Ozzatron

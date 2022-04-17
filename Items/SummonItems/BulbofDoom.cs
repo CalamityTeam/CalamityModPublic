@@ -22,8 +22,8 @@ namespace CalamityMod.Items.SummonItems
         {
             Item.width = 28;
             Item.height = 18;
-            Item.useAnimation = 45;
-            Item.useTime = 45;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.rare = ItemRarityID.Lime;
             Item.consumable = false;

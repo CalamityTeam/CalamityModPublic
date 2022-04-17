@@ -21,8 +21,8 @@ namespace CalamityMod.Items.SummonItems.Invasion
             Item.height = 60;
             Item.maxStack = 1;
             Item.rare = ItemRarityID.Yellow;
-            Item.useAnimation = 45;
-            Item.useTime = 45;
+            Item.useAnimation = 10;
+            Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
             Item.consumable = false;
         }
