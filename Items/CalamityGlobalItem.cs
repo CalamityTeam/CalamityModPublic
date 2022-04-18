@@ -1035,12 +1035,8 @@ namespace CalamityMod.Items
             switch (item.type)
             {
                 case ItemID.MagicHat:
-                    player.GetDamage(DamageClass.Magic) -= 0.02f;
-                    player.GetCritChance(DamageClass.Magic) -= 2;
-                    break;
-
-                case ItemID.WizardHat:
-                    player.GetDamage(DamageClass.Magic) -= 0.1f;
+                    player.GetDamage(DamageClass.Magic) -= 0.01f;
+                    player.GetCritChance(DamageClass.Magic) -= 1;
                     break;
 
                 case ItemID.SquireGreatHelm:
@@ -1386,7 +1382,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
                 modPlayer.jellyfishNecklace = true;
 
-            if (item.type == ItemID.FleshKnuckles)
+            if (item.type == ItemID.FleshKnuckles || item.type == ItemID.BerserkerGlove || item.type == ItemID.HeroShield)
                 modPlayer.fleshKnuckles = true;
 
             if (item.type == ItemID.WormScarf)

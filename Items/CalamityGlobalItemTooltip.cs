@@ -250,7 +250,7 @@ namespace CalamityMod.Items
                 EditTooltipByName("Placeable", (line) => line.Text += "\nCannot be used while a boss is alive");
 
             // Flesh Knuckles giving extra max life.
-            if (item.type == ItemID.FleshKnuckles)
+            if (item.type == ItemID.FleshKnuckles || item.type == ItemID.HeroShield || item.type == ItemID.BerserkerGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nMax life increased by 45");
 
             // Mirrors and Recall Potions cannot be used while a boss is alive.
@@ -319,11 +319,6 @@ namespace CalamityMod.Items
             // Eternity Crystal notifies the player that they can accelerate the invasion
             if (item.type == ItemID.DD2ElderCrystal)
                 EditTooltipByNum(0, (line) => line.Text += "\nOnce placed you can right click the crystal to skip waves or increase the spawn rate of the invaders");
-
-            // Fix a vanilla mistake in Magic Quiver's tooltip
-            // TODO -- in 1.4 this mistake is already corrected
-            if (item.type == ItemID.MagicQuiver)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace(" damage", " arrow damage"));
 
             // Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
             if (item.type == ItemID.DD2BetsyBow)
@@ -413,7 +408,7 @@ namespace CalamityMod.Items
                 EditTooltipByName("Knockback", (line) => line.Text += "\nHeals you on hit");
 
             // Stylish Scissors, all Phaseblades, and all Phasesabers
-            if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber))
+            if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber) || item.type == ItemID.OrangePhaseblade || item.type == ItemID.OrangePhasesaber)
                 EditTooltipByName("Knockback", (line) => line.Text += "\nIgnores 100% of enemy defense");
 
             if (item.type == ItemID.AntlionClaw || item.type == ItemID.BoneSword || item.type == ItemID.BreakerBlade)
@@ -529,10 +524,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 
-            // Wizard Hat
-            if (item.type == ItemID.WizardHat)
-                EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage");
-
+            // NOTE -- This is where Fab stopped for the day to play Elden Ring :^)
             // Edit individual tooltips for early hardmode armor sets.
             // Cobalt Hat.
             if (item.type == ItemID.CobaltHat)

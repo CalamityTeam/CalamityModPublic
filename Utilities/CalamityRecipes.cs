@@ -113,6 +113,7 @@ namespace CalamityMod
             EditLeatherRecipe();
             EditPhoenixBlasterRecipe();
             EditFlamarangRecipe();
+            EditTrueNightsEdgeRecipe();
             EditTerraBladeRecipe();
             EditZenithRecipe();
             EditMagiluminescenceRecipe();
@@ -192,6 +193,18 @@ namespace CalamityMod
 
                 s.createItem.SetDefaults(ItemID.Flamarang, false);
                 s.createItem.stack = 1;
+            });
+        }
+
+        // Change True Night's Edge recipe to require 5 of each mech boss soul instead of 20
+        private static void EditTrueNightsEdgeRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.TrueNightsEdge).ToList().ForEach(s =>
+            {
+                s.requiredItem[1].stack = 3;
+                s.requiredItem[2].stack = 3;
+                s.requiredItem[3].stack = 3;
             });
         }
 

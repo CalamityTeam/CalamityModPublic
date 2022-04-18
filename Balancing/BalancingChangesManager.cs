@@ -41,6 +41,12 @@ namespace CalamityMod.Balancing
             bool MushroomSpearFilter(Projectile p) =>
                 p.type == ProjectileID.Mushroom && Main.player[p.owner].ActiveItem().type == ItemID.MushroomSpear;
 
+            bool TrueNightsEdgeFilter(Projectile p) =>
+                p.type == ProjectileID.NightBeam && Main.player[p.owner].ActiveItem().type == ItemID.TrueNightsEdge;
+
+            bool TerraBladeFilter(Projectile p) =>
+                p.type == ProjectileID.TerraBeam && Main.player[p.owner].ActiveItem().type == ItemID.TerraBlade;
+
             bool SpectreMaskSetBonusFilter(Projectile p) =>
                 p.type == ProjectileID.SpectreWrath && Main.player[p.owner].ghostHurt;
 
@@ -53,10 +59,16 @@ namespace CalamityMod.Balancing
                 Do(new ProjectileSpecificRequirementBalancingRule(0.25f, MonkStaffT3Filter)),
 
                 // Nerf Seedler seeds by 66.6%.
-                Do(new ProjectileResistBalancingRule(0.333f, ProjectileID.SeedlerNut, ProjectileID.SeedlerThorn)),
+                Do(new ProjectileResistBalancingRule(1f / 3f, ProjectileID.SeedlerNut, ProjectileID.SeedlerThorn)),
 
                 // Nerf Cursed Dart flames by 50%.
                 Do(new ProjectileResistBalancingRule(0.5f, ProjectileID.CursedDartFlame)),
+
+                // Nerf True Night's Edge projectiles by 33% to cancel out the 1.5x multiplier it gets.
+                Do(new ProjectileSpecificRequirementBalancingRule(1f / 3f * 2f, TrueNightsEdgeFilter)),
+
+                // Nerf Terra Blade projectiles by 33% to cancel out the 1.5x multiplier it gets.
+                Do(new ProjectileSpecificRequirementBalancingRule(1f / 3f * 2f, TerraBladeFilter)),
 
                 // Nerf Mushroom Spear projectiles by 50%.
                 Do(new ProjectileSpecificRequirementBalancingRule(0.5f, MushroomSpearFilter)),
