@@ -4705,7 +4705,7 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.25);
                 damage += defenseAdd;
             }
-            if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber))
+            if (item.type == ItemID.StylistKilLaKillScissorsIWish || (item.type >= ItemID.BluePhaseblade && item.type <= ItemID.YellowPhaseblade) || (item.type >= ItemID.BluePhasesaber && item.type <= ItemID.YellowPhasesaber) || item.type == ItemID.OrangePhaseblade || item.type == ItemID.OrangePhasesaber)
             {
                 int defenseAdd = (int)(target.defense * 0.5);
                 damage += defenseAdd;
