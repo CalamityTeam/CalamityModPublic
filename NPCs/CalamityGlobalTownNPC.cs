@@ -174,6 +174,46 @@ namespace CalamityMod.NPCs
             "Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
             "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
         };
+
+        // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
+        // All three pet types come in numerous breeds. Each breed has its own name pool.
+        // Donator pet names should be appended to all breeds' name pools equally.
+        // TODO -- actually allow for naming pets
+        private const int TownDogLabradorVanillaNames = 17;
+        private const int TownDogPitbullVanillaNames = 14;
+        private const int TownDogBeagleVanillaNames = 12;
+        private const int TownDogCorgiVanillaNames = 14;
+        private const int TownDogDalmatianVanillaNames = 13;
+        private const int TownDogHuskyVanillaNames = 16;
+        private static readonly string[] TownDogNames =
+        {
+            "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
+            // "Kendra", // <@!237247188005158912> (LordMetarex#6407) ONLY IF the dog is a Beagle
+        };
+
+        private const int TownCatSiameseVanillaNames = 12;
+        private const int TownCatBlackVanillaNames = 23;
+        private const int TownCatOrangeTabbyVanillaNames = 18;
+        private const int TownCatRussianBlueVanillaNames = 16;
+        private const int TownCatSilverVanillaNames = 17;
+        private const int TownCatWhiteVanillaNames = 15;
+        private static readonly string[] TownCatNames =
+        {
+            // "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585) ONLY IF the cat is a Black Cat
+            // "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585) ONLY IF the cat is an Orange Tabby
+            "Smoogle", // <@!709968379334623274> (smoogle#5672)
+        };
+
+        private const int TownBunnyWhiteVanillaNames = 14;
+        private const int TownBunnyAngoraVanillaNames = 10;
+        private const int TownBunnyDutchVanillaNames = 11;
+        private const int TownBunnyFlemishVanillaNames = 12;
+        private const int TownBunnyLopVanillaNames = 13;
+        private const int TownBunnySilverVanillaNames = 13;
+        private static readonly string[] TownBunnyNames =
+        {
+            // None yet
+        };
         #endregion
 
         #region Town NPC Names
