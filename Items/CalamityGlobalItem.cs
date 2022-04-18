@@ -955,6 +955,8 @@ namespace CalamityMod.Items
                 return "HuntressTier3";
             if (head.type == ItemID.ApprenticeAltHead && body.type == ItemID.ApprenticeAltShirt && legs.type == ItemID.ApprenticeAltPants)
                 return "ApprenticeTier3";
+            if (head.type == ItemID.SpectreHood && body.type == ItemID.SpectreRobe && legs.type == ItemID.SpectrePants)
+                return "SpectreHealing";
             if (head.type == ItemID.SolarFlareHelmet && body.type == ItemID.SolarFlareBreastplate && legs.type == ItemID.SolarFlareLeggings)
                 return "SolarFlare";
             return "";
@@ -1020,7 +1022,7 @@ namespace CalamityMod.Items
                 player.setBonus = "Reduces Magic damage by 20% and converts it to healing force\n" +
                     "Magic damage done to enemies heals the player with lowest health";
             }
-            else if (set == "Solar")
+            else if (set == "SolarFlare")
             {
                 modPlayer.dashMod = 0;
             }
