@@ -967,6 +967,12 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
+            // Wooden Boomerang
+            r = CreateRecipe(ItemID.WoodenBoomerang);
+            r.AddIngredient(ItemID.Wood, 7);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
             // Wand of Sparking
             r = CreateRecipe(ItemID.WandofSparking);
             r.AddIngredient(ItemID.Wood, 5);
