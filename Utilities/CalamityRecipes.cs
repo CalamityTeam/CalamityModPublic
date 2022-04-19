@@ -115,6 +115,7 @@ namespace CalamityMod
             EditPhoenixBlasterRecipe();
             EditFlamarangRecipe();
             EditTrueNightsEdgeRecipe();
+            EditTrueExcaliburRecipe();
             EditTerraBladeRecipe();
             EditZenithRecipe();
             EditMagiluminescenceRecipe();
@@ -165,9 +166,9 @@ namespace CalamityMod
             {
                 s.requiredItem = new List<Item>();
                 for (int i = 0; i < 3; i++)
-                    {
-                        s.requiredItem.Add(new Item());
-                    }
+                {
+                    s.requiredItem.Add(new Item());
+                }
                 s.requiredItem[0].SetDefaults(ModContent.ItemType<VictoryShard>(), false);
                 s.requiredItem[0].stack = 6;
                 s.requiredItem[1].SetDefaults(ItemID.GoldBar, false);
@@ -237,6 +238,16 @@ namespace CalamityMod
                 s.requiredItem[1].stack = 3;
                 s.requiredItem[2].stack = 3;
                 s.requiredItem[3].stack = 3;
+            });
+        }
+
+        // Change True Excalibur's recipe to require 12 Chlorophyte Bars instead of 24
+        private static void EditTrueExcaliburRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.TrueExcalibur).ToList().ForEach(s =>
+            {
+                s.requiredItem[1].stack = 12;
             });
         }
 
@@ -532,7 +543,8 @@ namespace CalamityMod
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.BluePhasesaber || x.createItem.type == ItemID.GreenPhasesaber || x.createItem.type == ItemID.PurplePhasesaber ||
-            x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber).ToList().ForEach(s =>
+            x.createItem.type == ItemID.RedPhasesaber || x.createItem.type == ItemID.WhitePhasesaber || x.createItem.type == ItemID.YellowPhasesaber ||
+            x.createItem.type == ItemID.OrangePhasesaber).ToList().ForEach(s =>
             {
                 s.requiredItem[1].stack = 20;
             });
@@ -1552,16 +1564,16 @@ namespace CalamityMod
             {
                 ItemID.HallowedHelmet,
                 ItemID.HallowedHeadgear,
-                ItemID.HallowedMask/*,
+                ItemID.HallowedMask,
                 ItemID.HallowedHood,
                 ItemID.AncientHallowedHelmet,
                 ItemID.AncientHallowedHeadgear,
                 ItemID.AncientHallowedMask,
-                ItemID.AncientHallowedHood*/
+                ItemID.AncientHallowedHood
             });
             RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
 
-            /*group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
+            group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
             {
                 ItemID.HallowedPlateMail,
                 ItemID.AncientHallowedPlateMail
@@ -1573,7 +1585,7 @@ namespace CalamityMod
                 ItemID.HallowedGreaves,
                 ItemID.AncientHallowedGreaves
             });
-            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);*/
+            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
 
             group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
             {
@@ -1693,7 +1705,6 @@ namespace CalamityMod
                 ItemID.ArkhalisWings,
                 ItemID.LeinforsWings,
                 ItemID.BejeweledValkyrieWing,
-                /*
                 ItemID.GhostarsWings,
                 ItemID.GroxTheGreatWings,
                 ItemID.FoodBarbarianWings,
@@ -1701,7 +1712,6 @@ namespace CalamityMod
                 ItemID.CreativeWings,
                 ItemID.RainbowWings,
                 ItemID.LongRainbowTrailWings,
-                */
                 ModContent.ItemType<SkylineWings>(),
                 ModContent.ItemType<StarlightWings>(),
                 ModContent.ItemType<AureateWings>(),

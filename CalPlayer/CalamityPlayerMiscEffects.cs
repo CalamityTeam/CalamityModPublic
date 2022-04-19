@@ -203,7 +203,7 @@ namespace CalamityMod.CalPlayer
 
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    // Titanium Armor nerf
+                    // Hallowed Armor nerf
                     if (Player.onHitDodge)
                     {
                         for (int l = 0; l < Player.MaxBuffs; l++)

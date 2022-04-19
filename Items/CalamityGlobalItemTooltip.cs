@@ -546,7 +546,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MythrilChainmail)
                 EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
 
-            // Mythril Hood.
+            // Mythril Greaves.
             if (item.type == ItemID.MythrilGreaves)
                 EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 

@@ -307,6 +307,8 @@ namespace CalamityMod.Items
                 { ItemID.ObsidianSwordfish, Do(AutoReuse, TrueMelee, DamageExact(45)) },
                 { ItemID.OnyxBlaster, pointBlank },
                 { ItemID.OpticStaff, Do(AutoReuse, UseExact(25), DamageRatio(0.75f)) }, // NOTE: Optic Staff minions have local iframes, so they should be much better overall
+                { ItemID.OrangePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.OrangePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.OrichalcumBreastplate, Do(DefenseDelta(+3)) },
                 { ItemID.OrichalcumChainsaw, Do(TrueMelee, AxePower(80), UseTimeExact(4), TileBoostExact(-1)) },
                 { ItemID.OrichalcumDrill, Do(TrueMelee, PickPower(160), UseTimeExact(4)) },

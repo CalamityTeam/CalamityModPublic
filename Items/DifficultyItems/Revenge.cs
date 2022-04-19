@@ -31,7 +31,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Makes certain enemies block life steal and nerfs the effectiveness of life steal.\n" +
 
                 // Misc lines
-                "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
+                "Nerfs the effectiveness of the Hallowed Armor set bonus.\n" +
 
                 // Boss lines
                 "All boss minions no longer drop hearts.\n" +
