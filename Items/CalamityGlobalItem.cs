@@ -131,11 +131,11 @@ namespace CalamityMod.Items
             if (item.type == ItemID.StarCannon)
                 item.UseSound = null;
 
-            // Fix Bones being attracted to the player when you have open ammo slots
+            // Fix Bones being attracted to the player when you have open ammo slots.
             if (item.type == ItemID.Bone)
                 item.notAmmo = true;
 
-            // Modified Pearlwood items are now Light Red
+            // Modified Pearlwood items are now Light Red.
             if (item.type == ItemID.PearlwoodBow || item.type == ItemID.PearlwoodHammer || item.type == ItemID.PearlwoodSword)
                 item.rare = ItemRarityID.LightRed;
 
@@ -147,7 +147,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EmpressFlightBooster)
                 item.rare = ItemRarityID.Yellow;
 
-            // Let every accessory be equipped in vanity slots
+            // Let every accessory be equipped in vanity slots.
             if (item.accessory)
                 item.canBePlacedInVanityRegardlessOfConditions = true;
 
@@ -179,7 +179,7 @@ namespace CalamityMod.Items
             SetDefaults_ApplyTweaks(item);
 
             // TODO -- these properties should be some sort of dictionary.
-            // Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system
+            // Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system.
             if (CalamityLists.noGravityList.Contains(item.type))
                 ItemID.Sets.ItemNoGravity[item.type] = true;
 
@@ -941,6 +941,8 @@ namespace CalamityMod.Items
             if (!string.IsNullOrEmpty(managedArmorSetName))
                 return managedArmorSetName;
 
+            if (head.type == ItemID.CrystalNinjaHelmet && body.type == ItemID.CrystalNinjaChestplate && legs.type == ItemID.CrystalNinjaLeggings)
+                return "CrystalAssassin";
             if (head.type == ItemID.SquireGreatHelm && body.type == ItemID.SquirePlating && legs.type == ItemID.SquireGreaves)
                 return "SquireTier2";
             if (head.type == ItemID.HuntressWig && body.type == ItemID.HuntressJerkin && legs.type == ItemID.HuntressPants)
@@ -967,7 +969,13 @@ namespace CalamityMod.Items
             CalamityPlayer modPlayer = player.Calamity();
             VanillaArmorChangeManager.CreateTooltipManuallyAsNecessary(player);
 
-            if (set == "SquireTier2")
+            if (set == "CrystalAssassin")
+            {
+                player.GetDamage(DamageClass.Generic) -= 0.1f;
+                player.GetCritChance(DamageClass.Generic) -= 10;
+                player.setBonus = "Allows the ability to dash";
+            }
+            else if (set == "SquireTier2")
             {
                 player.lifeRegen += 3;
                 player.GetDamage(DamageClass.Summon) += 0.15f;
@@ -1374,7 +1382,9 @@ namespace CalamityMod.Items
                 item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings || item.type == ItemID.LokisWings ||
                 item.type == ItemID.ArkhalisWings || item.type == ItemID.LeinforsWings || item.type == ItemID.BejeweledValkyrieWing ||
                 item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings || item.type == ItemID.WillsWings ||
-                item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings)
+                item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings || item.type == ItemID.CreativeWings ||
+                item.type == ItemID.FoodBarbarianWings || item.type == ItemID.GroxTheGreatWings || item.type == ItemID.GhostarsWings ||
+                item.type == ItemID.SafemanWings || item.type == ItemID.RainbowWings || item.type == ItemID.LongRainbowTrailWings)
             {
                 player.noFallDmg = true;
             }

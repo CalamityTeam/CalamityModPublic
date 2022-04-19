@@ -629,10 +629,7 @@ namespace CalamityMod.Items
             }
 
             // On Fire! debuff immunities
-            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
-
-            if (item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
             if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
@@ -674,14 +671,6 @@ namespace CalamityMod.Items
                 EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.ChestplateRogueCritBoostPercent}% increased rogue critical strike chance");
             if (item.type == ItemID.GladiatorLeggings)
                 EditTooltipByName("Defense", (line) => line.Text += $"\n{GladiatorArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
-
-            // Obsidian
-            if (item.type == ItemID.ObsidianHelm)
-                EditTooltipByName("Defense", (line) => line.Text += $"\n{ObsidianArmorSetChange.HelmetRogueDamageBoostPercent}% increased rogue damage");
-            if (item.type == ItemID.ObsidianShirt)
-                EditTooltipByName("Defense", (line) => line.Text += $"\n{ObsidianArmorSetChange.ChestplateRogueCritBoostPercent}% increased rogue critical strike chance");
-            if (item.type == ItemID.ObsidianPants)
-                EditTooltipByName("Defense", (line) => line.Text += $"\n{ObsidianArmorSetChange.LeggingRogueVelocityBoostPercent}% increased rogue velocity");
 
             // Forbidden (UNLESS you are wearing the Circlet, which is Summon/Rogue and does not get this line)
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
