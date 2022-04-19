@@ -11,6 +11,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -140,6 +141,16 @@ namespace CalamityMod.NPCs.Astral
             }
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("In its uncontrolled growth, one appendage wrested nutrients and materials from the other and brought it to the extremes of muscular strength. One blow is enough to pulverize a monolith.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
