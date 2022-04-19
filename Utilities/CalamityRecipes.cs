@@ -111,6 +111,7 @@ namespace CalamityMod
                 Register();
 
             EditLeatherRecipe();
+            EditEchantedBoomerangRecipe();
             EditPhoenixBlasterRecipe();
             EditFlamarangRecipe();
             EditTrueNightsEdgeRecipe();
@@ -153,6 +154,37 @@ namespace CalamityMod
             rec.Where(x => x.createItem.type == ItemID.Leather).ToList().ForEach(s =>
             {
                 s.requiredItem[0].stack = 2;
+            });
+        }
+
+        // Changes the stupid vanilla Enchanted Boomerang recipe to be more in line with the Echanted Sword recipe. - Merkalto
+        public static void EditEchantedBoomerangRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.EnchantedBoomerang).ToList().ForEach(s =>
+            {
+                s.requiredItem = new List<Item>();
+                for (int i = 0; i < 3; i++)
+                    {
+                        s.requiredItem.Add(new Item());
+                    }
+                s.requiredItem[0].SetDefaults(ModContent.ItemType<VictoryShard>(), false);
+                s.requiredItem[0].stack = 6;
+                s.requiredItem[1].SetDefaults(ItemID.GoldBar, false);
+                s.requiredItem[1].stack = 8;
+                s.requiredItem[2].SetDefaults(ItemID.WoodenBoomerang, false);
+                s.requiredItem[2].stack = 1;
+
+                s.AddTile(TileID.Anvils); // This is here because by default the recipe uses no tiles.
+                s.createItem.SetDefaults(ItemID.EnchantedBoomerang, false);
+                s.createItem.stack = 1;
+
+                Recipe r = CreateRecipe(ItemID.EnchantedBoomerang);  // Vanilla items don't like custom item groups.
+                r.AddIngredient(ModContent.ItemType<VictoryShard>(), 6);
+                r.AddIngredient(ItemID.PlatinumBar, 8);
+                r.AddIngredient(ItemID.WoodenBoomerang);
+                r.AddTile(TileID.Anvils);
+                r.Register();
             });
         }
 
