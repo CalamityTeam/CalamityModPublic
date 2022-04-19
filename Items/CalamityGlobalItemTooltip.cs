@@ -632,7 +632,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
-            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders)
+            if (item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
@@ -656,7 +659,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += "\nCan mine Scoria Ore located in the Abyss");
 
             if (item.type == ItemID.SolarFlarePickaxe || item.type == ItemID.VortexPickaxe || item.type == ItemID.NebulaPickaxe || item.type == ItemID.StardustPickaxe)
-                EditTooltipByName("Material", (line) => line.Text += "\nCan mine Uelibloom Ore");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nCan mine Uelibloom Ore");
             #endregion
 
             // Rebalances and information about vanilla set bonuses
@@ -695,8 +698,8 @@ namespace CalamityMod.Items
             #region Wing Stat Tooltips
 
             // This function produces a "stat sheet" for a pair of wings from the raw stats.
-            // For "vertical speed", 0 = Average, 1 = Good, 2 = Great.
-            string[] vertSpeedStrings = new string[] { "Average vertical speed", "Good vertical speed", "Great vertical speed" };
+            // For "vertical speed", 0 = Bad, 1 = Average, 2 = Good, 3 = Great, 4 = Excellent.
+            string[] vertSpeedStrings = new string[] { "Bad vertical speed", "Average vertical speed", "Good vertical speed", "Great vertical speed", "Excellent vertical speed" };
             string WingStatsTooltip(float hSpeed, float accelMult, int vertSpeed, int flightTime, string extraTooltip = null)
             {
                 StringBuilder sb = new StringBuilder(512);
@@ -718,65 +721,68 @@ namespace CalamityMod.Items
             void AddWingStats(float h, float a, int v, int f, string s = null) => EditTooltipByNum(0, (line) => line.Text += WingStatsTooltip(h, a, v, f, s));
             void AddWingStats2(float h, float a, int v, int f, string s = null, string lineName = null) => EditTooltipByName(lineName, (line) => line.Text += WingStatsTooltip(h, a, v, f, s));
 
+            if (item.type == ItemID.CreativeWings)
+                AddWingStats(3f, 1f, 0, 25);
+
             if (item.type == ItemID.AngelWings)
-                AddWingStats(6.25f, 1f, 0, 100, "+20 max life, +10 defense and +2 life regen");
+                AddWingStats(6.25f, 1f, 1, 100, "+20 max life, +10 defense and +2 life regen");
 
             if (item.type == ItemID.DemonWings)
-                AddWingStats(6.25f, 1f, 0, 100, "5% increased damage and critical strike chance");
+                AddWingStats(6.25f, 1f, 1, 100, "5% increased damage and critical strike chance");
 
             if (item.type == ItemID.Jetpack)
-                AddWingStats(6.5f, 1f, 0, 115);
+                AddWingStats(6.5f, 1f, 1, 150);
 
             if (item.type == ItemID.ButterflyWings)
-                AddWingStats(6.75f, 1f, 0, 130, "+20 max mana, 5% decreased mana usage,\n" +
+                AddWingStats(7.5f, 1f, 1, 160, "+20 max mana, 5% decreased mana usage,\n" +
                     "5% increased magic damage and magic critical strike chance");
 
             if (item.type == ItemID.FairyWings)
-                AddWingStats(6.75f, 1f, 0, 130, "+60 max life");
+                AddWingStats(6.75f, 1f, 1, 130, "+60 max life");
 
             if (item.type == ItemID.BeeWings)
-                AddWingStats(6.75f, 1f, 0, 130, "Permanently gives the Honey buff");
+                AddWingStats(7.5f, 1f, 1, 160, "Permanently gives the Honey buff");
 
             if (item.type == ItemID.HarpyWings)
-                AddWingStats(7f, 1f, 0, 140, "20% increased movement speed\n" +
+                AddWingStats(6.75f, 1f, 1, 130, "20% increased movement speed\n" +
                     "With Harpy Ring or Angel Treads equipped, most attacks sometimes launch feathers");
 
             if (item.type == ItemID.BoneWings)
-                AddWingStats(7f, 1f, 0, 140, "10% increased movement speed, ranged damage and critical strike chance\n" +
+                AddWingStats(7.5f, 1f, 1, 170, "10% increased movement speed, ranged damage and critical strike chance\n" +
                     "and +30 defense while wearing the Necro Armor");
 
             if (item.type == ItemID.FlameWings)
-                AddWingStats(7.5f, 1f, 0, 160, "5% increased melee damage and critical strike chance");
+                AddWingStats(7.5f, 1f, 1, 160, "5% increased melee damage and critical strike chance");
 
             if (item.type == ItemID.FrozenWings)
-                AddWingStats(7.5f, 1f, 0, 160, "2% increased melee and ranged damage\n" +
+                AddWingStats(6.75f, 1f, 1, 130, "2% increased melee and ranged damage\n" +
                     "and 1% increased melee and ranged critical strike chance\n" +
                     "while wearing the Frost Armor");
 
             if (item.type == ItemID.GhostWings)
-                AddWingStats(7.5f, 1f, 0, 160, "+10 defense and 5% increased damage reduction while wearing the Spectre Hood set\n" +
+                AddWingStats(7.5f, 1f, 1, 170, "+10 defense and 5% increased damage reduction while wearing the Spectre Hood set\n" +
                     "5% increased magic damage and critical strike chance while wearing the Spectre Mask set");
 
             if (item.type == ItemID.BeetleWings)
-                AddWingStats(7.5f, 1f, 0, 160, "+10 defense and 5% increased damage reduction while wearing the Beetle Shell set\n" +
+                AddWingStats(7.5f, 1f, 1, 170, "+10 defense and 5% increased damage reduction while wearing the Beetle Shell set\n" +
                     "5% increased melee damage and critical strike chance while wearing the Beetle Scale Mail set");
 
             if (item.type == ItemID.FinWings)
-                AddWingStats(0f, 0f, 0, 100, "Gills effect and you can move freely through liquids\n" +
+                AddWingStats(6.75f, 1f, 1, 130, "Gills effect and you can move freely through liquids\n" +
                     "You fall faster while submerged in liquid\n" +
                     "15% increased movement speed and 18% increased jump speed");
 
             if (item.type == ItemID.FishronWings)
-                AddWingStats(8f, 2f, 1, 180);
+                AddWingStats(8f, 2f, 2, 180);
 
             if (item.type == ItemID.SteampunkWings)
-                AddWingStats(7.75f, 1f, 0, 180, "+8 defense, 10% increased movement speed,\n" + "4% increased damage, and 2% increased critical strike chance");
+                AddWingStats(7.5f, 1f, 1, 180, "+8 defense, 10% increased movement speed,\n" + "4% increased damage, and 2% increased critical strike chance");
 
             if (item.type == ItemID.LeafWings)
-                AddWingStats(6.75f, 1f, 0, 160, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
+                AddWingStats(6.25f, 1f, 1, 100, "+5 defense, 5% increased damage reduction,\n" + "and permanent Dryad's Blessing while wearing the Tiki Armor");
 
             if (item.type == ItemID.BatWings)
-                AddWingStats(0f, 0f, 0, 140, "At night or during an eclipse, you will gain the following boosts:\n" +
+                AddWingStats(7.5f, 1f, 1, 160, "At night or during an eclipse, you will gain the following boosts:\n" +
                     "10% increased movement speed, 10% increased jump speed,\n" +
                     "7% increased damage and 3% increased critical strike chance");
 
@@ -784,46 +790,54 @@ namespace CalamityMod.Items
             if (item.type == ItemID.Yoraiz0rWings || item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings ||
                 item.type == ItemID.LokisWings || item.type == ItemID.ArkhalisWings || item.type == ItemID.LeinforsWings ||
                 item.type == ItemID.BejeweledValkyrieWing || item.type == ItemID.RedsWings || item.type == ItemID.DTownsWings ||
-                item.type == ItemID.WillsWings || item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings)
+                item.type == ItemID.WillsWings || item.type == ItemID.CrownosWings || item.type == ItemID.CenxsWings ||
+                item.type == ItemID.FoodBarbarianWings || item.type == ItemID.GroxTheGreatWings || item.type == ItemID.GhostarsWings ||
+                item.type == ItemID.SafemanWings)
             {
-                AddWingStats(7f, 1f, 0, 150);
+                AddWingStats(7f, 1f, 1, 150);
             }
 
             if (item.type == ItemID.TatteredFairyWings)
-                AddWingStats(7.5f, 1f, 0, 180, "5% increased damage and critical strike chance");
+                AddWingStats(7.5f, 1f, 1, 180, "5% increased damage and critical strike chance");
 
             if (item.type == ItemID.SpookyWings)
-                AddWingStats(7.5f, 1f, 0, 180, "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor");
+                AddWingStats(7.5f, 1f, 1, 180, "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor");
 
             if (item.type == ItemID.Hoverboard)
-                AddWingStats(6.25f, 1f, 0, 170, "10% increased weapon-type damage while wearing the Shroomite Armor\n" +
+                AddWingStats(6.5f, 1f, 1, 170, "10% increased weapon-type damage while wearing the Shroomite Armor\n" +
                     "The weapon type boosted matches which Shroomite helmet is worn");
 
             if (item.type == ItemID.FestiveWings)
-                AddWingStats(7.5f, 1f, 0, 170, "+40 max life\nOrnaments rain down as you fly");
+                AddWingStats(7.5f, 1f, 1, 180, "+40 max life\nOrnaments rain down as you fly");
 
             if (item.type == ItemID.MothronWings)
-                AddWingStats(0f, 0f, 0, 160, "+5 defense, 5% increased damage,\n" +
+                AddWingStats(7.5f, 1f, 1, 170, "+5 defense, 5% increased damage,\n" +
                     "10% increased movement speed and 12% increased jump speed");
 
             if (item.type == ItemID.WingsSolar)
-                AddWingStats(9f, 2.5f, 2, 180, "7% increased melee damage and 3% increased melee critical strike chance\n" +
+                AddWingStats(9f, 2.5f, 3, 180, "7% increased melee damage and 3% increased melee critical strike chance\n" +
                     "while wearing the Solar Flare Armor");
 
             if (item.type == ItemID.WingsStardust)
-                AddWingStats(9f, 2.5f, 2, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
+                AddWingStats(9f, 2.5f, 3, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
 
             if (item.type == ItemID.WingsVortex)
-                AddWingStats(6.5f, 1.5f, 1, 160, "3% increased ranged damage and 7% increased ranged critical strike chance\n" +
+                AddWingStats(6.5f, 1.5f, 2, 180, "3% increased ranged damage and 7% increased ranged critical strike chance\n" +
                     "while wearing the Vortex Armor");
 
             if (item.type == ItemID.WingsNebula)
-                AddWingStats(6.5f, 1.5f, 1, 160, "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
+                AddWingStats(6.5f, 1.5f, 2, 180, "+20 max mana, 5% increased magic damage and critical strike chance,\n" +
                     "and 5% decreased mana usage while wearing the Nebula Armor");
 
             // Betsy's Wings (and dev wings) are the only wings without "Allows flight and free fall"
             if (item.type == ItemID.BetsyWings)
-                AddWingStats2(6f, 2.5f, 1, 150, null, "Equipable");
+                AddWingStats2(6f, 2.5f, 2, 150, null, "Equipable");
+
+            if (item.type == ItemID.RainbowWings)
+                AddWingStats(7f, 2.5f, 2, 150);
+
+            if (item.type == ItemID.LongRainbowTrailWings)
+                AddWingStats(8f, 4.5f, 4, 180);
             #endregion
 
             // Provide the full stats of every vanilla grappling hook
@@ -848,6 +862,8 @@ namespace CalamityMod.Items
                 AddGrappleStats(18.75f, 11.5f, 11f, 11f);
             if (item.type == ItemID.AmethystHook)
                 AddGrappleStats(18.75f, 10f, 11f, 11f);
+            if (item.type == ItemID.SquirrelHook)
+                AddGrappleStats(19f, 11.5f, 11f, 11f);
             if (item.type == ItemID.TopazHook)
                 AddGrappleStats(20.625f, 10.5f, 11.75f, 11f);
             if (item.type == ItemID.SapphireHook)
@@ -856,10 +872,12 @@ namespace CalamityMod.Items
                 AddGrappleStats(24.375f, 11.5f, 13.25f, 11f);
             if (item.type == ItemID.RubyHook)
                 AddGrappleStats(26.25f, 12f, 14f, 11f);
+            if (item.type == ItemID.AmberHook)
+                AddGrappleStats(27.5f, 12.5f, 15f, 11f);
             if (item.type == ItemID.DiamondHook)
-                AddGrappleStats(28.125f, 12.5f, 14.75f, 11f);
+                AddGrappleStats(29.125f, 12.5f, 14.75f, 11f);
             if (item.type == ItemID.WebSlinger)
-                AddGrappleStats(15.625f, 10f, 11f, 11f);
+                AddGrappleStats(22.625f, 10f, 11f, 11f);
             if (item.type == ItemID.SkeletronHand)
                 AddGrappleStats(21.875f, 15f, 11f, 11f);
             if (item.type == ItemID.SlimeHook)
@@ -869,14 +887,18 @@ namespace CalamityMod.Items
             if (item.type == ItemID.IvyWhip)
                 AddGrappleStats(25f, 13f, 15f, 11f);
             if (item.type == ItemID.BatHook) // TODO -- This item should be dropped by Vampires in the Eclipse. It is very overpowered.
-                AddGrappleStats(31.25f, 15.5f, 20f, 16f);
+                AddGrappleStats(31.25f, 13.5f, 20f, 13f);
             if (item.type == ItemID.CandyCaneHook)
                 AddGrappleStats(25f, 11.5f, 11f, 11f);
             if (item.type == ItemID.DualHook)
                 AddGrappleStats(27.5f, 14f, 17f, 11f);
-            // these four grapple hooks are all functionally identical
-            if (item.type == ItemID.ThornHook || item.type == ItemID.WormHook || item.type == ItemID.TendonHook || item.type == ItemID.IlluminantHook)
+            if (item.type == ItemID.QueenSlimeHook)
+                AddGrappleStats(30f, 16f, 18f, 11f);
+            // these three grapple hooks are all functionally identical
+            if (item.type == ItemID.WormHook || item.type == ItemID.TendonHook || item.type == ItemID.IlluminantHook)
                 AddGrappleStats(30f, 15f, 18f, 11f);
+            if (item.type == ItemID.ThornHook)
+                AddGrappleStats(30f, 16f, 18f, 12f);
             if (item.type == ItemID.AntiGravityHook)
                 AddGrappleStats(31.25f, 14f, 20f, 11f);
             if (item.type == ItemID.SpookyHook)
@@ -884,7 +906,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ChristmasHook)
                 AddGrappleStats(34.375f, 15.5f, 17f, 11f);
             if (item.type == ItemID.LunarHook)
-                AddGrappleStats(34.375f, 16f, 24f, 13f);
+                AddGrappleStats(34.375f, 18f, 24f, 16f);
             if (item.type == ItemID.StaticHook)
                 AddGrappleStats(37.5f, 16f, 24f, 0f);
             #endregion
