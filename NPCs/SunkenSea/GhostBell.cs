@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -43,6 +44,16 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = false;
             NPC.Calamity().VulnerableToWater = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Ethereal jellyfish that drift in the still water of the sunken sea. Their bodies are curiously charged with an electric current.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

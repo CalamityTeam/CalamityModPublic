@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,6 +37,16 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("An animal which adapted to the toxic waters quite naturally. It uses its whiskers to find its way, and its prey in the murky depths.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

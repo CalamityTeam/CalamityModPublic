@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -36,6 +37,16 @@ namespace CalamityMod.NPCs.SulphurousSea
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("These creatures do not seek out their food, but rather wait for their meals to come to them. Watch your step if you venture down into the sulphurous sea.")
+            });
         }
 
         public override void AI()

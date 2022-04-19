@@ -49,7 +49,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//oh god
 				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AbyssLayer4,
 
 				// Will move to localization whenever that is cleaned up.

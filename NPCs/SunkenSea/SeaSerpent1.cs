@@ -3,6 +3,7 @@ using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -43,6 +44,16 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("These eels are largely passive and drift languidly through the still waters of the sunken sea. Should you provoke them, they can be stubborn attackers.")
+            });
         }
 
         public override void AI()
