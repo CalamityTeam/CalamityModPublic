@@ -55,10 +55,6 @@ namespace CalamityMod.Buffs
                 float nebulaDamage = 0.075f * player.nebulaLevelDamage; // 15% to 45% changed to 7.5% to 22.5%
                 player.GetDamage(DamageClass.Generic) -= nebulaDamage;
             }
-            else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
-            {
-                player.lifeRegen -= 5 * player.nebulaLevelLife; // 10 to 30 changed to 5 to 15
-            }
             else if (type == BuffID.Warmth)
             {
                 player.buffImmune[ModContent.BuffType<GlacialState>()] = true;

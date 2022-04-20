@@ -75,6 +75,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
 
+            // Life regen balance
+            IL.Terraria.Player.UpdateLifeRegen += PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen;
+
             // Mana regen balance
             IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
             IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
@@ -145,14 +148,17 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
             // Movement speed balance
-            //IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
             IL.Terraria.Player.UpdateJumpHeight -= FixJumpHeightBoosts;
-            //IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
-            IL.Terraria.Player.Update -= NerfMagiluminescence;
             IL.Terraria.Player.Update -= JumpSpeedAdjustment;
             IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update -= RunSpeedAdjustments;
             IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
+            IL.Terraria.Player.Update -= NerfMagiluminescence;
+            IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
+            IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
+
+            // Life regen balance
+            IL.Terraria.Player.UpdateLifeRegen -= PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen;
 
             // Mana regen balance
             IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;

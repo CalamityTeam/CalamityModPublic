@@ -357,6 +357,23 @@ namespace CalamityMod.ILEditing
         }
         #endregion Vanilla Hover Wing Nerfs
 
+        #region Life Regen Changes
+        private static void PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen(ILContext il)
+        {
+            // Prevent the greatly reduced life regen while without the well fed buff in expert mode.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Player>("wellFed")))
+            {
+                LogFailure("Expert Mode Well Fed Reduced Life Regen Prevention", "Could not locate the Well Fed bool.");
+                return;
+            }
+
+            // AND with 0 (false) so that the reduced life regen never triggers.
+            cursor.Emit(OpCodes.Ldc_I4_0);
+            cursor.Emit(OpCodes.And);
+        }
+        #endregion
+
         #region Mana Regen Changes
         private static void ManaRegenDelayAdjustment(ILContext il)
         {
