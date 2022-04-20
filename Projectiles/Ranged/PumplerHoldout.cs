@@ -1,14 +1,13 @@
 ﻿using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
-using CalamityMod.Particles;
-using Terraria.Audio;
-
 
 //TY dom for coding condemnation, great reference, would steal code from again :)
 //                  - Iban
@@ -97,8 +96,8 @@ namespace CalamityMod.Projectiles.Ranged
                     CurrentChargingFrames = 0f;
                     ++PumpkinsCharge;
                     FramesToLoadNextPumpkin *= 0.850f;
-                    //CombatText.NewText(projectile.Hitbox, new Color(255*(PumpkinsCharge/5), 151 * (PumpkinsCharge / 5), 78 * (PumpkinsCharge / 5)), ((int)PumpkinsCharge).ToString(), true);
-                    //Colors don't properly shift towards orange, they remain white fsr. I assume its float fuckery. Also the numbers appear too high up
+                    // Debug text:
+                    // CombatText.NewText(Projectile.Hitbox, new Color(255f * (PumpkinsCharge / 5f) / 255f, 151f * (PumpkinsCharge / 5f) / 255f, 78f * (PumpkinsCharge / 5f) / 255f), ((int)PumpkinsCharge).ToString(), true);
                     if (PumpkinsCharge >= Pumpler.MaxPumpkins)
                         SoundEngine.PlaySound(SoundID.Item69);
                     else
