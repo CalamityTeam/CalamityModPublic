@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 Scale = 0.4f,
             };
-            value.Position.Y += 20f;
+            value.Position.Y += 40f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
