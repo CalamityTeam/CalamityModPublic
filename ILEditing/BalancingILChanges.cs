@@ -311,7 +311,7 @@ namespace CalamityMod.ILEditing
                 cursor.Emit(OpCodes.Ldc_R4, iceSkateTopSpeed);
             }
         }
-        #endregion Run Speed Changes
+        #endregion
 
         #region Vanilla Hover Wing Nerfs
         private static void ReduceWingHoverVelocities(ILContext il)
@@ -355,7 +355,7 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
         }
-        #endregion Vanilla Hover Wing Nerfs
+        #endregion
 
         #region Life Regen Changes
         private static void PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen(ILContext il)
@@ -417,7 +417,7 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
         }
-        #endregion Mana Regen Nerfs
+        #endregion
 
         #region Damage Variance Dampening and Luck Removal
         private static void AdjustDamageVariance(ILContext il)
@@ -430,7 +430,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4_S, -5); // Increase to -5%.
+            cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The +15% upper bound of the variance.
             {
@@ -463,7 +463,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_R4, 0f);
             cursor.Emit(OpCodes.Mul);
         }
-        #endregion Damage Variance Dampening
+        #endregion
 
         #region Expert Hardmode Scaling Removal
         private static void RemoveExpertHardmodeScaling(ILContext il)
@@ -478,7 +478,7 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4_M1); // Replace the 1000 with -1, no NPC can have less than -1 HP on spawn, so it fails to run.
         }
-        #endregion Expert Hardmode Scaling Removal
+        #endregion
 
         #region Chlorophyte Bullet Speed Nerfs
         private static void AdjustChlorophyteBullets(ILContext il)
@@ -506,6 +506,6 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-        #endregion Chlorophyte Bullet Speed Nerfs
+        #endregion
     }
 }
