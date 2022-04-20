@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -138,6 +139,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             DisplayName.SetDefault("XF-09 Ares");
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 PortraitScale = 0.6f,
@@ -171,6 +173,17 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //We'll probably want a custom background for Exos like ML has.
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("While it is the most flamboyant of Draedon’s machines, it appears to be lacking some finish, though this trait does not compromise its killing potential whatsoever.")
+            });
         }
 
         public override void BossHeadSlot(ref int index)
