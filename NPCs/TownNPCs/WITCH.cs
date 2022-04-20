@@ -4,6 +4,7 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -52,7 +53,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());
 
-        public override string TownNPCName() => "Calamitas";
+		public override List<string> SetNPCNameList() => new List<string>() { "Calamitas" };
 
         // The way this works is by having an RNG based on weights.
         // With certain conditions (such as if a blood moon is happening) you can add possibilities

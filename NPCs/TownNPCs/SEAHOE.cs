@@ -52,10 +52,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return DownedBossSystem.downedCLAM && DownedBossSystem.downedDesertScourge;
         }
 
-        public override string TownNPCName()
-        {
-            return "Amidias";
-        }
+		public override List<string> SetNPCNameList() => new List<string>() { "Amidias" };
 
         public override void AI()
         {
