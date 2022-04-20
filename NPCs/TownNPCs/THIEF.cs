@@ -17,8 +17,6 @@ namespace CalamityMod.NPCs.TownNPCs
     [AutoloadHead]
     public class THIEF : ModNPC
     {
-        string npcName;
-
         public static List<string> PossibleNames = new List<string>()
         {
             // Patron names

@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // If for any reason this segment was deleted, send info to clients so they also see it die.
                 if (!npc.active && Main.netMode == NetmodeID.Server)
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
             }
 
             // Movement

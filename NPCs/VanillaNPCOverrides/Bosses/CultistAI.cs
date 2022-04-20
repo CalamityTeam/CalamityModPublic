@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.active = false;
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 
                 for (int j = 0; j < Main.maxNPCs; j++)
                 {
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.npc[j].active = false;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
