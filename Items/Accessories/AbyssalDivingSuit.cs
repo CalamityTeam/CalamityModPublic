@@ -50,13 +50,16 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
 
-            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
-            int equipSlotBody = Mod.GetEquipSlot(Name, EquipType.Body);
-            int equipSlotLegs = Mod.GetEquipSlot(Name, EquipType.Legs);
-            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
-            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
-            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
-            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+                int equipSlotBody = Mod.GetEquipSlot(Name, EquipType.Body);
+                int equipSlotLegs = Mod.GetEquipSlot(Name, EquipType.Legs);
+                ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+                ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+                ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

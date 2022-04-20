@@ -132,6 +132,7 @@ namespace CalamityMod.World
                                     }
 
                                     // Prevent the Astral biome from overriding or interfering with an AA biome
+                                    // TODO -- horrifically unoptimized. Oh my god this is the worst thing I have ever seen
                                     else if (ancientsAwakened != null)
                                     {
                                         if (Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("InfernoGrass") .Type|| Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Torchstone") .Type||
