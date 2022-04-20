@@ -368,9 +368,9 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            // AND with 0 (false) so that the reduced life regen never triggers.
-            cursor.Emit(OpCodes.Ldc_I4_0);
-            cursor.Emit(OpCodes.And);
+            // OR with 1 (true) so that Well Fed is considered permanently active and reduced life regen never triggers.
+            cursor.Emit(OpCodes.Ldc_I4_1);
+            cursor.Emit(OpCodes.Or);
         }
         #endregion
 
