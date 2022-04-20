@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
@@ -16,6 +17,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,6 +34,25 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Scourge");
+
+            // Specify the debuffs AS is immune to.
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Slow,
+                    BuffID.Webbed,
+                    ModContent.BuffType<ExoFreeze>(),
+                    ModContent.BuffType<GlacialState>(),
+                    ModContent.BuffType<TemporalSadness>(),
+                    ModContent.BuffType<KamiDebuff>(),
+                    ModContent.BuffType<Eutrophication>(),
+                    ModContent.BuffType<TimeSlow>(),
+                    ModContent.BuffType<TeslaFreeze>(),
+                    ModContent.BuffType<Vaporfied>()
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 
         public override void SetDefaults()

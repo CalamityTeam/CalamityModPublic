@@ -90,7 +90,6 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 if (!statChange)
                 {
-                    NPC.buffImmune[BuffID.Confused] = false;
                     NPC.defense = 6;
                     NPC.damage = Main.expertMode ? 60 : 30;
                     if (Main.hardMode)

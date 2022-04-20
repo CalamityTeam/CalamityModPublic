@@ -1,4 +1,6 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -16,6 +18,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -40,6 +43,25 @@ namespace CalamityMod.NPCs.Bumblebirb
             value.Position.X += 20f;
             value.Position.Y += 8f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+
+            // Specify the debuffs Dragonfolly is immune to.
+            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
+            {
+                SpecificallyImmuneTo = new int[]
+                {
+                    BuffID.Slow,
+                    BuffID.Webbed,
+                    ModContent.BuffType<ExoFreeze>(),
+                    ModContent.BuffType<GlacialState>(),
+                    ModContent.BuffType<TemporalSadness>(),
+                    ModContent.BuffType<KamiDebuff>(),
+                    ModContent.BuffType<Eutrophication>(),
+                    ModContent.BuffType<TimeSlow>(),
+                    ModContent.BuffType<TeslaFreeze>(),
+                    ModContent.BuffType<Vaporfied>()
+                }
+            };
+            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
