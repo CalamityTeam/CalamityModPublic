@@ -52,6 +52,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Cragmaw Mire");
             Main.npcFrameCount[NPC.type] = 2;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
