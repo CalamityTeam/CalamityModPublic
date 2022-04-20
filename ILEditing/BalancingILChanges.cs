@@ -419,7 +419,7 @@ namespace CalamityMod.ILEditing
         }
         #endregion Mana Regen Nerfs
 
-        #region Damage Variance Dampening
+        #region Damage Variance Dampening and Luck Removal
         private static void AdjustDamageVariance(ILContext il)
         {
             // Change the damage variance from +-15% to +-5%.
@@ -430,15 +430,38 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
+            cursor.Emit(OpCodes.Ldc_I4_S, -5); // Increase to -5%.
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The +15% upper bound of the variance.
             {
                 LogFailure("+/-5% Damage Variance", "Could not locate the upper bound.");
                 return;
             }
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4_6); // Decrease to +5%.
+
+            // Remove the ability for luck to affect damage variance.
+            // TODO -- Old Die should re-enable this later, which will cause a lot of complexity as DamageVar has no context.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg(1))) // The function argument for luck.
+            {
+                LogFailure("Damage Variance Luck Removal", "Could not locate the first luck load.");
+                return;
+            }
+
+            // Multiply the loaded luck value by zero so the positive luck condition never triggers.
+            cursor.Emit(OpCodes.Ldc_R4, 0f);
+            cursor.Emit(OpCodes.Mul);
+
+            // Do the same thing again for the second luck check.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg(1))) // The function argument for luck.
+            {
+                LogFailure("Damage Variance Luck Removal", "Could not locate the second luck load.");
+                return;
+            }
+
+            // Multiply the loaded luck value by zero so the negative luck condition never triggers.
+            cursor.Emit(OpCodes.Ldc_R4, 0f);
+            cursor.Emit(OpCodes.Mul);
         }
         #endregion Damage Variance Dampening
 
