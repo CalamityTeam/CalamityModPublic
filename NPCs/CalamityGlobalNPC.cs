@@ -870,8 +870,6 @@ namespace CalamityMod.NPCs
 
             DeclareBossHealthUIVariables(npc);
 
-            DebuffImmunities(npc);
-
             BaseVanillaBossHPAdjustments(npc);
 
             if (BossRushEvent.BossRushActive)
@@ -895,58 +893,6 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
                 SplittingWorm = true;
-        }
-        #endregion
-
-        #region Debuff Immunities
-        private void DebuffImmunities(NPC npc)
-        {
-            // Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
-            npc.SetNPCDebuffImmunities();
-
-            // All bosses and several enemies are automatically immune to Pearl Aura.
-            if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
-                npc.buffImmune[BuffType<PearlAura>()] = true;
-
-            // All enemies are automatically immune to the Confused debuff, so we must specifically set them not to be.
-            // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
-            if (CalamityLists.confusionEnemyList.Contains(npc.type))
-                npc.buffImmune[BuffID.Confused] = false;
-
-            // Any enemy not immune to Venom shouldn't be immune to Sulphuric Poisoning as it is an upgrade.
-            if (!npc.buffImmune[BuffID.Venom])
-                npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
-
-            // Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
-            if (((CalamityLists.DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || CalamityLists.PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
-                CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
-                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
-                npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
-            {
-                for (int k = 0; k < npc.buffImmune.Length; k++)
-                {
-                    npc.buffImmune[k] = true;
-                }
-
-                if (npc.townNPC)
-                {
-                    npc.buffImmune[BuffID.Wet] = false;
-                    npc.buffImmune[BuffID.Slimed] = false;
-                    npc.buffImmune[BuffID.Lovestruck] = false;
-                    npc.buffImmune[BuffID.Stinky] = false;
-                }
-            }
-
-            // Most bosses and boss servants are not immune to Kami Flu.
-            if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
-                npc.buffImmune[BuffType<KamiDebuff>()] = false;
-
-            // Nothing should be immune to Enraged.
-            npc.buffImmune[BuffType<Enraged>()] = false;
-
-            // Extra Notes:
-            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
-            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
         #endregion
 
@@ -1021,12 +967,6 @@ namespace CalamityMod.NPCs
         #region Boss Rush Stat Changes
         private void BossRushStatChanges(NPC npc, Mod mod)
         {
-            if (!npc.friendly)
-            {
-                npc.buffImmune[BuffType<Enraged>()] = false;
-                npc.buffImmune[BuffType<PearlAura>()] = true;
-            }
-
             foreach (KeyValuePair<int, int> BossRushHPChange in CalamityLists.BossRushHPChanges)
             {
                 if (npc.type == BossRushHPChange.Key)
@@ -2556,6 +2496,9 @@ namespace CalamityMod.NPCs
         #region Pre AI
         public override bool PreAI(NPC npc)
         {
+            // Set debuff immunities.
+            DebuffImmunities(npc);
+
             // Change Spaz and Ret weaknesses and resistances when phase 2 starts.
             if (npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer)
             {
@@ -2623,9 +2566,6 @@ namespace CalamityMod.NPCs
             // Don't do damage for 42 frames after spawning in
             if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
                 npc.damage = npc.alpha > 0 ? 0 : npc.defDamage;
-
-            if (CalamityLists.DestroyerIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type))
-                npc.buffImmune[BuffType<Enraged>()] = false;
 
             if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC && !npc.Calamity().DoesNotDisappearInBossRush)
                 BossRushForceDespawnOtherNPCs(npc, Mod);
@@ -3374,6 +3314,58 @@ namespace CalamityMod.NPCs
             }
 
             return true;
+        }
+        #endregion
+
+        #region Debuff Immunities
+        private void DebuffImmunities(NPC npc)
+        {
+            // Check out NPCDebuffs.cs as this function sets the debuff immunities for all enemies in Cal bar the ones described below.
+            npc.SetNPCDebuffImmunities();
+
+            // All bosses and several enemies are automatically immune to Pearl Aura.
+            if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
+                npc.buffImmune[BuffType<PearlAura>()] = true;
+
+            // All enemies are automatically immune to the Confused debuff, so we must specifically set them not to be.
+            // Extra note: Clams are not in this list as they initially immune to Confused, but are no longer immune once aggro'd. This is set in their AI().
+            if (CalamityLists.confusionEnemyList.Contains(npc.type))
+                npc.buffImmune[BuffID.Confused] = false;
+
+            // Any enemy not immune to Venom shouldn't be immune to Sulphuric Poisoning as it is an upgrade.
+            if (!npc.buffImmune[BuffID.Venom])
+                npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
+
+            // Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
+            if (((CalamityLists.DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || CalamityLists.PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
+                CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
+                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
+                npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
+            {
+                for (int k = 0; k < npc.buffImmune.Length; k++)
+                {
+                    npc.buffImmune[k] = true;
+                }
+
+                if (npc.townNPC)
+                {
+                    npc.buffImmune[BuffID.Wet] = false;
+                    npc.buffImmune[BuffID.Slimed] = false;
+                    npc.buffImmune[BuffID.Lovestruck] = false;
+                    npc.buffImmune[BuffID.Stinky] = false;
+                }
+            }
+
+            // Most bosses and boss servants are not immune to Kami Flu.
+            if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
+                npc.buffImmune[BuffType<KamiDebuff>()] = false;
+
+            // Nothing should be immune to Enraged.
+            npc.buffImmune[BuffType<Enraged>()] = false;
+
+            // Extra Notes:
+            // Shellfish minions set debuff immunity to Shellfish Claps on enemy hits, so most things are technically not immune.
+            // The Spiteful Candle sets the debuff immunity of Spite to all nearby enemies in the tile file for an enemy with less than 99% DR.
         }
         #endregion
 
