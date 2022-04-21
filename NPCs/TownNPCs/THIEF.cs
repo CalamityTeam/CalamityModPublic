@@ -17,13 +17,11 @@ namespace CalamityMod.NPCs.TownNPCs
     [AutoloadHead]
     public class THIEF : ModNPC
     {
-        string npcName;
-
         public static List<string> PossibleNames = new List<string>()
         {
             // Patron names
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
-        "Freakish", // <@!750363283520749598> Freakish#0001
+			"Freakish", // <@!750363283520749598> Freakish#0001
 
             // Original names
             "Laura", "Mie", "Bonnie",
@@ -86,11 +84,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return CalamityWorld.spawnedBandit;
         }
 
-        public override string TownNPCName()
-        {
-            npcName = PossibleNames[Main.rand.Next(PossibleNames.Count)];
-            return npcName;
-        }
+		public override List<string> SetNPCNameList() => PossibleNames;
 
         public override string GetChat()
         {

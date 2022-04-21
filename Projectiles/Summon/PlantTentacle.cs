@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class PlantTentacle : ModProjectile
     {
-        private bool initialized = false;
         private int counter = 0;
         private float desiredDistance = 150f;
 

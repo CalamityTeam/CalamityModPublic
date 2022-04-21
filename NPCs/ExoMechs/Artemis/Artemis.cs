@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -136,6 +137,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             DisplayName.SetDefault(NameToDisplay);
             NPCID.Sets.TrailingMode[NPC.type] = 3;
             NPCID.Sets.TrailCacheLength[NPC.type] = 15;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 PortraitPositionXOverride = -50f,
@@ -172,6 +174,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //We'll probably want a custom background for Exos like ML has.
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The Exo Twins are the ultimate recon units. Capable of detecting various wavelengths of light unknown to us, nothing can hide.")
+            });
         }
 
         public override void BossHeadSlot(ref int index)

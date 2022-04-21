@@ -7,8 +7,6 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IceSentry : ModProjectile
     {
-        private bool setDamage = true;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Sentry");

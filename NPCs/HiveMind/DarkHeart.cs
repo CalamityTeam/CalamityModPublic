@@ -15,6 +15,7 @@ namespace CalamityMod.NPCs.HiveMind
         {
             DisplayName.SetDefault("Dark Heart");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()

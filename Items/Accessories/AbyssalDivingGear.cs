@@ -29,9 +29,12 @@ namespace CalamityMod.Items.Accessories
                 "Provides a moderate amount of light in the abyss\n" +
                 "Greatly reduces breath loss in the abyss");
 
-            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
-            ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
-            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+                ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
+                ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+            }
         }
 
         public override void SetDefaults()

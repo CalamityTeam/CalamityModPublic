@@ -68,10 +68,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return CalamityWorld.spawnedCirrus;
         }
 
-        public override string TownNPCName()
-        {
-            return "Cirrus";
-        }
+		public override List<string> SetNPCNameList() => new List<string>() { "Cirrus" };
 
         public override string GetChat()
         {

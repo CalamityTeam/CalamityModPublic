@@ -239,7 +239,7 @@ namespace CalamityMod
             }
 
             // Astral grass and plant behavior
-            else if (checkType == ModContent.GetInstance<CalamityMod>().Find<ModTile>("AstralGrass").Type)
+            else if (checkType == ModContent.TileType<AstralGrass>())
             {
                 bool isShortPlant = plantType == TileID.Plants ||
                     plantType == TileID.CorruptPlants ||
@@ -247,7 +247,7 @@ namespace CalamityMod
                     plantType == TileID.HallowedPlants ||
                     plantType == TileID.MushroomPlants ||
                     plantType == TileID.JunglePlants;
-                plantType = ModContent.GetInstance<CalamityMod>().Find<ModTile>(isShortPlant ? "AstralShortPlants" : "AstralTallPlants").Type;
+                plantType = isShortPlant ? ModContent.TileType<AstralShortPlants>() : ModContent.TileType<AstralTallPlants>();
             }
 
             // If the tile type is not the same as the plant type, then set it equal. Otherwise, destroy it.

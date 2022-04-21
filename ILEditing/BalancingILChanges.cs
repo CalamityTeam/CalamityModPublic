@@ -311,7 +311,7 @@ namespace CalamityMod.ILEditing
                 cursor.Emit(OpCodes.Ldc_R4, iceSkateTopSpeed);
             }
         }
-        #endregion Run Speed Changes
+        #endregion
 
         #region Vanilla Hover Wing Nerfs
         private static void ReduceWingHoverVelocities(ILContext il)
@@ -355,7 +355,7 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
         }
-        #endregion Vanilla Hover Wing Nerfs
+        #endregion
 
         #region Life Regen Changes
         private static void PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen(ILContext il)
@@ -417,9 +417,9 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 0.75f); // Increase to 0.75f.
         }
-        #endregion Mana Regen Nerfs
+        #endregion
 
-        #region Damage Variance Dampening
+        #region Damage Variance Dampening and Luck Removal
         private static void AdjustDamageVariance(ILContext il)
         {
             // Change the damage variance from +-15% to +-5%.
@@ -432,15 +432,38 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4, -5); // Increase to -5%.
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The 15% upper bound of the variance.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(16))) // The +15% upper bound of the variance.
             {
                 LogFailure("+/-5% Damage Variance", "Could not locate the upper bound.");
                 return;
             }
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4_6); // Decrease to +5%.
+
+            // Remove the ability for luck to affect damage variance.
+            // TODO -- Old Die should re-enable this later, which will cause a lot of complexity as DamageVar has no context.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg(1))) // The function argument for luck.
+            {
+                LogFailure("Damage Variance Luck Removal", "Could not locate the first luck load.");
+                return;
+            }
+
+            // Multiply the loaded luck value by zero so the positive luck condition never triggers.
+            cursor.Emit(OpCodes.Ldc_R4, 0f);
+            cursor.Emit(OpCodes.Mul);
+
+            // Do the same thing again for the second luck check.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdarg(1))) // The function argument for luck.
+            {
+                LogFailure("Damage Variance Luck Removal", "Could not locate the second luck load.");
+                return;
+            }
+
+            // Multiply the loaded luck value by zero so the negative luck condition never triggers.
+            cursor.Emit(OpCodes.Ldc_R4, 0f);
+            cursor.Emit(OpCodes.Mul);
         }
-        #endregion Damage Variance Dampening
+        #endregion
 
         #region Expert Hardmode Scaling Removal
         private static void RemoveExpertHardmodeScaling(ILContext il)
@@ -455,7 +478,7 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4_M1); // Replace the 1000 with -1, no NPC can have less than -1 HP on spawn, so it fails to run.
         }
-        #endregion Expert Hardmode Scaling Removal
+        #endregion
 
         #region Chlorophyte Bullet Speed Nerfs
         private static void AdjustChlorophyteBullets(ILContext il)
@@ -483,6 +506,6 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
-        #endregion Chlorophyte Bullet Speed Nerfs
+        #endregion
     }
 }

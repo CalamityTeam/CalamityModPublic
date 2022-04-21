@@ -12,7 +12,9 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Hood of Calamity");
-            ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+
+            if (Main.netMode != NetmodeID.Server)
+                ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         }
 
         public override void SetDefaults()

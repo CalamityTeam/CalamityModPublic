@@ -39,8 +39,11 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
             CalamityUtils.ColorMessage("Now, make them pay.", new Color(135, 206, 235)));
 
-            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
-            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+                ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            }
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 

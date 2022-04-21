@@ -3965,7 +3965,7 @@ namespace CalamityMod.NPCs
                             npc.life = 0;
                             npc.HitEffect(0, 10.0);
                             npc.active = false;
-                            NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                         }
                     }
                     if (npc.ai[0] > 0f && npc.ai[0] < (float)Main.npc.Length)
@@ -3975,7 +3975,7 @@ namespace CalamityMod.NPCs
                             npc.life = 0;
                             npc.HitEffect(0, 10.0);
                             npc.active = false;
-                            NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                         }
                     }
                 }
@@ -3987,7 +3987,7 @@ namespace CalamityMod.NPCs
                         npc.HitEffect(0, 10.0);
                         npc.checkDead();
                         npc.active = false;
-                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                     }
                     if (isSplittingNPCHead && !Main.npc[(int)npc.ai[0]].active)
                     {
@@ -3995,7 +3995,7 @@ namespace CalamityMod.NPCs
                         npc.HitEffect(0, 10.0);
                         npc.checkDead();
                         npc.active = false;
-                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                     }
                     if (isSplittingNPCTail && !Main.npc[(int)npc.ai[1]].active)
                     {
@@ -4003,7 +4003,7 @@ namespace CalamityMod.NPCs
                         npc.HitEffect(0, 10.0);
                         npc.checkDead();
                         npc.active = false;
-                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                     }
                     if (isSplittingNPCBody && (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != npc.aiStyle))
                     {
@@ -4034,7 +4034,7 @@ namespace CalamityMod.NPCs
 
                 if (!npc.active && Main.netMode == NetmodeID.Server)
                 {
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
 

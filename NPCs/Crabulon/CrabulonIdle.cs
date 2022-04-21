@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -34,6 +35,13 @@ namespace CalamityMod.NPCs.Crabulon
         {
             DisplayName.SetDefault("Crabulon");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.8f,
+                PortraitScale = 0.9f,
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -60,6 +68,16 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("In the bulbous growths of the fungal caverns it is not uncommon to find molted shells.They are far too large for any of the usual decapods of the mushrooms.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

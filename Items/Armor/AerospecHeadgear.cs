@@ -15,7 +15,9 @@ namespace CalamityMod.Items.Armor
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Aerospec Headgear");
             Tooltip.SetDefault("8% increased rogue damage and 5% increased movement speed");
-            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
+
+            if (Main.netMode != NetmodeID.Server)
+                ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = true;
         }
 
         public override void SetDefaults()

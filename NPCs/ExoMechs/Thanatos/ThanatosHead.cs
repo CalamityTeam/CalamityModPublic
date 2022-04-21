@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Skies;
@@ -113,6 +114,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
             // Ensure that the reticle is not culled due to the player being very far from Thanatos.
             NPCID.Sets.MustAlwaysDraw[NPC.type] = true;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -143,6 +145,17 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //We'll probably want a custom background for Exos like ML has.
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Under every armored plate on this machine lies an advanced weapon. This sacrifices the machine’s durability, but it makes it a very effective mass murderer.")
+            });
         }
 
         public override void BossHeadSlot(ref int index)

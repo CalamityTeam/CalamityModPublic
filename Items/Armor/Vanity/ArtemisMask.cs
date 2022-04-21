@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
@@ -13,8 +14,12 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Artemis Mask");
-            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
-            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+                ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            }
         }
 
         public override void SetDefaults()

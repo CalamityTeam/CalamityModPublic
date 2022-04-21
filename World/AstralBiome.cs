@@ -95,6 +95,29 @@ namespace CalamityMod.World
             UnifiedRandom rand = WorldGen.genRand;
             float solidTileRequirement = 600f;
             bool localAbyssSide = WorldGen.dungeonX < Main.maxTilesX / 2;
+
+            // Pre-cache a list of Ancients Awakened tiles to avoid, for performance reasons
+            IList<ushort> aaTilesToAvoid = new List<ushort>(16);
+            if (ancientsAwakened is not null)
+            {
+                string[] aaTileNames = new string[]
+                {
+                    "InfernoGrass",
+                    "Torchstone",
+                    "Torchsand",
+                    "Torchsandstone",
+                    "Torchsandhardened",
+                    "Torchice",
+                    "Depthstone",
+                    "Depthsand",
+                    "Depthsandstone",
+                    "Depthsandhardened",
+                    "Depthice",
+                };
+                foreach (string tileName in aaTileNames)
+                    aaTilesToAvoid.Add(ancientsAwakened.Find<ModTile>(tileName).Type);
+            }
+
             while (!meteorDropped)
             {
                 float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
@@ -132,18 +155,8 @@ namespace CalamityMod.World
                                     }
 
                                     // Prevent the Astral biome from overriding or interfering with an AA biome
-                                    else if (ancientsAwakened != null)
-                                    {
-                                        if (Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("InfernoGrass") .Type|| Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Torchstone") .Type||
-                                            Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Torchsand") .Type|| Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Torchsandstone") .Type||
-                                            Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Torchsandhardened") .Type|| Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Torchice") .Type||
-                                            Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Depthstone") .Type|| Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Depthsand") .Type||
-                                            Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Depthsandstone") .Type|| Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Depthsandhardened") .Type||
-                                            Main.tile[l, m].TileType == ancientsAwakened.Find<ModTile>("Depthice").Type)
-                                        {
-                                            suitableTiles -= 100;
-                                        }
-                                    }
+                                    else if (ancientsAwakened is not null && aaTilesToAvoid.Contains(Main.tile[l, m].TileType))
+                                        suitableTiles -= 100;
                                 }
 
                                 // Liquid aversion makes meteors less likely to fall in lakes

@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -87,6 +88,14 @@ namespace CalamityMod.NPCs.HiveMind
             Main.npcFrameCount[NPC.type] = 16;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.TrailCacheLength[NPC.type] = NPC.oldPos.Length;
+            NPCID.Sets.BossBestiaryPriority.Add(Type); 
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+                PortraitPositionYOverride = 3f
+            };
+            value.Position.Y += 3f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -150,6 +159,17 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("In the deep trenches of the corruption, infected creatures gather to manifest their own deity. Unlike other cases where smaller beings gather for protection, this is an entirely offensive maneuver.")
+            });
         }
 
         public override void BossHeadSlot(ref int index)

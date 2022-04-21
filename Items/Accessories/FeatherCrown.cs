@@ -24,10 +24,12 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
                 "Stealth strikes cause feathers to fall from the sky on enemy hits");
 
-
-            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
-            ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
-            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+                ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
+                ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+            }
         }
 
         public override void SetDefaults()

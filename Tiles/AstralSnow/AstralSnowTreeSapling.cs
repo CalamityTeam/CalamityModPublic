@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -29,7 +30,7 @@ namespace CalamityMod.Tiles.AstralSnow
             TileObjectData.newTile.CoordinateHeights = new[] { 16, 18 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.AnchorValidTiles = new[] { (int)Mod.Find<ModTile>("AstralSnow").Type };
+            TileObjectData.newTile.AnchorValidTiles = new[] { ModContent.TileType<AstralSnow>() };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.DrawFlipHorizontal = true;
             TileObjectData.newTile.WaterPlacement = LiquidPlacement.NotAllowed;
@@ -39,7 +40,7 @@ namespace CalamityMod.Tiles.AstralSnow
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sapling");
             AddMapEntry(new Color(200, 200, 200), name);
-            DustType = Mod.Find<ModDust>("AstralBasic").Type;
+            DustType = ModContent.DustType<AstralBasic>();
             AdjTiles = new int[] { TileID.Saplings };
         }
 

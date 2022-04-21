@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.Perforator
                     NPC.HitEffect(0, 10.0);
                     NPC.checkDead();
                     NPC.active = false;
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
                 if (!Main.npc[(int)NPC.ai[1]].active)
                 {
@@ -93,11 +93,11 @@ namespace CalamityMod.NPCs.Perforator
                     NPC.HitEffect(0, 10.0);
                     NPC.checkDead();
                     NPC.active = false;
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
 
                 if (!NPC.active && Main.netMode == NetmodeID.Server)
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, NPC.whoAmI, -1f, 0f, 0f, 0, 0, 0);
             }
 
             Vector2 vector2 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);

@@ -28,9 +28,12 @@ namespace CalamityMod.Items.Accessories
                 "Stealth strikes summon lunar flares on enemy hits\n" +
                 "Rogue projectiles very occasionally summon moon sigils behind them");
 
-            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
-            ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
-            ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+                ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
+                ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
+            }
         }
 
         public override void SetDefaults()

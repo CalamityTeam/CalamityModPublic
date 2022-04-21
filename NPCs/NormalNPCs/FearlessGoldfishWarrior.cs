@@ -240,7 +240,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 }
                                 if (Main.netMode == NetmodeID.Server & flag24)
                                 {
-                                    NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)num170, (float)(num171 - 1), (float)NPC.direction, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.ToggleDoorState, -1, -1, null, 0, (float)num170, (float)(num171 - 1), (float)NPC.direction, 0, 0, 0);
                                 }
                             }
                             if (Main.tile[num170, num171 - 1].TileType == 388)
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 }
                                 if (Main.netMode == NetmodeID.Server & flag25)
                                 {
-                                    NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 4, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.ToggleDoorState, -1, -1, null, 4, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
                                 }
                             }
                         }
