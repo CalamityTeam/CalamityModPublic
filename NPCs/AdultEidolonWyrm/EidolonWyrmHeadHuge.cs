@@ -88,25 +88,6 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             };
             value.Position.Y -= 32f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-
-            // Specify the debuffs AEW is immune to.
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Slow,
-                    BuffID.Webbed,
-                    ModContent.BuffType<ExoFreeze>(),
-                    ModContent.BuffType<GlacialState>(),
-                    ModContent.BuffType<TemporalSadness>(),
-                    ModContent.BuffType<KamiDebuff>(),
-                    ModContent.BuffType<Eutrophication>(),
-                    ModContent.BuffType<TimeSlow>(),
-                    ModContent.BuffType<TeslaFreeze>(),
-                    ModContent.BuffType<Vaporfied>()
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 
         public override void SetDefaults()
@@ -315,6 +296,19 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             float ancientDoomPhaseGateValue = 30f;
             float ancientDoomGateValue = malice ? 80f : death ? 95f : revenge ? 100f : expertMode ? 105f : 120f;
             float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
+
+            // Adjust slowing debuff immunity
+            bool immuneToSlowingDebuffs = AIState == (float)Phase.FinalPhase || AIState == (float)Phase.ShadowFireballSpin;
+            NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             // Adjust opacity
             bool invisiblePartOfChargePhase = calamityGlobalNPC.newAI[2] >= chargePhaseGateValue && calamityGlobalNPC.newAI[2] <= chargePhaseGateValue + 1f && (AIState == (float)Phase.ChargeOne || AIState == (float)Phase.ChargeTwo || AIState == (float)Phase.FastCharge);

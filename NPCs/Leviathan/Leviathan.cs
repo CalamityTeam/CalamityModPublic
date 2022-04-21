@@ -43,25 +43,6 @@ namespace CalamityMod.NPCs.Leviathan
             Main.npcFrameCount[NPC.type] = 3;
             if (!Main.dedServ)
                 AttackTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/LeviathanAttack", AssetRequestMode.ImmediateLoad).Value;
-
-            // Specify the debuffs AS is immune to.
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Slow,
-                    BuffID.Webbed,
-                    ModContent.BuffType<ExoFreeze>(),
-                    ModContent.BuffType<GlacialState>(),
-                    ModContent.BuffType<TemporalSadness>(),
-                    ModContent.BuffType<KamiDebuff>(),
-                    ModContent.BuffType<Eutrophication>(),
-                    ModContent.BuffType<TimeSlow>(),
-                    ModContent.BuffType<TeslaFreeze>(),
-                    ModContent.BuffType<Vaporfied>()
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 
         public override void SetDefaults()
@@ -197,6 +178,19 @@ namespace CalamityMod.NPCs.Leviathan
             }
 
             NPC.dontTakeDamage = spawnAnimation;
+
+            // Adjust slowing debuff immunity
+            bool immuneToSlowingDebuffs = NPC.ai[0] == 2f;
+            NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
             {

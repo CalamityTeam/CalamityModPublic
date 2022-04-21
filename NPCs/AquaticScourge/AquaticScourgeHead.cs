@@ -34,25 +34,6 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquatic Scourge");
-
-            // Specify the debuffs AS is immune to.
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Slow,
-                    BuffID.Webbed,
-                    ModContent.BuffType<ExoFreeze>(),
-                    ModContent.BuffType<GlacialState>(),
-                    ModContent.BuffType<TemporalSadness>(),
-                    ModContent.BuffType<KamiDebuff>(),
-                    ModContent.BuffType<Eutrophication>(),
-                    ModContent.BuffType<TimeSlow>(),
-                    ModContent.BuffType<TeslaFreeze>(),
-                    ModContent.BuffType<Vaporfied>()
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 
         public override void SetDefaults()

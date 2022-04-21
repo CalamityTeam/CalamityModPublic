@@ -60,25 +60,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             };
             value.Position.X -= 92f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
-
-            // Specify the debuffs AS is immune to.
-            NPCDebuffImmunityData debuffData = new NPCDebuffImmunityData
-            {
-                SpecificallyImmuneTo = new int[]
-                {
-                    BuffID.Slow,
-                    BuffID.Webbed,
-                    ModContent.BuffType<ExoFreeze>(),
-                    ModContent.BuffType<GlacialState>(),
-                    ModContent.BuffType<TemporalSadness>(),
-                    ModContent.BuffType<KamiDebuff>(),
-                    ModContent.BuffType<Eutrophication>(),
-                    ModContent.BuffType<TimeSlow>(),
-                    ModContent.BuffType<TeslaFreeze>(),
-                    ModContent.BuffType<Vaporfied>()
-                }
-            };
-            NPCID.Sets.DebuffImmunitySets[Type] = debuffData;
         }
 
         public override void SetDefaults()
@@ -162,6 +143,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Adjusts how 'challenging' the projectiles and enemies are to deal with
             float challengeAmt = (1f - lifeRatio) * 100f;
             float nukeBarrageChallengeAmt = (0.5f - lifeRatio) * 200f;
+
+            // Adjust slowing debuff immunity
+            bool immuneToSlowingDebuffs = NPC.ai[0] == 0f || NPC.ai[0] == 4f;
+            NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;
+            NPC.buffImmune[BuffID.Webbed] = immuneToSlowingDebuffs;
 
             // Light
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0.3f, 0.7f, 0f);
