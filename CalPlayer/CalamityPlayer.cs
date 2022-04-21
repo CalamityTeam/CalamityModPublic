@@ -3596,17 +3596,12 @@ namespace CalamityMod.CalPlayer
 
             Player.GetAttackSpeed(DamageClass.Melee) += meleeSpeedMult;
 
+            // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade, Blade of Enmity and non-true melee weapons.
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
-                Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
+                Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>() ||
+                (Player.ActiveItem().DamageType == DamageClass.Melee && Player.ActiveItem().shoot != ProjectileID.None && !Player.ActiveItem().Calamity().trueMelee))
             {
                 float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * 0.25f);
-                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
-            }
-
-            // Reduce melee speed bonus by 0.25x for non-true melee weapons.
-            if (Player.ActiveItem().DamageType == DamageClass.Melee && Player.ActiveItem().shoot != ProjectileID.None && !Player.ActiveItem().Calamity().trueMelee)
-            {
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
                 Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
             }
             #endregion
