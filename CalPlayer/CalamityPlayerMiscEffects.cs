@@ -469,7 +469,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Create a direct strike to hit this specific NPC.
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<Calamity>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Calamity>()));
                 Projectile.NewProjectileDirect(source, target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), sigilDamage, 0f, Player.whoAmI, i);
 
                 // Incinerate the target with Vulnerability Hex.
@@ -611,7 +611,7 @@ namespace CalamityMod.CalPlayer
                     if (!Main.npc[i].active || Main.npc[i].friendly || Main.npc[i].lifeMax < 5 || alreadyTargetedNPCs.Contains(i) || Main.npc[i].realLife >= 0 || Main.npc[i].dontTakeDamage || Main.npc[i].immortal)
                         continue;
 
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<DaawnlightSpiritOrigin>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<DaawnlightSpiritOrigin>()));
                     if (Main.myPlayer == Player.whoAmI && Main.npc[i].WithinRange(Player.Center, 2000f))
                         Projectile.NewProjectile(source, Main.npc[i].Center, Vector2.Zero, bullseyeType, 0, 0f, Player.whoAmI, i);
                     if (spiritOriginBullseyeShootCountdown <= 0)
@@ -1555,7 +1555,7 @@ namespace CalamityMod.CalPlayer
                 if (blunderBooster)
                 {
                     int lightningCount = Main.rand.Next(2, 7);
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
                     for (int i = 0; i < lightningCount; i++)
                     {
                         Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -1578,7 +1578,7 @@ namespace CalamityMod.CalPlayer
                 else if (plaguedFuelPack)
                 {
                     int numClouds = Main.rand.Next(2, 10);
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<PlaguedFuelPack>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<PlaguedFuelPack>()));
                     for (int i = 0; i < numClouds; i++)
                     {
                         Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
@@ -1603,7 +1603,7 @@ namespace CalamityMod.CalPlayer
             // Gravistar Sabaton effects
             if (gSabaton && Player.whoAmI == Main.myPlayer)
             {
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<GravistarSabaton>()));
                 if (gSabatonCooldown <= 0 && !Player.mount.Active)
                 {
                     if (Player.controlDown && Player.releaseDown && Player.position.Y != Player.oldPosition.Y)
@@ -3084,7 +3084,7 @@ namespace CalamityMod.CalPlayer
                 {
                     const int BaseDamage = 10;
                     int damage = (int)(BaseDamage * Player.AverageDamage());
-                    var source = Player.GetProjectileSource_Item(Player.ActiveItem());
+                    var source = Player.GetSource_ItemUse(Player.ActiveItem());
                     float range = 200f;
 
                     for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3208,7 +3208,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.ProfanedSoulArtifact>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.ProfanedSoulArtifact>()));
                     if (Player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1 && !profanedCrystalBuffs)
                         Player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
@@ -3352,7 +3352,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * Player.RogueDamage()), 0f, Player.whoAmI, 0f, 0f);
                 }
@@ -3410,7 +3410,7 @@ namespace CalamityMod.CalPlayer
 
             if (CryoStone)
             {
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
                 if (Player.whoAmI == Main.myPlayer && Player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(Player.AverageDamage() * 70), 0f, Player.whoAmI);
             }

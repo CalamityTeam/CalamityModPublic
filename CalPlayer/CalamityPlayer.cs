@@ -2640,7 +2640,7 @@ namespace CalamityMod.CalPlayer
             {
                 rogueStealth -= rogueStealthMax * 0.3f;
 
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<MomentumCapacitor>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<MomentumCapacitor>()));
                 Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
                 Projectile.NewProjectile(source, fieldSpawnCenter, Vector2.Zero, ModContent.ProjectileType<MomentumCapacitorOrb>(), 0, 0f, Player.whoAmI, 0f, 0f);
             }
@@ -2701,7 +2701,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<AngelicAlliance>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<AngelicAlliance>()));
                 for (int projIndex = 0; projIndex < angelAmt; projIndex++)
                 {
                     Projectile proj = Main.projectile[projIndex];
@@ -2716,7 +2716,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.AddCooldown(Cooldowns.SandCloak.ID, CalamityUtils.SecondsToFrames(30));
 
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
                 rogueStealth -= rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
                 SoundEngine.PlaySound(SoundID.Item, Player.position, 45);
@@ -3419,7 +3419,7 @@ namespace CalamityMod.CalPlayer
                     howlsHeartVanity = true;
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        var source = Player.GetProjectileSource_Accessory(item);
+                        var source = Player.GetSource_Accessory(item);
                         if (Player.FindBuffIndex(ModContent.BuffType<HowlTrio>()) == -1)
                         {
                             Player.AddBuff(ModContent.BuffType<HowlTrio>(), 3600, true);
@@ -4038,7 +4038,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth += 0.5f;
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaActivation"), Player.Center);
 
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 for (int i = 0; i < 10; i++)
                 {
                     int lumenyl = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), (int)(55 * Player.RogueDamage()), 0, Player.whoAmI);
@@ -4069,7 +4069,7 @@ namespace CalamityMod.CalPlayer
                 rogueStealth = rogueStealthMax;
                 SoundEngine.PlaySound(SoundID.Item68, Player.Center);
 
-                var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
+                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 int eclipse = Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(2750 * Player.RogueDamage()), 0, Player.whoAmI);
                 if (eclipse.WithinBounds(Main.maxProjectiles))
                     Main.projectile[eclipse].Calamity().forceTypeless = true;
@@ -4540,7 +4540,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.CountsAsClass<MeleeDamageClass>())
             {
-                var source = Player.GetProjectileSource_Item(item);
+                var source = Player.GetSource_ItemUse(item);
                 if (fungalSymbiote && Player.whoAmI == Main.myPlayer && fungalSymbioteTimer == 0)
                 {
                     if (Player.itemAnimation == (int)(Player.itemAnimationMax * 0.1) ||
@@ -6903,7 +6903,7 @@ namespace CalamityMod.CalPlayer
                     }
 
                     // Spawn the harmless brain images that are actually projectiles
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<TheAmalgam>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<TheAmalgam>()));
                     Projectile.NewProjectile(source, Player.Center.X + Main.rand.Next(-40, 40), Player.Center.Y - Main.rand.Next(20, 60), Player.velocity.X * 0.3f, Player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, Player.whoAmI);
                 }
 
@@ -7042,7 +7042,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aBulwarkRare)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 74);
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)(25 * Player.AverageDamage()), 5f, Player.whoAmI, 0f, 1f);
                     for (int n = 0; n < 12; n++)
@@ -7052,7 +7052,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (dAmulet)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<DeificAmulet>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<DeificAmulet>()));
                     for (int n = 0; n < 3; n++)
                     {
                         Projectile star = CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * Player.AverageDamage()), 4f, Player.whoAmI);
@@ -7066,7 +7066,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (fCarapace)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
                     if (damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.NPCHit, (int)Player.position.X, (int)Player.position.Y, 45);
@@ -7092,7 +7092,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aSpark)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     if (damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 93);
@@ -7126,7 +7126,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (inkBomb && !abyssalMirror && !eclipseMirror)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.InkBomb>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.InkBomb>()));
                     if (Player.whoAmI == Main.myPlayer && !Player.HasCooldown(Cooldowns.InkBomb.ID))
                     {
                         Player.AddCooldown(Cooldowns.InkBomb.ID, CalamityUtils.SecondsToFrames(20));
@@ -7142,7 +7142,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (blazingCore)
                 {
-                    var source = Player.GetProjectileSource_Accessory(FindAccessory(ModContent.ItemType<BlazingCore>()));
+                    var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlazingCore>()));
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun>()] < 1 && Player.ownedProjectileCounts[ModContent.ProjectileType<BlazingSun2>()] < 1)
                     {
                         for (int i = 0; i < 360; i += 3)
@@ -9785,7 +9785,7 @@ namespace CalamityMod.CalPlayer
 
         internal void rollBabSpears(int randAmt, bool chaseable)
         {
-            var source = Player.GetProjectileSource_Item(Player.ActiveItem());
+            var source = Player.GetSource_ItemUse(Player.ActiveItem());
             if (Player.whoAmI == Main.myPlayer && !endoCooper && randAmt > 0 && Main.rand.NextBool(randAmt) && chaseable)
             {
                 int spearsFired = 0;

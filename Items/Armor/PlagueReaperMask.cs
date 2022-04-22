@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Armor
 
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Accessory(Item);
+                var source = player.GetSource_Accessory(Item);
                 if (player.immune)
                 {
                     if (player.miscCounter % 10 == 0)

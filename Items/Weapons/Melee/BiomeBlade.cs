@@ -215,7 +215,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void HoldItem(Player player)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             player.Calamity().rightClickListener = true;
             player.Calamity().mouseWorldListener = true;
 

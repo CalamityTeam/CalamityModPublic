@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (target.life <= 0 && !player.moonLeech)
             {
                 float randomSpeedX = Main.rand.Next(3);
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (target.statLife <= 0 && !player.moonLeech)
             {
                 float randomSpeedX = Main.rand.Next(3);

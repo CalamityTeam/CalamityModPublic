@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         private void SpawnFlares(Player player, float knockback, int damage, bool crit)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             SoundEngine.PlaySound(SoundID.Item88, player.position);
             int i = Main.myPlayer;
             float num72 = Item.shootSpeed;

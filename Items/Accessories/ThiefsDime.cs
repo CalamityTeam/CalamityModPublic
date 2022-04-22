@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ThiefsDimeProj>()] < 1)
                 {
-                    var source = player.GetProjectileSource_Accessory(Item);
+                    var source = player.GetSource_Accessory(Item);
                     Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<ThiefsDimeProj>(), (int)(100 * player.RogueDamage()), 6f, Main.myPlayer, 0f, 0f);
                 }
             }

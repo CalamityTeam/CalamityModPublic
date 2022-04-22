@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Armor
                 "Summons an ancient leaf prism to blast your enemies with life energy";
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<SilvaSummonSetBuff>(), 3600, true);

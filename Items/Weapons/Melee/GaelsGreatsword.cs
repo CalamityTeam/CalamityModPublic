@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<LightningThing>()) < 3 &&
                 player.statLife <= player.statLifeMax2 * 0.5f &&
                 Main.myPlayer == player.whoAmI)

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             int num251 = Main.rand.Next(2, 4);
             for (int num252 = 0; num252 < num251; num252++)
             {
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             int num251 = Main.rand.Next(2, 4);
             for (int num252 = 0; num252 < num251; num252++)
             {

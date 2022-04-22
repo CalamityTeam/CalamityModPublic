@@ -593,7 +593,7 @@ namespace CalamityMod.CalPlayer
         #region Item
         public void ItemOnHit(Item item, int damage, Vector2 position, bool crit, bool npcCheck)
         {
-            var source = Player.GetProjectileSource_Item(item);
+            var source = Player.GetSource_ItemUse(item);
             if (!item.CountsAsClass<MeleeDamageClass>() && Player.meleeEnchant == 7)
                 Projectile.NewProjectile(source, position, Player.velocity, ProjectileID.ConfettiMelee, 0, 0f, Player.whoAmI);
 
@@ -1916,7 +1916,7 @@ namespace CalamityMod.CalPlayer
             Vector2 velocity = Main.npc[targetIdx].DirectionFrom(spawnPos);
             velocity *= speed;
 
-            var source = player.GetProjectileSource_Item(player.ActiveItem());
+            var source = player.GetSource_ItemUse(player.ActiveItem());
             int projectile = Projectile.NewProjectile(source, spawnPos, velocity, type, damage, knockback, player.whoAmI, targetIdx, 0f);
             Main.projectile[projectile].extraUpdates += extraUpdateAmt;
         }

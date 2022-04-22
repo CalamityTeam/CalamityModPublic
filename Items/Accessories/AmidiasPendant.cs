@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        var source = player.GetProjectileSource_Accessory(Item);
+                        var source = player.GetSource_Accessory(Item);
                         int speed2 = 25;
                         float spawnX = Main.rand.Next(1000) - 500 + player.Center.X;
                         float spawnY = -1000 + player.Center.Y;

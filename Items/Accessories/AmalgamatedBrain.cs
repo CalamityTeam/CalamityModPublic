@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.aBrain = true;
             if (player.immune)
             {
-                var source = player.GetProjectileSource_Accessory(Item);
+                var source = player.GetSource_Accessory(Item);
                 if (player.miscCounter % 6 == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)

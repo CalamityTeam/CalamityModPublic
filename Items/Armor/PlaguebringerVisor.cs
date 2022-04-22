@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Armor
             player.maxMinions += 3;
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<PlaguebringerSummonBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<PlaguebringerSummonBuff>(), 3600, true);

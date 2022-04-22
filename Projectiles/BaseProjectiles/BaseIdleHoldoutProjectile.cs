@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 {
                     int damage = (int)(heldItem.damage * player.GetDamage(heldItem.DamageType).Base);
                     float kb = player.GetWeaponKnockback(heldItem, heldItem.knockBack);
-                    Projectile.NewProjectile(player.GetProjectileSource_Item(heldItem), player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(heldItem), player.Center, Vector2.Zero, holdoutType, damage, kb, player.whoAmI);
                 }
             }
         }

@@ -128,7 +128,7 @@ namespace CalamityMod.Items.Weapons.Summon
                     (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
                      !robotModProjectile.RightIconActive)) // "Melee" attack
                 {
-                    var source = player.GetProjectileSource_Item(item);
+                    var source = player.GetSource_ItemUse(item);
                     int damage = player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot ? GiantIbanRobotOfDoom.RegicideBaseDamageSmall : GiantIbanRobotOfDoom.RegicideBaseDamageLarge;
                     Projectile.NewProjectile(source, robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
                                Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));

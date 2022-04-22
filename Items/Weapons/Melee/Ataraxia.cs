@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Melee
             int trueMeleeDamage = (int)(0.1f * Item.damage * player.MeleeDamage());
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
 
             for (int i = 0; i < numSplits; ++i)

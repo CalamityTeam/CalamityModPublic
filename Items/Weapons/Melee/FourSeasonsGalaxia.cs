@@ -237,7 +237,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.whoAmI != Main.myPlayer)
                 return;
 
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             mainAttunement.PassiveEffect(player, source, ref UseTimer, ref OnHitProc);
 
             if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)

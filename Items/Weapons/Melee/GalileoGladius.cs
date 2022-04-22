@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.Calamity().galileoCooldown <= 0)
                 {
                     int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;

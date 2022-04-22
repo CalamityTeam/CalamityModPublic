@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
 
                 int damage = 30;
                 int swordDmg = (int)(damage * player.AverageDamage());
-                var source = player.GetProjectileSource_Accessory(Item);
+                var source = player.GetSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
                     var sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);

@@ -150,7 +150,7 @@ namespace CalamityMod.DataStructures
             for (int i = 0; i < 14; i++)
             {
                 Vector2 shootVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 3.25f);
-                Projectile.NewProjectile(Owner.GetProjectileSource_Item(Owner.ActiveItem()), target.Center, shootVelocity, ModContent.ProjectileType<GemTechYellowShard>(), damage, 0f, OwnerIndex);
+                Projectile.NewProjectile(Owner.GetSource_ItemUse(Owner.ActiveItem()), target.Center, shootVelocity, ModContent.ProjectileType<GemTechYellowShard>(), damage, 0f, OwnerIndex);
             }
 
             MeleeCrystalCountdown = GemTechHeadgear.MeleeShardDelay;
@@ -169,7 +169,7 @@ namespace CalamityMod.DataStructures
                 shootVelocity = shootVelocity.SafeNormalize(Vector2.UnitY) * 6f;
 
             spawnPosition -= shootVelocity.SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(15f, 50f);
-            Projectile.NewProjectile(Owner.GetProjectileSource_Item(Owner.ActiveItem()), spawnPosition, shootVelocity, ModContent.ProjectileType<GemTechGreenFlechette>(), damage, 0f, OwnerIndex);
+            Projectile.NewProjectile(Owner.GetSource_ItemUse(Owner.ActiveItem()), spawnPosition, shootVelocity, ModContent.ProjectileType<GemTechGreenFlechette>(), damage, 0f, OwnerIndex);
         }
 
         public void OnItemUseEffects(Item item)
@@ -268,7 +268,7 @@ namespace CalamityMod.DataStructures
                 gemDamage = CalamityUtils.DamageSoftCap(gemDamage, GemTechHeadgear.GemDamageSoftcapThreshold);
 
                 if (Main.myPlayer == OwnerIndex)
-                    Projectile.NewProjectile(Owner.GetProjectileSource_Item(Owner.ActiveItem()), gemPosition, Vector2.Zero, ModContent.ProjectileType<GemTechArmorGem>(), gemDamage, 0f, OwnerIndex, 0f, (int)GemThatShouldBeLost);
+                    Projectile.NewProjectile(Owner.GetSource_ItemUse(Owner.ActiveItem()), gemPosition, Vector2.Zero, ModContent.ProjectileType<GemTechArmorGem>(), gemDamage, 0f, OwnerIndex, 0f, (int)GemThatShouldBeLost);
             }
         }
 

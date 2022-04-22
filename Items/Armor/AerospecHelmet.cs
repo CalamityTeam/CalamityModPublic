@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
             player.noFallDmg = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<AerospecSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<AerospecSummonSetBuff>(), 3600, true);

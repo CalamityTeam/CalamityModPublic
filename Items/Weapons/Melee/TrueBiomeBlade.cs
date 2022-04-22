@@ -278,7 +278,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BiomeBladeHoldout>() && n.owner == player.whoAmI))
                     return;
 
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 bool mayAttune = player.StandingStill() && !player.mount.Active && player.CheckSolidGround(1, 3);
                 Vector2 displace = new Vector2(18f, 0f);
                 Projectile.NewProjectile(source, player.Top + displace, Vector2.Zero, ProjectileType<BiomeBladeHoldout>(), 0, 0, player.whoAmI, mayAttune ? 0f : 1f);
@@ -333,7 +333,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     return;
                 }
             }
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             Projectile.NewProjectile(source, target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, player.whoAmI, target.whoAmI);
         }
 

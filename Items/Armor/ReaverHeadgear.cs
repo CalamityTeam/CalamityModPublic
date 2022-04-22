@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor
 
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<ReaverOrbBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<ReaverOrbBuff>(), 3600, true);

@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Armor
             if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
             {
                 modPlayer.redDevil = true;
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<DemonshadeSetDevilBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<DemonshadeSetDevilBuff>(), 3600, true);

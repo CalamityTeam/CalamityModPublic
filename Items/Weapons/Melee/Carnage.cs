@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (health)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 SoundEngine.PlaySound(SoundID.Item74, targetPos);
                 targetPos.X += (float)(targetWidth / 2);
                 targetPos.Y += (float)(targetHeight / 2);

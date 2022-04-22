@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (Main.rand.NextBool(15))
                 {
-                    var source = player.GetProjectileSource_Accessory(Item);
+                    var source = player.GetSource_Accessory(Item);
                     int cloudCount = Main.rand.Next(2,5);
                     for (int i = 0; i < cloudCount; i++)
                     {

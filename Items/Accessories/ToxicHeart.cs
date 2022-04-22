@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories
             bool flag = plagueCounter % 60 == 0;
             int num3 = (int)(50 * player.AverageDamage());
             int random = Main.rand.Next(10);
-            var source = player.GetProjectileSource_Accessory(Item);
+            var source = player.GetSource_Accessory(Item);
             if (player.whoAmI == Main.myPlayer)
             {
                 if (random == 0)

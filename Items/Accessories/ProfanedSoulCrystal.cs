@@ -120,7 +120,7 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI != Main.myPlayer)
                 return false;
 
-            var source = player.GetProjectileSource_Item(item);
+            var source = player.GetSource_ItemUse(item);
             int weaponType = item.CountsAsClass<MeleeDamageClass>() ? 1 : 
                 item.CountsAsClass<RangedDamageClass>() ? 2 : 
                 item.CountsAsClass<MagicDamageClass>() ? 3 : 

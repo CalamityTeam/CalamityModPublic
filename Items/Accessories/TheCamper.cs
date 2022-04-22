@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            var source = player.GetProjectileSource_Accessory(Item);
+            var source = player.GetSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.camper = true;
             player.AddBuff(BuffID.HeartLamp, 60, true);

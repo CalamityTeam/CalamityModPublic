@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                     if (crit)
                         damage /= 2;
 
-                    Projectile.NewProjectile(player.GetProjectileSource_Item(Item), target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
+                    Projectile.NewProjectile(player.GetSource_ItemUse(Item), target.Center, Vector2.Zero, ModContent.ProjectileType<GaussFlux>(), damage, 0f, player.whoAmI, 0f, target.whoAmI);
                 }
             }
         }

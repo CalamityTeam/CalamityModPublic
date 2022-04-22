@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         private void OnHitEffects(Player player, Vector2 targetPos, int targetLife, int targetMaxLife, float knockback, int damage, bool crit)
         {
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (crit)
                 damage /= 2;
 

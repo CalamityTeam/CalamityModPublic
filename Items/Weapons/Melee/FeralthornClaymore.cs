@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Venom, 300);
 
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (crit)
                 damage /= 2;
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(BuffID.Venom, 300);
 
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (crit)
                 damage /= 2;
 

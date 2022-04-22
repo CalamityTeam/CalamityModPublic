@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<DaedalusSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<DaedalusSummonSetBuff>(), 3600, true);

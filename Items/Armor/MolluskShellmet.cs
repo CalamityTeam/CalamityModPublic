@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor
             player.maxMinions += 4;
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Item(Item);
+                var source = player.GetSource_ItemUse(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<ShellfishBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<ShellfishBuff>(), 3600, true);

@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
             player.maxMinions++;
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Accessory(Item);
+                var source = player.GetSource_Accessory(Item);
                 if (player.FindBuffIndex(ModContent.BuffType<StatigelSummonSetBuff>()) == -1)
                 {
                     player.AddBuff(ModContent.BuffType<StatigelSummonSetBuff>(), 3600, true);

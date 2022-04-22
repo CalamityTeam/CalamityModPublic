@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            var source = player.GetProjectileSource_Accessory(Item);
+            var source = player.GetSource_Accessory(Item);
             player.ignoreWater = true;
             if (!player.lavaWet && !player.honeyWet)
             {

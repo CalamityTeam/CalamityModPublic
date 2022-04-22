@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.howlsHeart = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                var source = player.GetProjectileSource_Accessory(Item);
+                var source = player.GetSource_Accessory(Item);
                 if (player.FindBuffIndex(BuffType<HowlTrio>()) == -1)
                 {
                     player.AddBuff(BuffType<HowlTrio>(), 3600, true);

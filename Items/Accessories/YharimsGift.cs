@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            var source = player.GetProjectileSource_Accessory(Item);
+            var source = player.GetSource_Accessory(Item);
             player.moveSpeed += 0.15f;
             player.GetDamage<GenericDamageClass>() += 0.15f;
             if (!player.StandingStill())

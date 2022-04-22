@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Accessories
             int sandy = ProjectileType<SandElementalMinion>();
             int cloudy = ProjectileType<CloudElementalMinion>();
 
-            var source = player.GetProjectileSource_Accessory(Item);
+            var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
             int elementalDmg = (int)(90 * player.MinionDamage());
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;

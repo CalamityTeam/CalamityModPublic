@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
                         num++;
                     }
                 }
-                var source = player.GetProjectileSource_Accessory(Item);
+                var source = player.GetSource_Accessory(Item);
                 if (Main.rand.Next(15) >= num && num < 10)
                 {
                     int num2 = 50;

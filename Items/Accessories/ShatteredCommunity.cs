@@ -131,7 +131,7 @@ namespace CalamityMod.Items.Accessories
         private void LevelUpEffects(Player player)
         {
             // Spawn the purple laser beam from failing the Dungeon Defenders event.
-            var source = player.GetProjectileSource_Accessory(Item);
+            var source = player.GetSource_Accessory(Item);
             int projID = ProjectileID.DD2ElderWins;
             Vector2 offset = new Vector2(0f, 800f); // The effect is extremely tall, so start it very low down
             Projectile fx = Projectile.NewProjectileDirect(source, player.Center + offset, Vector2.Zero, projID, 0, 0f, player.whoAmI);

@@ -719,7 +719,7 @@ namespace CalamityMod.Items
                         float angleVariance = MathHelper.TwoPi / pointyThingyAmount;
                         float angle = 0f;
 
-                        var source = player.GetProjectileSource_Item(player.ActiveItem());
+                        var source = player.GetSource_ItemUse(player.ActiveItem());
                         for (int i = 0; i < pointyThingyAmount; i++)
                         {
                             if (Main.projectile.Length == Main.maxProjectiles)
@@ -1304,7 +1304,7 @@ namespace CalamityMod.Items
                 player.statLifeMax2 += 40;
                 if (modPlayer.icicleCooldown <= 0)
                 {
-                    var source = player.GetProjectileSource_Accessory(item);
+                    var source = player.GetSource_Accessory(item);
                     if (player.controlJump && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
                     {
                         int p = Projectile.NewProjectile(source, player.Center, Vector2.UnitY * 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.AverageDamage()), 5f, player.whoAmI);

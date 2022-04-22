@@ -307,7 +307,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
 
             //PAssive effetcsts only happen on the side of the owner
-            var source = player.GetProjectileSource_Item(Item);
+            var source = player.GetSource_ItemUse(Item);
             if (secondaryAttunement != null)
             {
                 if (secondaryAttunement.id != AttunementID.FlailBlade || MeatHook == null || !MeatHook.active)
