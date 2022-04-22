@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<HellfireExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

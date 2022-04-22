@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
                     for (int i = -1; i < numProj - 1; i++)
                     {
                         Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i));
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Ancient2>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, Projectile.ai[1]);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<Ancient2>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, 0f, Projectile.ai[1]);
                     }
                 }
             }

@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Melee
             if (distanceFromMouse < shootReach && distanceFromMouse > 40f)
                 shootReach = distanceFromMouse + 32f;
 
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Projectile.velocity, ModContent.ProjectileType<PrismTooth>(), (int)ToothDamage, 0f, Projectile.owner, shootReach, Projectile.whoAmI);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Projectile.velocity, ModContent.ProjectileType<PrismTooth>(), (int)ToothDamage, 0f, Projectile.owner, shootReach, Projectile.whoAmI);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

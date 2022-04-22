@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
                     float angle = Main.rand.NextFloat(-0.1f, 0.1f) + i * 0.05f;
                     Vector2 petalSpawnPosition = Projectile.Center - Vector2.UnitY * 6f;
                     Vector2 petalShootVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 7.5f;
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Summon
                     float angle = MathHelper.Lerp(MathHelper.ToRadians(-Main.rand.NextFloat(30f, 36f)), MathHelper.ToRadians(Main.rand.NextFloat(30f, 36f)), i / 4f);
                     Vector2 petalSpawnPosition = Projectile.Center - Vector2.UnitY * 6f;
                     Vector2 petalShootVelocity = -Vector2.UnitY.RotatedBy(angle) * 9f;
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), petalSpawnPosition, petalShootVelocity, petalID, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }

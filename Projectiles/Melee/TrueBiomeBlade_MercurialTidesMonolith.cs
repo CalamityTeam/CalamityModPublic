@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Projectile.Center + OriginDirection.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = OriginDirection.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), Projectile.damage, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), Projectile.damage, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.ModProjectile is MercurialTidesMonolith monolith)
                 {
                     monolith.WaitTimer = (float)Math.Sqrt(1.0 - Math.Pow(projSize - 1.0, 2)) * 3f;

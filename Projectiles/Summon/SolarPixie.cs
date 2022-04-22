@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = targetPos - source;
                     velocity.Normalize();
                     velocity *= shootSpeed;
-                    int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ProjectileID.HeatRay, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ProjectileID.HeatRay, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (beam.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[beam].Calamity().forceMinion = true;

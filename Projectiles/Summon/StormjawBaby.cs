@@ -280,7 +280,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < Main.rand.Next(1,4); i++)
                         {
                             Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-                            int spark = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                            int spark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[spark].Calamity().forceMinion = true;
@@ -323,7 +323,7 @@ namespace CalamityMod.Projectiles.Summon
                                     for (int j = 0; j < Main.rand.Next(1,4); j++)
                                     {
                                         Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-                                        int spark = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                        int spark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                                         if (spark.WithinBounds(Main.maxProjectiles))
                                         {
                                             Main.projectile[spark].Calamity().forceMinion = true;

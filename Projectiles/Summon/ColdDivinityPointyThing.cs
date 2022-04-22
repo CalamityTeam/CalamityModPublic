@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 velocity = Projectile.ai[0].ToRotationVector2().RotatedBy(Math.Atan(0));
                         velocity.Normalize();
                         velocity *= 20f;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, velocity, Projectile.type, (int)(Projectile.damage * 1.05f), Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, velocity, Projectile.type, (int)(Projectile.damage * 1.05f), Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
 
                     }
                     Projectile.netUpdate = Projectile.owner == Main.myPlayer;

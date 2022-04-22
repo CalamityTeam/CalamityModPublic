@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.netUpdate = true;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<AstrealFlame>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<AstrealFlame>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }

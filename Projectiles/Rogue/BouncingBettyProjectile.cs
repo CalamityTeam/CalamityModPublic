@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             if (Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BettyExplosion>(), Projectile.damage, 8f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BettyExplosion>(), Projectile.damage, 8f, Projectile.owner);
                 if (Projectile.Calamity().stealthStrike)
                 {
                     int projectileCount = 12;
@@ -36,12 +36,12 @@ namespace CalamityMod.Projectiles.Rogue
                         if (Main.rand.NextBool(2))
                         {
                             Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BouncingBettyShrapnel>(), (int)(Projectile.damage * 0.5f), 3f, Projectile.owner);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BouncingBettyShrapnel>(), (int)(Projectile.damage * 0.5f), 3f, Projectile.owner);
                         }
                         else
                         {
                             Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
-                            Projectile fire = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.6f), 1f, Projectile.owner);
+                            Projectile fire = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(Projectile.damage * 0.6f), 1f, Projectile.owner);
                             fire.localNPCHitCooldown = 9;
                             fire.timeLeft = 240;
                         }

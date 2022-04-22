@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Ranged
                         }
                         vector2 += new Vector2(num78, num79);
                         int num29 = Projectile.damage;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), num29, Projectile.knockBack, Projectile.owner, 0f, (float)Projectile.whoAmI);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), num29, Projectile.knockBack, Projectile.owner, 0f, (float)Projectile.whoAmI);
                         Projectile.netUpdate = true;
                     }
                 }

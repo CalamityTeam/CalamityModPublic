@@ -357,7 +357,7 @@ namespace CalamityMod.Projectiles.Summon
                             float SpeedY = num15 * num17;
                             int damage = Projectile.damage;
                             int Type = ModContent.ProjectileType<PlateProjectile>();
-                            int index = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            int index = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector2.X, vector2.Y, SpeedX * 2f, SpeedY * 2f, Type, damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             if (SpeedX < 0f)
                                 Projectile.direction = -1;
                             if (SpeedX > 0f)

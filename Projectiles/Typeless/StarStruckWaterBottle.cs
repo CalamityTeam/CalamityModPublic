@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Typeless
                     dust.velocity.X *= 1.5f;
                     dust.velocity *= 3f;
                 }
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, Projectile.owner, 4f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, Projectile.owner, 4f);
             }
         }
     }

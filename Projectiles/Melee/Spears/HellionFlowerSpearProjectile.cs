@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(Projectile.damage * 0.65), Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(Projectile.damage * 0.65), Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
         };
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (crit)
             {
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 if (Projectile.owner == Main.myPlayer)
                 {
                     Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner, true);

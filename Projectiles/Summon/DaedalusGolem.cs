@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Summon
                             if (Main.rand.NextBool(2))
                                 initialVelocity = initialVelocity.RotatedByRandom(0.4f);
                             float initialAngle = initialVelocity.ToRotation();
-                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
+                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner, initialAngle, Main.rand.Next(100));
                             if (Main.projectile.IndexInRange(p))
                                 Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Summon
                 else if (!UsingChargedLaserAttack && AttackTimer == ChargedPelletAttackTime / 2 && Main.myPlayer == Projectile.owner)
                 {
                     Vector2 initialVelocity = Projectile.SafeDirectionTo(potentialTarget.Center + potentialTarget.velocity * 15f) * 19f;
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), ArmPosition, initialVelocity, ModContent.ProjectileType<DaedalusPellet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }

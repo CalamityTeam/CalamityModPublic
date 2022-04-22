@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             int damage = Projectile.damage;
             Vector2 laserDirection = Projectile.SafeDirectionTo(potentialTarget.Center);
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserDirection, ModContent.ProjectileType<SeraphimBeamLarge>(), damage, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, laserDirection, ModContent.ProjectileType<SeraphimBeamLarge>(), damage, 0f, Projectile.owner);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 255 - Projectile.alpha);

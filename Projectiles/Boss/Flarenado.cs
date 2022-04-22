@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
                 float num618 = (scaleBase - Projectile.ai[1] + 1f) * scaleMult / scaleBase;
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 11f, Projectile.ai[1] - 1f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 11f, Projectile.ai[1] - 1f);
             }
             if (Projectile.ai[0] <= 0f)
             {

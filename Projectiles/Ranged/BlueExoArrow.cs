@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private void OnHitEffects(Vector2 targetPos)
         {
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int x = 0; x < 3; x++)
             {
                 if (Projectile.owner == Main.myPlayer)

@@ -85,11 +85,11 @@ namespace CalamityMod.Projectiles.Ranged
                     float offsetAngle = Main.rand.NextFloat(0.2f, 0.5f) * Main.rand.NextBool(2).ToDirectionInt();
                     Vector2 sparkVelocity = Projectile.SafeDirectionTo(Main.MouseWorld, Vector2.UnitY).RotatedByRandom(0.5f) * 13f;
                     sparkVelocity = sparkVelocity.RotatedBy(offsetAngle);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, Projectile.owner);
                 }
                 knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
 
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shotPosition, shotVelocity, type, damage, knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), shotPosition, shotVelocity, type, damage, knockBack, Projectile.owner);
                 Projectile.netUpdate = true;
             }
         }

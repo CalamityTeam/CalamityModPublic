@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
                             ModContent.ProjectileType<FallenStarProj>(),
                             ProjectileID.Starfury
                         });
-                        int star = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
+                        int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
                         if (star.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[star].penetrate = 1;

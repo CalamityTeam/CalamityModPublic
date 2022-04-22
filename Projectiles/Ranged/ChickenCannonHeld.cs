@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
                         {
                             velocity = -Vector2.UnitY;
                         }
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, projType, dmg, kBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, projType, dmg, kBack, Projectile.owner);
                     }
                 }
                 else if (!canShoot)

@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Utils.RandomVector2(Main.rand, -24f, 24f),
                         Main.rand.NextVector2CircularEdge(4f, 4f), ModContent.ProjectileType<SkeletalDragonChild>(), Projectile.damage, Projectile.knockBack, player.whoAmI, Projectile.whoAmI);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Projectile.owner == player.whoAmI && Projectile.spriteDirection == (Projectile.SafeDirectionTo(target.Center).X > 0).ToDirectionInt())
                     {
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 11.5f, ModContent.ProjectileType<BloodBreath>(), Projectile.damage, 0f, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }

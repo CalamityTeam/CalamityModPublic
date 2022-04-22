@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (Main.myPlayer == Projectile.owner)
             {
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GaussRifleExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GaussRifleExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
     }

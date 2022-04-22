@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
             if (!Collision.CanHitLine(Owner.MountedCenter, 16, 16, spawnPosition, 16, 16))
                 spawnPosition = Projectile.Center + Projectile.velocity * 50f;
 
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, Projectile.velocity.SafeNormalize(Vector2.Zero) * heldItem.shootSpeed, ModContent.ProjectileType<RainbowComet>(), Projectile.damage, Projectile.knockBack, Owner.whoAmI);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, Projectile.velocity.SafeNormalize(Vector2.Zero) * heldItem.shootSpeed, ModContent.ProjectileType<RainbowComet>(), Projectile.damage, Projectile.knockBack, Owner.whoAmI);
         }
 
         public void UpdatePlayerVisuals(Vector2 center)

@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < hitCount; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DestructionBolt>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<DestructionBolt>(), (int)(Projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

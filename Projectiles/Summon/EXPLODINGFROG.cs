@@ -55,28 +55,28 @@ namespace CalamityMod.Projectiles.Summon
                     // Goop projectiles
                     for (int i = 0; i < 3; i++)
                     {
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                             ModContent.ProjectileType<FrogGore1>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
-                        p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                             new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                             ModContent.ProjectileType<FrogGore2>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
-                    int p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    int p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore3>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p2))
                         Main.projectile[p2].originalDamage = Projectile.originalDamage;
-                    p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore4>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p2))
                         Main.projectile[p2].originalDamage = Projectile.originalDamage;
-                    p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                         new Vector2(0f, -Main.rand.NextFloat(6f, 10f)).RotatedByRandom(ExplosionAngleVariance),
                         ModContent.ProjectileType<FrogGore5>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p2))

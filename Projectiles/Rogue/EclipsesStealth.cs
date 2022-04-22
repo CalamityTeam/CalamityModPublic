@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Projectile.localAI[1] -= 1f;
 
-                    var source = Projectile.GetProjectileSource_FromThis();
+                    var source = Projectile.GetSource_FromThis();
                     if (Projectile.localAI[1] <= 0f)
                     {
                         // Set up the spear counter for next time. Used to be every 5 frames there was a 50% chance; now it's more reliable but slower.

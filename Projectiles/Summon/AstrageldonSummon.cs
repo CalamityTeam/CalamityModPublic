@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner)
                     {
                         Vector2 laserVel = Projectile.SafeDirectionTo(objectivepos) * laserSpeed;
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, laserVel, projType, Projectile.damage, 0f, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                         Projectile.netUpdate = true;

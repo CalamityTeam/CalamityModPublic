@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float speedMult = Main.rand.NextFloat(3,6);
                     Vector2 vector1 = new Vector2(Projectile.Center.X - player.Center.X, Projectile.Center.Y - player.Center.Y);
                     vector1.Normalize();
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float speedMult = Main.rand.NextFloat(3,6);
                     Vector2 vector1 = new Vector2(Projectile.Center.X - player.Center.X, Projectile.Center.Y - player.Center.Y);
                     vector1.Normalize();
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }

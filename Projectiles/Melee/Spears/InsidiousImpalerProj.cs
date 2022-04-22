@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.85f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity * 3.5f, ModContent.ProjectileType<InsidiousHarpoon>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.85f, Projectile.owner);
         };
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

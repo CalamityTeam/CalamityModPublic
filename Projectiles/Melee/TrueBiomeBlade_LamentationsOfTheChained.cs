@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee
                     NPC potentialTarget = TargetNext(target.Center, i);
                     if (potentialTarget == null)
                         break;
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GhastlyChain>(), (int)(damage * OmegaBiomeBlade.FlailBladeAttunement_GhostChainDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
                     if (proj.ModProjectile is GhastlyChain chain)
                         chain.Gravity = Main.rand.NextFloat(30f, 50f);
                 }

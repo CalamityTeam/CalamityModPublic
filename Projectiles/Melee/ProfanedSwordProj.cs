@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (explosionCount < 3)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(Projectile.damage * 0.5), knockback, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(Projectile.damage * 0.5), knockback, Projectile.owner);
                     explosionCount++;
                 }
             }

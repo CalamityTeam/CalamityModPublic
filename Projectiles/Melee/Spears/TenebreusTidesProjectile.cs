@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y, Projectile.velocity.X * 2.4f, Projectile.velocity.Y * 2.4f, 
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y, Projectile.velocity.X * 2.4f, Projectile.velocity.Y * 2.4f, 
                 ModContent.ProjectileType<TenebreusTidesWaterProjectile>(), (int)(Projectile.damage * 0.65), Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
         };
         public override void ExtraBehavior()
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public void SwordSpam(Vector2 targetPos)
         {
             int projAmt = 3;
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int i = 0; i < projAmt; ++i)
             {
                 int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();

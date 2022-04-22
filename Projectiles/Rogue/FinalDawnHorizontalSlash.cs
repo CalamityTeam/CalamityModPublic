@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FinalDawnFlame>(), Projectile.damage / 2, 0f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FinalDawnFlame>(), Projectile.damage / 2, 0f, Projectile.owner);
                     }
                 }
             }

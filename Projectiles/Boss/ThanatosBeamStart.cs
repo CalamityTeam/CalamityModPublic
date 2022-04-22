@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Boss
                         for (int j = 0; j < totalProjectiles; j++)
                         {
                             Vector2 projVelocity = Projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2) * 12f;
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), laserFirePosition, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserFirePosition, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
                         }
                         laserFirePosition += beamDirection * distanceBetweenProjectiles;
                     }

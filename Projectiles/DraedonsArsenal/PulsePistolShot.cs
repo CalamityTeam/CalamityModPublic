@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             NPC toHit = potentialTargets[Main.rand.Next(0, maxIndex)];
 
             // A netcode block such as Main.myPlayer == projectile.owner is not required. OnHitNPC is only run client-side.
-            Projectile splitShot = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+            Projectile splitShot = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center,
                                                                   Projectile.velocity,
                                                                   Projectile.type,
                                                                   Projectile.damage,

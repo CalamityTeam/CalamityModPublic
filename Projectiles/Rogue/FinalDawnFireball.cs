@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FinalDawnReticle>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FinalDawnReticle>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
         public override bool PreDraw(ref Color lightColor)

@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PrismExplosionSmall>(), Projectile.damage, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PrismExplosionSmall>(), Projectile.damage, 0f, Projectile.owner);
         }
     }
 }

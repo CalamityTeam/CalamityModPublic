@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee
                 //New bolt
                 if (Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.position, Projectile.rotation.ToRotationVector2() * 18f, ProjectileType<GalaxiaBolt>(), Projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.position, Projectile.rotation.ToRotationVector2() * 18f, ProjectileType<GalaxiaBolt>(), Projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
                     proj.scale = Size * 3f;
                     proj.timeLeft = 50;
                 }
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Projectile.Center + OriginDirection.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = OriginDirection.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), Projectile.damage, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), Projectile.damage, 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.ModProjectile is AndromedasStrideBoltSpawner spawner)
                 {
                     spawner.WaitTimer = (float)Math.Sqrt(1.0 - Math.Pow(projSize - 1.0, 2)) * 3f;

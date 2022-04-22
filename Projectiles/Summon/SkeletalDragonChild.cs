@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.ai[1]++;
                 if (Projectile.ai[1] % 55f == 54f && Main.myPlayer == Projectile.owner)
                 {
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 19f, ModContent.ProjectileType<BloodSpit>(), mother.damage, mother.knockBack, mother.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }

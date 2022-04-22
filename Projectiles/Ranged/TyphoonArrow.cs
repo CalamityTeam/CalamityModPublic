@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TyphoonBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TyphoonBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
     }

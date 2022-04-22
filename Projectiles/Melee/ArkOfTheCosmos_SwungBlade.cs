@@ -183,7 +183,7 @@ namespace CalamityMod.Projectiles.Melee
                         //Slightly shift the blasts up so the final close shots don't go BELOW the cursor and instead go right on it.
                         float adjustedBlastRotation = Projectile.rotation - MathHelper.PiOver4 * 1.15f * Owner.direction;
 
-                         var source = Projectile.GetProjectileSource_FromThis();
+                         var source = Projectile.GetSource_FromThis();
                          Projectile blast = Projectile.NewProjectileDirect(source, Owner.Center + adjustedBlastRotation.ToRotationVector2() * 10f, adjustedBlastRotation.ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SwirlBoltDamageMultiplier / ArkoftheCosmos.SwirlBoltAmount * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
                          {
                             blast.timeLeft = 100;
@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     //Spawn a constellation link
 
-                    var source = Projectile.GetProjectileSource_FromThis();
+                    var source = Projectile.GetSource_FromThis();
                     Projectile chain = Projectile.NewProjectileDirect(source, Owner.Center, Vector2.Zero, ProjectileType<ArkoftheCosmosConstellation>(), (int)(Projectile.damage * ArkoftheCosmos.chainDamageMultiplier), 0, Owner.whoAmI, (int)(Projectile.timeLeft / 2f));
                     chain.timeLeft = (int)(Projectile.timeLeft / 2f);
                 }
@@ -243,7 +243,7 @@ namespace CalamityMod.Projectiles.Melee
 
                         for (int i = 0; i < 3; i++)
                         {
-                            var source = Projectile.GetProjectileSource_FromThis();
+                            var source = Projectile.GetSource_FromThis();
                             Projectile blast = Projectile.NewProjectileDirect(source, Projectile.Center + (MathHelper.TwoPi * (i / 3f) + rotationOffset).ToRotationVector2() * 30f, (MathHelper.TwoPi * (i / 3f) + rotationOffset).ToRotationVector2() * 20f, ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SnapBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.05f);
                             {
                                 blast.timeLeft = 100;

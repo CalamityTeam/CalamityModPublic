@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
                 int rand2 = Main.rand.Next(-50, 51);
                 Vector2 targetDir = Projectile.Center + new Vector2(rand, rand2);
                 if (Projectile.ai[1] > 40)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(targetDir) * 12f, ModContent.ProjectileType<Crescent>(), Projectile.damage / 2, 0.4f, Projectile.owner, Projectile.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(targetDir) * 12f, ModContent.ProjectileType<Crescent>(), Projectile.damage / 2, 0.4f, Projectile.owner, Projectile.whoAmI);
 
                 if (Projectile.ai[1] > 46)
                 {

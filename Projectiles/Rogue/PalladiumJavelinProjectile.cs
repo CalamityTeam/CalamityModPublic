@@ -52,8 +52,8 @@ namespace CalamityMod.Projectiles.Rogue
                     Dust.NewDust(Projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 144, 0f, 0f, 0, default, 1f);
                 }
 
-                int javelin = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(5f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
-                int javelin2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(-5f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int javelin = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(5f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int javelin2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(MathHelper.ToRadians(-5f)), Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (javelin.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[javelin].Calamity().lineColor = Projectile.Calamity().lineColor + 1;

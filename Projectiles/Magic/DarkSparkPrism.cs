@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Magic
 
                         int num29 = Projectile.damage;
                         for (int l = 0; l < 7; l++)
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), center3, vector12, ModContent.ProjectileType<DarkSparkBeam>(), num29, Projectile.knockBack, Projectile.owner, l, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), center3, vector12, ModContent.ProjectileType<DarkSparkBeam>(), num29, Projectile.knockBack, Projectile.owner, l, Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI));
 
                         Projectile.netUpdate = true;
                     }

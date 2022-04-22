@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (Projectile.timeLeft % 30 == 0 && Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceRogue = true;
             }

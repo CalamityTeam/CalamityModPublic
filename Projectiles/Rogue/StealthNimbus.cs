@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
                     {
                         int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));
                         int num415 = (int)(Projectile.position.Y + (float)Projectile.height + 4f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<StealthRain>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[0], 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)num414, (float)num415, 0f, 5f, ModContent.ProjectileType<StealthRain>(), Projectile.damage, 0f, Projectile.owner, Projectile.ai[0], 0f);
                     }
                 }
             }

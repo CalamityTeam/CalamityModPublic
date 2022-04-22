@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Magic
                     VelocityY *= 1.5f;
                     type = ModContent.ProjectileType<MelterNote2>();
                 }
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, VelocityX, VelocityY, type, Damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, VelocityX, VelocityY, type, Damage, Projectile.knockBack, Projectile.owner, 0.0f, 0.0f);
             }
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 5)

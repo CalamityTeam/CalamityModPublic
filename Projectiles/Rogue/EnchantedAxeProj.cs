@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     newAxeVelocity.Normalize();
                     newAxeVelocity *= 20f;
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), (int)(Projectile.damage * 1.2f), 2, Projectile.owner, 0, 0);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, newAxeVelocity, ModContent.ProjectileType<EnchantedAxe2>(), (int)(Projectile.damage * 1.2f), 2, Projectile.owner, 0, 0);
                     Main.projectile[p].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
                     summonAxe = false;
                 }
@@ -108,14 +108,14 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     float axeSpeed = 15f;
                     int axeDamage = Projectile.damage / 2;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, new Vector2(1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, new Vector2(0f, 1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, new Vector2(-1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, new Vector2(0f, -1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(-1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(-1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(0f, 1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(-1f, 0f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, new Vector2(0f, -1f) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(-1f, -1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Normalize(new Vector2(-1f, 1f)) * axeSpeed, ModContent.ProjectileType<EnchantedAxe2>(), axeDamage, 2, Projectile.owner, 0, 0);
                 }
             }
 

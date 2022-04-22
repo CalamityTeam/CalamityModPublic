@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 spiritSpawnPosition = Projectile.Center - Vector2.UnitY * 12f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spiritSpawnPosition, -Vector2.UnitY * 10f, congregationType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spiritSpawnPosition, -Vector2.UnitY * 10f, congregationType, Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
                 SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, Projectile.Center);
             }

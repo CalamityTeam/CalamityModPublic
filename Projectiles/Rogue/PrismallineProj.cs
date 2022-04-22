@@ -50,12 +50,12 @@ namespace CalamityMod.Projectiles.Rogue
                             Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f, 0.2f);
                             if (numSpecProj < 2 && !hitEnemy)
                             {
-                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Prismalline3>(), (int)(Projectile.damage * 1.1), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Prismalline3>(), (int)(Projectile.damage * 1.1), Projectile.knockBack, Projectile.owner, 0f, 0f);
                                 ++numSpecProj;
                             }
                             else
                             {
-                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Prismalline2>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Prismalline2>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
                     }
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
                         for (int num252 = 0; num252 < shardCount; num252++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);
+                            int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);
                             if (shard.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[shard].Calamity().forceRogue = true;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f, 0.2f);
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Prismalline3>(), (int)(Projectile.damage * 1.15), Projectile.knockBack, Projectile.owner, 1f, 0f);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<Prismalline3>(), (int)(Projectile.damage * 1.15), Projectile.knockBack, Projectile.owner, 1f, 0f);
                         }
                     }
                 }
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int s = 0; s < shardCount; s++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);
+                    int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);
                     if (shard.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[shard].Calamity().forceRogue = true;

@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Damageable
                 if (Main.myPlayer == Projectile.owner)
                 {
                     float angle = MathHelper.TwoPi / 6f * (i - 1);
-                    Projectile shard = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, Mod.Find<ModProjectile>("ArtifactOfResilienceShard" + i.ToString()).Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile shard = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, Mod.Find<ModProjectile>("ArtifactOfResilienceShard" + i.ToString()).Type, Projectile.damage, Projectile.knockBack, Projectile.owner);
                     shard.ai[0] = angle;
                     shard.frameCounter = Projectile.frameCounter + 1; // FrameCounter is a stored value for the amount of times the bulwark has reformed.
                 }

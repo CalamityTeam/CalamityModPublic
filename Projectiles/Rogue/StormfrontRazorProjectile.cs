@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] >= sparkFreq)
             {
                 Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), Projectile.damage, 3f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), Projectile.damage, 3f, Projectile.owner);
                 Projectile.ai[0] = 0;
             }
             if (Main.rand.NextBool(10))

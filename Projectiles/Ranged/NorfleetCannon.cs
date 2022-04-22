@@ -100,10 +100,10 @@ namespace CalamityMod.Projectiles.Ranged
                         type = ModContent.ProjectileType<NorfleetComet>();
                         speed.X += Main.rand.NextFloat(-1.5f, 1.5f);
                         speed.Y += Main.rand.NextFloat(-1.5f, 1.5f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
                         speed.X += Main.rand.NextFloat(-1.5f, 1.5f);
                         speed.Y += Main.rand.NextFloat(-1.5f, 1.5f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner);
                         Projectile.netUpdate = true;
                     }
                 }

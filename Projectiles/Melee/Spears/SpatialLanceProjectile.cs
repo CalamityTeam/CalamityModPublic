@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.6f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, ModContent.ProjectileType<SpatialSpear>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Projectile.velocity, Projectile.velocity, ModContent.ProjectileType<SpatialSpear>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
         };
         public override void ExtraBehavior()
         {

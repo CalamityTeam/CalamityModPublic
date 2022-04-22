@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Projectile.timeLeft % 8 == 0)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
-                    int slime = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ProjectileID.SlimeGun, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                    int slime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.SlimeGun, (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
                     if (slime.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[slime].Calamity().forceRogue = true;

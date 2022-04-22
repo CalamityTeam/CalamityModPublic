@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (spike)
                 {
                     spike = false;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<UrchinBallSpike>(), (int)((double)Projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<UrchinBallSpike>(), (int)((double)Projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
                 Projectile.usesLocalNPCImmunity = false;
                 float num693 = vector62.Length();

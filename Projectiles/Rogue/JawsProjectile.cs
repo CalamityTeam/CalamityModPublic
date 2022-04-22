@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * player.RogueDamage()), 10f, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * player.RogueDamage()), 10f, Projectile.owner, 0, 0);
             }
         }
 
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.Calamity().stealthStrike)
             {
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * player.RogueDamage()), 10f, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<JawsShockwave>(), (int)(100f * player.RogueDamage()), 10f, Projectile.owner, 0, 0);
             }
         }
 

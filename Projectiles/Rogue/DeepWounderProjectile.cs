@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 waterVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                     waterVelocity.Normalize();
                     waterVelocity *= 3;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spriteCenter, waterVelocity, ModContent.ProjectileType<DeepWounderWater>(), 20, 1, Projectile.owner, 0, 0);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spriteCenter, waterVelocity, ModContent.ProjectileType<DeepWounderWater>(), 20, 1, Projectile.owner, 0, 0);
                 }
             }
         }

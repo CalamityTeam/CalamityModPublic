@@ -141,12 +141,12 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.rand.NextBool(2) && Projectile.Calamity().stealthStrike)
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projdmg, 3f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Top, shrapnelVelocity, ModContent.ProjectileType<BarrelShrapnel>(), projdmg, 3f, Projectile.owner);
                 }
                 else
                 {
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int fireIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projdmg / 3, 1f, Projectile.owner);
+                    int fireIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Top, fireVelocity, ModContent.ProjectileType<TotalityFire>(), projdmg / 3, 1f, Projectile.owner);
                     Main.projectile[fireIndex].localNPCHitCooldown = -2;
                 }
             }

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Time % 50 == 49 && Main.myPlayer == Projectile.owner && potentialTarget != null)
             {
                 Vector2 shootVelocity = Projectile.SafeDirectionTo(potentialTarget.Center).RotatedByRandom(0.25f) * 8f;
-                int bolt = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<WitherBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int bolt = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<WitherBolt>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 Main.projectile[bolt].originalDamage = Projectile.originalDamage;
             }
             Projectile.Center = player.Center + OffsetAngle.ToRotationVector2() * 150f;

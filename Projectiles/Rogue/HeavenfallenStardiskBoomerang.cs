@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Projectile.timeLeft % 5f == 0f) //every 5 ticks
                 {
-                    var source = Projectile.GetProjectileSource_FromThis();
+                    var source = Projectile.GetSource_FromThis();
                     if (Main.rand.NextBool(2))
                     {
                         int energyAmt = Main.rand.Next(1, 4); //1 to 3 energy
@@ -196,8 +196,8 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack * 0.4f, Projectile.owner, 0f, 0f);
                     }
                 }
             }

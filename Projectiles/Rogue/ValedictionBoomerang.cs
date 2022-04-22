@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     velocity.Normalize();
                     velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile typhoon = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), typhoonDamage, 0f, Projectile.owner);
+                    Projectile typhoon = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), typhoonDamage, 0f, Projectile.owner);
                     if (typhoon.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         typhoon.Calamity().forceRogue = true;

@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 velocity = (target.Center - Projectile.Center) / 15f;
-                    int beam = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<DeathstareBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(beam))
                     {
                         Main.projectile[beam].originalDamage = Projectile.originalDamage;

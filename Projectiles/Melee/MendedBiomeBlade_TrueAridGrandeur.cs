@@ -215,7 +215,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.NPCHit43, Projectile.Center);
             if (ShredRatio > 0.5 && Owner.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * 16f, ProjectileType<TrueAridGrandeurShot>(), (int)(Projectile.damage * TrueBiomeBlade.HotAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * 16f, ProjectileType<TrueAridGrandeurShot>(), (int)(Projectile.damage * TrueBiomeBlade.HotAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
             }
         }
 

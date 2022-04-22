@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Summon
                     int count = Projectile.ai[1] % (2 * fireRate) == (2 * fireRate - 1) ? 4 : 3;
                     for (int i = 0; i < count; i++)
                     {
-                        int orb = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, -Vector2.UnitY.RotatedBy(MathHelper.TwoPi / count * i + Projectile.ai[0]) * fireSpeed,
+                        int orb = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -Vector2.UnitY.RotatedBy(MathHelper.TwoPi / count * i + Projectile.ai[0]) * fireSpeed,
                             ModContent.ProjectileType<TundraFlameBlossomsOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         Main.projectile[orb].originalDamage = Projectile.originalDamage;
                     }

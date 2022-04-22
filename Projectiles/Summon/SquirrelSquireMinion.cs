@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Projectile.WithinRange(target.Center, 200f))
                     acornShootVelocity = (target.Center - acornSpawnPosition).SafeNormalize(-Vector2.UnitY) * acornShootSpeed;
 
-                int acorn = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int acorn = Projectile.NewProjectile(Projectile.GetSource_FromThis(), acornSpawnPosition, acornShootVelocity, ModContent.ProjectileType<SquirrelSquireAcorn>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(acorn))
                     Main.projectile[acorn].originalDamage = Projectile.originalDamage;
             }

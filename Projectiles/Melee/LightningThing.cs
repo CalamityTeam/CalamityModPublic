@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             int damage = (int)(GaelsGreatsword.BaseDamage * Main.player[Projectile.owner].MeleeDamage());
             for (int i = 0; i < 3; i++)
             {
-                int idx = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,
+                int idx = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,
                     ProjectileID.CultistBossLightningOrbArc, damage, 0f, Projectile.owner,
                     MathHelper.PiOver2, Main.rand.Next(100));
                 if (idx.WithinBounds(Main.maxProjectiles))

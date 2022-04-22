@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                         if (Main.rand.NextBool(10))
                             projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
                         float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 8f, projType, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2() * 8f, projType, Projectile.damage / 4, Projectile.knockBack / 4, Projectile.owner);
                     }
                     bubbleCounter = 0;
                 }

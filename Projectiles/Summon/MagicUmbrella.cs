@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Summon
                 targetDist = speed / targetDist;
                 velocity.X *= targetDist;
                 velocity.Y *= targetDist;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<MagicBat>(), (int)(Projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<MagicBat>(), (int)(Projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner, 0f, 0f);
             }
         }
     }

@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < cloudAmt; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
-                    Projectile cloud = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ProjectileID.ToxicCloud + Main.rand.Next(3), Projectile.damage, 1f, Projectile.owner, 0f, Main.rand.Next(-45, 1));
+                    Projectile cloud = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.ToxicCloud + Main.rand.Next(3), Projectile.damage, 1f, Projectile.owner, 0f, Main.rand.Next(-45, 1));
                     cloud.usesIDStaticNPCImmunity = true;
                     cloud.idStaticNPCHitCooldown = 10;
                 }

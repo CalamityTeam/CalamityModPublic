@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<WitherDebuff>(), 240);
             hitCounter++;
             if (hitCounter < 6)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosion>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BloodExplosion>(), (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.5f, Projectile.owner);
             if (hitCounter > 3)
             {
                 Projectile.ai[0] = 1f;

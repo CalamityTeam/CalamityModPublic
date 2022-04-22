@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Magic
                     for (int i = 0; i < 25; i++)
                     {
                         Vector2 dustVelocity = Main.rand.NextVector2Circular(4f, 4f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, Projectile.owner);
                     }
                 }
 
@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.myPlayer == Projectile.owner)
             {
                 Vector2 spiritVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(7f, 10f);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, spiritVelocity, ModContent.ProjectileType<SmallSpirit>(), 70, 0f, Projectile.owner, Projectile.identity);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, spiritVelocity, ModContent.ProjectileType<SmallSpirit>(), 70, 0f, Projectile.owner, Projectile.identity);
             }
         }
 
@@ -246,7 +246,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Main.myPlayer == Projectile.owner && Main.rand.NextBool(16) && DeathCounter <= 0f)
             {
                 Vector2 dustVelocity = -Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(1.04f) * 1.5f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, dustVelocity, ModContent.ProjectileType<SpiritDust>(), 0, 0f, Projectile.owner);
             }
         }
 

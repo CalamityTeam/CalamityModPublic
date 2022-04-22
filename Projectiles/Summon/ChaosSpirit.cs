@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Summon
                         targetDist = speed / targetDist;
                         velocity.X *= targetDist;
                         velocity.Y *= targetDist;
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, projectileType, Projectile.damage, 5f, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, projectileType, Projectile.damage, 5f, Projectile.owner, 0f, 0f);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                         SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Summon
                             float velocityY = Main.rand.NextFloat(-10f, -7f);
                             if (reversedGravity)
                                 velocityY *= -1f;
-                            int flame = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2), velocityX, velocityY, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            int flame = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (Projectile.width / 2), Projectile.oldPosition.Y + (Projectile.height / 2), velocityX, velocityY, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             Main.projectile[flame].aiStyle = 1;
                             Main.projectile[flame].originalDamage = Projectile.originalDamage;
                         }

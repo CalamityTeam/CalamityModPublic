@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Boss
                 for (int k = 0; k < totalProjectiles; k++)
                 {
                     Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vector255, type, damage, 0f, Projectile.owner, 1f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector255, type, damage, 0f, Projectile.owner, 1f, 0f);
                 }
             }
 

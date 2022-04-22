@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             target.immune[Projectile.owner] = 6;
             if (crit)
             {
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 for (int i = 0; i < 3; i++)
                 {
                     if (Projectile.owner == Main.myPlayer)

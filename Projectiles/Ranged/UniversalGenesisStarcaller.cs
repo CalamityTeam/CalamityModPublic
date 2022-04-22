@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int n = 0; n < 2; n++)
             {
                 Projectile star = CalamityUtils.ProjectileRain(source, targetVec, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<UniversalGenesisStar>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);

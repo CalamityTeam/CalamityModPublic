@@ -190,8 +190,8 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < 3; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(Projectile.damage * 0.4), Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
             }

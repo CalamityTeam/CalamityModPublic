@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
                             float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
                             xVector *= 10f;
                             yVector *= 10f;
-                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(Projectile.damage * 1.25f), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(Projectile.damage * 1.25f), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * 1.25f);
                         }
                         eaterCooldown = 80;

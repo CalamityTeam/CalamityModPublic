@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.owner == Main.myPlayer)
                 {
                     int flashDamage = (int)(Judgement.FlashBaseDamage * player.MagicDamage());
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, Projectile.owner);
                 }
             }
 

@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Ranged
                         }
                     }
 
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner, ai0, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, speed, type, damage, knockBack, Projectile.owner, ai0, 0f);
 
                     Projectile.netUpdate = true;
                 }

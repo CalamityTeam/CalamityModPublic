@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.localAI[1] += 1f;
             if (Projectile.localAI[1] == 60f && Projectile.owner == Main.myPlayer)
             {
-                int storm = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Tornado>(), Projectile.damage, 2f, Projectile.owner, 1f, 0f);
+                int storm = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<Tornado>(), Projectile.damage, 2f, Projectile.owner, 1f, 0f);
                 Main.projectile[storm].minion = true;
                 // Main.projectile[storm].melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             }

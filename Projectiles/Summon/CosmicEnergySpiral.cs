@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int b = 0; b < blastAmt; b++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int p2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, (float)target, 0f);
+                        int p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<CosmicBlast>(), (int)(Projectile.damage * 0.5), 2f, Projectile.owner, (float)target, 0f);
                         if (Main.projectile.IndexInRange(p2))
                             Main.projectile[p2].originalDamage = Projectile.originalDamage / 2;
                     }
@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, ModContent.ProjectileType<CosmicBlastBig>(), Projectile.damage, 3f, Projectile.owner, (float)target, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                     Projectile.ai[0] = 100f;

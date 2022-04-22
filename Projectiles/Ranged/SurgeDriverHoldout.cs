@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.netUpdate = true;
 
             Vector2 gunTip = armPosition + shootDirection * heldItem.scale * 130f;
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), gunTip, shootVelocity, projectileType, damage, knockback, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), gunTip, shootVelocity, projectileType, damage, knockback, Projectile.owner, 0f, 0f);
 
             Projectile.velocity = shootDirection;
         }

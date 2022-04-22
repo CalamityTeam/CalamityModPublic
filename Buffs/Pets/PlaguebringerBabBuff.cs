@@ -22,7 +22,7 @@ namespace CalamityMod.Buffs.Pets
             bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<PlaguebringerBab>()] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-                int bee = Projectile.NewProjectile(player.GetProjectileSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<PlaguebringerBab>(), 0, 0f, player.whoAmI);
+                int bee = Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<PlaguebringerBab>(), 0, 0f, player.whoAmI);
                 Main.projectile[bee].frame = 2;
             }
         }

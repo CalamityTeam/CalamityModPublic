@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Owner.velocity.Y < 0f)
                 shootVelocity.Y += Owner.velocity.Y;
 
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, typeDecider.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner, ShootIntensity);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, typeDecider.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner, ShootIntensity);
 
             AttackTimer = 0f;
             Projectile.netUpdate = true;

@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Melee
                 float sparkVariety = Main.rand.Next(3);
 
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, vel, type, damage, kb, Projectile.owner, sparkVariety, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vel, type, damage, kb, Projectile.owner, sparkVariety, 0f);
             }
         }
 
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Melee
 
             int type = ProjectileID.FlowerPetal;
             int numPetals = 12;
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             int petalDamage = Projectile.damage / 8;
             float petalKB = 0f;
             for (int i = 0; i < numPetals; ++i)
@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int idx = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPos, fallVec, type, waterfallDamage, waterfallKB, Projectile.owner, 0f, 0f);
+                    int idx = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPos, fallVec, type, waterfallDamage, waterfallKB, Projectile.owner, 0f, 0f);
                     Main.projectile[idx].timeLeft = 100;
                     Main.projectile[idx].tileCollide = false;
                 }

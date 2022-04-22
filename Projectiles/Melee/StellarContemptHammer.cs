@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
                 float AI1 = Main.rand.Next(3);
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();

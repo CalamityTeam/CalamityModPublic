@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float starKB = 5f;
                     Vector2 velocity = Projectile.velocity;
 
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projID, starDamage, starKB, Projectile.owner, 1f, 0f);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, starDamage, starKB, Projectile.owner, 1f, 0f);
                     Main.projectile[p].penetrate = 1;
                 }
             }
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 velocity = Projectile.oldVelocity.RotateRandom(MathHelper.ToRadians(spread));
                 float speed = Main.rand.NextFloat(1.5f, 2f);
                 float moveDuration = Main.rand.Next(5, 15);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity * speed, projID, projectileDamage, kb, Projectile.owner, 0f, moveDuration);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity * speed, projID, projectileDamage, kb, Projectile.owner, 0f, moveDuration);
             }
 
             SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 62, 0.6f);

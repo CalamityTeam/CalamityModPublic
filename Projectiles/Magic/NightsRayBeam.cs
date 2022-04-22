@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 spawnPosition = target.Center + baseSpawnPositionOffset.RotatedBy(MathHelper.TwoPi * i / 4f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, Vector2.Zero, ModContent.ProjectileType<NightOrb>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, Vector2.Zero, ModContent.ProjectileType<NightOrb>(), (int)(Projectile.damage * 0.8), Projectile.knockBack, Projectile.owner);
                 }
                 HasFiredSideBeams = true;
                 Projectile.netUpdate = true;

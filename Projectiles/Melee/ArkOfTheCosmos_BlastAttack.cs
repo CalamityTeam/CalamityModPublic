@@ -174,7 +174,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         for (int i = 0; i < 5; i++)
                         {
-                            var source = Projectile.GetProjectileSource_FromThis();
+                            var source = Projectile.GetSource_FromThis();
                             Projectile blast = Projectile.NewProjectileDirect(source, Owner.Center, Main.rand.NextVector2CircularEdge(28, 28), ProjectileType<EonBolt>(), (int)(ArkoftheCosmos.SlashBoltsDamageMultiplier * Projectile.damage), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.07f);
                             {
                                 blast.timeLeft = 100;

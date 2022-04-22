@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
 
                     if (Owner.whoAmI == Main.myPlayer)
                     {
-                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(Projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                        Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - PowerLungeStart / 2f, Vector2.Zero, ProjectileType<DecaysRetortDash>(), (int)(Projectile.damage * TrueBiomeBlade.EvilAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                         if (proj.ModProjectile is DecaysRetortDash dash)
                         {
                             dash.DashStart = PowerLungeStart;

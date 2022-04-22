@@ -243,7 +243,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     int finalDamage = (int)(baseDamage * owner.MeleeDamage());
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile p = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, Projectile.owner, i);
+                        Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, Projectile.owner, i);
                         if (p.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             p.DamageType = DamageClass.Melee;
@@ -274,7 +274,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 velocity.Normalize();
                 velocity *= 18f;
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + posVec, velocity, orbID, orbDamage, orbKB, Main.myPlayer, 0.0f, 0.0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + posVec, velocity, orbID, orbDamage, orbKB, Main.myPlayer, 0.0f, 0.0f);
             }
         }
     }

@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
                             (int)(Projectile.damage * 0.666), Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;

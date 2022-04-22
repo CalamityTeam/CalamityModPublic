@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.localAI[1] >= 29f && Projectile.owner == Main.myPlayer)
             {
                 Projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ElementOrb2>(), (int)(Projectile.damage * 0.7f), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ElementOrb2>(), (int)(Projectile.damage * 0.7f), Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
 
             for (int num447 = 0; num447 < 2; num447++)

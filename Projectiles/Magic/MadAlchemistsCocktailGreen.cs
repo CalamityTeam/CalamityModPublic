@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 float ai2 = num16 + Projectile.position.Y;
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), x, y, num15, num16, ProjectileID.LunarFlare, Projectile.damage / 2, 5f, Projectile.owner, 0f, ai2);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), x, y, num15, num16, ProjectileID.LunarFlare, Projectile.damage / 2, 5f, Projectile.owner, 0f, ai2);
             }
         }
     }

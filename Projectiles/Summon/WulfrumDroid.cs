@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 velocity = targetVector - Projectile.Center;
             velocity.Normalize();
             velocity *= 10f;
-            int bolt = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            int bolt = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<WulfrumBoltMinion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             Main.projectile[bolt].originalDamage = Projectile.originalDamage;
             Main.projectile[bolt].netUpdate = true;
             Projectile.netUpdate = true;

@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Melee
             //Only create the central monolith if over half charge
             if (Charge / MaxCharge < 0.5f)
                 return;
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
 
             //Only create the side monoliths if over 3/4th charge
             if (Charge / MaxCharge < 0.75f)
@@ -231,7 +231,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * Projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), projPosition, -monolithRotation, ProjectileType<ExtantAbhorrenceMonolith>(), (int)(Projectile.damage * TrueBiomeBlade.AstralAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.ModProjectile is ExtantAbhorrenceMonolith monolith)
                     monolith.WaitTimer = (1 - projSize) * 34f;
             }

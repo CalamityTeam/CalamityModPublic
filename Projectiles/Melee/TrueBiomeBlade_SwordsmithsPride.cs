@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         shotDirection = (shotDirection.ToRotation().AngleTowards(Owner.AngleTo(lastTarget.Center), MathHelper.PiOver2)).ToRotationVector2() * 15f;
                     }
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, shotDirection, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
 
                 }
 
@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Melee
 
                         if (Owner.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(Projectile.damage * OmegaBiomeBlade.WhirlwindAttunement_BeamDamageReduction), 0f, Owner.whoAmI);
                         }
                         CanDirectFire = false;
                         AngleReset = Owner.SafeDirectionTo(Main.MouseWorld, Vector2.One).ToRotation();
@@ -279,7 +279,7 @@ namespace CalamityMod.Projectiles.Melee
                     return;
                 }
             }
-            Projectile sigil = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, Owner.whoAmI, target.whoAmI);
+            Projectile sigil = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<PurityProjectionSigil>(), 0, 0, Owner.whoAmI, target.whoAmI);
             sigil.timeLeft = OmegaBiomeBlade.WhirlwindAttunement_SigilTime;
         }
 

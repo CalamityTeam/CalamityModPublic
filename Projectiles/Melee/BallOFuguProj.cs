@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Melee
                 vector63.Normalize();
                 vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
             }
         }
 

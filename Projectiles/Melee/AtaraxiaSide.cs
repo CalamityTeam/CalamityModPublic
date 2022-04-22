@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projVec = projVec.RotatedBy(angleVariance);
                 if (Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, projVec, splitID, damage, 1.5f, Main.myPlayer);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projVec, splitID, damage, 1.5f, Main.myPlayer);
             }
         }
     }

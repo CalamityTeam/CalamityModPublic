@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 // Release flames.
                 if (Main.myPlayer == Projectile.owner && GeneralTime % 6f == 5f)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<OathswordFlame>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2CircularEdge(8f, 8f), ModContent.ProjectileType<OathswordFlame>(), Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
 
                 if (Main.myPlayer == Projectile.owner)
                 {

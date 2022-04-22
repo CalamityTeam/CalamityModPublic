@@ -246,7 +246,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (Main.myPlayer == player.whoAmI)
                 {
                     Vector2 velocity = Projectile.rotation.ToRotationVector2() * 20f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), (int)(Projectile.damage * SwordBeamDamageMultiplier), 0f, player.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), (int)(Projectile.damage * SwordBeamDamageMultiplier), 0f, player.whoAmI);
 
                     // Actually consume energy to fire the sword beam.
                     modItem.Charge -= Phaseslayer.SwordBeamChargeUse;

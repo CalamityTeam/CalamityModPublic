@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Projectile.ai[0] % MidnightSunBeacon.MachineGunRate == Projectile.localAI[0] && potentialTarget.Top.Y > Projectile.Bottom.Y)
                     {
                         Vector2 laserVelocity = Projectile.SafeDirectionTo(potentialTarget.Center, Vector2.UnitY).RotatedByRandom(0.15f) * 25f;
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Bottom, laserVelocity, ModContent.ProjectileType<MidnightSunShot>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
                             Vector2 laserVelocity = Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.UnitY);
-                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
+                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, laserVelocity, ModContent.ProjectileType<MidnightSunBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, Projectile.whoAmI);
                             if (Main.projectile.IndexInRange(p))
                                 Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.localAI[0] = 0f;
 
                 if (Projectile.ai[0] != 0f && Projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), Projectile.damage / 3, Projectile.knockBack * 3f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), Projectile.damage / 3, Projectile.knockBack * 3f, Projectile.owner);
             }
 
             Projectile.localAI[1]++;
@@ -165,9 +165,9 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = Projectile.Center + new Vector2(600, 0).RotatedBy(MathHelper.ToRadians(Main.rand.Next(360)));
                     Vector2 speed = Projectile.Center - vector3;
                     speed /= 30f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), Projectile.damage / 3, Projectile.knockBack * 2f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), Projectile.damage / 3, Projectile.knockBack * 2f, Projectile.owner);
                 }
 
                 Projectile.position = Projectile.Center;
@@ -224,14 +224,14 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = target.Center + new Vector2(600, 0).RotatedBy(MathHelper.ToRadians(Main.rand.Next(360)));
                     Vector2 speed = target.Center - vector3;
                     speed /= 30f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 
                     Vector2 vel = new Vector2(Main.rand.Next(-400, 401), Main.rand.Next(500, 801));
                     Vector2 pos = target.Center - vel;
                     vel.X += Main.rand.Next(-100, 101);
                     vel.Normalize();
                     vel *= 30f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack * 5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(Projectile.damage * 1.5f), Projectile.knockBack * 5f, Projectile.owner);
                 }
             }
         }
@@ -251,14 +251,14 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = target.Center + new Vector2(600, 0).RotatedBy(MathHelper.ToRadians(Main.rand.Next(360)));
                     Vector2 speed = target.Center - vector3;
                     speed /= 30f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), Projectile.damage / 2, Projectile.knockBack, Projectile.owner);
 
                     Vector2 vel = new Vector2(Main.rand.Next(-400, 401), Main.rand.Next(500, 801));
                     Vector2 pos = target.Center - vel;
                     vel.X += Main.rand.Next(-100, 101);
                     vel.Normalize();
                     vel *= 30f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), Projectile.damage * 3, Projectile.knockBack * 5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), Projectile.damage * 3, Projectile.knockBack * 5f, Projectile.owner);
                 }
             }
         }

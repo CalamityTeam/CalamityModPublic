@@ -246,7 +246,7 @@ namespace CalamityMod.Projectiles.Summon
                                 Vector2 velocity = targetPos - Projectile.Center;
                                 velocity.Normalize();
                                 velocity *= speed;
-                                int shark = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
+                                int shark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, Projectile.knockBack, Projectile.owner);
                                 Main.projectile[shark].netUpdate = true;
                                 Projectile.netUpdate = true;
                             }

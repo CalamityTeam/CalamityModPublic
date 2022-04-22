@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     int texID = Main.rand.Next(4);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, type, shardDamage, shardKB, Main.myPlayer, texID, 1f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, type, shardDamage, shardKB, Main.myPlayer, texID, 1f);
                 }
             }
         }

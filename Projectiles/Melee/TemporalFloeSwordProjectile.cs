@@ -98,8 +98,8 @@ namespace CalamityMod.Projectiles.Melee
             int dmg = Projectile.damage / 2;
             float kback = Projectile.knockBack * 0.5f;
 
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, hourVector, projType, dmg, kback, Projectile.owner, 0f, 0f);
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, minuteVector, projType, dmg, kback, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, hourVector, projType, dmg, kback, Projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, minuteVector, projType, dmg, kback, Projectile.owner, 0f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

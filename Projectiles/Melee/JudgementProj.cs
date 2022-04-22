@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Melee
                     for (i = 0; i < 1; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int projectile1 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<WhiteOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        int projectile2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<WhiteOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<WhiteOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        int projectile2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<WhiteOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                         Main.projectile[projectile1].velocity.X *= 0.1f;
                         Main.projectile[projectile1].velocity.Y *= 0.1f;
                         Main.projectile[projectile2].velocity.X *= 0.1f;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.Item122, Projectile.position);
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<WhiteBoltAura>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y - 100, 0f, 0f, ModContent.ProjectileType<WhiteBoltAura>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
     }

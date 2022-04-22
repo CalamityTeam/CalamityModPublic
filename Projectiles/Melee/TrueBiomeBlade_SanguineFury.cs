@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
                 if (Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), (int)(Projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), (int)(Projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                     if (proj.ModProjectile is SanguineFuryDash dash)
                     {
                         dash.DashStart = DashStart;
@@ -274,7 +274,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.NPCHit43, Projectile.Center);
             if (ShredRatio > 0.8 && Owner.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * 16f, ProjectileType<SanguineFuryWheel>(), (int)(Projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * 16f, ProjectileType<SanguineFuryWheel>(), (int)(Projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
             }
             if (Dashing)
             {

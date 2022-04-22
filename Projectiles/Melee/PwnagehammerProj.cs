@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.ai[0] == 1f && Main.myPlayer == Projectile.owner)
             {
                 crit = true;
-                int hammer = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, 0f, Projectile.ai[1]);
+                int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, 0f, Projectile.ai[1]);
                 Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
                 Main.projectile[hammer].netUpdate = true;
             }
@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.ai[0] == 1f && Main.myPlayer == Projectile.owner)
             {
-                int hammer = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, 0f, Projectile.ai[1]);
+                int hammer = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, new Vector2(0, -15f), ModContent.ProjectileType<PwnagehammerEcho>(), Projectile.damage * 2, Projectile.knockBack, Projectile.owner, 0f, Projectile.ai[1]);
                 Main.projectile[hammer].localAI[0] = Math.Sign(Projectile.velocity.X);
                 Main.projectile[hammer].netUpdate = true;
             }

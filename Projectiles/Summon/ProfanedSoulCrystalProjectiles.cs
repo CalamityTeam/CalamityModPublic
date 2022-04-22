@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 velocity = new Vector2(outerPosVec.X, outerPosVec.Y).RotatedBy(outerOffsetAngle);
                 velocity.Normalize();
                 velocity *= 8f;
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + outerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + outerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceMinion = true;
                 if (innerSplits > 0) //only runs if there's still inner splits to create
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Summon
                     velocity = new Vector2(innerPosVec.X, innerPosVec.Y).RotatedBy(innerOffsetAngle);
                     velocity.Normalize();
                     velocity *= 5f;
-                    proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + innerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + innerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceMinion = true;
                 }
@@ -460,7 +460,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     float speed = Main.rand.NextFloat(15f, 18f);
                     Vector2 velocity = startDir * (-speed);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPoint, velocity, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)(0.25f * Projectile.damage), 0f, Projectile.owner, 2f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)(0.25f * Projectile.damage), 0f, Projectile.owner, 2f, 0f);
                 }
             }
         }
@@ -624,7 +624,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 correctedVelocity = Projectile.position - pos;
                     correctedVelocity.Normalize();
                     correctedVelocity *= 25f;
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), (int)((double)Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, 2);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), (int)((double)Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, 2);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceMinion = true;
                     ((ProfanedCrystalRangedHuges)Main.projectile[proj].ModProjectile).boomerSwarm = true;

@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Enemy
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)Math.Round(Projectile.damage * 0.165), 1f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)Math.Round(Projectile.damage * 0.165), 1f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

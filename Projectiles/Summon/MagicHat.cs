@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Summon
                             });
                             float velocityX = Main.rand.NextFloat(-10f, 10f);
                             float velocityY = Main.rand.NextFloat(-15f, -8f);
-                            int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.oldPosition.X + (float)(Projectile.width / 2), Projectile.oldPosition.Y + (float)(Projectile.height / 2), velocityX, velocityY, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                             if (Main.projectile.IndexInRange(p))
                                 Main.projectile[p].originalDamage = Projectile.originalDamage;
                         }

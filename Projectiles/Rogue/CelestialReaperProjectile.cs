@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int projID = ModContent.ProjectileType<CelestialReaperAfterimage>();
                     int damage = (int)(Projectile.damage * 0.25f);
                     float kb = Projectile.knockBack * 0.5f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity, projID, damage, kb, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, projID, damage, kb, Projectile.owner);
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 float angle = MathHelper.TwoPi * i / numSplits;
                 Vector2 velocity = angle.ToRotationVector2() * speed;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
             }
         }
     }

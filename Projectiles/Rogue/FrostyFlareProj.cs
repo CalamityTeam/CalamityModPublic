@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                     vel.X += Main.rand.Next(-50, 51);
                     vel.Normalize();
                     vel *= 30f;
-                    int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, vel + Projectile.velocity / 4f, ModContent.ProjectileType<FrostShardFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, vel + Projectile.velocity / 4f, ModContent.ProjectileType<FrostShardFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     Main.projectile[shard].alpha = Projectile.alpha;
                 }
 
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
                         vel.X += Main.rand.Next(-50, 51);
                         vel.Normalize();
                         vel *= 30f;
-                        int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostShardFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostShardFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         Main.projectile[shard].alpha = Projectile.alpha;
                     }
                 }

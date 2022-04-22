@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (crit)
             {
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 int bulletCount = 10;
                 for (int x = 0; x < bulletCount; x++)
                 {

@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 ai0 = fireTo - spawnPoint;
                     float ai = (float)Main.rand.Next(100);
                     Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 9f;
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner, ai0.ToRotation(), ai);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, (int)(Projectile.damage * damageMult), Projectile.knockBack, Projectile.owner, ai0.ToRotation(), ai);
                     Main.projectile[proj].extraUpdates += 9;
                     //Does not force to Rogue because lightning is extremely abusable with Moonstone Crown
                     Main.projectile[proj].friendly = true;

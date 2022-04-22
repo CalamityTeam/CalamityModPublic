@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee
                         for (int i = 0; i <= 5; i++)
                         {
                             float angle = direction.ToRotation() + MathHelper.Lerp(-MathHelper.PiOver4, MathHelper.PiOver4, i / 5f);
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, angle.ToRotationVector2() * 30f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltThrowDamageMultiplier), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, angle.ToRotationVector2() * 30f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltThrowDamageMultiplier), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                         }
                     }
                 }
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Melee
                     if ((Empowerment + OverEmpowerment) % 30 == 29 && Owner.whoAmI == Main.myPlayer)
                     {
                         Vector2 shotDirection = Main.rand.NextVector2CircularEdge(15f, 15f);
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, shotDirection, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, shotDirection, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                     }
                 }
 
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         if (Owner.whoAmI == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One) * 15f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One) * 15f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.PhoenixAttunement_BoltDamageReduction), 0f, Owner.whoAmI, 0.1f, MathHelper.Pi * 0.02f);
                         }
                         CanDirectFire = false;
                         AngleReset = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.One).ToRotation();

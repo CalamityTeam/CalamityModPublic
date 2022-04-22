@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, direction * 0.1f + Owner.velocity, ProjectileType<GestureForTheDrownedOrb>(), Projectile.damage, 0, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, direction * 0.1f + Owner.velocity, ProjectileType<GestureForTheDrownedOrb>(), Projectile.damage, 0, Owner.whoAmI);
                 }
 
                 Particle Sparkle = new CritSpark(Projectile.Center, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(7.5f, 20f), Color.White, Main.rand.NextBool() ? Color.CornflowerBlue : Color.DodgerBlue, 0.1f + Main.rand.NextFloat(0f, 1.5f), 20 + Main.rand.Next(30), 1, 3f);

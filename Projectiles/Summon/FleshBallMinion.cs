@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 2; i++)
                     {
                         Vector2 shootVelocity = -Vector2.UnitY.RotatedByRandom(0.3f) * Main.rand.NextFloat(6f, 11f);
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Top, shootVelocity, ModContent.ProjectileType<FleshBlood>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }

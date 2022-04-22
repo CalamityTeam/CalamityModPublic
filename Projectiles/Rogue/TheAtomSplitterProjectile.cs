@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 spawnPosition = target.Center + Main.rand.NextVector2CircularEdge(baseOutwardness, baseOutwardness) * Main.rand.NextFloat(0.9f, 1.15f);
             Vector2 shootVelocity = (target.Center - spawnPosition).SafeNormalize(Vector2.UnitY) * Main.rand.NextFloat(12f, 14f);
             int damage = (int)(Projectile.damage * (stealth ? StealthSplitMultiplier : NormalSplitMultiplier));
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, Projectile.knockBack, Projectile.owner, 0f, baseOutwardness / 9f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, Projectile.knockBack, Projectile.owner, 0f, baseOutwardness / 9f);
         }
 
         public void FireExtraDuplicatesAtTarget(NPC target)
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Rogue
             spawnPosition.X += Main.rand.NextFloatDirection() * target.width * 0.45f;
             int damage = (int)(Projectile.damage * StealthSplitMultiplier);
             Vector2 shootVelocity = Vector2.UnitY * (target.Center.Y - spawnPosition.Y > 0f).ToDirectionInt() * Main.rand.NextFloat(14f, 16.5f);
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, Projectile.knockBack, Projectile.owner, 0f, 24f);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<TheAtomSplitterDuplicate>(), damage, Projectile.knockBack, Projectile.owner, 0f, 24f);
         }
 
         public void ReleaseHitDust(Vector2 spawnPosition)

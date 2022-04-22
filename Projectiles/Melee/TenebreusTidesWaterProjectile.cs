@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Melee
         public void SwordSpam(Vector2 targetPos)
         {
             int projAmt = 3;
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int i = 0; i < projAmt; ++i)
             {
                 int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();

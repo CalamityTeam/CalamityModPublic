@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         int projDamage = (int)(Projectile.damage * 0.6f);
                         float kb = 1f;
-                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, Projectile.type, projDamage, kb, Projectile.owner, 1f, Projectile.alpha);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, Projectile.type, projDamage, kb, Projectile.owner, 1f, Projectile.alpha);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
                         int projDamage = (int)(Projectile.damage * 0.6f);
                         float kb = 1f;
-                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, Projectile.type, projDamage, kb, Projectile.owner, 1f, Projectile.alpha);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), owner.Center.X, owner.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, Projectile.type, projDamage, kb, Projectile.owner, 1f, Projectile.alpha);
                         spread -= Main.rand.Next(2, 6);
                         Main.projectile[proj].ai[0] = 1f;
                     }

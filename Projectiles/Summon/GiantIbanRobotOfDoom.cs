@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        Projectile ui = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), 
+                        Projectile ui = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), 
                                                  Main.MouseWorld,
                                                  Vector2.Zero,
                                                  ModContent.ProjectileType<AndromedaUI_Background>(),
@@ -363,7 +363,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                     Vector2 laserVelocity = (Main.MouseWorld - (Main.player[Projectile.owner].Center + new Vector2(Projectile.spriteDirection == 1 ? 48f : 22f, -28f))).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection);
-                    Projectile deathLaser = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(),
+                    Projectile deathLaser = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(),
                                                                            Projectile.Center,
                                                                            laserVelocity,
                                                                            ModContent.ProjectileType<AndromedaDeathRay>(),

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 NPC potentialTarget = Projectile.Center.ClosestNPCAt(900f);
                 if (potentialTarget != null)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), lightningDamage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 15f, ModContent.ProjectileType<SystemBaneLightning>(), lightningDamage, Projectile.knockBack, Projectile.owner);
             }
 
             // Sometimes generate lightning from the outside of the energy field if the projectile was spawned by a stealth strike.
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (Time % FieldLightningFireRate == 0f && potentialTarget != null && Main.myPlayer == Projectile.owner)
                 {
                     Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2CircularEdge(FieldRadius, FieldRadius);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, potentialTarget.DirectionFrom(spawnPosition) * 14f, ModContent.ProjectileType<SystemBaneLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, potentialTarget.DirectionFrom(spawnPosition) * 14f, ModContent.ProjectileType<SystemBaneLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }

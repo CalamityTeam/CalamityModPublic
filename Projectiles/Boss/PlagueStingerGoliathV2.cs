@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 float scale = 1.5f + Projectile.ai[0] * 0.015f;
                 int baseWidthAndHeight = 20;
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlagueExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].scale = scale;
                 Main.projectile[proj].width = (int)(baseWidthAndHeight * scale);
                 Main.projectile[proj].height = (int)(baseWidthAndHeight * scale);

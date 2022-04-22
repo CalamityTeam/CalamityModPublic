@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
             int swordDmg = (int)(Projectile.damage * 0.25);
             int numSwords = Main.rand.Next(1,4);
             int spearAmt = Main.rand.Next(1,4);
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < numSwords; ++i)

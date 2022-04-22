@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
                 float num618 = (scaleBase - Projectile.ai[1] + 1f) * scaleMult / scaleBase;
                 center.Y -= baseHeight * num618 / 2f;
                 center.Y += 2f;
-                Projectile segment = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
+                Projectile segment = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), center, Projectile.velocity, Projectile.type, Projectile.damage, Projectile.knockBack, Projectile.owner, 10f, Projectile.ai[1] - 1f);
                 //Defaults to magic
                 if (segment.whoAmI.WithinBounds(Main.maxProjectiles))
                 {

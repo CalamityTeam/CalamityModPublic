@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Rogue
                 newFistVelocity.Normalize();
                 newFistVelocity *= 10f;
                 float AI1 = Projectile.ai[1] - 1f;
-                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position, newFistVelocity, ModContent.ProjectileType<MeteorFistProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, AI1);
+                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position, newFistVelocity, ModContent.ProjectileType<MeteorFistProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, AI1);
                 Main.projectile[p].Calamity().stealthStrike = true;
             }
         }

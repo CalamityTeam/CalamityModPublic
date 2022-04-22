@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Enemy
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     float angle = MathHelper.TwoPi / 4f * i + MathHelper.PiOver2;
-                    Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, angle.ToRotationVector2().RotatedByRandom(0.1f) * 8f, ModContent.ProjectileType<GammaAcid>(),
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, angle.ToRotationVector2().RotatedByRandom(0.1f) * 8f, ModContent.ProjectileType<GammaAcid>(),
                         Projectile.damage, 3f).tileCollide = true;
                 }
             }

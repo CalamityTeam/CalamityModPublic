@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.timeLeft % 20 == 19 && Projectile.owner == Main.myPlayer)
             {
                 int splitDamage = Projectile.damage / 2;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 15f, ModContent.ProjectileType<DepthOrb2>(), splitDamage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 15f, ModContent.ProjectileType<DepthOrb2>(), splitDamage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
             int num458 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 33, 0f, 0f, 100, default, 0.4f);
             Main.dust[num458].noGravity = true;

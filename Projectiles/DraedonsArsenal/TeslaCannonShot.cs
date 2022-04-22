@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                                 if (Projectile.Center.ManhattanDistance(Main.npc[i].Center) < num474)
                                 {
-                                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Main.npc[i].Center) * 2f, Projectile.type, (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.6f, Projectile.owner, 0f, -1f);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(Main.npc[i].Center) * 2f, Projectile.type, (int)(Projectile.damage * 0.6), Projectile.knockBack * 0.6f, Projectile.owner, 0f, -1f);
 
                                     Projectile.ai[1] = 60f;
 

@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float TravelSpeed => 22f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                      Projectile.Center + Projectile.velocity * 0.5f,
                                      Projectile.velocity * 0.8f, ModContent.ProjectileType<BansheeHookScythe>(),
                                      Projectile.damage, Projectile.knockBack * 0.85f, Projectile.owner, 0f, 0f);
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                     target.Center, Vector2.Zero,
                     ModContent.ProjectileType<BansheeHookBoom>(), (int)(damage * 0.25),
                     10f, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

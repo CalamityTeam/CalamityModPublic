@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
 
                 //Spawn the projectile
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<FlurrystormIceShard>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<FlurrystormIceShard>(), (int)(Projectile.damage * 0.3), 2f, Projectile.owner);
                 split += 1;
             }
         }

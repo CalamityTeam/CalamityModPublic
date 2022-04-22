@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Summon
                             Main.dust[green].noLight = true;
                             Main.dust[green].velocity = dustVel;
                         }
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, -Vector2.UnitY * 6f, healProj, 0, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -Vector2.UnitY * 6f, healProj, 0, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }

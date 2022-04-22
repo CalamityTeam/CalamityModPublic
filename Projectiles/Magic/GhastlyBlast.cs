@@ -149,7 +149,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Projectile.ai[0] % 30f == 0f && Projectile.ai[0] < 241f && Main.myPlayer == Projectile.owner)
                 {
                     Vector2 vector144 = Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 12f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector144.X, vector144.Y, ModContent.ProjectileType<GhastlySubBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, Projectile.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector144.X, vector144.Y, ModContent.ProjectileType<GhastlySubBlast>(), Projectile.damage, 0f, Projectile.owner, 0f, Projectile.whoAmI);
                 }
 
                 // Undocumented, unrefactored homing. Will not home through walls.
@@ -317,7 +317,7 @@ namespace CalamityMod.Projectiles.Magic
                         vector5.Y *= -1f;
                     }
                     vector5 *= Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector4.X, vector4.Y, vector5.X, vector5.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)(Projectile.damage * 0.8), Projectile.knockBack * 0.8f, Projectile.owner, num108, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector4.X, vector4.Y, vector5.X, vector5.Y, ModContent.ProjectileType<GhastlyExplosionShard>(), (int)(Projectile.damage * 0.8), Projectile.knockBack * 0.8f, Projectile.owner, num108, 0f);
                 }
                 for (int num111 = 0; num111 < num107; num111++)
                 {
@@ -333,7 +333,7 @@ namespace CalamityMod.Projectiles.Magic
                         vector7.Y *= -1f;
                     }
                     vector7 *= Main.rand.Next(40, 81) * 0.1f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector6.X, vector6.Y, vector7.X, vector7.Y, ModContent.ProjectileType<GhastlyExplosion>(), (int)(Projectile.damage * 0.8), Projectile.knockBack * 0.8f, Projectile.owner, num109, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector6.X, vector6.Y, vector7.X, vector7.Y, ModContent.ProjectileType<GhastlyExplosion>(), (int)(Projectile.damage * 0.8), Projectile.knockBack * 0.8f, Projectile.owner, num109, 0f);
                 }
             }
         }

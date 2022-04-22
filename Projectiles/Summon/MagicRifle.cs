@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Summon
                     velocity.Normalize();
                     velocity *= projSpeed;
                     SoundEngine.PlaySound(SoundID.Item40, Projectile.position);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner);
                     Projectile.netUpdate = true;
                 }
             }

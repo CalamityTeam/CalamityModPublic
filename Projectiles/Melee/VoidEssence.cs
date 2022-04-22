@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Melee
             ai1 *= Main.rand.NextBool() ? -1f : 1f;
 
             if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, Projectile.owner, ai0, ai1);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, tentacleVelocity, ModContent.ProjectileType<VoidTentacle>(), damage, kb, Projectile.owner, ai0, ai1);
         }
     }
 }

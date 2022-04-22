@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
 
         private void SummonLasers()
         {
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             switch (Projectile.ai[1])
             {
                 case 0f:

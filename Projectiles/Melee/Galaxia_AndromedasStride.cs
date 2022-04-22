@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
                     //WOahhh do a ring of projectiles!! woahhh
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, (MathHelper.TwoPi * i / 5f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 30;
                         }
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Melee
                         //Projectiles!!! wah!!!
                         for (int i = 0; i < 9; i++)
                         {
-                            Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
+                            Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, (MathHelper.TwoPi * i / 9f).ToRotationVector2() * 10f, ProjectileType<GalaxiaBolt>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_BoltsDamageReduction), 0f, Owner.whoAmI, 0.75f, MathHelper.Pi * 0.02f);
                             {
                                 blast.timeLeft = 50;
                             }
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 15)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 15;
 
-            Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction * 16f, ProjectileType<GalaxiaBolt>(), Projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
+            Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction * 16f, ProjectileType<GalaxiaBolt>(), Projectile.damage, 10f, Owner.whoAmI, 0.75f, MathHelper.Pi / 25f);
             proj.scale = 3f;
             proj.timeLeft = 50;
 
@@ -253,7 +253,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * Projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), projPosition, -monolithRotation, ProjectileType<AndromedasStrideBoltSpawner>(), (int)(Projectile.damage * FourSeasonsGalaxia.AndromedaAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.ModProjectile is AndromedasStrideBoltSpawner spawner)
                 {
                     spawner.WaitTimer = (1 - projSize) * 34f;

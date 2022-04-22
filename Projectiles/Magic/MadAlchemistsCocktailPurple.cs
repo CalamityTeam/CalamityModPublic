@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), shrapnelDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), shrapnelDamage, 0f, Projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

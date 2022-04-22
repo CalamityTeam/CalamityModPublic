@@ -275,7 +275,7 @@ namespace CalamityMod.Projectiles.Summon
             float speedMult = 16f;
             targetVec.Normalize();
             targetVec *= speedMult;
-            int spike = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, debuffToInflict, 0f);
+            int spike = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner, debuffToInflict, 0f);
             if (Main.projectile.IndexInRange(spike))
                 Main.projectile[spike].originalDamage = Projectile.originalDamage;
             debuffToInflict++;

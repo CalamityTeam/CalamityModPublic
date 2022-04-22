@@ -22,7 +22,7 @@ namespace CalamityMod.Buffs.Pets
             bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<YharonSonPet>()] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(player.GetProjectileSource_Buff(buffIndex), player.Top, Vector2.Zero, ModContent.ProjectileType<YharonSonPet>(), 0, 0f, player.whoAmI, 1f);
+                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Top, Vector2.Zero, ModContent.ProjectileType<YharonSonPet>(), 0, 0f, player.whoAmI, 1f);
             }
         }
     }

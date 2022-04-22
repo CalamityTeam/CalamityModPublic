@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 shardSpeed = new Vector2(shardspeedX, shardspeedY);
 
                 //Spawn the projectile
-                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + shardSpeed, shardSpeed, ModContent.ProjectileType<PolypLauncherShrapnel>(), (int)(Projectile.damage * 0.5), Projectile.knockBack / 2f, Projectile.owner, Main.rand.Next(3));
+                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shardSpeed, shardSpeed, ModContent.ProjectileType<PolypLauncherShrapnel>(), (int)(Projectile.damage * 0.5), Projectile.knockBack / 2f, Projectile.owner, Main.rand.Next(3));
                 if (Main.projectile.IndexInRange(p))
                     Main.projectile[p].originalDamage = Projectile.originalDamage;
                 split += 1;

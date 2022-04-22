@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 perturbedSpeed = new Vector2(-Projectile.velocity.X / 3, -Projectile.velocity.Y / 3).RotatedBy(MathHelper.Lerp(-rotationalOffset, rotationalOffset, i / (totalBullets - 1)));
                 for (int j = 0; j < 2; j++)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.03), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.03), 0f, Projectile.owner, 0f, 0f);
                     perturbedSpeed *= 1.05f;
                 }
             }
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 40; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / 40f).ToRotationVector2() * starSpeed;
-                int bullet = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.01), 0f, Projectile.owner);
+                int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.01), 0f, Projectile.owner);
                 if (Main.projectile.IndexInRange(bullet))
                     Main.projectile[bullet].Calamity().stealthStrike = true;
             }
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int j = 0; j < pointsOnStarSegment; j++)
                     {
                         Vector2 shootVelocity = Vector2.Lerp(start, end, j / (float)pointsOnStarSegment) * starSpeed;
-                        int bullet = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.01), 0f, Projectile.owner);
+                        int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ScarletDevilBullet>(), (int)(Projectile.damage * 0.01), 0f, Projectile.owner);
                         if (Main.projectile.IndexInRange(bullet))
                             Main.projectile[bullet].Calamity().stealthStrike = true;
                     }
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
             if (!Projectile.Calamity().stealthStrike)
                 return;
 
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 150);
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScarletBlast>(), (int)(Projectile.damage * 0.0075), 0f, Projectile.owner);
             if (!Projectile.Calamity().stealthStrike)
                 return;
 

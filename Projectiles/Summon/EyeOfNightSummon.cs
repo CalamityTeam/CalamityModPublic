@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == Projectile.owner && HoverTime % 70f == 69f)
             {
-                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(target.Center) * 8f, ModContent.ProjectileType<EyeOfNightCell>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(p))
                     Main.projectile[p].originalDamage = Projectile.originalDamage;
                 HoverTime++;

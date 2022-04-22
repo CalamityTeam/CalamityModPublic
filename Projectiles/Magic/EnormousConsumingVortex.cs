@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Magic
             int tentacleDamage = (int)(Projectile.damage * 0.25f);
             float xStartingAcceleration = Main.rand.NextFloat(0.001f, 0.04f) * Main.rand.NextBool(2).ToDirectionInt();
             float yStartingAcceleration = Main.rand.NextFloat(0.001f, 0.04f) * Main.rand.NextBool(2).ToDirectionInt();
-            Projectile subsumingHentai = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(),
+            Projectile subsumingHentai = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(),
                 Projectile.Center,
                 Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * Main.rand.NextFloat(9f, 13f),
                 ModContent.ProjectileType<SubsumingTentacle>(),
@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Magic
 
                     velocity *= Main.rand.NextFloat(3f, 5f);
 
-                    Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                    Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center,
                         velocity,
                         ModContent.ProjectileType<Vortex>(),
                         vortexDamage,

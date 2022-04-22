@@ -46,11 +46,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
             target.immune[Projectile.owner] = 7;
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(Projectile.damage * 0.65), knockback, Main.myPlayer);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(Projectile.damage * 0.65), knockback, Main.myPlayer);
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 fireVelocity = new Vector2(0f, Main.rand.NextFloat(7f, 10f)).RotatedByRandom(MathHelper.TwoPi);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, fireVelocity, ModContent.ProjectileType<BrimlanceStandingFire>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, fireVelocity, ModContent.ProjectileType<BrimlanceStandingFire>(), (int)(Projectile.damage * 0.4), 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }

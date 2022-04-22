@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
 
         private void OnHitEffects(Vector2 targetPos)
         {
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int x = 0; x < 4; x++)
             {
                 if (Projectile.owner == Main.myPlayer)

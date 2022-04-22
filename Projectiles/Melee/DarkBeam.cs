@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int k = 0; k < 3; k++)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-35, 36) * 0.2f, Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.Next(-35, 36) * 0.2f, Main.rand.Next(-35, 36) * 0.2f, ModContent.ProjectileType<TinyCrystal>(),
                     (int)(Projectile.damage * 0.5), Projectile.knockBack * 0.15f, Main.myPlayer);
                 }
             }

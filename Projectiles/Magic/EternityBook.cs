@@ -76,20 +76,20 @@ namespace CalamityMod.Projectiles.Magic
         }
         public void SummonProjectilesOnTarget(NPC target, Player owner)
         {
-            Projectile hex = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityHex>(), Projectile.damage, 0f, owner.whoAmI, target.whoAmI);
+            Projectile hex = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityHex>(), Projectile.damage, 0f, owner.whoAmI, target.whoAmI);
             hex.localAI[1] = Projectile.whoAmI;
 
             for (int i = 0; i < 5; i++)
             {
                 float crystalAngleOffset = MathHelper.TwoPi / 5f * i;
-                Projectile crystal = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityCrystal>(), 0, 0f, owner.whoAmI, target.whoAmI, crystalAngleOffset);
+                Projectile crystal = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityCrystal>(), 0, 0f, owner.whoAmI, target.whoAmI, crystalAngleOffset);
                 crystal.frame = i % 2;
                 crystal.localAI[1] = Projectile.whoAmI;
             }
             for (int i = 0; i < 10; i++)
             {
                 float circleOffset = MathHelper.TwoPi / 10f * i;
-                Projectile circleSpell = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityCircle>(), 0, 0f, owner.whoAmI, target.whoAmI, circleOffset);
+                Projectile circleSpell = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityCircle>(), 0, 0f, owner.whoAmI, target.whoAmI, circleOffset);
                 circleSpell.localAI[1] = Projectile.whoAmI;
             }
         }

@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().forceRogue = true;
                 if (Projectile.Calamity().stealthStrike && Projectile.localAI[0] <= 0f)
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Point result;
                     if (WorldUtils.Find(Projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SubductionFlameburst>(), (int)(Projectile.damage * 1.5f), 2f, Projectile.owner, 1f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SubductionFlameburst>(), (int)(Projectile.damage * 1.5f), 2f, Projectile.owner, 1f);
                         Projectile.localAI[0] = 30f;
                     }
                 }

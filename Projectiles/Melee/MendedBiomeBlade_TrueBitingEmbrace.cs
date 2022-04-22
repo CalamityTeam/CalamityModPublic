@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Main.rand.NextBool() && Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile mist = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
+                    Projectile mist = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center + direction * 40 + Main.rand.NextVector2Circular(30f, 30f), Vector2.Zero, ProjectileType<BitingEmbraceMist>(), (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
                     mist.velocity = (mist.Center - Owner.Center) * 0.2f + Owner.velocity;
                 }
 
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (Main.rand.NextFloat(0f, 1f) > 0.75f && Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + direction * 40, rotation.ToRotationVector2() * 5, ProjectileType<BitingEmbraceMist>(), (int)(Projectile.damage * TrueBiomeBlade.ColdAttunement_MistDamageReduction), 0f, Owner.whoAmI);
 
                     Vector2 particlePosition = Owner.Center + (rotation.ToRotationVector2() * 100f * Projectile.scale);
                     Particle snowflake = new SnowflakeSparkle(particlePosition, rotation.ToRotationVector2() * 3f, Color.White, new Color(75, 177, 250), Main.rand.NextFloat(0.3f, 1.5f), 40, 0.5f);

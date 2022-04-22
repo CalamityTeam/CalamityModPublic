@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
                 int skullID = ModContent.ProjectileType<VehemenceSkull>();
                 int damage = (int)(Projectile.damage * Vehemenc.SkullRatio);
                 for (int i = 0; i < 18; i++)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Main.rand.NextVector2Circular(12f, 12f), skullID, damage, Projectile.knockBack, Projectile.owner);
             }
 
             if (!Main.dedServ)

@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Pets
                 //projectile.extraUpdates = 1;
 
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChibiiDoggoFly>()] <= 0)
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, 0f, 0f, ModContent.ProjectileType<ChibiiDoggoFly>(), 0, 0f, Projectile.owner, (float)Projectile.identity);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, 0f, 0f, ModContent.ProjectileType<ChibiiDoggoFly>(), 0, 0f, Projectile.owner, (float)Projectile.identity);
             }
 
             //companion cube lighting check and stab

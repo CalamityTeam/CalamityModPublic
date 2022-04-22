@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.Calamity().stealthStrike)
             {
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 for (int n = 0; n < 4; n++)
                 {
                     Projectile feather = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Projectile.owner);

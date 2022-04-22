@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Ranged
                             vector20 = -Vector2.UnitY;
                         }
                         Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                        int num44 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
+                        int num44 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, Projectile.owner, 0f, 0f);
                         Main.projectile[num44].noDropItem = true;
                     }
                     Vector2 vector2 = Vector2.Normalize(Projectile.velocity) * scaleFactor11 * (0.6f + Main.rand.NextFloat() * 0.8f);
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     float speedY = vector2.Y;
                     Vector2 vector3 = vector19 + Utils.RandomVector2(Main.rand, -15f, 15f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), vector3.X, vector3.Y, vector2.X, vector2.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0.0f, speedY);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), vector3.X, vector3.Y, vector2.X, vector2.Y, ModContent.ProjectileType<DaemonsFlameArrow>(), weaponDamage2, weaponKnockback2, Projectile.owner, 0.0f, speedY);
                 }
                 else
                 {

@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                         // Use a tiny velocity to ensure that rotation works correctly.
                         // The speed should be so low that it will make no meaningful mechanical difference.
                         Vector2 soulVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 0.0001f;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, soulVelocity, ModContent.ProjectileType<LostSoulFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, soulVelocity, ModContent.ProjectileType<LostSoulFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                 }
             }

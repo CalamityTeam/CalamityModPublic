@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 starSpeed = Projectile.velocity.RotatedBy(MathHelper.PiOver2 * i) * 5f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, starSpeed, type, damage, Projectile.knockBack, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, starSpeed, type, damage, Projectile.knockBack, Projectile.owner);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 float spawnOffsetAngle = MathHelper.Lerp(spawnOffsetSpread * -0.5f, spawnOffsetSpread * 0.5f, i / 4f) + baseOffsetAngle;
                 Vector2 spawnPosition = target.Top - Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 65f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, -Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 2f, type, damage, knockback, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, -Vector2.UnitY.RotatedBy(spawnOffsetAngle) * 2f, type, damage, knockback, Projectile.owner);
             }
         }
     }

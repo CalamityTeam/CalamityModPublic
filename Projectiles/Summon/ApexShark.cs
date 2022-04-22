@@ -246,7 +246,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 70, 0.5f);
             Projectile.velocity = new Vector2(0f, 5f).RotatedBy(Projectile.velocity.ToRotation() + 1.5f);
-            int sand = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandExplosion>(), (int)(Projectile.damage * 0.7f), (int)(Projectile.knockBack * 0.7f), Projectile.owner, 0f, 0f);
+            int sand = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandExplosion>(), (int)(Projectile.damage * 0.7f), (int)(Projectile.knockBack * 0.7f), Projectile.owner, 0f, 0f);
             Main.projectile[sand].Center = Projectile.Center;
             Projectile.netUpdate = true;
             HitCooldown = 20;

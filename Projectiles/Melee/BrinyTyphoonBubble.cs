@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Melee
                         break;
                     }
                 }
-                int num335 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), Projectile.damage, 6f, Main.myPlayer, 8f, 25f);
+                int num335 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)(num331 * 16 + 8), (float)(num330 * 16 - 24), 0f, 0f, ModContent.ProjectileType<BrinySpout>(), Projectile.damage, 6f, Main.myPlayer, 8f, 25f);
                 Main.projectile[num335].netUpdate = true;
             }
         }

@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Typeless
             for (int i = 0; i < numProj; i++)
             {
                 offsetAngle = startAngle + deltaAngle * i;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle),
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle),
                     ModContent.ProjectileType<CursorProjSplit>(), Projectile.damage / 3, Projectile.knockBack * 0.33f, Projectile.owner, 0f, 0f);
             }
 

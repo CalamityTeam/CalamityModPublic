@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
         private void SpawnSpears(Vector2 targetPos)
         {
             int spearAmt = Main.rand.Next(3, 6); //3 to 5 spears
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int n = 0; n < spearAmt; n++)
             {
                 float dmgMult = 0.08f * Main.rand.NextFloat(4f, 7f);

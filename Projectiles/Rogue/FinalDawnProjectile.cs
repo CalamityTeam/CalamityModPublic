@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
                     // Stealth Strike
                     if (player.Calamity().StealthStrikeAvailable() && Projectile.ai[1] != 1f)
                     {
-                        int stealth = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), player.Center,
+                        int stealth = Projectile.NewProjectile(Projectile.GetSource_FromThis(), player.Center,
                                                  player.SafeDirectionTo(Main.MouseWorld) * 38f,
                                                  ModContent.ProjectileType<FinalDawnThrow2>(),
                                                  (int)(Projectile.damage * 1.05f),
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     else
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                                                  Projectile.SafeDirectionTo(Main.MouseWorld) * 38f,
                                                  ModContent.ProjectileType<FinalDawnThrow>(), Projectile.damage,
                                                  Projectile.knockBack, Projectile.owner);
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Rogue
                     // Stealth
                     if (player.Calamity().StealthStrikeAvailable() && Projectile.ai[1] != 1f)
                     {
-                        int stealth = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        int stealth = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                                                  Projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnHorizontalSlash>(),
                                                  (int)(Projectile.damage * 1.275f),
@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Rogue
                     else
                     {
                         //This one doesn't consume stealth since it replenishes stealth on hits
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center,
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center,
                                                  Projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnFireSlash>(),
                                                  Projectile.damage,

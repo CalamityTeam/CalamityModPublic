@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.1f);
                     velocity.X *= (potentialTarget.Center.X - Projectile.Center.X < 0).ToDirectionInt();
 
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, velocity, ModContent.ProjectileType<PolypLauncherProjectile>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                     Projectile.ai[1] = 0f;

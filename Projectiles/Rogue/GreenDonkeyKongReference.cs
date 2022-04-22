@@ -76,13 +76,13 @@ namespace CalamityMod.Projectiles.Rogue
                 if (Main.rand.NextBool(3))
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + shrapnelVelocity,
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity + shrapnelVelocity,
                         ModContent.ProjectileType<AcidShrapnel>(), Projectile.damage, 3f, Projectile.owner);
                 }
                 else
                 {
                     Vector2 acidVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int acidIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + acidVelocity,
+                    int acidIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity + acidVelocity,
                         ModContent.ProjectileType<AcidBarrelDrop>(),
                         (int)(Projectile.damage * 0.75f), 1f, Projectile.owner);
                     if (acidIndex.WithinBounds(Main.maxProjectiles))
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 6; i++)
                 {
                     Vector2 acidVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                    int acidIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity + acidVelocity,
+                    int acidIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity + acidVelocity,
                         ModContent.ProjectileType<AcidBarrelDrop>(),
                         (int)(Projectile.damage * 0.667f), 1f, Projectile.owner);
                     if (acidIndex.WithinBounds(Main.maxProjectiles))

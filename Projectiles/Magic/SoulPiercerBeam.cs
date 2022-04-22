@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int x = 0; x < 3; x++)
             {
                 if (Projectile.owner == Main.myPlayer)

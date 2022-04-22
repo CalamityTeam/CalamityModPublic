@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Magic
                     for (int i = 0; i < homerCount; i++)
                     {
                         Vector2 velocity = Vector2.UnitY.RotatedBy(MathHelper.TwoPi / homerCount * i).RotatedByRandom(0.3f) * 10f;
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center + velocity * 4f, velocity, ModContent.ProjectileType<EternityHoming>(), damage, 0f, Projectile.owner, TargetNPCIndex);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center + velocity * 4f, velocity, ModContent.ProjectileType<EternityHoming>(), damage, 0f, Projectile.owner, TargetNPCIndex);
                     }
                 }
             }

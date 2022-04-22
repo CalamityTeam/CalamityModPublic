@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 6; i++)
                 {
                     Vector2 velocity = Utils.NextVector2Circular(Main.rand, 7.2f, 7.2f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity,
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity,
                                              ModContent.ProjectileType<FinalDawnFireball>(),
                                              (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner, 0f,
                                              target.whoAmI);

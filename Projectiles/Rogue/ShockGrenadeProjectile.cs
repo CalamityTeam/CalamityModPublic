@@ -117,17 +117,17 @@ namespace CalamityMod.Projectiles.Rogue
                     boltAI = 1;
                 }
 
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, boltVelocity, ModContent.ProjectileType<ShockGrenadeBolt>(), boltDamage, 0, Projectile.owner, boltType, boltAI);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, boltVelocity, ModContent.ProjectileType<ShockGrenadeBolt>(), boltDamage, 0, Projectile.owner, boltType, boltAI);
             }
 
             if (Projectile.Calamity().stealthStrike)
             {
                 int auraDamage = Projectile.damage / 4;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockTeslaAura>(), auraDamage, 1, Projectile.owner, 0, 0);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockTeslaAura>(), auraDamage, 1, Projectile.owner, 0, 0);
 
                 SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 93, 0.5f, 0f);
             }
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockGrenadeExplosion>(), Projectile.damage, 3, Projectile.owner, 0, 0);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockGrenadeExplosion>(), Projectile.damage, 3, Projectile.owner, 0, 0);
         }
     }
 }

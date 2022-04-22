@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Vector2 spawnPosition = Target.Center + Vector2.UnitY.RotatedByRandom(0.27f) * 1150f;
             Vector2 shootVelocity = (Target.Center - spawnPosition).SafeNormalize(-Vector2.UnitY).RotatedByRandom(0.09f) * Main.rand.NextFloat(19f, 31f);
-            int soul = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, rng.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            int soul = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, rng.Get(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (Main.projectile.IndexInRange(soul))
             {
                 Main.projectile[soul].originalDamage = Projectile.originalDamage;

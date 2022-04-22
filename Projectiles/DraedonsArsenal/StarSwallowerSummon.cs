@@ -230,7 +230,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Projectile.spriteDirection = (potentialTarget.Center.X - Projectile.Center.X > 0).ToDirectionInt();
                     Vector2 fireVelocity = CalamityUtils.GetProjectilePhysicsFiringVelocity(spawnPosition, potentialTarget.Center, StarSwallowerAcid.Gravity, 14f);
 
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition,
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition,
                                              fireVelocity,
                                              ModContent.ProjectileType<StarSwallowerAcid>(),
                                              Projectile.damage,

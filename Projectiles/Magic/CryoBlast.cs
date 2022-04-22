@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Magic
                 // Fire extra waves to the left and right
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(-Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(+Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(-Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity.RotatedBy(+Spread * (i + 1)), Projectile.type, Projectile.damage / 2, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 0f);
                 }
 
                 Projectile.Kill();
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     shardVel.Normalize();
                     shardVel *= Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), shardPos, shardVel, ProjectileID.Blizzard, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), shardPos, shardVel, ProjectileID.Blizzard, Projectile.damage / 2, Projectile.knockBack * 0.5f, Projectile.owner);
                 }
             }
         }

@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.Item96, Projectile.Center);
             if (Projectile.ai[0] == 1f)
             {
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 for (int x = 0; x < 2; x++)
                 {
                     if (Projectile.owner == Main.myPlayer)

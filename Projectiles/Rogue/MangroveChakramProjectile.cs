@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.localAI[0] = 0f;
                     Vector2 flowerSpawnPosition = Projectile.Center + Main.rand.NextVector2Square(-10f, 10f);
                     Vector2 flowerShootVelocity = Projectile.velocity.RotatedByRandom(0.1f) * 0.25f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), flowerSpawnPosition, flowerShootVelocity, ModContent.ProjectileType<MangroveChakramFlower>(), Projectile.damage / 4, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), flowerSpawnPosition, flowerShootVelocity, ModContent.ProjectileType<MangroveChakramFlower>(), Projectile.damage / 4, 0f, Projectile.owner);
                 }
             }
         }

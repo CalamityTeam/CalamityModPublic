@@ -163,7 +163,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
                     xVector *= 10f;
                     yVector *= 10f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<TitaniumClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<TitaniumClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
                     xVector *= 10f;
                     yVector *= 10f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<TitaniumClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<TitaniumClone>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -171,12 +171,12 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int rocketDamage = (int)(damage * 1.5f);
                         float rocketKB = kb + 5f;
-                        projIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, Projectile.owner);
+                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(), rocketDamage, rocketKB, Projectile.owner);
                     }
 
                     // Fire the selected bullet, nothing special.
                     else
-                        projIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
+                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))

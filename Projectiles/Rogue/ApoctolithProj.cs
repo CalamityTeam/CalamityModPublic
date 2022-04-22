@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     //Spawn the projectile
-                    int shard = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<ApoctolithShard>(), (int)(Projectile.damage * 0.5), Projectile.knockBack / 2f, Projectile.owner);
+                    int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + shardspeedX, Projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<ApoctolithShard>(), (int)(Projectile.damage * 0.5), Projectile.knockBack / 2f, Projectile.owner);
                     Main.projectile[shard].frame = Main.rand.Next(3);
                     split += 1;
                 }

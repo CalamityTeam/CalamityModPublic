@@ -303,7 +303,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int i = 0; i < 3; i++)
                     {
                         Vector2 perturbedSpeed = Projectile.velocity.RotatedBy(MathHelper.Lerp(-0.15f, 0.15f, i / 3f)) * 0.3f;
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedSpeed, ModContent.ProjectileType<MechwormLaser>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                     }
@@ -345,8 +345,8 @@ namespace CalamityMod.Projectiles.Summon
                 // On the starting frame of a teleport, spawn portals.
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), TeleportStartingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
-                    int endGateIndex = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), TeleportEndingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), TeleportStartingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
+                    int endGateIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), TeleportEndingPoint, Vector2.Zero, ModContent.ProjectileType<MechwormTeleportRift>(), 0, 0f, Projectile.owner);
                     EndRiftGateUUID = Projectile.GetByUUID(Projectile.owner, endGateIndex);
 
                     Main.projectile[EndRiftGateUUID].ai[0] = chargeTime;

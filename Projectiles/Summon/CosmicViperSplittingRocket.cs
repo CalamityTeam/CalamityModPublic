@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
                                 }
                                 speed.Normalize();
                                 speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
                         SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
                                 }
                                 speed.Normalize();
                                 speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
                         SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Summon
                                     }
                                     speed.Normalize();
                                     speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-                                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
+                                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
                                 }
                             }
                             SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);

@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
                         inkType = ModContent.ProjectileType<InkCloud3>();
                         break;
                 }
-                int inkID = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, (int)(22 * player.RogueDamage()), 7, Projectile.owner);
+                int inkID = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, (int)(22 * player.RogueDamage()), 7, Projectile.owner);
                 Main.projectile[inkID].timeLeft += Main.rand.Next(-20, 25);
             }
             Projectile.Kill();

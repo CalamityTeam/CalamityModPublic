@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
             for (int i = 0; i < 3; i++)
             {
                 Vector2 shootVelocity = Projectile.velocity.RotatedBy(MathHelper.Lerp(-0.3f, 0.3f, i / 2f)) * 0.4f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<PrismComet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<PrismComet>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }
 

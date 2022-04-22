@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = speed / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, num404, num405, projectileType, Projectile.damage, Projectile.knockBack, Projectile.owner, (float)target, 0f);
                     Projectile.ai[0] = 16f;
                 }
             }

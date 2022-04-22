@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
                     for (int j = 0; j < totalProjectiles; j++)
                     {
                         Vector2 projVelocity = Projectile.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
-                        int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, death ? 2f : 1f, 0f);
+                        int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, death ? 2f : 1f, 0f);
                         Main.projectile[proj].tileCollide = true;
                     }
                     fireFrom += velocity * distanceBetweenProjectiles;

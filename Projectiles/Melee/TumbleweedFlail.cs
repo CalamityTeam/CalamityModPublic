@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<TumbleweedRolling>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<TumbleweedRolling>(), Projectile.damage, Projectile.knockBack, Main.myPlayer, 0f, 0f);
             }
             Projectile.Kill();
         }

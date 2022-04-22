@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Typeless
                     // Reform
                     if (projectile.ModProjectile is ArtifactOfResilienceShard1 && Main.myPlayer == projectile.owner)
                     {
-                        Projectile reformedBulwark = Projectile.NewProjectileDirect(projectile.GetProjectileSource_FromThis(),
+                        Projectile reformedBulwark = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(),
                                                                                     projectile.Center,
                                                                                     Vector2.Zero,
                                                                                     ModContent.ProjectileType<ArtifactOfResilienceBulwark>(),

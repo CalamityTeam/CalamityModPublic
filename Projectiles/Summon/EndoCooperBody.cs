@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Summon
                                     aimlaser = aimlaser.RotatedBy(MathHelper.ToRadians(30 * -laserdirection));
                                     float angularChange = (MathHelper.Pi / 180f) * 1.1f * laserdirection;
                                     //aimlaser *= 12f;
-                                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, aimlaser, ModContent.ProjectileType<EndoBeam>(), Projectile.damage, 0f, Projectile.owner, angularChange, (float)Projectile.whoAmI);
+                                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, aimlaser, ModContent.ProjectileType<EndoBeam>(), Projectile.damage, 0f, Projectile.owner, angularChange, (float)Projectile.whoAmI);
                                     if (Main.projectile.IndexInRange(p))
                                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                                     laserdirection *= -1;

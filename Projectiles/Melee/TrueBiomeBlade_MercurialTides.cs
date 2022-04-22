@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.timeLeft = 2;
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f) && Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                     var chargeSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
                     if (chargeSound != null)
                         chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
                     Charge = MaxCharge;
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                         OverCharge = 20f;
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
                         CurrentIndicator++;
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 15)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 15;
 
-            Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
+            Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center + (direction * 120 * Projectile.scale), -direction, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), 1f);
             proj.timeLeft = 81;
 
 
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Vector2 projPosition = Owner.Center + (direction * 120 * Projectile.scale) + direction.RotatedBy((widestSurfaceAngle * MathHelper.PiOver2 + MathHelper.PiOver4) * facing) * distance;
                 Vector2 monolithRotation = direction.RotatedBy(Utils.AngleLerp(widestSurfaceAngle * -facing, 0f, projSize));
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), projPosition, -monolithRotation, ProjectileType<MercurialTidesMonolith>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_MonolithDamageBoost), 10f, Owner.whoAmI, Main.rand.Next(4), projSize);
                 if (proj.ModProjectile is MercurialTidesMonolith monolith)
                 {
                     monolith.WaitTimer = (1 - projSize) * 34f;

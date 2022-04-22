@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Magic
             spawnPos.Y -= 70f;
             if (reducedDmg)
                 Projectile.damage /= 6;
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPos, Vector2.Zero, ModContent.ProjectileType<MeteorStarExplosion>(), Projectile.damage * 3, Projectile.knockBack * 3f, Projectile.owner, reducedDmg.ToInt());
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, Vector2.Zero, ModContent.ProjectileType<MeteorStarExplosion>(), Projectile.damage * 3, Projectile.knockBack * 3f, Projectile.owner, reducedDmg.ToInt());
 
             for (int i = 0; i < 10; i++)
             {

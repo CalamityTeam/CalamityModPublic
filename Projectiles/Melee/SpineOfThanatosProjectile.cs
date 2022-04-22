@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Main.myPlayer != Projectile.owner)
                 return;
 
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), Projectile.damage * 2, 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), WhipEnd, Vector2.Zero, ModContent.ProjectileType<ThanatosBoom>(), Projectile.damage * 2, 0f, Projectile.owner);
 
             // Fire a bunch of rays rays.
             int rayDamage = (int)(Projectile.damage * 1.5);
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Melee
                 if (potentialTarget != null && targetAimDisparity < MathHelper.Pi * 0.27f)
                     prismEndPosition = potentialTarget.Center + potentialTarget.velocity * 4f;
 
-                int prismRay = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, Projectile.knockBack * 0.2f, Projectile.owner);
+                int prismRay = Projectile.NewProjectile(Projectile.GetSource_FromThis(), prismEndPosition, Vector2.Zero, ModContent.ProjectileType<PrismRay>(), rayDamage, Projectile.knockBack * 0.2f, Projectile.owner);
                 if (Main.projectile.IndexInRange(prismRay))
                 {
                     Main.projectile[prismRay].ModProjectile<PrismRay>().RayHue = i / (float)LaserRayCount;

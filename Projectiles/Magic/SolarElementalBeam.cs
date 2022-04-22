@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             int type = ModContent.ProjectileType<FuckYou>();
             int boomDamage = (int)(damage * 1.1);
-            int boom = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, type, boomDamage, knockback, Projectile.owner, 0f, Main.rand.NextFloat(0.85f, 2f));
+            int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, type, boomDamage, knockback, Projectile.owner, 0f, Main.rand.NextFloat(0.85f, 2f));
             Main.projectile[boom].Calamity().forceMagic = true;
         }
     }

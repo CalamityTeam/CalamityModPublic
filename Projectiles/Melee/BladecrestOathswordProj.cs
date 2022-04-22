@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Melee
                     bloodScytheShootVelocity.Y *= 0.04f;
                     bloodScytheShootVelocity = bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
                     Vector2 bloodScytheSpawnPosition = Projectile.Center + bloodScytheShootVelocity.SafeNormalize(Vector2.UnitY) * 50f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), bloodScytheSpawnPosition, bloodScytheShootVelocity, ModContent.ProjectileType<BloodScythe>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), bloodScytheSpawnPosition, bloodScytheShootVelocity, ModContent.ProjectileType<BloodScythe>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
                 }
             }
         }

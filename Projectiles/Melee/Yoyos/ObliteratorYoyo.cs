@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 velocity = velocity.SafeNormalize(Vector2.Zero) * laserSpeed;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                         Main.projectile[proj].Calamity().forceMelee = true;
                 }

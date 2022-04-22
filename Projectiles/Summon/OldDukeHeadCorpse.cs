@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = (float)Math.Atan(Math.Abs(target.Center.X - Projectile.Center.X) / 450f);
                     angle *= Math.Sign(target.Center.X - Projectile.Center.X);
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Top + Vector2.UnitY * 7f,
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Top + Vector2.UnitY * 7f,
                         new Vector2(0f, -Main.rand.NextFloat(21f, 30.5f)).RotatedBy(angle),
                         ModContent.ProjectileType<OldDukeSharkVomit>(), Projectile.damage, 5f,
                         Projectile.owner);

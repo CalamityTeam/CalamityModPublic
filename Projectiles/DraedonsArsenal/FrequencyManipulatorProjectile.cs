@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 float offsetAngle = MathHelper.Lerp(-0.35f, 0.35f, i / (float)totalEnergyParticlesToSpawn);
                 Vector2 velocity = -Projectile.oldVelocity.RotatedBy(offsetAngle) * 0.66f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center + velocity * 1.8f, velocity, ModContent.ProjectileType<FrequencyManipulatorEnergy>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + velocity * 1.8f, velocity, ModContent.ProjectileType<FrequencyManipulatorEnergy>(), Projectile.damage, Projectile.knockBack * 0.4f, Projectile.owner);
             }
         }
 

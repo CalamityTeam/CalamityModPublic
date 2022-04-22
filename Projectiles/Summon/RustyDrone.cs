@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         if (Projectile.owner == Main.myPlayer)
                         {
-                            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), potentialTarget.Center, Vector2.Zero, ModContent.ProjectileType<RustyDroneTargetIndicator>(), 0, 0f, Projectile.owner, Projectile.whoAmI, potentialTarget.whoAmI);
+                            Projectile.NewProjectile(Projectile.GetSource_FromThis(), potentialTarget.Center, Vector2.Zero, ModContent.ProjectileType<RustyDroneTargetIndicator>(), 0, 0f, Projectile.owner, Projectile.whoAmI, potentialTarget.whoAmI);
                         }
                     }
                 }
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
                 Utils.PoofOfSmoke(Projectile.Center);
                 for (int i = 0; i < 4; i++)
                 {
-                    int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
                         (int)(ExplosionShrapnelBaseDamage * player.MinionDamage()), 2f, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;

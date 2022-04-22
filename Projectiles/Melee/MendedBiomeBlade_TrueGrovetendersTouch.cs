@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
                         boing = true;
                         SoundEngine.PlaySound(SoundID.Item56);
                     }
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damage * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ProjectileType<GrovetendersEntanglingVines>(), (int)(damage * TrueBiomeBlade.TropicalAttunement_VineDamageReduction), 0, Owner.whoAmI, target.whoAmI, potentialTarget.whoAmI);
                 }
                 Array.Clear(excludedTargets, 0, 3);
             }

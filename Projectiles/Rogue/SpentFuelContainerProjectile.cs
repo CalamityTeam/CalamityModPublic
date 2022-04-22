@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
             Point result;
             if (WorldUtils.Find(Projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
             {
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SulphuricNukesplosion>(), Projectile.damage, 2f, Projectile.owner);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<SulphuricNukesplosion>(), Projectile.damage, 2f, Projectile.owner);
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].Calamity().stealthStrike = Projectile.Calamity().stealthStrike;
             }

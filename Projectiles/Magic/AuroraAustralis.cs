@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.timeLeft % 10 == 0 && Main.myPlayer == Projectile.owner) //spawn stars every 10 ticks
             {
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 if (Main.player[Projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<AstralStarMagic>()] < 30)
                 {
                     float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);

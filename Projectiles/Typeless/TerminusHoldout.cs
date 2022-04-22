@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Typeless
             SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch, Main.LocalPlayer.Center);
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = 16f;
             if (Main.myPlayer == Projectile.owner)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEffectThing>(), 0, 0f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEffectThing>(), 0, 0f, Projectile.owner);
         }
 
         public void CreateMysticDeathDust()

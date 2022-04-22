@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             if (Projectile.timeLeft % 65f == 64f)
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<EelDrop>(), Projectile.damage / 2, 2f, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.UnitY * 7f, ModContent.ProjectileType<EelDrop>(), Projectile.damage / 2, 2f, Projectile.owner);
 
             UpdateSegments();
         }

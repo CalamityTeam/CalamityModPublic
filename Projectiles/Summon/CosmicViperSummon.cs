@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Summon
                         velocity.Y += Main.rand.NextFloat(-30f, 30f) * 0.05f;
                         velocity.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
 
-                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projType, (int)(Projectile.damage * dmgMult), Projectile.knockBack, Projectile.owner, targetIndex, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, (int)(Projectile.damage * dmgMult), Projectile.knockBack, Projectile.owner, targetIndex, 0f);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * dmgMult);
                         Projectile.netUpdate = true;

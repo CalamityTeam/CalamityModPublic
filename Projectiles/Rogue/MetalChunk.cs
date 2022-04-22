@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if(Projectile.ai[0] >= 10f)
                 {
                     Vector2 speed = new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f));
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3f), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3f), 0f, Projectile.owner, 0f, 0f);
                     Projectile.ai[0] = 0f;
                 }
             }
@@ -51,12 +51,12 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < 3; i++)
             {
                 Vector2 S1 = new Vector2(-Projectile.velocity.X, -Projectile.velocity.Y).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
-                int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, S1, ProjectileID.SpikyBall, (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
+                int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, S1, ProjectileID.SpikyBall, (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
                 Main.projectile[proj].timeLeft = 600;
                 Main.projectile[proj].usesLocalNPCImmunity = true;
                 Main.projectile[proj].localNPCHitCooldown = 20;
                 S1 = new Vector2(-Projectile.velocity.X * 0.7f, -Projectile.velocity.Y*0.7f).RotatedBy(MathHelper.ToRadians(Main.rand.Next(-45, 46)));
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, S1, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, S1, ModContent.ProjectileType<MetalShard>(), (int)(Projectile.damage * 0.3), 0f, Projectile.owner, 0f, 0f);
             }
             //Dust
             for (int i = 0; i < 20; i++)

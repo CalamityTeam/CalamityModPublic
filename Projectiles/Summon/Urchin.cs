@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Vector2 source = new Vector2(Projectile.Center.X - 4f, Projectile.Center.Y);
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                        int spore = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner, 0f, 0f);
+                        int spore = Projectile.NewProjectile(Projectile.GetSource_FromThis(), source, velocity, ModContent.ProjectileType<UrchinSpike>(), Projectile.damage, 1f, Projectile.owner, 0f, 0f);
                         Main.projectile[spore].minion = true;
                         Main.projectile[spore].minionSlots = 0f;
                         Main.projectile[spore].originalDamage = Projectile.originalDamage;

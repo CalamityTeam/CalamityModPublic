@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     float speedX = (float)Main.rand.Next(-35, 36) * 0.02f;
                     float speedY = (float)Main.rand.Next(-35, 36) * 0.02f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), player.beeDamage(Projectile.damage), player.beeKB(0f), Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), player.beeDamage(Projectile.damage), player.beeKB(0f), Projectile.owner, 0f, 0f);
                 }
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 if (Projectile.Calamity().stealthStrike)

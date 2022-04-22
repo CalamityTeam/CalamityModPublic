@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Boss
                     Vector2 ai0 = target.Center - fireFrom;
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), damage, 0f, Projectile.owner, ai0.ToRotation(), ai);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), damage, 0f, Projectile.owner, ai0.ToRotation(), ai);
                 }
             }
         }

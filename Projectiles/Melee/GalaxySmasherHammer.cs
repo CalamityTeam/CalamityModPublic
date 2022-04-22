@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
+                    int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, laserID, laserDamage, laserKB, Projectile.owner);
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].Calamity().forceMelee = true;

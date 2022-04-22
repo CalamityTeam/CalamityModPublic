@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.ai[0] = 0f;
                     int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));
                     int num415 = (int)(Projectile.position.Y + (float)Projectile.height + 4f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), (float)num414, (float)num415, 0f, 4f, ModContent.ProjectileType<ShaderainHostile>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), (float)num414, (float)num415, 0f, 4f, ModContent.ProjectileType<ShaderainHostile>(), Projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

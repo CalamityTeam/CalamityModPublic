@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
                 float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
                         num629 *= -10f;
                     }
 
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
                     num3 = num627;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
                 float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Rogue
                         num629 *= -10f;
                     }
 
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
                     num3 = num627;
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, Projectile.velocity.X, Projectile.velocity.Y, ModContent.ProjectileType<DeepSeaDumbbell2>(),
                         (int)((double)Projectile.damage * 0.75), Projectile.knockBack * 0.75f, Main.myPlayer, 0f, 0f);
 
                 float num628 = (float)Main.rand.Next(-35, 36) * 0.01f;
@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Rogue
                         num629 *= -10f;
                     }
 
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X, Projectile.position.Y, num628, num629, ModContent.ProjectileType<DeepSeaDumbbellWeight>(),
                         (int)((double)Projectile.damage * 0.25), Projectile.knockBack * 0.25f, Main.myPlayer, 0f, 0f);
 
                     num3 = num627;

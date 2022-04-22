@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
             // Create a light projectile that explodes into a laserbeam.
             int damage = Projectile.damage;
             float kb = Projectile.knockBack;
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SeraphimAngelicLight>(), damage, kb, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SeraphimAngelicLight>(), damage, kb, Projectile.owner);
 
             // As well as a fan of light daggers.
             NPC potentialTarget = Projectile.Center.ClosestNPCAt(1600f);
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
                     offsetAngle -= Projectile.AngleTo(potentialTarget.Center);
 
                 Vector2 fanVelocity = offsetAngle.ToRotationVector2() * 10f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, fanVelocity, ModContent.ProjectileType<SeraphimDagger>(), damage / 2, kb, Projectile.owner, i);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fanVelocity, ModContent.ProjectileType<SeraphimDagger>(), damage / 2, kb, Projectile.owner, i);
             }
         }
 

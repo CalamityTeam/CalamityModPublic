@@ -173,14 +173,14 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee).Base), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee).Base), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 100;
                         }
                     }
 
 
-                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarisGazeDash>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
+                    Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<PolarisGazeDash>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_SlashDamageBoost), 0, Owner.whoAmI);
                     if (proj.ModProjectile is PolarisGazeDash dash)
                     {
                         dash.DashStart = DashStart;
@@ -286,7 +286,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(SoundID.NPCHit43, Projectile.Center);
             if (ShredRatio > 0.85 && Owner.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, direction * 36f, ProjectileType<PolarisGazeStar>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, direction * 36f, ProjectileType<PolarisGazeStar>(), (int)(Projectile.damage * FourSeasonsGalaxia.PolarisAttunement_ShotDamageBoost), Projectile.knockBack, Owner.whoAmI, Shred);
             }
             if (Dashing)
             {

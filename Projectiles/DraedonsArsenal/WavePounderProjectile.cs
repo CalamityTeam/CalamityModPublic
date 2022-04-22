@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                         explosion.ai[1] = Main.rand.NextFloat(110f, 200f) + i * 20f; // Randomize the maximum radius.
                         explosion.localAI[1] = Main.rand.NextFloat(0.18f, 0.3f); // And the interpolation step.
                         explosion.netUpdate = true;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     for (int i = 0; i < 7; i++)
                     {
-                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner);
+                        Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<WavePounderBoom>(), (int)(Projectile.damage * 0.3), Projectile.knockBack, Projectile.owner);
                         if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             explosion.ai[1] = Main.rand.NextFloat(320f, 870f) + i * 45f; // Randomize the maximum radius.

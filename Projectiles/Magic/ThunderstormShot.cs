@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             SoundEngine.PlaySound(SoundID.Item125, Projectile.Center);
             for (int n = 0; n < 5; n++)
             {

@@ -89,8 +89,8 @@ namespace CalamityMod.Projectiles.Hybrid
                     for (i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int proj1 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
-                        int proj2 = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        int proj1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
                     }
                 }
             }

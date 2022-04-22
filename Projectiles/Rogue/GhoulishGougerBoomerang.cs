@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 // Each soul has randomized player homing strength
                 float ai1 = Main.rand.NextFloat() + 0.5f;
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
 
                 // Rotate direction for the next soul
                 velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);

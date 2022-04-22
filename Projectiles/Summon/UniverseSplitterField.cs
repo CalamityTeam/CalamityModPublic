@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new(Main.rand.NextFloat(-800f, 800f), -1460f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                              Projectile.Center + offset,
                                              -Vector2.Normalize(offset),
                                              ModContent.ProjectileType<UniverseSplitterSmallBeam>(),
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
                 SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), 
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                          Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,
                                          ModContent.ProjectileType<UniverseSplitterHugeBeam>(),

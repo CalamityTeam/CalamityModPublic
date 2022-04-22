@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
                                     }
                                     if (flag && Main.myPlayer == Projectile.owner)
                                     {
-                                        int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), center, Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), center, Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                                         if (Main.projectile.IndexInRange(p))
                                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                                     }

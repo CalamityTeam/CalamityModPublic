@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int fire = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                int fire = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
         }
 

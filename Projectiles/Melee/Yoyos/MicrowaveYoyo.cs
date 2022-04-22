@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             // Spawn invisible but damaging aura projectile
             if (Projectile.owner == Main.myPlayer && !spawnedAura)
             {
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MicrowaveAura>(), (int)(Projectile.damage * 0.35), Projectile.knockBack, Projectile.owner, Projectile.identity, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<MicrowaveAura>(), (int)(Projectile.damage * 0.35), Projectile.knockBack, Projectile.owner, Projectile.identity, 0f);
                 spawnedAura = true;
             }
 

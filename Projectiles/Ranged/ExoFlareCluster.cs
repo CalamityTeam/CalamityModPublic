@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float flareKB = Projectile.knockBack;
                     for (int i = 0; i < 4; i++)
                     {
-                        Projectile p = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, projID, flareDamage, flareKB, Projectile.owner);
+                        Projectile p = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, projID, flareDamage, flareKB, Projectile.owner);
                         p.localAI[1] = Projectile.GetByUUID(Projectile.owner, Projectile.whoAmI);
                     }
                 }

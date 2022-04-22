@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                int endoftime = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TyphoonBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                int endoftime = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<TyphoonBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 Main.projectile[endoftime].localAI[1] = 1f;
             }
         }

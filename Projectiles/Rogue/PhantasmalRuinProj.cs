@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Vector2 velocity = ss
                     ? (Projectile.velocity * 0.4f).RotatedBy(Main.rand.NextFloat(-0.04f, 0.04f))
                     : (Projectile.velocity * 0.08f) + Main.rand.NextVector2Circular(0.4f, 0.4f);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, damage, kb, Projectile.owner);
             }
         }
 
@@ -84,9 +84,9 @@ namespace CalamityMod.Projectiles.Rogue
                 // Each pair of souls has randomized player homing strength
                 float ai1 = Main.rand.NextFloat() + 0.5f;
                 if (Main.rand.NextBool(2))
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
                 if (Main.rand.NextBool(2))
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, -velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, -velocity, projID, soulDamage, soulKB, Projectile.owner, 0f, ai1);
 
                 // Rotate direction for the next pair of souls.
                 velocity = velocity.RotatedBy(MathHelper.TwoPi / numSouls);

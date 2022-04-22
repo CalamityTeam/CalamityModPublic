@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.rand.NextBool(2))
             {
                 int projAmt = Main.rand.Next(1, 3);
-                var source = Projectile.GetProjectileSource_FromThis();
+                var source = Projectile.GetSource_FromThis();
                 for (int n = 0; n < projAmt; n++)
                 {
                     CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(Projectile.damage * Main.rand.NextFloat(0.7f, 1f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner);

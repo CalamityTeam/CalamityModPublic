@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
 
                     if (Main.rand.NextBool(50))
                     {
-                        int idx = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), Projectile.damage, 3f, Projectile.owner, Projectile.identity);
+                        int idx = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), Projectile.damage, 3f, Projectile.owner, Projectile.identity);
                         Main.projectile[idx].timeLeft = Projectile.timeLeft;
                     }
                 }

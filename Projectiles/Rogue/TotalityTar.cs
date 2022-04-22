@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int f = 0; f < fireAmt; f++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), Projectile.damage, 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), Projectile.damage, 1f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

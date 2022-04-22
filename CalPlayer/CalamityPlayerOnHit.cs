@@ -677,7 +677,7 @@ namespace CalamityMod.CalPlayer
         public void ProjOnHit(Projectile proj, Vector2 position, bool crit, bool npcCheck)
         {
             CalamityGlobalProjectile modProj = proj.Calamity();
-            var source = proj.GetProjectileSource_FromThis();
+            var source = proj.GetSource_FromThis();
             bool hasClass = proj.CountsAsClass(DamageClass.Melee) || proj.CountsAsClass(DamageClass.Ranged) || proj.CountsAsClass(DamageClass.Magic) || proj.IsSummon() || modProj.rogue;
 
             //flask of party affects all types of weapons, !proj.CountsAsClass(DamageClass.Melee) is to prevent double flask effects
@@ -741,7 +741,7 @@ namespace CalamityMod.CalPlayer
         #region Melee
         private void MeleeOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
-            var source = proj.GetProjectileSource_FromThis();
+            var source = proj.GetSource_FromThis();
             Item heldItem = Player.ActiveItem();
 
             if (modProj.trueMelee)
@@ -784,7 +784,7 @@ namespace CalamityMod.CalPlayer
         #region Ranged
         private void RangedOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
-            var source = proj.GetProjectileSource_FromThis();
+            var source = proj.GetSource_FromThis();
             if (Player.whoAmI == Main.myPlayer && desertProwler && crit)
             {
                 bool noTornado = Player.ownedProjectileCounts[ProjectileType<DesertMark>()] < 1 && Player.ownedProjectileCounts[ProjectileType<DesertTornado>()] < 1;
@@ -831,7 +831,7 @@ namespace CalamityMod.CalPlayer
         #region Magic
         private void MagicOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
-            var source = proj.GetProjectileSource_FromThis();
+            var source = proj.GetSource_FromThis();
             if (ataxiaMage && ataxiaDmg <= 0)
             {
                 int orbDamage = (int)(proj.damage * 0.6);
@@ -876,7 +876,7 @@ namespace CalamityMod.CalPlayer
         #region Summon
         private void SummonOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
-            var source = proj.GetProjectileSource_FromThis();
+            var source = proj.GetSource_FromThis();
             if (npcCheck)
             {
                 if (phantomicArtifact)
@@ -1008,7 +1008,7 @@ namespace CalamityMod.CalPlayer
         #region Rogue
         private void RogueOnHit(Projectile proj, CalamityGlobalProjectile modProj, Vector2 position, bool crit, bool npcCheck)
         {
-            var spawnSource = proj.GetProjectileSource_FromThis();
+            var spawnSource = proj.GetSource_FromThis();
             if (modProj.stealthStrike && dragonScales && CalamityUtils.CountProjectiles(ProjectileType<InfernadoFriendly>()) < 1)
             {
                 int projTileX = (int)(proj.Center.X / 16f);

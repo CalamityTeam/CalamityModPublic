@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
             // Shoot the actual canister.
             if (Main.myPlayer == Projectile.owner && Time % canisterShootRate == canisterShootRate - 1)
             {
-                int p = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, shootVelocity, ModContent.ProjectileType<GammaCanister>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.projectile.IndexInRange(p))
                     Main.projectile[p].originalDamage = Projectile.originalDamage;
             }

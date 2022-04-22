@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void OnHitEffect(Vector2 targetPos)
         {
-            var source = Projectile.GetProjectileSource_FromThis();
+            var source = Projectile.GetSource_FromThis();
             for (int n = 0; n < 3; n++)
             {
                 int projType = Utils.SelectRandom(Main.rand, new int[]

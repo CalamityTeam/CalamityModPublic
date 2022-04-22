@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Magic
 
                     if (Projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), startPoint, velocity, echoID, echoDamage, echoKB, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), startPoint, velocity, echoID, echoDamage, echoKB, Projectile.owner);
                     }
                 }
             }

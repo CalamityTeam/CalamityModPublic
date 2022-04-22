@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.immune[Projectile.owner] = 5;
             if (Projectile.owner == Main.myPlayer)
             {
-                int boom = Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (boom.WithinBounds(Main.maxProjectiles))
                     Main.projectile[boom].Calamity().forceRanged = true;
             }

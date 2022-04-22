@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 velocity = Main.MouseWorld - Main.player[Projectile.owner].Center;
             velocity.Normalize();
             velocity *= 2f;
-            Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Main.player[Projectile.owner].Center, velocity, ModContent.ProjectileType<VoidConcentrationBlackhole>(), (int)(Projectile.damage * 5f), 0f, Projectile.owner);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Main.player[Projectile.owner].Center, velocity, ModContent.ProjectileType<VoidConcentrationBlackhole>(), (int)(Projectile.damage * 5f), 0f, Projectile.owner);
             Projectile.Kill();
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
                     correctedVelocity *= 3f;
                     int perturbificator9000 = Main.rand.Next(-1, 2);
                     Vector2 perturbedspeed = new Vector2(correctedVelocity.X + perturbificator9000, correctedVelocity.Y + perturbificator9000).RotatedBy(MathHelper.ToRadians(Main.rand.Next(1, 3)));
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center, perturbedspeed, ModContent.ProjectileType<VoidConcentrationOrb>(), (int)(Projectile.damage * 0.75f), 0f, owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, perturbedspeed, ModContent.ProjectileType<VoidConcentrationOrb>(), (int)(Projectile.damage * 0.75f), 0f, owner.whoAmI);
                 }
                 timer = -1;
             }

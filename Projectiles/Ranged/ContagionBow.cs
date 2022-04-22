@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
                         {
                             spinningpoint = -Vector2.UnitY;
                         }
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), spawnPos, spinningpoint, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPos, spinningpoint, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     }
                     else
                     {

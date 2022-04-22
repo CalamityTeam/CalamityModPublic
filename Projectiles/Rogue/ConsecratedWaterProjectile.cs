@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Point result;
                 if (WorldUtils.Find(Projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
                 {
-                    Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), Projectile.damage, 2f, Projectile.owner);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), Projectile.damage, 2f, Projectile.owner);
                 }
             }
             //stealth strike
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Point result;
                     if (WorldUtils.Find((Projectile.Top + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX).ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
                     {
-                        Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), Projectile.damage, 2f, Projectile.owner);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), Projectile.damage, 2f, Projectile.owner);
                     }
                 }
             }

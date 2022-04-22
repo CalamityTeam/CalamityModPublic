@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
                 NPC potentialTarget = TargetNext(target.Center, i);
                 if (potentialTarget == null)
                     break;
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), target.Center, target.SafeDirectionTo(potentialTarget.Center, Vector2.Zero) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
+                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, target.SafeDirectionTo(potentialTarget.Center, Vector2.Zero) * 25f, ProjectileType<GalaxiaBolt>(), (int)(damage * FourSeasonsGalaxia.AriesAttunement_OnHitBoltDamageReduction), 0, Owner.whoAmI, 0.9f, MathHelper.PiOver4 * 0.4f);
                 proj.scale = 2f;
             }
             Array.Clear(excludedTargets, 0, 3);
@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if ((lastConstellation == null || !lastConstellation.active) && Owner.whoAmI == Main.myPlayer && ChainSwapTimer > 20)
             {
-                lastConstellation = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(Projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
+                lastConstellation = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<AriesWrathConstellation>(), (int)(Projectile.damage * FourSeasonsGalaxia.AriesAttunement_ChainDamageReduction), 0, Owner.whoAmI);
             }
 
             ChainSwapTimer++;

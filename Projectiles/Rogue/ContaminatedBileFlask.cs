@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Bottom);
-            Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetProjectileSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
+            Projectile explosion = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(Projectile.damage * 0.75), Projectile.knockBack, Projectile.owner);
             if (explosion.whoAmI.WithinBounds(Main.maxProjectiles))
             {
                 explosion.Calamity().stealthStrike = Projectile.Calamity().stealthStrike;

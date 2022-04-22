@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
                 vector63.Normalize();
                 vector63 *= Main.rand.Next(45, 65) * 0.1f;
                 vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * MathHelper.PiOver2);
-                Projectile.NewProjectile(Projectile.GetProjectileSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)(Projectile.damage * 0.175), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<SepticSkewerBacteria>(), (int)(Projectile.damage * 0.175), Projectile.knockBack * 0.2f, Projectile.owner, -10f, 0f);
             }
             if (player.dead)
             {
