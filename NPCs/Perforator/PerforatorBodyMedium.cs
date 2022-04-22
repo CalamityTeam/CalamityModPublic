@@ -81,9 +81,9 @@ namespace CalamityMod.NPCs.Perforator
                 if (NPC.ai[0] == 0f)
                 {
                     if (NPC.ai[2] > 0f)
-                        NPC.ai[0] = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), NPC.type, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.ai[0] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), NPC.type, NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                     else
-                        NPC.ai[0] = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), ModContent.NPCType<PerforatorTailMedium>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.ai[0] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), ModContent.NPCType<PerforatorTailMedium>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
 
                     Main.npc[(int)NPC.ai[0]].ai[1] = NPC.whoAmI;
                     Main.npc[(int)NPC.ai[0]].ai[2] = NPC.ai[2] - 1f;
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

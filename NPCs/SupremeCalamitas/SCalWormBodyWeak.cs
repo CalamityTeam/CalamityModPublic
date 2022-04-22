@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 velocity = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
                     }
                     NPC.netUpdate = true;
                 }
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         continue;
 
                     Vector2 soulVelocity = -Vector2.UnitY.RotatedByRandom(0.53f) * Main.rand.NextFloat(2.5f, 4f);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, soulVelocity, ModContent.ProjectileType<SepulcherSoul>(), 0, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, soulVelocity, ModContent.ProjectileType<SepulcherSoul>(), 0, 0f);
                 }
             }
         }

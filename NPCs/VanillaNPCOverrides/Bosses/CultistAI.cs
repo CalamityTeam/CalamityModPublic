@@ -443,7 +443,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 vector = center3 + new Vector2(npc.direction * 30, 12f);
                             Vector2 vector2 = vec * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
                             vector2 = vector2.RotatedByRandom(0.52359879016876221);
-                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector, vector2, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector, vector2, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
                         }
                     }
 
@@ -455,7 +455,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         Vector2 vector3 = npc.Center + new Vector2(npc.direction * 30, 12f);
                         Vector2 vector4 = vec * iceMistSpeed;
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector3, vector4, ProjectileID.CultistBossIceMist, iceMistDamage, 0f, Main.myPlayer, 0f, 1f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector3, vector4, ProjectileID.CultistBossIceMist, iceMistDamage, 0f, Main.myPlayer, 0f, 1f);
                     }
                 }
 
@@ -508,7 +508,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 Vector2 vector5 = center4 + new Vector2(npc.direction * 30, 12f);
                                 Vector2 vector6 = vec2 * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
                                 vector6 = vector6.RotatedByRandom(0.52359879016876221);
-                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector5, vector6, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), vector5, vector6, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -526,7 +526,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 vector7 = npc.Center + new Vector2(npc.direction * 30, 12f);
                         Vector2 vector8 = vec2 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
                         vector8 = vector8.RotatedByRandom(0.52359879016876221);
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector7, vector8, ProjectileID.CultistBossFireBall, fireballDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector7, vector8, ProjectileID.CultistBossFireBall, fireballDamage, 0f, Main.myPlayer);
                     }
                 }
 
@@ -574,10 +574,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 vector9 = center5 + new Vector2(npc.direction * 30, 12f);
                         Vector2 vector10 = vec3 * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
                         vector10 = vector10.RotatedByRandom(0.52359879016876221);
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector9.X, vector9.Y, vector10.X, vector10.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector9.X, vector9.Y, vector10.X, vector10.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer);
                     }
 
-                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center.X, npc.Center.Y - 100f, 0f, 0f, ProjectileID.CultistBossLightningOrb, lightningDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y - 100f, 0f, 0f, ProjectileID.CultistBossLightningOrb, lightningDamage, 0f, Main.myPlayer);
                 }
 
                 npc.ai[1] += 1f;
@@ -649,7 +649,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 Vector2 vector11 = npc.Center + spinningpoint.RotatedBy(num36 * MathHelper.TwoPi / num31 - MathHelper.PiOver2);
                                 if (num35-- > 0)
                                 {
-                                    int num37 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector11.X, (int)vector11.Y + npc.height / 2, NPCID.CultistBossClone, npc.whoAmI);
+                                    int num37 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector11.X, (int)vector11.Y + npc.height / 2, NPCID.CultistBossClone, npc.whoAmI);
                                     Main.npc[num37].ai[3] = npc.whoAmI;
                                     Main.npc[num37].netUpdate = true;
                                     Main.npc[num37].localAI[1] = npc.localAI[1];
@@ -663,7 +663,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                         }
 
-                        npc.ai[2] = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, Vector2.Zero, ProjectileID.CultistRitual, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                        npc.ai[2] = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ProjectileID.CultistRitual, 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
                         npc.Center += spinningpoint.RotatedBy(num33 * MathHelper.TwoPi / num31 - MathHelper.PiOver2);
                         npc.netUpdate = true;
                         list6.Clear();
@@ -843,7 +843,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 vector19 = vec4 * scaleFactor;
                             vector19 = vector19.RotatedBy(num48 * num49 - (1.2566371f - num48) / 2f);
                             float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
-                            int num50 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
+                            int num50 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
                             Main.npc[num50].velocity = vector19;
                             num49++;
                         }
@@ -891,7 +891,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             for (int i = 0; i < ancientDoomLimit; i++)
                             {
                                 float ai2 = i * 120;
-                                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(player.Center.X + (float)(Math.Sin(i * 120) * 550)), (int)(player.Center.Y + (float)(Math.Cos(i * 120) * 550)),
+                                NPC.NewNPC(npc.GetSource_FromAI(), (int)(player.Center.X + (float)(Math.Sin(i * 120) * 550)), (int)(player.Center.Y + (float)(Math.Cos(i * 120) * 550)),
                                     NPCID.AncientDoom, 0, npc.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                             }
                         }
@@ -923,7 +923,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                         if (flag7)
                                         {
-                                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), num60 * 16 + 8, num61 * 16 + 8, NPCID.AncientDoom, 0, npc.whoAmI);
+                                            NPC.NewNPC(npc.GetSource_FromAI(), num60 * 16 + 8, num61 * 16 + 8, NPCID.AncientDoom, 0, npc.whoAmI);
                                             break;
                                         }
                                     }
@@ -1176,7 +1176,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
                     }
                 }
             }

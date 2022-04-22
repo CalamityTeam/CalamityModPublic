@@ -226,10 +226,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (NPC.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.localAI[0] = 1f;
-                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterghastHook>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
             }
 
             if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
@@ -659,7 +659,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast>() ? baseProjectileTimeLeft / 4 : baseProjectileTimeLeft;
                             }
                         }
@@ -687,7 +687,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < baseProjectileAmt; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 4;
                             }
                         }
@@ -792,7 +792,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < numProj; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast2>() ? baseProjectileTimeLeft / 4 : baseProjectileTimeLeft;
                             }
                         }
@@ -821,7 +821,7 @@ namespace CalamityMod.NPCs.Polterghast
                             for (int i = 0; i < numProj; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * i;
-                                int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[proj].timeLeft = baseProjectileTimeLeft / 4;
                             }
                         }
@@ -845,13 +845,13 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>());
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PolterPhantom>());
 
                         if (expertMode)
                         {
                             for (int I = 0; I < 3; I++)
                             {
-                                int spawn = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(vector.X + (Math.Sin(I * 120) * 500)), (int)(vector.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), NPC.whoAmI, 0, 0, 0, -1);
+                                int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(vector.X + (Math.Sin(I * 120) * 500)), (int)(vector.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), NPC.whoAmI, 0, 0, 0, -1);
                                 NPC npc2 = Main.npc[spawn];
                                 npc2.ai[0] = I * 120;
                             }
@@ -925,7 +925,7 @@ namespace CalamityMod.NPCs.Polterghast
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -950,7 +950,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (NPC.CountNPCS(ModContent.NPCType<PhantomSpiritL>()) < 2 && Main.netMode != NetmodeID.MultiplayerClient && !charging && !chargePhase)
                         {
-                            int num762 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PhantomSpiritL>());
+                            int num762 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<PhantomSpiritL>());
                             Main.npc[num762].velocity.X = num758;
                             Main.npc[num762].velocity.Y = num760;
                             Main.npc[num762].netUpdate = true;

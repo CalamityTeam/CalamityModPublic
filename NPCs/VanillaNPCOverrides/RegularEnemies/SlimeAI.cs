@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 
                     if (Main.netMode != NetmodeID.MultiplayerClient && projectileShootCountdown <= 0f)
                     {
-                        var source = npc.GetSpawnSource_ForProjectile();
+                        var source = npc.GetSource_FromAI();
                         if (distanceFromTarget < 120f)
                         {
                             for (int i = 0; i < 5; i++)

@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.ai[1] == 0f)
                 {
                     NPC.ai[1] = 1f;
-                    int spawnedNPC = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<BobbitWormHead>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    int spawnedNPC = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<BobbitWormHead>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                     Main.npc[spawnedNPC].ai[2] = (float)CalamityGlobalNPC.bobbitWormBottom[(int)NPC.ai[0]];
                     NPC.ai[2] = (float)spawnedNPC;
                 }

@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.OldDuke
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.OldDuke
                 int type = ModContent.ProjectileType<OldDukeGore>();
                 int damage = NPC.GetProjectileDamage(type);
                 for (int i = 0; i < 2; i++)
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
                         Main.rand.Next(-3, 4), Main.rand.Next(-12, -6), type, damage, 0f, Main.myPlayer);
             }
 

@@ -335,12 +335,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                         if (num36 >= 0 && num36 < minLength)
                         {
                             if (num36 % 2 == 0)
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<ThanatosBody1>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<ThanatosBody1>(), NPC.whoAmI);
                             else
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<ThanatosBody2>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<ThanatosBody2>(), NPC.whoAmI);
                         }
                         else
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<ThanatosTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<ThanatosTail>(), NPC.whoAmI);
 
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = NPC.whoAmI;
@@ -856,7 +856,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                     int type = ModContent.ProjectileType<ThanatosBeamTelegraph>();
                                     for (int b = 0; b < 6; b++)
                                     {
-                                        int beam = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
+                                        int beam = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
 
                                         // Determine the initial offset angle of telegraph. It will be smoothened to give a "stretch" effect.
                                         if (Main.projectile.IndexInRange(beam))
@@ -867,7 +867,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             Main.projectile[beam].ai[1] = MathHelper.Lerp(-0.74f, 0.74f, smoothenedRatio);
                                         }
                                     }
-                                    int beam2 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
+                                    int beam2 = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, 0, 0f, 255, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(beam2))
                                         Main.projectile[beam2].ai[0] = NPC.whoAmI;
                                 }
@@ -882,7 +882,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                 {
                                     int type = ModContent.ProjectileType<ThanatosBeamStart>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }

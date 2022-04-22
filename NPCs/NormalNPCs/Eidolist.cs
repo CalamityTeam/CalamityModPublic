@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int damage = adultWyrmAlive ? (Main.expertMode ? 150 : 200) : (Main.expertMode ? 30 : 40);
                     if (Main.rand.NextBool(2))
                     {
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, targetVec, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetVec, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     else
                     {
@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         for (int n = 0; n < 1; n++)
                         {
                             Vector2 vector4 = vec * 4f;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
                 }

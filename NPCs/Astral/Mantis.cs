@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.Astral
                     Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
                     vector.Normalize();
                     int damage = DownedBossSystem.downedAstrumAureus ? 55 : 45;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + (NPC.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + (NPC.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
                 }
             }
 

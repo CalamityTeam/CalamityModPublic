@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         vector104.Y += num943 * 5f;
                         if (Main.rand.NextBool(2) || malice)
                         {
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector104.X, vector104.Y, num942, num943, projectileType, NPC.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104.X, vector104.Y, num942, num943, projectileType, NPC.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
                         }
                         NPC.netUpdate = true;
                     }

@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     num183 = num179 / num183;
                     num180 *= num183;
                     num182 *= num183;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
 
@@ -504,7 +504,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         {
                             num663 = ModContent.NPCType<SlimeSpawnCrimson2>();
                         }
-                        int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                        int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num664].SetDefaults(num663);
                         Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
@@ -532,7 +532,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
 
             if (SlimeGodCore.LastSlimeGodStanding())

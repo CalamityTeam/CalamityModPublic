@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.Other
         {
             int heartsToGive = (int)MathHelper.Lerp(0f, 7f, Utils.GetLerpValue(45f, 540f, Time, true));
             for (int i = 0; i < heartsToGive; i++)
-                Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemID.Heart);
+                Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.Heart);
         }
 
         public override Color? GetAlpha(Color drawColor) => Color.White * NPC.Opacity;

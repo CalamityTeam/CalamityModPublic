@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (j == totalSegments)
                                 type = NPCID.TheDestroyerTail;
 
-                            int segment = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI);
+                            int segment = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI);
                             Main.npc[segment].ai[3] = npc.whoAmI;
                             Main.npc[segment].realLife = npc.whoAmI;
                             Main.npc[segment].ai[1] = index;
@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 for (int i = 0; i < numProj; i++)
                                 {
                                     offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 1f, 0f);
                                     Main.projectile[proj].timeLeft = 900;
                                 }
                             }
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
                             int damage = npc.GetProjectileDamage(projectileType);
-                            int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
                             Main.projectile[proj].timeLeft = 900;
 
                             npc.netUpdate = true;
@@ -723,7 +723,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 velocityMultiplier = 0.8f;
                                 break;
                         }
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector.X, vector.Y, num4 * velocityMultiplier, num5 * velocityMultiplier, type, damage, 0f, Main.myPlayer);
                     }
 
                     npc.netUpdate = true;

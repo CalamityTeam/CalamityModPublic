@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.Leviathan
                         NPC.alpha = Utils.Clamp(NPC.alpha + 9, 0, 255);
                         if (Main.netMode != NetmodeID.MultiplayerClient && NPC.alpha >= 255 && oldAlpha < 255)
                         {
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<LeviathanSpawner>(), 0, 0f);
                             HasBegunSummoningLeviathan = true;
                             NPC.netUpdate = true;
                         }
@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 if (NPC.ai[3] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num6 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), NPC.whoAmI);
+                    int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), NPC.whoAmI);
                     NPC.ai[3] = num6 + 1;
                     NPC.localAI[1] = -1f;
                     NPC.localAI[2] += 1f;
@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.Leviathan
                     SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 85);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int spawn = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
+                        int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
                         Main.npc[spawn].target = NPC.target;
                         Main.npc[spawn].velocity = player.Center - vector119;
                         Main.npc[spawn].velocity.Normalize();
@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
                         Vector2 projVelocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnVector, projVelocity, type, damage, 0f, Main.myPlayer);
                     }
                 }
 

@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             num189 *= num191;
                             num190 *= num191;
                             int num9 = ModContent.ProjectileType<HolyBomb>();
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, num189, num190, num9, 40, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num189, num190, num9, 40, 0f, Main.myPlayer, 0f, 0f);
                             NPC.localAI[1] = 0f;
                             return;
                         }

@@ -145,11 +145,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                     else
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

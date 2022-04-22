@@ -231,9 +231,9 @@ namespace CalamityMod.NPCs.StormWeaver
                     {
                         int lol;
                         if (num36 >= 0 && num36 < totalLength - 1)
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<StormWeaverBody>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<StormWeaverBody>(), NPC.whoAmI);
                         else
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<StormWeaverTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<StormWeaverTail>(), NPC.whoAmI);
 
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = NPC.whoAmI;
@@ -262,7 +262,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                         int type = ProjectileID.CultistBossLightningOrb;
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPos, Vector2.Zero, type, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -473,7 +473,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             float ai = Main.rand.Next(100);
                             int type = ProjectileID.CultistBossLightningOrbArc;
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
                         }
                     }
 

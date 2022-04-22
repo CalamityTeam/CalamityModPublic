@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Perforator
                 {
                     int totalSegments = death ? 14 : revenge ? 13 : expertMode ? 12 : 10;
                     NPC.ai[2] = totalSegments;
-                    NPC.ai[0] = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), ModContent.NPCType<PerforatorBodyMedium>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    NPC.ai[0] = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.position.X + (NPC.width / 2)), (int)(NPC.position.Y + NPC.height), ModContent.NPCType<PerforatorBodyMedium>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                     Main.npc[(int)NPC.ai[0]].ai[1] = NPC.whoAmI;
                     Main.npc[(int)NPC.ai[0]].ai[2] = NPC.ai[2] - 1f;
                     NPC.netUpdate = true;
@@ -442,7 +442,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
 
             for (int i = 0; i < Main.maxNPCs; i++)

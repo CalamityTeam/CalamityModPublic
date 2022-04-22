@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.SulphurousSea
                 if (NPC.ai[0]++ % 35f == 34f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Vector2 velocity = new Vector2(Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-11f, -6f));
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Top + new Vector2(0f, 6f), velocity, ModContent.ProjectileType<BelchingCoralSpike>(), 27, 3f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Top + new Vector2(0f, 6f), velocity, ModContent.ProjectileType<BelchingCoralSpike>(), 27, 3f);
                 }
             }
         }

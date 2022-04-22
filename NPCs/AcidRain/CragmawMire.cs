@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.AcidRain
                     for (int i = 0; i < spikesPerBurst; i++)
                     {
                         Vector2 spikeShootVelocity = (MathHelper.TwoPi * i / spikesPerBurst + shootOffsetAngle).ToRotationVector2() * burstSpeed;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + spikeShootVelocity * 1.6f, spikeShootVelocity, ModContent.ProjectileType<CragmawSpike>(), damage, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + spikeShootVelocity * 1.6f, spikeShootVelocity, ModContent.ProjectileType<CragmawSpike>(), damage, 0f);
                     }
                 }
             }
@@ -291,14 +291,14 @@ namespace CalamityMod.NPCs.AcidRain
                             {
                                 int nukeDamage = DownedBossSystem.downedPolterghast ? 72 : 38;
                                 int dropletDamage = (int)(nukeDamage * 0.6f);
-                                int explosion = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CragmawExplosion>(), nukeDamage, 0f);
+                                int explosion = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<CragmawExplosion>(), nukeDamage, 0f);
                                 if (Main.projectile.IndexInRange(explosion))
                                     Main.projectile[explosion].Bottom = NPC.Bottom + Vector2.UnitY * 4f;
 
                                 for (int i = 0; i < 12; i++)
                                 {
                                     Vector2 dropletVelocity = -Vector2.UnitY.RotatedByRandom(0.71f) * Main.rand.NextFloat(8f, 12f);
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, dropletVelocity, ModContent.ProjectileType<CragmawAcidDrop>(), dropletDamage, 0f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, dropletVelocity, ModContent.ProjectileType<CragmawAcidDrop>(), dropletDamage, 0f);
                                 }
                             }
                         }
@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs.AcidRain
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             int laserbeamDamage = DownedBossSystem.downedPolterghast ? 120 : 40;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<CragmawBeam>(), laserbeamDamage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<CragmawBeam>(), laserbeamDamage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                         }
                     }
 
@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.AcidRain
         public void DoBehavior_CreateVibeCheckTether()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && AttackTimer == 30f)
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, -Vector2.UnitY * 4f, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, Main.myPlayer, NPC.whoAmI, NPC.target);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY * 4f, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, Main.myPlayer, NPC.whoAmI, NPC.target);
             if (AttackTimer > CragmawVibeCheckChain.Lifetime + 30f)
                 SelectNextAttack();
         }

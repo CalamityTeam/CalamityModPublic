@@ -143,16 +143,16 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             if (num36 % 2 == 0)
                             {
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBody>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBody>(), NPC.whoAmI);
                             }
                             else
                             {
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyAlt>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyAlt>(), NPC.whoAmI);
                             }
                         }
                         else
                         {
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmTail>(), NPC.whoAmI);
                         }
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = (float)NPC.whoAmI;
@@ -178,13 +178,13 @@ namespace CalamityMod.NPCs.Abyss
                         int random = Main.rand.Next(randomAmt);
                         if (random == 0)
                         {
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector2, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, Vector2.Zero, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                         else if (random == 1)
                         {
                             Vector2 vec = (Main.player[NPC.target].Center - NPC.Center).SafeNormalize(Vector2.UnitX * NPC.direction);
                             Vector2 vector4 = vec * (adultWyrmAlive ? 6f : 4f);
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector2, vector4, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                         else
                         {

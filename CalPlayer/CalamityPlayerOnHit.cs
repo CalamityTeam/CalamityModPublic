@@ -1591,7 +1591,7 @@ namespace CalamityMod.CalPlayer
                         ItemID.NebulaPickup2,
                         ItemID.NebulaPickup3
                     });
-                    var source = Player.GetItemSource_Misc(ItemSourceID.SetBonus_Nebula);
+                    var source = Player.GetSource_Misc(ItemSourceID.SetBonus_Nebula);
                     int nebulaBooster = Item.NewItem(source, target.Center, target.Size, boosterType, 1, false, 0, false, false);
                     Main.item[nebulaBooster].velocity.Y = Main.rand.Next(-20, 1) * 0.2f;
                     Main.item[nebulaBooster].velocity.X = Main.rand.Next(10, 31) * 0.2f * proj.direction;
@@ -1607,7 +1607,7 @@ namespace CalamityMod.CalPlayer
                 if ((target.life < target.lifeMax * 0.5) && bloodflareHeartTimer <= 0)
                 {
                     bloodflareHeartTimer = 300;
-                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.Heart);
+                    Item.NewItem(target.GetSource_Loot(), target.Hitbox, ItemID.Heart);
                 }
             }
 
@@ -1831,7 +1831,7 @@ namespace CalamityMod.CalPlayer
                 if ((target.life < target.lifeMax * 0.5) && bloodflareHeartTimer <= 0)
                 {
                     bloodflareHeartTimer = 300;
-                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.Heart);
+                    Item.NewItem(target.GetSource_Loot(), target.Hitbox, ItemID.Heart);
                 }
             }
 

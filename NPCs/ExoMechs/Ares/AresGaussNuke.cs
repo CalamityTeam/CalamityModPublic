@@ -407,7 +407,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                 int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
                                 int damage = NPC.GetProjectileDamage(type);
                                 float offset = 40f;
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(gaussNukeVelocity) * offset, gaussNukeVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
 
                                 // Recoil
                                 NPC.velocity -= gaussNukeVelocity;

@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.localAI[0] = 1f;
                     for (int num723 = 0; num723 < 2; num723++)
                     {
-                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ProfanedEnergyLantern>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<ProfanedEnergyLantern>(), NPC.whoAmI, 0f, 0f, 0f, 0f, 255);
                     }
                 }
             }

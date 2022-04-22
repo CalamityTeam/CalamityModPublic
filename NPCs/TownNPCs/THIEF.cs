@@ -196,13 +196,13 @@ namespace CalamityMod.NPCs.TownNPCs
                 CalamityWorld.Reforges = 0;
                 int[] coinCounts = Utils.CoinsSplit(CalamityWorld.MoneyStolenByBandit);
                 if (coinCounts[0] > 0)
-                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[0]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[0]);
                 if (coinCounts[1] > 0)
-                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[1]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[1]);
                 if (coinCounts[2] > 0)
-                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[2]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[2]);
                 if (coinCounts[3] > 0)
-                    Item.NewItem(NPC.GetItemSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[3]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[3]);
 
                 CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];

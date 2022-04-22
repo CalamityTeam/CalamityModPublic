@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.AcidRain
             int damage = Main.expertMode ? DownedBossSystem.downedPolterghast ? 32 : 18 : DownedBossSystem.downedPolterghast ? 42 : 23;
             Vector2 spawnPosition = NPC.Top + Vector2.UnitY * 6f;
             Vector2 shootVelocity = (closestTargetToTop.Center - spawnPosition).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.25f) * speed;
-            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPosition, shootVelocity, ModContent.ProjectileType<FlakAcid>(), damage, 2f);
+            Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPosition, shootVelocity, ModContent.ProjectileType<FlakAcid>(), damage, 2f);
 
             AcidShootTimer = 0;
             NPC.netUpdate = true;

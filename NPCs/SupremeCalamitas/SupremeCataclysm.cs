@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 fistSpawnPosition = NPC.Center + Vector2.UnitX * -74f;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fistSpawnPosition, Vector2.UnitX * -8f, type, damage, 0f, Main.myPlayer, 0f, PunchingFromRight.ToInt());
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fistSpawnPosition, Vector2.UnitX * -8f, type, damage, 0f, Main.myPlayer, 0f, PunchingFromRight.ToInt());
                     }
                     PunchingFromRight = !PunchingFromRight;
                     CurrentFrame = 0;
@@ -226,8 +226,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int i = 0; i < 8; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), type, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
 
@@ -284,7 +284,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

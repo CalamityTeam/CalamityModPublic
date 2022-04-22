@@ -1006,7 +1006,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaCasterFire"), NPC.Center);
                                     Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
                                     Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
                                 }
                             }
                         }
@@ -1062,7 +1062,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             SoundEngine.PlaySound(SoundID.Item36, NPC.Center);
                             Vector2 rocketVelocity = Vector2.Normalize(aimedVector) * projectileVelocity * 1.2f;
                             Vector2 offset = Vector2.Normalize(rocketVelocity) * 70f;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, rocketVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                         }
                     }
 
@@ -1120,7 +1120,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                     // Draw telegraph beams
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        int telegraph = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                        int telegraph = Projectile.NewProjectile(NPC.GetSource_FromAI(), chargeLocations[0], Vector2.Zero, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                         if (Main.projectile.IndexInRange(telegraph))
                                         {
                                             Main.projectile[telegraph].ModProjectile<ApolloChargeTelegraph>().ChargePositions = chargeLocations;
@@ -1178,7 +1178,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 velocity2 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity2, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, damage, 0f, Main.myPlayer);
                             }
                         }
 
@@ -1291,7 +1291,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                         Vector2 offset = lensDirection * 70f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenApolloLens>(), 0, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, lensDirection * 24f, ModContent.ProjectileType<BrokenApolloLens>(), 0, 0f);
                     }
 
                     // Reset phase and variables

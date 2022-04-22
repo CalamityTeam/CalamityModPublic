@@ -155,11 +155,11 @@ namespace CalamityMod.NPCs.Perforator
                         int lol;
                         if (num36 >= 0 && num36 < maxLength - 1)
                         {
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<PerforatorBodyLarge>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<PerforatorBodyLarge>(), NPC.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<PerforatorTailLarge>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<PerforatorTailLarge>(), NPC.whoAmI);
                         }
                         if (num36 % 2 == 0)
                         {
@@ -580,7 +580,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

@@ -509,7 +509,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (Main.netMode != NetmodeID.MultiplayerClient && !hasCreatedPhase1Portal)
                     {
                         Vector2 portalSpawnPosition = NPC.Center + NPC.velocity.SafeNormalize(-Vector2.UnitY) * 1000f;
-                        PortalIndex = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), portalSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DoGP1EndPortal>(), 0, 0f);
+                        PortalIndex = Projectile.NewProjectile(NPC.GetSource_FromAI(), portalSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DoGP1EndPortal>(), 0, 0f);
 
                         hasCreatedPhase1Portal = true;
                         NPC.netUpdate = true;
@@ -675,7 +675,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                                 int type = ModContent.ProjectileType<DoGFire>();
                                 int damage = NPC.GetProjectileDamage(type);
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector44.X, vector44.Y, num427, num428, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector44.X, vector44.Y, num427, num428, type, damage, 0f, Main.myPlayer);
                             }
                         }
                         else if (distanceFromTarget < 250f)
@@ -706,15 +706,15 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                                         for (int x = 0; x < totalShots_Phase2; x++)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                             shotSpacing_Phase2[0] -= spacingVar_Phase2;
                                         }
 
                                         if (expertMode)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                         }
 
                                         break;
@@ -724,15 +724,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                                         targetPosY += 50f;
                                         for (int x = 0; x < totalShots_Phase2; x++)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                             shotSpacing_Phase2[0] -= spacingVar_Phase2;
                                         }
 
                                         if (expertMode)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                         }
 
                                         break;
@@ -744,17 +744,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                                             start = new Vector2(player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0]);
                                             aim.Y += laserWallSpacingOffset * (x - halfTotalDiagonalShots);
                                             velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             start = new Vector2(player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0]);
                                             velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             shotSpacing_Phase2[0] -= diagonalSpacingVar;
                                         }
 
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.Center.X, targetPosY + spawnOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.Center.X, targetPosY - spawnOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X, targetPosY + spawnOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X, targetPosY - spawnOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
 
                                         break;
 
@@ -762,21 +762,21 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                                         for (int x = 0; x < totalShots_Phase2; x++)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[0], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[0], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                             shotSpacing_Phase2[0] -= spacingVar_Phase2;
                                         }
 
                                         int totalBonusLasers = totalShots_Phase2 / 2;
                                         for (int x = 0; x < totalBonusLasers; x++)
                                         {
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[3], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[3], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, targetPosY + shotSpacing_Phase2[3], -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, targetPosY + shotSpacing_Phase2[3], laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                             shotSpacing_Phase2[3] -= Main.rand.NextBool(2) ? 180 : 200;
                                         }
 
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
                                         break;
 
@@ -787,17 +787,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                                             start = new Vector2(player.position.X + shotSpacing_Phase2[0], targetPosY + spawnOffset);
                                             aim.X += laserWallSpacingOffset * (x - halfTotalDiagonalShots);
                                             velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             start = new Vector2(player.position.X + shotSpacing_Phase2[0], targetPosY - spawnOffset);
                                             velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             shotSpacing_Phase2[0] -= diagonalSpacingVar;
                                         }
 
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
                                         break;
                                 }
@@ -817,14 +817,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 // Lower wall
                                 for (int x = 0; x < totalShots_Phase2; x++)
                                 {
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + shotSpacing_Phase2[1], player.position.Y + spawnOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + shotSpacing_Phase2[1], player.position.Y + spawnOffset, 0f, -laserVelocity, type, damage, 0f, Main.myPlayer);
                                     shotSpacing_Phase2[1] -= spacingVar_Phase2;
                                 }
 
                                 // Upper wall
                                 for (int x = 0; x < totalShots_Phase2; x++)
                                 {
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + shotSpacing_Phase2[2], player.position.Y - spawnOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + shotSpacing_Phase2[2], player.position.Y - spawnOffset, 0f, laserVelocity, type, damage, 0f, Main.myPlayer);
                                     shotSpacing_Phase2[2] -= spacingVar_Phase2;
                                 }
 
@@ -1379,11 +1379,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                             int segment;
                             if (segmentSpawn >= 0 && segmentSpawn < minLength)
                             {
-                                segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody>(), NPC.whoAmI);
+                                segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody>(), NPC.whoAmI);
                                 Main.npc[segment].ModNPC<DevourerofGodsBody>().SegmentIndex = maxLength - segmentSpawn;
                             }
                             else
-                                segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail>(), NPC.whoAmI);
+                                segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail>(), NPC.whoAmI);
 
                             Main.npc[segment].realLife = NPC.whoAmI;
                             Main.npc[segment].ai[2] = NPC.whoAmI;
@@ -1421,13 +1421,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                                         start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
                                         aim.Y += laserWallSpacingOffset * (x - 3);
                                         velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                         shotSpacing -= spacingVar;
                                     }
 
                                     if (expertMode)
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
                                     break;
 
@@ -1438,13 +1438,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                                         start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
                                         aim.Y += laserWallSpacingOffset * (x - 3);
                                         velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                         shotSpacing -= spacingVar;
                                     }
 
                                     if (expertMode)
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
 
                                     break;
 
@@ -1455,19 +1455,19 @@ namespace CalamityMod.NPCs.DevourerofGods
                                         start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
                                         aim.Y += laserWallSpacingOffset * (x - 3);
                                         velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                         start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
                                         velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                         shotSpacing -= spacingVar;
                                     }
 
                                     if (expertMode)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                     }
 
                                     break;
@@ -1482,20 +1482,20 @@ namespace CalamityMod.NPCs.DevourerofGods
                                             start = new Vector2(player.position.X + spawnOffset, player.position.Y + shotSpacing);
                                             aim.Y += laserWallSpacingOffset * (x - 3);
                                             velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             start = new Vector2(player.position.X - spawnOffset, player.position.Y + shotSpacing);
                                             velocity = Vector2.Normalize(aim - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             start = new Vector2(player.position.X + shotSpacing, player.position.Y + spawnOffset);
                                             aimClone.X += laserWallSpacingOffset * (x - 3);
                                             velocity = Vector2.Normalize(aimClone - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
 
                                             start = new Vector2(player.position.X + shotSpacing, player.position.Y - spawnOffset);
                                             velocity = Vector2.Normalize(aimClone - start) * laserVelocity;
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer);
                                         }
 
                                         shotSpacing -= spacingVar;
@@ -1503,8 +1503,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                                     if (expertMode)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + spawnOffset, player.Center.Y, -laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - spawnOffset, player.Center.Y, laserVelocity, 0f, type, damage, 0f, Main.myPlayer);
                                     }
 
                                     break;
@@ -1981,7 +1981,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 float distance = 640f;
                 Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
                 SoundEngine.PlaySound(SoundID.Item109, player.Center);
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
             }
         }
 
@@ -1992,7 +1992,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 int randomRange = 48;
                 float distance = 1080f;
                 Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
             }
 
             Vector2 newPosition = GetRiftLocation(true);
@@ -2023,7 +2023,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         for (int k = 0; k < totalProjectiles; k++)
                         {
                             Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), newPosition, vector255, type, damage, 0f, Main.myPlayer, velocityMult, finalVelocity - finalVelocityReduction);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), newPosition, vector255, type, damage, 0f, Main.myPlayer, velocityMult, finalVelocity - finalVelocityReduction);
                         }
                     }
                 }
@@ -2123,7 +2123,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (DeathAnimationTimer == 452f)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DoGDeathBoom>(), 0, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DoGDeathBoom>(), 0, 0f);
 
                 if (Main.netMode != NetmodeID.Server)
                 {

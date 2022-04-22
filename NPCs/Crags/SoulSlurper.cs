@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.Crags
                         dmg = 22;
                     }
                     int projType = ModContent.ProjectileType<BrimstoneBarrage>();
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), source.X, source.Y, num4, num5, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), source.X, source.Y, num4, num5, projType, dmg + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                 }
             }
             int num10 = (int)NPC.Center.X;

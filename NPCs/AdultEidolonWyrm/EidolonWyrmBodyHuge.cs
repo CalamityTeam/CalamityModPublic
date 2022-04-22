@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         Vector2 velocity = Vector2.Normalize(destination) * lightVelocity;
                         int type = NPCID.AncientLight;
                         float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * MathHelper.TwoPi / 60f;
-                        int light = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type, 0, 0f, ai, velocity.X, velocity.Y, 255);
+                        int light = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, type, 0, 0f, ai, velocity.X, velocity.Y, 255);
                         Main.npc[light].velocity = velocity;
                     }
                 }

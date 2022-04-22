@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + Main.rand.Next(-10, 11) * 0.01f;
                     num830 *= 1f + Main.rand.Next(-10, 11) * 0.01f;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 120f)
                 {
@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + Main.rand.Next(-15, 16) * 0.01f;
                     num830 *= 1f + Main.rand.Next(-15, 16) * 0.01f;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 300f)
                 {
@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num845 *= num846;
                     num844 *= 1f + Main.rand.Next(-10, 11) * 0.001f;
                     num845 *= 1f + Main.rand.Next(-10, 11) * 0.001f;
-                    int num848 = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num844, num845, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    int num848 = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num844, num845, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 120f)
                 {
@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + Main.rand.Next(-5, 6) * 0.01f;
                     num830 *= 1f + Main.rand.Next(-5, 6) * 0.01f;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num829, num830, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 240f)
                 {

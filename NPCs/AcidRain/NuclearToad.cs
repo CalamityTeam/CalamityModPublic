@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.AcidRain
                     }
 
                     for (int i = 0; i < 7; i++)
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Main.rand.NextVector2CircularEdge(speed, speed), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
                 }
                 SoundEngine.PlaySound(SoundID.DD2_KoboldExplosion, NPC.Center);
                 NPC.life = 0;

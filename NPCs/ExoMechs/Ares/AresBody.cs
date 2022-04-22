@@ -248,18 +248,18 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         switch (i)
                         {
                             case 0:
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresLaserCannon>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresLaserCannon>(), NPC.whoAmI);
                                 break;
                             case 1:
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresPlasmaFlamethrower>(), NPC.whoAmI);
                                 Main.npc[lol].Calamity().newAI[1] = plasmaArmStartTimer;
                                 break;
                             case 2:
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresTeslaCannon>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresTeslaCannon>(), NPC.whoAmI);
                                 Main.npc[lol].Calamity().newAI[1] = teslaArmStartTimer;
                                 break;
                             case 3:
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresGaussNuke>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AresGaussNuke>(), NPC.whoAmI);
                                 break;
                             default:
                                 break;
@@ -804,7 +804,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPoint + Vector2.Normalize(laserVelocity) * 17f, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPoint + Vector2.Normalize(laserVelocity) * 17f, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
                             }
@@ -823,7 +823,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 laserVelocity = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPoint + Vector2.Normalize(laserVelocity) * 35f, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                     }
                                 }
                             }

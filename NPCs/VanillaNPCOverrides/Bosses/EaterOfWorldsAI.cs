@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.TargetClosest();
                         if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2) + npc.velocity.X), (int)(npc.position.Y + (npc.height / 2) + npc.velocity.Y), NPCID.VileSpit, 0, 0f, 1f, 0f, 0f, 255);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2) + npc.velocity.X), (int)(npc.position.Y + (npc.height / 2) + npc.velocity.Y), NPCID.VileSpit, 0, 0f, 1f, 0f, 0f, 255);
                     }
                 }
 
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             vector34.Y -= num350;
 
                             int type = ProjectileID.CursedFlameHostile;
-                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -145,16 +145,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = totalSegments;
 
                         // Body spawn
-                        npc.ai[0] = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), spawnX, spawnY, NPCID.EaterofWorldsBody, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        npc.ai[0] = NPC.NewNPC(npc.GetSource_FromAI(), spawnX, spawnY, NPCID.EaterofWorldsBody, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     }
 
                     // A body with a "length beyond this point" greater than zero just sets its next spawned segment to a freshly spawned body.
                     else if (npc.type == NPCID.EaterofWorldsBody && npc.ai[2] > 0f)
-                        npc.ai[0] = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), spawnX, spawnY, NPCID.EaterofWorldsBody, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        npc.ai[0] = NPC.NewNPC(npc.GetSource_FromAI(), spawnX, spawnY, NPCID.EaterofWorldsBody, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 
                     // If the worm stops here ("length beyond this point" is zero), then spawn a tail instead.
                     else
-                        npc.ai[0] = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), spawnX, spawnY, NPCID.EaterofWorldsTail, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        npc.ai[0] = NPC.NewNPC(npc.GetSource_FromAI(), spawnX, spawnY, NPCID.EaterofWorldsTail, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 
                     // Maintain the linked list of worm segments, and correctly set the "length beyond this point" of this segment.
                     Main.npc[(int)npc.ai[0]].ai[1] = npc.whoAmI;

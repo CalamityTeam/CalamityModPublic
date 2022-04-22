@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     NPC.velocity = Vector2.Lerp(NPC.velocity, NPC.SafeDirectionTo(player.Center) * 6f, 0.1f);
 
                 if (Supercharged && Main.netMode != NetmodeID.MultiplayerClient && HorizontalChargeTime % 30f == 29f)
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, NPC.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.SaucerLaser, 12, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitX * 6f * NPC.spriteDirection, NPC.SafeDirectionTo(player.Center, Vector2.UnitY) * 6f, ProjectileID.SaucerLaser, 12, 0f);
 
                 HorizontalChargeTime++;
                 if (HorizontalChargeTime > TotalHorizontalChargeTime)

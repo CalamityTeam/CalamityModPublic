@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                         num7 *= num8;
                         int type = ModContent.ProjectileType<AstralFlame>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
                     }
                 }
             }

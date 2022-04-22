@@ -476,7 +476,7 @@ namespace CalamityMod.NPCs.Providence
                             for (int i = 0; i < guardianRingAmt; i++)
                             {
                                 int type = i == 0 ? ModContent.NPCType<ProvSpawnDefense>() : i == 1 ? ModContent.NPCType<ProvSpawnHealer>() : ModContent.NPCType<ProvSpawnOffense>();
-                                int spawn = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.Center.X + (Math.Sin(i * guardianSpread) * guardianDistance)), (int)(NPC.Center.Y + (Math.Cos(i * guardianSpread) * guardianDistance)), type, NPC.whoAmI, 0, 0, 0, -1);
+                                int spawn = NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + (Math.Sin(i * guardianSpread) * guardianDistance)), (int)(NPC.Center.Y + (Math.Cos(i * guardianSpread) * guardianDistance)), type, NPC.whoAmI, 0, 0, 0, -1);
                                 Main.npc[spawn].ai[0] = i * guardianSpread;
                             }
                         }
@@ -733,7 +733,7 @@ namespace CalamityMod.NPCs.Providence
                     if (spawnAnimation)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[3] == 0f)
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector + new Vector2(0f, -80f), Vector2.Zero, ModContent.ProjectileType<HolyAura>(), 0, 0f, Main.myPlayer, biomeType, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector + new Vector2(0f, -80f), Vector2.Zero, ModContent.ProjectileType<HolyAura>(), 0, 0f, Main.myPlayer, biomeType, 0f);
 
                         if (calamityGlobalNPC.newAI[3] == 10f && nightTime)
                             SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyRay"), (int)NPC.position.X, (int)NPC.position.Y);
@@ -825,7 +825,7 @@ namespace CalamityMod.NPCs.Providence
                             num857 *= num859;
                             num858 *= num859;
 
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num857, num858, ModContent.ProjectileType<HolyBlast>(), holyBlastDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -875,7 +875,7 @@ namespace CalamityMod.NPCs.Providence
                             if (nightTime)
                                 num865 *= 2f;
 
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector113.X, vector113.Y, NPC.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector113.X, vector113.Y, NPC.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyFire>(), holyFireDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
 
@@ -931,10 +931,10 @@ namespace CalamityMod.NPCs.Providence
                                     {
                                         projectileType = ModContent.ProjectileType<HolyLight>();
                                         dmgAmt = NPC.GetProjectileDamageNoScaling(projectileType);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
                                     }
                                     else
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
                                 }
 
                                 // Radial offset
@@ -966,10 +966,10 @@ namespace CalamityMod.NPCs.Providence
                                     {
                                         projectileType = ModContent.ProjectileType<HolyLight>();
                                         dmgAmt = NPC.GetProjectileDamageNoScaling(projectileType);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, dmgAmt);
                                     }
                                     else
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, dmgAmt, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -990,7 +990,7 @@ namespace CalamityMod.NPCs.Providence
                             {
                                 Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - fireFrom) * cocoonProjVelocity * 1.5f;
                                 int type = ModContent.ProjectileType<HolyBurnOrb>();
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, velocity2, type, holyStarDamage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, type, holyStarDamage, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -1097,7 +1097,7 @@ namespace CalamityMod.NPCs.Providence
                             num857 *= num859;
                             num858 *= num859;
 
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num857 * 0.1f, num858, ModContent.ProjectileType<MoltenBlast>(), moltenBlastDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                     else if (NPC.ai[3] < 0f)
@@ -1142,7 +1142,7 @@ namespace CalamityMod.NPCs.Providence
 
                             num865 += expertMode ? 4f : 3f;
 
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector113.X, vector113.Y, NPC.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyBomb>(), holyBombDamage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector113.X, vector113.Y, NPC.velocity.X * 0.25f, num865, ModContent.ProjectileType<HolyBomb>(), holyBombDamage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
 
@@ -1191,7 +1191,7 @@ namespace CalamityMod.NPCs.Providence
                                 for (int i = 0; i < totalSpearProjectiles; i++)
                                 {
                                     Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * cocoonProjVelocity;
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer);
                                 }
 
                                 if (spearRateIncrease > 1f)
@@ -1205,7 +1205,7 @@ namespace CalamityMod.NPCs.Providence
 
                             cocoonProjVelocity = death ? 14f : revenge ? 13f : expertMode ? 12f : 10f;
                             Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * cocoonProjVelocity;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
                         }
                     }
 
@@ -1229,7 +1229,7 @@ namespace CalamityMod.NPCs.Providence
                     {
                         if (NPC.ai[1] == crystalPhaseTime && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, lifeRatio, 0f);
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, lifeRatio, 0f);
 
                             if (nightTime)
                                 Main.projectile[proj].timeLeft = nightCrystalTime;
@@ -1294,20 +1294,20 @@ namespace CalamityMod.NPCs.Providence
 
                                 // 60 degrees offset
                                 velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                 // -60 degrees offset
                                 if (revenge)
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                 if (nightTime && lifeRatio < 0.5f)
                                 {
                                     rotation *= 0.33f;
                                     velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                     if (revenge)
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
                                 }
 
                                 NPC.netUpdate = true;
@@ -1365,7 +1365,7 @@ namespace CalamityMod.NPCs.Providence
                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyBlastImpact"), NPC.Center);
                 SoundEngine.PlaySound(NPC.DeathSound, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionBoom>(), 0, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionBoom>(), 0, 0f);
             }
 
             // Explode as an enormous holy star before dying and dropping loot.
@@ -1374,9 +1374,9 @@ namespace CalamityMod.NPCs.Providence
                 for (int i = 0; i < 80; i++)
                 {
                     Vector2 sparkleVelocity = Main.rand.NextVector2Circular(23f, 23f);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, sparkleVelocity, ModContent.ProjectileType<MajesticSparkle>(), 0, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, sparkleVelocity, ModContent.ProjectileType<MajesticSparkle>(), 0, 0f);
                 }
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DyingSun>(), 0, 0f, 255);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, ModContent.ProjectileType<DyingSun>(), 0, 0f, 255);
             }
 
             // Idly release harmless cindiers.
@@ -1386,7 +1386,7 @@ namespace CalamityMod.NPCs.Providence
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 shootVelocity = Main.rand.NextVector2CircularEdge(13f, 13f) * Main.rand.NextFloat(0.7f, 1.3f);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, shootVelocity, ModContent.ProjectileType<SwirlingFire>(), 0, 0f, 255);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, shootVelocity, ModContent.ProjectileType<SwirlingFire>(), 0, 0f, 255);
                 }
             }
 

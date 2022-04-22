@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 int damageBoom = 45;
                 int projectileType = ModContent.ProjectileType<PufferExplosion>();
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, 0, 0, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
             }
             NPC.netUpdate = true;
         }

@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
                 SoundEngine.PlaySound(SoundID.Item38, (int)npc.position.X, (int)npc.position.Y);
-                NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
+                NPC.NewNPC(npc.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
             }
 
             // Set up health value for spawning slimes
@@ -387,7 +387,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Main.rand.NextBool(250))
                             npcType = NPCID.Pinky;
 
-                        int num255 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), x, y, npcType);
+                        int num255 = NPC.NewNPC(npc.GetSource_FromAI(), x, y, npcType);
                         Main.npc[num255].SetDefaults(npcType);
                         Main.npc[num255].velocity.X = Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num255].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;

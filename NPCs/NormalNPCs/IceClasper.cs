@@ -136,7 +136,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
                     int num9 = ProjectileID.FrostBlastHostile;
-                    int beam = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num4, num5, num9, 45, 0f, Main.myPlayer, 0f, 0f);
+                    int beam = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num4, num5, num9, 45, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[beam].timeLeft = 300;
                 }
             }

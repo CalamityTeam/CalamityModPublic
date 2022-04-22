@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             num182 += Main.rand.Next(-40, 41);
                             num180 *= num183;
                             num182 *= num183;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

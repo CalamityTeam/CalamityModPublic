@@ -112,16 +112,16 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             if (num36 == 0)
                             {
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<GulperEelBody>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<GulperEelBody>(), NPC.whoAmI);
                             }
                             else
                             {
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<GulperEelBodyAlt>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<GulperEelBodyAlt>(), NPC.whoAmI);
                             }
                         }
                         else
                         {
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<GulperEelTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<GulperEelTail>(), NPC.whoAmI);
                         }
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = (float)NPC.whoAmI;

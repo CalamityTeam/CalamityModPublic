@@ -65,13 +65,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 void SpawnHands()
                 {
-                    int num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                    int num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                     Main.npc[num155].ai[0] = -1f;
                     Main.npc[num155].ai[1] = npc.whoAmI;
                     Main.npc[num155].target = npc.target;
                     Main.npc[num155].netUpdate = true;
 
-                    num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                    num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                     Main.npc[num155].ai[0] = 1f;
                     Main.npc[num155].ai[1] = npc.whoAmI;
                     Main.npc[num155].ai[3] = 150f;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Spawn two additional hands with different attack timings
                     if (death)
                     {
-                        num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                        num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                         Main.npc[num155].ai[0] = -1f;
                         Main.npc[num155].Calamity().newAI[0] = -1f;
                         Main.npc[num155].ai[1] = npc.whoAmI;
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.npc[num155].target = npc.target;
                         Main.npc[num155].netUpdate = true;
 
-                        num155 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
+                        num155 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.SkeletronHand, npc.whoAmI);
                         Main.npc[num155].ai[0] = 1f;
                         Main.npc[num155].Calamity().newAI[0] = -1f;
                         Main.npc[num155].ai[1] = npc.whoAmI;
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
                             Main.projectile[proj].timeLeft = 600;
                         }
                         npc.netUpdate = true;
@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int type = ProjectileID.Skull;
                         int damage = npc.GetProjectileDamage(type);
                         vector18 += vector19 * 5f;
-                        int num168 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector18.X, vector18.Y, num163, num164, type, damage, 0f, Main.myPlayer, -1f, 0f);
+                        int num168 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector18.X, vector18.Y, num163, num164, type, damage, 0f, Main.myPlayer, -1f, 0f);
                         Main.projectile[num168].timeLeft = 300;
 
                         npc.netUpdate = true;
@@ -749,7 +749,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = 2500;
                             int projType = ProjectileID.Skull;
                             source += offset * 5f;
-                            int skull = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), source, velocity, projType, damage, 0f, Main.myPlayer, -1f, 0f);
+                            int skull = Projectile.NewProjectile(npc.GetSource_FromAI(), source, velocity, projType, damage, 0f, Main.myPlayer, -1f, 0f);
                             Main.projectile[skull].timeLeft = 300;
                         }
                     }

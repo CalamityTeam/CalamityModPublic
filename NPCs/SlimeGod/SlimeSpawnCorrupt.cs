@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.life <= 0)
             {
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
-                NPC.NewNPC(NPC.GetItemSource_Loot(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<SlimeSpawnCorrupt2>());
+                NPC.NewNPC(NPC.GetSource_Loot(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<SlimeSpawnCorrupt2>());
             }
             for (int k = 0; k < 5; k++)
             {

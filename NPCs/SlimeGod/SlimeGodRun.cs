@@ -123,8 +123,8 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.position);
                 Vector2 spawnAt = vector + new Vector2(0f, NPC.height / 2f);
-                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
-                NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         num182 += (float)Main.rand.Next(-10, 11);
                         num180 *= num183;
                         num182 *= num183;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -531,7 +531,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         {
                             num663 = ModContent.NPCType<SlimeSpawnCrimson2>();
                         }
-                        int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                        int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num664].SetDefaults(num663);
                         Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
                         Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;

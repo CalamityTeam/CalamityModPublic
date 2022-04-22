@@ -245,9 +245,9 @@ namespace CalamityMod.NPCs.NormalNPCs
                     float cloudSpawnOutwardness = (AttackTimer - cloudSummonDelay) / cloudSummonRate * 50f;
 
                     Vector2 spawnPosition = NPC.Top + new Vector2(cloudSpawnOutwardness, -36);
-                    Projectile.NewProjectileDirect(NPC.GetSpawnSource_ForProjectile(), spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
                     spawnPosition = NPC.Top + new Vector2(-cloudSpawnOutwardness, -36);
-                    Projectile.NewProjectileDirect(NPC.GetSpawnSource_ForProjectile(), spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectileDirect(NPC.GetSource_FromAI(), spawnPosition, Vector2.Zero, projectileType, lightningDamage, 0f, Main.myPlayer);
                 }
             }
 
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     float angle = MathHelper.TwoPi / totalTornadosToSummon * i;
                     Vector2 spawnPosition = Target.Center + angle.ToRotationVector2() * 620f;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawnPosition, Vector2.Zero, projectileType, 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPosition, Vector2.Zero, projectileType, 0, 0f, Main.myPlayer);
                 }
             }
 
@@ -310,7 +310,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Tile tileAtPosition = CalamityUtils.ParanoidTileRetrieval(spawnPosition.X, spawnPosition.Y);
                     if (!tileAtPosition.HasTile)
-                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), spawnPosition.X, spawnPosition.Y, NPCID.AngryNimbus);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), spawnPosition.X, spawnPosition.Y, NPCID.AngryNimbus);
                 }
 
                 // Create sound cloud dust at the position where the nimbus was spawned.

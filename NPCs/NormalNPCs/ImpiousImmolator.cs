@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             {
                                 damage = 42;
                             }
-                            int beam = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, num6, num7, ModContent.ProjectileType<FlameBurstHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                            int beam = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, ModContent.ProjectileType<FlameBurstHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[beam].tileCollide = true;
                         }
                     }

@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         Vector2 velocity = Vector2.Normalize(destination) * fireballVelocity;
                         int type = ProjectileID.CultistBossFireBallClone;
                         int damage = NPC.GetProjectileDamage(type);
-                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity, type, damage, 0f, Main.myPlayer);
                         Main.projectile[proj].tileCollide = false;
                     }
                 }

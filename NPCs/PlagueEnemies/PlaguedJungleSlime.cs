@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                             vector4.Y *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;
                             vector4.Normalize();
                             vector4 *= 4f + (float)Main.rand.Next(-50, 51) * 0.01f;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector3.X, vector3.Y, vector4.X, vector4.Y, ModContent.ProjectileType<PlagueStingerGoliathV2>(), 25, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector3.X, vector3.Y, vector4.X, vector4.Y, ModContent.ProjectileType<PlagueStingerGoliathV2>(), 25, 0f, Main.myPlayer, 0f, 0f);
                             spikeTimer = 30f;
                         }
                     }
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         num14 *= num16;
                         num15 *= num16;
                         spikeTimer = 50f;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector3.X, vector3.Y, num14, num15, ModContent.ProjectileType<PlagueStingerGoliathV2>(), 22, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector3.X, vector3.Y, num14, num15, ModContent.ProjectileType<PlagueStingerGoliathV2>(), 22, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }

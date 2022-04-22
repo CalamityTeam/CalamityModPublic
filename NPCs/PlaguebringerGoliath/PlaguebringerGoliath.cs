@@ -601,7 +601,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 2)
-                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
 
                         float npcSpeed = (revenge ? 9f : 7f) + enrageScale * 2f;
 
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 *= num1073;
                         num1072 *= num1073;
 
-                        int num1062 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
+                        int num1062 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
                         Main.npc[num1062].velocity.X = num1071;
                         Main.npc[num1062].velocity.Y = num1072;
                         Main.npc[num1062].netUpdate = true;
@@ -681,7 +681,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (expertMode && NPC.CountNPCS(ModContent.NPCType<PlagueMine>()) < 3)
-                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueMine>(), 0, 0f, 0f, 0f, challengeAmt);
 
                         float npcSpeed = (revenge ? 11f : 9f) + enrageScale * 2f;
 
@@ -695,7 +695,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 += Main.rand.Next(-20, 21) * 0.05f;
                         num1072 += Main.rand.Next(-20, 21) * 0.05f;
 
-                        int num1062 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
+                        int num1062 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlagueHomingMissile>(), 0, 0f, 0f, 0f, challengeAmt);
                         Main.npc[num1062].velocity.X = num1071;
                         Main.npc[num1062].velocity.Y = num1072;
                         Main.npc[num1062].netUpdate = true;
@@ -771,7 +771,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         }
 
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, challengeAmt, player.position.Y);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, challengeAmt, player.position.Y);
                         NPC.netUpdate = true;
                     }
 
@@ -859,7 +859,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                     Vector2 spawn = vectorCenter; // Normal = 96, Malice = 144
                                     spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Malice = -144 to 156
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
                                 }
                             }
                         }

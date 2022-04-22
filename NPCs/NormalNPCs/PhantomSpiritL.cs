@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

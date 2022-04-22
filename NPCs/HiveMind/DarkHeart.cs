@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.HiveMind
                     int num1170 = (int)(NPC.position.Y + NPC.height + 4f);
                     int type = ModContent.ProjectileType<ShaderainHostile>();
                     int damage = NPC.GetProjectileDamage(type);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), num1169, num1170, 0f, 4f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

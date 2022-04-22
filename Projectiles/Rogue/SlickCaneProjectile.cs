@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                         modifiedMoneyValue /= Main.rand.Next(3) + 1;
                     }
                     moneyValueToDrop -= 10000 * modifiedMoneyValue;
-                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.GoldCoin, modifiedMoneyValue);
+                    Item.NewItem(target.GetSource_Loot(), target.Hitbox, ItemID.GoldCoin, modifiedMoneyValue);
                 }
                 while (moneyValueToDrop > 100f)
                 {
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
                         modifiedMoneyValue /= Main.rand.Next(3) + 1;
                     }
                     moneyValueToDrop -= 100 * modifiedMoneyValue;
-                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.SilverCoin, modifiedMoneyValue);
+                    Item.NewItem(target.GetSource_Loot(), target.Hitbox, ItemID.SilverCoin, modifiedMoneyValue);
                 }
                 while (moneyValueToDrop > 0f)
                 {
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Rogue
                         modifiedMoneyValue = 1;
                     }
                     moneyValueToDrop -= modifiedMoneyValue;
-                    Item.NewItem(target.GetItemSource_Loot(), target.Hitbox, ItemID.CopperCoin, modifiedMoneyValue);
+                    Item.NewItem(target.GetSource_Loot(), target.Hitbox, ItemID.CopperCoin, modifiedMoneyValue);
                 }
             }
         }

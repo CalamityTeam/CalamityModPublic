@@ -108,11 +108,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                         {
-                            segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), NPC.whoAmI);
+                            segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), NPC.whoAmI);
                         }
                         else
                         {
-                            segment = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), NPC.whoAmI);
+                            segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), NPC.whoAmI);
                         }
                         Main.npc[segment].realLife = NPC.whoAmI;
                         Main.npc[segment].ai[2] = NPC.whoAmI;
@@ -337,7 +337,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

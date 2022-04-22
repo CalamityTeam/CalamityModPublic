@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.Perforator
                             large = true;
                             wormType = ModContent.NPCType<PerforatorHeadLarge>();
                         }
-                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
                         NPC.TargetClosest();
 
                         SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);
@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.Perforator
                                 if (blobVelocity.Y < 2f)
                                     blobVelocity.Y = 2f + sporeVelocityYAdd;
 
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                             }
                         }
 
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.Perforator
                     Vector2 velocity = destination + Vector2.UnitY * -maxVelocity;
                     for (int i = 0; i < totalProjectiles + 1; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), start, velocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                         velocity.X += velocityAdjustment * NPC.direction;
                     }
                 }

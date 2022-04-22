@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.Astral
                 {
                     NPC.ai[1] = 0f;
 
-                    int n = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<AstralSeekerSpit>());
+                    int n = NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<AstralSeekerSpit>());
                     Main.npc[n].Center = spawnPoint;
                     Main.npc[n].velocity = vector * (CalamityWorld.death ? 12f : 10f);
                 }

@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num331 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + (npc.height / 2) + 20f), NPCID.LeechHead, 1);
+                    int num331 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + (npc.height / 2) + 20f), NPCID.LeechHead, 1);
                     Main.npc[num331].velocity.X = npc.direction * 9;
 
                     if (phase2)
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 projectileSpawn = npc.Center + projectileVelocity * 5f;
 
                         int damage = npc.GetProjectileDamage(ProjectileID.DemonSickle);
-                        int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), projectileSpawn, projectileVelocity, ProjectileID.DemonSickle, damage, 0f, Main.myPlayer, 0f, projectileVelocity.Length() * 3f);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, ProjectileID.DemonSickle, damage, 0f, Main.myPlayer, 0f, projectileVelocity.Length() * 3f);
                         Main.projectile[proj].timeLeft = 600;
                         Main.projectile[proj].tileCollide = false;
                     }
@@ -373,7 +373,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                         if (num348 >= 0)
                         {
-                            int num353 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            int num353 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num353].ai[0] = num348 * 0.1f - 0.05f;
                         }
                     }
@@ -387,12 +387,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
                 num339 = (num339 + Main.wofDrawAreaTop) / 2f;
-                int num354 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num354 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num354].ai[0] = 1f;
 
                 num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
                 num339 = (num339 + Main.wofDrawAreaBottom) / 2f;
-                num354 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num354 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.WallofFleshEye, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num354].ai[0] = -1f;
 
                 num339 = (Main.wofDrawAreaBottom + Main.wofDrawAreaTop) / 2;
@@ -401,7 +401,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num;
                 for (int num355 = 0; num355 < 11; num355 = num + 1)
                 {
-                    num354 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    num354 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                     Main.npc[num354].ai[0] = num355 * 0.1f - 0.05f;
                     num = num355;
                 }
@@ -545,7 +545,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (fireAcceleratingLasers ? Main.player[npc.target].velocity * 40f : Vector2.Zero) - npc.Center) * velocity;
                         Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-                        int proj = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, fireAcceleratingLasers ? 1f : 0f, 0f);
                         Main.projectile[proj].timeLeft = 900;
 
                         if (!canHit)

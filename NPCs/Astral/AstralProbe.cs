@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.Astral
                         num8 += 6;
 
                     int num9 = ProjectileID.PinkLaser;
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             int num10 = (int)NPC.position.X + NPC.width / 2;

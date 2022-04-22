@@ -4092,7 +4092,7 @@ namespace CalamityMod.NPCs
                         NPCType<PhantomSpiritL>()
                     });
 
-                    NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, randomType, 0, 0f, 0f, 0f, 0f, 255);
+                    NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, randomType, 0, 0f, 0f, 0f, 0f, 255);
                 }
             }
 
@@ -4118,7 +4118,7 @@ namespace CalamityMod.NPCs
                                 int slimeAmt = Main.rand.Next(2) + 2; //2 to 3 extra
                                 for (int s = 0; s < slimeAmt; s++)
                                 {
-                                    int slime = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)(npc.position.Y + npc.height), NPCID.BlueSlime, 0, 0f, 0f, 0f, 0f, 255);
+                                    int slime = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)(npc.position.Y + npc.height), NPCID.BlueSlime, 0, 0f, 0f, 0f, 0f, 255);
                                     NPC npc2 = Main.npc[slime];
                                     npc2.SetDefaults(NPCID.BabySlime);
                                     npc2.velocity.X = npc.velocity.X * 2f;

@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.Polterghast
                         num149 = num151 / num149;
                         num147 *= num149;
                         num148 *= num149;
-                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector17.X, vector17.Y, num147, num148, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 return;

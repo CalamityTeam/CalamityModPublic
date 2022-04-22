@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             if (NPC.ai[2] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (NPC.ai[0] < 3f || BossRushEvent.BossRushActive || (death && NPC.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
             {
-                int num6 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenIce>(), NPC.whoAmI);
+                int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenIce>(), NPC.whoAmI);
                 NPC.ai[2] = num6 + 1;
                 NPC.localAI[1] = -1f;
                 NPC.netUpdate = true;
@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, NPC.ai[0] * 0.5f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, NPC.ai[0] * 0.5f);
                     }
                 }
             }
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.Cryogen
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -314,7 +314,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 for (int k = 0; k < totalProjectiles; k++)
                                 {
                                     Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -407,7 +407,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                     }
                                 }
                             }
@@ -471,7 +471,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 for (int k = 0; k < totalProjectiles; k++)
                                 {
                                     Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -531,7 +531,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                     }
                                 }
                             }
@@ -595,7 +595,7 @@ namespace CalamityMod.NPCs.Cryogen
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -707,7 +707,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     for (int k = 0; k < totalProjectiles; k++)
                                     {
                                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                     }
                                 }
                             }
@@ -789,7 +789,7 @@ namespace CalamityMod.NPCs.Cryogen
                                         for (int k = 0; k < totalProjectiles; k++)
                                         {
                                             Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, velocity);
                                         }
                                     }
                                 }
@@ -883,7 +883,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer, 0f, 1f);
                     }
                 }
 

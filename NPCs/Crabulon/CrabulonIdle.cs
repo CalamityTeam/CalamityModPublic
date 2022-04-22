@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.Crabulon
                         num350 *= num351;
                         vector34.X += num349;
                         vector34.Y += num350;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector34.X, vector34.Y, num349, num350 - 5f, type, NPC.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -479,7 +479,7 @@ namespace CalamityMod.NPCs.Crabulon
 
                             for (int x = 0; x < totalMushrooms; x++)
                             {
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= shotSpacingDecrement;
                             }
 
@@ -495,7 +495,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;
@@ -600,7 +600,7 @@ namespace CalamityMod.NPCs.Crabulon
                             int x = (int)(NPC.position.X + Main.rand.Next(NPC.width - 32));
                             int y = (int)(NPC.position.Y + Main.rand.Next(NPC.height - 32));
                             int num663 = ModContent.NPCType<CrabShroom>();
-                            int num664 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), x, y, num663);
+                            int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663);
                             Main.npc[num664].SetDefaults(num663);
                             Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * 0.1f;
                             Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * 0.1f;

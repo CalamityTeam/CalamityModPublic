@@ -311,7 +311,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             // Normal laser
                                             int type = ModContent.ProjectileType<ThanatosLaser>();
                                             int damage = NPC.GetProjectileDamage(type);
-                                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                         }
                                     }
                                 }
@@ -381,21 +381,21 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             if (calamityGlobalNPC_Head.newAI[1] == (float)ThanatosHead.SecondaryPhase.Passive)
                                             {
                                                 // Normal laser
-                                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                             }
                                             else
                                             {
                                                 // Normal laser
                                                 if (shouldGetBuffedByBerserkPhase && NPC.ai[0] % 3f == 0f)
-                                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, targetCenterArray[i], type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
 
                                                 // Predictive laser
                                                 Vector2 projectileDestination = targetCenterArray[i] + Main.player[whoAmIArray[i]].velocity * predictionAmt;
-                                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
 
                                                 // Opposite laser
                                                 projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt;
-                                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileDestination, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                             }
                                         }
                                     }

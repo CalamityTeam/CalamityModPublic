@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.HiveMind
                         num943 *= num944;
                         int type = ModContent.ProjectileType<VileClot>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104.X, vector104.Y, num942, num943, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         NPC.netUpdate = true;
                     }
                 }
@@ -159,7 +159,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

@@ -101,11 +101,11 @@ namespace CalamityMod.NPCs.Abyss
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<OarfishBody>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<OarfishBody>(), NPC.whoAmI);
                         }
                         else
                         {
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<OarfishTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<OarfishTail>(), NPC.whoAmI);
                         }
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = (float)NPC.whoAmI;

@@ -822,7 +822,7 @@ namespace CalamityMod
                 // If server-side, then the item must be spawned for each client individually.
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    int idx = Item.NewItem(npc.GetItemSource_Loot(), npc.Center, itemId, stack, true, -1);
+                    int idx = Item.NewItem(npc.GetSource_Loot(), npc.Center, itemId, stack, true, -1);
                     Main.timeItemSlotCannotBeReusedFor[idx] = protectionTime;
                     for (int i = 0; i < Main.maxPlayers; ++i)
                         if (Main.player[i].active)

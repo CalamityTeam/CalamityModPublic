@@ -75,9 +75,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
-                int num729 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI);
-                num729 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI);
-                num729 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI);
+                int num729 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI);
+                num729 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI);
+                num729 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI);
             }
 
             // Find positions of hooks
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int totalTentacles = (int)(baseTentacles * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
-                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
                         }
                     }
                 }
@@ -352,7 +352,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             vector93.X += num743 * 3f;
                             vector93.Y += num744 * 3f;
-                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, projectileType == ProjectileID.ThornBall ? tileEnrageMult : 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, projectileType == ProjectileID.ThornBall ? tileEnrageMult : 0f);
                         }
                     }
                 }
@@ -377,7 +377,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int totalTentacles = (int)(baseTentacles * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
-                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
                         }
                     }
                 }
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num758 *= num761;
                             num760 *= num761;
 
-                            int num762 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore);
+                            int num762 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore);
                             Main.npc[num762].velocity.X = num758;
                             Main.npc[num762].velocity.Y = num760;
                             Main.npc[num762].dontTakeDamage = malice;
@@ -486,7 +486,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 int type = ProjectileID.ThornBall;
                                 int damage = npc.GetProjectileDamage(type);
 
-                                Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, tileEnrageMult);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), vector93.X, vector93.Y, num743, num744, type, damage, 0f, Main.myPlayer, 0f, tileEnrageMult);
 
                                 npc.localAI[3] = -240f;
                             }
@@ -504,7 +504,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 for (int i = 0; i < numProj + 1; i++)
                                 {
                                     Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 }
 
                                 npc.localAI[3] = 0f;
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             offsetAngle = startAngle + deltaAngle * i;
                             float ai0 = Main.rand.Next(3);
-                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, ai0, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, ai0, 0f);
                         }
 
                         calamityGlobalNPC.newAI[0] = 0f;
@@ -611,7 +611,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[0] = npc.life;
 
                         if (NPC.CountNPCS(NPCID.PlanterasTentacle) < maxTentacles)
-                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
                     }
                 }
             }

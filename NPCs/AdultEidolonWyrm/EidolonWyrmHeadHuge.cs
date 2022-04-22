@@ -222,12 +222,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (i >= 0 && i < minLength)
                         {
                             if (i % 2 == 0)
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), NPC.whoAmI);
                             else
-                                lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), NPC.whoAmI);
                         }
                         else
-                            lol = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmTailHuge>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmTailHuge>(), NPC.whoAmI);
 
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = NPC.whoAmI;
@@ -608,21 +608,21 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     Vector2 projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
                                     int type = ProjectileID.CultistBossLightningOrbArc;
                                     int damage = NPC.GetProjectileDamage(type);
-                                    int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                     Main.projectile[proj].tileCollide = false;
 
                                     // Opposite bolt
                                     projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - NPC.Center;
                                     ai = Main.rand.Next(100);
                                     projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-                                    proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                    proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                     Main.projectile[proj].tileCollide = false;
 
                                     // Normal bolt
                                     projectileDestination = targetCenterArray[i] - NPC.Center;
                                     ai = Main.rand.Next(100);
                                     projectileVelocity = Vector2.Normalize(projectileDestination.RotatedByRandom(MathHelper.PiOver4)) * lightningVelocity;
-                                    proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                    proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                     Main.projectile[proj].tileCollide = false;
                                 }
                             }
@@ -889,17 +889,17 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 Vector2 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
                                 int type = ProjectileID.CultistBossIceMist;
                                 int damage = NPC.GetProjectileDamage(type);
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 
                                 // Opposite mist
                                 projectileDestination = targetCenterArray[i] - Main.player[whoAmIArray[i]].velocity * predictionAmt - NPC.Center;
                                 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
 
                                 // Normal bolt
                                 projectileDestination = targetCenterArray[i] - NPC.Center;
                                 projectileVelocity = Vector2.Normalize(projectileDestination) * iceMistVelocity;
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                         }
 
@@ -1016,7 +1016,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     for (int i = 0; i < ancientDoomLimit; i++)
                                     {
                                         float ai2 = i * ancientDoomDegrees;
-                                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
+                                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
                                             NPCID.AncientDoom, 0, NPC.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                                     }
                                     NPC.localAI[1] += 1f;
@@ -1092,7 +1092,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                     {
                                         Vector2 projectileDestination = player.Center - lightningSpawnLocation;
                                         float ai = Main.rand.Next(100);
-                                        int proj = Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), lightningSpawnLocation, NPC.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
+                                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), lightningSpawnLocation, NPC.velocity * 0.5f, type, damage, 0f, Main.myPlayer, projectileDestination.ToRotation(), ai);
                                         Main.projectile[proj].tileCollide = false;
                                         lightningSpawnLocation.Y += distanceBetweenBolts;
                                         if (i == numLightningBolts / 2)
@@ -1163,7 +1163,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
                                         if (canSpawn)
                                         {
-                                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), randomX * 16 + 8, randomY * 16 + 8, ModContent.NPCType<Eidolist>());
+                                            NPC.NewNPC(NPC.GetSource_FromAI(), randomX * 16 + 8, randomY * 16 + 8, ModContent.NPCType<Eidolist>());
                                             break;
                                         }
                                     }
@@ -1203,7 +1203,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 for (int i = 0; i < ancientDoomLimit; i++)
                                 {
                                     float ai2 = i * ancientDoomDegrees;
-                                    NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
+                                    NPC.NewNPC(NPC.GetSource_FromAI(), (int)(player.Center.X + (float)(Math.Sin(i * ancientDoomDegrees) * ancientDoomDistance)), (int)(player.Center.Y + (float)(Math.Cos(i * ancientDoomDegrees) * ancientDoomDistance)),
                                         NPCID.AncientDoom, 0, NPC.whoAmI, 0f, ai2, 0f, Main.maxPlayers);
                                 }
 

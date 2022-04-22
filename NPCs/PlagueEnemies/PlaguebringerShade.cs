@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         }
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueBee>()) < 3)
                         {
-                            int num1062 = NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
+                            int num1062 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
                             Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.005f;
                             Main.npc[num1062].localAI[0] = 60f;
@@ -457,7 +457,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         if (Main.expertMode)
                             damage = fireRocket ? 50 : 35;
 
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector121.X, vector121.Y, num1071, num1072, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
@@ -638,7 +638,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             {
                 int heartAmt = Main.rand.Next(3) + 3;
                 for (int i = 0; i < heartAmt; i++)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

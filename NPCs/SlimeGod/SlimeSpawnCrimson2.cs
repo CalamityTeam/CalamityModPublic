@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             vector4.Y *= 1f + (float)Main.rand.Next(-50, 51) * 0.005f;
                             vector4.Normalize();
                             vector4 *= 4f + (float)Main.rand.Next(-50, 51) * 0.01f;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector3.X, vector3.Y, vector4.X, vector4.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector3.X, vector3.Y, vector4.X, vector4.Y, type, damage, 0f, Main.myPlayer, 0f, 0f);
                             spikeTimer = 30f;
                         }
                     }
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         num14 *= num16;
                         num15 *= num16;
                         spikeTimer = 50f;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), vector3.X, vector3.Y, num14, num15, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector3.X, vector3.Y, num14, num15, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
                 if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
-                    Item.NewItem(NPC.GetItemSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
+                    Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
 

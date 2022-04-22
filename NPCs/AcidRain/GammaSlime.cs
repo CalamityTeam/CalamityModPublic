@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.AcidRain
                             float angle = MathHelper.TwoPi / 5f * i;
                             if (GammaAcidShootTimer % 60f == 58f)
                                 angle += MathHelper.PiOver2;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, angle.ToRotationVector2() * 7f, ModContent.ProjectileType<GammaAcid>(), Main.expertMode ? 36 : 45, 3f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, angle.ToRotationVector2() * 7f, ModContent.ProjectileType<GammaAcid>(), Main.expertMode ? 36 : 45, 3f);
                         }
                     }
                     NPC.netUpdate = true;
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 104);
-                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, NPC.whoAmI);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, NPC.whoAmI);
                 }
                 NPC.netUpdate = true;
             }

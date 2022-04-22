@@ -467,7 +467,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (phase3)
                             spawnType = NPCID.Bee;
 
-                        int spawn = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector76.X, (int)vector76.Y, spawnType);
+                        int spawn = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector76.X, (int)vector76.Y, spawnType);
                         Main.npc[spawn].velocity = Main.player[npc.target].Center - npc.Center;
                         Main.npc[spawn].velocity.Normalize();
                         Main.npc[spawn].velocity *= 5f;
@@ -564,7 +564,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num625 *= num627;
                         num626 *= num627;
                         int type = ProjectileID.Stinger;
-                        int projectile = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
+                        int projectile = Projectile.NewProjectile(npc.GetSource_FromAI(), vector78.X, vector78.Y, num625, num626, type, npc.GetProjectileDamage(type), 0f, Main.myPlayer, 0f, 0f);
                         Main.projectile[projectile].timeLeft = 300;
                     }
                 }

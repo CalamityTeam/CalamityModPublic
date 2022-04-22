@@ -440,7 +440,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
                                     Vector2 laserVelocity = Vector2.Normalize(player.Center - NPC.Center);
                                     Vector2 offset = laserVelocity * 70f + Vector2.UnitY * 16f;
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, player.Center, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }
@@ -476,7 +476,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                                     if (laserVelocity.HasNaNs())
                                         laserVelocity = -Vector2.UnitY;
 
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), source, laserVelocity, type, damage, 0f, Main.myPlayer, 0f, NPC.whoAmI);
                                 }
                             }
                         }

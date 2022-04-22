@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     calamityGlobalNPC.newAI[0] = 0f;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector, Vector2.Zero, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector, Vector2.Zero, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
 
                     npc.netUpdate = true;
                 }
@@ -459,7 +459,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (npc.width + 20) / 2f + vector;
-                        NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble);
                     }
                 }
 
@@ -502,12 +502,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float velocityY = normal ? 8f : -4f;
                     float ai1 = normal ? 0f : -1f;
 
-                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector7.X, vector7.Y, npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
-                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector7.X, vector7.Y, -(float)npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, -(float)npc.direction * 3, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
 
                     velocityY = normal ? -4f : 8f;
                     ai1 = normal ? -1f : 0f;
-                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector7.X, vector7.Y, 0f, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector7.X, vector7.Y, 0f, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
                 }
 
                 npc.ai[2] += 1f;
@@ -708,7 +708,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
-                        int num31 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
+                        int num31 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
                         Main.npc[num31].target = npc.target;
                         Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity;
                         Main.npc[num31].netUpdate = true;
@@ -716,7 +716,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (npc.ai[2] % (bubbleSpinPhaseDivisor * 5) == 0f)
                         {
-                            int npc2 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2);
+                            int npc2 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2);
                             Main.npc[npc2].ai[1] = 89f;
                         }
                     }
@@ -749,7 +749,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == sharknadoPhaseTimer - 30)
-                    Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= sharknadoPhaseTimer)

@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs
 
                         attackTimer++;
                         if (attackTimer == eggLayTime)
-                            NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)spotToLayEgg.X, (int)spotToLayEgg.Y + 20, 478, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)spotToLayEgg.X, (int)spotToLayEgg.Y + 20, 478, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         else if (attackTimer == eggLayTime + waitTime)
                         {
                             aiState = (int)MothronAIState.NewAISelection;
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs
                         num858 *= num859;
                         num857 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
                         num858 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector109.X, vector109.Y, num857, num858, ProjectileID.GreekFire1 + Main.rand.Next(3), 60, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector109.X, vector109.Y, num857, num858, ProjectileID.GreekFire1 + Main.rand.Next(3), 60, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -493,13 +493,13 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
                 npc.ai[0] = 1f;
 
-                int num861 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num861 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = -1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].target = npc.target;
                 Main.npc[num861].netUpdate = true;
 
-                num861 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num861 = NPC.NewNPC(npc.GetSource_FromAI(), (int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = 1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].ai[3] = 150f;
@@ -879,7 +879,7 @@ namespace CalamityMod.NPCs
                         num893 *= num895;
                         num894 *= num895;
 
-                        Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector116.X, vector116.Y, num893, num894, ProjectileID.FrostWave, 50, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector116.X, vector116.Y, num893, num894, ProjectileID.FrostWave, 50, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
                 else if (npc.ai[3] < 0f)
@@ -974,7 +974,7 @@ namespace CalamityMod.NPCs
 
                             num902 += 3f;
                             float speedX2 = npc.velocity.X * 0.25f;
-                            Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector117.X, vector117.Y, speedX2, num902, ProjectileID.FrostShard, 44, 0f, Main.myPlayer, (float)Main.rand.Next(5), 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), vector117.X, vector117.Y, speedX2, num902, ProjectileID.FrostShard, 44, 0f, Main.myPlayer, (float)Main.rand.Next(5), 0f);
                         }
                     }
                 }
@@ -1019,7 +1019,7 @@ namespace CalamityMod.NPCs
                 if (npc.ai[3] > (float)num908)
                 {
                     npc.ai[3] = 0f;
-                    int num909 = Projectile.NewProjectile(npc.GetSpawnSource_ForProjectile(), vector118.X, vector118.Y, num904, num905, ProjectileID.FrostShard, 40, 0f, Main.myPlayer, 0f, 0f);
+                    int num909 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector118.X, vector118.Y, num904, num905, ProjectileID.FrostShard, 40, 0f, Main.myPlayer, 0f, 0f);
                 }
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)

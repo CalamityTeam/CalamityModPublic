@@ -168,9 +168,9 @@ namespace CalamityMod.NPCs.SunkenSea
                             hide = false;
                             attack = -1;
                             NPC.defense = Main.hardMode ? 35 : 10;
-                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.Center.X + 5), (int)NPC.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)(NPC.Center.X - 5), (int)NPC.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X + 5), (int)NPC.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)(NPC.Center.X - 5), (int)NPC.Center.Y, ModContent.NPCType<Clam>(), 0, 0f, 0f, 0f, 0f, 255);
                         }
                     }
                     else if (attack == 1)
@@ -299,12 +299,12 @@ namespace CalamityMod.NPCs.SunkenSea
                         num8 = speed / num8;
                         num6 *= num8;
                         num7 *= num8;
-                        Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X, NPC.Center.Y, num6, num7, projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         for (int i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                         attack = -1;
                         NPC.ai[3] = 0f;
@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.SunkenSea
                             float shotSpacing = 750f;
                             for (int i = 0; i < 11; i++)
                             {
-                                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.Center.X + shotSpacing, player.Center.Y - 750f, 0f, 8f, ModContent.ProjectileType<PearlRain>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + shotSpacing, player.Center.Y - 750f, 0f, 8f, ModContent.ProjectileType<PearlRain>(), damage, 0f, Main.myPlayer, 0f, 0f);
                                 shotSpacing -= 150f;
                             }
                         }

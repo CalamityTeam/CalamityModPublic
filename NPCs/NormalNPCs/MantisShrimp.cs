@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
-                Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), player.Center, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
+                Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center, Vector2.Zero, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
         }
 
         public override void FindFrame(int frameHeight)

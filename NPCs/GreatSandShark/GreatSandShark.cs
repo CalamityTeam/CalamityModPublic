@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC(NPC.GetSpawnSourceForNPCFromNPCAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
                         SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
                     }
                 }
@@ -412,7 +412,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                                 }
                                 int spawnX = (int)(NPC.width / 2);
                                 for (int sand = 0; sand < 5; sand++)
-                                    Projectile.NewProjectile(NPC.GetSpawnSource_ForProjectile(), NPC.Center.X + (float)Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + (float)Main.rand.Next(-spawnX, spawnX), NPC.Center.Y,
                                         (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), ModContent.ProjectileType<GreatSandBlast>(), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             NPC.ai[2] = -30f;

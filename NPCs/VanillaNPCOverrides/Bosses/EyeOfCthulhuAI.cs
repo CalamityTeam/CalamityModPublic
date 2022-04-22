@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.ServantofCthulhu) < 12)
                             {
-                                int num23 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
+                                int num23 = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
                                 Main.npc[num23].velocity = servantSpawnVelocity;
 
                                 if (Main.netMode == NetmodeID.Server && num23 < Main.maxNPCs)
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num34 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
+                        int num34 = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num34].velocity.X = servantSpawnVelocity.X;
                         Main.npc[num34].velocity.Y = servantSpawnVelocity.Y;
 
@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 servantSpawnCenter = npc.Center + servantSpawnVelocity * 10f;
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num34 = NPC.NewNPC(npc.GetSpawnSourceForNPCFromNPCAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
+                            int num34 = NPC.NewNPC(npc.GetSource_FromAI(), (int)servantSpawnCenter.X, (int)servantSpawnCenter.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num34].velocity.X = servantSpawnVelocity.X;
                             Main.npc[num34].velocity.Y = servantSpawnVelocity.Y;
 
