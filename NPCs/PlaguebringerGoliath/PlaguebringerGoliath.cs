@@ -1071,7 +1071,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (Main.netMode != NetmodeID.Server)
                 {
                     for (int i = 1; i < 7; i++)
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("PlaguebringerGoliathGore" + i).Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("PlaguebringerGoliathGore" + i).Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);

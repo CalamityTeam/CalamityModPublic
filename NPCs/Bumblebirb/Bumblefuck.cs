@@ -472,7 +472,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                         string gore = "Bumble";
                         float randomSpread = Main.rand.Next(-200, 201) / 100f;
                         gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
-                        Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>(gore).Type, 1f);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>(gore).Type, 1f);
                     }
                 }
             }

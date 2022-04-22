@@ -954,7 +954,7 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
                 for (int i = 1; i < chipGoreAmount; i++)
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("CryoChipGore" + i).Type, 1f);
+                    Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CryoChipGore" + i).Type, 1f);
             }
 
             currentPhase = newPhase;
@@ -1038,8 +1038,8 @@ namespace CalamityMod.NPCs.Cryogen
                     float randomSpread = Main.rand.Next(-200, 200) / 100;
                     for (int i = 1; i < 4; i++)
                     {
-                        Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoDeathGore" + i).Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoChipGore" + i).Type, 1f);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoDeathGore" + i).Type, 1f);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoChipGore" + i).Type, 1f);
                     }
                 }
             }

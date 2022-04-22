@@ -711,11 +711,11 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt2").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt3").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt4").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt5").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt2").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt3").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt4").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt5").Type, 1f);
                     }
 
                     for (int num621 = 0; num621 < 10; num621++)
@@ -862,11 +862,11 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt2").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt3").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt4").Type, 1f);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt5").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt2").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt3").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt4").Type, 1f);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Polt5").Type, 1f);
                     }
 
                     for (int num621 = 0; num621 < 10; num621++)

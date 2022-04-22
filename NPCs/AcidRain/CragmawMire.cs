@@ -114,9 +114,9 @@ namespace CalamityMod.NPCs.AcidRain
                 SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode, NPC.Center);
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP1Gore").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP1Gore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP1Gore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP1Gore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP1Gore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP1Gore3").Type, NPC.scale);
                 }
                 HasMadeShellBreakGore = true;
             }
@@ -488,9 +488,9 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore2").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, Mod.Find<ModGore>("CragmawMireP2Gore3").Type, NPC.scale);
                 }
             }
         }

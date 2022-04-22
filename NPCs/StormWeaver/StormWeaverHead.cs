@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorHead1").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorHead1").Type, NPC.scale);
                     }
                     SoundEngine.PlaySound(SoundID.NPCDeath14, (int)NPC.Center.X, (int)NPC.Center.Y);
 
@@ -695,8 +695,8 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeHead1").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeHead2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeHead1").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeHead2").Type, NPC.scale);
                 }
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);

@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("ScourgeTail").Type, 0.65f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("ScourgeTail").Type, 0.65f);
                 }
                 for (int k = 0; k < 10; k++)
                 {

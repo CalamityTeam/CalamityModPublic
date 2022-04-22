@@ -112,9 +112,9 @@ namespace CalamityMod.NPCs.StormWeaver
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorBody1").Type, NPC.scale);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorBody2").Type, NPC.scale);
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorBody3").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorBody1").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorBody2").Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorBody3").Type, NPC.scale);
                     }
 
                     CalamityGlobalNPC global = NPC.Calamity();
@@ -303,9 +303,9 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeBody1").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeBody2").Type, NPC.scale);
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeBody3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeBody1").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeBody2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWNudeBody3").Type, NPC.scale);
                 }
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);

@@ -4831,7 +4831,7 @@ namespace CalamityMod.NPCs
                 if (Main.rand.NextBool(5))
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(10f, 1f, 1f, 0.66f);
-                    int heart = Gore.NewGore(npc.position + new Vector2(Main.rand.Next(npc.width + 1), Main.rand.Next(npc.height + 1)), velocity * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
+                    int heart = Gore.NewGore(npc.GetSource_FromThis(), npc.position + new Vector2(Main.rand.Next(npc.width + 1), Main.rand.Next(npc.height + 1)), velocity * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
                     Main.gore[heart].sticky = false;
                     Main.gore[heart].velocity *= 0.4f;
                     Main.gore[heart].velocity.Y -= 0.6f;

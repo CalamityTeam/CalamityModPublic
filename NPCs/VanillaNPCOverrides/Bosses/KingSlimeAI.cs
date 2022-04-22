@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     flag9 = true;
 
                 if (npc.ai[0] == 60f)
-                    Gore.NewGore(npc.Center + new Vector2(-40f, -(float)npc.height / 2), npc.velocity, 734, 1f);
+                    Gore.NewGore(npc.GetSource_FromAI(), npc.Center + new Vector2(-40f, -(float)npc.height / 2), npc.velocity, 734, 1f);
 
                 if (npc.ai[0] >= 60f && Main.netMode != NetmodeID.MultiplayerClient)
                 {

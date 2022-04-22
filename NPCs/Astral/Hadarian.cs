@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.Astral
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Gore.NewGore(NPC.Center, NPC.velocity * 0.3f, Mod.Find<ModGore>("HadarianGore" + i).Type);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity * 0.3f, Mod.Find<ModGore>("HadarianGore" + i).Type);
                     }
                 }
             }

@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("SmallPerf3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SmallPerf3").Type, NPC.scale);
                 }
             }
         }

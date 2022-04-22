@@ -417,7 +417,7 @@ namespace CalamityMod.NPCs.HiveMind
                     {
                         int goreAmount = 7;
                         for (int i = 1; i <= goreAmount; i++)
-                            Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("HiveMindGore" + i).Type, 1f);
+                            Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HiveMindGore" + i).Type, 1f);
                     }
 
                     SoundEngine.PlaySound(SoundID.NPCDeath1, (int)NPC.Center.X, (int)NPC.Center.Y);
@@ -1052,7 +1052,7 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     int goreAmount = 10;
                     for (int i = 1; i <= goreAmount; i++)
-                        Gore.NewGore(NPC.position, NPC.velocity, Mod.Find<ModGore>("HiveMindP2Gore" + i).Type, 1f);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HiveMindP2Gore" + i).Type, 1f);
                 }
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
