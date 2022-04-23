@@ -7987,13 +7987,16 @@ namespace CalamityMod.NPCs
                                     dust.noGravity = true;
                                 }
 
-                                for (int num558 = 0; num558 < 4; num558++)
+                                if (Main.netMode != NetmodeID.Server)
                                 {
-                                    int num559 = Gore.NewGore(vector68 + new Vector2((float)(50 * Main.rand.Next(100)) / 100f, (float)(50 * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default(Vector2), Main.rand.Next(61, 64), 1f);
-                                    Gore gore = Main.gore[num559];
-                                    gore.velocity *= 0.3f;
-                                    gore.velocity.X += (float)Main.rand.Next(-10, 11) * 0.05f;
-                                    gore.velocity.Y += (float)Main.rand.Next(-10, 11) * 0.05f;
+                                    for (int num558 = 0; num558 < 4; num558++)
+                                    {
+                                        int num559 = Gore.NewGore(npc.GetSource_FromAI(), vector68 + new Vector2((float)(50 * Main.rand.Next(100)) / 100f, (float)(50 * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default(Vector2), Main.rand.Next(61, 64), 1f);
+                                        Gore gore = Main.gore[num559];
+                                        gore.velocity *= 0.3f;
+                                        gore.velocity.X += (float)Main.rand.Next(-10, 11) * 0.05f;
+                                        gore.velocity.Y += (float)Main.rand.Next(-10, 11) * 0.05f;
+                                    }
                                 }
                             }
 

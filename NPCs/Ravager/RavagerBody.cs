@@ -475,8 +475,11 @@ namespace CalamityMod.NPCs.Ravager
                             Main.dust[stompDust].velocity *= 0.2f;
                         }
 
-                        int stompGore = Gore.NewGore(new Vector2(stompDustArea - 30, NPC.position.Y + NPC.height - 12f), default, Main.rand.Next(61, 64), 1f);
-                        Main.gore[stompGore].velocity *= 0.4f;
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            int stompGore = Gore.NewGore(NPC.GetSource_FromAI(), new Vector2(stompDustArea - 30, NPC.position.Y + NPC.height - 12f), default, Main.rand.Next(61, 64), 1f);
+                            Main.gore[stompGore].velocity *= 0.4f;
+                        }
                     }
                 }
                 else

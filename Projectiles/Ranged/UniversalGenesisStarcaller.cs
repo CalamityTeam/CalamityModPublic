@@ -128,9 +128,12 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, Projectile.oldVelocity.X * 0.5f, Projectile.oldVelocity.Y * 0.5f);
             }
-            for (int g = 0; g < 3; g++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                for (int g = 0; g < 3; g++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                }
             }
         }
     }

@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.ai[0] >= 60f)
                     flag9 = true;
 
-                if (npc.ai[0] == 60f)
+                if (npc.ai[0] == 60f && Main.netMode != NetmodeID.Server)
                     Gore.NewGore(npc.GetSource_FromAI(), npc.Center + new Vector2(-40f, -(float)npc.height / 2), npc.velocity, 734, 1f);
 
                 if (npc.ai[0] >= 60f && Main.netMode != NetmodeID.MultiplayerClient)

@@ -51,15 +51,18 @@ namespace CalamityMod.Projectiles.Pets
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int heartCount = Main.rand.Next(20, 31);
-                    for (int i = 0; i < heartCount; i++)
+                    if (Main.netMode != NetmodeID.Server)
                     {
-                        Vector2 velocity = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
-                        velocity.Normalize();
-                        velocity.X *= 0.66f;
-                        int heart = Gore.NewGore(Projectile.Center, velocity * Main.rand.NextFloat(3f, 5f) * 0.33f, 331, Main.rand.NextFloat(40f, 120f) * 0.01f);
-                        Main.gore[heart].sticky = false;
-                        Main.gore[heart].velocity *= 5f;
+                        int heartCount = Main.rand.Next(20, 31);
+                        for (int i = 0; i < heartCount; i++)
+                        {
+                            Vector2 velocity = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+                            velocity.Normalize();
+                            velocity.X *= 0.66f;
+                            int heart = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, velocity * Main.rand.NextFloat(3f, 5f) * 0.33f, 331, Main.rand.NextFloat(40f, 120f) * 0.01f);
+                            Main.gore[heart].sticky = false;
+                            Main.gore[heart].velocity *= 5f;
+                        }
                     }
 
                     SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 15); //mouse squeak sound

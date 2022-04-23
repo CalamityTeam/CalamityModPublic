@@ -86,12 +86,15 @@ namespace CalamityMod.Projectiles.Rogue
                 int dust = Dust.NewDust(Projectile.Center, 1, 1, dustType, Projectile.velocity.X, Projectile.velocity.Y, 0, CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 1f), 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num480 = 0; num480 < 3; num480++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                velocity.SafeNormalize(default);
-                velocity *= Main.rand.Next(1, 6) * 0.01f;
-                Gore.NewGore(Projectile.position, velocity, Main.rand.Next(16, 18), 1f);
+                for (int num480 = 0; num480 < 3; num480++)
+                {
+                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    velocity.SafeNormalize(default);
+                    velocity *= Main.rand.Next(1, 6) * 0.01f;
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, velocity, Main.rand.Next(16, 18), 1f);
+                }
             }
         }
     }

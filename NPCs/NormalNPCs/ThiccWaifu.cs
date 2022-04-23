@@ -184,11 +184,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     Dust.NewDustDirect(NPC.position, NPC.width, NPC.height, 16);
 
-                    if (Main.rand.NextBool(15))
+                    if (Main.rand.NextBool(15) && Main.netMode != NetmodeID.Server)
                     {
                         int smokeType = Utils.SelectRandom(Main.rand, GoreID.ChimneySmoke1, GoreID.ChimneySmoke2, GoreID.ChimneySmoke3);
                         Vector2 smokeVelocity = Main.rand.NextVector2CircularEdge(6f, 6f);
-                        Gore.NewGorePerfect(NPC.Center + Main.rand.NextVector2Circular(40f, 40f), smokeVelocity, smokeType);
+                        Gore.NewGorePerfect(NPC.GetSource_FromAI(), NPC.Center + Main.rand.NextVector2Circular(40f, 40f), smokeVelocity, smokeType);
                     }
                 }
             }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,36 +60,43 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
 
-            Vector2 goreVec = new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f);
-            float smokeScale = 0.66f;
-            for (int i = 0; i < 2; i++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                switch (Main.rand.Next(1, 5))
+                Vector2 goreVec = new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f);
+                float smokeScale = 0.66f;
+                for (int i = 0; i < 2; i++)
                 {
-                    case 1: int idx1 = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+                    switch (Main.rand.Next(1, 5))
+                    {
+                        case 1:
+                            int idx1 = Gore.NewGore(Projectile.GetSource_Death(), goreVec, default, Main.rand.Next(61, 64), 1f);
                             Main.gore[idx1].velocity *= smokeScale;
                             Main.gore[idx1].velocity.X += 1f;
                             Main.gore[idx1].velocity.Y += 1f;
                             break;
 
-                    case 2: int idx2 = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+                        case 2:
+                            int idx2 = Gore.NewGore(Projectile.GetSource_Death(), goreVec, default, Main.rand.Next(61, 64), 1f);
                             Main.gore[idx2].velocity *= smokeScale;
                             Main.gore[idx2].velocity.X -= 1f;
                             Main.gore[idx2].velocity.Y += 1f;
                             break;
 
-                    case 3: int idx3 = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+                        case 3:
+                            int idx3 = Gore.NewGore(Projectile.GetSource_Death(), goreVec, default, Main.rand.Next(61, 64), 1f);
                             Main.gore[idx3].velocity *= smokeScale;
                             Main.gore[idx3].velocity.X += 1f;
                             Main.gore[idx3].velocity.Y -= 1f;
                             break;
 
-                    case 4: int idx4 = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+                        case 4:
+                            int idx4 = Gore.NewGore(Projectile.GetSource_Death(), goreVec, default, Main.rand.Next(61, 64), 1f);
                             Main.gore[idx4].velocity *= smokeScale;
                             Main.gore[idx4].velocity.X -= 1f;
                             Main.gore[idx4].velocity.Y -= 1f;
                             break;
-                    default: break;
+                        default: break;
+                    }
                 }
             }
         }

@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Magic
                     SoundEngine.PlaySound(SoundID.Item9, Projectile.Center);
                 }
             }
-            if (Main.rand.NextBool(20) || explodingSoon && Main.rand.NextBool(3))
+            if ((Main.rand.NextBool(20) || explodingSoon) && Main.rand.NextBool(3) && Main.netMode != NetmodeID.Server)
             {
-                int idx = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.2f, Main.rand.Next(16, 18), 1f);
+                int idx = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * 0.2f, Main.rand.Next(16, 18), 1f);
                 Main.gore[idx].velocity *= 0.66f;
                 Main.gore[idx].velocity += Projectile.velocity * 0.3f;
             }
@@ -199,9 +199,12 @@ namespace CalamityMod.Projectiles.Magic
                     Main.dust[idx].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int i = 0; i < 5; i++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, Projectile.velocity * 0.05f, Main.rand.Next(16, 18), 1f);
+                for (int i = 0; i < 5; i++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity * 0.05f, Main.rand.Next(16, 18), 1f);
+                }
             }
             Projectile.Kill();
         }

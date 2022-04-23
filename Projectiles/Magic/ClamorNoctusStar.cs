@@ -82,9 +82,12 @@ namespace CalamityMod.Projectiles.Magic
                 num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 20, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-            for (int num480 = 0; num480 < 3; num480++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                for (int num480 = 0; num480 < 3; num480++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                }
             }
         }
 

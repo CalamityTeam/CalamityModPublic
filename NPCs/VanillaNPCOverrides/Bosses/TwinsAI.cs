@@ -614,19 +614,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         SoundEngine.PlaySound(SoundID.NPCHit1, (int)npc.position.X, (int)npc.position.Y);
 
-                        int num;
-                        for (int num397 = 0; num397 < 2; num397 = num + 1)
+                        if (Main.netMode != NetmodeID.Server)
                         {
-                            Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 143, 1f);
-                            Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 7, 1f);
-                            Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 6, 1f);
-                            num = num397;
+                            for (int num397 = 0; num397 < 2; num397++)
+                            {
+                                Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 143, 1f);
+                                Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 7, 1f);
+                                Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 6, 1f);
+                            }
                         }
 
-                        for (int num398 = 0; num398 < 20; num398 = num + 1)
+                        for (int num398 = 0; num398 < 20; num398++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
-                            num = num398;
                         }
 
                         SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
@@ -1349,19 +1349,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         SoundEngine.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
 
-                        int num;
-                        for (int num438 = 0; num438 < 2; num438 = num + 1)
+                        if (Main.netMode != NetmodeID.Server)
                         {
-                            Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 144, 1f);
-                            Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 7, 1f);
-                            Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 6, 1f);
-                            num = num438;
+                            for (int num438 = 0; num438 < 2; num438++)
+                            {
+                                Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 144, 1f);
+                                Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 7, 1f);
+                                Gore.NewGore(npc.GetSource_FromAI(), npc.position, new Vector2(Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f), 6, 1f);
+                            }
                         }
 
-                        for (int num439 = 0; num439 < 20; num439 = num + 1)
+                        for (int num439 = 0; num439 < 20; num439++)
                         {
                             Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
-                            num = num439;
                         }
 
                         SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);

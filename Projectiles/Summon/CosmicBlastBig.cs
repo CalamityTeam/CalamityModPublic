@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -47,9 +47,9 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num59].velocity = value3 * 0.66f;
                 Main.dust[num59].position = Projectile.Center + value3 * 12f;
             }
-            if (Main.rand.NextBool(24))
+            if (Main.rand.NextBool(24) && Main.netMode != NetmodeID.Server)
             {
-                int num60 = Gore.NewGore(Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
                 Main.gore[num60].velocity *= 0.66f;
                 Main.gore[num60].velocity += Projectile.velocity * 0.3f;
             }
@@ -60,9 +60,9 @@ namespace CalamityMod.Projectiles.Summon
                     int num59 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 66, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
                     Main.dust[num59].noGravity = true;
                 }
-                if (Main.rand.NextBool(10))
+                if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
+                    Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
                 }
             }
             NPC potentialTarget = Projectile.Center.MinionHoming(600f, Main.player[Projectile.owner]);

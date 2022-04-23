@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
                             Vector2 shootDirection = (MathHelper.TwoPi * i / 6f + Projectile.rotation + MathHelper.PiOver2).ToRotationVector2();
                             Vector2 spawnPosition = Projectile.Center + Projectile.Size * 0.5f * Projectile.scale * shootDirection * 0.85f;
                             if (!WorldGen.SolidTile((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16))
-                                Gore.NewGorePerfect(spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, goreType, Projectile.scale);
+                                Gore.NewGorePerfect(Projectile.GetSource_Death(), spawnPosition, Projectile.velocity * 0.5f + shootDirection * 7f, goreType, Projectile.scale);
                         }
                     }
                 }

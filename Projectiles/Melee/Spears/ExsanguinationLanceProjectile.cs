@@ -38,9 +38,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 16 : 127, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
             Vector2 goreVec = Projectile.Center + Projectile.velocity;
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(8) && Main.netMode != NetmodeID.Server)
             {
-                int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 1f);
+                int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), goreVec, default, Main.rand.Next(375, 378), 1f);
                 Main.gore[smoke].behindTiles = true;
             }
         }

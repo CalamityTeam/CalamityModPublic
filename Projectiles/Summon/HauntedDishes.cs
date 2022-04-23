@@ -583,8 +583,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            int index = Gore.NewGore(new Vector2(Projectile.position.X - (float) (Projectile.width / 2), Projectile.position.Y - (float) (Projectile.height / 2)), new Vector2(0.0f, 0.0f), Main.rand.Next(61, 64), Projectile.scale);
-            Main.gore[index].velocity *= 0.1f;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int index = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X - (float)(Projectile.width / 2), Projectile.position.Y - (float)(Projectile.height / 2)), new Vector2(0.0f, 0.0f), Main.rand.Next(61, 64), Projectile.scale);
+                Main.gore[index].velocity *= 0.1f;
+            }
         }
     }
 }

@@ -300,7 +300,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
                 if (Main.netMode != NetmodeID.Server)
                 {
                     for (int i = 1; i <= 3; i++)
-                        Gore.NewGorePerfect(NPC.Center, NPC.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), Mod.Find<ModGore>($"RepairUnit{i}").Type);
+                        Gore.NewGorePerfect(NPC.GetSource_Death(), NPC.Center, NPC.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.7f, 1f), Mod.Find<ModGore>($"RepairUnit{i}").Type);
                 }
             }
         }

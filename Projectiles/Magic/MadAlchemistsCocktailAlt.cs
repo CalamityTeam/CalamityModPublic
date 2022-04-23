@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -57,8 +57,12 @@ namespace CalamityMod.Projectiles.Magic
         {
             SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+            }
 
             // This previously did double damage. It now does half damage.
             int blastWidth = 120;

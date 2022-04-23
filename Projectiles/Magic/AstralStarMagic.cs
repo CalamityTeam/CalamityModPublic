@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num59].velocity = value3 * 0.66f;
                 Main.dust[num59].position = Projectile.Center + value3 * 12f;
             }
-            if (Main.rand.NextBool(48))
+            if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
-                int num60 = Gore.NewGore(Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                int num60 = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
                 Main.gore[num60].velocity *= 0.66f;
                 Main.gore[num60].velocity += Projectile.velocity * 0.3f;
             }
@@ -82,9 +82,9 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
                 }
-                if (Main.rand.NextBool(20))
+                if (Main.rand.NextBool(20) && Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
+                    Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
                 }
             }
         }
@@ -131,9 +131,12 @@ namespace CalamityMod.Projectiles.Magic
                 num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-            for (int num480 = 0; num480 < 3; num480++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                for (int num480 = 0; num480 < 3; num480++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                }
             }
         }
     }

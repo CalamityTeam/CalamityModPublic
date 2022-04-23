@@ -63,7 +63,7 @@ namespace CalamityMod.Gores
                 {
                     gore.frameCounter = 0;
                     gore.frame += 1;
-                    if (gore.frame == 5)
+                    if (gore.frame == 5 && Main.netMode != NetmodeID.Server)
                     {
                         int num4 = Gore.NewGore(gore.position, gore.velocity, gore.type, 1f);
                         Main.gore[num4].frame = 9;

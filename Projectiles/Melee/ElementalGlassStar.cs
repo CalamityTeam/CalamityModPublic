@@ -74,9 +74,9 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            if (Main.rand.NextBool(48))
+            if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
-                int starGore = Gore.NewGore(Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
+                int starGore = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), 16, 1f);
                 Main.gore[starGore].velocity *= 0.66f;
                 Main.gore[starGore].velocity += Projectile.velocity * 0.3f;
             }
@@ -132,9 +132,12 @@ namespace CalamityMod.Projectiles.Melee
                 GeneralParticleHandler.SpawnParticle(spark);
             }
 
-            for (int i = 0; i < 3; i++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                for (int i = 0; i < 3; i++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, new Vector2(Projectile.velocity.X * 0.05f, Projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
+                }
             }
         }
     }

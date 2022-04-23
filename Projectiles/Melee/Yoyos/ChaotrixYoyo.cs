@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -39,9 +39,9 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Main.rand.NextBool(5))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, Main.rand.NextBool(3) ? 16 : 127, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(8) && Main.netMode != NetmodeID.Server)
             {
-                int smoke = Gore.NewGore(Projectile.position, default, Main.rand.Next(375, 378), 0.5f);
+                int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, default, Main.rand.Next(375, 378), 0.5f);
                 Main.gore[smoke].behindTiles = true;
             }
             if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks

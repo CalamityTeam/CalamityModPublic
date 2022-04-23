@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Vector2 goreSpawnPosition = NPC.Center;
                         if (i == 2)
                             goreSpawnPosition -= (NPC.rotation - MathHelper.PiOver2).ToRotationVector2() * 20f;
-                        Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherTail_Gore{i}").Type, NPC.scale);
+                        Gore.NewGorePerfect(NPC.GetSource_Death(), goreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherTail_Gore{i}").Type, NPC.scale);
                     }
                 }
             }

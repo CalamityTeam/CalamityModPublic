@@ -42,8 +42,12 @@ namespace CalamityMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.position);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+            }
 
             int numShrapnel = 4;
             int shrapnelDamage = Projectile.damage / 3;

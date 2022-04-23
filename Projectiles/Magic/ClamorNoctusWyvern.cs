@@ -52,11 +52,11 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Main.netMode != NetmodeID.Server)
             {
-                int head = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("ClamorNoctusHead").Type);
+                int head = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("ClamorNoctusHead").Type);
                 Main.gore[head].timeLeft /= 10;
-                int body = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("ClamorNoctusBody").Type);
+                int body = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("ClamorNoctusBody").Type);
                 Main.gore[body].timeLeft /= 10;
-                int tail = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("ClamorNoctusTail").Type);
+                int tail = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity * 0.8f, Mod.Find<ModGore>("ClamorNoctusTail").Type);
                 Main.gore[tail].timeLeft /= 10;
             }
         }

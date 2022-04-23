@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -58,20 +58,23 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
             SoundEngine.PlaySound(SoundID.NPCDeath37, Projectile.position);
-            for (int num625 = 0; num625 < 3; num625++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                float scaleFactor10 = 0.33f;
-                if (num625 == 1)
+                for (int num625 = 0; num625 < 3; num625++)
                 {
-                    scaleFactor10 = 0.66f;
+                    float scaleFactor10 = 0.33f;
+                    if (num625 == 1)
+                    {
+                        scaleFactor10 = 0.66f;
+                    }
+                    if (num625 == 2)
+                    {
+                        scaleFactor10 = 1f;
+                    }
+                    int defectiveBruh = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(660, 662), 1f);
+                    Main.gore[defectiveBruh].velocity *= scaleFactor10;
+                    Main.gore[defectiveBruh].velocity += Projectile.velocity;
                 }
-                if (num625 == 2)
-                {
-                    scaleFactor10 = 1f;
-                }
-                int defectiveBruh = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(660, 662), 1f);
-                Main.gore[defectiveBruh].velocity *= scaleFactor10;
-                Main.gore[defectiveBruh].velocity += Projectile.velocity;
             }
             for (int num194 = 0; num194 < 25; num194++)
             {

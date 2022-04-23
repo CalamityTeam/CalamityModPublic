@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
@@ -49,9 +50,9 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             Vector2 goreVec = new Vector2(Projectile.position.X, Projectile.position.Y);
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(8) && Main.netMode != NetmodeID.Server)
             {
-                int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.75f);
+                int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), goreVec, default, Main.rand.Next(375, 378), 0.75f);
                 Main.gore[smoke].behindTiles = true;
             }
         }

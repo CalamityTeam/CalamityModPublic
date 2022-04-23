@@ -255,15 +255,18 @@ namespace CalamityMod.NPCs.SunkenSea
                                 NPC.noGravity = false;
                                 attack = -1;
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)NPC.position.X, (int)NPC.position.Y);
-                                for (int stompDustArea = (int)NPC.position.X - 30; stompDustArea < (int)NPC.position.X + NPC.width + 60; stompDustArea += 30)
+                                if (Main.netMode != NetmodeID.Server)
                                 {
-                                    for (int stompDustAmount = 0; stompDustAmount < 5; stompDustAmount++)
+                                    for (int stompDustArea = (int)NPC.position.X - 30; stompDustArea < (int)NPC.position.X + NPC.width + 60; stompDustArea += 30)
                                     {
-                                        int stompDust = Dust.NewDust(new Vector2(NPC.position.X - 30f, NPC.position.Y + (float)NPC.height), NPC.width + 30, 4, 33, 0f, 0f, 100, default, 1.5f);
-                                        Main.dust[stompDust].velocity *= 0.2f;
+                                        for (int stompDustAmount = 0; stompDustAmount < 5; stompDustAmount++)
+                                        {
+                                            int stompDust = Dust.NewDust(new Vector2(NPC.position.X - 30f, NPC.position.Y + (float)NPC.height), NPC.width + 30, 4, 33, 0f, 0f, 100, default, 1.5f);
+                                            Main.dust[stompDust].velocity *= 0.2f;
+                                        }
+                                        int stompGore = Gore.NewGore(NPC.GetSource_FromAI(), new Vector2((float)(stompDustArea - 30), NPC.position.Y + (float)NPC.height - 12f), default, Main.rand.Next(61, 64), 1f);
+                                        Main.gore[stompGore].velocity *= 0.4f;
                                     }
-                                    int stompGore = Gore.NewGore(new Vector2((float)(stompDustArea - 30), NPC.position.Y + (float)NPC.height - 12f), default, Main.rand.Next(61, 64), 1f);
-                                    Main.gore[stompGore].velocity *= 0.4f;
                                 }
                             }
                             NPC.velocity.Y += 0.8f;

@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.Other
                 if (Main.netMode != NetmodeID.Server)
                 {
                     for (int i = 1; i <= 4; i++)
-                        Gore.NewGoreDirect(NPC.Center, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"LecherousGore{i}").Type);
+                        Gore.NewGoreDirect(NPC.GetSource_Death(), NPC.Center, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"LecherousGore{i}").Type);
                 }
             }
         }

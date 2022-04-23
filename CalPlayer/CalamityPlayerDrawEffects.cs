@@ -769,7 +769,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !Player.loveStruck)
+            if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !Player.loveStruck && Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
                 {
@@ -777,7 +777,7 @@ namespace CalamityMod.CalPlayer
                     velocity.X *= 0.66f;
                     velocity *= Main.rand.NextFloat(1f, 2f);
 
-                    int heart = Gore.NewGore(drawInfo.Position + new Vector2(Main.rand.Next(Player.width + 1), Main.rand.Next(Player.height + 1)), velocity, 331, Main.rand.NextFloat(0.4f, 1.2f));
+                    int heart = Gore.NewGore(Player.GetSource_FromThis(), drawInfo.Position + new Vector2(Main.rand.Next(Player.width + 1), Main.rand.Next(Player.height + 1)), velocity, 331, Main.rand.NextFloat(0.4f, 1.2f));
                     Main.gore[heart].sticky = false;
                     Main.gore[heart].velocity *= 0.4f;
                     Main.gore[heart].velocity.Y -= 0.6f;

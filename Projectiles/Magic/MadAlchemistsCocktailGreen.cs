@@ -43,8 +43,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             SoundEngine.PlaySound(SoundID.Item107, Projectile.position);
             SoundEngine.PlaySound(SoundID.Item88, Projectile.position);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+            }
+
             for (int i = 0; i < 3; i++)
             {
                 float x = Projectile.position.X + (float)Main.rand.Next(-100, 100);

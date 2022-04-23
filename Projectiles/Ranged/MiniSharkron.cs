@@ -33,12 +33,15 @@ namespace CalamityMod.Projectiles.Ranged
               Dust dust = Main.dust[idx];
               dust.velocity /= 2f;
             }
-            int tail = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.8f, 584, 1f);
-            Main.gore[tail].timeLeft /= 10;
-            int body = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.9f, 585, 1f);
-            Main.gore[body].timeLeft /= 10;
-            int head = Gore.NewGore(Projectile.Center, Projectile.velocity * 1f, 586, 1f);
-            Main.gore[head].timeLeft /= 10;
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int tail = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity * 0.8f, 584, 1f);
+                Main.gore[tail].timeLeft /= 10;
+                int body = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity * 0.9f, 585, 1f);
+                Main.gore[body].timeLeft /= 10;
+                int head = Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, Projectile.velocity * 1f, 586, 1f);
+                Main.gore[head].timeLeft /= 10;
+            }
         }
     }
 }

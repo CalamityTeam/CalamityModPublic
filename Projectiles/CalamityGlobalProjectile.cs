@@ -679,8 +679,8 @@ namespace CalamityMod.Projectiles
                     if (Main.rand.NextBool(10))
                         Dust.NewDust(projectile.position, projectile.width, projectile.height, 58, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
 
-                    if (Main.rand.NextBool(20))
-                        Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
+                    if (Main.rand.NextBool(20) && Main.netMode != NetmodeID.Server)
+                        Gore.NewGore(projectile.GetSource_FromAI(), projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
                 }
 
                 return false;
@@ -2213,10 +2213,10 @@ namespace CalamityMod.Projectiles
                             Main.dust[index].velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
                             Main.dust[index].scale *= (float)(1.0 + Main.rand.Next(-30, 31) * 0.01);
                         }
-                        if (Main.rand.NextBool(40))
+                        if (Main.rand.NextBool(40) && Main.netMode != NetmodeID.Server)
                         {
                             int Type = Main.rand.Next(276, 283);
-                            int index = Gore.NewGore(projectile.position, velocity, Type, 1f);
+                            int index = Gore.NewGore(projectile.GetSource_FromAI(), projectile.position, velocity, Type, 1f);
                             Main.gore[index].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
                             Main.gore[index].velocity.Y *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
                             Main.gore[index].scale *= (float)(1.0 + Main.rand.Next(-20, 21) * 0.01);

@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -283,9 +283,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Dust dust = Main.dust[num646];
                             dust.velocity *= 0.2f;
                         }
-                        int num647 = Gore.NewGore(new Vector2(num644 - 20, npc.position.Y + npc.height - 8f), default, Main.rand.Next(61, 64), 1f);
-                        Gore gore = Main.gore[num647];
-                        gore.velocity *= 0.4f;
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            int num647 = Gore.NewGore(npc.GetSource_FromAI(), new Vector2(num644 - 20, npc.position.Y + npc.height - 8f), default, Main.rand.Next(61, 64), 1f);
+                            Gore gore = Main.gore[num647];
+                            gore.velocity *= 0.4f;
+                        }
                     }
 
                     // Fireball explosion when head is dead

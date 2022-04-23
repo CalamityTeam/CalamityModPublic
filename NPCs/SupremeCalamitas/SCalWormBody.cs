@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 continue;
 
                             Vector2 goreSpawnPosition = NPC.Center;
-                            Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.Find<ModGore>($"SepulcherBody1_Gore{i}").Type, NPC.scale);
+                            Gore.NewGorePerfect(NPC.GetSource_Death(), goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.Find<ModGore>($"SepulcherBody1_Gore{i}").Type, NPC.scale);
                         }
                     }
                     else
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 continue;
 
                             Vector2 goreSpawnPosition = NPC.Center;
-                            Gore.NewGorePerfect(goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.Find<ModGore>($"SepulcherBody2_Gore{i}").Type, NPC.scale);
+                            Gore.NewGorePerfect(NPC.GetSource_Death(), goreSpawnPosition, Main.rand.NextVector2Circular(2f, 2f), Mod.Find<ModGore>($"SepulcherBody2_Gore{i}").Type, NPC.scale);
                         }
                     }
                 }

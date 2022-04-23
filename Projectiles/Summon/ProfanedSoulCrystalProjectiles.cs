@@ -758,32 +758,37 @@ namespace CalamityMod.Projectiles.Summon
                 num624 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
+
             if (Projectile.scale != 1.5f)
                 return;
-            for (int num625 = 0; num625 < 3; num625++)
+
+            if (Main.netMode != NetmodeID.Server)
             {
-                float scaleFactor10 = 0.33f;
-                if (num625 == 1)
+                for (int num625 = 0; num625 < 3; num625++)
                 {
-                    scaleFactor10 = 0.66f;
-                }
-                if (num625 == 2)
-                {
-                    scaleFactor10 = 1f;
-                }
-                for (int i = 0; i < 4; i++)
-                {
-                    int num626 = Gore.NewGore(new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Gore gore = Main.gore[num626];
-                    gore.velocity *= scaleFactor10;
-                    if (i == 0 || i == 2)
-                        gore.velocity.X += 1f;
-                    else
-                        gore.velocity.X -= 1f;
-                    if (i < 2)
-                        gore.velocity.Y += 1f;
-                    else
-                        gore.velocity.Y -= 1f;
+                    float scaleFactor10 = 0.33f;
+                    if (num625 == 1)
+                    {
+                        scaleFactor10 = 0.66f;
+                    }
+                    if (num625 == 2)
+                    {
+                        scaleFactor10 = 1f;
+                    }
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int num626 = Gore.NewGore(Projectile.GetSource_Death(), new Vector2(Projectile.position.X + (float)(Projectile.width / 2) - 24f, Projectile.position.Y + (float)(Projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                        Gore gore = Main.gore[num626];
+                        gore.velocity *= scaleFactor10;
+                        if (i == 0 || i == 2)
+                            gore.velocity.X += 1f;
+                        else
+                            gore.velocity.X -= 1f;
+                        if (i < 2)
+                            gore.velocity.Y += 1f;
+                        else
+                            gore.velocity.Y -= 1f;
+                    }
                 }
             }
         }

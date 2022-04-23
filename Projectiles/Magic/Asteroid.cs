@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -83,13 +83,16 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num338].velocity *= 2f;
                 Main.dust[num338].noGravity = true;
             }
-            for (int num339 = 0; num339 < 2; num339++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                int num340 = Gore.NewGore(Projectile.position + new Vector2((float)(Projectile.width * Main.rand.Next(100)) / 100f, (float)(Projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default, Main.rand.Next(61, 64), 1f);
-                Gore gore = Main.gore[num340];
-                gore.velocity *= 0.3f;
-                gore.velocity.X += (float)Main.rand.Next(-10, 11) * 0.05f;
-                gore.velocity.Y += (float)Main.rand.Next(-10, 11) * 0.05f;
+                for (int num339 = 0; num339 < 2; num339++)
+                {
+                    int num340 = Gore.NewGore(Projectile.GetSource_Death(), Projectile.position + new Vector2((float)(Projectile.width * Main.rand.Next(100)) / 100f, (float)(Projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default, Main.rand.Next(61, 64), 1f);
+                    Gore gore = Main.gore[num340];
+                    gore.velocity *= 0.3f;
+                    gore.velocity.X += (float)Main.rand.Next(-10, 11) * 0.05f;
+                    gore.velocity.Y += (float)Main.rand.Next(-10, 11) * 0.05f;
+                }
             }
             if (Projectile.owner == Main.myPlayer)
             {

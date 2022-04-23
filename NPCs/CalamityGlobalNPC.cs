@@ -4826,7 +4826,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (ladHearts > 0 && !npc.loveStruck)
+            if (ladHearts > 0 && !npc.loveStruck && Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(5))
                 {

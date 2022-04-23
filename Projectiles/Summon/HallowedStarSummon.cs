@@ -61,9 +61,9 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.alpha = alphaMin;
             }
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * Projectile.direction;
-            if (Main.rand.NextBool(48))
+            if (Main.rand.NextBool(48) && Main.netMode != NetmodeID.Server)
             {
-                int idx = Gore.NewGore(Projectile.Center, Projectile.velocity * 0.2f, 16, 1f);
+                int idx = Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.Center, Projectile.velocity * 0.2f, 16, 1f);
                 Main.gore[idx].velocity *= 0.66f;
                 Main.gore[idx].velocity += Projectile.velocity * 0.3f;
             }
@@ -74,9 +74,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, ModContent.DustType<AstralOrange>(), Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f, 150, default, 1.2f);
                 }
-                if (Main.rand.NextBool(20))
+                if (Main.rand.NextBool(20) && Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
+                    Gore.NewGore(Projectile.GetSource_FromAI(), Projectile.position, new Vector2(Projectile.velocity.X * 0.2f, Projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
                 }
             }
         }
@@ -113,9 +113,12 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[idx].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int i = 0; i < 3; i++)
+            if (Main.netMode != NetmodeID.Server)
             {
-                Gore.NewGore(Projectile.position, Projectile.velocity * 0.05f, Main.rand.Next(16, 18), 1f);
+                for (int i = 0; i < 3; i++)
+                {
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.position, Projectile.velocity * 0.05f, Main.rand.Next(16, 18), 1f);
+                }
             }
         }
     }

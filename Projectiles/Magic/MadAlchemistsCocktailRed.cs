@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -43,8 +43,12 @@ namespace CalamityMod.Projectiles.Magic
         {
             SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             SoundEngine.PlaySound(SoundID.Item107, Projectile.Center);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
-            Gore.NewGore(Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 704, 1f);
+                Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, -Projectile.oldVelocity * 0.2f, 705, 1f);
+            }
 
             // This previously had a width of 480 pixels and did triple damage.
             // It now has a width of 110 pixels and deals 1/2 damage.

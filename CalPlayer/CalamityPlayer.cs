@@ -4526,10 +4526,10 @@ namespace CalamityMod.CalPlayer
                         Main.dust[confetti].velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
                         Main.dust[confetti].scale *= (float)(1.0 + Main.rand.Next(-30, 31) * 0.01);
                     }
-                    if (Main.rand.NextBool(40))
+                    if (Main.rand.NextBool(40) && Main.netMode != NetmodeID.Server)
                     {
                         int confettiGore = Main.rand.Next(276, 283);
-                        int confetti = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), Player.velocity, confettiGore, 1f);
+                        int confetti = Gore.NewGore(Player.GetSource_ItemUse(item), new Vector2(hitbox.X, hitbox.Y), Player.velocity, confettiGore, 1f);
                         Main.gore[confetti].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
                         Main.gore[confetti].velocity.Y *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
                         Main.gore[confetti].scale *= (float)(1.0 + Main.rand.Next(-20, 21) * 0.01);

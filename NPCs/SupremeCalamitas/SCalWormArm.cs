@@ -203,11 +203,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     Vector2 armGoreSpawnPosition = Limbs[1].Center + Main.rand.NextVector2Circular(6f, 6f);
                     Vector2 handGoreSpawnPosition = armGoreSpawnPosition + Main.rand.NextVector2Circular(6f, 6f);
 
-                    Gore.NewGorePerfect(armGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherArm_Gore").Type, NPC.scale);
+                    Gore.NewGorePerfect(NPC.GetSource_Death(), armGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherArm_Gore").Type, NPC.scale);
                     for (int i = 1; i <= 2; i++)
-                        Gore.NewGorePerfect(forearmGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherForearm_Gore{i}").Type, NPC.scale);
+                        Gore.NewGorePerfect(NPC.GetSource_Death(), forearmGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherForearm_Gore{i}").Type, NPC.scale);
                     for (int i = 1; i <= 2; i++)
-                        Gore.NewGorePerfect(handGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherHand_Gore{i}").Type, NPC.scale);
+                        Gore.NewGorePerfect(NPC.GetSource_Death(), handGoreSpawnPosition, Main.rand.NextVector2Circular(3f, 3f), Mod.Find<ModGore>($"SepulcherHand_Gore{i}").Type, NPC.scale);
                 }
             }
         }
