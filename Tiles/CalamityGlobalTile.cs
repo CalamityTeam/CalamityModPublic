@@ -186,20 +186,26 @@ namespace CalamityMod.Tiles
                 {
                     Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>());
 
-                    for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+                    if (Main.netMode != NetmodeID.Server)
                     {
-                        Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore1").Type);
-                        Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore2").Type);
+                        for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+                        {
+                            Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore1").Type);
+                            Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("AbyssPotGore2").Type);
+                        }
                     }
                 }
                 else if (type == ModContent.TileType<SulphurousPots>())
                 {
                     Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>());
 
-                    for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+                    if (Main.netMode != NetmodeID.Server)
                     {
-                        Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore1").Type);
-                        Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore2").Type);
+                        for (int k = 0; k < Main.rand.Next(1, 2 + 1); k++)
+                        {
+                            Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore1").Type);
+                            Gore.NewGore(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16, Main.rand.NextVector2CircularEdge(3f, 3f), Mod.Find<ModGore>("SulphPotGore2").Type);
+                        }
                     }
                 }
                 else if (type == TileID.DemonAltar && Main.hardMode)
