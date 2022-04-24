@@ -68,7 +68,50 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 300);
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-                CalamityUtils.ExplosionGores(Projectile.Center, 10);
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Vector2 goreSource = Projectile.Center;
+                    int goreAmt = 10;
+                    Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                    for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                    {
+                        float velocityMult = 0.33f;
+                        if (goreIndex < (goreAmt / 3))
+                        {
+                            velocityMult = 0.66f;
+                        }
+                        if (goreIndex >= (2 * goreAmt / 3))
+                        {
+                            velocityMult = 1f;
+                        }
+                        Mod mod = ModContent.GetInstance<CalamityMod>();
+                        int type = Main.rand.Next(61, 64);
+                        int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        Gore gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X += 1f;
+                        gore.velocity.Y += 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X -= 1f;
+                        gore.velocity.Y += 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X += 1f;
+                        gore.velocity.Y -= 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X -= 1f;
+                        gore.velocity.Y -= 1f;
+                    }
+                }
 
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ScorchedEarthBlast>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner);
                 for (int j = 0; j < 5; j++)

@@ -3161,7 +3161,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (sulphurBubbleCooldown <= 0)
                     {
-                        var source = Player.GetSource_Misc(0);
+                        var source = Player.GetSource_Misc("0");
                         int bubble = Projectile.NewProjectile(source, new Vector2(Player.position.X, Player.position.Y + (Player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * Player.RogueDamage()), 0f, Player.whoAmI, 1f, 0f);
                         if (bubble.WithinBounds(Main.maxProjectiles))
                             Main.projectile[bubble].Calamity().forceTypeless = true;
@@ -6797,7 +6797,6 @@ namespace CalamityMod.CalPlayer
                             fire = Dust.NewDust(Player.position, Player.width, Player.height, 6, 0f, 0f, 100, default, 2f);
                             Main.dust[fire].velocity *= 2f;
                         }
-                        CalamityUtils.ExplosionGores(Player.Center, 3);
                     }
                 }
 
@@ -7405,7 +7404,7 @@ namespace CalamityMod.CalPlayer
         #region Dash Stuff
         public void ModDashMovement()
         {
-            var source = Player.GetProjectileSource_Misc(2);
+            var source = Player.GetSource_Misc("2");
             if (dashMod == 4 && Player.dashDelay < 0 && Player.whoAmI == Main.myPlayer) // Asgardian Aegis
             {
                 Rectangle rectangle = new Rectangle((int)((double)Player.position.X + (double)Player.velocity.X * 0.5 - 4.0), (int)((double)Player.position.Y + (double)Player.velocity.Y * 0.5 - 4.0), Player.width + 8, Player.height + 8);

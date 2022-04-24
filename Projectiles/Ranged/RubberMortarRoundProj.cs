@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Abyss;
+﻿using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -75,7 +75,50 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.penetrate = penetrateAmt;
 
             SpawnDust();
-            CalamityUtils.ExplosionGores(Projectile.Center, 3);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_FromAI(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
 
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
 
@@ -116,7 +159,50 @@ namespace CalamityMod.Projectiles.Ranged
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
             SpawnDust();
-            CalamityUtils.ExplosionGores(Projectile.Center, 3);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 3;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
 
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
 

@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         {
             if (!NPC.savedAngler && !NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler) && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler);
+                NPC.NewNPC(NPC.GetSource_Death(), (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.Angler);
                 NPC.savedAngler = true;
             }
         }

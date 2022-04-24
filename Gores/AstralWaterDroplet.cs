@@ -7,12 +7,13 @@ using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.Audio;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Gores
 {
     public class AstralWaterDroplet : ModGore
     {
-        public override void OnSpawn(Gore gore)
+        public override void OnSpawn(Gore gore, IEntitySource source)
         {
             gore.numFrames = 15;
             gore.behindTiles = true;

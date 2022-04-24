@@ -134,7 +134,50 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Torch, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                CalamityUtils.ExplosionGores(NPC.Center, 3);
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    Vector2 goreSource = NPC.Center;
+                    int goreAmt = 3;
+                    Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                    for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                    {
+                        float velocityMult = 0.33f;
+                        if (goreIndex < (goreAmt / 3))
+                        {
+                            velocityMult = 0.66f;
+                        }
+                        if (goreIndex >= (2 * goreAmt / 3))
+                        {
+                            velocityMult = 1f;
+                        }
+                        Mod mod = ModContent.GetInstance<CalamityMod>();
+                        int type = Main.rand.Next(61, 64);
+                        int smoke = Gore.NewGore(NPC.GetSource_Death(), source, default, type, 1f);
+                        Gore gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X += 1f;
+                        gore.velocity.Y += 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(NPC.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X -= 1f;
+                        gore.velocity.Y += 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(NPC.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X += 1f;
+                        gore.velocity.Y -= 1f;
+                        type = Main.rand.Next(61, 64);
+                        smoke = Gore.NewGore(NPC.GetSource_Death(), source, default, type, 1f);
+                        gore = Main.gore[smoke];
+                        gore.velocity *= velocityMult;
+                        gore.velocity.X -= 1f;
+                        gore.velocity.Y -= 1f;
+                    }
+                }
             }
         }
 

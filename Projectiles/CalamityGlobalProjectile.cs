@@ -1333,7 +1333,7 @@ namespace CalamityMod.Projectiles
 
                         if ((int)projectile.ai[1] % 3 == 0 && projectile.ai[1] != 0f)
                         {
-                            int num614 = NPC.NewNPC(projectile.GetNPCSource_FromThis(), (int)center.X, (int)center.Y, NPCID.Sharkron2);
+                            int num614 = NPC.NewNPC(projectile.GetSource_FromAI(), (int)center.X, (int)center.Y, NPCID.Sharkron2);
                             Main.npc[num614].velocity = projectile.velocity;
                             Main.npc[num614].scale = 1.5f;
                             Main.npc[num614].netUpdate = true;

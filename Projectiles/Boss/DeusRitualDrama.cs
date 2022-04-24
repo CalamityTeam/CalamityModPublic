@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
             Time++;
             if (Time == TotalRitualTime - PulseTime)
             {
-                int idx = NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
+                int idx = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
                 if (idx != -1)
                 {
                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstrumDeusSpawn"), Projectile.Center);

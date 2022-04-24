@@ -288,56 +288,6 @@ namespace CalamityMod
         public static int SecondsToFrames(int seconds) => seconds * 60;
         public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
 
-        /// <summary>
-        /// Call this function to spawn explosion clouds at the specified location. Good for when NPCs or projectiles die and need to explode.
-        /// </summary>
-        /// <param name="goreSource">The spot to spawn the explosion clouds</param>
-        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores(Vector2 goreSource, int goreAmt)
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
-                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-                {
-                    float velocityMult = 0.33f;
-                    if (goreIndex < (goreAmt / 3))
-                    {
-                        velocityMult = 0.66f;
-                    }
-                    if (goreIndex >= (2 * goreAmt / 3))
-                    {
-                        velocityMult = 1f;
-                    }
-                    Mod mod = ModContent.GetInstance<CalamityMod>();
-                    int type = Main.rand.Next(61, 64);
-                    int smoke = Gore.NewGore(source, default, type, 1f);
-                    Gore gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    type = Main.rand.Next(61, 64);
-                    smoke = Gore.NewGore(source, default, type, 1f);
-                    gore = Main.gore[smoke];
-                    gore.velocity *= velocityMult;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
-                }
-            }
-        }
-
         public static bool WithinBounds(this int index, int cap) => index >= 0 && index < cap;
 
         /// Clamps the distance between vectors via normalization.

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿#nullable enable
+using Terraria;
 using Terraria.DataStructures;
 
 namespace CalamityMod.EntitySources
@@ -7,5 +8,6 @@ namespace CalamityMod.EntitySources
     {
         public Player player;
         public ProjectileSource_HydrothermalSmoke(Player p) => player = p;
+        public string? Context => null;
     }
 }

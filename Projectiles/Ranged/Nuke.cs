@@ -110,7 +110,50 @@ namespace CalamityMod.Projectiles.Ranged
                 idx = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[idx].velocity *= 2f;
             }
-            CalamityUtils.ExplosionGores(Projectile.Center, 10);
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Vector2 goreSource = Projectile.Center;
+                int goreAmt = 10;
+                Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+                for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+                {
+                    float velocityMult = 0.33f;
+                    if (goreIndex < (goreAmt / 3))
+                    {
+                        velocityMult = 0.66f;
+                    }
+                    if (goreIndex >= (2 * goreAmt / 3))
+                    {
+                        velocityMult = 1f;
+                    }
+                    Mod mod = ModContent.GetInstance<CalamityMod>();
+                    int type = Main.rand.Next(61, 64);
+                    int smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    Gore gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y += 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X += 1f;
+                    gore.velocity.Y -= 1f;
+                    type = Main.rand.Next(61, 64);
+                    smoke = Gore.NewGore(Projectile.GetSource_Death(), source, default, type, 1f);
+                    gore = Main.gore[smoke];
+                    gore.velocity *= velocityMult;
+                    gore.velocity.X -= 1f;
+                    gore.velocity.Y -= 1f;
+                }
+            }
 
             // Construct a fake item to use with vanilla code for the sake of picking ammo.
             if (FalseLauncher is null)

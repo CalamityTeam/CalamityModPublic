@@ -250,7 +250,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.netUpdate = true;
                 }
                 else if (Main.netMode != NetmodeID.MultiplayerClient)
-                    NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Owner.Center.X, (int)Owner.Center.Y, heartType);
+                    NPC.NewNPC(Projectile.GetSource_FromAI(), (int)Owner.Center.X, (int)Owner.Center.Y, heartType);
             }
 
             if (JawSnapTimer > 0f)

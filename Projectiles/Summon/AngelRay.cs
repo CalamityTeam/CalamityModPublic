@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] % 6f == 0f && Projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(Projectile.GetNPCSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AngelOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AngelOrb>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
 
             if (Projectile.ai[0] > 16f && Projectile.ai[0] % 2f == 0f)
