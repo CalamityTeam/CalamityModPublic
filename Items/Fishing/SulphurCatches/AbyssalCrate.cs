@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         public override void RightClick(Player player)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(Item.type);
+            var s = player.GetSource_OpenItem(Item.type);
 
             //Modded materials
             DropHelper.DropItem(s, player, ModContent.ItemType<SulphurousSand>(), 5, 10);

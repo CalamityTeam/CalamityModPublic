@@ -160,7 +160,7 @@ namespace CalamityMod.UI
                 {
                     cellStackDiff = (short)-Math.Min(temporaryItem.stack, temporaryItem.maxStack);
                     Player p = Main.LocalPlayer;
-                    var source = p.GetItemSource_TileInteraction(codebreakerTileEntity.Position.X, codebreakerTileEntity.Position.Y);
+                    var source = p.GetSource_TileInteraction(codebreakerTileEntity.Position.X, codebreakerTileEntity.Position.Y);
                     DropHelper.DropItem(source, p, powerCellID, -cellStackDiff);
 
                     // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.

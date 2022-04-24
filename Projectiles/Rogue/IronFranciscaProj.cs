@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.Next(4) == 0)
             {
-                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<IronFrancisca>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<IronFrancisca>());
             }
         }
 

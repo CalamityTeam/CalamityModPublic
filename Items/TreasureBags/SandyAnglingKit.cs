@@ -29,7 +29,7 @@ namespace CalamityMod.Items.TreasureBags
         public override void RightClick(Player player)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(Item.type);
+            var s = player.GetSource_OpenItem(Item.type);
 
             int fishingAccChance = !Main.expertMode ? 15 : 12;
             int fishFindAccChance = !Main.expertMode ? 10 : 9;

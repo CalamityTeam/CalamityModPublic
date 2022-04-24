@@ -38,7 +38,7 @@ namespace CalamityMod.Items
         private static void BossBagLoot(Player player, int itemID)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(itemID);
+            var s = player.GetSource_OpenItem(itemID);
 
             // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
             DropHelper.DropRevBagAccessories(s, player);
@@ -249,7 +249,7 @@ namespace CalamityMod.Items
         private static void CrateLoot(Player player, int itemID)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(itemID);
+            var s = player.GetSource_OpenItem(itemID);
 
             switch (itemID)
             {

@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<CobaltKunai>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<CobaltKunai>());
             }
         }
     }

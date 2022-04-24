@@ -307,7 +307,7 @@ namespace CalamityMod.Projectiles.Summon
                             Vector2 projVect = targetLocation - Projectile.Center;
                             projVect.Normalize();
                             projVect *= scaleFactor4;
-                            int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, projVect, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
+                            int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, projVect, projType, (int)(Projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
                             if (Main.projectile.IndexInRange(p))
                                 Main.projectile[p].originalDamage = (int)(Projectile.originalDamage * 0.6);
                             Projectile.netUpdate = true;
@@ -332,7 +332,7 @@ namespace CalamityMod.Projectiles.Summon
                                 projVect2.Normalize();
                                 float SpeedX = projVect2.X + (float)Main.rand.Next(-30, 31) * 0.05f;
                                 float SpeedY = projVect2.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-                                int bee = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, projType, (int)(Projectile.damage * 0.8f), 0f, Main.myPlayer, 0f, 0f);
+                                int bee = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, projType, (int)(Projectile.damage * 0.8f), 0f, Main.myPlayer, 0f, 0f);
                                 if (projType == bigBee)
                                 {
                                     Main.projectile[bee].frame = 2;

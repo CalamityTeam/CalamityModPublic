@@ -1025,7 +1025,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(ModContent.NPCType<HiveBlob2>()) < 2)
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                    NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
+                    NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveBlob2>());
                 }
             }
             else
@@ -1035,13 +1035,13 @@ namespace CalamityMod.NPCs.HiveMind
                     if (Main.rand.NextBool(60) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                        NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
+                        NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
                     }
 
                     if (Main.rand.NextBool(150) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                        NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
+                        NPC.NewNPC(NPC.GetSource_FromThis(), (int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
                     }
                 }
             }

@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Boss
                         }
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int boomer = NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Projectile.Top.X, (int)Projectile.Top.Y + 100, ModContent.NPCType<OldDuke>());
+                            int boomer = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Top.X, (int)Projectile.Top.Y + 100, ModContent.NPCType<OldDuke>());
                             string boomerName = Main.npc[boomer].TypeName;
 
                             if (Main.netMode == NetmodeID.SinglePlayer)

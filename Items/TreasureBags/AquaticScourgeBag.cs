@@ -48,7 +48,7 @@ namespace CalamityMod.Items.TreasureBags
         public override void OpenBossBag(Player player)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(Item.type);
+            var s = player.GetSource_OpenItem(Item.type);
 
             // AS is available PHM, so this check is necessary to keep vanilla consistency
             if (Main.hardMode)

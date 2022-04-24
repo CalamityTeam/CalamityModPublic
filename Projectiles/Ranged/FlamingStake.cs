@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ItemID.Stake);
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ItemID.Stake);
             }
         }
 

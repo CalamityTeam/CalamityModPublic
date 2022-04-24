@@ -47,7 +47,7 @@ namespace CalamityMod.Items.TreasureBags
         public override void OpenBossBag(Player player)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(Item.type);
+            var s = player.GetSource_OpenItem(Item.type);
 
             player.TryGettingDevArmor(s);
 

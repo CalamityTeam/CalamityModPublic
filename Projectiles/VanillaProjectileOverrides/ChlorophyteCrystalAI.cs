@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
                 if (Main.myPlayer == projectile.owner)
                 {
                     int pulseDamage = (int)(owner.AverageDamage() * 300f);
-                    Projectile.NewProjectile(projectile.GetItemSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
+                    Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
                 }
             }
 

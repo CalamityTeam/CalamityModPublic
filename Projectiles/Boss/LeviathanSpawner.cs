@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                     return;
 
-                int leviathan = NPC.NewNPC(Projectile.GetNPCSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y, ModContent.NPCType<LeviathanNPC>());
+                int leviathan = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y, ModContent.NPCType<LeviathanNPC>());
                 if (Main.npc.IndexInRange(leviathan))
                     Main.npc[leviathan].velocity = Vector2.UnitY * -7f;
             }

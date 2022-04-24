@@ -157,7 +157,7 @@ namespace CalamityMod.UI
                     // If the player is holding shift and has space for the power cells, just spawn all of them on his or her face.
                     if (Main.keyState.PressingShift() && p.ItemSpace(powercell).CanTakeItemToPersonalInventory)
                     {
-                        DropHelper.DropItem(p.GetItemSource_TileInteraction(te.Position.X, te.Position.Y), p, powercellID, powercell.stack);
+                        DropHelper.DropItem(p.GetSource_TileInteraction(te.Position.X, te.Position.Y), p, powercellID, powercell.stack);
                         chargerStackDiff = (short)-powercell.stack;
 
                         // Do not play a sound in this situation. The player is going to pick up the dropped cells in a few frames, which will make sound.

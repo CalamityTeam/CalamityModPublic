@@ -630,7 +630,7 @@ namespace CalamityMod.NPCs
                     num870 *= num872;
                     num871 *= num872;
 
-                    Projectile.NewProjectile(npc.GetSpawnSourceForProjectileNPC(), npc.Center.X, npc.Center.Y, num870, num871, ProjectileID.FlamingScythe, 70, 0f, Main.myPlayer, npc.rotation, (float)npc.spriteDirection);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, num870, num871, ProjectileID.FlamingScythe, 70, 0f, Main.myPlayer, npc.rotation, (float)npc.spriteDirection);
                 }
             }
 

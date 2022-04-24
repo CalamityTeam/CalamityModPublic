@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Mounts
                 if (!NPC.AnyNPCs(ModContent.NPCType<FAP>()))
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
-                        NPC.NewNPC(NPC.GetSpawnSourceForTownSpawn(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
+                        NPC.NewNPC(NPC.GetSource_TownSpawn(), (int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<FAP>());
                 }
             }
         }

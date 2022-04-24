@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Rogue
                         if (Projectile.Hitbox.Intersects(owner.Hitbox))
                         {
                             Projectile.Kill(); //boomerangs return to you so you get a refund
-                            Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
+                            Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
                         }
                 }
 
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2) && !Projectile.Calamity().stealthStrike)
             {
-                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<TitaniumShuriken>());
             }
         }
 

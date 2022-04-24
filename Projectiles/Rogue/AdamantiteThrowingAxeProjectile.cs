@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem(Projectile.GetItemSource_DropAsItem(), (int)Projectile.Center.X, (int)Projectile.Center.Y, Projectile.width, Projectile.height, ModContent.ItemType<AdamantiteThrowingAxe>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.Center.X, (int)Projectile.Center.Y, Projectile.width, Projectile.height, ModContent.ItemType<AdamantiteThrowingAxe>());
             }
         }
 

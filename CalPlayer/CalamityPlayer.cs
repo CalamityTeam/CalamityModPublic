@@ -3161,7 +3161,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (sulphurBubbleCooldown <= 0)
                     {
-                        var source = Player.GetProjectileSource_Misc(0);
+                        var source = Player.GetSource_Misc(0);
                         int bubble = Projectile.NewProjectile(source, new Vector2(Player.position.X, Player.position.Y + (Player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * Player.RogueDamage()), 0f, Player.whoAmI, 1f, 0f);
                         if (bubble.WithinBounds(Main.maxProjectiles))
                             Main.projectile[bubble].Calamity().forceTypeless = true;
@@ -7270,7 +7270,7 @@ namespace CalamityMod.CalPlayer
             {
                 SyncDeathCount(false);
             }
-            var source = Player.GetItemSource_Death();
+            var source = Player.GetSource_Death();
             Player.lastDeathPostion = Player.Center;
             Player.lastDeathTime = DateTime.Now;
             Player.showLastDeath = true;

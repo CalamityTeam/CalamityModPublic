@@ -83,11 +83,11 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Main.rand.NextBool(5))
                 {
-                    Item.NewItem(Projectile.GetItemSource_FromThis(), (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, Main.rand.Next(10, 21));
+                    Item.NewItem(Projectile.GetSource_FromThis(), (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, Main.rand.Next(10, 21));
                 }
                 if (Main.rand.NextBool(10))
                 {
-                    Item.NewItem(Projectile.GetItemSource_FromThis(), (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin);
+                    Item.NewItem(Projectile.GetSource_FromThis(), (int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin);
                 }
             }
             else

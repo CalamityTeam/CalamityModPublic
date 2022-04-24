@@ -56,7 +56,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                 // If an item was stored, release it back into the world.
                 if (!CurrentlyHeldItem.IsAir)
                 {
-                    Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetSource_Misc(CurrentlyHeldItem.type), CurrentlyHeldItem, CurrentlyHeldItem.stack);
+                    Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetSource_Misc(CurrentlyHeldItem.Name), CurrentlyHeldItem, CurrentlyHeldItem.stack);
                     CurrentlyHeldItem.TurnToAir();
                 }
 

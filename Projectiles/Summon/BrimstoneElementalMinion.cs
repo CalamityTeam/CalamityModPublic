@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (Main.myPlayer == Projectile.owner && Collision.CanHitLine(Projectile.position, Projectile.width, Projectile.height, targetCenter, 0, 0))
                     {
                         Vector2 fireballshootVelocity = Projectile.SafeDirectionTo(targetCenter) * fireballShootSpeed;
-                        int p = Projectile.NewProjectile(Projectile.GetItemSource_FromThis(), Projectile.Center, fireballshootVelocity, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
+                        int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireballshootVelocity, num658, Projectile.damage, 0f, Projectile.owner, 0f, 0f);
                         if (Main.projectile.IndexInRange(p))
                             Main.projectile[p].originalDamage = Projectile.originalDamage;
                         Projectile.netUpdate = true;

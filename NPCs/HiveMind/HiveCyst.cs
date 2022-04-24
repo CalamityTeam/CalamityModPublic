@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<HiveMind>()) < 1)
                 {
                     Vector2 spawnAt = NPC.Bottom;
-                    NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
+                    NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<HiveMind>());
                 }
             }
         }

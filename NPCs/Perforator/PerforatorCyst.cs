@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.Perforator
                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(ModContent.NPCType<PerforatorHive>()) < 1)
                 {
                     Vector2 spawnAt = NPC.Center + new Vector2(0f, (float)NPC.height / 2f);
-                    NPC.NewNPC(NPC.GetSpawnSource_NPCHurt(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
+                    NPC.NewNPC(NPC.GetSource_Death(), (int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<PerforatorHive>());
                 }
             }
         }

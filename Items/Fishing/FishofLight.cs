@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Fishing
         public override void RightClick(Player player)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(Item.type);
+            var s = player.GetSource_OpenItem(Item.type);
             DropHelper.DropItem(s, player, ItemID.SoulofLight, 2, 5);
         }
     }

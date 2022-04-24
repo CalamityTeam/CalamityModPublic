@@ -294,7 +294,6 @@ namespace CalamityMod.NPCs
 
         #region Instance Per Entity
         public override bool InstancePerEntity => true;
-        public override bool CloneNewInstances => false;
         #endregion
 
         #region Reset Effects

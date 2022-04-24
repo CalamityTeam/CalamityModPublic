@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     int heartDrop = CalamityPlayer.areThereAnyDamnBosses ? 1 : Main.rand.Next(1, 3);
                     for (int i = 0; i < heartDrop; i++)
                     {
-                        Item.NewItem(player.GetItemSource_OnHit(target, 0), (int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
+                        Item.NewItem(player.GetSource_OnHit(target), (int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
                     }
                 }
                 SoundEngine.PlaySound(SoundID.Item14, target.position);

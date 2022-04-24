@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         public override void RightClick(Player player)
         {
             // IEntitySource my beloathed
-            var s = player.GetItemSource_OpenItem(Item.type);
+            var s = player.GetSource_OpenItem(Item.type);
 
             //Vanilla materials
             DropHelper.DropItem(s, player, ItemID.Obsidian, 2, 5);
