@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Pets
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-            DisplayName.SetDefault("Triboluminescent Etomer");
+            DisplayName.SetDefault("The Etomer");
             Tooltip.SetDefault("Summons an electric troublemaker\n" +
                 "A little note is attached:\n" +
                 "Thank you, Aloe! Very much appreciated from Ben");
