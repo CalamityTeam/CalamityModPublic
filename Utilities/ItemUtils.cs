@@ -256,9 +256,10 @@ namespace CalamityMod
             float hitbox_X, hitbox_Y;
             float mountOffsetY = player.mount.PlayerOffsetHitbox;
 
-            // Third hitbox shifting values
+            // Third hitbox shifting values (last third of the use animation)
             if (player.itemAnimation < player.itemAnimationMax * 0.333)
             {
+                //Value to shift the position in the X axis depending on hitbox width (not sure why vanilla has this specific values)
                 float shiftX = 10f;
                 if (hitboxWidth >= 92)
                     shiftX = 38f;
@@ -268,13 +269,17 @@ namespace CalamityMod
                     shiftX = 24f;
                 else if (hitboxWidth > 32)
                     shiftX = 14f;
+                //Position in X axis for the hitbox, starts basing it off the player x position, shifts it by half of the players width
+                //Then shifts it by half the width of the hitbox minus the aforementioned X shift, finally multiplied by player direction so it switches sides
                 hitbox_X = player.position.X + player.width * 0.5f + (hitboxWidth * 0.5f - shiftX) * player.direction;
+                //Position in the Y axis for the hitbox, simply puts in front of you, no shift needed since it lets hitbox go below your feet.
                 hitbox_Y = player.position.Y + 24f + mountOffsetY;
             }
 
-            // Second hitbox shifting values
+            // Second hitbox shifting values (2nd third of the use animation)
             else if (player.itemAnimation < player.itemAnimationMax * 0.666)
             {
+                //Shift value in X axis
                 float shift = 10f;
                 if (hitboxWidth >= 92)
                     shift = 38f;
@@ -284,8 +289,10 @@ namespace CalamityMod
                     shift = 24f;
                 else if (hitboxWidth > 32)
                     shift = 18f;
+                //Calculates X position in the same way as before, extra parenthesis is probably not needed
                 hitbox_X = player.position.X + (player.width * 0.5f + (hitboxWidth * 0.5f - shift) * player.direction);
 
+                //Shift for the Y axis dependant on size, since second hitbox shifts down from your head a bit (Can be renamed to shiftY)
                 shift = 10f;
                 if (hitboxHeight > 64)
                     shift = 14f;
@@ -294,12 +301,14 @@ namespace CalamityMod
                 else if (hitboxHeight > 32)
                     shift = 8f;
 
+                //Calculates Y position with the shift instead of just 24f
                 hitbox_Y = player.position.Y + shift + mountOffsetY;
             }
 
             // First hitbox shifting values
             else
             {
+                //Obtains shift value for X axis dependant on hitbox width (feel free to rename this to shiftX)
                 float shift = 6f;
                 if (hitboxWidth >= 92)
                     shift = 38f;
@@ -311,8 +320,11 @@ namespace CalamityMod
                     shift = 18f;
                 else if (hitboxWidth > 32)
                     shift = 14f;
+                //Calculates hitbox position in X axis
                 hitbox_X = player.position.X + player.width * 0.5f - (hitboxWidth * 0.5f - shift) * player.direction;
 
+                //Shift value on Y axis dependant on hitbox height (this is so the hitbox is sure to reach the tip of the blade at its highest)
+                //Also so the hitbox doesnt phase into your head too much
                 shift = 10f;
                 if (hitboxHeight > 64)
                     shift = 14f;
@@ -329,16 +341,19 @@ namespace CalamityMod
                 hitbox_Y = player.position.Y + player.height + (player.position.Y - hitbox_Y);
             }
 
-            // Hitbox size adjustments
+            // Hitbox size adjustments (defaults size to 32x32)
             Rectangle hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, 32, 32);
             if (item.damage >= 0 && item.type > ItemID.None && !item.noMelee && player.itemAnimation > 0)
             {
                 if (!Main.dedServ)
                 {
+                    // Dedicated server ignores this bit. Not sure why.
                     hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, (int)hitboxWidth, (int)hitboxHeight);
                 }
+                //Scales hitbox with scale value from reforges and such
                 hitbox.Width = (int)(hitbox.Width * item.scale);
                 hitbox.Height = (int)(hitbox.Height * item.scale);
+                //Shifts X and Y values with width or height depending on if theyre facing the other way or have normal gravity
                 if (player.direction == -1)
                 {
                     hitbox.X -= hitbox.Width;
@@ -348,7 +363,7 @@ namespace CalamityMod
                     hitbox.Y -= hitbox.Height;
                 }
 
-                // Broadsword use style
+                // Calculates size (this first if can be removed but its a failsafe in case its used for smth that isnt broadswords)
                 if (item.useStyle == ItemUseStyleID.Swing)
                 {
                     // Third hitbox size adjustments
@@ -356,12 +371,17 @@ namespace CalamityMod
                     {
                         if (player.direction == -1)
                         {
+                            //I am, starting to lose track on why it even shifts it again
                             hitbox.X -= (int)(hitbox.Width * 1.4 - hitbox.Width);
                         }
+                        //Width becomes 1.4 times itself since the last hitbox is a wide rectangle, trimmed with int
                         hitbox.Width = (int)(hitbox.Width * 1.4);
                         hitbox.Y += (int)(hitbox.Height * 0.5 * player.gravDir);
+                        //Height also gets multiplied by 1.1 since third hitbox is larger than second in both width and height
                         hitbox.Height = (int)(hitbox.Height * 1.1);
                     }
+
+                    //Second hitbox size is the given size in parameters, hence it not being here
 
                     // First hitbox size adjustments
                     else if (player.itemAnimation >= player.itemAnimationMax * 0.666)
@@ -370,12 +390,15 @@ namespace CalamityMod
                         {
                             hitbox.X -= (int)(hitbox.Width * 1.2);
                         }
+                        //Multiplies normal width by 2 since first hitbox is way wider than the second
                         hitbox.Width *= 2;
                         hitbox.Y -= (int)((hitbox.Height * 1.4 - hitbox.Height) * player.gravDir);
+                        //And it is also 1.4 times taller
                         hitbox.Height = (int)(hitbox.Height * 1.4);
                     }
                 }
             }
+            //Returns rectangle of hitbox in current time
             return hitbox;
         }
 
