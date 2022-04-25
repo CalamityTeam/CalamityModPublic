@@ -1,6 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
@@ -66,7 +64,7 @@ namespace CalamityMod.Gores
                     gore.frame += 1;
                     if (gore.frame == 5 && Main.netMode != NetmodeID.Server)
                     {
-                        int num4 = Gore.NewGore(gore.position, gore.velocity, gore.type, 1f);
+                        int num4 = Gore.NewGore(new EntitySource_Misc("0"), gore.position, gore.velocity, gore.type, 1f);
                         Main.gore[num4].frame = 9;
                         Main.gore[num4].velocity *= 0f;
                     }

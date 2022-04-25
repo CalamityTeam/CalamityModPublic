@@ -31,7 +31,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int copy = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, Type, Damage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
+            int copy = Projectile.NewProjectile(new EntitySource_Misc("1"), owner.Center, Vector2.Zero, Type, Damage, OriginalKnockback, ownerIndex, AIValues[0], AIValues[1]);
 
             if (Main.projectile.IndexInRange(copy))
             {
@@ -65,7 +65,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            int body = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), Damage, OriginalKnockback, owner.whoAmI);
+            int body = Projectile.NewProjectile(new EntitySource_Misc("1"), owner.Center, Vector2.Zero, ModContent.ProjectileType<EndoHydraBody>(), Damage, OriginalKnockback, owner.whoAmI);
 
             // If there was not enough space for even the body to be created, don't both trying to create even more projectiles needlessly.
             if (!Main.projectile.IndexInRange(body))
@@ -74,7 +74,7 @@ namespace CalamityMod.DataStructures
             Main.projectile[body].originalDamage = OriginalDamage;
             while (HeadCount > 0)
             {
-                int head = Projectile.NewProjectile(new EntitySource_ByProjectileSourceId(1), owner.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), Damage, OriginalKnockback, owner.whoAmI, body);
+                int head = Projectile.NewProjectile(new EntitySource_Misc("1"), owner.Center, Main.rand.NextVector2Unit(), ModContent.ProjectileType<EndoHydraHead>(), Damage, OriginalKnockback, owner.whoAmI, body);
                 Main.projectile[head].originalDamage = OriginalDamage;
                 HeadCount--;
             }
@@ -97,7 +97,7 @@ namespace CalamityMod.DataStructures
                 return;
 
             Player owner = Main.player[ownerIndex];
-            Endogenesis.SummonEndoCooper(new EntitySource_ByProjectileSourceId(1), AttackMode, Main.MouseWorld, Damage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
+            Endogenesis.SummonEndoCooper(new EntitySource_Misc("1"), AttackMode, Main.MouseWorld, Damage, OriginalKnockback, owner, out int bodyIndex, out int limbsIndex);
             Main.projectile[bodyIndex].originalDamage = OriginalDamage;
             Main.projectile[limbsIndex].originalDamage = OriginalDamage;
             Main.projectile[bodyIndex].Calamity().RequiresManualResurrection = true;

@@ -2858,7 +2858,7 @@ namespace CalamityMod.CalPlayer
                     int damage = (int)(300 * Player.RangedDamage());
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        var source = Player.GetProjectileSource_SetBonus(1);
+                        var source = Player.GetSource_Misc("1");
                         for (int i = 0; i < 8; i++)
                         {
                             float ai1 = Main.rand.NextFloat() + 0.5f;
@@ -2945,7 +2945,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (Player.statMana >= stormMana && !Player.silence)
                     {
-                        var source = Player.GetProjectileSource_SetBonus(1);
+                        var source = Player.GetSource_Misc("1");
                         Player.manaRegenDelay = (int)Player.maxRegenDelay;
                         Player.statMana -= stormMana;
                         float dmgMult = Player.RogueDamage() + Player.GetDamage(DamageClass.Summon).Base - 1f;
@@ -7158,7 +7158,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (ataxiaBlaze)
                 {
-                    var fuckYouBitch = Player.GetProjectileSource_SetBonus(21);
+                    var fuckYouBitch = Player.GetSource_Misc("21");
                     if (damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 74);
@@ -7171,7 +7171,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (daedalusShard)
                 {
-                    var source = Player.GetProjectileSource_SetBonus(22);
+                    var source = Player.GetSource_Misc("22");
                     if (damage > 0)
                     {
                         SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 27);
@@ -7199,7 +7199,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (reaverDefense) //Defense and DR Helm
                 {
-                    var source = Player.GetProjectileSource_SetBonus(23);
+                    var source = Player.GetSource_Misc("23");
                     if (damage > 0)
                     {
                         int rDamage = (int)(80 * Player.AverageDamage());
@@ -7211,7 +7211,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (godSlayerDamage) //god slayer melee helm
                 {
-                    var source = Player.GetProjectileSource_SetBonus(24);
+                    var source = Player.GetSource_Misc("24");
                     if (damage > 80)
                     {
                         SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 73);

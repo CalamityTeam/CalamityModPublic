@@ -1591,7 +1591,7 @@ namespace CalamityMod.CalPlayer
                         ItemID.NebulaPickup2,
                         ItemID.NebulaPickup3
                     });
-                    var source = Player.GetSource_Misc(ItemSourceID.SetBonus_Nebula);
+                    var source = Player.GetSource_Misc("1");
                     int nebulaBooster = Item.NewItem(source, target.Center, target.Size, boosterType, 1, false, 0, false, false);
                     Main.item[nebulaBooster].velocity.Y = Main.rand.Next(-20, 1) * 0.2f;
                     Main.item[nebulaBooster].velocity.X = Main.rand.Next(10, 31) * 0.2f * proj.direction;
