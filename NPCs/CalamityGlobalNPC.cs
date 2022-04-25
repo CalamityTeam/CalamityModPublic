@@ -73,8 +73,20 @@ namespace CalamityMod.NPCs
     public partial class CalamityGlobalNPC : GlobalNPC
     {
         #region Variables
-
         public float DR { get; set; } = 0f;
+
+        /// <summary>
+        /// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
+        /// </summary>
+        public bool unbreakableDR = false;
+
+        /// <summary>
+        /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
+        /// Used primarily by post-Moon Lord bosses.
+        /// </summary>
+        public bool customDR = false;
+        public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
+        public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
         public int KillTime { get; set; } = 0;
 
@@ -102,19 +114,6 @@ namespace CalamityMod.NPCs
         public const int biomeEnrageTimerMax = 300;
 
         public bool ShouldFallThroughPlatforms;
-
-        /// <summary>
-        /// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
-        /// </summary>
-        public bool unbreakableDR = false;
-
-        /// <summary>
-        /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
-        /// Used primarily by post-Moon Lord bosses.
-        /// </summary>
-        public bool customDR = false;
-        public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
-        public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
         /// <summary>
         /// Allows hostile NPCs to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
@@ -292,8 +291,128 @@ namespace CalamityMod.NPCs
         public bool DoesNotDisappearInBossRush;
         #endregion
 
-        #region Instance Per Entity
+        #region Instance Per Entity and TML 1.4 Cloning
         public override bool InstancePerEntity => true;
+
+        public override GlobalNPC Clone(NPC npc, NPC npcClone)
+        {
+            CalamityGlobalNPC myClone = (CalamityGlobalNPC)base.Clone(npc, npcClone);
+
+            // Manually copy everything because I don't trust the base clone behavior after seeing the bugs
+            // Ozzatron 25APR2022
+            myClone.DR = DR;
+            myClone.unbreakableDR = unbreakableDR;
+            myClone.flatDRReductions = new Dictionary<int, float>();
+            foreach (var flatDR in flatDRReductions)
+                myClone.flatDRReductions.Add(flatDR.Key, flatDR.Value);
+            myClone.multDRReductions = new Dictionary<int, float>();
+            foreach (var multDR in multDRReductions)
+                myClone.multDRReductions.Add(multDR.Key, multDR.Value);
+
+            myClone.KillTime = KillTime;
+
+            myClone.VulnerableToHeat = VulnerableToHeat;
+            myClone.VulnerableToCold = VulnerableToCold;
+            myClone.VulnerableToSickness = VulnerableToSickness;
+            myClone.VulnerableToElectricity = VulnerableToElectricity;
+            myClone.VulnerableToWater = VulnerableToWater;
+
+            myClone.IncreasedColdEffects = IncreasedColdEffects;
+            myClone.IncreasedHeatEffects = IncreasedHeatEffects;
+            myClone.IncreasedSicknessAndWaterEffects = IncreasedSicknessAndWaterEffects;
+
+            myClone.ShouldFallThroughPlatforms = ShouldFallThroughPlatforms;
+
+            myClone.canBreakPlayerDefense = canBreakPlayerDefense;
+
+            myClone.miscDefenseLoss = miscDefenseLoss;
+
+            myClone.maxVelocity = maxVelocity;
+
+            myClone.dashImmunityTime = new int[maxPlayerImmunities];
+            for (int i = 0; i < maxPlayerImmunities; ++i)
+                myClone.dashImmunityTime[i] = dashImmunityTime[i];
+
+            myClone.shopAlertAnimTimer = shopAlertAnimTimer;
+            myClone.shopAlertAnimFrame = shopAlertAnimFrame;
+
+            myClone.DoesNotGenerateRage = DoesNotGenerateRage;
+
+            myClone.newAI = new float[maxAIMod];
+            for (int i = 0; i < maxAIMod; ++i)
+                myClone.newAI[i] = newAI[i];
+            myClone.AITimer = AITimer;
+
+            myClone.setNewName = setNewName;
+
+            myClone.SplittingWorm = SplittingWorm;
+            myClone.CanHaveBossHealthBar = CanHaveBossHealthBar;
+            myClone.ShouldCloseHPBar = ShouldCloseHPBar;
+
+            myClone.debuffResistanceTimer = debuffResistanceTimer;
+
+            myClone.bossCanBeKnockedBack = bossCanBeKnockedBack;
+            myClone.knockbackResistanceTimer = knockbackResistanceTimer;
+
+            myClone.vaporfied = vaporfied;
+            myClone.timeSlow = timeSlow;
+            myClone.gState = gState;
+            myClone.tesla = tesla;
+            myClone.tSad = tSad;
+            myClone.eFreeze = eFreeze;
+            myClone.eutrophication = eutrophication;
+            myClone.webbed = webbed;
+            myClone.slowed = slowed;
+            myClone.electrified = electrified;
+            myClone.yellowCandle = yellowCandle;
+            myClone.pearlAura = pearlAura;
+            myClone.wCleave = wCleave;
+            myClone.bBlood = bBlood;
+            myClone.dFlames = dFlames;
+            myClone.marked = marked;
+            myClone.irradiated = irradiated;
+            myClone.bFlames = bFlames;
+            myClone.hFlames = hFlames;
+            myClone.pFlames = pFlames;
+            myClone.aCrunch = aCrunch;
+
+            myClone.somaShredStacks = somaShredStacks;
+            myClone.somaShredApplicator = somaShredApplicator;
+            myClone.somaShredFalloff = somaShredFalloff;
+
+            myClone.cDepth = cDepth;
+            myClone.gsInferno = gsInferno;
+            myClone.astralInfection = astralInfection;
+            myClone.aFlames = aFlames;
+            myClone.wDeath = wDeath;
+            myClone.nightwither = nightwither;
+            myClone.enraged = enraged;
+            myClone.shellfishVore = shellfishVore;
+            myClone.clamDebuff = clamDebuff;
+            myClone.sulphurPoison = sulphurPoison;
+            myClone.ladHearts = ladHearts;
+            myClone.kamiFlu = kamiFlu;
+            myClone.relicOfResilienceCooldown = relicOfResilienceCooldown;
+            myClone.relicOfResilienceWeakness = relicOfResilienceWeakness;
+            myClone.GaussFluxTimer = GaussFluxTimer;
+            myClone.sagePoisonTime = sagePoisonTime;
+            myClone.sagePoisonDamage = sagePoisonDamage;
+            myClone.vulnerabilityHex = vulnerabilityHex;
+            myClone.banishingFire = banishingFire;
+            myClone.wither = wither;
+            myClone.RancorBurnTime = RancorBurnTime;
+
+            // This gets set up as needed.
+            myClone.VulnerabilityHexFireDrawer = null;
+
+            myClone.CurrentlyEnraged = CurrentlyEnraged;
+
+            myClone.CurrentlyIncreasingDefenseOrDR = CurrentlyIncreasingDefenseOrDR;
+
+            myClone.DoesNotDisappearInBossRush = DoesNotDisappearInBossRush;
+
+            return myClone;
+        }
         #endregion
 
         #region Reset Effects
