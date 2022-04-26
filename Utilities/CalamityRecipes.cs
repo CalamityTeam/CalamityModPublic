@@ -114,6 +114,7 @@ namespace CalamityMod
             EditEchantedBoomerangRecipe();
             EditPhoenixBlasterRecipe();
             EditFlamarangRecipe();
+            EditBundleofBalloonsRecipe();
             EditTrueNightsEdgeRecipe();
             EditTrueExcaliburRecipe();
             EditTerraBladeRecipe();
@@ -225,6 +226,29 @@ namespace CalamityMod
                 s.requiredItem[1].stack = 10;
 
                 s.createItem.SetDefaults(ItemID.Flamarang, false);
+                s.createItem.stack = 1;
+            });
+        }
+
+        // Change Bundle of Balloons's recipe to require 3 Aerialite Bars (forces the acc to be post-Evils 2)
+        private static void EditBundleofBalloonsRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.BundleofBalloons).ToList().ForEach(s =>
+            {
+                s.requiredItem = new List<Item>();
+                for (int i = 0; i < 4; i++)
+                    s.requiredItem.Add(new Item());
+                s.requiredItem[0].SetDefaults(ItemID.CloudinaBalloon, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.BlizzardinaBalloon, false);
+                s.requiredItem[1].stack = 1;
+                s.requiredItem[2].SetDefaults(ItemID.SandstorminaBalloon, false);
+                s.requiredItem[2].stack = 1;
+                s.requiredItem[3].SetDefaults(ModContent.ItemType<AerialiteBar>(), false);
+                s.requiredItem[3].stack = 3;
+
+                s.createItem.SetDefaults(ItemID.BundleofBalloons, false);
                 s.createItem.stack = 1;
             });
         }
