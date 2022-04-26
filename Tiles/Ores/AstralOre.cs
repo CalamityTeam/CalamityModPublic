@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -64,11 +64,6 @@ namespace CalamityMod.Tiles.Ores
             r = 0.09f;
             g = 0.03f;
             b = 0.07f;
-
-            float minStrength = 3.4f;
-            float bonusStrength = 0.5f;
-            float strength = minStrength + (float)Math.Sin(MathHelper.ToRadians((float)(Main.time / 6.0))) * bonusStrength;
-            Lighting.AddLight(new Vector2(i * 16 + 8f, j * 16 + 8f), r * strength, g * strength, b * strength);
         }
 
         public override void FloorVisuals(Player player)

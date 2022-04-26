@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Potions
             Item.useAnimation = 17;
             Item.useTime = 17;
             Item.useStyle = ItemUseStyleID.EatFood;
+            Item.UseSound = SoundID.Item3;
             Item.rare = ItemRarityID.LightRed;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<Cadence>();

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxibow");
-            Tooltip.SetDefault("Converts wooden arrows into slow arrows that occasionally inflict sulfuric poisoning");
+            Tooltip.SetDefault("Converts wooden arrows into slow arrows that inflict sulfuric poisoning");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 

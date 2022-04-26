@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.Abyss
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
             MineResist = 1f;
-            MinPick = 55;
             SoundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
         }
