@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Stress Pills");
             Tooltip.SetDefault("Boosts your defense by 4 and max movement speed and acceleration by 5%\n" +
-                               "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
+                               "Receiving a hit causes you to only lose 50% of your max adrenaline rather than all of it\n" +
                                "Revengeance drop");
         }
 
