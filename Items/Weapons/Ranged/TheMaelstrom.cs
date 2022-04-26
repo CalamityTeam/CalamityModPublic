@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAnimation = 45;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 3f;
-            Item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            Item.value = CalamityGlobalItem.Rarity13BuyPrice;
+            Item.Calamity().customRarity = CalamityRarity.PureGreen;
             Item.rare = ItemRarityID.Purple;
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Ranged;
@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shootSpeed = 20f;
             Item.useAmmo = AmmoID.Arrow;
             Item.Calamity().canFirePointBlankShots = true;
+            Item.Calamity().donorItem = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
