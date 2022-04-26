@@ -1,4 +1,4 @@
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using Terraria;
@@ -136,6 +136,21 @@ namespace CalamityMod.ILEditing
         }
         #endregion Disabling of Lava Slime Lava Creation
 
+        #region Make Meteorite Explodable
+        private static void MakeMeteoriteExplodable(ILContext il)
+        {
+            // Find the Tile ID of Meteorite and change it to something that doesn't matter.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(TileID.Meteorite))) // The Meteorite Tile ID check.
+            {
+                LogFailure("Make Meteorite Explodable", "Could not locate the Meteorite Tile ID variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, TileID.HellstoneBrick); // Change to Hellstone Brick. They're made of Hellstone, so it makes sense they can't be exploded until Hardmode starts :^)
+        }
+        #endregion
+
         #region Change Blood Moon Max HP Requirements
         private static void BloodMoonsRequire200MaxLife(ILContext il)
         {
@@ -150,6 +165,21 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4, 200); // Change to 200.
         }
         #endregion Change Blood Moon Max HP Requirements
+
+        #region Prevent Fossil Shattering
+        private static void PreventFossilShattering(ILContext il)
+        {
+            // Find the Tile ID of Desert Fossil and change it to something that doesn't matter.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(TileID.DesertFossil))) // The Desert Fossil Tile ID check.
+            {
+                LogFailure("Prevent Fossil Shattering", "Could not locate the Desert Fossil Tile ID variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, TileID.PixelBox); // Change to Pixel Box because it cannot be obtained in-game without cheating.
+        }
+        #endregion
 
         #region Fix Chlorophyte Crystal Attacking Where it Shouldn't
 

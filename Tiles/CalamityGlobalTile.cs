@@ -214,7 +214,7 @@ namespace CalamityMod.Tiles
                     if (CalamityConfig.Instance.EarlyHardmodeProgressionRework)
                     {
                         WorldGen.altarCount++;
-                        int quantity = 6;
+                        int quantity = 4;
                         for (int k = 0; k < quantity; k += 1)
                         {
                             pos.X += Main.rand.NextFloat(-32f, 32f);

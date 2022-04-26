@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                float velocity = (malice || biomeEnraged) ? 20f : death ? 18f : revenge ? 17f : expertMode ? 16f : 14f;
+                float velocity = (malice || biomeEnraged) ? 18.5f : death ? 16.5f : revenge ? 15.5f : expertMode ? 14.5f : 12.5f;
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
                 float phaseGateValue = (malice || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
@@ -303,7 +303,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.netUpdate = true;
                     Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
                     velocity.Normalize();
-                    velocity *= (malice || biomeEnraged) ? 39f : death ? 33f : revenge ? 30f : expertMode ? 27f : 21f;
+                    velocity *= (malice || biomeEnraged) ? 35f : death ? 31f : revenge ? 29f : expertMode ? 27f : 23f;
                     if (defenderAlive)
                         velocity *= 0.8f;
 

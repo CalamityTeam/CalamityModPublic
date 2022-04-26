@@ -179,6 +179,8 @@ namespace CalamityMod.NPCs.Perforator
             if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
                 wormsAlive++;
 
+            NPC.Calamity().DR = wormsAlive * 0.3f;
+
             if (NPC.ai[3] == 0f && NPC.life > 0)
                 NPC.ai[3] = NPC.lifeMax;
 
@@ -431,15 +433,6 @@ namespace CalamityMod.NPCs.Perforator
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
-        }
-
-        public override bool CheckDead()
-        {
-            if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>()))
-            {
-                return false;
-            }
-            return true;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
