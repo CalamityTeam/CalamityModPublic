@@ -2042,6 +2042,7 @@ namespace CalamityMod
             {
                 ProjectileID.FlyingKnife,
                 ProjectileID.Arkhalis,
+                ProjectileID.Terragrim,
                 ProjectileID.MonkStaffT3,
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<MurasamaSlash>(),

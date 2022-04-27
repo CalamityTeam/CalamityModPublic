@@ -178,6 +178,9 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.Hamdrax:
                 case ProjectileID.ChlorophyteJackhammer:
                 case ProjectileID.SawtoothShark:
+                case ProjectileID.JoustingLance:
+                case ProjectileID.HallowJoustingLance:
+                case ProjectileID.ShadowJoustingLance:
                     trueMelee = true;
                     break;
 
@@ -286,6 +289,7 @@ namespace CalamityMod.Projectiles
                     break;
 
                 case ProjectileID.Arkhalis:
+                case ProjectileID.Terragrim:
                 case ProjectileID.ButchersChainsaw:
                     trueMelee = true;
                     projectile.scale = 1.5f;
