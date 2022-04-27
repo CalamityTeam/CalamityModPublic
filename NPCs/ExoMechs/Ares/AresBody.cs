@@ -1347,16 +1347,16 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 // Higher chance due to how the drops work
 
                 // Thanatos weapons
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<SpineOfThanatos>(), 2));
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<RefractionRotor>(), 2));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<SpineOfThanatos>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ThanatosLoot), ModContent.ItemType<RefractionRotor>()));
 
                 // Ares weapons
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<PhotonRipper>(), 2));
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<TheJailor>(), 2));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<PhotonRipper>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(ApolloLoot), ModContent.ItemType<TheJailor>()));
 
                 // Twins weapons
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<TheAtomSplitter>(), 2));
-                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<SurgeDriver>(), 2));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<TheAtomSplitter>()));
+                normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(AresLoot), ModContent.ItemType<SurgeDriver>()));
 
                 // Equipment
                 normalOnly.Add(ModContent.ItemType<ExoThrone>());

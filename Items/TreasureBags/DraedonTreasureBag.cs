@@ -57,28 +57,20 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(s, player, ModContent.ItemType<ExoPrism>(), 30, 40);
 
             // Weapons
-            // Higher chance due to how the drops work
-            float w = DropHelper.BagWeaponDropRateFloat * 2f;
             if (DownedBossSystem.downedAres)
             {
-                DropHelper.DropEntireWeightedSet(s, player,
-                    DropHelper.WeightStack<PhotonRipper>(w),
-                    DropHelper.WeightStack<TheJailor>(w)
-                );
+                DropHelper.DropItem(s, player, ModContent.ItemType<PhotonRipper>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<TheJailor>());
             }
             if (DownedBossSystem.downedThanatos)
             {
-                DropHelper.DropEntireWeightedSet(s, player,
-                    DropHelper.WeightStack<SpineOfThanatos>(w),
-                    DropHelper.WeightStack<RefractionRotor>(w)
-                );
+                DropHelper.DropItem(s, player, ModContent.ItemType<SpineOfThanatos>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<RefractionRotor>());
             }
             if (DownedBossSystem.downedArtemisAndApollo)
             {
-                DropHelper.DropEntireWeightedSet(s, player,
-                    DropHelper.WeightStack<SurgeDriver>(w),
-                    DropHelper.WeightStack<TheAtomSplitter>(w)
-                );
+                DropHelper.DropItem(s, player, ModContent.ItemType<SurgeDriver>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<TheAtomSplitter>());
             }
 
             // Equipment

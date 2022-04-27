@@ -164,6 +164,68 @@ namespace CalamityMod.Tiles
                 CheckShatterCrystal(i, j - 1);
             }
 
+            // Cumbling Dungeon Bricks have a 100% chance to crumble. This causes an effect similar to the Vein Miner mod.
+            if (Main.netMode != NetmodeID.MultiplayerClient && tile.TileType >= TileID.CrackedBlueDungeonBrick && tile.TileType <= TileID.CrackedPinkDungeonBrick)
+            {
+                for (int m = 0; m < 8; m++)
+                {
+                    int x = i;
+                    int y = j;
+                    switch (m)
+                    {
+                        case 0:
+                            x--;
+                            break;
+                        case 1:
+                            x++;
+                            break;
+                        case 2:
+                            y--;
+                            break;
+                        case 3:
+                            y++;
+                            break;
+                        case 4:
+                            x--;
+                            y--;
+                            break;
+                        case 5:
+                            x++;
+                            y--;
+                            break;
+                        case 6:
+                            x--;
+                            y++;
+                            break;
+                        case 7:
+                            x++;
+                            y++;
+                            break;
+                    }
+
+                    Tile tile3 = Main.tile[x, y];
+                    if (tile3.HasTile && tile3.TileType >= TileID.CrackedBlueDungeonBrick && tile3.TileType <= TileID.CrackedPinkDungeonBrick)
+                    {
+                        tile.Get<TileWallWireStateData>().HasTile = false;
+                        WorldGen.KillTile(x, y, fail: false, effectOnly: false, noItem: true);
+                        if (Main.netMode == NetmodeID.Server)
+                            NetMessage.TrySendData(17, -1, -1, null, 20, x, y);
+                    }
+                }
+
+                int projectileType = tile.TileType - TileID.CrackedBlueDungeonBrick + ProjectileID.BlueDungeonDebris;
+                int damage = 20;
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 8, j * 16 + 8, 0f, 0.41f, projectileType, damage, 0f, Main.myPlayer);
+                }
+                else if (Main.netMode == NetmodeID.Server)
+                {
+                    int proj = Projectile.NewProjectile(new EntitySource_TileBreak(i, j), i * 16 + 8, j * 16 + 8, 0f, 0.41f, projectileType, damage, 0f, Main.myPlayer);
+                    Main.projectile[proj].netUpdate = true;
+                }
+            }
+
             Player player = Main.LocalPlayer;
             if (player is null || !player.active)
                 return;
