@@ -51,7 +51,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawInterface += DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms += DrawFusableParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
-            IL.Terraria.Main.DrawTiles += DrawCustomLava;
+            IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
 
@@ -136,7 +136,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
-            IL.Terraria.Main.DrawTiles -= DrawCustomLava;
+            IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater -= DrawCustomLava3;
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;

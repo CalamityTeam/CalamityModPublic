@@ -12,6 +12,8 @@ namespace CalamityMod.Waters
 
         public override string BlockTexturePath => LavaTexturePath + "_Block";
 
+        public override string SlopeTexturePath => LavaTexturePath + "_Slope";
+
         public override bool ChooseLavaStyle() => Main.LocalPlayer.Calamity().ZoneCalamity;
 
         public override int ChooseWaterfallStyle() => ModContent.Find<ModWaterfallStyle>("CalamityMod/CragsLavaflow").Slot;

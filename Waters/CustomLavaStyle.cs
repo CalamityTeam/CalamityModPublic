@@ -11,6 +11,7 @@ namespace CalamityMod.Waters
     {
         internal Texture2D LavaTexture;
         internal Texture2D BlockTexture;
+        internal Texture2D SlopeTexture;
 
         internal void Load()
         {
@@ -20,6 +21,7 @@ namespace CalamityMod.Waters
 
             LavaTexture = ModContent.Request<Texture2D>(LavaTexturePath, AssetRequestMode.ImmediateLoad).Value;
             BlockTexture = ModContent.Request<Texture2D>(BlockTexturePath, AssetRequestMode.ImmediateLoad).Value;
+            SlopeTexture = ModContent.Request<Texture2D>(SlopeTexturePath, AssetRequestMode.ImmediateLoad).Value;
         }
 
         internal void Unload()
@@ -31,6 +33,8 @@ namespace CalamityMod.Waters
         public abstract string LavaTexturePath { get; }
 
         public abstract string BlockTexturePath { get; }
+
+        public abstract string SlopeTexturePath { get; }
 
         public virtual bool ChooseLavaStyle() => false;
 

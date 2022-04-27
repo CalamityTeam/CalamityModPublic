@@ -60,16 +60,28 @@ namespace CalamityMod.ILEditing
             return true;
         }
 
-        private static Texture2D SelectLavaTexture(Texture2D initialTexture, bool blockTexture)
+        private static Texture2D SelectLavaTexture(Texture2D initialTexture, LiquidTileType type)
         {
             // Use the initial texture if it isn't lava.
-            if (initialTexture != CustomLavaManagement.LavaTexture && initialTexture != CustomLavaManagement.LavaBlockTexture)
+            if (initialTexture != CustomLavaManagement.LavaTexture &&
+                initialTexture != CustomLavaManagement.LavaBlockTexture &&
+                initialTexture != CustomLavaManagement.LavaSlopeTexture)
                 return initialTexture;
 
             foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
             {
                 if (lavaStyle.ChooseLavaStyle())
-                    return blockTexture ? lavaStyle.BlockTexture : lavaStyle.LavaTexture;
+                {
+                    switch (type)
+                    {
+                        case LiquidTileType.Block:
+                            return lavaStyle.BlockTexture;
+                        case LiquidTileType.Waterflow:
+                            return lavaStyle.LavaTexture;
+                        case LiquidTileType.Slope:
+                            return lavaStyle.SlopeTexture;
+                    }
+                }
             }
 
             return initialTexture;
@@ -78,7 +90,9 @@ namespace CalamityMod.ILEditing
         private static Color SelectLavaColor(Texture2D initialTexture, Color initialLightColor)
         {
             // Use the initial color if it isn't lava.
-            if (initialTexture != CustomLavaManagement.LavaTexture && initialTexture != CustomLavaManagement.LavaBlockTexture)
+            if (initialTexture != CustomLavaManagement.LavaTexture && 
+                initialTexture != CustomLavaManagement.LavaBlockTexture &&
+                initialTexture != CustomLavaManagement.LavaSlopeTexture)
                 return initialLightColor;
 
             foreach (CustomLavaStyle lavaStyle in CustomLavaManagement.CustomLavaStyles)
