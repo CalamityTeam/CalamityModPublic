@@ -62,7 +62,7 @@ namespace CalamityMod.ILEditing
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar += AdjustDamageVariance;
-            IL.Terraria.NPC.ScaleStats += RemoveExpertHardmodeScaling;
+            IL.Terraria.NPC.ScaleStats_ApplyExpertTweaks += RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.AI_001 += AdjustChlorophyteBullets;
 
             // Movement speed balance
@@ -70,7 +70,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += JumpSpeedAdjustment;
             IL.Terraria.Player.Update += MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update += RunSpeedAdjustments;
-            IL.Terraria.Player.Update += ReduceWingHoverVelocities;
+            IL.Terraria.Initializers.WingStatsInitializer.Load += ReduceWingHoverVelocities;
             IL.Terraria.Player.Update += NerfMagiluminescence;
             IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
@@ -81,7 +81,6 @@ namespace CalamityMod.ILEditing
             // Mana regen balance
             IL.Terraria.Player.Update += ManaRegenDelayAdjustment;
             IL.Terraria.Player.UpdateManaRegen += ManaRegenAdjustment;
-            IL.Terraria.Player.ApplyEquipFunctional += DecreaseMagnetFlowerAndArcaneFlowerManaCost;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid += ReplacePharaohSetInPyramids;
@@ -99,7 +98,7 @@ namespace CalamityMod.ILEditing
             // TODO -- Beat Lava Slimes once and for all
             //IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Projectile.CanExplodeTile += MakeMeteoriteExplodable;
-            IL.Terraria.Main.UpdateTime += BloodMoonsRequire200MaxLife;
+            IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
 
             // Fix vanilla bugs exposed by Calamity mechanics
@@ -146,7 +145,7 @@ namespace CalamityMod.ILEditing
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;
-            IL.Terraria.NPC.ScaleStats -= RemoveExpertHardmodeScaling;
+            IL.Terraria.NPC.ScaleStats_ApplyExpertTweaks -= RemoveExpertHardmodeScaling;
             IL.Terraria.Projectile.AI_001 -= AdjustChlorophyteBullets;
 
             // Movement speed balance
@@ -154,7 +153,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update -= JumpSpeedAdjustment;
             IL.Terraria.Player.Update -= MaxRunSpeedAdjustment;
             IL.Terraria.Player.Update -= RunSpeedAdjustments;
-            IL.Terraria.Player.Update -= ReduceWingHoverVelocities;
+            IL.Terraria.Initializers.WingStatsInitializer.Load -= ReduceWingHoverVelocities;
             IL.Terraria.Player.Update -= NerfMagiluminescence;
             IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
@@ -165,7 +164,6 @@ namespace CalamityMod.ILEditing
             // Mana regen balance
             IL.Terraria.Player.Update -= ManaRegenDelayAdjustment;
             IL.Terraria.Player.UpdateManaRegen -= ManaRegenAdjustment;
-            IL.Terraria.Player.ApplyEquipFunctional -= DecreaseMagnetFlowerAndArcaneFlowerManaCost;
 
             // World generation
             IL.Terraria.WorldGen.Pyramid -= ReplacePharaohSetInPyramids;
@@ -182,7 +180,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
             //IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Projectile.CanExplodeTile -= MakeMeteoriteExplodable;
-            IL.Terraria.Main.UpdateTime -= BloodMoonsRequire200MaxLife;
+            IL.Terraria.Main.UpdateTime_StartNight -= BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
 
             // Fix vanilla bugs exposed by Calamity mechanics

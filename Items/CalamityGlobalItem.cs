@@ -1127,6 +1127,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.FrogLeg)
                 player.jumpSpeedBoost -= 1.2f;
 
+            // Arcane and Magnet Flower buffs
+            if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
+                player.manaCost -= 0.12f;
+
             if (item.type == ItemID.FireGauntlet)
             {
                 player.GetDamage(DamageClass.Melee) += 0.02f;

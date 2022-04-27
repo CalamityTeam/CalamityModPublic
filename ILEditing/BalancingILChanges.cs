@@ -8,37 +8,6 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
-        #region Magnet Flower and Arcane Flower Changes
-        private static void DecreaseMagnetFlowerAndArcaneFlowerManaCost(ILContext il)
-        {
-            // Decrease the mana cost.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ItemID.ArcaneFlower)))
-            {
-                LogFailure("Decrease Arcane Flower Mana Cost", "Could not locate the Arcane Flower item ID.");
-                return;
-            }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.08f)))
-            {
-                LogFailure("Decrease Arcane Flower Mana Cost", "Could not locate the Arcane Flower decreased mana cost value.");
-                return;
-            }
-            cursor.Next.Operand = 0.2f;
-
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(ItemID.MagnetFlower)))
-            {
-                LogFailure("Decrease Magnet Flower Mana Cost", "Could not locate the Magnet Flower item ID.");
-                return;
-            }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.08f)))
-            {
-                LogFailure("Decrease Magnet Flower Mana Cost", "Could not locate the Magnet Flower decreased mana cost value.");
-                return;
-            }
-            cursor.Next.Operand = 0.2f;
-        }
-        #endregion
-
         #region Soaring Insignia Changes
         private static void RemoveSoaringInsigniaInfiniteWingTime(ILContext il)
         {
@@ -194,7 +163,6 @@ namespace CalamityMod.ILEditing
         private static void RunSpeedAdjustments(ILContext il)
         {
             var cursor = new ILCursor(il);
-            float horizontalSpeedCap = 3f; // +200%, aka triple speed. Vanilla caps at +60%
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
             float asphaltSlowdown = 1f; // Vanilla is 2f. This should actually make asphalt faster.
 
@@ -202,33 +170,6 @@ namespace CalamityMod.ILEditing
             // Multiplied by 0.7 on ice, for +47% acceleration
             float iceSkateAcceleration = 2.1f;
             float iceSkateTopSpeed = 1f; // no boost at all
-
-            //
-            // HORIZONTAL MOVEMENT SPEED CAP
-            //
-            {
-                // Find the +60% horizontal movement speed cap. This is loaded as a double.
-                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR8(1.6D)))
-                {
-                    LogFailure("Run Speed Adjustments", "Could not locate the horizontal movement speed cap.");
-                    return;
-                }
-
-                // Replace it with the new, much higher cap.
-                cursor.Remove();
-                cursor.Emit(OpCodes.Ldc_R8, (double)horizontalSpeedCap);
-
-                // Find the "replace your speed bonus with this if you're over the cap". This is loaded as a float.
-                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.6f)))
-                {
-                    LogFailure("Run Speed Adjustments", "Could not locate the horizontal movement speed cap replacement.");
-                    return;
-                }
-
-                // Replace it with the new, much higher, cap.
-                cursor.Remove();
-                cursor.Emit(OpCodes.Ldc_R4, horizontalSpeedCap);
-            }
 
             //
             // ASPHALT
@@ -318,30 +259,33 @@ namespace CalamityMod.ILEditing
         {
             // Reduce wing hover horizontal velocities. Hoverboard is fine because both stats are at 10.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(6.25f))) // The accRunSpeed variable is set to this specific value before hover adjustments occur.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(4.5f))) // The acceleration multiplier for Celestial Starboard.
             {
-                LogFailure("Wing Hover Nerfs", "Could not locate the base speed variable.");
-                return;
-            }
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Vortex Booster and Nebula Mantle.
-            {
-                LogFailure("Wing Hover Nerfs", "Could not locate the vortex booster/nebula mantle speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the Celestial Starboard acceleration variable.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+            cursor.Emit(OpCodes.Ldc_R4, 2.75f); // Reduce by ~38.8%.
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Vortex Booster and Nebula Mantle.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(16f))) // The accRunSpeed for Celestial Starboard.
             {
-                LogFailure("Wing Hover Nerfs", "Could not locate the vortex booster/nebula mantle speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the Celestial Starboard speed variable.");
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+            cursor.Emit(OpCodes.Ldc_R4, 11.6f); // Reduce by 27.5%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(16f))) // The runAcceleration for Celestial Starboard.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Celestial Starboard speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 11.6f); // Reduce by 27.5%.
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Betsy Wings.
             {
-                LogFailure("Wing Hover Nerfs", "Could not locate the betsy's wings speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the Betsy's Wings speed variable.");
                 return;
             }
             cursor.Remove();
@@ -349,7 +293,55 @@ namespace CalamityMod.ILEditing
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Betsy Wings.
             {
-                LogFailure("Wing Hover Nerfs", "Could not locate the betsy's wings speed variable.");
+                LogFailure("Wing Hover Nerfs", "Could not locate the Betsy's Wings speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Dev Wings capable of hovering.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Dev Wings speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Dev Wings capable of hovering.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Dev Wings speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Vortex Booster.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Vortex Booster speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Vortex Booster.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Vortex Booster speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The accRunSpeed for Nebula Mantle.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Nebula Mantle speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 10.8f); // Reduce by 10%.
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The runAcceleration for Nebula Mantle.
+            {
+                LogFailure("Wing Hover Nerfs", "Could not locate the Nebula Mantle speed variable.");
                 return;
             }
             cursor.Remove();

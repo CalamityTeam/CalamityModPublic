@@ -826,7 +826,7 @@ namespace CalamityMod.Items
                 AddWingStats(7f, 2.5f, 2, 150);
 
             if (item.type == ItemID.LongRainbowTrailWings)
-                AddWingStats(8f, 4.5f, 4, 180);
+                AddWingStats(8f, 2.75f, 4, 180);
             #endregion
 
             // Provide the full stats of every vanilla grappling hook
