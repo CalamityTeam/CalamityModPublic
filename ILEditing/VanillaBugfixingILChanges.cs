@@ -102,34 +102,26 @@ namespace CalamityMod.ILEditing
 
         #region Fixing Splitting Worm Banner Spam in Deathmode
         // CONTEXT FOR FIX: In Death Mode, normal worms are capable of splitting similarly to the Eater of Worlds. This, as expected, comes with problems with loot dropping, as you can kill multiple
-        // head segments from the same original worm. Thankfully, TML allows us to safely handle this with its drop hooks. Unfortunately, however, this does not apply to banner dropping logic based on total kills.
+        // head segments from the same original worm. TML allows us to safely handle this with its drop hooks. Unfortunately, however, this does not apply to banner dropping logic based on total kills or
+        // for bestiary registrations.
         // As such, we must IL Edit the vanilla drop method to stop it from registering kills based on worms that can still be split. This references the same blocking logic as the aforementioned hooks.
         private static void FixSplittingWormBannerDrops(ILContext il)
         {
             var cursor = new ILCursor(il);
 
-            // Locate the area after all the banner logic by using a nearby constant type.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(23)))
+            // Find the first return in the method. This will be marked as a label to jump to if the splitting loot check is failed, effectively terminating any and all
+            // loot code, including banners and bestiary stuff.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchRet()))
             {
-                LogFailure("splitting worm banner spam fix", "Could not locate the first hooking constant.");
-                return;
-            }
-            if (!cursor.TryGotoPrev(MoveType.Before, i => i.MatchLdarg(0)))
-            {
-                LogFailure("splitting worm banner spam fix", "Could not locate the second hooking constant.");
-                return;
+                LogFailure("Splitting worm banner spam fix", "Could not locate the first method return.");
             }
 
-            ILLabel afterBannerLogic = cursor.DefineLabel();
+            // Save the ret as a place to return to.
+            ILLabel ret = cursor.MarkLabel();
 
-            // Set this area after as a place to return to later.
-            cursor.MarkLabel(afterBannerLogic);
-
-            // Go to the beginning of the banner drop logic.
-            cursor.Goto(0);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld<NPC>("killCount")))
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(0)))
             {
-                LogFailure("splitting worm banner spam fix", "Could not locate the NPC kill count.");
+                LogFailure("Splitting worm banner spam fix", "Could not locate the closest player storage.");
                 return;
             }
 
@@ -137,8 +129,8 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg_0);
             cursor.EmitDelegate<Func<NPC, bool>>(npc => CalamityGlobalNPC.SplittingWormLootBlockWrapper(npc, CalamityMod.Instance));
 
-            // If the block is false (indicating the drop logic should stop), skip all the ahead banner drop logic.
-            cursor.Emit(OpCodes.Brfalse, afterBannerLogic);
+            // If the block is false (indicating the drop logic should stop), return the method early.
+            cursor.Emit(OpCodes.Brfalse, ret);
         }
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
 

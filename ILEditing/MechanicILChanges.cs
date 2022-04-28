@@ -514,28 +514,60 @@ namespace CalamityMod.ILEditing
         {
             ILCursor cursor = new ILCursor(il);
 
-            if (!cursor.TryGotoNext(c => c.MatchLdsfld<Main>("liquidTexture")))
+            FieldInfo liquidTexturesField = typeof(TextureAssets).GetField("Liquid");
+            FieldInfo liquidSlopeTexturesField = typeof(TextureAssets).GetField("LiquidSlope");
+            MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value");
+
+            void replaceLiquidTexture(LiquidTileType type)
+            {
+                // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
+                // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call get_Value().
+                cursor.Index += 4;
+                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, type));
+            }
+
+            void replaceLiquidColor(bool sloped)
+            {
+                // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
+                cursor.Emit(OpCodes.Ldsfld, sloped ? liquidSlopeTexturesField : liquidTexturesField);
+                cursor.Emit(OpCodes.Ldarg, 4);
+                cursor.Emit(OpCodes.Ldelem_Ref);
+                cursor.Emit(OpCodes.Callvirt, textureGetValueMethod);
+                cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+            }
+
+            // Replace initial textures and colors.
+            if (!cursor.TryGotoNext(c => c.MatchLdsfld(liquidTexturesField)))
             {
                 LogFailure("Custom Lava Drawing", "Could not locate the liquid texture array load.");
                 return;
             }
+            replaceLiquidTexture(LiquidTileType.Waterflow);
 
-            // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-            // The order is load is texture array field -> load index -> load the reference to the texture at that index.
-            cursor.Index += 3;
-            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
-
-            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(155)))
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(5)))
             {
                 LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
                 return;
             }
+            replaceLiquidColor(false);
 
-            // Pass the texture in so that the method can ensure it is not messing around with non-lava textures.
-            cursor.Emit(OpCodes.Ldsfld, typeof(Main).GetField("liquidTexture"));
-            cursor.Emit(OpCodes.Ldloc, 151);
-            cursor.Emit(OpCodes.Ldelem_Ref);
-            cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
+            // Replace sloped textures and colors.
+            for (int i = 0; i < 4; i++)
+            {
+                if (!cursor.TryGotoNext(c => c.MatchLdsfld(liquidSlopeTexturesField)))
+                {
+                    LogFailure("Custom Lava Drawing", "Could not locate the sloped liquid texture array load.");
+                    return;
+                }
+                replaceLiquidTexture(LiquidTileType.Slope);
+
+                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdarg(5)))
+                {
+                    LogFailure("Custom Lava Drawing", "Could not locate the liquid light color.");
+                    return;
+                }
+                replaceLiquidColor(true);
+            }
         }
 
         private static void DrawCustomLava2(ILContext il)
@@ -549,9 +581,9 @@ namespace CalamityMod.ILEditing
             }
 
             // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-            // The order is load is texture array field -> load index -> load the reference to the texture at that index.
-            cursor.Index += 3;
-            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, false));
+            // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call get_Value().
+            cursor.Index += 4;
+            cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, LiquidTileType.Waterflow));
 
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
             {
@@ -600,9 +632,9 @@ namespace CalamityMod.ILEditing
             while (cursor.TryGotoNext(c => c.MatchLdsfld(typeof(TextureAssets).GetField("Liquid"))))
             {
                 // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-                // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call Value.
+                // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call get_Value().
                 cursor.Index += 4;
-                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, true));
+                cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, LiquidTileType.Block));
             }
         }
 

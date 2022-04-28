@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace CalamityMod.Waters
         internal static List<CustomLavaStyle> CustomLavaStyles;
         internal static Texture2D LavaBlockTexture;
         internal static Texture2D LavaTexture;
+        internal static Texture2D LavaSlopeTexture;
 
         // The IL Edits are loaded separately.
         internal static void Load()
@@ -33,8 +35,9 @@ namespace CalamityMod.Waters
 
             if (Main.netMode != NetmodeID.Server)
             {
-                LavaBlockTexture = ModContent.Request<Texture2D>("Terraria/Images/Liquid_1").Value;
-                LavaTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/water_1").Value;
+                LavaBlockTexture = ModContent.Request<Texture2D>("Terraria/Images/Liquid_1", AssetRequestMode.ImmediateLoad).Value;
+                LavaTexture = ModContent.Request<Texture2D>("Terraria/Images/Misc/water_1", AssetRequestMode.ImmediateLoad).Value;
+                LavaSlopeTexture = ModContent.Request<Texture2D>("Terraria/Images/LiquidSlope_1", AssetRequestMode.ImmediateLoad).Value;
             }
         }
 
