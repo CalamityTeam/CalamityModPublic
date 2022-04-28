@@ -195,7 +195,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Ephemeral",
                     null,
                     player => player.Calamity().dischargingItemEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.channel),
+                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.channel && !item.Calamity().rogue),
 
                 new Enchantment("Hellbound", "Causes minions to be created with a 40 second timer.\nOnce it runs out, they explode violently. Minions do more damage the longer they live and idly explode as well.",
                     700,
