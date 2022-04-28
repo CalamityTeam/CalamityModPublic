@@ -3582,8 +3582,8 @@ namespace CalamityMod.NPCs
                     fallSpeed *= revMultiplier;
                 }
 
-                speed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
-                turnSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
+                speed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
+                turnSpeed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
 
                 Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num20 = player.position.X + (player.width / 2);

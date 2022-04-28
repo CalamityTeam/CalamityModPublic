@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -215,6 +215,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Fire lasers
                 if (npc.type == NPCID.TheDestroyerBody)
                 {
+                    // Set to a high number from the start so that the lasers are more staggered
+                    if (calamityGlobalNPC.newAI[0] < 5400f)
+                        calamityGlobalNPC.newAI[0] = 5400f;
+
                     // Laser rate of fire
                     calamityGlobalNPC.newAI[0] += 1f;
                     float shootProjectile = death ? 300 : 600;
@@ -227,7 +231,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             // Laser speed
-                            float projectileSpeed = 4.5f;
+                            float projectileSpeed = 4f + Main.rand.NextFloat();
                             projectileSpeed += enrageScale;
 
                             // Set projectile damage and type, set projectile to saucer scrap if probe has been launched
@@ -389,8 +393,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 speed *= speedMultiplier;
             }
 
-            speed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
-            turnSpeed *= increaseSpeedMore ? 4f : increaseSpeed ? 2f : 1f;
+            speed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
+            turnSpeed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
 
             Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num20 = player.position.X + (player.width / 2);

@@ -1089,10 +1089,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 SpawnTeleportLocation(player);
                             }
                             else
-                                groundPhaseTurnSpeed *= 4f;
+                                groundPhaseTurnSpeed *= 2f;
                         }
                         else if (increaseSpeed)
-                            groundPhaseTurnSpeed *= 2f;
+                            groundPhaseTurnSpeed *= 1.5f;
 
                         if (!flies)
                         {
@@ -1744,9 +1744,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     // Enrage
                     if (increaseSpeedMore)
-                        groundPhaseTurnSpeed *= 4f;
-                    else if (increaseSpeed)
                         groundPhaseTurnSpeed *= 2f;
+                    else if (increaseSpeed)
+                        groundPhaseTurnSpeed *= 1.5f;
 
                     if (!flies)
                     {
