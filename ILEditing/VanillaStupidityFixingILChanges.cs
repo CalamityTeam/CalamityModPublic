@@ -136,6 +136,45 @@ namespace CalamityMod.ILEditing
         }
         #endregion Disabling of Lava Slime Lava Creation
 
+        #region Increase Pylon Interaction Range
+        private static void IncreasePylonInteractionRange(ILContext il)
+        {
+            // Find the tile range variables and change them to something greater.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
+            {
+                LogFailure("Increase Pylon Interaction Range", "Could not locate the tile range X variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 80);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
+            {
+                LogFailure("Increase Pylon Interaction Range", "Could not locate the tile range X variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 80);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
+            {
+                LogFailure("Increase Pylon Interaction Range", "Could not locate the tile range Y variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 80);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
+            {
+                LogFailure("Increase Pylon Interaction Range", "Could not locate the tile range Y variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 80);
+        }
+        #endregion
+
         #region Make Meteorite Explodable
         private static void MakeMeteoriteExplodable(ILContext il)
         {

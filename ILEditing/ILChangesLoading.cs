@@ -97,6 +97,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
             // TODO -- Beat Lava Slimes once and for all
             //IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
+            IL.Terraria.Player.IsTileTypeInInteractionRange += IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile += MakeMeteoriteExplodable;
             IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
@@ -179,6 +180,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
             //IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
+            IL.Terraria.Player.IsTileTypeInInteractionRange -= IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile -= MakeMeteoriteExplodable;
             IL.Terraria.Main.UpdateTime_StartNight -= BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
