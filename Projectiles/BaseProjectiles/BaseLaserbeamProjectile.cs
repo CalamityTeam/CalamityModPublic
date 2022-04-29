@@ -1,9 +1,10 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.BaseProjectiles
@@ -181,6 +182,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         #region Hook Overrides
         public override void AI()
         {
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+
             Behavior();
             ExtraBehavior();
         }
