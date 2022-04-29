@@ -265,11 +265,8 @@ namespace CalamityMod.NPCs.Yharon
 
             int newPhaseTimer = 180;
 
-            float flareDustPhaseScalar = death ? 48f : 60f;
-            phase2GateValue -= ai2GateValue; // 0.35, 70% HP = 0.7 - 0.55 = 0.15, 0.35 - 0.15 = 0.2 / 0.35 = 0.57, 60% HP = 0.6 - 0.55 = 0.05, 0.35 - 0.05 = 0.3 / 0.35 = 0.85, 80% HP = 0.8 - 0.55 = 0.25, 0.35 - 0.25 = 0.1 / 0.35 = 0.28
-            int flareDustPhaseTimerReduction = revenge ? (int)(flareDustPhaseScalar * ((phase2GateValue - (lifeRatio - ai2GateValue)) / phase2GateValue)) : 0;
-            int flareDustPhaseTimer = (malice ? 210 : death ? 240 : 300) - flareDustPhaseTimerReduction;
-            int flareDustPhaseTimer2 = (malice ? 105 : death ? 120 : 150) - (flareDustPhaseTimerReduction / 2);
+            int flareDustPhaseTimer = malice ? 160 : death ? 200 : 240;
+            int flareDustPhaseTimer2 = malice ? 80 : death ? 100 : 120;
 
             float spinTime = flareDustPhaseTimer / 2;
 
@@ -1082,7 +1079,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
             }
 
-            // Flare Dust that speeds up and whips around in a wave
+            // Flare Dust circle
             else if (NPC.ai[0] == 12f)
             {
                 if (NPC.ai[2] == 0f)
@@ -1094,12 +1091,12 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 projectileVelocity = player.Center - fromMouth;
+                        Vector2 projectileVelocity = NPC.velocity;
                         projectileVelocity.Normalize();
-                        projectileVelocity *= 0.1f;
+                        projectileVelocity *= 12f;
                         int type = ModContent.ProjectileType<FlareDust2>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer);
                     }
                 }
 
@@ -1459,12 +1456,12 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 projectileVelocity = player.Center - fromMouth;
+                        Vector2 projectileVelocity = NPC.velocity;
                         projectileVelocity.Normalize();
-                        projectileVelocity *= 0.1f;
+                        projectileVelocity *= 15f;
                         int type = ModContent.ProjectileType<FlareDust2>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer);
                     }
                 }
 
@@ -1666,8 +1663,8 @@ namespace CalamityMod.NPCs.Yharon
             bool doFastChargeTelegraph = NPC.localAI[1] <= fastChargeTelegraphTime;
 
             float fireballBreathTimer = 60f;
-            float fireballBreathPhaseTimer = fireballBreathTimer + 120f;
-            float fireballBreathPhaseVelocity = 22f;
+            float fireballBreathPhaseTimer = fireballBreathTimer + 80f;
+            float fireballBreathPhaseVelocity = expertMode ? 32f : 30f;
 
             float splittingFireballBreathTimer = 40f;
             float splittingFireballBreathPhaseVelocity = 22f;
@@ -1677,9 +1674,7 @@ namespace CalamityMod.NPCs.Yharon
             float splittingFireballBreathYVelocityTimer = 40f;
             float splittingFireballBreathPhaseTimer = splittingFireballBreathTimer + splittingFireballBreathTimer2 + splittingFireballBreathYVelocityTimer;
 
-            float flareDustPhaseScalar = secondPhasePhase == 4 ? (death ? 54f : 60f) : (death ? 67f : 80f);
-            int spinPhaseTimerReduction = revenge ? (secondPhasePhase == 4 ? (int)(flareDustPhaseScalar * ((phase4GateValue - lifeRatio) / phase4GateValue)) : (int)(flareDustPhaseScalar * (ai2GateValue - lifeRatio))) : 0;
-            int spinPhaseTimer = (secondPhasePhase == 4 ? (malice ? 150 : death ? 160 : 180) : (malice ? 180 : death ? 200 : 240)) - spinPhaseTimerReduction;
+            int spinPhaseTimer = secondPhasePhase == 4 ? (malice ? 80 : death ? 100 : 120) : (malice ? 120 : death ? 150 : 180);
             float spinTime = spinPhaseTimer / 2;
             float spinRotation = MathHelper.TwoPi * 3 / spinTime;
             float spinPhaseVelocity = 25f;
@@ -2055,7 +2050,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
             }
 
-            // Fireball spit
+            // Fireball spit charge
             else if (NPC.ai[0] == 3f)
             {
                 int num29 = (vectorCenter.X < targetData.Center.X) ? 1 : -1;
@@ -2078,24 +2073,30 @@ namespace CalamityMod.NPCs.Yharon
 
                 if (NPC.ai[1] == fireballBreathTimer)
                 {
-                    int direction = (targetData.Center.X > vectorCenter.X) ? 1 : -1;
-                    NPC.velocity = new Vector2(direction, 0f) * fireballBreathPhaseVelocity;
-                    NPC.direction = NPC.spriteDirection = direction;
+                    Vector2 vector = NPC.SafeDirectionTo(targetData.Center, Vector2.UnitX * NPC.spriteDirection);
+                    NPC.spriteDirection = (vector.X > 0f) ? 1 : -1;
+                    NPC.rotation = vector.ToRotation();
+
+                    if (NPC.spriteDirection == -1)
+                        NPC.rotation += pie;
+
+                    NPC.velocity = vector * fireballBreathPhaseVelocity;
+
                     SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YharonFire"), NPC.Center);
                 }
 
                 if (NPC.ai[1] >= fireballBreathTimer)
                 {
-                    if (NPC.ai[1] % 10 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
+                    if (NPC.ai[1] % (expertMode ? 6f : 8f) == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float xOffset = 30f;
                         Vector2 position = vectorCenter + new Vector2((110f + xOffset) * NPC.direction, -20f).RotatedBy(NPC.rotation);
-                        Vector2 projectileVelocity = targetData.Center - position;
+                        Vector2 projectileVelocity = NPC.velocity;
                         projectileVelocity.Normalize();
-                        projectileVelocity *= 0.1f;
+                        projectileVelocity *= 2f;
                         int type = ModContent.ProjectileType<FlareDust2>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), position, projectileVelocity, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), position, projectileVelocity, type, damage, 0f, Main.myPlayer);
                     }
 
                     if (Math.Abs(targetData.Center.X - vectorCenter.X) > 700f && Math.Abs(NPC.velocity.X) < chargeSpeed)
@@ -2454,25 +2455,12 @@ namespace CalamityMod.NPCs.Yharon
             switch ((int)NPC.ai[0])
             {
                 case 2:
+                case 3:
                 case 5:
                 case 7:
                 case 8:
                 case 9:
                     num43 = 0f;
-                    break;
-                case 3:
-                    num43 = 0.01f;
-                    num42 = 0f;
-
-                    if (NPC.spriteDirection == -1)
-                        num42 -= pie;
-
-                    if (NPC.ai[1] >= fireballBreathTimer)
-                    {
-                        num42 += NPC.spriteDirection * pie / 12f;
-                        num43 = 0.05f;
-                    }
-
                     break;
                 case 4:
                     num43 = 0.01f;

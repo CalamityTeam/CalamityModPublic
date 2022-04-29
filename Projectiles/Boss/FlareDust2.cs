@@ -13,9 +13,6 @@ namespace CalamityMod.Projectiles.Boss
     {
         public override string Texture => "CalamityMod/Projectiles/Boss/FlareBomb";
 
-        private bool start = true;
-        private Vector2 velocity = Vector2.Zero;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flare Bomb");
@@ -36,18 +33,6 @@ namespace CalamityMod.Projectiles.Boss
             CooldownSlot = 1;
         }
 
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(start);
-            writer.WriteVector2(velocity);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            start = reader.ReadBoolean();
-            velocity = reader.ReadVector2();
-        }
-
         public override void AI()
         {
             Projectile.frameCounter++;
@@ -58,59 +43,6 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (Projectile.frame >= Main.projFrames[Projectile.type])
                 Projectile.frame = 0;
-
-            if (Projectile.ai[0] == 1f)
-            {
-                if (Projectile.timeLeft < 630)
-                {
-                    if (Projectile.velocity.Length() < 6f)
-                    {
-                        Projectile.velocity *= 1.025f;
-                    }
-                    else
-                    {
-                        if (start)
-                        {
-                            velocity = Projectile.velocity;
-                            start = false;
-                        }
-
-                        Projectile.ai[1] += 0.1f;
-
-                        float amplitude = 2f;
-
-                        float wavyVelocity = (float)Math.Cos(Projectile.ai[1]);
-
-                        Projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity) * amplitude;
-                    }
-                }
-            }
-            else
-            {
-                if (Projectile.timeLeft < 420)
-                {
-                    if (Projectile.velocity.Length() < 12f)
-                    {
-                        Projectile.velocity *= 1.05f;
-                    }
-                    else
-                    {
-                        if (start)
-                        {
-                            velocity = Projectile.velocity;
-                            start = false;
-                        }
-
-                        Projectile.ai[1] += 0.1f;
-
-                        float amplitude = 2f;
-
-                        float wavyVelocity = (float)Math.Sin(Projectile.ai[1]);
-
-                        Projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity) * amplitude;
-                    }
-                }
-            }
 
             Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
         }
