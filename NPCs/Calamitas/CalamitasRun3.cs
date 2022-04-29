@@ -192,13 +192,12 @@ namespace CalamityMod.NPCs.Calamitas
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Equipment
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<CalamityRing>()));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<VoidofCalamity>()));
                 normalOnly.Add(ModContent.ItemType<Regenator>(), 10);
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
                 normalOnly.Add(ModContent.ItemType<CalamityDust>(), 1, 9, 14);
-                normalOnly.Add(ModContent.ItemType<BlightedLens>(), 1, 1, 2);
                 postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 30, 40);
 
                 // Vanity

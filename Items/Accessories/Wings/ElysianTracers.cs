@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<InfinityBoots>().
+                AddIngredient<SeraphTracers>().
                 AddIngredient<ElysianWings>().
                 AddIngredient<CosmiliteBar>(5).
                 AddIngredient<AscendantSpiritEssence>(4).

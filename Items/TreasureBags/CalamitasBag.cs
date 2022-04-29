@@ -52,7 +52,6 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(s, player, ModContent.ItemType<CalamityDust>(), 14, 18);
-            DropHelper.DropItem(s, player, ModContent.ItemType<BlightedLens>(), 1, 3);
             DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
 
@@ -67,7 +66,7 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<CalamityRing>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<VoidofCalamity>());
             DropHelper.DropItemChance(s, player, ModContent.ItemType<Regenator>(), 0.1f);
 
             // Vanity

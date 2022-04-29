@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.DeathSound = SoundID.NPCDeath35;
             NPC.behindTiles = true;
             Banner = NPC.type;
-            BannerItem = ModContent.ItemType<BOHLDOHRBanner>();
+            BannerItem = ModContent.ItemType<BohldohrBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
         }

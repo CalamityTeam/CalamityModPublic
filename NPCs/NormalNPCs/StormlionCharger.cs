@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<StormlionMandible>(), 5);
+            npcLoot.Add(ModContent.ItemType<StormlionMandible>());
             npcLoot.Add(ModContent.ItemType<StormjawStaff>(), 5);
         }
     }

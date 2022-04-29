@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.MagicQuiver).
-                AddIngredient<DaedalusEmblem>().
+                AddIngredient<ArtemisEmblem>().
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).
                 AddIngredient<AscendantSpiritEssence>(4).

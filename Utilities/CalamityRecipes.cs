@@ -827,13 +827,6 @@ namespace CalamityMod
                 r.AddTile(TileID.AlchemyTable);
                 r.Register();
             }
-
-            r = CreateRecipe(ItemID.ArcheryPotion);
-            r.AddIngredient(ItemID.BottledWater);
-            r.AddIngredient(ItemID.Daybloom);
-            r.AddIngredient(ModContent.ItemType<BlightedLens>());
-            r.AddTile(TileID.Bottles);
-            r.Register();
         }
         #endregion
 
@@ -1409,7 +1402,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.MagicQuiver);
             r.AddIngredient(ItemID.EndlessQuiver);
             r.AddIngredient(ItemID.PixieDust, 10);
-            r.AddIngredient(ModContent.ItemType<BlightedLens>(), 5);
+            r.AddIngredient(ItemID.Lens, 5);
             r.AddIngredient(ItemID.SoulofLight, 8);
             r.AddTile(TileID.CrystalBall);
             r.Register();
@@ -1738,10 +1731,10 @@ namespace CalamityMod
                 ItemID.LongRainbowTrailWings,
                 ModContent.ItemType<SkylineWings>(),
                 ModContent.ItemType<StarlightWings>(),
-                ModContent.ItemType<AureateWings>(),
-                ModContent.ItemType<DiscordianWings>(),
+                ModContent.ItemType<AureateBooster>(),
+                ModContent.ItemType<HadalMantle>(),
                 ModContent.ItemType<TarragonWings>(),
-                ModContent.ItemType<XerocWings>(),
+                ModContent.ItemType<ExodusWings>(),
                 ModContent.ItemType<HadarianWings>(),
                 ModContent.ItemType<SilvaWings>()
             });

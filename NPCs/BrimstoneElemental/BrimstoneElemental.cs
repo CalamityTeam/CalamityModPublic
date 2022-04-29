@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Gehenna>()));
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<Abaddon>()));
-                normalOnly.Add(ModContent.ItemType<FabledTortoiseShell>(), 10);
+                normalOnly.Add(ModContent.ItemType<FlameLickedShell>(), 10);
                 postProvidence.Add(ModContent.ItemType<Brimrose>());
 
                 // Vanity

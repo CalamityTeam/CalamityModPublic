@@ -718,7 +718,7 @@ namespace CalamityMod.CalPlayer
                 Player.buffImmune[BuffID.Electrified] = true;
 
             // Reduce breath meter while in icy water instead of chilling
-            bool canBreath = (sirenBoobs && NPC.downedBoss3) || Player.gills || Player.merman;
+            bool canBreath = (aquaticHeart && NPC.downedBoss3) || Player.gills || Player.merman;
             if (Player.arcticDivingGear || canBreath)
             {
                 Player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
@@ -1371,13 +1371,13 @@ namespace CalamityMod.CalPlayer
                 light[1] += Main.DiscoG / 400f;
                 light[2] += 0.5f;
             }
-            if (sirenIce)
+            if (aquaticHeartIce)
             {
                 light[0] += 0.35f;
                 light[1] += 1f;
                 light[2] += 1.25f;
             }
-            if (sirenBoobs)
+            if (aquaticHeart)
             {
                 light[0] += 0.1f;
                 light[1] += 1f;
@@ -1767,7 +1767,7 @@ namespace CalamityMod.CalPlayer
                         (aquaticEmblem ? 0.25 : 0D) - // 0.75
                         (Player.accMerman ? 0.3 : 0D) - // 0.7
                         (victideSet ? 0.2 : 0D) - // 0.85
-                        ((sirenBoobs && NPC.downedBoss3) ? 0.3 : 0D) - // 0.7
+                        ((aquaticHeart && NPC.downedBoss3) ? 0.3 : 0D) - // 0.7
                         (abyssalDivingSuit ? 0.3 : 0D); // 0.7
 
                     // Limit the multiplier to 5%
@@ -1831,7 +1831,7 @@ namespace CalamityMod.CalPlayer
                         (aquaticEmblem ? 10D : 0D) + // 40
                         (Player.accMerman ? 15D : 0D) + // 55
                         (victideSet ? 5D : 0D) + // 60
-                        ((sirenBoobs && NPC.downedBoss3) ? 15D : 0D) + // 75
+                        ((aquaticHeart && NPC.downedBoss3) ? 15D : 0D) + // 75
                         (abyssalDivingSuit ? 15D : 0D); // 90
 
                     // Limit the multiplier to 50
@@ -2871,7 +2871,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 10;
             }
 
-            if (badgeOfBraveryRare)
+            if (warbannerOfTheSun)
                 Player.GetDamage(DamageClass.Melee) += warBannerBonus;
 
             // The player's true max life value with Calamity adjustments
@@ -3161,7 +3161,7 @@ namespace CalamityMod.CalPlayer
                 Player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
             }
 
-            if (dukeScales)
+            if (oldDukeScales)
             {
                 Player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
                 Player.buffImmune[BuffID.Poisoned] = true;
@@ -3560,7 +3560,7 @@ namespace CalamityMod.CalPlayer
                     (Player.kbGlove ? 0.1 : 0) +
                     (eGauntlet ? 0.1 : 0) +
                     (yInsignia ? 0.1 : 0) +
-                    (badgeOfBraveryRare ? warBannerBonus : 0);
+                    (warbannerOfTheSun ? warBannerBonus : 0);
             trueMeleeDamage += damageAdd;
 
             // Amalgam boosts

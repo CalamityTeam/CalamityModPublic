@@ -2876,7 +2876,7 @@ namespace CalamityMod.NPCs
                         }
                         break;
                     case 2:
-                        if (npc.type == NPCType<BlightedEye>() || npc.type == NPCType<CalamityEye>())
+                        if (npc.type == NPCType<CalamityEye>())
                         {
                             return DemonEyeAI.BuffedDemonEyeAI(npc, Mod);
                         }
@@ -3306,7 +3306,7 @@ namespace CalamityMod.NPCs
                         }
                         break;
                     case 39:
-                        if (npc.type == NPCType<PlaguedTortoise>() || npc.type == NPCType<SandTortoise>())
+                        if (npc.type == NPCType<PlaguedTortoise>())
                         {
                             return CalamityGlobalAI.BuffedTortoiseAI(npc, Mod);
                         }
@@ -4289,7 +4289,7 @@ namespace CalamityMod.NPCs
                         break;
                 }
 
-                if (npc.type == NPCType<SandTortoise>() || npc.type == NPCType<PlaguedTortoise>())
+                if (npc.type == NPCType<PlaguedTortoise>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
                         npc.justHit = false;

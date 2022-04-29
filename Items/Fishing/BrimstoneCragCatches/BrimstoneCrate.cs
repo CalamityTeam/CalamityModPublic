@@ -47,8 +47,6 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 
             //Modded materials
             DropHelper.DropItem(s, player, ModContent.ItemType<DemonicBoneAsh>(), 1, 4);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.2f, 2, 4);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<BlightedLens>(), Main.hardMode, 0.15f, 2, 6);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyCore>(), DownedBossSystem.downedBrimstoneElemental, 0.1f, 1, 3);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence && DownedBossSystem.downedPolterghast, 0.1f, 1, 3);
 

@@ -783,10 +783,9 @@ namespace CalamityMod
             confusionEnemyList = new List<int>()
             {
                 NPCType<AeroSlime>(),
-                NPCType<AngryDog>(),
+                NPCType<Rimehound>(),
                 NPCType<AstralachneaGround>(),
                 NPCType<AstralachneaWall>(),
-                NPCType<BlightedEye>(),
                 NPCType<BloomSlime>(),
                 NPCType<Bohldohr>(),
                 NPCType<CalamityEye>(),
@@ -804,7 +803,6 @@ namespace CalamityMod
                 NPCType<PerennialSlime>(),
                 NPCType<PhantomDebris>(),
                 NPCType<Rotdog>(),
-                NPCType<SandTortoise>(),
                 NPCType<Scryllar>(),
                 NPCType<ScryllarRage>(),
                 NPCType<SeaUrchin>(),
@@ -1123,7 +1121,7 @@ namespace CalamityMod
                 NPCID.BlazingWheel,
                 NPCType<AquaticSeekerHead>(),
                 NPCType<Cnidrion>(),
-                NPCType<PrismTurtle>(),
+                NPCType<PrismBack>(),
                 NPCType<GhostBell>()
             };
 
@@ -1736,7 +1734,7 @@ namespace CalamityMod
                 ItemType<VitriolicViper>(),
                 ItemType<CadaverousCarrion>(),
                 ItemType<ToxicantTwister>(),
-                ItemType<DukeScales>(),
+                ItemType<OldDukeScales>(),
                 ItemType<Greentide>(),
                 ItemType<Leviatitan>(),
                 ItemType<Atlantis>(),
@@ -2697,7 +2695,7 @@ namespace CalamityMod
             legOverrideList = new List<int>()
             {
                 CalamityMod.Instance.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs),
-                CalamityMod.Instance.GetEquipSlot("SirensHeart", EquipType.Legs),
+                CalamityMod.Instance.GetEquipSlot("AquaticHeart", EquipType.Legs),
                 //CalamityMod.Instance.GetEquipSlot("SirenLeg", EquipType.Legs), whate even was SirenLeg vs SirenLegAlt?
                 CalamityMod.Instance.GetEquipSlot("Popo", EquipType.Legs)
             };

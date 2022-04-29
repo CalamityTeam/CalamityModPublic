@@ -353,7 +353,7 @@ namespace CalamityMod.CalPlayer
 
         #region Mount
         public bool onyxExcavator = false;
-        public bool angryDog = false;
+        public bool rimehound = false;
         public bool fab = false;
         public bool crysthamyr = false;
         public bool ExoChair = false;
@@ -473,7 +473,7 @@ namespace CalamityMod.CalPlayer
         public bool fungalSymbiote = false;
         public bool trinketOfChi = false;
         public bool gladiatorSword = false;
-        public bool unstablePrism = false;
+        public bool unstableGraniteCore = false;
         public bool regenator = false;
         public bool theBee = false;
         public int theBeeCooldown = 0;
@@ -494,7 +494,7 @@ namespace CalamityMod.CalPlayer
         public bool dodgeScarf = false;
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
-        public bool badgeOfBraveryRare = false;
+        public bool warbannerOfTheSun = false;
         public float warBannerBonus = 0f;
         private const float maxWarBannerBonus = 0.2f;
         private const float maxWarBannerDistance = 480f;
@@ -512,8 +512,8 @@ namespace CalamityMod.CalPlayer
         public bool deepDiver = false;
         public bool abyssalDivingSuitPlates = false;
         public int abyssalDivingSuitPlateHits = 0;
-        public bool sirenWaterBuff = false;
-        public bool sirenIce = false;
+        public bool aquaticHeartWaterBuff = false;
+        public bool aquaticHeartIce = false;
         public bool aSpark = false;
         public bool aSparkRare = false;
         public bool aBulwarkRare = false;
@@ -536,7 +536,7 @@ namespace CalamityMod.CalPlayer
         public bool gSabaton = false;
         public int gSabatonFall = 0;
         public int gSabatonCooldown = 0;
-        public bool sGenerator = false;
+        public bool sGlyph = false;
         public bool sRegen = false;
         public bool IBoots = false;
         public bool elysianFire = false;
@@ -583,7 +583,7 @@ namespace CalamityMod.CalPlayer
         public bool spiritOrigin = false;
         public bool spiritOriginVanity = false;
         public bool darkSunRing = false;
-        public bool calamityRing = false;
+        public bool voidOfCalamity = false;
         public bool voidOfExtinction = false;
         public bool eArtifact = false;
         public bool dArtifact = false;
@@ -591,7 +591,7 @@ namespace CalamityMod.CalPlayer
         public bool pArtifact = false;
         public bool giantPearl = false;
         public bool normalityRelocator = false;
-        public bool fabledTortoise = false;
+        public bool flameLickedShell = false;
         public bool manaOverloader = false;
         public bool royalGel = false;
         public bool handWarmer = false;
@@ -605,7 +605,7 @@ namespace CalamityMod.CalPlayer
         public bool voltaicJelly = false;
         public bool jellyChargedBattery = false;
         public float jellyDmg;
-        public bool dukeScales = false;
+        public bool oldDukeScales = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
         public bool cloudWaifu = false;
@@ -1104,11 +1104,11 @@ namespace CalamityMod.CalPlayer
         public bool profanedCrystalHide;
         public KeyValuePair<int, int> profanedCrystalWingCounter = new KeyValuePair<int, int>(0, 10);
         public KeyValuePair<int, int> profanedCrystalAnimCounter = new KeyValuePair<int, int>(0, 10);
-        public bool sirenBoobsPrevious;
-        public bool sirenBoobs;
-        public bool sirenBoobsHide;
-        public bool sirenBoobsForce;
-        public bool sirenBoobsPower;
+        public bool aquaticHeartPrevious;
+        public bool aquaticHeart;
+        public bool aquaticHeartHide;
+        public bool aquaticHeartForce;
+        public bool aquaticHeartPower;
         public bool snowmanPrevious;
         public bool snowman;
         public bool snowmanHide;
@@ -1580,7 +1580,7 @@ namespace CalamityMod.CalPlayer
             pineapplePet = false;
 
             onyxExcavator = false;
-            angryDog = false;
+            rimehound = false;
             fab = false;
             crysthamyr = false;
             ExoChair = false;
@@ -1588,8 +1588,8 @@ namespace CalamityMod.CalPlayer
 
             abyssalDivingSuitPlates = false;
 
-            sirenWaterBuff = false;
-            sirenIce = false;
+            aquaticHeartWaterBuff = false;
+            aquaticHeartIce = false;
 
             draedonsHeart = false;
 
@@ -1661,7 +1661,7 @@ namespace CalamityMod.CalPlayer
             fungalSymbiote = false;
             trinketOfChi = false;
             gladiatorSword = false;
-            unstablePrism = false;
+            unstableGraniteCore = false;
             regenator = false;
             deepDiver = false;
             theBee = false;
@@ -1674,7 +1674,7 @@ namespace CalamityMod.CalPlayer
             vexation = false;
             fBulwark = false;
             badgeOfBravery = false;
-            badgeOfBraveryRare = false;
+            warbannerOfTheSun = false;
             aSpark = false;
             aSparkRare = false;
             aBulwarkRare = false;
@@ -1727,7 +1727,7 @@ namespace CalamityMod.CalPlayer
             harpyWingBoost = false; //harpy wings + harpy ring
             fleshKnuckles = false;
             darkSunRing = false;
-            calamityRing = false;
+            voidOfCalamity = false;
             voidOfExtinction = false;
             eArtifact = false;
             dArtifact = false;
@@ -1735,14 +1735,14 @@ namespace CalamityMod.CalPlayer
             pArtifact = false;
             giantPearl = false;
             normalityRelocator = false;
-            fabledTortoise = false;
+            flameLickedShell = false;
             manaOverloader = false;
             royalGel = false;
             handWarmer = false;
             lol = false;
             raiderTalisman = false;
             gSabaton = false;
-            sGenerator = false;
+            sGlyph = false;
             sRegen = false;
             hallowedRune = false;
             phantomicArtifact = false;
@@ -1760,7 +1760,7 @@ namespace CalamityMod.CalPlayer
             thiefsDime = false;
             dynamoStemCells = false;
             etherealExtorter = false;
-            dukeScales = false;
+            oldDukeScales = false;
             blazingCore = false;
             voltaicJelly = false;
             jellyChargedBattery = false;
@@ -2137,8 +2137,8 @@ namespace CalamityMod.CalPlayer
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
 
-            sirenBoobsPrevious = sirenBoobs;
-            sirenBoobs = sirenBoobsHide = sirenBoobsForce = sirenBoobsPower = false;
+            aquaticHeartPrevious = aquaticHeart;
+            aquaticHeart = aquaticHeartHide = aquaticHeartForce = aquaticHeartPower = false;
 
             profanedCrystalPrevious = profanedCrystal;
             profanedCrystal = profanedCrystalBuffs = profanedCrystalForce = profanedCrystalHide = false;
@@ -2346,13 +2346,13 @@ namespace CalamityMod.CalPlayer
             hallowedRegen = false;
             hallowedPower = false;
             onyxExcavator = false;
-            angryDog = false;
+            rimehound = false;
             fab = false;
             crysthamyr = false;
             ExoChair = false;
             abyssalDivingSuitPlates = false;
-            sirenWaterBuff = false;
-            sirenIce = false;
+            aquaticHeartWaterBuff = false;
+            aquaticHeartIce = false;
             trinketOfChiBuff = false;
             chiBuffTimer = 0;
             corrEffigy = false;
@@ -3372,10 +3372,10 @@ namespace CalamityMod.CalPlayer
                     abyssalDivingSuitHide = false;
                     abyssalDivingSuitForce = true;
                 }
-                else if (item.type == ModContent.ItemType<SirensHeart>())
+                else if (item.type == ModContent.ItemType<AquaticHeart>())
                 {
-                    sirenBoobsHide = false;
-                    sirenBoobsForce = true;
+                    aquaticHeartHide = false;
+                    aquaticHeartForce = true;
                 }
                 else if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                 {
@@ -3491,7 +3491,7 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.15f;
             }
-            if (badgeOfBraveryRare)
+            if (warbannerOfTheSun)
             {
                 int closestNPC = -1;
                 for (int i = 0; i < Main.maxNPCs; i++)
@@ -3634,11 +3634,11 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (sirenBoobs)
+            if (aquaticHeart)
             {
-                Player.AddBuff(ModContent.BuffType<SirenBobs>(), 60, true);
+                Player.AddBuff(ModContent.BuffType<AquaticHeartBuff>(), 60, true);
             }
-            if (sirenBoobs && NPC.downedBoss3)
+            if (aquaticHeart && NPC.downedBoss3)
             {
                 if (Player.whoAmI == Main.myPlayer && !Player.HasCooldown(AquaticHeartIceShield.ID))
                 {
@@ -3819,7 +3819,7 @@ namespace CalamityMod.CalPlayer
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
-                    (sirenWaterBuff ? 0.15f : 0f) +
+                    (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife < (int)(Player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
                     (dragonScales ? 0.1f : 0f) +
                     (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
@@ -3834,7 +3834,7 @@ namespace CalamityMod.CalPlayer
                     (shadowSpeed ? 0.5f : 0f) +
                     (stressPills ? 0.05f : 0f) +
                     ((abyssalDivingSuit && Player.IsUnderwater()) ? 0.05f : 0f) +
-                    (sirenWaterBuff ? 0.15f : 0f) +
+                    (aquaticHeartWaterBuff ? 0.15f : 0f) +
                     ((frostFlare && Player.statLife < (int)(Player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
                     (dragonScales ? 0.1f : 0f) +
                     (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
@@ -3850,7 +3850,7 @@ namespace CalamityMod.CalPlayer
                     runAccMult *= multiplier;
                     runSpeedMult *= multiplier;
                 }
-                if (fabledTortoise)
+                if (flameLickedShell)
                 {
                     float multiplier = shellBoost ? 0.8f : 0.5f;
                     runAccMult *= multiplier;
@@ -4831,7 +4831,7 @@ namespace CalamityMod.CalPlayer
                 int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
                 damage += knockbackAdd;
             }
-            if (proj.type == ModContent.ProjectileType<AcidBulletProj>())
+            if (proj.type == ModContent.ProjectileType<AcidRoundProj>())
             {
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
@@ -4907,7 +4907,7 @@ namespace CalamityMod.CalPlayer
                         break;
                 }
 
-                if (proj.type == ModContent.ProjectileType<AcidBulletProj>() && heldItem.type == ModContent.ItemType<P90>())
+                if (proj.type == ModContent.ProjectileType<AcidRoundProj>() && heldItem.type == ModContent.ItemType<P90>())
                     damage = (int)(damage * 0.75);
             }
 
@@ -5214,7 +5214,7 @@ namespace CalamityMod.CalPlayer
             if (abyssalDivingSuitPlates)
                 contactDamageReduction += 0.15 - abyssalDivingSuitPlateHits * 0.03;
 
-            if (sirenIce)
+            if (aquaticHeartIce)
                 contactDamageReduction += 0.2;
 
             if (encased)
@@ -5241,7 +5241,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<AngryDogMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
+            if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
                 contactDamageReduction += 0.1;
 
             if (vHex)
@@ -5253,7 +5253,7 @@ namespace CalamityMod.CalPlayer
             if (corrEffigy)
                 contactDamageReduction -= 0.05;
 
-            if (calamityRing && !voidOfExtinction)
+            if (voidOfCalamity && !voidOfExtinction)
                 contactDamageReduction -= 0.15;
 
             // 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
@@ -5513,7 +5513,7 @@ namespace CalamityMod.CalPlayer
             if (abyssalDivingSuitPlates)
                 projectileDamageReduction += 0.15 - abyssalDivingSuitPlateHits * 0.03;
 
-            if (sirenIce)
+            if (aquaticHeartIce)
                 projectileDamageReduction += 0.2;
 
             if (encased)
@@ -5540,7 +5540,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<AngryDogMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
+            if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
                 projectileDamageReduction += 0.1;
 
             if (vHex)
@@ -5552,7 +5552,7 @@ namespace CalamityMod.CalPlayer
             if (corrEffigy)
                 projectileDamageReduction -= 0.05;
 
-            if (calamityRing && !voidOfExtinction)
+            if (voidOfCalamity && !voidOfExtinction)
                 projectileDamageReduction -= 0.15;
 
             // 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
@@ -6415,11 +6415,11 @@ namespace CalamityMod.CalPlayer
                 Player.head = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Head);
                 Player.face = -1;
             }
-            else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
+            else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
             {
-                Player.legs = Mod.GetEquipSlot("SirensHeart", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("SirensHeart", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("SirensHeart", EquipType.Head);
+                Player.legs = Mod.GetEquipSlot("AquaticHeart", EquipType.Legs);
+                Player.body = Mod.GetEquipSlot("AquaticHeart", EquipType.Body);
+                Player.head = Mod.GetEquipSlot("AquaticHeart", EquipType.Head);
                 Player.face = -1;
             }
             else if (meldTransformationPower || meldTransformationForce)
@@ -6599,7 +6599,7 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.NPCHit, (int)Player.position.X, (int)Player.position.Y, 4, 1f, 0f); //metal hit noise
                     hurtSoundTimer = 10;
                 }
-                else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
+                else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
                 {
                     playSound = false;
                     SoundEngine.PlaySound(SoundID.FemaleHit, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f); //female hit noise
@@ -6761,7 +6761,7 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 96);
                 }
 
-                if ((gShell || fabledTortoise) && !Player.panic)
+                if ((gShell || flameLickedShell) && !Player.panic)
                     Player.AddBuff(ModContent.BuffType<ShellBoost>(), 180);
 
                 if (abyssalDivingSuitPlates && damage > 50)
@@ -6800,7 +6800,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
 
-                if (sirenIce)
+                if (aquaticHeartIce)
                 {
                     SoundEngine.PlaySound(SoundID.NPCKilled, (int)Player.Center.X, (int)Player.Center.Y, 7);
                     Player.AddCooldown(AquaticHeartIceShield.ID, CalamityUtils.SecondsToFrames(30));
@@ -6841,7 +6841,7 @@ namespace CalamityMod.CalPlayer
                         Player.AddBuff(ModContent.BuffType<ReaverRage>(), 180);
                 }
 
-                if ((fBarrier || (sirenBoobs && NPC.downedBoss3)) && !areThereAnyDamnBosses)
+                if ((fBarrier || (aquaticHeart && NPC.downedBoss3)) && !areThereAnyDamnBosses)
                 {
                     SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 27);
                     for (int m = 0; m < Main.maxNPCs; m++)
@@ -8454,7 +8454,7 @@ namespace CalamityMod.CalPlayer
                 ModCollideWithNPCs(rect, damage, knockback, NPCImmuneTime, playerImmuneTime);
             }
 
-            if (Player.mount.Active && Player.mount.Type == ModContent.MountType<AngryDogMount>() && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
+            if (Player.mount.Active && Player.mount.Type == ModContent.MountType<RimehoundMount>() && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
             {
                 Rectangle rect2 = Player.getRect();
 
@@ -9944,7 +9944,7 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (fathomSwarmerVisage)
                 light += 1;
-            if (sirenBoobs)
+            if (aquaticHeart)
                 light += 1;
             if (aAmpoule)
                 light += 1;

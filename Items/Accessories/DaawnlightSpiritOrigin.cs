@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DaedalusEmblem>().
+                AddIngredient<ArtemisEmblem>().
                 AddIngredient(ItemID.LunarBar).
                 AddIngredient<MysteriousCircuitry>(15).
                 AddIngredient<DubiousPlating>(15).

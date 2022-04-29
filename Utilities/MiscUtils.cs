@@ -475,7 +475,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<WulfrumDroneBanner>();
                     break;
                 case 53:
-                    item = ModContent.ItemType<PitbullBanner>();
+                    item = ModContent.ItemType<RotdogBanner>();
                     break;
                 case 54:
                     item = ModContent.ItemType<BlightedEyeBanner>();
@@ -493,7 +493,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<CloudElementalBanner>();
                     break;
                 case 59:
-                    item = ModContent.ItemType<AngryDogBanner>();
+                    item = ModContent.ItemType<RimehoundBanner>();
                     break;
                 case 60:
                     item = ModContent.ItemType<CryonBanner>();
@@ -577,7 +577,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<PhantomDebrisBanner>();
                     break;
                 case 87:
-                    item = ModContent.ItemType<BOHLDOHRBanner>();
+                    item = ModContent.ItemType<BohldohrBanner>();
                     break;
                 case 88:
                     item = ModContent.ItemType<EbonianBlightSlimeBanner>();
@@ -610,7 +610,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<IrradiatedSlimeBanner>();
                     break;
                 case 98:
-                    item = ModContent.ItemType<PrismTurtleBanner>();
+                    item = ModContent.ItemType<PrismBackBanner>();
                     break;
                 case 99:
                     item = ModContent.ItemType<ClamBanner>();
@@ -622,7 +622,7 @@ namespace CalamityMod
                     item = ModContent.ItemType<GhostBellBanner>();
                     break;
                 case 102:
-                    item = ModContent.ItemType<GhostBellSmallBanner>();
+                    item = ModContent.ItemType<BabyGhostBellBanner>();
                     break;
                 case 103:
                     item = ModContent.ItemType<SeaFloatyBanner>();
@@ -670,10 +670,10 @@ namespace CalamityMod
                     item = ModContent.ItemType<FlakCrabBanner>();
                     break;
                 case 118:
-                    item = ModContent.ItemType<SulfurousSkaterBanner>();
+                    item = ModContent.ItemType<SulphurousSkaterBanner>();
                     break;
                 case 119:
-                    item = ModContent.ItemType<FlakBabyBanner>();
+                    item = ModContent.ItemType<BabyFlakCrabBanner>();
                     break;
                 case 120:
                     item = ModContent.ItemType<AnthozoanCrabBanner>();
@@ -707,9 +707,6 @@ namespace CalamityMod
             int npc = -1;
             switch (style)
             {
-                case 0:
-                    npc = ModContent.NPCType<AquaticParasite>();
-                    break;
                 case 1:
                     npc = ModContent.NPCType<Flounder>();
                     break;
@@ -866,9 +863,6 @@ namespace CalamityMod
                 case 53:
                     npc = ModContent.NPCType<Rotdog>();
                     break;
-                case 54:
-                    npc = ModContent.NPCType<BlightedEye>();
-                    break;
                 case 55:
                     npc = ModContent.NPCType<CalamityEye>();
                     break;
@@ -882,7 +876,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<ThiccWaifu>();
                     break;
                 case 59:
-                    npc = ModContent.NPCType<AngryDog>();
+                    npc = ModContent.NPCType<Rimehound>();
                     break;
                 case 60:
                     npc = ModContent.NPCType<Cryon>();
@@ -895,9 +889,6 @@ namespace CalamityMod
                     break;
                 case 63:
                     npc = ModContent.NPCType<Cnidrion>();
-                    break;
-                case 64:
-                    npc = ModContent.NPCType<SandTortoise>();
                     break;
                 case 65:
                     npc = ModContent.NPCType<GreatSandShark>();
@@ -999,7 +990,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<IrradiatedSlime>();
                     break;
                 case 98:
-                    npc = ModContent.NPCType<PrismTurtle>();
+                    npc = ModContent.NPCType<PrismBack>();
                     break;
                 case 99:
                     npc = ModContent.NPCType<Clam>();
@@ -1011,7 +1002,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<GhostBell>();
                     break;
                 case 102:
-                    npc = ModContent.NPCType<GhostBellSmall>();
+                    npc = ModContent.NPCType<BabyGhostBell>();
                     break;
                 case 103:
                     npc = ModContent.NPCType<SeaFloaty>();
@@ -1059,10 +1050,10 @@ namespace CalamityMod
                     npc = ModContent.NPCType<FlakCrab>();
                     break;
                 case 118:
-                    npc = ModContent.NPCType<SulfurousSkater>();
+                    npc = ModContent.NPCType<SulphurousSkater>();
                     break;
                 case 119:
-                    npc = ModContent.NPCType<FlakBaby>();
+                    npc = ModContent.NPCType<BabyFlakCrab>();
                     break;
                 case 120:
                     npc = ModContent.NPCType<AnthozoanCrab>();
