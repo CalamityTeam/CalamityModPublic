@@ -21,10 +21,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i, j].TileFrameX < 36)
-            {
-                if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "SulphuricWater"))
-                    CalamityGlobalTile.SetActiveFountainColor(CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Slot);
-            }
+                CalamityGlobalTile.SetActiveFountainColor(ModContent.Find<ModWaterStyle>("CalamityMod/SulphuricWater").Slot);
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
