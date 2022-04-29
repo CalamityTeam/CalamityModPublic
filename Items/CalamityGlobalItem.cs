@@ -979,9 +979,9 @@ namespace CalamityMod.Items
             {
                 player.lifeRegen += 3;
                 player.GetDamage(DamageClass.Summon) += 0.15f;
-                player.GetCritChance(DamageClass.Melee) += 15;
+                player.GetCritChance(DamageClass.Melee) += 10;
                 player.setBonus += "\nIncreases your life regeneration\n" +
-                            "15% increased minion damage and melee critical strike chance";
+                            "15% increased minion damage and 10% increased melee critical strike chance";
             }
             else if (set == "HuntressTier2")
             {
@@ -1048,7 +1048,7 @@ namespace CalamityMod.Items
                     break;
 
                 case ItemID.SquireGreatHelm:
-                    player.lifeRegen -= 7;
+                    player.lifeRegen -= 3;
                     break;
                 case ItemID.SquirePlating:
                     player.GetDamage(DamageClass.Summon) -= 0.05f;
@@ -1070,7 +1070,7 @@ namespace CalamityMod.Items
                     break;
 
                 case ItemID.SquireAltShirt:
-                    player.lifeRegen -= 14;
+                    player.lifeRegen -= 6;
                     break;
                 case ItemID.SquireAltPants:
                     player.GetDamage(DamageClass.Summon) -= 0.1f;

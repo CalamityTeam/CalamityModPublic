@@ -147,7 +147,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 80);
+            cursor.Emit(OpCodes.Ldc_I4, 100);
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
             {
@@ -155,7 +155,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 80);
+            cursor.Emit(OpCodes.Ldc_I4, 100);
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
             {
@@ -163,7 +163,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 80);
+            cursor.Emit(OpCodes.Ldc_I4, 100);
 
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(20)))
             {
@@ -171,7 +171,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 80);
+            cursor.Emit(OpCodes.Ldc_I4, 100);
         }
         #endregion
 

@@ -166,6 +166,9 @@ namespace CalamityMod.ILEditing
             float asphaltTopSpeedMultiplier = 1.75f; // +75%. Vanilla is +250%
             float asphaltSlowdown = 1f; // Vanilla is 2f. This should actually make asphalt faster.
 
+            // Dunerider Boots multiply all run stats by 1.75f in vanilla
+            float duneRiderBootsMultiplier = 1.25f; // Change to 1.25f
+
             // Multiplied by 0.6 on frozen slime, for +26% acceleration
             // Multiplied by 0.7 on ice, for +47% acceleration
             float iceSkateAcceleration = 2.1f;
@@ -196,6 +199,22 @@ namespace CalamityMod.ILEditing
                 // Reducing the slowdown actually makes the (slower) Asphalt more able to reach its top speed.
                 cursor.Remove();
                 cursor.Emit(OpCodes.Ldc_R4, asphaltSlowdown);
+            }
+
+            //
+            // DUNERIDER BOOTS + SAND BLOCKS
+            //
+            {
+                // Find the multiplier for Dunerider Boots on Sand Blocks.
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(1.75f)))
+                {
+                    LogFailure("Run Speed Adjustments", "Could not locate the Dunerdier Boots multiplier.");
+                    return;
+                }
+
+                // Massively reduce the increased speed of Dunerider Boots while on Sand Blocks.
+                cursor.Remove();
+                cursor.Emit(OpCodes.Ldc_R4, duneRiderBootsMultiplier);
             }
 
             //
