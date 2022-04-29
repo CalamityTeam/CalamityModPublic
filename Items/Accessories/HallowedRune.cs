@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SpiritGenerator>().
+                AddIngredient<SpiritGlyph>().
                 AddIngredient(ItemID.HallowedBar, 18).
                 AddIngredient(ItemID.SoulofFright, 5).
                 AddIngredient(ItemID.SoulofMight, 5).

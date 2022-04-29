@@ -159,8 +159,7 @@ namespace CalamityMod.Events
                 new Boss(ModContent.NPCType<StormWeaverHead>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<StormWeaverBody>(), ModContent.NPCType<StormWeaverTail>(),  }),
 
                 new Boss(ModContent.NPCType<AquaticScourgeHead>(), permittedNPCs: new int[] { ModContent.NPCType<AquaticScourgeBody>(), ModContent.NPCType<AquaticScourgeBodyAlt>(),
-                    ModContent.NPCType<AquaticScourgeTail>(), ModContent.NPCType<AquaticParasite>(), ModContent.NPCType<AquaticParasite>(), ModContent.NPCType<AquaticSeekerHead>(),
-                    ModContent.NPCType<AquaticSeekerBody>(), ModContent.NPCType<AquaticSeekerTail>() }),
+                    ModContent.NPCType<AquaticScourgeTail>(), ModContent.NPCType<AquaticSeekerHead>(), ModContent.NPCType<AquaticSeekerBody>(), ModContent.NPCType<AquaticSeekerTail>() }),
 
                 new Boss(ModContent.NPCType<DesertScourgeHead>(), spawnContext: type =>
                 {

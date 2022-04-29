@@ -1,4 +1,4 @@
-using CalamityMod.NPCs.Crags;
+﻿using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
             NPCID.PurpleEye,
             NPCID.DemonEyeOwl,
             NPCID.DemonEyeSpaceship,
-            ModContent.NPCType<BlightedEye>()
         };
 
         public static List<int> Pigrons => new List<int>()
@@ -160,7 +159,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
             ref float fadeThroughWallsFlag = ref npc.ai[1];
 
             // Fade away and go through walls if the NPC is a pigron or Calamity eye.
-            if (Pigrons.Contains(npc.type) || npc.type == ModContent.NPCType<CalamityEye>() || npc.type == ModContent.NPCType<BlightedEye>())
+            if (Pigrons.Contains(npc.type) || npc.type == ModContent.NPCType<CalamityEye>())
             {
                 // Stop going through walls if the target can be reached.
                 if (Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
@@ -234,7 +233,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
             if (npc.type == NPCID.DemonEye ||
                  npc.type == NPCID.WanderingEye ||
                  npc.type == ModContent.NPCType<CalamityEye>() ||
-                 npc.type == ModContent.NPCType<BlightedEye>() ||
                  (npc.type >= NPCID.CataractEye && npc.type <= NPCID.PurpleEye))
             {
                 if (Main.rand.NextBool(40))

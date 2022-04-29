@@ -49,7 +49,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 10).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7).AddIngredient(ModContent.ItemType<BlightedLens>(), 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 10).
+                AddIngredient<EssenceofChaos>(7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

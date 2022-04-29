@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("The hell is that? Looks like something I'd carry around if I was 5 years old.");
 
-            if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
+            if (Main.player[Main.myPlayer].Calamity().aquaticHeart && !Main.player[Main.myPlayer].Calamity().aquaticHeartHide)
                 dialogue.Add("Nice scales... is it hot in here or is it just me?");
 
             if (Main.player[Main.myPlayer].Calamity().fabsolVodka)

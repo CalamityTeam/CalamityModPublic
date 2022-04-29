@@ -35,14 +35,14 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().calamityRing;
+        public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().voidOfCalamity;
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.ObsidianRose).
                 AddIngredient<Gehenna>().
-                AddIngredient<CalamityRing>().
+                AddIngredient<VoidofCalamity>().
                 AddIngredient<CoreofChaos>().
                 AddIngredient<CruptixBar>(3).
                 AddTile(TileID.MythrilAnvil).
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
         {
             var source = player.GetSource_Accessory(Item);
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.calamityRing = true;
+            modPlayer.voidOfCalamity = true;
             modPlayer.voidOfExtinction = true;
             player.lavaRose = true;
             player.lavaMax += 240;

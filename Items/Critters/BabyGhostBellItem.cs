@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Critters
             //item.CloneDefaults(2004); //Lightning Bug item
             Item.width = 26;
             Item.height = 24;
-            Item.makeNPC = (short)ModContent.NPCType<GhostBellSmall>();
+            Item.makeNPC = (short)ModContent.NPCType<BabyGhostBell>();
             Item.rare = ItemRarityID.Green;
         }
     }

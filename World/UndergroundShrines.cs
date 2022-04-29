@@ -138,7 +138,7 @@ namespace CalamityMod.World
                     chestType = 32;
                     break;
                 case UndergroundShrineType.Granite:
-                    item = ModContent.ItemType<UnstablePrism>();
+                    item = ModContent.ItemType<UnstableGraniteCore>();
                     chestType = 50;
                     break;
                 case UndergroundShrineType.Marble:

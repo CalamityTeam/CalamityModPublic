@@ -403,7 +403,7 @@ namespace CalamityMod.NPCs.OldDuke
                     ModContent.ItemType<VitriolicViper>(),
                     ModContent.ItemType<CadaverousCarrion>(),
                     ModContent.ItemType<ToxicantTwister>(),
-                    ModContent.ItemType<DukeScales>(),
+                    ModContent.ItemType<OldDukeScales>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<TheReaper>(), 10);

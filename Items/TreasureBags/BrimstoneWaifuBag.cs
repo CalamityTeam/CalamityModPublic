@@ -70,7 +70,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(s, player, ModContent.ItemType<Abaddon>());
             DropHelper.DropItem(s, player, ModContent.ItemType<Gehenna>());
             DropHelper.DropItemChance(s, player, ModContent.ItemType<Hellborn>(), 0.1f);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<FabledTortoiseShell>(), 0.1f);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<FlameLickedShell>(), 0.1f);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Brimrose>(), DownedBossSystem.downedProvidence);
 
             // Vanity

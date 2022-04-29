@@ -7318,8 +7318,8 @@ namespace CalamityMod.NPCs
         #region Unicorn AI
         public static void UnicornAI(NPC npc, Mod mod, bool spin, float bounciness, float speedDetect, float speedAdditive, float bouncy1 = -8.5f, float bouncy2 = -7.5f, float bouncy3 = -7f, float bouncy4 = -6f, float bouncy5 = -8f)
         {
-            bool DogPhase1 = npc.type == ModContent.NPCType<AngryDog>() && npc.life > npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
-            bool DogPhase2 = npc.type == ModContent.NPCType<AngryDog>() && npc.life <= npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool DogPhase1 = npc.type == ModContent.NPCType<Rimehound>() && npc.life > npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool DogPhase2 = npc.type == ModContent.NPCType<Rimehound>() && npc.life <= npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
             int num = 30;
             bool flag2 = false;
             bool flag3 = false;

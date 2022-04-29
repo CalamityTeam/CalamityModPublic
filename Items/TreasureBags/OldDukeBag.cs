@@ -61,7 +61,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<VitriolicViper>(w),
                 DropHelper.WeightStack<CadaverousCarrion>(w),
                 DropHelper.WeightStack<ToxicantTwister>(w),
-                DropHelper.WeightStack<DukeScales>(w)
+                DropHelper.WeightStack<OldDukeScales>(w)
             );
 
             // Equipment

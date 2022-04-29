@@ -617,7 +617,7 @@ namespace CalamityMod.CalPlayer
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), (int)(320 * Player.AverageDamage()), 5f, Player.whoAmI);
                 }
-                if (unstablePrism && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
+                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
                 {
                     for (int s = 0; s < 3; s++)
                     {
@@ -699,7 +699,7 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (unstablePrism && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
+                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
                 {
                     for (int s = 0; s < 3; s++)
                     {
@@ -927,7 +927,7 @@ namespace CalamityMod.CalPlayer
                     });
                     Player.AddBuff(buffType, 60);
                 }
-                else if (sGenerator)
+                else if (sGlyph)
                 {
                     int buffType = Utils.SelectRandom(Main.rand, new int[]
                     {

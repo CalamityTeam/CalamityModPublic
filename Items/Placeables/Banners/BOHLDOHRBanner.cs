@@ -1,4 +1,4 @@
-using CalamityMod.Tiles;
+﻿using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
 {
-    public class BOHLDOHRBanner : ModItem
+    public class BohldohrBanner : ModItem
     {
         public override void SetStaticDefaults()
         {

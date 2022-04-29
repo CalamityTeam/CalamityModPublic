@@ -476,7 +476,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             npcLoot.Add(ModContent.ItemType<RelicOfDeliverance>(), 4);
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianMask>(), 7);
-            npcLoot.Add(ModContent.ItemType<SamuraiBadge>(), 10);
+            npcLoot.Add(ModContent.ItemType<WarbanneroftheSun>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedCoreUnlimited>());
 

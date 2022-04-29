@@ -351,7 +351,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("BrimstoneElemental", out float order);
                 int type = NPCType<BrimstoneElemental>();
                 int summon = ItemType<CharredIdol>();
-                List<int> loot = new List<int>() { ItemType<BrimstoneWaifuBag>(), ItemType<EssenceofChaos>(), ItemType<Bloodstone>(), ItemType<Brimlance>(), ItemType<DormantBrimseeker>(), ItemType<SeethingDischarge>(), ItemType<Abaddon>(), ItemType<RoseStone>(), ItemType<Gehenna>(), ItemType<Brimrose>(), ItemType<Hellborn>(), ItemType<FabledTortoiseShell>(), ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<BrimstoneWaifuBag>(), ItemType<EssenceofChaos>(), ItemType<Bloodstone>(), ItemType<Brimlance>(), ItemType<DormantBrimseeker>(), ItemType<SeethingDischarge>(), ItemType<Abaddon>(), ItemType<RoseStone>(), ItemType<Gehenna>(), ItemType<Brimrose>(), ItemType<Hellborn>(), ItemType<FlameLickedShell>(), ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<BrimstoneElementalTrophy>(), ItemType<BrimstoneWaifuMask>(), ItemType<KnowledgeBrimstoneCrag>(), ItemType<KnowledgeBrimstoneElemental>(), ItemType<CharredRelic>() };
                 string instructions = $"Use a [i:{summon}] in the Brimstone Crag";
                 string despawn = CalamityUtils.ColorMessage("Brimstone Elemental withdraws to the ruins of her shrine.", new Color(0xDC, 0x14, 0x3C));
@@ -363,7 +363,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Calamitas", out float order);
                 int type = NPCType<CalamitasRun3>();
                 int summon = ItemType<BlightedEyeball>();
-                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<CalamityDust>(), ItemType<BlightedLens>(), ItemType<Bloodstone>(), ItemType<CalamitasInferno>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<CalamityRing>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<CalamityDust>(), ItemType<Bloodstone>(), ItemType<CalamitasInferno>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<CalamityHood>(), ItemType<CalamityRobes>(), ItemType<KnowledgeCalamitasClone>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
@@ -454,7 +454,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("ProfanedGuardians", out float order);
                 int type = NPCType<ProfanedGuardianBoss>();
                 int summon = ItemType<ProfanedShard>();
-                List<int> loot = new List<int>() { ItemType<RelicOfResilience>(), ItemType<RelicOfConvergence>(), ItemType<RelicOfDeliverance>(), ItemType<SamuraiBadge>(), ItemType<ProfanedCoreUnlimited>(), ItemID.SuperHealingPotion };
+                List<int> loot = new List<int>() { ItemType<RelicOfResilience>(), ItemType<RelicOfConvergence>(), ItemType<RelicOfDeliverance>(), ItemType<WarbanneroftheSun>(), ItemType<ProfanedCoreUnlimited>(), ItemID.SuperHealingPotion };
                 List<int> collection = new List<int>() { ItemType<ProfanedGuardianTrophy>(), ItemType<ProfanedGuardianMask>(), ItemType<KnowledgeProfanedGuardians>() };
                 string instructions = $"Use a [i:{summon}] in the Hallow or Underworld Biomes";
                 string despawn = CalamityUtils.ColorMessage("The guardians must protect their goddess at all costs.", new Color(0xFF, 0xA5, 0x00));
@@ -541,7 +541,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("OldDuke", out float order);
                 List<int> bosses = new List<int>() { NPCType<OldDuke>() };
                 int summon = ItemType<BloodwormItem>();
-                List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemType<TheReaper>(), ItemType<SupremeHealingPotion>() };
+                List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<OldDukeScales>(), ItemType<MutatedTruffle>(), ItemType<TheReaper>(), ItemType<SupremeHealingPotion>() };
                 List<int> collection = new List<int>() { ItemType<OldDukeTrophy>(), ItemType<OldDukeMask>(), ItemType<KnowledgeOldDuke>() };
                 string instructions = $"Defeat the Acid Rain event post-Polterghast or fish using a [i:{summon}] in the Sulphurous Sea";
                 string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));

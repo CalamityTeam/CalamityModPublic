@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Mounts
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tundra Leash");
-            Tooltip.SetDefault("Summons an angry dog mount");
+            Tooltip.SetDefault("Summons a Rimehound mount");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Mounts
             Item.value = Item.buyPrice(0, 9, 0, 0);
             Item.UseSound = SoundID.NPCHit56;
             Item.noMelee = true;
-            Item.mountType = ModContent.MountType<AngryDogMount>();
+            Item.mountType = ModContent.MountType<RimehoundMount>();
         }
     }
 }

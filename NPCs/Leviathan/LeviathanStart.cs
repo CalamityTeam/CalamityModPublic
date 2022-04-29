@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.Leviathan
         
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<SirensHeart>(), 4); 
+            npcLoot.Add(ModContent.ItemType<AquaticHeart>(), 4); 
         }
 
         public override void HitEffect(int hitDirection, double damage)
