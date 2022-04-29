@@ -178,6 +178,12 @@ namespace CalamityMod.Items
 
             SetDefaults_ApplyTweaks(item);
 
+            if (item.type == ItemID.ObsidianSkullRose || item.type == ItemID.LavaSkull)
+                item.defense = 4;
+
+            if (item.type == ItemID.MoltenSkullRose)
+                item.defense = 8;
+
             // TODO -- these properties should be some sort of dictionary.
             // Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system.
             if (CalamityLists.noGravityList.Contains(item.type))
