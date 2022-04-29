@@ -82,6 +82,7 @@ namespace CalamityMod.Systems
             {
                 backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, bossRushWhiteFade);
                 tileColor = Color.Lerp(tileColor, Color.LightGray, bossRushWhiteFade);
+                Main.ColorOfTheSkies = Color.Lerp(Main.ColorOfTheSkies, Color.Gray, bossRushWhiteFade);
             }
             else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
             {
@@ -90,6 +91,8 @@ namespace CalamityMod.Systems
                 backgroundColor = Color.Lerp(backgroundColor, Color.Black, intensity * 0.67f);
                 tileColor = Color.Lerp(tileColor, Color.DarkGray, intensity * 0.8f);
                 tileColor = Color.Lerp(tileColor, Color.Black, intensity * 0.3f);
+                Main.ColorOfTheSkies = Color.Lerp(Main.ColorOfTheSkies, Color.DarkGray, intensity * 0.9f);
+                Main.ColorOfTheSkies = Color.Lerp(Main.ColorOfTheSkies, Color.Black, intensity * 0.65f);
             }
         }
     }
