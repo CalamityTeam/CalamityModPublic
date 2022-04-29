@@ -82,9 +82,9 @@ namespace CalamityMod.NPCs.DraedonLabThings
             PreviousStuckPosition = reader.ReadVector2();
         }
 
-        public override bool? CanBeHitByItem(Player player, Item item) => true;
+        public override bool? CanBeHitByItem(Player player, Item item) => null;
 
-        public override bool? CanBeHitByProjectile(Projectile projectile) => true;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => null;
 
         public override void AI()
         {

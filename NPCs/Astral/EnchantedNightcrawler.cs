@@ -29,15 +29,9 @@ namespace CalamityMod.NPCs.Astral
             return true;
         }
 
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return true;
-        }
+        public override bool? CanBeHitByItem(Player player, Item item) => null;
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return true;
-        }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => null;
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

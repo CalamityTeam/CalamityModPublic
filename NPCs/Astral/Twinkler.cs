@@ -33,16 +33,16 @@ namespace CalamityMod.NPCs.Astral
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A rare case of the astral infection creating a harmless creature. They flicker rather prettily, and you’re not going to be the only one who thinks so. They make useful bait.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A rare case of the astral infection creating a harmless creature. They flicker rather prettily, and you’re not going to be the only one who thinks so. They make useful bait.")
             });
         }
 
-        public override bool? CanBeHitByItem(Player player, Item item) => true;
+        public override bool? CanBeHitByItem(Player player, Item item) => null;
 
-        public override bool? CanBeHitByProjectile(Projectile projectile) => true;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => null;
 
         public override void HitEffect(int hitDirection, double damage)
         {
