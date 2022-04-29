@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            float damageMult = 0f;
+            float damageMult = 1f;
             if (player.Calamity().brimlashBusterBoost)
                 damageMult = 2f;
             damage *= damageMult;
