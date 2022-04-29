@@ -344,6 +344,16 @@ namespace CalamityMod.CalPlayer
             if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
 
+            if (proj.arrow && Player.hasMoltenQuiver)
+            {
+                if (Main.rand.Next(4) == 0)
+                    target.AddBuff(BuffID.OnFire3, 360);
+                else if (Main.rand.Next(2) == 0)
+                    target.AddBuff(BuffID.OnFire3, 240);
+                else
+                    target.AddBuff(BuffID.OnFire3, 120);
+            }
+
             if (!proj.npcProj && !proj.trap && proj.friendly)
             {
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))

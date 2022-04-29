@@ -515,12 +515,26 @@ namespace CalamityMod.Items
                 EditTooltipByNum(1, (line) => line.Text = "Increases movement and jump speed by 10% and acceleration by 1.1x");
             }
 
+            // Sniper Scope
+            if (item.type == ItemID.SniperScope)
+                EditTooltipByNum(1, (line) => line.Text = "7% increased ranged damage and critical strike chance");
+
+            // Magic Quiver
+            if (item.type == ItemID.MagicQuiver)
+                EditTooltipByNum(0, (line) => line.Text = "Increases arrow damage by 5% and greatly increases arrow speed");
+
+            // Molten Quiver
+            if (item.type == ItemID.MoltenQuiver)
+            {
+                EditTooltipByNum(0, (line) => line.Text = "Increases arrow damage by 7% and greatly increases arrow speed");
+                EditTooltipByNum(2, (line) => line.Text += " and all arrows inflict fire damage");
+            }
+
             // Magic Power Potion nerf
             if (item.type == ItemID.MagicPowerPotion)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased magic damage");
 
-            // Magic and Wizard Hat nerfs
-            // Magic Hat
+            // Magic Hat nerf
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 

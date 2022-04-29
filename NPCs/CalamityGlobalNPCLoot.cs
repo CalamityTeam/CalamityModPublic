@@ -65,12 +65,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ModContent.ItemType<PineapplePet>(), 500);
                     break;
 
-                // Drippler
-                // Bouncing Eyeball @ 2.5% Normal, 5% Expert+
-                case NPCID.Drippler:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 40, 20));
-                    break;
-
                 // Possessed Armor
                 // Psychotic Amulet @ 2.5% Normal, 5% Expert+
                 case NPCID.PossessedArmor:
@@ -435,6 +429,30 @@ namespace CalamityMod.NPCs
                     npcLoot.ChangeDropRate(ItemID.FireFeather, 1, 10);
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<DemonicBoneAsh>(), 3, 2));
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofChaos>(), 2, 1));
+                    break;
+                #endregion
+
+                #region Blood Moon
+                // Drippler
+                // Bouncing Eyeball @ 2.5% Normal, 5% Expert+
+                case NPCID.Drippler:
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BouncingEyeball>(), 40, 20));
+                    break;
+
+                // All Blood Moon fishing enemies
+                // Drop more Blood Orbs @ 100%
+                case NPCID.EyeballFlyingFish:
+                case NPCID.ZombieMerman:
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 3, 6);
+                    break;
+
+                case NPCID.GoblinShark:
+                case NPCID.BloodEelHead:
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 15, 30);
+                    break;
+
+                case NPCID.BloodNautilus:
+                    npcLoot.Add(ModContent.ItemType<BloodOrb>(), 1, 20, 40);
                     break;
                 #endregion
 
