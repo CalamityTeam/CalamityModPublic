@@ -72,7 +72,7 @@ namespace CalamityMod.Effects
             BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
             AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
 
-            DoGPortalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScreenShaders/DoGPortalShader").Value;
+            DoGPortalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScreenShaders/DoGPortalShader", AssetRequestMode.ImmediateLoad).Value;
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 

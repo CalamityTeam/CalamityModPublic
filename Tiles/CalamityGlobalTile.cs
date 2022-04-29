@@ -25,7 +25,6 @@ namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
     {
-        public static IList<ModWaterStyle> WaterStyles => (IList<ModWaterStyle>)typeof(WaterStylesLoader).GetField("waterStyles", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
         internal static readonly MethodInfo ActiveFountainColorMethod = typeof(SceneMetrics).GetMethod("set_ActiveFountainColor", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static void SetActiveFountainColor(int fountainID)

@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Accessories
                 "Greatly reduces breath loss in the abyss\n" +
                 "Reduces creature's ability to detect you in the abyss\n" +
                 "Reduces the defense reduction that the abyss causes\n" +
+                "Grants immunity to the sulphurous waters\n" +
                 "Allows you to fall faster while in liquids");
         }
 

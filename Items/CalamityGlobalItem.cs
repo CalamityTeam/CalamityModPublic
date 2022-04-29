@@ -1032,7 +1032,8 @@ namespace CalamityMod.Items
             }
             else if (set == "SolarFlare")
             {
-                modPlayer.dashMod = 0;
+				if (player.solarShields > 0)
+					modPlayer.dashMod = 0;
             }
         }
         #endregion
