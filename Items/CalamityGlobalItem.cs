@@ -1138,6 +1138,18 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
                 player.manaCost -= 0.12f;
 
+            if (item.type == ItemID.SniperScope)
+            {
+                player.GetDamage(DamageClass.Ranged) -= 0.03f;
+                player.GetCritChance(DamageClass.Ranged) -= 0.03f;
+            }
+
+            if (item.type == ItemID.MagicQuiver)
+                player.arrowDamage -= 0.05f;
+
+            if (item.type == ItemID.MoltenQuiver)
+                player.arrowDamage -= 0.03f;
+
             if (item.type == ItemID.FireGauntlet)
             {
                 player.GetDamage(DamageClass.Melee) += 0.02f;
