@@ -355,7 +355,8 @@ namespace CalamityMod.NPCs.Perforator
                     Vector2 velocity = destination + Vector2.UnitY * -maxVelocity;
                     for (int i = 0; i < totalProjectiles + 1; i++)
                     {
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                        Vector2 randomVelocity = new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity + randomVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                         velocity.X += velocityAdjustment * NPC.direction;
                     }
                 }

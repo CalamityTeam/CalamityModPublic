@@ -479,7 +479,9 @@ namespace CalamityMod.NPCs.Crabulon
 
                             for (int x = 0; x < totalMushrooms; x++)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, velocityX, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                float randomVelocityX = velocityX + Main.rand.NextFloat() - 0.5f;
+                                float randomVelocityY = Main.rand.NextFloat() - 0.5f;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, randomVelocityX, randomVelocityY, type, damage, 0f, Main.myPlayer);
                                 shotSpacing -= shotSpacingDecrement;
                             }
 
@@ -495,7 +497,8 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, 0f, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                float randomVelocityY = Main.rand.NextFloat() - 0.5f;
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, randomVelocityY, type, damage, 0f, Main.myPlayer);
                                 shotSpacing -= 100;
                             }
                             shotSpacing = 1000;

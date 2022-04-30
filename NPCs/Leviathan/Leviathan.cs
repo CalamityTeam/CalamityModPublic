@@ -231,6 +231,8 @@ namespace CalamityMod.NPCs.Leviathan
             }
             else
             {
+                bool canCharge = ((phase2 || phase3) && !sirenAlive) || phase4 || death;
+
                 // Slowly drift up when spawning
                 if (spawnAnimation)
                 {
@@ -311,7 +313,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (NPC.ai[1] >= phaseTimer)
                     {
-                        NPC.ai[0] = 1f;
+                        NPC.ai[0] = canCharge ? (Main.rand.NextBool() ? 2f : 1f) : 1f;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
                         NPC.TargetClosest();
@@ -443,7 +445,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                     if (NPC.ai[2] > ((sirenAlive && !phase4) ? 2f : 4f))
                     {
-                        NPC.ai[0] = (((phase2 || phase3) && !sirenAlive) || phase4 || death) ? 2f : 0f;
+                        NPC.ai[0] = canCharge ? (Main.rand.NextBool() ? 2f : 0f) : 0f;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
                         NPC.TargetClosest();
@@ -456,7 +458,7 @@ namespace CalamityMod.NPCs.Leviathan
                     float chargeAmt = death ? (phase4 ? 3f : phase3 ? 2f : 1f) : 1f;
                     if (NPC.ai[1] >= chargeAmt * 2f || distFromPlayer.Length() > 2400f)
                     {
-                        NPC.ai[0] = 0f;
+                        NPC.ai[0] = canCharge ? (Main.rand.NextBool() ? 1f : 0f) : 0f;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
                         NPC.TargetClosest();

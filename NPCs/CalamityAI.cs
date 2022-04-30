@@ -2626,7 +2626,7 @@ namespace CalamityMod.NPCs
                 // Slow down
                 npc.velocity.X *= 0.9f;
 
-                // Stay vulnerable for a maximum of 1.5 or 2.5 seconds
+                // Stay vulnerable for a maximum of 2 seconds
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 120f || malice)
                 {
@@ -2635,7 +2635,7 @@ namespace CalamityMod.NPCs
 
                     // Set AI to next phase (Walk) and reset other AI
                     npc.TargetClosest();
-                    npc.ai[0] = 2f;
+                    npc.ai[0] = Main.rand.NextBool() ? 3f : 2f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
@@ -2727,7 +2727,7 @@ namespace CalamityMod.NPCs
 
                     // Set AI to next phase (Jump) and reset other AI
                     npc.TargetClosest();
-                    npc.ai[0] = 3f;
+                    npc.ai[0] = Main.rand.NextBool() ? (phase2 ? 5f : 1f) : 3f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
@@ -2782,14 +2782,14 @@ namespace CalamityMod.NPCs
                         if (expertMode)
                         {
                             if (player.position.Y < npc.Bottom.Y)
-                                npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -1f : -14.5f;
+                                npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -7f : -14.5f;
                             else
                                 npc.velocity.Y = 1f;
 
                             npc.noTileCollide = true;
                         }
                         else
-                            npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -1f : -14.5f;
+                            npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -7f : -14.5f;
 
                         if (calamityGlobalNPC.newAI[0] > 1f)
                             npc.velocity.Y *= calamityGlobalNPC.newAI[0];
@@ -2818,7 +2818,7 @@ namespace CalamityMod.NPCs
                     float maxStompAmt = phase5 ? 5f : 3f;
                     if (npc.ai[2] >= maxStompAmt)
                     {
-                        npc.ai[0] = phase2 ? 5f : 1f;
+                        npc.ai[0] = phase2 ? (Main.rand.NextBool() ? (phase3 ? 2f : 1f) : 5f) : (Main.rand.NextBool() ? 2f : 1f);
                         npc.ai[2] = 0f;
                         npc.netUpdate = true;
                     }
@@ -3093,7 +3093,7 @@ namespace CalamityMod.NPCs
 
                     // Reset alpha and set AI to next phase (Idle)
                     npc.alpha = 0;
-                    npc.ai[0] = 1f;
+                    npc.ai[0] = phase3 ? (Main.rand.NextBool() ? 3f : 2f) : (Main.rand.NextBool() ? 1f : 2f);
                     npc.ai[2] = 0f;
                     npc.netUpdate = true;
                 }
