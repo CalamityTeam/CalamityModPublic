@@ -56,7 +56,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 6).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

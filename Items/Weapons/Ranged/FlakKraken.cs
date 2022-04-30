@@ -50,7 +50,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FlakToxicannon>()).AddIngredient(ModContent.ItemType<DepthCells>(), 20).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<FlakToxicannon>().
+                AddIngredient<DepthCells>(20).
+                AddIngredient<Lumenite>(10).
+                AddIngredient<Tenebris>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

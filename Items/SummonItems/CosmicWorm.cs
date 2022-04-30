@@ -67,8 +67,22 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ArmoredShell>(), 3).AddIngredient(ModContent.ItemType<TwistingNether>()).AddIngredient(ModContent.ItemType<DarkPlasma>()).AddTile(TileID.LunarCraftingStation).Register();
-            CreateRecipe(1).AddIngredient(ItemID.IronBar, 30).AddIngredient(ItemID.LunarBar, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 20).AddIngredient(ItemID.SoulofLight, 20).AddIngredient(ItemID.SoulofNight, 20).AddIngredient(ModContent.ItemType<Phantoplasm>(), 30).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<ArmoredShell>(3).
+                AddIngredient<TwistingNether>().
+                AddIngredient<DarkPlasma>().
+                AddTile(TileID.LunarCraftingStation).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.IronBar, 30).
+                AddIngredient(ItemID.LunarBar, 10).
+                AddIngredient<GalacticaSingularity>(20).
+                AddIngredient(ItemID.SoulofLight, 20).
+                AddIngredient(ItemID.SoulofNight, 20).
+                AddIngredient<Phantoplasm>(30).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -58,7 +58,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.Pumpkin, 30).AddIngredient(ItemID.PumpkinSeed, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient(ItemID.Pumpkin, 30).
+                AddIngredient(ItemID.PumpkinSeed, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -51,7 +51,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 3).AddIngredient(ItemID.DemoniteBar, 7).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 10).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 3).
+                AddIngredient(ItemID.DemoniteBar, 7).
+                AddIngredient<TrueShadowScale>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

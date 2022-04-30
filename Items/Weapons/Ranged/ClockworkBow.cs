@@ -44,7 +44,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.Cog, 50).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.Cog, 50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[ModContent.ProjectileType<ClockworkBowHoldout>()] <= 0;
 

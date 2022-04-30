@@ -52,7 +52,10 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.GlowingMushroom, 50).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.GlowingMushroom, 50).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -73,7 +73,17 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<P90>()).AddIngredient(ItemID.Uzi).AddIngredient(ModContent.ItemType<PearlGod>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ItemID.FragmentVortex, 10).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 6).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 3).AddIngredient(ModContent.ItemType<Stardust>(), 25).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<P90>().
+                AddIngredient(ItemID.Uzi).
+                AddIngredient<PearlGod>(). //This should be removed
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.FragmentVortex, 10).
+                AddIngredient<GalacticaSingularity>(6). //This should be removed
+                AddIngredient<CoreofCalamity>(3).
+                AddIngredient(ModContent.ItemType<Stardust>(), 25).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -37,7 +37,11 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddIngredient(ItemID.BottledWater, 10).AddIngredient(ModContent.ItemType<AstralSand>()).AddIngredient(ModContent.ItemType<AstralMonolith>()).Register();
+            CreateRecipe(10).
+                AddIngredient(ItemID.BottledWater, 10).
+                AddIngredient<AstralSand>().
+                AddIngredient<AstralMonolith>().
+                Register();
         }
     }
 }

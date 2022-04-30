@@ -107,7 +107,13 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlossomFlux>()).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 12).AddIngredient(ModContent.ItemType<HellcasterFragment>(), 4).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<BlossomFlux>().
+                AddIngredient<EffulgentFeather>(12).
+                AddIngredient<HellcasterFragment>(4).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

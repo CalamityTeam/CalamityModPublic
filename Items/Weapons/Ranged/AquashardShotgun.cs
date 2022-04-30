@@ -66,7 +66,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Boomstick).AddIngredient(ModContent.ItemType<AerialiteBar>(), 2).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<PrismShard>(), 15).AddIngredient(ModContent.ItemType<VictideBar>(), 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Boomstick).
+                AddIngredient<AerialiteBar>(2).
+                AddIngredient<SeaPrism>(10).
+                AddIngredient<PrismShard>(15).
+                AddIngredient<VictideBar>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

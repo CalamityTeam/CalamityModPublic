@@ -49,7 +49,13 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20).AddIngredient(ItemID.IronBar, 8).AddIngredient(ItemID.Stinger, 5).AddIngredient(ItemID.Obsidian, 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<PlagueCellCluster>(20).
+                AddIngredient(ItemID.IronBar, 8).
+                AddIngredient(ItemID.Stinger, 5).
+                AddIngredient(ItemID.Obsidian, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -63,7 +63,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ThePack>()).AddIngredient(ModContent.ItemType<ScorchedEarth>()).AddIngredient(ModContent.ItemType<AethersWhisper>()).AddIngredient(ItemID.ElectrosphereLauncher).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<ThePack>().
+                AddIngredient<ScorchedEarth>().
+                AddIngredient<AethersWhisper>().
+                AddIngredient(ItemID.ElectrosphereLauncher).
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

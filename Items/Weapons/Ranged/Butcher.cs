@@ -52,7 +52,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Shotgun).AddIngredient(ItemID.IllegalGunParts).AddRecipeGroup("AnyCobaltBar", 5).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Shotgun).
+                AddIngredient(ItemID.IllegalGunParts).
+                AddRecipeGroup("AnyCobaltBar", 5).
+                AddIngredient<EssenceofChaos>(4).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -53,7 +53,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 30).AddIngredient(ItemID.FallenStar, 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<Stardust>(30).
+                AddIngredient(ItemID.FallenStar, 20).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

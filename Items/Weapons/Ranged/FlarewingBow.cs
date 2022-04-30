@@ -74,7 +74,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HellwingBow).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddIngredient(ItemID.LivingFireBlock, 50).AddIngredient(ItemID.Obsidian, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HellwingBow).
+                AddIngredient<EssenceofCinder>(5).
+                AddIngredient(ItemID.LivingFireBlock, 50).
+                AddIngredient(ItemID.Obsidian, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

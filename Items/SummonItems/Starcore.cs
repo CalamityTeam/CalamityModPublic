@@ -26,7 +26,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 25).AddIngredient(ModContent.ItemType<AstralJelly>(), 8).AddIngredient(ModContent.ItemType<AstralBar>(), 4).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<Stardust>(25).
+                AddIngredient<AstralJelly>(8).
+                AddIngredient<AstralBar>(4).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

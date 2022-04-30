@@ -78,7 +78,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DraedonBar>(), 12).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<DraedonBar>(12).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

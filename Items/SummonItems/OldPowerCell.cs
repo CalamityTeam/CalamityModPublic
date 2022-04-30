@@ -56,7 +56,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LunarTabletFragment, 20).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LunarTabletFragment, 20).
+                AddIngredient<EssenceofCinder>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

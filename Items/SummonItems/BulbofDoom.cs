@@ -47,7 +47,15 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.JungleSpores, 15).AddIngredient(ItemID.SoulofNight, 10).AddIngredient(ItemID.SoulofLight, 10).AddIngredient(ModContent.ItemType<MurkyPaste>(), 3).AddIngredient(ItemID.Vine).AddIngredient(ModContent.ItemType<TrapperBulb>()).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.JungleSpores, 15).
+                AddIngredient(ItemID.SoulofNight, 10).
+                AddIngredient(ItemID.SoulofLight, 10).
+                AddIngredient<MurkyPaste>(3).
+                AddIngredient(ItemID.Vine).
+                AddIngredient<TrapperBulb>().
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

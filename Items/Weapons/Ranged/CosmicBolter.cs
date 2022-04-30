@@ -70,7 +70,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LunarianBow>()).AddIngredient(ModContent.ItemType<LivingShard>(), 5).AddIngredient(ItemID.HallowedBar, 5).AddIngredient(ItemID.SoulofSight, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<LunarianBow>().
+                AddIngredient<LivingShard>(5).
+                AddIngredient(ItemID.HallowedBar, 5).
+                AddIngredient(ItemID.SoulofSight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

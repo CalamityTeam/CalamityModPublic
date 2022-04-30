@@ -75,7 +75,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Megashark).AddIngredient(ModContent.ItemType<Archerfish>()).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Megashark).
+                AddIngredient<Archerfish>().
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenite>(10).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

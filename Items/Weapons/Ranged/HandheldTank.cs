@@ -54,7 +54,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Shroomer>()).AddIngredient(ItemID.IronBar, 50).AddIngredient(ModContent.ItemType<DivineGeode>(), 5).AddIngredient(ItemID.TigerSkin).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<Shroomer>().
+                AddIngredient(ItemID.IronBar, 50).
+                AddIngredient<DivineGeode>(5).
+                AddIngredient(ItemID.TigerSkin).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

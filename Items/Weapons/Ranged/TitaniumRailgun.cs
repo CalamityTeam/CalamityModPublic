@@ -51,7 +51,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.TitaniumBar, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TitaniumBar, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

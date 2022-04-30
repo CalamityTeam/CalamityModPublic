@@ -53,7 +53,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.LunarTabletFragment, 15).AddIngredient(ItemID.LihzahrdBrick, 25).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.LunarTabletFragment, 15).
+                AddIngredient(ItemID.LihzahrdBrick, 25).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

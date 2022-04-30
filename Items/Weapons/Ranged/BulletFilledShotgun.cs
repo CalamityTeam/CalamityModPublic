@@ -66,7 +66,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.MusketBall, 100).AddIngredient(ItemID.IronBar, 7).AddIngredient(ModContent.ItemType<AerialiteBar>(), 3).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.MusketBall, 100).
+                AddIngredient(ItemID.IronBar, 7).
+                AddIngredient<AerialiteBar>(3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -45,7 +45,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PhoenixBlaster).AddIngredient(ItemID.CursedFlame, 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PhoenixBlaster).
+                AddIngredient(ItemID.CursedFlame, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

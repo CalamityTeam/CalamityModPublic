@@ -50,7 +50,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EffulgentFeather>(), 15).AddIngredient(ModContent.ItemType<BarofLife>(), 15).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<EffulgentFeather>(15).
+                AddIngredient<BarofLife>(15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

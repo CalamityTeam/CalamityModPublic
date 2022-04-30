@@ -58,7 +58,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PurifiedGel>(), 18).AddIngredient(ItemID.Gel, 15).AddIngredient(ItemID.HellstoneBar, 5).AddTile(ModContent.TileType<StaticRefiner>()).Register();
+            CreateRecipe().
+                AddIngredient<PurifiedGel>(18).
+                AddIngredient(ItemID.Gel, 15).
+                AddIngredient(ItemID.HellstoneBar, 5).
+                AddTile<StaticRefiner>().
+                Register();
         }
     }
 }
