@@ -68,7 +68,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Dualpoon>()).AddIngredient(ItemID.Harpoon).AddIngredient(ModContent.ItemType<DepthCells>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<Dualpoon>().
+                AddIngredient(ItemID.Harpoon).
+                AddIngredient<DepthCells>(15).
+                AddIngredient<Lumenite>(5).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

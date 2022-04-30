@@ -57,7 +57,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PiranhaGun).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 2).AddIngredient(ModContent.ItemType<BarofLife>()).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ItemID.SharkFin, 2).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PiranhaGun).
+                AddIngredient<CoreofCalamity>(2).
+                AddIngredient<BarofLife>().
+                AddIngredient<Tenebris>(5).
+                AddIngredient(ItemID.SharkFin, 2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

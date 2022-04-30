@@ -59,7 +59,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpectreBar, 7).AddIngredient(ModContent.ItemType<CoreofEleum>(), 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpectreBar, 7).
+                AddIngredient<CoreofEleum>(3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

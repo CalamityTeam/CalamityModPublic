@@ -43,7 +43,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBar>(), 7).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<AstralBar>(7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

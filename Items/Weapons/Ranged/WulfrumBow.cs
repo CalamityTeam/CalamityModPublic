@@ -37,7 +37,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WulfrumShard>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<WulfrumShard>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -99,7 +99,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SDFMG>()).AddIngredient(ItemID.SoulofMight, 10).AddIngredient(ItemID.SoulofSight, 10).AddIngredient(ItemID.SoulofFright, 10).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<SDFMG>().
+                AddIngredient(ItemID.SoulofMight, 10).
+                AddIngredient(ItemID.SoulofSight, 10).
+                AddIngredient(ItemID.SoulofFright, 10).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

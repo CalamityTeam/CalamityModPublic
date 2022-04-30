@@ -54,11 +54,6 @@ Replaces standard bullets with High Velocity Bullets
 
         public override Vector2? HoldoutOffset() => new Vector2(-25, 0);
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<P90>()).AddIngredient(ModContent.ItemType<Minigun>()).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (type == ProjectileID.Bullet) {
@@ -77,5 +72,15 @@ Replaces standard bullets with High Velocity Bullets
         }
 
         public override bool CanConsumeAmmo(Player player) => Main.rand.NextFloat() > 0.8f;
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<P90>().
+                AddIngredient<Minigun>().
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
+        }
     }
 }

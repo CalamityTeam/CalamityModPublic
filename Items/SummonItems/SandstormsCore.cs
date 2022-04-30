@@ -46,7 +46,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Ectoplasm, 10).AddIngredient(ItemID.HallowedBar, 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 3).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Ectoplasm, 10).
+                AddIngredient(ItemID.HallowedBar, 5).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

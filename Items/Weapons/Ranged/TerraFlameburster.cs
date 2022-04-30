@@ -51,7 +51,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Flamethrower).AddIngredient(ModContent.ItemType<LivingShard>(), 7).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Flamethrower).
+                AddIngredient<LivingShard>(7).
+                AddIngredient<EssenceofCinder>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

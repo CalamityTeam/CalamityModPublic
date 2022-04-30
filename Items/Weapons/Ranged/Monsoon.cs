@@ -90,7 +90,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Tsunami).AddIngredient(ModContent.ItemType<FlarewingBow>()).AddIngredient(ModContent.ItemType<ReaperTooth>(), 6).AddIngredient(ItemID.SharkFin, 2).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Tsunami).
+                AddIngredient<FlarewingBow>().
+                AddIngredient<ReaperTooth>(6).
+                AddIngredient(ItemID.SharkFin, 2).
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenite>(10).
+                AddIngredient<Tenebris>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

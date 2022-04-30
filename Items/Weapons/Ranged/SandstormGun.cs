@@ -60,7 +60,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Sandgun).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ItemID.Amber, 5).AddIngredient(ItemID.SandBlock, 50).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Sandgun).
+                AddIngredient<GrandScale>().
+                AddIngredient(ItemID.Amber, 5).
+                AddIngredient(ItemID.SandBlock, 50).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

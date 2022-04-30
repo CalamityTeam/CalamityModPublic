@@ -75,7 +75,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SniperRifle).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddIngredient(ModContent.ItemType<AstralJelly>(), 5).AddIngredient(ModContent.ItemType<Stardust>(), 50).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SniperRifle).
+                AddIngredient<UeliaceBar>(5).
+                AddIngredient<AstralJelly>(5).
+                AddIngredient<Stardust>(50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

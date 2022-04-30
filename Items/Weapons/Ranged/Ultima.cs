@@ -59,7 +59,16 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool CanConsumeAmmo(Player player) => Main.rand.Next(0, 100) >= 90;
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PulseBow).AddIngredient(ItemID.LaserRifle).AddIngredient(ModContent.ItemType<TheStorm>()).AddIngredient(ModContent.ItemType<AstralRepeater>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PulseBow).
+                AddIngredient(ItemID.LaserRifle).
+                AddIngredient<TheStorm>().
+                AddIngredient<AstralRepeater>().
+                AddIngredient<ExodiumClusterOre>(15).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

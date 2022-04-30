@@ -60,7 +60,16 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpiritFlame).AddIngredient(ItemID.ShadowFlameBow).AddIngredient(ModContent.ItemType<GreatbowofTurmoil>()).AddIngredient(ModContent.ItemType<BladedgeGreatbow>()).AddIngredient(ModContent.ItemType<DarkechoGreatbow>()).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpiritFlame).
+                AddIngredient(ItemID.ShadowFlameBow).
+                AddIngredient<GreatbowofTurmoil>().
+                AddIngredient<BladedgeGreatbow>().
+                AddIngredient<DarkechoGreatbow>().
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

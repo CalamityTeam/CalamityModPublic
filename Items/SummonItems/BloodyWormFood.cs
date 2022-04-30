@@ -48,7 +48,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Vertebrae, 13).AddIngredient(ModContent.ItemType<BloodSample>(), 7).AddIngredient(ItemID.CrimtaneBar, 3).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Vertebrae, 13).
+                AddIngredient<BloodSample>(7).
+                AddIngredient(ItemID.CrimtaneBar, 3).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -49,7 +49,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.FragmentSolar, 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<BarofLife>(5).
+                AddIngredient(ItemID.FragmentSolar, 20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

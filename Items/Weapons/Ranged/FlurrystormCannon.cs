@@ -63,7 +63,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SnowballCannon).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ModContent.ItemType<AerialiteBar>(), 10).AddIngredient(ItemID.Bone, 50).AddIngredient(ModContent.ItemType<VictoryShard>(), 25).AddIngredient(ItemID.WaterBucket, 3).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SnowballCannon).
+                AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient<AerialiteBar>(10).
+                AddIngredient(ItemID.Bone, 50).
+                AddIngredient<VictoryShard>(25).
+                AddIngredient(ItemID.WaterBucket, 3).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

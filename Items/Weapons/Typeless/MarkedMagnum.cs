@@ -61,7 +61,12 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 7).AddIngredient(ItemID.Obsidian, 15).AddIngredient(ItemID.GlowingMushroom, 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 7).
+                AddIngredient(ItemID.Obsidian, 15).
+                AddIngredient(ItemID.GlowingMushroom, 15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

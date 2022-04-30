@@ -61,7 +61,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<OpalStriker>()).AddIngredient(ModContent.ItemType<MagnaCannon>()).AddRecipeGroup("AnyAdamantiteBar", 6).AddIngredient(ItemID.Ectoplasm, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<OpalStriker>().
+                AddIngredient<MagnaCannon>().
+                AddRecipeGroup("AnyAdamantiteBar", 6).
+                AddIngredient(ItemID.Ectoplasm, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

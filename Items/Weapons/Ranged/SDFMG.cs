@@ -69,7 +69,17 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SDMG).AddIngredient(ModContent.ItemType<FetidEmesis>()).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 10).AddIngredient(ModContent.ItemType<Tenebris>(), 5).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SDMG).
+                AddIngredient<FetidEmesis>().
+                AddIngredient<SeaPrism>(10).
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenite>(10).
+                AddIngredient<Tenebris>(5).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

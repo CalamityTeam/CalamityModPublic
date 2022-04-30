@@ -42,11 +42,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Arrow;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 5).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             float num72 = Item.shootSpeed;
@@ -99,6 +94,14 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[num121].noDropItem = true;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BloodstoneCore>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

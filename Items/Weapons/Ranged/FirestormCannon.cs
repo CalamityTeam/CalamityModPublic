@@ -92,7 +92,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FlareGun).AddIngredient(ItemID.Boomstick).AddRecipeGroup("AnyGoldBar", 10).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FlareGun).
+                AddIngredient(ItemID.Boomstick).
+                AddRecipeGroup("AnyGoldBar", 10).
+                AddIngredient<VictoryShard>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

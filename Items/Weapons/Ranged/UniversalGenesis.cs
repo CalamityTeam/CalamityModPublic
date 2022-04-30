@@ -102,8 +102,23 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Interfacer>()).AddIngredient(ItemID.StarCloak, 3).AddIngredient(ModContent.ItemType<ArmoredShell>(), 2).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Interfacer>()).AddIngredient(ItemID.StarCloak, 3).AddIngredient(ModContent.ItemType<ArmoredShell>(), 2).AddIngredient(ModContent.ItemType<NebulousCore>()).AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<Interfacer>().
+                AddIngredient(ItemID.StarCloak, 3).
+                AddIngredient<ArmoredShell>(2).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<AscendantSpiritEssence>(5).
+                AddTile<CosmicAnvil>().
+                Register();
+
+            CreateRecipe().
+                AddIngredient<Interfacer>().
+                AddIngredient(ItemID.StarCloak, 3).
+                AddIngredient<ArmoredShell>(2).
+                AddIngredient<NebulousCore>().
+                AddIngredient<AscendantSpiritEssence>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

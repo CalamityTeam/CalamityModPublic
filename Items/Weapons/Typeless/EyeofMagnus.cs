@@ -55,7 +55,11 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LunicEye>()).AddIngredient(ItemID.FragmentNebula, 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<LunicEye>().
+                AddIngredient(ItemID.FragmentNebula, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

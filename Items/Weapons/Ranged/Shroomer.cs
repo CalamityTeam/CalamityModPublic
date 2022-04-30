@@ -52,7 +52,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SniperRifle).AddIngredient(ItemID.ShroomiteBar, 11).AddIngredient(ItemID.FragmentVortex, 15).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SniperRifle).
+                AddIngredient(ItemID.ShroomiteBar, 11).
+                AddIngredient(ItemID.FragmentVortex, 15).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

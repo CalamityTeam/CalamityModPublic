@@ -59,11 +59,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             return false;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.HellstoneBar, 10).AddIngredient(ItemID.MeteoriteBar, 10).AddIngredient(ModContent.ItemType<AerialiteBar>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddIngredient(ItemID.Glass, 20).AddIngredient(ItemID.Gel, 15).AddIngredient(ItemID.FallenStar, 5).AddTile(TileID.Anvils).Register();
-        }
-
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
@@ -72,6 +67,20 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Vaporfied>(), 120);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.HellstoneBar, 10).
+                AddIngredient(ItemID.MeteoriteBar, 10).
+                AddIngredient<AerialiteBar>(5).
+                AddIngredient<SeaPrism>(10).
+                AddIngredient(ItemID.Glass, 20).
+                AddIngredient(ItemID.Gel, 15).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -78,7 +78,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SnowmanCannon).AddIngredient(ItemID.GrenadeLauncher).AddIngredient(ItemID.RocketLauncher).AddIngredient(ItemID.FragmentVortex, 20).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SnowmanCannon).
+                AddIngredient(ItemID.GrenadeLauncher).
+                AddIngredient(ItemID.RocketLauncher).
+                AddIngredient(ItemID.FragmentVortex, 20).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

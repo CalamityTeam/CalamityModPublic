@@ -54,7 +54,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Scorpion>()).AddIngredient(ItemID.MarbleBlock, 50).AddIngredient(ModContent.ItemType<ArmoredShell>(), 4).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<Scorpion>().
+                AddIngredient(ItemID.MarbleBlock, 50).
+                AddIngredient<ArmoredShell>(4).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

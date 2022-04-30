@@ -52,7 +52,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TheStorm>()).AddIngredient(ModContent.ItemType<ReaperTooth>(), 3).AddIngredient(ModContent.ItemType<DivineGeode>(), 20).AddIngredient(ModContent.ItemType<Voidstone>(), 50).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<TheStorm>().
+                AddIngredient<ReaperTooth>(3).
+                AddIngredient<DivineGeode>(20).
+                AddIngredient<Voidstone>(50).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

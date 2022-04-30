@@ -52,7 +52,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SniperScope).AddIngredient(ModContent.ItemType<Lumenite>(), 6).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SniperScope).
+                AddIngredient<Lumenite>(6).
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<ExodiumClusterOre>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

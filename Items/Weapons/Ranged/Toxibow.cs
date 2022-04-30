@@ -52,7 +52,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 15).AddIngredient(ModContent.ItemType<Acidwood>(), 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SulfuricScale>(15).
+                AddIngredient<Acidwood>(20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

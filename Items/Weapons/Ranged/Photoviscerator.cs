@@ -108,7 +108,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ElementalEruption>()).AddIngredient(ModContent.ItemType<CleansingBlaze>()).AddIngredient(ModContent.ItemType<HalleysInferno>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<ElementalEruption>().
+                AddIngredient<CleansingBlaze>().
+                AddIngredient<HalleysInferno>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

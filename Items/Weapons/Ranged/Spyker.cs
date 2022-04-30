@@ -57,7 +57,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Needler>()).AddIngredient(ItemID.Stynger).AddIngredient(ModContent.ItemType<UeliaceBar>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<Needler>().
+                AddIngredient(ItemID.Stynger).
+                AddIngredient<UeliaceBar>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

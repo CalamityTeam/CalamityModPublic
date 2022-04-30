@@ -54,7 +54,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Shellshooter>()).AddIngredient(ModContent.ItemType<Toxibow>()).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<Shellshooter>().
+                AddIngredient<Toxibow>().
+                AddIngredient<CorrodedFossil>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

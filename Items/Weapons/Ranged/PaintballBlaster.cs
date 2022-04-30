@@ -72,7 +72,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PainterPaintballGun).AddIngredient(ItemID.SoulofSight, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PainterPaintballGun).
+                AddIngredient(ItemID.SoulofSight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

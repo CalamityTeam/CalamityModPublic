@@ -50,7 +50,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulphurousSand>(), 20).AddIngredient(ItemID.Starfish, 10).AddIngredient(ItemID.SharkFin, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SulphurousSand>(20).
+                AddIngredient(ItemID.Starfish, 10).
+                AddIngredient(ItemID.SharkFin, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

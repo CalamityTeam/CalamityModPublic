@@ -23,7 +23,11 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CalamitousEssence>(), 5).AddIngredient(ModContent.ItemType<CalamityDust>(), 15).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<CalamitousEssence>(5).
+                AddIngredient<CalamityDust>(15).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

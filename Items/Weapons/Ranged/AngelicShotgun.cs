@@ -126,7 +126,13 @@ Fighting 'til the war's won");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SunplateBlock, 75).AddIngredient(ModContent.ItemType<UeliaceBar>(), 10).AddIngredient(ModContent.ItemType<DivineGeode>(), 15).AddIngredient(ModContent.ItemType<CoreofCinder>(), 7).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SunplateBlock, 75).
+                AddIngredient<UeliaceBar>(10).
+                AddIngredient<DivineGeode>(15).
+                AddIngredient<CoreofCinder>(7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
 
     }

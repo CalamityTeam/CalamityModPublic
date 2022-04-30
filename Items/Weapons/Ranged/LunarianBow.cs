@@ -70,8 +70,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DemonBow).AddIngredient(ItemID.BeesKnees).AddIngredient(ItemID.MoltenFury).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddTile(TileID.DemonAltar).Register();
-            CreateRecipe(1).AddIngredient(ItemID.TendonBow).AddIngredient(ItemID.BeesKnees).AddIngredient(ItemID.MoltenFury).AddIngredient(ModContent.ItemType<PurifiedGel>(), 10).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DemonBow).
+                AddIngredient(ItemID.BeesKnees).
+                AddIngredient(ItemID.MoltenFury).
+                AddIngredient<PurifiedGel>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.TendonBow).
+                AddIngredient(ItemID.BeesKnees).
+                AddIngredient(ItemID.MoltenFury).
+                AddIngredient<PurifiedGel>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

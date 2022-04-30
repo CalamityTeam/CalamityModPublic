@@ -128,7 +128,11 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.TacticalShotgun).AddIngredient(ItemID.FragmentVortex, 7).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.TacticalShotgun).
+                AddIngredient(ItemID.FragmentVortex, 7).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

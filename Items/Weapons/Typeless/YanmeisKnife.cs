@@ -59,7 +59,13 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.PsychoKnife).AddIngredient(ItemID.Obsidian, 10).AddIngredient(ItemID.IronBar, 20).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 50).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.PsychoKnife).
+                AddIngredient(ItemID.Obsidian, 10).
+                AddIngredient(ItemID.IronBar, 20).
+                AddIngredient<PlagueCellCluster>(50).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

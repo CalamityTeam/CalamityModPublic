@@ -67,7 +67,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Harpoon, 2).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ItemID.SoulofMight, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Harpoon, 2).
+                AddIngredient<SeaPrism>(15).
+                AddIngredient(ItemID.SoulofMight, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

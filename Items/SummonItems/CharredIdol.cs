@@ -51,7 +51,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SoulofNight, 5).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7).AddIngredient(ModContent.ItemType<UnholyCore>(), 2).AddTile(TileID.Hellforge).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SoulofNight, 5).
+                AddIngredient<EssenceofChaos>(7).
+                AddIngredient<UnholyCore>(2).
+                AddTile(TileID.Hellforge).
+                Register();
         }
     }
 }
