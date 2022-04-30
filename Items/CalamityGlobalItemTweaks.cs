@@ -247,6 +247,7 @@ namespace CalamityMod.Items
                 { ItemID.Kraken, autoReuse },
                 { ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4)) },
                 { ItemID.LastPrism, Do(DamageRatio(0.75f)) },
+                { ItemID.LavaSkull, Do(DefenseExact(4)) },
                 { ItemID.LeadAxe, Do(AxePower(60), UseTimeExact(15), TileBoostExact(+0)) },
                 { ItemID.LeadBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.LeadBroadsword, Do(AutoReuse, UseTurn, DamageRatio(1.25f)) },
@@ -281,6 +282,7 @@ namespace CalamityMod.Items
                 { ItemID.MoltenFury, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.MoltenHamaxe, Do(HammerPower(75), AxePower(125), UseTimeExact(14), TileBoostExact(+0)) },
                 { ItemID.MoltenPickaxe, Do(PickPower(100), UseTimeExact(10)) },
+                { ItemID.MoltenSkullRose, Do(DefenseExact(8)) },
                 { ItemID.MonkStaffT1, Do(TrueMelee, DamageExact(110)) },
                 { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) },
                 { ItemID.MonkStaffT3, Do(DamageExact(225)) },
@@ -306,6 +308,7 @@ namespace CalamityMod.Items
                 { ItemID.NorthPole, autoReuse },
                 { ItemID.ObsidianShield, Do(DefenseDelta(+5)) },
                 { ItemID.ObsidianSkull, Do(DefenseDelta(+1)) },
+                { ItemID.ObsidianSkullRose, Do(DefenseExact(4)) },
                 { ItemID.ObsidianSwordfish, Do(AutoReuse, TrueMelee, DamageExact(45)) },
                 { ItemID.OnyxBlaster, pointBlank },
                 { ItemID.OpticStaff, Do(AutoReuse, UseExact(25), DamageRatio(0.75f)) }, // NOTE: Optic Staff minions have local iframes, so they should be much better overall
@@ -690,7 +693,7 @@ namespace CalamityMod.Items
             internal readonly int newDefense = 0;
 
             public DefenseExactRule(int def) => newDefense = def;
-            public bool AppliesTo(Item it) => HasDefense(it);
+            public bool AppliesTo(Item it) => HasDefense(it) || it.accessory;
             public void ApplyTweak(Item it)
             {
                 it.defense = newDefense;

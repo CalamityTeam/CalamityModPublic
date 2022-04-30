@@ -451,6 +451,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Once before DoG spawns, set new size and become visible again.
                 if (CalamityWorld.DoGSecondStageCountdown == 60)
                 {
+                    preventBullshitHitsAtStartofFinalPhaseTimer = 180;
                     NPC.position = NPC.Center;
                     NPC.width = 186;
                     NPC.height = 186;
@@ -613,7 +614,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 NPC.Opacity = 1f;
                         }
 
-                        // This exists so that DoG doesn't sometimes instantly kill the player when he goes to final phase
+                        // This exists so that DoG doesn't sometimes hit the player when he goes to phase 2 or final phase
                         if (preventBullshitHitsAtStartofFinalPhaseTimer > 0)
                         {
                             preventBullshitHitsAtStartofFinalPhaseTimer--;

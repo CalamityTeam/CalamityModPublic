@@ -2553,8 +2553,6 @@ namespace CalamityMod.NPCs
                             Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Normalize(destination - npc.Center) * velocity, type, damage, 0f, Main.myPlayer);
                         }
-
-                        npc.netUpdate = true;
                     }
 
                     if (npc.localAI[0] >= 180f)
@@ -2603,8 +2601,6 @@ namespace CalamityMod.NPCs
                                 num182 *= num183;
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer);
                             }
-
-                            npc.netUpdate = true;
                         }
                     }
                 }
@@ -2628,7 +2624,7 @@ namespace CalamityMod.NPCs
 
                 // Stay vulnerable for a maximum of 2 seconds
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 120f || malice)
+                if (npc.ai[1] >= (phase2 ? 30f : 120f) || malice)
                 {
                     // Stop colliding with tiles
                     npc.noTileCollide = true;
@@ -2883,8 +2879,6 @@ namespace CalamityMod.NPCs
                             num182 *= num183;
                             Projectile.NewProjectile(npc.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
-
-                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -2983,7 +2977,6 @@ namespace CalamityMod.NPCs
                                     npc.life = 1;
 
                                 npc.HealEffect(-damageAmt, true);
-                                npc.netUpdate = true;
                             }
                         }
 
@@ -3087,7 +3080,6 @@ namespace CalamityMod.NPCs
                                 npc.life = 1;
 
                             npc.HealEffect(-damageAmt, true);
-                            npc.netUpdate = true;
                         }
                     }
 
