@@ -147,19 +147,6 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Run Speed Changes
-        private static void MaxRunSpeedAdjustment(ILContext il)
-        {
-            // Increase the base max run speed of the player to make early game less of a slog.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(3f))) // The maxRunSpeed variable is set to this specific value before anything else occurs.
-            {
-                LogFailure("Base Max Run Speed Buff", "Could not locate the max run speed variable.");
-                return;
-            }
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 4.5f); // Increase by 50%.
-        }
-
         private static void RunSpeedAdjustments(ILContext il)
         {
             var cursor = new ILCursor(il);

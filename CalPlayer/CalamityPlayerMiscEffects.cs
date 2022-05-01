@@ -2456,6 +2456,9 @@ namespace CalamityMod.CalPlayer
                 Player.crimsonRegen = true;
             }
 
+            // 50% movement speed bonus so that you don't feel like a snail in the early game.
+            Player.moveSpeed += 0.5f;
+
             if (cirrusDress)
                 Player.moveSpeed -= 0.2f;
 
