@@ -466,6 +466,7 @@ namespace CalamityMod.NPCs.Crabulon
 
                     int type = ModContent.ProjectileType<MushBombFall>();
                     int damage = NPC.GetProjectileDamage(type);
+                    float velocityY = BossRushEvent.BossRushActive ? 8f : CalamityWorld.malice ? 6f : CalamityWorld.death ? 4f : 3f;
 
                     if (NPC.ai[2] % 2f == 0f && phase2 && revenge)
                     {
@@ -479,8 +480,8 @@ namespace CalamityMod.NPCs.Crabulon
 
                             for (int x = 0; x < totalMushrooms; x++)
                             {
-                                float randomVelocityX = velocityX + Main.rand.NextFloat() - 0.5f;
-                                float randomVelocityY = Main.rand.NextFloat() - 0.5f;
+                                float randomVelocityX = velocityX + (Main.rand.NextFloat() - 0.5f) * 4f;
+                                float randomVelocityY = velocityY + (Main.rand.NextFloat() - 0.5f) * 4f;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, randomVelocityX, randomVelocityY, type, damage, 0f, Main.myPlayer);
                                 shotSpacing -= shotSpacingDecrement;
                             }
@@ -497,7 +498,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             for (int x = 0; x < 20; x++)
                             {
-                                float randomVelocityY = Main.rand.NextFloat() - 0.5f;
+                                float randomVelocityY = velocityY + (Main.rand.NextFloat() - 0.5f) * 4f;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X + shotSpacing, NPC.Center.Y - 1000f, 0f, randomVelocityY, type, damage, 0f, Main.myPlayer);
                                 shotSpacing -= 100;
                             }

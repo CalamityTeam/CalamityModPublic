@@ -32,8 +32,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Projectile.velocity.Y = BossRushEvent.BossRushActive ? 10f : CalamityWorld.malice ? 8f : CalamityWorld.death ? 6f : 5f;
-
             Projectile.frameCounter++;
             if (Projectile.frameCounter > 4)
             {
@@ -41,9 +39,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frameCounter = 0;
             }
             if (Projectile.frame > 3)
-            {
                 Projectile.frame = 0;
-            }
 
             if (Projectile.timeLeft < 90)
                 Projectile.tileCollide = true;
@@ -52,6 +48,10 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Math.Abs(Projectile.velocity.X) > 2f)
                 Projectile.velocity.X *= 0.99f;
+
+            float velocityYLimit = BossRushEvent.BossRushActive ? 10f : CalamityWorld.malice ? 8f : CalamityWorld.death ? 6f : 5f;
+            if (Projectile.velocity.Y > velocityYLimit)
+                Projectile.velocity.Y = velocityYLimit;
         }
 
         public override bool PreDraw(ref Color lightColor)
