@@ -147,13 +147,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                     }
                 }
+                return;
             }
 
             Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            float num188 = CalamityWorld.malice ? 18f : CalamityWorld.revenge ? 16f : 14f;
-            float num189 = CalamityWorld.malice ? 0.17f : CalamityWorld.revenge ? 0.15f : 0.13f;
+            float num191 = Main.npc[CalamityGlobalNPC.DoGHead].position.X + (Main.npc[CalamityGlobalNPC.DoGHead].width / 2);
+            float num192 = Main.npc[CalamityGlobalNPC.DoGHead].position.Y + (Main.npc[CalamityGlobalNPC.DoGHead].height / 2);
+            float num188 = CalamityWorld.malice ? 30f : CalamityWorld.revenge ? 25f : 23f;
+            float num189 = CalamityWorld.malice ? 0.9f : CalamityWorld.revenge ? 0.75f : 0.23f;
 
             if (increaseSpeedMore)
                 num189 *= 3f;
@@ -162,10 +163,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             for (int num52 = 0; num52 < Main.maxNPCs; num52++)
             {
-                if (Main.npc[num52].active && Main.npc[num52].type == NPC.type && num52 != NPC.whoAmI)
+                if (Main.npc[num52].active && (Main.npc[num52].type == NPC.type || Main.npc[num52].type == ModContent.NPCType<DevourerofGodsHead>()) && num52 != NPC.whoAmI)
                 {
                     Vector2 vector4 = Main.npc[num52].Center - NPC.Center;
-                    if (vector4.Length() < 60f)
+                    if (vector4.Length() < 400f)
                     {
                         vector4.Normalize();
                         vector4 *= 200f;

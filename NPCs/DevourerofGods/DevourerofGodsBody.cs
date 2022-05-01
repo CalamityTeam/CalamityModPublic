@@ -1,12 +1,15 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -130,7 +133,13 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
-            if (NPC.life / (float)NPC.lifeMax < 0.6f)
+            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.6f;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+            if (phase2)
             {
                 phase2Started = true;
 
@@ -192,6 +201,62 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.HitEffect(0, 10.0);
                 NPC.checkDead();
                 NPC.active = false;
+            }
+
+            // Lasers
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                if (!NPC.dontTakeDamage && NPC.Opacity >= 1f && invinceTime <= 0)
+                {
+                    if (phase2)
+                    {
+                        // Fire lasers from every 10th body segment if not in laser wall phase
+                        float laserWallPhaseGateValue = 720f;
+                        if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] < laserWallPhaseGateValue - 180f)
+                        {
+                            NPC.localAI[0] += 1f;
+                            float laserGateValue = malice ? 156f : death ? 180f : 192f;
+                            if (NPC.localAI[0] >= laserGateValue && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
+                            {
+                                NPC.localAI[0] = 0f;
+                                if (!AnyTeleportRifts())
+                                {
+                                    SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                    NPC.TargetClosest();
+                                    float projectileVelocity = malice ? 10f : death ? 9f : revenge ? 8.5f : expertMode ? 8f : 7f;
+                                    Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
+                                    int type = ModContent.ProjectileType<DoGDeath>();
+                                    int damage = NPC.GetProjectileDamage(type);
+                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
+                                    Main.projectile[proj].timeLeft = 900;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Fire lasers from every 10th body segment if not in laser barrage phase
+                        float laserBarrageGateValue = malice ? 780f : death ? 900f : 960f;
+                        float laserBarrageShootGateValue = malice ? 160f : 240f;
+                        float laserBarragePhaseGateValue = laserBarrageGateValue - laserBarrageShootGateValue * 1.5f;
+                        if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[1] < laserBarragePhaseGateValue)
+                        {
+                            NPC.localAI[0] += 1f;
+                            if (NPC.localAI[0] >= laserBarrageGateValue * 0.2f && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
+                            {
+                                SoundEngine.PlaySound(SoundID.Item12, player.position);
+                                NPC.localAI[0] = 0f;
+                                NPC.TargetClosest();
+                                float projectileVelocity = malice ? 9f : death ? 8f : revenge ? 7.5f : expertMode ? 7f : 6f;
+                                Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
+                                int type = ModContent.ProjectileType<DoGDeath>();
+                                int damage = NPC.GetProjectileDamage(type);
+                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
+                                Main.projectile[proj].timeLeft = 900;
+                            }
+                        }
+                    }
+                }
             }
 
             if (Main.npc[(int)NPC.ai[1]].Opacity >= 0.5f && (!setOpacity || (CalamityWorld.DoGSecondStageCountdown <= 60 && CalamityWorld.DoGSecondStageCountdown > 0)))
@@ -274,6 +339,16 @@ namespace CalamityMod.NPCs.DevourerofGods
                 else if (num191 > 0f)
                     NPC.spriteDirection = 1;
             }
+        }
+
+        private bool AnyTeleportRifts()
+        {
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (Main.projectile[i].type == ModContent.ProjectileType<DoGTeleportRift>())
+                    return true;
+            }
+            return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
