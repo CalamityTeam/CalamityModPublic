@@ -5151,11 +5151,9 @@ namespace CalamityMod.CalPlayer
                     if (amount > 1f)
                         amount = 1f;
 
-                    float damageReduction = MathHelper.Lerp(velocityScalar, 1.1f, amount);
+                    float damageReduction = MathHelper.Lerp(velocityScalar, 1f, amount);
                     if (damageReduction < 1f)
                         contactDamageReduction += 1f - damageReduction;
-                    else
-                        damage = (int)(damage * damageReduction);
                 }
             }
 
