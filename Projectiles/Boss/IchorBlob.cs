@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (Projectile.position.Y > Projectile.ai[1] - 32f)
+            if (Projectile.position.Y > Projectile.ai[1] - 48f)
                 Projectile.tileCollide = true;
 
             // Deal no damage and increment the variable used to kill the projectile after 15 seconds
@@ -135,6 +135,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
 
                 Projectile.rotation = 0f;
+                Projectile.gfxOffY = 4f;
 
                 Projectile.frameCounter++;
                 if (Projectile.frameCounter > 6)
@@ -148,7 +149,7 @@ namespace CalamityMod.Projectiles.Boss
 
             // Do velocity code after the frame code, to avoid messing anything up
             // Reduce x velocity every frame
-            Projectile.velocity.X *= 0.99f;
+            Projectile.velocity.X *= 0.995f;
 
             // Stop falling if water or lava is hit
             if (Projectile.wet || Projectile.lavaWet)
