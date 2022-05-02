@@ -7,6 +7,7 @@ using ReLogic.Content;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -32,6 +33,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             DisplayName.SetDefault("Ohio Beam");
             Main.projFrames[Projectile.type] = 5;
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
             // This is its serious name
             // DisplayName.SetDefault("Exothermal Artemis Beam");
         }

@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             DisplayName.SetDefault("Old Duke Summoner");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
         }
 
         public override void SetDefaults()

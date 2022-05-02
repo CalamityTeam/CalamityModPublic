@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     if (vector4.Length() < 400f)
                     {
                         vector4.Normalize();
-                        vector4 *= 800f;
+                        vector4 *= 400f;
                         num191 -= vector4.X;
                         num192 -= vector4.Y;
                     }

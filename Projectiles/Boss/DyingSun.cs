@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -14,7 +15,11 @@ namespace CalamityMod.Projectiles.Boss
         public ref float Time => ref Projectile.ai[0];
         public ref float Radius => ref Projectile.ai[1];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Dying Sun");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dying Sun");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {

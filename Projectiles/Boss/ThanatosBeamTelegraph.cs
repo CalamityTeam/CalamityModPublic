@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -18,7 +19,11 @@ namespace CalamityMod.Projectiles.Boss
         public const int Lifetime = 180;
         public const float TelegraphWidth = 3600f;
         public const float BeamPosOffset = 16f;
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Gamma Disintegration Beam Telegraph");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gamma Disintegration Beam Telegraph");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {

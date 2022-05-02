@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
@@ -18,7 +19,11 @@ namespace CalamityMod.Projectiles.Boss
         public PrimitiveTrail RayDrawer = null;
         private const int Lifetime = CalamityWorld.DraedonSummonCountdownMax - 60;
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Giant Fuck-off Deathray of Doom");
+        public override void SetStaticDefaults() 
+        {
+            DisplayName.SetDefault("Giant Fuck-off Deathray of Doom");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {

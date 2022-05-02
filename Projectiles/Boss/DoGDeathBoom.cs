@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.BaseProjectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -15,7 +16,11 @@ namespace CalamityMod.Projectiles.Boss
         }
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Cosmic Explosion");
+        public override void SetStaticDefaults() 
+        {
+            DisplayName.SetDefault("Cosmic Explosion");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {

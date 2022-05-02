@@ -14,7 +14,11 @@ namespace CalamityMod.Projectiles.Boss
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
         public ref float Time => ref Projectile.ai[0];
         public const int TotalRitualTime = 270;
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Calamitous Ritual Drama");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Calamitous Ritual Drama");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {

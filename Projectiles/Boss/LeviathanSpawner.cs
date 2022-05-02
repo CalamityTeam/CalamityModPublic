@@ -16,7 +16,11 @@ namespace CalamityMod.Projectiles.Boss
     {
         internal ref float Time => ref Projectile.ai[0];
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Spawner");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spawner");
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 10000;
+        }
 
         public override void SetDefaults()
         {
