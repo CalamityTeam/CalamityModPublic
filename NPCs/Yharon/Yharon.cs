@@ -2572,10 +2572,10 @@ namespace CalamityMod.NPCs.Yharon
             bool idlePhases = (!startSecondAI && (NPC.ai[0] == 0f || NPC.ai[0] == 6f || NPC.ai[0] == 13f)) || (startSecondAI && (NPC.ai[0] == 5f || NPC.ai[0] < 2f));
 
             bool chargingOrSpawnPhases = (!startSecondAI && (NPC.ai[0] == 1f || NPC.ai[0] == 5f || NPC.ai[0] == 7f || NPC.ai[0] == 11f || NPC.ai[0] == 14f || NPC.ai[0] == 18f)) ||
-                (startSecondAI && (NPC.ai[0] == 6f || NPC.ai[0] == 2f || NPC.ai[0] == 7f));
+                (startSecondAI && (NPC.ai[0] == 6f || NPC.ai[0] == 2f || NPC.ai[0] == 3f || NPC.ai[0] == 7f));
 
             bool projectileOrCirclePhases = (!startSecondAI && (NPC.ai[0] == 2f || NPC.ai[0] == 8f || NPC.ai[0] == 12f || NPC.ai[0] == 15f || NPC.ai[0] == 19f || NPC.ai[0] == 20f)) ||
-                (startSecondAI && (NPC.ai[0] == 4f || NPC.ai[0] == 3f));
+                (startSecondAI && NPC.ai[0] == 4f);
 
             bool tornadoPhase = !startSecondAI && (NPC.ai[0] == 3f || NPC.ai[0] == 9f || NPC.ai[0] == -1f || NPC.ai[0] == 16f);
 
