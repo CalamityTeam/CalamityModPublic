@@ -215,28 +215,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Fire lasers
                 if (npc.type == NPCID.TheDestroyerBody)
                 {
-                    // Set to a high number from the start so that the lasers are more staggered
-                    if (calamityGlobalNPC.newAI[0] < 5400f)
-                        calamityGlobalNPC.newAI[0] = 5400f;
-
                     // Laser rate of fire
                     calamityGlobalNPC.newAI[0] += 1f;
-                    float shootProjectile = death ? 300 : 600;
-                    float timer = npc.ai[0] + 15f;
-                    float divisor = timer + shootProjectile;
+                    float shootProjectile = death ? 180 : 300;
+                    float timer = npc.ai[0] * 30f;
+                    float shootProjectileGateValue = timer + shootProjectile;
 
-                    if (calamityGlobalNPC.newAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
+                    // Shoot lasers
+                    // 50% chance to not shoot if probe has been launched
+                    bool probeLaunched = npc.ai[2] == 1f;
+                    if (calamityGlobalNPC.newAI[0] >= shootProjectileGateValue)
                     {
+                        calamityGlobalNPC.newAI[0] = 0f;
                         npc.TargetClosest();
-                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && (!probeLaunched || Main.rand.NextBool()))
                         {
                             // Laser speed
-                            float projectileSpeed = 4f + Main.rand.NextFloat();
+                            float projectileSpeed = 3.5f + Main.rand.NextFloat() * 1.5f;
                             projectileSpeed += enrageScale;
 
-                            // Set projectile damage and type, set projectile to saucer scrap if probe has been launched
+                            // Set projectile damage and type
                             int projectileType = ProjectileID.DeathLaser;
-                            float laserSpawnDistance = 5f;
+                            float laserSpawnDistance = 10f;
                             int random = phase3 ? 4 : phase2 ? 3 : 2;
                             switch (Main.rand.Next(random))
                             {
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (calamityGlobalNPC.newAI[2] > 0f || malice)
                             {
                                 projectileType = ModContent.ProjectileType<DestroyerElectricLaser>();
-                                laserSpawnDistance = 10f;
+                                laserSpawnDistance = 20f;
                             }
 
                             // Get target vector
