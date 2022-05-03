@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.alpha = 255;
+            NPC.Opacity = 0f;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -101,19 +101,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.active = false;
             }
 
-            if (Main.npc[(int)NPC.ai[1]].alpha < 128)
-            {
-                if (NPC.alpha != 0)
-                {
-                    int num935 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 182, 0f, 0f, 100, default, 2f);
-                    Main.dust[num935].noGravity = true;
-                    Main.dust[num935].noLight = true;
-                }
-
-                NPC.alpha -= 42;
-                if (NPC.alpha < 0)
-                    NPC.alpha = 0;
-            }
+            NPC.Opacity = Main.npc[(int)NPC.ai[2]].Opacity;
 
             Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
             float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
@@ -173,7 +161,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
-            return true;
+            return NPC.Opacity >= 1f && invinceTime <= 0;
         }
 
         public override void HitEffect(int hitDirection, double damage)

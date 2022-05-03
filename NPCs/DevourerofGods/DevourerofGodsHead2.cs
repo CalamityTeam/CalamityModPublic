@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.alpha = 255;
+            NPC.Opacity = 0f;
             NPC.behindTiles = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
@@ -87,17 +87,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
 
-            if (NPC.alpha != 0)
-            {
-                int num935 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 182, 0f, 0f, 100, default, 2f);
-                Main.dust[num935].noGravity = true;
-                Main.dust[num935].noLight = true;
-            }
-
-            NPC.alpha -= 12;
-            if (NPC.alpha < 0)
-                NPC.alpha = 0;
-
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!tail && NPC.ai[0] == 0f)
@@ -132,19 +121,40 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (player.dead || CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
                 NPC.TargetClosest(false);
+
                 NPC.velocity.Y -= 3f;
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
-                {
                     NPC.velocity.Y -= 3f;
-                }
+
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
                     for (int a = 0; a < Main.maxNPCs; a++)
                     {
                         if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
-                        {
                             Main.npc[a].active = false;
-                        }
+                    }
+                }
+                return;
+            }
+
+            NPC.Opacity = Main.npc[CalamityGlobalNPC.DoGHead].Opacity;
+
+            // Fly up and despawn if DoG enters phase 2 and isn't in the final Cosmic Guardian spawn phase.
+            bool flyAwayAndDespawn = Main.npc[CalamityGlobalNPC.DoGHead].life / (float)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax < 0.6f && Main.npc[CalamityGlobalNPC.DoGHead].life / (float)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax > 0.18f;
+            if (flyAwayAndDespawn)
+            {
+                NPC.TargetClosest(false);
+
+                NPC.velocity.Y -= 3f;
+                if ((double)NPC.position.Y < Main.topWorld + 16f)
+                    NPC.velocity.Y -= 3f;
+
+                if ((double)NPC.position.Y < Main.topWorld + 16f)
+                {
+                    for (int a = 0; a < Main.maxNPCs; a++)
+                    {
+                        if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
+                            Main.npc[a].active = false;
                     }
                 }
                 return;
@@ -345,7 +355,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
-            return true;
+            return NPC.Opacity >= 1f && invinceTime <= 0;
         }
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
