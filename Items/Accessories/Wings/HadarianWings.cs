@@ -24,8 +24,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 1.75\n" +
                 "Good vertical speed\n" +
-                "Flight time: 120\n" +
-                "10% increased movement and jump speed while wearing the Astral Armor");
+                "Flight time: 120");
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 9f, 1.75f);
         }
 
@@ -40,12 +39,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.armor[0].type == ModContent.ItemType<AstralHelm>() && player.armor[1].type == ModContent.ItemType<AstralBreastplate>() && player.armor[2].type == ModContent.ItemType<AstralLeggings>())
-            {
-                player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 0.5f;
-            }
-
             if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0)
             {
                 if (player.controlDown && !player.merman)

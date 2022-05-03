@@ -1168,8 +1168,6 @@ namespace CalamityMod.Items
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
             {
-                player.moveSpeed += 0.15f;
-                player.jumpSpeedBoost += 0.9f;
                 player.gills = true;
                 player.ignoreWater = true;
                 player.noFallDmg = true;
@@ -1202,10 +1200,8 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (!Main.dayTime || Main.eclipse)
                 {
-                    player.jumpSpeedBoost += 0.5f;
                     player.GetDamage<GenericDamageClass>() += 0.07f;
                     modPlayer.AllCritBoost(3);
-                    player.moveSpeed += 0.1f;
                 }
             }
             else if (item.type == ItemID.HarpyWings)
@@ -1230,8 +1226,6 @@ namespace CalamityMod.Items
             {
                 player.statDefense += 5;
                 player.GetDamage<GenericDamageClass>() += 0.05f;
-                player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 0.6f;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FrozenWings) // Bonus to melee and ranged stats while wearing frost armor

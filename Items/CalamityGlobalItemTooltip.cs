@@ -777,8 +777,7 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.FinWings)
                 AddWingStats(6.75f, 1f, 1, 130, "Gills effect and you can move freely through liquids\n" +
-                    "You fall faster while submerged in liquid\n" +
-                    "15% increased movement speed and 18% increased jump speed");
+                    "You fall faster while submerged in liquid");
 
             if (item.type == ItemID.FishronWings)
                 AddWingStats(8f, 2f, 2, 180);
@@ -791,7 +790,6 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.BatWings)
                 AddWingStats(7.5f, 1f, 1, 160, "At night or during an eclipse, you will gain the following boosts:\n" +
-                    "10% increased movement speed, 10% increased jump speed,\n" +
                     "7% increased damage and 3% increased critical strike chance");
 
             // All developer wings have identical stats and no special effects
@@ -819,8 +817,7 @@ namespace CalamityMod.Items
                 AddWingStats(7.5f, 1f, 1, 180, "+40 max life\nOrnaments rain down as you fly");
 
             if (item.type == ItemID.MothronWings)
-                AddWingStats(7.5f, 1f, 1, 170, "+5 defense, 5% increased damage,\n" +
-                    "10% increased movement speed and 12% increased jump speed");
+                AddWingStats(7.5f, 1f, 1, 170, "+5 defense and 5% increased damage");
 
             if (item.type == ItemID.WingsSolar)
                 AddWingStats(9f, 2.5f, 3, 180, "7% increased melee damage and 3% increased melee critical strike chance\n" +

@@ -22,8 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 8.00\n" +
                 "Acceleration multiplier: 1.5\n" +
                 "Good vertical speed\n" +
-                "Flight time: 80\n" +
-                "10% increased movement speed while wearing the Reaver Armor");
+                "Flight time: 80");
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 8f, 1.5f);
         }
 
@@ -38,13 +37,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<ReaverHelm>() || player.armor[0].type == ModContent.ItemType<ReaverHeadgear>() ||
-                player.armor[0].type == ModContent.ItemType<ReaverVisage>()) && player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() &&
-                player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
-            {
-                player.moveSpeed += 0.1f;
-            }
-
             if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 player.rocketDelay2--;
