@@ -1695,6 +1695,70 @@ namespace CalamityMod.Projectiles
                     return true;
                 }
 
+                // Moon Lord leech tongue
+                else if (projectile.type == ProjectileID.MoonLeech)
+                {
+                    Vector2 value35 = new Vector2(0f, 216f);
+                    projectile.alpha -= 15;
+                    if (projectile.alpha < 0)
+                        projectile.alpha = 0;
+
+                    int num738 = (int)Math.Abs(projectile.ai[0]) - 1;
+                    int num739 = (int)projectile.ai[1];
+                    if (!Main.npc[num738].active || Main.npc[num738].type != NPCID.MoonLordHead)
+                    {
+                        projectile.Kill();
+                        return false;
+                    }
+
+                    projectile.localAI[0]++;
+                    if (projectile.localAI[0] >= 330f && projectile.ai[0] > 0f && Main.netMode != 1)
+                    {
+                        projectile.ai[0] *= -1f;
+                        projectile.netUpdate = true;
+                    }
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && projectile.ai[0] > 0f && (!Main.player[(int)projectile.ai[1]].active || Main.player[(int)projectile.ai[1]].dead))
+                    {
+                        projectile.ai[0] *= -1f;
+                        projectile.netUpdate = true;
+                    }
+
+                    projectile.rotation = (Main.npc[(int)Math.Abs(projectile.ai[0]) - 1].Center - Main.player[(int)projectile.ai[1]].Center + value35).ToRotation() + (float)Math.PI / 2f;
+                    if (projectile.ai[0] > 0f)
+                    {
+                        Vector2 value36 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
+                        if (value36.X != 0f || value36.Y != 0f)
+                            projectile.velocity = Vector2.Normalize(value36) * Math.Min(32f, value36.Length());
+                        else
+                            projectile.velocity = Vector2.Zero;
+
+                        if (value36.Length() < 40f && projectile.localAI[1] == 0f)
+                        {
+                            projectile.localAI[1] = 1f;
+                            int timeToAdd = 840;
+                            if (Main.expertMode)
+                                timeToAdd = 960;
+
+                            if (!Main.player[num739].creativeGodMode)
+                                Main.player[num739].AddBuff(BuffID.MoonLeech, timeToAdd);
+                        }
+                    }
+                    else
+                    {
+                        Vector2 value37 = Main.npc[(int)Math.Abs(projectile.ai[0]) - 1].Center - projectile.Center + value35;
+                        if (value37.X != 0f || value37.Y != 0f)
+                            projectile.velocity = Vector2.Normalize(value37) * Math.Min(32f, value37.Length());
+                        else
+                            projectile.velocity = Vector2.Zero;
+
+                        if (value37.Length() < 40f)
+                            projectile.Kill();
+                    }
+
+                    return false;
+                }
+
                 // Moon Lord Deathray
                 else if (projectile.type == ProjectileID.PhantasmalDeathray)
                 {

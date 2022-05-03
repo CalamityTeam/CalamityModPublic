@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -832,12 +832,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                     }
 
-                    if ((num1207 == 120f || num1207 == 180f || num1207 == 240f) && Main.netMode != NetmodeID.MultiplayerClient)
+                    if ((num1207 == 120f || num1207 == 150f || num1207 == 180f || num1207 == 210f || num1207 == 240f) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         for (int num1229 = 0; num1229 < Main.maxProjectiles; num1229++)
                         {
                             Projectile projectile6 = Main.projectile[num1229];
-                            if (projectile6.active && projectile6.type == ProjectileID.MoonLeech && Main.player[(int)projectile6.ai[1]].FindBuffIndex(145) != -1)
+                            if (projectile6.active && projectile6.type == ProjectileID.MoonLeech && Main.player[(int)projectile6.ai[1]].FindBuffIndex(BuffID.MoonLeech) != -1)
                             {
                                 Vector2 center21 = Main.player[npc.target].Center;
                                 int num1230 = NPC.NewNPC(npc.GetSource_FromAI(), (int)center21.X, (int)center21.Y, NPCID.MoonLordLeechBlob);
@@ -2111,7 +2111,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             else if (npc.type == NPCID.MoonLordLeechBlob)
             {
                 // Variables
-                float num1265 = 75f;
+                float num1265 = 120f;
                 Vector2 value28 = new Vector2(0f, 216f);
                 int num1266 = (int)Math.Abs(npc.ai[0]) - 1;
                 int num1267 = (int)npc.ai[1];
@@ -2223,7 +2223,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Emit dust
                 Vector2 spinningpoint3 = Vector2.UnitY * -npc.height / 2f;
-                for (int num1286 = 0; num1286 < 6; num1286++)
+                for (int num1286 = 0; num1286 < 4; num1286++)
                 {
                     int num1287 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy(num1286 * MathHelper.TwoPi / 6f), 0, 0, 229, 0f, 0f, 0, default, 1f);
                     Main.dust[num1287].velocity = -Vector2.UnitY;
@@ -2233,7 +2233,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 spinningpoint3 = Vector2.UnitY * -npc.height / 6f;
-                for (int num1288 = 0; num1288 < 3; num1288++)
+                for (int num1288 = 0; num1288 < 2; num1288++)
                 {
                     int num1289 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy(num1288 * MathHelper.TwoPi / 6f), 0, 0, 229, 0f, -2f, 0, default, 1f);
                     Main.dust[num1289].noGravity = true;
