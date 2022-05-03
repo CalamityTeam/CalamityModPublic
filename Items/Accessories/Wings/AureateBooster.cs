@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 8.00\n" +
                 "Acceleration multiplier: 1.5\n" +
                 "Good vertical speed\n" +
-                "Flight time: 80");
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(80, 8f, 1.5f);
+                "Flight time: 120");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 8f, 1.5f);
         }
 
         public override void SetDefaults()
