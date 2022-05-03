@@ -500,6 +500,12 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Fairy Boots buff.
+            if (item.type == ItemID.FairyBoots)
+                EditTooltipByNum(2, (line) => line.Text += "\nFairies can spawn at any time on the surface and spawn far more frequently\n" +
+                "Nearby fairies grant increased life regen, defense and movement speed\n" +
+                "Fairies are immune to damage and will no longer flee");
+
             // Arcane and Magnet Flower buffs.
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
                 EditTooltipByNum(0, (line) => line.Text = "20% reduced mana usage");
@@ -538,7 +544,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 
-            // NOTE -- This is where Fab stopped for the day to play Elden Ring :^)
             // Edit individual tooltips for early hardmode armor sets.
             // Cobalt Hat.
             if (item.type == ItemID.CobaltHat)

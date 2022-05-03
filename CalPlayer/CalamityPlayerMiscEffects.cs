@@ -1318,6 +1318,17 @@ namespace CalamityMod.CalPlayer
                     Player.statDefense -= roverDriveTimer - 606; //so it scales down when the shield dies
             }
 
+            // Fairy Boots bonus
+            if (fairyBoots)
+            {
+                if (Player.isNearFairy())
+                {
+                    Player.lifeRegen += 4;
+                    Player.statDefense += 10;
+                    Player.moveSpeed += 0.1f;
+                }
+            }
+
             // Absorber bonus
             if (absorber)
             {

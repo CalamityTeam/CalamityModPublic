@@ -1122,6 +1122,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 player.buffImmune[BuffID.OnFire] = true;
 
+            if (item.type == ItemID.FairyBoots)
+                modPlayer.fairyBoots = true;
+
             if (item.type == ItemID.EmpressFlightBooster)
                 player.jumpSpeedBoost -= 1.9f;
 

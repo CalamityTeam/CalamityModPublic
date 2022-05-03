@@ -3906,6 +3906,18 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.DD2EterniaCrystal)
                 CalamityGlobalAI.DD2CrystalExtraAI(npc);
+
+            // Fairies don't run away and are immune to damage while wearing Fairy Boots.
+            if (npc.type >= NPCID.FairyCritterPink && npc.type <= NPCID.FairyCritterBlue)
+            {
+                if (Main.player[npc.target].Calamity().fairyBoots)
+                {
+                    npc.lavaImmune = true;
+                    npc.dontTakeDamage = true;
+                    if (npc.ai[2] == 1f)
+                        npc.ai[2] = 0f;
+                }
+            }
         }
         #endregion
 
@@ -4535,6 +4547,14 @@ namespace CalamityMod.NPCs
             {
                 if (NPC.CountNPCS(NPCID.TruffleWorm) < 2)
                     pool[NPCID.TruffleWorm] = SpawnCondition.OverworldMushroom.Chance * 0.5f;
+            }
+
+            // Increase fairy spawn rates while wearing Fairy Boots
+            if (spawnInfo.Player.Calamity().fairyBoots)
+            {
+                pool[NPCID.FairyCritterBlue] = SpawnCondition.Overworld.Chance * 5f;
+                pool[NPCID.FairyCritterGreen] = SpawnCondition.Overworld.Chance * 5f;
+                pool[NPCID.FairyCritterPink] = SpawnCondition.Overworld.Chance * 5f;
             }
 
             if (calamityBiomeZone)
