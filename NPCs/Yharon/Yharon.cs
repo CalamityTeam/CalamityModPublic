@@ -1780,7 +1780,7 @@ namespace CalamityMod.NPCs.Yharon
                                 num28 = 5; //fire circle
                                 break;
                             case 5:
-                                num28 = 4; //fireballs
+                                num28 = Main.rand.NextBool() ? 3 : 4; //fireballs
                                 break;
                             case 6:
                                 num28 = 7; //fast charge
@@ -1792,7 +1792,7 @@ namespace CalamityMod.NPCs.Yharon
                                 num28 = 7; //fast charge
                                 break;
                             case 9:
-                                num28 = 3; //fireballs
+                                num28 = Main.rand.NextBool() ? 4 : 3; //fireballs
                                 break;
                             case 10:
                                 num28 = 6; //tornado
@@ -1810,7 +1810,7 @@ namespace CalamityMod.NPCs.Yharon
                                 num28 = 5; //fire circle
                                 break;
                             case 15:
-                                num28 = 4; //fireballs
+                                num28 = Main.rand.NextBool() ? 3 : 4; //fireballs
                                 break;
                         }
                     }
@@ -1831,7 +1831,7 @@ namespace CalamityMod.NPCs.Yharon
                                 num28 = 5; //fire circle
                                 break;
                             case 4:
-                                num28 = 4; //fireballs
+                                num28 = Main.rand.NextBool() ? 3 : 4; //fireballs
                                 break;
                             case 5:
                                 num28 = 7; //fast charge
@@ -1840,7 +1840,7 @@ namespace CalamityMod.NPCs.Yharon
                                 num28 = 2; //charge
                                 break;
                             case 7:
-                                num28 = 3; //fireballs
+                                num28 = Main.rand.NextBool() ? 4 : 3; //fireballs
                                 break;
                             case 8:
                                 num28 = 7; //fast charge
@@ -1865,14 +1865,14 @@ namespace CalamityMod.NPCs.Yharon
                                 num28 = 2; //charge
                                 break;
                             case 3:
-                                num28 = 3; //fireballs
+                                num28 = Main.rand.NextBool() ? 3 : 4; //fireballs
                                 break;
                             case 4:
                             case 5:
                                 num28 = 7; //fast charge
                                 break;
                             case 6:
-                                num28 = 4; //fireballs
+                                num28 = Main.rand.NextBool() ? 4 : 3; //fireballs
                                 break;
                             case 7:
                             case 8:
