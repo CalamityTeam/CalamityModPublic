@@ -162,6 +162,16 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
+            if (hellfireTreads)
+            {
+                if (Main.rand.Next(4) == 0)
+                    target.AddBuff(BuffID.OnFire3, 360);
+                else if (Main.rand.Next(2) == 0)
+                    target.AddBuff(BuffID.OnFire3, 240);
+                else
+                    target.AddBuff(BuffID.OnFire3, 120);
+            }
+
             ItemLifesteal(target, item, damage);
             ItemOnHit(item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
             NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.Calamity().rogue, false);
@@ -179,6 +189,7 @@ namespace CalamityMod.CalPlayer
         {
             if (Player.whoAmI != Main.myPlayer)
                 return;
+
             CalamityGlobalNPC cgn = target.Calamity();
 
             // Handle on-hit melee effects for the gem tech armor set.
@@ -344,7 +355,7 @@ namespace CalamityMod.CalPlayer
             if (ProjectileID.Sets.StardustDragon[proj.type])
                 target.immune[proj.owner] = 10;
 
-            if (proj.arrow && Player.hasMoltenQuiver)
+            if ((proj.arrow && Player.hasMoltenQuiver) || hellfireTreads)
             {
                 if (Main.rand.Next(4) == 0)
                     target.AddBuff(BuffID.OnFire3, 360);
