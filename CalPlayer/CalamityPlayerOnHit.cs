@@ -62,7 +62,7 @@ namespace CalamityMod.CalPlayer
             if (flamingItemEnchant)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 
-            target.Calamity().IncreasedHeatEffects = fireball || cinnamonRoll;
+            target.Calamity().IncreasedHeatEffects = fireball || cinnamonRoll || hellfireTreads;
 
             target.Calamity().IncreasedColdEffects = eskimoSet;
 
@@ -192,7 +192,7 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
-            cgn.IncreasedHeatEffects = fireball || cinnamonRoll;
+            cgn.IncreasedHeatEffects = fireball || cinnamonRoll || hellfireTreads;
             cgn.IncreasedColdEffects = eskimoSet;
             cgn.IncreasedSicknessAndWaterEffects = evergreenGin;
 

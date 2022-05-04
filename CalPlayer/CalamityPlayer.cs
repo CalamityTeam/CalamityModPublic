@@ -577,6 +577,7 @@ namespace CalamityMod.CalPlayer
         public bool anechoicPlating = false;
         public bool jellyfishNecklace = false;
         public bool fairyBoots = false;
+        public bool hellfireTreads = false;
         public bool abyssDivingGear = false;
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
@@ -1801,6 +1802,7 @@ namespace CalamityMod.CalPlayer
             anechoicPlating = false;
             jellyfishNecklace = false;
             fairyBoots = false;
+            hellfireTreads = false;
             abyssDivingGear = false;
             abyssalAmulet = false;
             lumenousAmulet = false;

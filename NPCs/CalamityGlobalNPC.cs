@@ -54,6 +54,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.GameContent.Achievements;
 using Terraria.GameContent.Events;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
@@ -3425,6 +3428,92 @@ namespace CalamityMod.NPCs
                     return CalamityGlobalAI.BuffedSporeAI(npc, Mod);
             }
 
+            // Fairies don't run away and are immune to damage while wearing Fairy Boots.
+            if (npc.type >= NPCID.FairyCritterPink && npc.type <= NPCID.FairyCritterBlue && npc.ai[2] < 2f)
+            {
+                npc.TargetClosest();
+                if (Main.player[npc.target].Calamity().fairyBoots)
+                {
+                    NPCAimedTarget targetData = npc.GetTargetData();
+                    if (targetData.Type == NPCTargetType.Player)
+                    {
+                        if (Main.player[npc.target].dead)
+                            return true;
+                    }
+
+                    // Set this to 1 so that the CheckActive shit never runs and thus the faries don't randomly vanish.
+                    npc.ai[2] = 1f;
+
+                    npc.lavaImmune = true;
+                    npc.dontTakeDamage = true;
+                    npc.noTileCollide = true;
+
+                    if (Vector2.Distance(npc.Center, targetData.Center) > 80f)
+                    {
+                        Rectangle r = Utils.CenteredRectangle(targetData.Center, new Vector2(targetData.Width + 60, targetData.Height / 2));
+                        Vector2 vector3 = r.ClosestPointInRect(npc.Center);
+                        Vector2 value = npc.DirectionTo(vector3) * 2f;
+                        float num8 = npc.Distance(vector3);
+                        if (num8 > 225f)
+                            value *= 2f;
+                        else if (num8 > 120f)
+                            value *= 1.5f;
+
+                        npc.velocity = Vector2.Lerp(npc.velocity, value, 0.07f);
+                    }
+
+                    for (int k = 0; k < Main.maxNPCs; k++)
+                    {
+                        if (k != npc.whoAmI && Main.npc[k].active && Main.npc[k].aiStyle == NPCAIStyleID.Fairy && Math.Abs(npc.position.X - Main.npc[k].position.X) + Math.Abs(npc.position.Y - Main.npc[k].position.Y) < (float)npc.width * 1.5f)
+                        {
+                            if (npc.position.Y < Main.npc[k].position.Y)
+                                npc.velocity.Y -= 0.05f;
+                            else
+                                npc.velocity.Y += 0.05f;
+                        }
+                    }
+
+                    npc.direction = (npc.velocity.X >= 0f) ? 1 : (-1);
+                    npc.spriteDirection = -npc.direction;
+
+                    Color value3 = Color.HotPink;
+                    Color value4 = Color.LightPink;
+                    int num17 = 4;
+                    if (npc.type == NPCID.FairyCritterGreen)
+                    {
+                        value3 = Color.LimeGreen;
+                        value4 = Color.LightSeaGreen;
+                    }
+
+                    if (npc.type == NPCID.FairyCritterBlue)
+                    {
+                        value3 = Color.RoyalBlue;
+                        value4 = Color.LightBlue;
+                    }
+
+                    if ((int)Main.timeForVisualEffects % 2 == 0)
+                    {
+                        npc.position += npc.netOffset;
+                        Dust dust = Dust.NewDustDirect(npc.Center - new Vector2(num17) * 0.5f, num17 + 4, num17 + 4, 278, 0f, 0f, 200, Color.Lerp(value3, value4, Main.rand.NextFloat()), 0.65f);
+                        dust.velocity *= 0f;
+                        dust.velocity += npc.velocity * 0.3f;
+                        dust.noGravity = true;
+                        dust.noLight = true;
+                        npc.position -= npc.netOffset;
+                    }
+
+                    Lighting.AddLight(npc.Center, value3.ToVector3() * 0.7f);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        Player localPlayer = Main.LocalPlayer;
+                        if (!localPlayer.dead && localPlayer.HitboxForBestiaryNearbyCheck.Intersects(npc.Hitbox))
+                            AchievementsHelper.HandleSpecialEvent(localPlayer, 22);
+                    }
+
+                    return false;
+                }
+            }
+
             if (npc.type == NPCID.DD2LanePortal)
             {
                 CalamityGlobalAI.DD2PortalAI(npc);
@@ -3906,18 +3995,6 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.DD2EterniaCrystal)
                 CalamityGlobalAI.DD2CrystalExtraAI(npc);
-
-            // Fairies don't run away and are immune to damage while wearing Fairy Boots.
-            if (npc.type >= NPCID.FairyCritterPink && npc.type <= NPCID.FairyCritterBlue)
-            {
-                if (Main.player[npc.target].Calamity().fairyBoots)
-                {
-                    npc.lavaImmune = true;
-                    npc.dontTakeDamage = true;
-                    if (npc.ai[2] == 1f)
-                        npc.ai[2] = 0f;
-                }
-            }
         }
         #endregion
 

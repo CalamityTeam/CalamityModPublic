@@ -500,6 +500,13 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Hellfire Treads buff.
+            if (item.type == ItemID.HellfireTreads)
+            {
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+                EditTooltipByNum(3, (line) => line.Text += "\nMultiplies all fire-based debuff damage by 1.5");
+            }
+
             // Fairy Boots buff.
             if (item.type == ItemID.FairyBoots)
                 EditTooltipByNum(2, (line) => line.Text += "\nFairies can spawn at any time on the surface and spawn far more frequently\n" +
