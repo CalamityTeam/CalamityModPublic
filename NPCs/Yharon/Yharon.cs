@@ -497,6 +497,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
+                    NPC.ai[3] = Main.rand.Next(4);
                     NPC.netUpdate = true;
                 }
             }
@@ -736,7 +737,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.ai[0] = 6f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
+                    NPC.ai[3] = Main.rand.Next(5);
                     NPC.localAI[1] = 0f;
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
@@ -1055,7 +1056,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.ai[0] = 13f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
+                    NPC.ai[3] = Main.rand.Next(5);
                     NPC.localAI[1] = 0f;
                     NPC.TargetClosest();
                     NPC.netUpdate = true;
@@ -1562,7 +1563,8 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             NPC.dontTakeDamage = false;
-            if (invincibilityCounter < Phase2InvincibilityTime)
+            bool invincible = invincibilityCounter < Phase2InvincibilityTime;
+            if (invincible)
             {
                 NPC.dontTakeDamage = true;
                 phase2 = phase3 = phase4 = false;
@@ -1696,6 +1698,16 @@ namespace CalamityMod.NPCs.Yharon
                 velocity *= velocityMult;
                 chargeTime -= chargeTimeDecrease;
                 chargeSpeed *= velocityMult;
+            }
+
+            // Increase aggressiveness while invincible.
+            if (invincible)
+            {
+                phaseSwitchTimer *= 0.5f;
+                acceleration *= 1.1f;
+                velocity *= 1.1f;
+                chargeTime -= 4f;
+                chargeSpeed *= 1.1f;
             }
 
             if (NPC.ai[0] == 0f)
@@ -1939,7 +1951,7 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.ai[0] = 9f;
                                 NPC.ai[1] = 0f;
                                 NPC.ai[2] = 0f;
-                                NPC.ai[3] = 0f;
+                                NPC.ai[3] = Main.rand.Next(11);
                             }
                             break;
                         case 2:
@@ -1949,7 +1961,7 @@ namespace CalamityMod.NPCs.Yharon
                                 NPC.ai[0] = 9f;
                                 NPC.ai[1] = 0f;
                                 NPC.ai[2] = 0f;
-                                NPC.ai[3] = 0f;
+                                NPC.ai[3] = Main.rand.Next(16);
                             }
                             break;
                         case 3:
