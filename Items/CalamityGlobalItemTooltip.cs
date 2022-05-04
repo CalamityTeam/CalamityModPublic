@@ -505,7 +505,7 @@ namespace CalamityMod.Items
             {
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
                 EditTooltipByNum(3, (line) => line.Text += "\nMultiplies all fire-based debuff damage by 1.5\n" +
-                "All attacks inflict fire damage");
+                "All attacks inflict Hellfire");
             }
 
             // Fairy Boots buff.
@@ -541,7 +541,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MoltenQuiver)
             {
                 EditTooltipByNum(0, (line) => line.Text = "Increases arrow damage by 7% and greatly increases arrow speed");
-                EditTooltipByNum(2, (line) => line.Text += " and all arrows inflict fire damage");
+                EditTooltipByNum(2, (line) => line.Text += " and all arrows inflict Hellfire");
             }
 
             // Magic Power Potion nerf
