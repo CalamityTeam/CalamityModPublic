@@ -662,6 +662,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
+            // IT'S HELLFIRE!!!
+            if (item.type == ItemID.MagmaStone || item.type == ItemID.FireGauntlet || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
+
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
