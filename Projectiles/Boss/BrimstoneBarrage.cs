@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Boss
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             }
             else
-                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+                target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }
 
         public override bool PreDraw(ref Color lightColor)

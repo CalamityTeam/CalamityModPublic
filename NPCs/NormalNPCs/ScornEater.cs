@@ -200,7 +200,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemID.AdhesiveBandage, 50);
             npcLoot.Add(ModContent.ItemType<UnholyEssence>(), 1, 2, 4);
         }
     }

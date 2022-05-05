@@ -1,5 +1,7 @@
-﻿using CalamityMod.Buffs.Potions;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -1119,13 +1121,35 @@ namespace CalamityMod.Items
             }
 
             // Obsidian Skull and its upgrades make you immune to On Fire!
-            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 player.buffImmune[BuffID.OnFire] = true;
 
             if (item.type == ItemID.HellfireTreads)
             {
                 modPlayer.hellfireTreads = true;
                 player.buffImmune[BuffID.OnFire] = true;
+            }
+
+            // Armor Crunch immunity pre-Golem.
+            if (item.type == ItemID.ArmorPolish || item.type == ItemID.ArmorBracing || item.type == ItemID.AnkhCharm)
+                player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
+
+            // Ankh Shield extra immunities
+            if (item.type == ItemID.AnkhShield)
+            {
+                player.buffImmune[BuffID.OnFire] = true;
+                player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
+            }
+
+            // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
+            if (item.type == ItemID.MoonStone)
+                player.buffImmune[ModContent.BuffType<Nightwither>()] = true;
+            if (item.type == ItemID.SunStone)
+                player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+            if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell)
+            {
+                player.buffImmune[ModContent.BuffType<Nightwither>()] = true;
+                player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             }
 
             if (item.type == ItemID.FairyBoots)

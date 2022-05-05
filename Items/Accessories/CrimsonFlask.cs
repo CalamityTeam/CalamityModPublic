@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
@@ -11,7 +12,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Crimson Flask");
-            Tooltip.SetDefault("7% increased damage reduction and +3 defense while in the crimson");
+            Tooltip.SetDefault("7% increased damage reduction and +3 defense while in the crimson\n" +
+                "Grants immunity to the Burning Blood debuff");
         }
 
         public override void SetDefaults()
@@ -25,6 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.buffImmune[ModContent.BuffType<BurningBlood>()] = true;
             if (player.ZoneCrimson)
             {
                 player.statDefense += 6;

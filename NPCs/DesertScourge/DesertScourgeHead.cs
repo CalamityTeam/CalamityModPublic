@@ -676,7 +676,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 300, true);
+            player.AddBuff(BuffID.Bleeding, 600, true);
         }
     }
 }

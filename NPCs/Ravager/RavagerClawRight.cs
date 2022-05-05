@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
+            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Irradiated>(), 180, true);
+            player.AddBuff(ModContent.BuffType<Irradiated>(), 300, true);
         }
     }
 }

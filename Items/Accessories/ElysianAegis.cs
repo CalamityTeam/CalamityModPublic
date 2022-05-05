@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Elysian Aegis");
             Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
-                               "Grants immunity to knockback, and the Burning, On Fire!, and Holy Flames debuffs\n" +
+                               "Grants immunity to knockback and the Burning, On Fire!, and Holy Flames debuffs\n" +
                                "+30 max life\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +

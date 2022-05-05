@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Projectile.ai[1] <= 1800f && Projectile.ai[1] > 120f)
-                target.AddBuff(BuffID.Poisoned, 240);
+                target.AddBuff(BuffID.Poisoned, 480);
         }
     }
 }

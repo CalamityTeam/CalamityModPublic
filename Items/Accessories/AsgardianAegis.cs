@@ -78,6 +78,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
+            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.statDefense += 20; }
         }

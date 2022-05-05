@@ -211,7 +211,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             int buffType = (Main.dayTime && !CalamityWorld.malice) ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
-            target.AddBuff(buffType, 420);
+            target.AddBuff(buffType, 600);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.scale >= 0.5f;

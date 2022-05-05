@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -91,8 +91,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.Opacity == 0.9f)
             {
-                target.AddBuff(BuffID.Poisoned, 120);
-                target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+                target.AddBuff(BuffID.Poisoned, 240);
+                target.AddBuff(ModContent.BuffType<Irradiated>(), 240);
             }
         }
     }

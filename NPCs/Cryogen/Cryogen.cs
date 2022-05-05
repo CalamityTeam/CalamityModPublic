@@ -1138,8 +1138,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Frostburn, 120, true);
-            player.AddBuff(BuffID.Chilled, 90, true);
+            player.AddBuff(BuffID.Frostburn, 240, true);
+            player.AddBuff(BuffID.Chilled, 120, true);
         }
     }
 }

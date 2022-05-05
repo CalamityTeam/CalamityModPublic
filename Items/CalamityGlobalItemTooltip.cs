@@ -514,6 +514,20 @@ namespace CalamityMod.Items
                 "Nearby fairies grant increased life regen, defense and movement speed\n" +
                 "Fairies are immune to damage and will no longer flee");
 
+            // Armor Crunch immunity pre-Golem.
+            if (item.type == ItemID.ArmorPolish || item.type == ItemID.ArmorBracing)
+                EditTooltipByNum(0, (line) => line.Text += " and Armor Crunch");
+
+            // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
+            if (item.type == ItemID.MoonStone)
+                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Nightwither");
+            if (item.type == ItemID.SunStone)
+                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Holy Flames");
+            if (item.type == ItemID.CelestialStone)
+                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
+            if (item.type == ItemID.CelestialShell)
+                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
+
             // Arcane and Magnet Flower buffs.
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)
                 EditTooltipByNum(0, (line) => line.Text = "20% reduced mana usage");
@@ -651,6 +665,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
             if (item.type == ItemID.FireGauntlet)
             {
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
                 string extraLine = "\n10% increased true melee damage";
                 EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
             }
@@ -663,7 +678,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
 
             // IT'S HELLFIRE!!!
-            if (item.type == ItemID.MagmaStone || item.type == ItemID.FireGauntlet || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
                 EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
 
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos

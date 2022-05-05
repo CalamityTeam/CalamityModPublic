@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.Ravager
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
+            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, true);
             SoundEngine.PlaySound(SoundID.Item14, NPC.position);
             NPC.ai[0] = 0f;
             NPC.life = 0;

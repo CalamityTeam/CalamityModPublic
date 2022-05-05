@@ -1375,6 +1375,8 @@ namespace CalamityMod.CalPlayer
                 Player.buffImmune[BuffID.Frozen] = true;
                 Player.buffImmune[BuffID.Chilled] = true;
                 Player.buffImmune[BuffID.Frostburn] = true;
+                Player.buffImmune[BuffID.CursedInferno] = true;
+                Player.buffImmune[ModContent.BuffType<BurningBlood>()] = true;
             }
             if (cFreeze)
             {

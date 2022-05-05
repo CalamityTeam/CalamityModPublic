@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -13,9 +14,10 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The First Shadowflame");
-            Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire.\n" +
-                "If that were true, then it is surely the demons of hell that would have risen from below to do the same.\n" +
-                "Increases max minions by 1 and minions inflict the Shadowflame debuff on enemies.");
+            Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire\n" +
+                "If that were true, then it is surely the demons of hell that would have risen from below to do the same\n" +
+                "Increases max minions by 1 and minions inflict the Shadowflame debuff on enemies\n" +
+                "Grants immunity to Shadowflame");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shadowMinions = true;
+            player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
         }
     }
 }

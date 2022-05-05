@@ -6126,19 +6126,19 @@ namespace CalamityMod.CalPlayer
             }
             else if (npc.type == NPCID.Spazmatism && npc.ai[0] != 1f && npc.ai[0] != 2f && npc.ai[0] != 0f)
             {
-                Player.AddBuff(BuffID.Bleeding, 300);
+                Player.AddBuff(BuffID.Bleeding, 600);
             }
             else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
             {
-                Player.AddBuff(BuffID.Poisoned, 300);
+                Player.AddBuff(BuffID.Poisoned, 600);
             }
             else if (npc.type == NPCID.PlanterasTentacle)
             {
-                Player.AddBuff(BuffID.Poisoned, 180);
+                Player.AddBuff(BuffID.Poisoned, 300);
             }
             else if (npc.type == NPCID.AncientDoom)
             {
-                Player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+                Player.AddBuff(ModContent.BuffType<Shadowflame>(), 180);
             }
             else if (npc.type == NPCID.AncientLight)
             {
@@ -6183,11 +6183,11 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.Skull)
                 {
-                    Player.AddBuff(BuffID.Weak, 180);
+                    Player.AddBuff(BuffID.Weak, 300);
                 }
                 else if (proj.type == ProjectileID.ThornBall)
                 {
-                    Player.AddBuff(BuffID.Poisoned, 240);
+                    Player.AddBuff(BuffID.Poisoned, 480);
                 }
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {

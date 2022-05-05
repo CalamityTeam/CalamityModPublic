@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Alchemical Flask");
-            Tooltip.SetDefault("All attacks inflict the Plague debuff\n" +
+            Tooltip.SetDefault("All attacks inflict the Plague and reduces the damage caused by the Plague\n" +
                 "Projectiles spawn plague seekers on enemy hits");
         }
 
@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.alchFlask = true;
+            modPlayer.reducedPlagueDmg = true;
         }
 
         public override void AddRecipes()

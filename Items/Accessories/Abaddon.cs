@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
@@ -25,5 +26,22 @@ namespace CalamityMod.Items.Accessories
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().abaddon = true;
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.GoldCrown).
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<EssenceofChaos>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.PlatinumCrown).
+                AddIngredient<UnholyCore>(5).
+                AddIngredient<EssenceofChaos>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+        }
     }
 }

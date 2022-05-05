@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -116,8 +116,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 60, true);
-            target.AddBuff(BuffID.Chilled, 30, true);
+            target.AddBuff(BuffID.Frostburn, 120, true);
+            target.AddBuff(BuffID.Chilled, 60, true);
         }
     }
 }

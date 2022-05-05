@@ -1307,8 +1307,8 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.AdhesiveBandage);
             r.AddIngredient(ItemID.Silk, 10);
             r.AddIngredient(ItemID.Gel, 50);
-            r.AddIngredient(ItemID.GreaterHealingPotion);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddIngredient(ItemID.HealingPotion);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Bezoar (poison)
@@ -1332,14 +1332,14 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Blinkroot, 5);
             r.AddIngredient(ItemID.Daybloom, 5);
             r.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Blindfold (darkness)
             r = CreateRecipe(ItemID.Blindfold);
             r.AddIngredient(ItemID.Silk, 30);
-            r.AddIngredient(ItemID.SoulofNight, 5);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddIngredient(ItemID.TatteredCloth, 3);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Trifold Map (confusion)

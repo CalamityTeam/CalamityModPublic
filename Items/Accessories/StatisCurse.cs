@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -17,7 +18,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Increases max minions by 3, does not stack with downgrades\n" +
                 "10% increased minion damage\n" +
                 "Increased minion knockback\n" +
-                "Minions inflict holy flames and shadowflames on hit");
+                "Minions inflict holy flames and shadowflames on hit\n" +
+                "Grants immunity to Shadowflame");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -37,6 +39,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.holyMinions = true;
             player.GetKnockback<SummonDamageClass>() += 2.75f;
             player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
         }
 
         public override void AddRecipes()

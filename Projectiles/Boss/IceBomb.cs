@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.ai[0] >= 120f)
             {
-                target.AddBuff(BuffID.Frostburn, 120, true);
+                target.AddBuff(BuffID.Frostburn, 180, true);
                 target.AddBuff(BuffID.Chilled, 90, true);
                 target.AddBuff(ModContent.BuffType<GlacialState>(), 60);
             }

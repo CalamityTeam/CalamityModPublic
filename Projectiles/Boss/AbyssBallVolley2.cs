@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.timeLeft < 60)
                 return;
 
-            target.AddBuff(BuffID.Darkness, 120);
+            target.AddBuff(BuffID.Darkness, 180);
         }
     }
 }

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity != 1f)
                 return;
 
-            target.AddBuff(BuffID.Frostburn, 120, true);
+            target.AddBuff(BuffID.Frostburn, 180, true);
             target.AddBuff(BuffID.Chilled, 90, true);
         }
     }

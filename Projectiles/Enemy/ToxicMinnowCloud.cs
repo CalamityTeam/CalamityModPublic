@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Projectile.alpha == 80)
-                target.AddBuff(BuffID.Poisoned, 120);
+                target.AddBuff(BuffID.Poisoned, 240);
         }
 
         public override bool? CanHitNPC(NPC target) => Projectile.alpha == 80;
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (Projectile.alpha == 80)
-                target.AddBuff(BuffID.Poisoned, 120);
+                target.AddBuff(BuffID.Poisoned, 240);
         }
     }
 }

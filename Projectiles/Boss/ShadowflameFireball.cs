@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -90,12 +90,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Main.rand.NextBool(6))
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 180, true);
-            else if (Main.rand.NextBool(4))
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 120, true);
-            else if (Main.rand.NextBool(2))
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 60, true);
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 180, true);
         }
 
         public override void Kill(int timeLeft)

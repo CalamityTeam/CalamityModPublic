@@ -307,8 +307,9 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Jungle
-                // Spiked Jungle Slime, Arapaima
+                // Jungle Slime, Spiked Jungle Slime, Arapaima
                 // Murky Paste @ 33.33% Normal, 50% Expert+
+                case NPCID.JungleSlime:
                 case NPCID.SpikedJungleSlime:
                 case NPCID.Arapaima:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MurkyPaste>(), 3, 2));
@@ -326,9 +327,12 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<TrapperBulb>(), 2, 1));
                     break;
 
-                // Derpling
+                // Derpling, Cochineal Beetle, Cyan Beetle, Lac Beetle
                 // Beetle Juice @ 33.33% Normal, 50% Expert+
                 case NPCID.Derpling:
+                case NPCID.CochinealBeetle:
+                case NPCID.CyanBeetle:
+                case NPCID.LacBeetle:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BeetleJuice>(), 3, 2));
                     break;
 

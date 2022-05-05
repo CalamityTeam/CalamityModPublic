@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180, true);
+            player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);
         }
     }
 }

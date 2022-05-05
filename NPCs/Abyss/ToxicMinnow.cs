@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Poisoned, 120, true);
+            player.AddBuff(BuffID.Poisoned, 240, true);
         }
 
         public override void FindFrame(int frameHeight)

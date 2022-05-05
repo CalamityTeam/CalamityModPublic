@@ -68,7 +68,7 @@ namespace CalamityMod.Tiles.Ores
 
         public override void FloorVisuals(Player player)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 1);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 2);
             base.FloorVisuals(player);
         }
 

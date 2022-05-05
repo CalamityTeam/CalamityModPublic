@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 480, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

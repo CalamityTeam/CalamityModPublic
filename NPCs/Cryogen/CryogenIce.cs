@@ -90,8 +90,8 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Frostburn, 90, true);
-            player.AddBuff(BuffID.Chilled, 60, true);
+            player.AddBuff(BuffID.Frostburn, 240, true);
+            player.AddBuff(BuffID.Chilled, 120, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

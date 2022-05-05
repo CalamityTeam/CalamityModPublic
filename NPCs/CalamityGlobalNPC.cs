@@ -699,11 +699,11 @@ namespace CalamityMod.NPCs
                 CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type);
             bool slimeGod = CalamityLists.SlimeGodIDs.Contains(npc.type);
 
-            double heatDamageMult = npc.drippingSlime ? ((wormBoss || slimeGod) ? 3D : 5D) : 1D;
+            double heatDamageMult = npc.drippingSlime ? ((wormBoss || slimeGod) ? 2D : 5D) : 1D;
             if (VulnerableToHeat.HasValue)
             {
                 if (VulnerableToHeat.Value)
-                    heatDamageMult *= npc.drippingSlime ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 3D : 5D);
+                    heatDamageMult *= npc.drippingSlime ? ((wormBoss || slimeGod) ? 1.5 : 2D) : ((wormBoss || slimeGod) ? 2D : 5D);
                 else
                     heatDamageMult *= npc.drippingSlime ? 0.2 : 0.5;
             }
@@ -712,26 +712,26 @@ namespace CalamityMod.NPCs
             if (VulnerableToCold.HasValue)
             {
                 if (VulnerableToCold.Value)
-                    coldDamageMult *= wormBoss ? 3D : 5D;
+                    coldDamageMult *= wormBoss ? 2D : 5D;
                 else
                     coldDamageMult *= 0.5;
             }
 
-            double sicknessDamageMult = irradiated > 0 ? (wormBoss ? 3D : 5D) : 1D;
+            double sicknessDamageMult = irradiated > 0 ? (wormBoss ? 2D : 5D) : 1D;
             if (VulnerableToSickness.HasValue)
             {
                 if (VulnerableToSickness.Value)
-                    sicknessDamageMult *= irradiated > 0 ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
+                    sicknessDamageMult *= irradiated > 0 ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 2D : 5D);
                 else
                     sicknessDamageMult *= irradiated > 0 ? 0.2 : 0.5;
             }
 
             bool increasedElectricityDamage = npc.wet || npc.honeyWet || npc.lavaWet || npc.dripping;
-            double electricityDamageMult = increasedElectricityDamage ? (wormBoss ? 3D : 5D) : 1D;
+            double electricityDamageMult = increasedElectricityDamage ? (wormBoss ? 2D : 5D) : 1D;
             if (VulnerableToElectricity.HasValue)
             {
                 if (VulnerableToElectricity.Value)
-                    electricityDamageMult *= increasedElectricityDamage ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 3D : 5D);
+                    electricityDamageMult *= increasedElectricityDamage ? (wormBoss ? 1.5 : 2D) : (wormBoss ? 2D : 5D);
                 else
                     electricityDamageMult *= increasedElectricityDamage ? 0.2 : 0.5;
             }
@@ -740,7 +740,7 @@ namespace CalamityMod.NPCs
             if (VulnerableToWater.HasValue)
             {
                 if (VulnerableToWater.Value)
-                    waterDamageMult *= wormBoss ? 3D : 5D;
+                    waterDamageMult *= wormBoss ? 2D : 5D;
                 else
                     waterDamageMult *= 0.5;
             }
@@ -765,7 +765,7 @@ namespace CalamityMod.NPCs
             // On Fire
             if (npc.onFire)
             {
-                int baseOnFireDoTValue = (int)((npc.oiled ? 28 : 8) * vanillaHeatDamageMult);
+                int baseOnFireDoTValue = (int)((npc.oiled ? 58 : 8) * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseOnFireDoTValue;
                 if (damage < baseOnFireDoTValue / 4)
                     damage = baseOnFireDoTValue / 4;
@@ -774,16 +774,25 @@ namespace CalamityMod.NPCs
             // Cursed Inferno
             if (npc.onFire2)
             {
-                int baseCursedInfernoDoTValue = (int)((npc.oiled ? 36 : 12) * vanillaHeatDamageMult);
+                int baseCursedInfernoDoTValue = (int)((npc.oiled ? 62 : 12) * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseCursedInfernoDoTValue;
                 if (damage < baseCursedInfernoDoTValue / 4)
                     damage = baseCursedInfernoDoTValue / 4;
             }
 
+            // Hellfire
+            if (npc.onFire3)
+            {
+                int baseHellfireDoTValue = (int)((npc.oiled ? 80 : 30) * vanillaHeatDamageMult);
+                npc.lifeRegen -= baseHellfireDoTValue;
+                if (damage < baseHellfireDoTValue / 4)
+                    damage = baseHellfireDoTValue / 4;
+            }
+
             // Shadowflame
             if (npc.shadowFlame)
             {
-                int baseShadowFlameDoTValue = (int)((npc.oiled ? 58 : 30) * vanillaHeatDamageMult);
+                int baseShadowFlameDoTValue = (int)((npc.oiled ? 80 : 30) * vanillaHeatDamageMult);
                 npc.lifeRegen -= baseShadowFlameDoTValue;
                 if (damage < baseShadowFlameDoTValue / 4)
                     damage = baseShadowFlameDoTValue / 4;
@@ -792,21 +801,21 @@ namespace CalamityMod.NPCs
             // Brimstone Flames
             if (bFlames > 0)
             {
-                int baseBrimstoneFlamesDoTValue = (int)((npc.oiled ? 92 : 40) * heatDamageMult);
+                int baseBrimstoneFlamesDoTValue = (int)((npc.oiled ? 90 : 40) * heatDamageMult);
                 ApplyDPSDebuff(baseBrimstoneFlamesDoTValue, baseBrimstoneFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Holy Flames
             if (hFlames > 0)
             {
-                int baseHolyFlamesDoTValue = (int)((npc.oiled ? 114 : 50) * heatDamageMult);
+                int baseHolyFlamesDoTValue = (int)((npc.oiled ? 100 : 50) * heatDamageMult);
                 ApplyDPSDebuff(baseHolyFlamesDoTValue, baseHolyFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // God Slayer Inferno
             if (gsInferno > 0)
             {
-                int baseGodSlayerInfernoDoTValue = (int)((npc.oiled ? 514 : 250) * heatDamageMult);
+                int baseGodSlayerInfernoDoTValue = (int)((npc.oiled ? 500 : 250) * heatDamageMult);
                 ApplyDPSDebuff(baseGodSlayerInfernoDoTValue, baseGodSlayerInfernoDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
@@ -820,14 +829,14 @@ namespace CalamityMod.NPCs
             // Demon Flames
             if (dFlames > 0)
             {
-                int baseDemonFlamesDoTValue = (int)((npc.oiled ? 5012 : 2500) * heatDamageMult);
+                int baseDemonFlamesDoTValue = (int)((npc.oiled ? 5000 : 2500) * heatDamageMult);
                 ApplyDPSDebuff(baseDemonFlamesDoTValue, baseDemonFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Banishing Fire
             if (banishingFire > 0)
             {
-                int baseBanishingFireDoTValue = (int)((npc.oiled ? (npc.lifeMax >= 1000000 ? (npc.lifeMax / 500) + 1512 : 5512) : (npc.lifeMax >= 1000000 ? npc.lifeMax / 500 : 4000)) * heatDamageMult);
+                int baseBanishingFireDoTValue = (int)((npc.oiled ? (npc.lifeMax >= 1000000 ? (npc.lifeMax / 500) + 1500 : 5500) : (npc.lifeMax >= 1000000 ? npc.lifeMax / 500 : 4000)) * heatDamageMult);
                 ApplyDPSDebuff(baseBanishingFireDoTValue, baseBanishingFireDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
@@ -841,7 +850,7 @@ namespace CalamityMod.NPCs
             // Frostburn
             if (npc.onFrostBurn)
             {
-                int baseFrostBurnDoTValue = (int)((npc.oiled ? 44 : 16) * vanillaColdDamageMult);
+                int baseFrostBurnDoTValue = (int)((npc.oiled ? 66 : 16) * vanillaColdDamageMult);
                 npc.lifeRegen -= baseFrostBurnDoTValue;
                 if (damage < baseFrostBurnDoTValue / 4)
                     damage = baseFrostBurnDoTValue / 4;
@@ -937,7 +946,7 @@ namespace CalamityMod.NPCs
                 if (npc.lifeRegen > -1)
                     npc.lifeRegen = -1;
 
-                // Every other EoW body segment and the head segments are immune to DoT
+                // Every other EoW body segment and the head segments are immune to DoT.
                 if (((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && (CalamityWorld.death || BossRushEvent.BossRushActive))
                     npc.lifeRegen = 0;
             }
@@ -4012,14 +4021,14 @@ namespace CalamityMod.NPCs
             switch (npc.type)
             {
                 case NPCID.Golem:
-                    target.AddBuff(BuffType<ArmorCrunch>(), 300);
+                    target.AddBuff(BuffType<ArmorCrunch>(), 480);
                     break;
 
                 case NPCID.GolemHead:
                 case NPCID.GolemHeadFree:
                 case NPCID.GolemFistRight:
                 case NPCID.GolemFistLeft:
-                    target.AddBuff(BuffType<ArmorCrunch>(), 180);
+                    target.AddBuff(BuffType<ArmorCrunch>(), 240);
                     break;
 
                 case NPCID.Lavabat:

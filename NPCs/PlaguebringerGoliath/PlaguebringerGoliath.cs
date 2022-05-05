@@ -1263,7 +1263,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<Plague>(), 300, true);
+            player.AddBuff(ModContent.BuffType<Plague>(), 480, true);
         }
     }
 }

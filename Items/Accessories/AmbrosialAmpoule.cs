@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Ambrosial Ampoule");
             Tooltip.SetDefault("You emit light\n" +
                 "7% increased damage reduction and increased life regen\n" +
-                "Freeze, chill and frostburn immunity");
+                "Grants immunity to the Frozen, Chilled, Frostburn, Cursed Inferno and Burning Blood debuffs");
         }
 
         public override void SetDefaults()
