@@ -84,7 +84,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.IceBlock, 100).AddIngredient(ModContent.ItemType<RuinousSoul>(), 6).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.IceBlock, 100).
+                AddIngredient<RuinousSoul>(6).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<EndothermicEnergy>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

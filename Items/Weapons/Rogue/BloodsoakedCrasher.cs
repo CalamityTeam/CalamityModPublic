@@ -51,7 +51,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrushsawCrasher>()).AddIngredient(ModContent.ItemType<BloodstoneCore>(), 12).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<CrushsawCrasher>().
+                AddIngredient<BloodstoneCore>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

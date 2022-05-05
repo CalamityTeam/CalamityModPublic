@@ -58,7 +58,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).AddIngredient(ItemID.CobaltBar).AddTile(TileID.Anvils).Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.CobaltBar).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -54,7 +54,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.RavenStaff).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<NightmareFuel>(), 20).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.RavenStaff).
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<NightmareFuel>(20).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

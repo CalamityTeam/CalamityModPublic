@@ -59,7 +59,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).AddIngredient(ItemID.Grenade, 20).AddIngredient(ItemID.MartianConduitPlating, 5).AddIngredient(ItemID.Nanites, 5).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.Grenade, 20).
+                AddIngredient(ItemID.MartianConduitPlating, 5).
+                AddIngredient(ItemID.Nanites, 5).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

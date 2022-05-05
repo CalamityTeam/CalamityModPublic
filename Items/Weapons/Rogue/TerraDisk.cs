@@ -83,7 +83,13 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SeashellBoomerang>()).AddIngredient(ModContent.ItemType<Equanimity>()).AddIngredient(ItemID.ThornChakram).AddIngredient(ModContent.ItemType<LivingShard>(), 8).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<SeashellBoomerang>().
+                AddIngredient<Equanimity>().
+                AddIngredient(ItemID.ThornChakram).
+                AddIngredient<LivingShard>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

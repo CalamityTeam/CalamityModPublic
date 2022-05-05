@@ -50,11 +50,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ExecutionersBladeGlow").Value);
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             bool usingStealth = player.Calamity().StealthStrikeAvailable() && counter == 0;
@@ -69,6 +64,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (counter >= Item.useAnimation / Item.useTime)
                 counter = 0;
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<CosmiliteBar>(12).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

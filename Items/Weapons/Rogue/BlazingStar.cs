@@ -76,7 +76,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] < Item.stack;
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Glaive>(), 1).AddIngredient(ItemID.HellstoneBar, 3).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 4).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<Glaive>().
+                AddIngredient(ItemID.HellstoneBar, 3).
+                AddIngredient<EssenceofChaos>(4).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

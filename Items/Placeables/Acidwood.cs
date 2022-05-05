@@ -30,7 +30,9 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AcidwoodPlatform>(), 2).Register();
+            CreateRecipe().
+                AddIngredient<AcidwoodPlatform>(2).
+                Register();
         }
     }
 }

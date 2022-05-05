@@ -49,7 +49,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CruptixBar>(), 9).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<CruptixBar>(9).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

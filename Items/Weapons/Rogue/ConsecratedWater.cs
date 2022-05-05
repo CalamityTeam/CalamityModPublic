@@ -54,7 +54,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HolyWater, 100).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.CrystalShard, 10).AddIngredient(ItemID.SoulofLight, 7).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HolyWater, 100).
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient(ItemID.CrystalShard, 10).
+                AddIngredient(ItemID.SoulofLight, 7).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

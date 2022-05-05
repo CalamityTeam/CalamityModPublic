@@ -99,7 +99,14 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CryogenicStaff>()).AddIngredient(ItemID.BlizzardStaff).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 100).AddIngredient(ModContent.ItemType<CoreofEleum>(), 15).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<CryogenicStaff>().
+                AddIngredient(ItemID.BlizzardStaff).
+                AddIngredient<EndothermicEnergy>(100).
+                AddIngredient<CoreofEleum>(15).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

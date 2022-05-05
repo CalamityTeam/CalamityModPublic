@@ -59,12 +59,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).
-                AddIngredient(ModContent.ItemType<MangroveChakram>()).
-                AddIngredient(ModContent.ItemType<FlameScythe>()).
-                AddIngredient(ModContent.ItemType<TerraDisk>()).
-                AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).
-                AddIngredient(ModContent.ItemType<BarofLife>(), 5).
+            CreateRecipe().
+                AddIngredient<MangroveChakram>().
+                AddIngredient<FlameScythe>().
+                AddIngredient<TerraDisk>().
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient<BarofLife>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

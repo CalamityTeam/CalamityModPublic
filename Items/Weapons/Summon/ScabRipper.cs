@@ -52,7 +52,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.CrimtaneBar, 5).AddIngredient(ItemID.TissueSample, 9).AddIngredient(ItemID.Shadewood, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.CrimtaneBar, 5).
+                AddIngredient(ItemID.TissueSample, 9).
+                AddIngredient(ItemID.Shadewood, 20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -28,7 +28,10 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<VoidstoneWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient<VoidstoneWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

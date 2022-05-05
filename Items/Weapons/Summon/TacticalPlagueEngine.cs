@@ -52,7 +52,15 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlackHawkRemote>()).AddIngredient(ModContent.ItemType<InfectedRemote>()).AddIngredient(ModContent.ItemType<FuelCellBundle>()).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 8).AddIngredient(ItemID.LunarBar, 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<BlackHawkRemote>().
+                AddIngredient<InfectedRemote>().
+                AddIngredient<FuelCellBundle>().
+                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<InfectedArmorPlating>(8).
+                AddIngredient(ItemID.LunarBar, 5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

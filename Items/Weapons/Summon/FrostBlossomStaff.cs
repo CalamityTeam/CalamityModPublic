@@ -46,7 +46,12 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Shiverthorn, 5).AddRecipeGroup("AnySnowBlock", 50).AddRecipeGroup("AnyIceBlock", 50).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Shiverthorn, 5).
+                AddRecipeGroup("AnySnowBlock", 50).
+                AddRecipeGroup("AnyIceBlock", 50).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

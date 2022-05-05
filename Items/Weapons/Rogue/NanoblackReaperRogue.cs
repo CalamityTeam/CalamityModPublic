@@ -65,7 +65,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GhoulishGouger>()).AddIngredient(ModContent.ItemType<MoltenAmputator>()).AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 40).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 20).AddIngredient(ItemID.Nanites, 400).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<GhoulishGouger>().
+                AddIngredient<MoltenAmputator>().
+                AddIngredient<EndothermicEnergy>(40).
+                AddIngredient<PlagueCellCluster>(20).
+                AddIngredient(ItemID.Nanites, 400).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

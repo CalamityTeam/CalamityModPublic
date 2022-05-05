@@ -57,7 +57,13 @@ Stealth strikes continuously leave spectral clones in their wake");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LuminousStriker>()).AddIngredient(ModContent.ItemType<PhantomLance>(), 500).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<Phantoplasm>(), 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<LuminousStriker>().
+                AddIngredient<PhantomLance>(500).
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<Phantoplasm>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

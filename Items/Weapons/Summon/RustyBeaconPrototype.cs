@@ -49,7 +49,11 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulfuricScale>(), 20).AddRecipeGroup("IronBar", 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<SulfuricScale>(20).
+                AddRecipeGroup("IronBar", 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

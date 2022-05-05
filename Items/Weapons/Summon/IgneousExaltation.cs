@@ -94,7 +94,11 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UnholyCore>(), 10).AddIngredient(ModContent.ItemType<EssenceofChaos>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<UnholyCore>(10).
+                AddIngredient<EssenceofChaos>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

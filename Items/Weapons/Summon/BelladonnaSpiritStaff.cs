@@ -44,7 +44,13 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Vine, 4).AddIngredient(ItemID.JungleSpores, 5).AddIngredient(ItemID.Stinger, 8).AddIngredient(ItemID.RichMahogany, 25).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Vine, 4).
+                AddIngredient(ItemID.JungleSpores, 5).
+                AddIngredient(ItemID.Stinger, 8).
+                AddIngredient(ItemID.RichMahogany, 25).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

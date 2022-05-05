@@ -57,7 +57,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Crystalline>()).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<Crystalline>().
+                AddIngredient<MolluskHusk>(5).
+                AddIngredient<SeaPrism>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

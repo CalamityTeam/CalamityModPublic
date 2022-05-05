@@ -55,7 +55,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DuststormInABottle>()).AddIngredient(ModContent.ItemType<DarkPlasma>(), 3).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<DuststormInABottle>().
+                AddIngredient<DarkPlasma>(3).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

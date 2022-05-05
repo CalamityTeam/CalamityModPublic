@@ -43,11 +43,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Prismalline>()).AddIngredient(ModContent.ItemType<AstralBar>(), 10).AddIngredient(ModContent.ItemType<Stardust>(), 15).AddIngredient(ItemID.FallenStar, 10).AddTile(TileID.LunarCraftingStation).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -58,6 +53,16 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Prismalline>().
+                AddIngredient<AstralBar>(10).
+                AddIngredient<Stardust>(15).
+                AddIngredient(ItemID.FallenStar, 10).
+                AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

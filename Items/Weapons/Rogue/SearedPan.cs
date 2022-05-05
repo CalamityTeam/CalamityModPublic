@@ -74,7 +74,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UtensilPoker>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddIngredient(ItemID.Bacon, 4).AddIngredient(ItemID.LifeCrystal).AddIngredient(ItemID.ManaCrystal).AddIngredient(ItemID.Bone, 92).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<UtensilPoker>().
+                AddIngredient<AuricBar>(5).
+                AddIngredient(ItemID.Bacon, 4).
+                AddIngredient(ItemID.LifeCrystal).
+                AddIngredient(ItemID.ManaCrystal).
+                AddIngredient(ItemID.Bone, 92).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

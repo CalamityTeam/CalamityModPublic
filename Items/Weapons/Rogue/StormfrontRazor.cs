@@ -45,11 +45,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Cinquedea>()).AddRecipeGroup("AnyMythrilBar", 6).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 4).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<StormlionMandible>(), 2).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -64,6 +59,18 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<StormfrontRazorProjectile>(), damage, knockback, player.whoAmI, 0, 1f);
                 return false;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Cinquedea>().
+                AddRecipeGroup("AnyMythrilBar", 6).
+                AddIngredient<EssenceofCinder>(4).
+                AddIngredient<SeaPrism>(15).
+                AddIngredient<StormlionMandible>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

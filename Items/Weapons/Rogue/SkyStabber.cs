@@ -88,7 +88,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 100).AddIngredient(ItemID.Cloud, 10).AddIngredient(ModContent.ItemType<AerialiteBar>(), 4).AddTile(TileID.SkyMill).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 100).
+                AddIngredient(ItemID.Cloud, 10).
+                AddIngredient<AerialiteBar>(4).
+                AddTile(TileID.SkyMill).
+                Register();
         }
 
     }

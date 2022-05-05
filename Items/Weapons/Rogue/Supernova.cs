@@ -57,7 +57,16 @@ Stealth strikes release energy as they fly");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TotalityBreakers>()).AddIngredient(ModContent.ItemType<BallisticPoisonBomb>()).AddIngredient(ModContent.ItemType<ShockGrenade>(), 200).AddIngredient(ModContent.ItemType<Penumbra>()).AddIngredient(ModContent.ItemType<StarofDestruction>()).AddIngredient(ModContent.ItemType<SealedSingularity>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<TotalityBreakers>().
+                AddIngredient<BallisticPoisonBomb>().
+                AddIngredient<ShockGrenade>(200).
+                AddIngredient<Penumbra>().
+                AddIngredient<StarofDestruction>().
+                AddIngredient<SealedSingularity>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

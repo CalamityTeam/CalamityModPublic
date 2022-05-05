@@ -30,8 +30,14 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolithWall>(), 4).AddTile(ModContent.TileType<MonolithCrafting>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MonolithPlatform>(), 2).Register();
+            CreateRecipe().
+                AddIngredient<AstralMonolithWall>(4).
+                AddTile<MonolithCrafting>().
+                Register();
+
+            CreateRecipe().
+                AddIngredient<MonolithPlatform>(2).
+                Register();
         }
     }
 }

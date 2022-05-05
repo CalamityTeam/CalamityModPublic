@@ -57,7 +57,11 @@ namespace CalamityMod.Items.Weapons.Summon
         //in case you lose it and want another for some bizzare reason
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Wood, 10).AddIngredient(ItemID.Acorn).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Wood, 10).
+                AddIngredient(ItemID.Acorn).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

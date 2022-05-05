@@ -57,7 +57,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.HolyWater, 10).AddIngredient(ItemID.HallowedBar, 12).AddIngredient(ItemID.SoulofMight, 6).AddIngredient(ItemID.SoulofSight, 6).AddIngredient(ItemID.SoulofFright, 6).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.HolyWater, 10).
+                AddIngredient(ItemID.HallowedBar, 12).
+                AddIngredient(ItemID.SoulofMight, 6).
+                AddIngredient(ItemID.SoulofSight, 6).
+                AddIngredient(ItemID.SoulofFright, 6).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -29,8 +29,15 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EutrophicSandWallSafe>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EutrophicSandWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe().
+                AddIngredient<EutrophicSandWallSafe>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<EutrophicSandWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

@@ -53,7 +53,14 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<WitherBlossomsStaff>()).AddIngredient(ModContent.ItemType<ViralSprout>()).AddIngredient(ItemID.LunarBar, 5).AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<WitherBlossomsStaff>().
+                AddIngredient<ViralSprout>().
+                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient<GalacticaSingularity>(5).
+                AddIngredient<BarofLife>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

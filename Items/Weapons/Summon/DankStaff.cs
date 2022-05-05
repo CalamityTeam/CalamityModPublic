@@ -38,11 +38,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DamageType = DamageClass.Summon;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.RottenChunk, 3).AddIngredient(ItemID.DemoniteBar, 8).AddIngredient(ModContent.ItemType<TrueShadowScale>(), 7).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
@@ -55,6 +50,16 @@ namespace CalamityMod.Items.Weapons.Summon
                     Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.RottenChunk, 3).
+                AddIngredient(ItemID.DemoniteBar, 8).
+                AddIngredient<TrueShadowScale>(7).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

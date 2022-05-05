@@ -53,7 +53,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddRecipeGroup("AnyEvilFlask", 5).AddIngredient(ItemID.Deathweed, 2).AddIngredient(ItemID.SoulofNight, 10).AddRecipeGroup("AnyEvilBar", 10).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddRecipeGroup("AnyEvilFlask", 5).
+                AddIngredient(ItemID.Deathweed, 2).
+                AddIngredient(ItemID.SoulofNight, 10).
+                AddRecipeGroup("AnyEvilBar", 10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

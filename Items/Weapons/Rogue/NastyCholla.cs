@@ -63,7 +63,10 @@ Stealth strikes throw five at once");
 
         public override void AddRecipes()
         {
-            CreateRecipe(15).AddIngredient(ItemID.Cactus, 3).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(15).
+                AddIngredient(ItemID.Cactus, 3).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

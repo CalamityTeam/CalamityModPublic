@@ -39,11 +39,6 @@ Stealth strikes are faster and explode into 5 bubbles");
             Item.Calamity().rogue = true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.Bomb, 25).AddIngredient(ModContent.ItemType<SeaPrism>(), 10).AddTile(TileID.Anvils).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -54,6 +49,15 @@ Stealth strikes are faster and explode into 5 bubbles");
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Bomb, 25).
+                AddIngredient<SeaPrism>(10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

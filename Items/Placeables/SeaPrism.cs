@@ -31,7 +31,10 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PrismShard>(), 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<PrismShard>(5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

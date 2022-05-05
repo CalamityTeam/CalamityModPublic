@@ -77,7 +77,13 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Kylie>()).AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 6).AddIngredient(ModContent.ItemType<Voidstone>(), 40).AddIngredient(ModContent.ItemType<CoreofEleum>(), 5).AddTile(TileID.IceMachine).Register();
+            CreateRecipe().
+                AddIngredient<Kylie>().
+                AddIngredient<VerstaltiteBar>(6).
+                AddIngredient<Voidstone>(40).
+                AddIngredient<CoreofEleum>(5).
+                AddTile(TileID.IceMachine).
+                Register();
         }
     }
 }

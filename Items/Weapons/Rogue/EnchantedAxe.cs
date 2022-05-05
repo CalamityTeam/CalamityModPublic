@@ -56,8 +56,21 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<IronFrancisca>(), 100).AddIngredient(ItemID.FallenStar, 5).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).AddIngredient(ItemID.Bone, 30).AddTile(TileID.Anvils).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LeadTomahawk>(), 100).AddIngredient(ItemID.FallenStar, 5).AddIngredient(ModContent.ItemType<VictoryShard>(), 10).AddIngredient(ItemID.Bone, 30).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<IronFrancisca>(100).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient<VictoryShard>(10).
+                AddIngredient(ItemID.Bone, 30).
+                AddTile(TileID.Anvils).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<LeadTomahawk>(100).
+                AddIngredient(ItemID.FallenStar, 5).
+                AddIngredient<VictoryShard>(10).
+                AddIngredient(ItemID.Bone, 30).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -76,7 +76,12 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.FlintlockPistol).AddIngredient(ItemID.IronBar, 10).AddIngredient(ItemID.Diamond, 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.FlintlockPistol).
+                AddIngredient(ItemID.IronBar, 10).
+                AddIngredient(ItemID.Diamond, 5).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

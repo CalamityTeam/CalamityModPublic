@@ -63,7 +63,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DayBreak).AddIngredient(ModContent.ItemType<Lumenite>(), 7).AddIngredient(ModContent.ItemType<RuinousSoul>(), 4).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DayBreak).
+                AddIngredient<Lumenite>(7).
+                AddIngredient<RuinousSoul>(4).
+                AddIngredient<ExodiumClusterOre>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

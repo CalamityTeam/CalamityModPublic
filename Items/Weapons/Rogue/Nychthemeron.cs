@@ -101,11 +101,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 30).AddIngredient(ItemID.LightShard).AddIngredient(ItemID.DarkShard).AddRecipeGroup("AnyMythrilBar", 2).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         private static void CreateOrbs(IEntitySource source, Vector2 position, int damage, float knockback, int projectileID, Player player, bool stealth)
         {
             float rotationOffset = 0f;
@@ -167,6 +162,17 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[orb2].rotation = rotationOffset + MathHelper.ToRadians(180f);
                 Main.projectile[orb2].Calamity().lineColor = stealth ? 1 : 0;
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 30).
+                AddIngredient(ItemID.LightShard).
+                AddIngredient(ItemID.DarkShard).
+                AddRecipeGroup("AnyMythrilBar", 2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

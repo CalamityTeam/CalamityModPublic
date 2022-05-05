@@ -50,7 +50,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BlastBarrel>()).AddIngredient(ModContent.ItemType<ContaminatedBile>()).AddIngredient(ModContent.ItemType<CorrodedFossil>(), 15).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<BlastBarrel>().
+                AddIngredient<ContaminatedBile>().
+                AddIngredient<CorrodedFossil>(15).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

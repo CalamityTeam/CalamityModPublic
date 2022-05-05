@@ -45,11 +45,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ShatteredSun>()).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
 
@@ -69,6 +64,15 @@ namespace CalamityMod.Items.Weapons.Rogue
                 }
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<ShatteredSun>()).
+                AddIngredient(ModContent.ItemType<AuricBar>(), 5).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

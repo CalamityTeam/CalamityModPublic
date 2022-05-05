@@ -79,7 +79,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.DemoniteBar, 5).AddIngredient(ItemID.ShadowScale, 9).AddIngredient(ItemID.Ebonwood, 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.DemoniteBar, 5).
+                AddIngredient(ItemID.ShadowScale, 9).
+                AddIngredient(ItemID.Ebonwood, 20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

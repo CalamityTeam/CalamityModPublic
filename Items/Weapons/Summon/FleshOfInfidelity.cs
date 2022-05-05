@@ -51,7 +51,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BelladonnaSpiritStaff>()).AddIngredient(ModContent.ItemType<StaffOfNecrosteocytes>()).AddIngredient(ModContent.ItemType<ScabRipper>()).AddIngredient(ItemID.ImpStaff).AddTile(TileID.DemonAltar).Register();
+            CreateRecipe().
+                AddIngredient<BelladonnaSpiritStaff>().
+                AddIngredient<StaffOfNecrosteocytes>().
+                AddIngredient<ScabRipper>().
+                AddIngredient(ItemID.ImpStaff).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

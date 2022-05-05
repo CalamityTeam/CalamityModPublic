@@ -38,11 +38,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.shootSpeed = 12f;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddRecipeGroup("AnyAdamantiteBar", 5).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddIngredient(ItemID.Amethyst, 4).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
@@ -56,6 +51,16 @@ namespace CalamityMod.Items.Weapons.Summon
                     Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddRecipeGroup("AnyAdamantiteBar", 5).
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 2).
+                AddIngredient(ItemID.Amethyst, 4).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

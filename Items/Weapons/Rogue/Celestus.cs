@@ -53,7 +53,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AccretionDisk>()).AddIngredient(ModContent.ItemType<AlphaVirus>()).AddIngredient(ModContent.ItemType<MoltenAmputator>()).AddIngredient(ModContent.ItemType<FrostcrushValari>()).AddIngredient(ModContent.ItemType<EnchantedAxe>()).AddIngredient(ModContent.ItemType<MiracleMatter>()).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<AccretionDisk>().
+                AddIngredient<AlphaVirus>().
+                AddIngredient<MoltenAmputator>().
+                AddIngredient<FrostcrushValari>().
+                AddIngredient<EnchantedAxe>().
+                AddIngredient<MiracleMatter>().
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

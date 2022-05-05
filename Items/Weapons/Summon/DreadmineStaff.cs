@@ -51,7 +51,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<DepthCells>(), 10).AddIngredient(ModContent.ItemType<Lumenite>(), 30).AddIngredient(ModContent.ItemType<Tenebris>(), 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<DepthCells>(10).
+                AddIngredient<Lumenite>(30).
+                AddIngredient<Tenebris>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

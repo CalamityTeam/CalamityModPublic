@@ -53,7 +53,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Revolver).AddIngredient(ModContent.ItemType<ClaretCannon>()).AddIngredient(ModContent.ItemType<FantasyTalisman>(), 52).AddIngredient(ModContent.ItemType<AuricBar>(), 5).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Revolver).
+                AddIngredient<ClaretCannon>().
+                AddIngredient<FantasyTalisman>(52).
+                AddIngredient<AuricBar>(5).
+                AddTile<CosmicAnvil>().
+                Register();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

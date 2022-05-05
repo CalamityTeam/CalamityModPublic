@@ -38,11 +38,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SunSpiritStaff>()).AddIngredient(ModContent.ItemType<EssenceofCinder>(), 5).AddIngredient(ItemID.SoulofMight, 3).AddIngredient(ItemID.SoulofSight, 3).AddIngredient(ItemID.SoulofFright, 3).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             CalamityUtils.KillShootProjectiles(true, type, player);
@@ -50,6 +45,18 @@ namespace CalamityMod.Items.Weapons.Summon
             if (Main.projectile.IndexInRange(p))
                 Main.projectile[p].originalDamage = Item.damage;
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<SunSpiritStaff>().
+                AddIngredient<EssenceofCinder>(5).
+                AddIngredient(ItemID.SoulofMight, 3).
+                AddIngredient(ItemID.SoulofSight, 3).
+                AddIngredient(ItemID.SoulofFright, 3).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

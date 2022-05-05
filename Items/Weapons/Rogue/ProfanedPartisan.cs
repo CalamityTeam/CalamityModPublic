@@ -60,8 +60,12 @@ Stealth strikes spawn smaller spears to fly along side it");
 
         public override void AddRecipes()
         {
-
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CrystalPiercer>(), 500).AddIngredient(ModContent.ItemType<UeliaceBar>(), 6).AddIngredient(ModContent.ItemType<DivineGeode>(), 4).AddIngredient(ModContent.ItemType <UnholyEssence>(), 25).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<CrystalPiercer>(500).
+                AddIngredient<UeliaceBar>(6).
+                AddIngredient<DivineGeode>(4).
+                AddIngredient<UnholyEssence>(25).
+                AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

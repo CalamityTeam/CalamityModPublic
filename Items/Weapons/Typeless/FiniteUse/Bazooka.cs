@@ -79,7 +79,12 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.IronBar, 20).AddRecipeGroup("AnyAdamantiteBar", 15).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient(ItemID.IronBar, 20).
+                AddRecipeGroup("AnyAdamantiteBar", 15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

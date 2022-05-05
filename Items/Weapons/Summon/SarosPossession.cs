@@ -75,7 +75,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Sirius>()).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 8).AddIngredient(ModContent.ItemType<DarksunFragment>(), 8).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<Sirius>().
+                AddIngredient<CosmiliteBar>(8).
+                AddIngredient<DarksunFragment>(8).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }
