@@ -41,12 +41,6 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0 && player.maxMinions >= 3;
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EyeOfNight>()).AddIngredient(ModContent.ItemType<DeepseaStaff>()).AddIngredient(ItemID.OpticStaff).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<FleshOfInfidelity>()).AddIngredient(ModContent.ItemType<DeepseaStaff>()).AddIngredient(ItemID.OpticStaff).AddIngredient(ModContent.ItemType<LivingShard>(), 10).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
@@ -84,6 +78,25 @@ namespace CalamityMod.Items.Weapons.Summon
                     Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<EyeOfNight>().
+                AddIngredient<DeepseaStaff>().
+                AddIngredient(ItemID.OpticStaff).
+                AddIngredient<LivingShard>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<FleshOfInfidelity>().
+                AddIngredient<DeepseaStaff>().
+                AddIngredient(ItemID.OpticStaff).
+                AddIngredient<LivingShard>(10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

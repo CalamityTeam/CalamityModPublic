@@ -52,7 +52,12 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CinderBlossomStaff>()).AddIngredient(ModContent.ItemType<FrostBlossomStaff>()).AddIngredient(ItemID.SoulofLight, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<CinderBlossomStaff>().
+                AddIngredient<FrostBlossomStaff>().
+                AddIngredient(ItemID.SoulofLight, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

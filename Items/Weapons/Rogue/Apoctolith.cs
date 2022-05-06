@@ -58,14 +58,20 @@ namespace CalamityMod.Items.Weapons.Rogue
             return true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ThrowingBrick>(), 100).AddIngredient(ModContent.ItemType<Voidstone>(), 20).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<Lumenite>(), 8).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Rogue/ApoctolithGlow").Value);
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<ThrowingBrick>(100).
+                AddIngredient<Voidstone>(20).
+                AddIngredient<SeaPrism>(15).
+                AddIngredient<Lumenite>(8).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

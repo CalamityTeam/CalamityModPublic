@@ -46,7 +46,11 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.BottledWater).AddIngredient(ModContent.ItemType<SulfuricScale>(), 10).AddTile(TileID.Bottles).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.BottledWater).
+                AddIngredient<SulfuricScale>(10).
+                AddTile(TileID.Bottles).
+                Register();
         }
     }
 }

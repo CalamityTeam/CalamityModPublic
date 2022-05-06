@@ -30,9 +30,21 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddIngredient(ModContent.ItemType<UelibloomOre>()).AddRecipeGroup("AnyStoneBlock").AddTile(TileID.AdamantiteForge).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<UelibloomBrickWall>(), 4).AddTile(ModContent.TileType<BotanicPlanter>()).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BotanicPlatform>(), 2).AddTile(ModContent.TileType<BotanicPlanter>()).Register();
+            CreateRecipe(10).
+                AddIngredient<UelibloomOre>().
+                AddRecipeGroup("AnyStoneBlock").
+                AddTile(TileID.AdamantiteForge).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<UelibloomBrickWall>(4).
+                AddTile<BotanicPlanter>().
+                Register();
+
+            CreateRecipe().
+                AddIngredient<BotanicPlatform>(2).
+                AddTile<BotanicPlanter>().
+                Register();
         }
     }
 }

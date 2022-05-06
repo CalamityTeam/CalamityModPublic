@@ -52,7 +52,12 @@ namespace CalamityMod.Items.Weapons.Rogue
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.ChlorophyteBar, 20).AddIngredient(ItemID.Nanites, 150).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.ChlorophyteBar, 20).
+                AddIngredient(ItemID.Nanites, 150).
+                AddIngredient<PlagueCellCluster>(15).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

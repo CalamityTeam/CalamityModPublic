@@ -81,7 +81,12 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TacticalPlagueEngine>()).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient<TacticalPlagueEngine>().
+                AddIngredient<ExodiumClusterOre>(20).
+                AddIngredient<CosmiliteBar>(10).
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

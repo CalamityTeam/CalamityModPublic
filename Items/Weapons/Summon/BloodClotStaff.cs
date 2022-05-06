@@ -37,11 +37,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.DamageType = DamageClass.Summon;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.Vertebrae, 4).AddIngredient(ItemID.CrimtaneBar, 5).AddIngredient(ModContent.ItemType<BloodSample>(), 10).AddTile(TileID.DemonAltar).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.altFunctionUse != 2)
@@ -54,6 +49,16 @@ namespace CalamityMod.Items.Weapons.Summon
                     Main.projectile[p].originalDamage = Item.damage;
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Vertebrae, 4).
+                AddIngredient(ItemID.CrimtaneBar, 5).
+                AddIngredient<BloodSample>(10).
+                AddTile(TileID.DemonAltar).
+                Register();
         }
     }
 }

@@ -68,11 +68,6 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().CannotBeEnchanted = true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Excelsus>()).AddIngredient(ModContent.ItemType<CosmicViperEngine>()).AddIngredient(ItemID.WingsVortex).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 40).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
-        }
-
         public override bool CanUseItem(Player player) => !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -149,6 +144,18 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<Excelsus>().
+                AddIngredient<CosmicViperEngine>().
+                AddIngredient(ItemID.WingsVortex).
+                AddIngredient<CosmiliteBar>(40).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

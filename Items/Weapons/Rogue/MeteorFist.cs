@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.MeteoriteBar, 10).AddTile(TileID.Anvils).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -54,6 +49,14 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.MeteoriteBar, 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

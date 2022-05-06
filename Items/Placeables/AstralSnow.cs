@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls;
+﻿using CalamityMod.Items.Placeables.Walls;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
@@ -28,7 +28,10 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<AstralSnowWall>(), 4).Register();
+            CreateRecipe().
+                AddIngredient<AstralSnowWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

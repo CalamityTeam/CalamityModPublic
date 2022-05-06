@@ -42,11 +42,6 @@ Stealth strike throws a volley of knives");
             Item.rare = ItemRarityID.Orange;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(100).AddIngredient(ModContent.ItemType<AerialiteBar>()).AddTile(TileID.SkyMill).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
@@ -66,6 +61,14 @@ Stealth strike throws a volley of knives");
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(100).
+                AddIngredient<AerialiteBar>().
+                AddTile(TileID.SkyMill).
+                Register();
         }
     }
 }

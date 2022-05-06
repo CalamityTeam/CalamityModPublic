@@ -53,7 +53,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ForgottenApexWand>()).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ModContent.ItemType<AerialiteBar>(), 10).AddIngredient(ItemID.AncientCloth, 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<ForgottenApexWand>().
+                AddIngredient<GrandScale>().
+                AddIngredient<AerialiteBar>(10).
+                AddIngredient(ItemID.AncientCloth, 5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

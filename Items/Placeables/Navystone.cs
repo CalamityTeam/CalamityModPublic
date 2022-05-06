@@ -30,9 +30,20 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<NavystoneWallSafe>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<NavystoneWall>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<EutrophicPlatform>(), 2).AddTile(ModContent.TileType<EutrophicCrafting>()).Register();
+            CreateRecipe().
+                AddIngredient<NavystoneWallSafe>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<NavystoneWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<EutrophicPlatform>(2).
+                AddTile<EutrophicCrafting>().
+                Register();
         }
     }
 }

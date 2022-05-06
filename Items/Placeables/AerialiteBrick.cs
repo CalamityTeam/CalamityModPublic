@@ -28,8 +28,16 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddIngredient(ModContent.ItemType<AerialiteOre>(), 1).AddRecipeGroup("AnyStoneBlock").AddTile(TileID.Furnaces).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AerialiteBrickWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(10).
+                AddIngredient<AerialiteOre>().
+                AddRecipeGroup("AnyStoneBlock").
+                AddTile(TileID.Furnaces).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<AerialiteBrickWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

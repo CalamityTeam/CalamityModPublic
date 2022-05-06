@@ -76,7 +76,15 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Magnum>()).AddIngredient(ItemID.IllegalGunParts).AddIngredient(ItemID.SoulofMight, 20).AddIngredient(ItemID.SoulofSight, 20).AddIngredient(ItemID.SoulofFright, 20).AddIngredient(ItemID.HallowedBar, 10).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<Magnum>().
+                AddIngredient(ItemID.IllegalGunParts).
+                AddIngredient(ItemID.SoulofMight, 20).
+                AddIngredient(ItemID.SoulofSight, 20).
+                AddIngredient(ItemID.SoulofFright, 20).
+                AddIngredient(ItemID.HallowedBar, 10).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

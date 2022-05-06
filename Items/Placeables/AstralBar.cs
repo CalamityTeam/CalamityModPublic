@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
@@ -33,7 +33,11 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Stardust>(), 3).AddIngredient(ModContent.ItemType<AstralOre>(), 2).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<Stardust>(3).
+                AddIngredient<AstralOre>(2).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

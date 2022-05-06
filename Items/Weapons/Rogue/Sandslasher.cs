@@ -54,7 +54,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<GrandScale>()).AddIngredient(ModContent.ItemType<CoreofCinder>(), 6).AddRecipeGroup("AnyGoldBar", 10).AddIngredient(ItemID.HardenedSand, 25).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<GrandScale>().
+                AddIngredient<CoreofCinder>(6).
+                AddRecipeGroup("AnyGoldBar", 10).
+                AddIngredient(ItemID.HardenedSand, 25).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

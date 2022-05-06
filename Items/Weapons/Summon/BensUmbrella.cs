@@ -55,7 +55,14 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpikecragStaff>()).AddIngredient(ModContent.ItemType<SarosPossession>()).AddIngredient(ItemID.Umbrella).AddIngredient(ItemID.TopHat).AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe().
+                AddIngredient<SpikecragStaff>().
+                AddIngredient<SarosPossession>().
+                AddIngredient(ItemID.Umbrella).
+                AddIngredient(ItemID.TopHat).
+                AddIngredient<ShadowspecBar>(5).
+                AddTile<DraedonsForge>().
+                Register();
         }
     }
 }

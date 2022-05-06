@@ -57,7 +57,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<CosmicKunai>()).AddIngredient(ItemID.FastClock).AddIngredient(ModContent.ItemType<RuinousSoul>(), 5).AddIngredient(ModContent.ItemType<Phantoplasm>(), 20).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<CosmicKunai>().
+                AddIngredient(ItemID.FastClock).
+                AddIngredient<RuinousSoul>(5).
+                AddIngredient<Phantoplasm>(20).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

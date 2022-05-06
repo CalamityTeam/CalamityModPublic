@@ -39,11 +39,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().rogue = true;
         }
 
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddIngredient(ItemID.AncientBattleArmorMaterial, 2).AddRecipeGroup("AnyAdamantiteBar", 4).AddTile(TileID.MythrilAnvil).Register();
-        }
-
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.Calamity().StealthStrikeAvailable())
@@ -54,6 +49,15 @@ namespace CalamityMod.Items.Weapons.Rogue
                 return false;
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.AncientBattleArmorMaterial, 2).
+                AddRecipeGroup("AnyAdamantiteBar", 4).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

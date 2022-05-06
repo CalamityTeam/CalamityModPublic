@@ -84,7 +84,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Silk, 40).AddIngredient(ItemID.Ectoplasm, 20).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddIngredient(ItemID.ButterflyDust, 2).AddTile(TileID.Loom).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.Silk, 40).
+                AddIngredient(ItemID.Ectoplasm, 20).
+                AddIngredient<BarofLife>(5).
+                AddIngredient(ItemID.ButterflyDust, 2).
+                AddTile(TileID.Loom).
+                Register();
         }
     }
 }

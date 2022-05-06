@@ -74,7 +74,13 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SunGodStaff>()).AddIngredient(ModContent.ItemType<Lumenite>(), 5).AddIngredient(ModContent.ItemType<RuinousSoul>(), 2).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 12).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<SunGodStaff>().
+                AddIngredient<Lumenite>(5).
+                AddIngredient<RuinousSoul>(2).
+                AddIngredient<ExodiumClusterOre>(12).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

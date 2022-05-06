@@ -57,7 +57,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).AddIngredient(ModContent.ItemType<EbonianGel>(), 15).AddRecipeGroup("Boss2Material").Register();
+            CreateRecipe(100).
+                AddIngredient<EbonianGel>(15).
+                AddRecipeGroup("Boss2Material").
+                Register();
         }
     }
 }

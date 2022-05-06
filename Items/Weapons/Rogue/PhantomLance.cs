@@ -60,7 +60,12 @@ Stealth strikes don't slow down and souls always deal full damage");
 
         public override void AddRecipes()
         {
-            CreateRecipe(100).AddIngredient(ItemID.SpectreBar, 2).AddIngredient(ModContent.ItemType<CruptixBar>()).AddIngredient(ModContent.ItemType<CalamityDust>(), 2).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe(100).
+                AddIngredient(ItemID.SpectreBar, 2).
+                AddIngredient<CruptixBar>().
+                AddIngredient<CalamityDust>(2).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

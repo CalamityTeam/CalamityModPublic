@@ -61,7 +61,13 @@ Stealth strikes throw three high speed spears");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ScourgeoftheDesert>()).AddIngredient(ModContent.ItemType<MolluskHusk>(), 5).AddIngredient(ModContent.ItemType<SeaPrism>(), 15).AddIngredient(ModContent.ItemType<PrismShard>(), 20).AddTile(TileID.Anvils).Register();
+            CreateRecipe().
+                AddIngredient<ScourgeoftheDesert>().
+                AddIngredient<MolluskHusk>(5).
+                AddIngredient<SeaPrism>(15).
+                AddIngredient<PrismShard>(20).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

@@ -53,7 +53,13 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<TundraFlameBlossomsStaff>()).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15).AddIngredient(ModContent.ItemType<CoreofCalamity>(), 5).AddIngredient(ModContent.ItemType<BarofLife>(), 5).AddTile(TileID.MythrilAnvil).Register();
+            CreateRecipe().
+                AddIngredient<TundraFlameBlossomsStaff>().
+                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<CoreofCalamity>(5).
+                AddIngredient<BarofLife>(5).
+                AddTile(TileID.MythrilAnvil).
+                Register();
         }
     }
 }

@@ -29,8 +29,16 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddIngredient(ModContent.ItemType<AstralOre>(), 1).AddIngredient(ModContent.ItemType<AstralStone>(), 1).AddTile(TileID.Furnaces).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralBrickWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(10).
+                AddIngredient<AstralOre>().
+                AddIngredient<AstralStone>().
+                AddTile(TileID.Furnaces).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<AstralBrickWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

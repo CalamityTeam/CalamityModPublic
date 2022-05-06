@@ -105,7 +105,11 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<IgneousExaltation>()).AddIngredient(ModContent.ItemType<UeliaceBar>(), 8).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<IgneousExaltation>().
+                AddIngredient<UeliaceBar>(8).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

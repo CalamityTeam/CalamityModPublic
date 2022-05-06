@@ -27,7 +27,10 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<Walls.SulphurousSandstoneWall>(), 4).Register();
+            CreateRecipe().
+                AddIngredient<Walls.SulphurousSandstoneWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

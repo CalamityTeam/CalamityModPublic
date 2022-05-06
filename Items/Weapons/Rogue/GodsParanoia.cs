@@ -91,7 +91,11 @@ Right click to delete all existing spiky balls");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.SpikyBall, 200).AddIngredient(ModContent.ItemType<CosmiliteBar>(), 1).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe().
+                AddIngredient(ItemID.SpikyBall, 200).
+                AddIngredient<CosmiliteBar>().
+                AddTile<CosmicAnvil>().
+                Register();
         }
     }
 }

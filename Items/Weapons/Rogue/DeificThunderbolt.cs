@@ -66,7 +66,13 @@ Stealth strikes summon more lightning and travel faster");
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StormfrontRazor>()).AddIngredient(ModContent.ItemType<ArmoredShell>(), 8).AddIngredient(ModContent.ItemType<UnholyEssence>(), 15).AddIngredient(ModContent.ItemType<CoreofCinder>(), 5).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<StormfrontRazor>().
+                AddIngredient<ArmoredShell>(8).
+                AddIngredient<UnholyEssence>(15).
+                AddIngredient<CoreofCinder>(5).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

@@ -51,7 +51,14 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SpearofPaleolith>()).AddIngredient(ModContent.ItemType<ScourgeoftheSeas>()).AddIngredient(ModContent.ItemType<Turbulance>()).AddIngredient(ModContent.ItemType<MeldiateBar>(), 10).AddIngredient(ItemID.FragmentStardust, 10).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe().
+                AddIngredient<SpearofPaleolith>().
+                AddIngredient<ScourgeoftheSeas>().
+                AddIngredient<Turbulance>().
+                AddIngredient<MeldiateBar>(10).
+                AddIngredient(ItemID.FragmentStardust, 10).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

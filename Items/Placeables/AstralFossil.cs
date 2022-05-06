@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls;
+﻿using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
@@ -28,11 +28,6 @@ namespace CalamityMod.Items.Placeables
             Item.width = 16;
             Item.height = 16;
             Item.maxStack = 999;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe(1).AddTile(TileID.WorkBenches).AddIngredient(ModContent.ItemType<AstralFossilWall>(), 4).Register();
         }
 
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)
@@ -159,6 +154,14 @@ namespace CalamityMod.Items.Placeables
                 resultType = ModContent.ItemType<Ores.AstralOre>();
                 resultStack = Main.rand.Next(1, 2);
             }
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<AstralFossilWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

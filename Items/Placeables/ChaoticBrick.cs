@@ -27,8 +27,16 @@ namespace CalamityMod.Items.Placeables
 
         public override void AddRecipes()
         {
-            CreateRecipe(10).AddRecipeGroup("AnyStoneBlock").AddIngredient(ModContent.ItemType<ChaoticOre>()).AddTile(TileID.Furnaces).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ChaoticBrickWall>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(10).
+                AddRecipeGroup("AnyStoneBlock").
+                AddIngredient<ChaoticOre>().
+                AddTile(TileID.Furnaces).
+                Register();
+
+            CreateRecipe().
+                AddIngredient<ChaoticBrickWall>(4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }
