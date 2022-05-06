@@ -549,7 +549,7 @@ namespace CalamityMod.CalPlayer
         public bool projRefRare = false;
         public int projRefRareLifeRegenCounter = 0;
         public bool nanotech = false;
-        public bool eQuiver = false;
+        public bool artemisEmblem = false;
         public bool shadowMinions = false;
         public bool holyMinions = false;
         public bool alchFlask = false;
@@ -1696,7 +1696,7 @@ namespace CalamityMod.CalPlayer
             uberBees = false;
             projRefRare = false;
             nanotech = false;
-            eQuiver = false;
+            artemisEmblem = false;
             cryogenSoul = false;
             yInsignia = false;
             eGauntlet = false;

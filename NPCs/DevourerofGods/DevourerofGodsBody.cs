@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     if (phase2)
                     {
-                        // Fire lasers from every 10th body segment if not in laser wall phase
+                        // Fire lasers from every 10th (20th in normal mode) body segment if not in laser wall phase
                         float laserWallPhaseGateValue = 720f;
                         if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] < laserWallPhaseGateValue - 180f)
                         {
@@ -235,7 +235,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                     else
                     {
-                        // Fire lasers from every 10th body segment if not in laser barrage phase
+                        // Fire lasers from every 10th (20th in normal mode) body segment if not in laser barrage phase
                         float laserBarrageGateValue = malice ? 780f : death ? 900f : 960f;
                         float laserBarrageShootGateValue = malice ? 160f : 240f;
                         float laserBarragePhaseGateValue = laserBarrageGateValue - laserBarrageShootGateValue * 1.5f;
@@ -501,7 +501,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 240, true);
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 300, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 480, true);
         }
     }
 }

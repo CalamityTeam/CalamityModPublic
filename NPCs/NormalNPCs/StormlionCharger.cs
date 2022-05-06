@@ -64,12 +64,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.DesertCave.Chance * 0.2f;
+            return SpawnCondition.DesertCave.Chance * 0.3f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Electrified, 90, true);
+            player.AddBuff(BuffID.Electrified, 120, true);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)

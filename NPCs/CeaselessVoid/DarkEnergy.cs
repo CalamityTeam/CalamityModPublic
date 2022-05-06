@@ -261,7 +261,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 20, true);
+            player.AddBuff(BuffID.VortexDebuff, 60, true);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

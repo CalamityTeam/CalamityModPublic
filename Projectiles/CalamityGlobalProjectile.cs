@@ -1907,6 +1907,9 @@ namespace CalamityMod.Projectiles
                 }
                 else
                 {
+                    if (modPlayer.artemisEmblem && projectile.CountsAsClass(DamageClass.Ranged))
+                        projectile.extraUpdates += 1;
+
                     if (modPlayer.camper && !player.StandingStill())
                         projectile.damage = (int)(projectile.damage * 0.1);
                 }

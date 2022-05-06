@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Elemental Quiver");
-            Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
-                "5 increased defense, 2 increased life regen, and 15% increased pick speed\n" +
-                "Greatly increases arrow speed and grants a 20% chance to not consume arrows");
+            Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
+                "Grants a 20% chance to not consume arrows\n" +
+                "Greatly increases all ranged projectile velocity");
         }
 
         public override void SetDefaults()
@@ -32,12 +32,9 @@ namespace CalamityMod.Items.Accessories
         {
             player.GetDamage(DamageClass.Ranged) += 0.15f;
             player.GetCritChance(DamageClass.Ranged) += 5;
-            player.lifeRegen += 2;
-            player.statDefense += 5;
-            player.pickSpeed -= 0.15f;
             player.magicQuiver = true;
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.eQuiver = true; // Since splitting was removed, this has no effect.
+            modPlayer.artemisEmblem = true;
             modPlayer.rangedAmmoCost *= 0.8f;
         }
 

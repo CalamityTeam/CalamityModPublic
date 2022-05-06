@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Artemis Emblem");
-            Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
-                "5 increased defense, 2 increased life regen, and 15% increased pick speed");
+            Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
+                "Greatly increases all ranged projectile velocity");
         }
 
         public override void SetDefaults()
@@ -27,20 +27,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.Calamity().artemisEmblem = true;
             player.Calamity().rangedAmmoCost *= 0.8f;
-            player.lifeRegen += 2;
-            player.statDefense += 5;
             player.GetDamage(DamageClass.Ranged) += 0.1f;
             player.GetCritChance(DamageClass.Ranged) += 5;
-            player.pickSpeed -= 0.15f;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.CelestialStone).
                 AddIngredient(ItemID.RangerEmblem).
-                AddIngredient<CoreofCalamity>().
+                AddIngredient<CoreofCalamity>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

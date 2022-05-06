@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= 400f ? 180 : 90;
+            int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= 400f ? 240 : 120;
             player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 

@@ -2441,7 +2441,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300, true);
-            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 420, true);
+            player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 600, true);
 
             if (player.Calamity().dogTextCooldown <= 0)
             {
