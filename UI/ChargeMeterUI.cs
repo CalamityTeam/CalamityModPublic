@@ -35,13 +35,14 @@ namespace CalamityMod.UI
             Texture2D edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeterBorder").Value;
             Texture2D barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeter").Value;
             float uiScale = Main.UIScale;
+			float offset = (edgeTexture.Width - barTexture.Width) * 0.5f;
             spriteBatch.Draw(edgeTexture, DrawPosition, null, Color.White, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * modItem.ChargeRatio), barTexture.Width);
-            spriteBatch.Draw(barTexture, DrawPosition, barRectangle, Color.White, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+            spriteBatch.Draw(barTexture, DrawPosition + new Vector2(offset * uiScale, 0), barRectangle, Color.White, 0f, edgeTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             Rectangle mouse = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
-            Rectangle chargeBar = Utils.CenteredRectangle(DrawPosition, barTexture.Size() * uiScale);
+            Rectangle chargeBar = Utils.CenteredRectangle(DrawPosition, edgeTexture.Size() * uiScale);
 
             if (chargeBar.Intersects(mouse))
             {

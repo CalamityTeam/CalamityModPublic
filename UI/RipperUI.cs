@@ -148,11 +148,11 @@ namespace CalamityMod.UI
             spriteBatch.Draw(rageBorderTex, rageDrawPos + shakeOffset, null, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Rage level
-            // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space. Bar is 24 pixels tall
-            int deadSpace = 7;
-            int barWidth = rageBarTex.Width - 2 * deadSpace;
-            Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * rageRatio), rageBarTex.Height);
-            spriteBatch.Draw(rageBarTex, rageDrawPos + shakeOffset, cropRect, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+            // offset calculates the deadspace that is the border and not the bar. Bar is 24 pixels tall
+            int barWidth = rageBarTex.Width;
+			float offset = (rageBorderTex.Width - rageBarTex.Width) * 0.5f;
+            Rectangle cropRect = new Rectangle(0, 0, (int)(barWidth * rageRatio), rageBarTex.Height);
+            spriteBatch.Draw(rageBarTex, rageDrawPos + shakeOffset + new Vector2(offset * uiScale, 0), cropRect, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // Determine which pearls to draw (and their positions) based off of which Rage upgrades the player has.
             IList<Texture2D> pearls = new List<Texture2D>(3);
@@ -214,11 +214,11 @@ namespace CalamityMod.UI
                 spriteBatch.Draw(adrenBorderTexFull, adrenDrawPos + shakeOffset, null, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // The amount of the bar to draw depends on the player's current Adrenaline level
-            // 7 pixels of dead space, 90 pixels of bar, 7 pixels of dead space.
-            int deadSpace = 7;
-            int barWidth = adrenBarTex.Width - 2 * deadSpace;
-            Rectangle cropRect = new Rectangle(0, 0, deadSpace + (int)(barWidth * adrenRatio), adrenBarTex.Height);
-            spriteBatch.Draw(adrenBarTex, adrenDrawPos + shakeOffset, cropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
+            // offset calculates the deadspace that is the border and not the bar. Bar is 24 pixels tall
+            int barWidth = adrenBarTex.Width;
+			float offset = (adrenBorderTex.Width - adrenBarTex.Width) * 0.5f;
+            Rectangle cropRect = new Rectangle(0, 0, (int)(barWidth * adrenRatio), adrenBarTex.Height);
+            spriteBatch.Draw(adrenBarTex, adrenDrawPos + shakeOffset + new Vector2(offset * uiScale, 0), cropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             // Determine which pearls to draw (and their positions) based off of which Adrenaline upgrades the player has.
             IList<Texture2D> pearls = new List<Texture2D>(3);
