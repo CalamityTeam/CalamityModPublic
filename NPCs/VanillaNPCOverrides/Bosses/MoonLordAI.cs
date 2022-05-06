@@ -2111,7 +2111,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             else if (npc.type == NPCID.MoonLordLeechBlob)
             {
                 // Variables
-                float num1265 = 120f;
+                float num1265 = 180f;
                 Vector2 value28 = new Vector2(0f, 216f);
                 int num1266 = (int)Math.Abs(npc.ai[0]) - 1;
                 int num1267 = (int)npc.ai[1];
