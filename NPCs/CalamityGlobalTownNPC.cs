@@ -202,6 +202,7 @@ namespace CalamityMod.NPCs
             // "Bear", // <@!183424826407518208> (Lilac Vrt Olligoci#5585) ONLY IF the cat is a Black Cat
             // "Felix" // <@!183424826407518208> (Lilac Vrt Olligoci#5585) ONLY IF the cat is an Orange Tabby
             "Smoogle", // <@!709968379334623274> (smoogle#5672)
+            "The Meowurer of Gods", // <@!385949114271268864> (GP#7876)
         };
 
         private const int TownBunnyWhiteVanillaNames = 14;
