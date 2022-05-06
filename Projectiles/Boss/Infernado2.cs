@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             if (Projectile.timeLeft <= 720)
-                target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420);
+                target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 600);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

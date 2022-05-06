@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Nucleogenesis");
             Tooltip.SetDefault("Increases max minions by 4, does not stack with downgrades\n" +
-                "Grants immunity to Shadowflame\n" +
+                "Grants immunity to Shadowflame and Irradiated\n" +
                 "15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
@@ -43,6 +44,7 @@ namespace CalamityMod.Items.Accessories
             player.GetKnockback<SummonDamageClass>() += 3f;
             player.GetDamage(DamageClass.Summon) += 0.15f;
             player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
 
         public override void AddRecipes()

@@ -950,7 +950,9 @@ namespace CalamityMod.CalPlayer
                     Player.maxMinions += 2;
 
                 if (starTaintedGenerator)
+                {
                     Player.maxMinions += 2;
+                }
                 else
                 {
                     if (starbusterCore)
@@ -3958,7 +3960,7 @@ namespace CalamityMod.CalPlayer
                 Player.endurance -= 0.1f;
 
             if (irradiated)
-                    Player.endurance -= 0.1f;
+                Player.endurance -= 0.1f;
 
             if (corrEffigy)
                 Player.endurance -= 0.05f;

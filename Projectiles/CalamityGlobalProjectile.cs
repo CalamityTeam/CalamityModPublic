@@ -1880,9 +1880,7 @@ namespace CalamityMod.Projectiles
                         projectile.damage /= 2;
 
                     if ((CalamityLists.hardModeNerfList.Contains(projectile.type) && Main.hardMode && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon) || projectile.type == ProjectileID.JavelinHostile)
-                    {
                         projectile.damage = (int)(projectile.damage * 0.65);
-                    }
 
                     // Reduce mech boss projectile damage depending on the new ore progression changes
                     if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && !BossRushEvent.BossRushActive)

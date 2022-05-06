@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
@@ -16,7 +17,8 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Eldritch Soul Artifact");
             Tooltip.SetDefault("Knowledge\n" +
-                "Boosts melee speed by 10%, ranged velocity by 25%, rogue damage by 15%, max minions by 2, and reduces mana cost by 15%");
+                "Boosts melee speed by 10%, ranged velocity by 25%, rogue damage by 15%, max minions by 2 and reduces mana cost by 15%\n" +
+                "Grants immunity to Whispering Death");
         }
 
         public override void SetDefaults()
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eArtifact = true;
+            player.buffImmune[ModContent.BuffType<WhisperingDeath>()] = true;
         }
 
         public override void AddRecipes()

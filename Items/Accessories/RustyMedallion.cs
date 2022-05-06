@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +14,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Rusty Medallion");
-            Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky");
+            Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky\n" +
+                "Grants immunity to Irradiated");
         }
 
         public override void SetDefaults()
@@ -29,7 +31,9 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rustyMedal = true;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

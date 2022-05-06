@@ -2923,7 +2923,7 @@ namespace CalamityMod.NPCs.Yharon
         #region On Hit Player
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 420, true);
+            player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 480, true);
         }
         #endregion
 

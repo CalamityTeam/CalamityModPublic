@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fBarrier = true;
-            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
             player.statLifeMax2 += 100;
             player.GetDamage<GenericDamageClass>() += 0.08f;
             modPlayer.AllCritBoost(5);

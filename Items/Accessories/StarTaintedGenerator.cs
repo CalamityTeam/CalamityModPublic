@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Star-Tainted Generator");
             Tooltip.SetDefault("+2 max minions, does not stack with downgrades\n" +
                     "7% increased minion damage\n" +
-                    "Minion attacks spawn astral explosions and inflict several debuffs");
+                    "Minion attacks spawn astral explosions and inflict several debuffs\n" +
+                    "Grants immunity to Irradiated");
         }
 
         public override void SetDefaults()
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().starbusterCore = true;
             player.Calamity().starTaintedGenerator = true;
             player.GetDamage(DamageClass.Summon) += 0.07f;
+            player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }
 
         public override void AddRecipes()

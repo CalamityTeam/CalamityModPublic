@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -15,7 +16,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
                                "Rogue projectiles create slow fireballs as they travel\n" +
                                "Stealth strikes create infernados on death\n" +
-                               "+10% max run speed and acceleration");
+                               "+10% max run speed and acceleration\n" +
+                               "Grants immunity to Dragon Fire");
         }
 
         public override void SetDefaults()
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dragonScales = true;
+            player.buffImmune[ModContent.BuffType<LethalLavaBurn>()] = true;
         }
     }
 }
