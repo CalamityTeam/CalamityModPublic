@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Terraria;
@@ -21,7 +22,8 @@ namespace CalamityMod.Items.Accessories
                 "Enemies take damage when they hit you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "10% increased damage reduction\n" +
-                "5% of the damage from enemy attacks is absorbed and converted into healing");
+                "5% of the damage from enemy attacks is absorbed and converted into healing\n" +
+                "Grants immunity to Armor Crunch");
         }
 
         public override void SetDefaults()
@@ -43,6 +45,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.seaShell = true;
             modPlayer.absorber = true;
             player.statManaMax2 += 20;
+            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
         }
 
         public override void AddRecipes()

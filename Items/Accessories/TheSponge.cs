@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -26,7 +27,8 @@ namespace CalamityMod.Items.Accessories
                 "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
                 "Enemies take damage when they hit you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
-                "6.25% of the damage from enemy attacks is absorbed and converted into healing");
+                "6.25% of the damage from enemy attacks is absorbed and converted into healing\n" +
+                "Grants immunity to Armor Crunch");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 30));
         }
 
@@ -50,6 +52,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.absorber = true;
             modPlayer.sponge = true;
             player.statManaMax2 += 30;
+            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

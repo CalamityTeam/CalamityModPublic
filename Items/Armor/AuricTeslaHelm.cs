@@ -56,11 +56,6 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             player.crimsonRegen = true;
             player.aggro += 1200;
-            if (player.lavaWet)
-            {
-                player.statDefense += 30;
-                player.lifeRegen += 10;
-            }
 
             if (modPlayer.godSlayerDashHotKeyPressed)
                 modPlayer.dashMod = 9;

@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Plague Hive");
-            Tooltip.SetDefault("All attacks inflict the Plague and reduces the damage caused by the Plague\n" +
+            Tooltip.SetDefault("All attacks inflict the Plague and grants immunity to the Plague\n" +
                    "Releases bees when damaged that inflict the Plague\n" +
                    "Projectiles spawn plague seekers on enemy hits");
         }
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             player.strongBees = true;
             modPlayer.uberBees = true;
             modPlayer.alchFlask = true;
-            modPlayer.reducedPlagueDmg = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
     }
 }

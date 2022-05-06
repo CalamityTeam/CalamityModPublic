@@ -106,7 +106,7 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen = 0;
 
                 Player.lifeRegenTime = 0;
-                lifeRegenLost += abaddon ? 8 : 16;
+                lifeRegenLost += 16;
             }
 
             if (nightwither)
@@ -242,7 +242,7 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen = 0;
 
                 Player.lifeRegenTime = 0;
-                lifeRegenLost += reducedPlagueDmg ? 10 : 20;
+                lifeRegenLost += 20;
             }
 
             if (bBlood)

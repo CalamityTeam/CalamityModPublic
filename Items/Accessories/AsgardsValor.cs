@@ -1,5 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Asgard's Valor");
             Tooltip.SetDefault("Grants immunity to knockback\n" +
-                "Immune to most debuffs and reduces the damage caused by the Brimstone Flames debuff\n" +
+                "Immune to most debuffs\n" +
                 "+16 defense while submerged in liquid\n" +
                 "+20 max life\n" +
                 "Grants a holy dash which can be used to ram enemies");
@@ -41,7 +40,6 @@ namespace CalamityMod.Items.Accessories
             player.dash = 0;
             player.noKnockback = true;
             player.fireWalk = true;
-            modPlayer.abaddon = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Chilled] = true;
             player.buffImmune[BuffID.Frostburn] = true;
@@ -55,7 +53,6 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
             player.buffImmune[BuffID.WindPushed] = true;
-            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.statDefense += 16; }
@@ -67,7 +64,6 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.AnkhShield).
                 AddIngredient<OrnateShield>().
                 AddIngredient<ShieldoftheOcean>().
-                AddIngredient<Abaddon>().
                 AddIngredient<CoreofCalamity>().
                 AddIngredient(ItemID.LifeFruit, 5).
                 AddTile(TileID.MythrilAnvil).

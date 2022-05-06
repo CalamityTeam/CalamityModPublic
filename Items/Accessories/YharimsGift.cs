@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Yharim's Gift");
             Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
-                               "Flaming meteors rain down while invincibility is active\n" +
+                               "Flaming meteors rain down after getting hit\n" +
                                "Exploding dragon dust is left behind as you move\n" +
                                "Damage and movement speed increased by 15%");
         }

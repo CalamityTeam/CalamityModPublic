@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
@@ -12,7 +13,8 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Giant Tortoise Shell");
             Tooltip.SetDefault("10% decreased movement speed\n" +
-                "Enemies take damage when they hit you");
+                "Enemies take damage when they hit you\n" +
+                "Grants immunity to Armor Crunch");
         }
 
         public override void SetDefaults()
@@ -29,6 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             player.moveSpeed -= 0.1f;
             player.thorns += 0.25f;
+            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
         }
     }
 }

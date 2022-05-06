@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Armor
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloodflare Body Armor");
             Tooltip.SetDefault("12% increased damage and 8% increased critical strike chance\n" +
-                       "You regenerate life quickly and gain +30 defense while in lava\n" +
                        "+40 max life");
         }
 
@@ -32,11 +31,6 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 40;
             player.GetDamage<GenericDamageClass>() += 0.12f;
             player.Calamity().AllCritBoost(8);
-            if (player.lavaWet)
-            {
-                player.statDefense += 30;
-                player.lifeRegen += 10;
-            }
         }
 
         public override void AddRecipes()

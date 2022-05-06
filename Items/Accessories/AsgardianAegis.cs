@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -56,7 +55,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.dashMod = 4;
             player.dash = 0;
             modPlayer.elysianAegis = true;
-            modPlayer.abaddon = true;
             player.noKnockback = true;
             player.fireWalk = true;
             player.statLifeMax2 += 40;
@@ -74,11 +72,8 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
             player.buffImmune[BuffID.WindPushed] = true;
-            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
-            player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
-            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.statDefense += 20; }
         }

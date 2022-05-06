@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
@@ -15,7 +16,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("35% decreased movement speed\n" +
                                 "Enemies take damage when they hit you\n" +
                                 "You move faster and lose 18 defense for 3 seconds if you take damage\n" +
-                                "Temporary immunity to lava");
+                                "Temporary immunity to lava\n" +
+                                "Grants immunity to Armor Crunch");
         }
 
         public override void SetDefaults()
@@ -32,6 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.flameLickedShell = true;
+            player.buffImmune[ModContent.BuffType<ArmorCrunch>()] = true;
             player.lavaMax += 240;
             float moveSpeedDecrease = modPlayer.shellBoost ? 0.15f : 0.35f;
             player.moveSpeed -= moveSpeedDecrease;

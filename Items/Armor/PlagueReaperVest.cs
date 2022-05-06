@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Armor
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Plague Reaper Vest");
-            Tooltip.SetDefault("Reduces the damage caused to you by the plague\n" +
+            Tooltip.SetDefault("Grants immunity to the Plague\n" +
                 "15% increased ranged damage and 5% increased ranged critical strike chance");
         }
 
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Armor
         {
             player.GetDamage(DamageClass.Ranged) += 0.15f;
             player.GetCritChance(DamageClass.Ranged) += 5;
-            player.Calamity().reducedPlagueDmg = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AddRecipes()

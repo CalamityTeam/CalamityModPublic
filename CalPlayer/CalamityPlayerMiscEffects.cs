@@ -2812,7 +2812,7 @@ namespace CalamityMod.CalPlayer
 
             if (pFlames)
             {
-                Player.blind = !reducedPlagueDmg;
+                Player.blind = true;
                 Player.GetDamage<GenericDamageClass>() -= 0.1f;
                 Player.moveSpeed -= 0.15f;
             }

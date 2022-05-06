@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Abaddon");
-            Tooltip.SetDefault("Reduces the damage caused by the Brimstone Flames debuff and provides immunity to Searing Lava");
+            Tooltip.SetDefault("Grants immunity to Brimstone Flames and Searing Lava");
         }
 
         public override void SetDefaults()
@@ -25,7 +26,11 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().abaddon = true;
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.Calamity().abaddon = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+        }
 
         public override void AddRecipes()
         {

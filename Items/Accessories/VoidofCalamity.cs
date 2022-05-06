@@ -13,9 +13,8 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Void of Calamity");
-            Tooltip.SetDefault("Cursed? Reduces damage reduction by 10%\n" +
-            "15% increase to all damage\n" +
-            "Brimstone fire rains down while invincibility is active");
+            Tooltip.SetDefault("12% increase to all damage\n" +
+            "Brimstone fire rains down after getting hit");
         }
 
         public override void SetDefaults()
@@ -33,8 +32,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.voidOfCalamity = true;
-            player.GetDamage<GenericDamageClass>() += 0.15f;
-            player.endurance -= 0.1f;
+            player.GetDamage<GenericDamageClass>() += 0.12f;
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_Accessory(Item);

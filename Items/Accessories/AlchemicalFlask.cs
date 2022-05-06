@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Alchemical Flask");
-            Tooltip.SetDefault("All attacks inflict the Plague and reduces the damage caused by the Plague\n" +
+            Tooltip.SetDefault("All attacks inflict the Plague and grants immunity to the Plague\n" +
                 "Projectiles spawn plague seekers on enemy hits");
         }
 
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.alchFlask = true;
-            modPlayer.reducedPlagueDmg = true;
+            player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AddRecipes()

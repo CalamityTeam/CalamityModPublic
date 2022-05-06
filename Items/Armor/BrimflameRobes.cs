@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Brimflame Robes");
             Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
-                "Grants obsidian rose effects");
+                "Reduces damage from touching lava");
         }
 
         public override void SetDefaults()

@@ -61,11 +61,6 @@ namespace CalamityMod.Items.Armor
             player.crimsonRegen = true;
             player.GetDamage(DamageClass.Summon) += 0.75f;
             player.maxMinions += 6;
-            if (player.lavaWet)
-            {
-                player.statDefense += 30;
-                player.lifeRegen += 10;
-            }
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_ItemUse(Item);

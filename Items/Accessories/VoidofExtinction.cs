@@ -1,4 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -19,11 +20,12 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Void of Extinction");
-            Tooltip.SetDefault("No longer cursed\n" +
-                "Drops brimstone fireballs from the sky occasionally\n" +
-                "15% increase to all damage\n" +
-                "Brimstone fire rains down while invincibility is active\n" +
-                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
+            Tooltip.SetDefault("Drops brimstone fireballs from the sky occasionally\n" +
+                "10% increase to all damage\n" +
+                "Melee attacks inflict Hellfire\n" +
+                "Brimstone fire rains down after getting hit\n" +
+                "Reduces damage from touching lava\n" +
+                "Grants immunity to Burning, On Fire!, Brimstone Flames and Searing Lava");
         }
 
         public override void SetDefaults()
@@ -33,6 +35,7 @@ namespace CalamityMod.Items.Accessories
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
             Item.accessory = true;
+            Item.defense = 8;
         }
 
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().voidOfCalamity;
@@ -40,8 +43,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.ObsidianRose).
+                AddIngredient(ItemID.MoltenSkullRose).
                 AddIngredient<Gehenna>().
+                AddIngredient<Abaddon>().
                 AddIngredient<VoidofCalamity>().
                 AddIngredient<CoreofChaos>().
                 AddIngredient<CruptixBar>(3).
@@ -55,13 +59,13 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.voidOfCalamity = true;
             modPlayer.voidOfExtinction = true;
+            modPlayer.abaddon = true;
+            player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
+            player.magmaStone = true;
+            player.buffImmune[BuffID.OnFire] = true;
+            player.fireWalk = true;
             player.lavaRose = true;
-            player.lavaMax += 240;
-            player.GetDamage<GenericDamageClass>() += 0.15f;
-            if (player.lavaWet)
-            {
-                player.GetDamage<GenericDamageClass>() += 0.25f;
-            }
+            player.GetDamage<GenericDamageClass>() += 0.1f;
             if (player.immune)
             {
                 if (player.miscCounter % 10 == 0)
