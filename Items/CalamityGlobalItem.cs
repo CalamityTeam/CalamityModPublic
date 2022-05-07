@@ -867,8 +867,6 @@ namespace CalamityMod.Items
                     if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
                     {
                         int duration = CalamityPlayer.chaosStateDuration;
-                        if (CalamityPlayer.areThereAnyDamnBosses || CalamityPlayer.areThereAnyDamnEvents)
-                            duration = CalamityPlayer.chaosStateDurationBoss;
                         if (player.HasCooldown(Cooldowns.EvasionScarf.ID))
                             duration = (int)(duration * 1.5);
                         else if (player.HasCooldown(Cooldowns.CounterScarf.ID))

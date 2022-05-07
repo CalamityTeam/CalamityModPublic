@@ -100,8 +100,7 @@ namespace CalamityMod.CalPlayer
         public int sCalKillCount = 0;
         public int deathCount = 0;
         public int actualMaxLife = 0;
-        public static int chaosStateDuration = 360;
-        public static int chaosStateDurationBoss = 600;
+        public static int chaosStateDuration = 900;
         public bool killSpikyBalls = false;
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
@@ -2659,16 +2658,12 @@ namespace CalamityMod.CalPlayer
                     teleportLocation.X -= (float)(Player.width / 2);
                     if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
                     {
-                        int x = (int)(teleportLocation.X / 16f);
-                        int y = (int)(teleportLocation.Y / 16f);
                         if (!Collision.SolidCollision(teleportLocation, Player.width, Player.height))
                         {
                             Player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            int duration = chaosStateDuration;
-                            if (areThereAnyDamnBosses || areThereAnyDamnEvents)
-                                duration = (int)(chaosStateDurationBoss * 1.5);
+                            int duration = (int)(chaosStateDuration * 1.5);
                             if (Player.HasCooldown(Cooldowns.EvasionScarf.ID))
                                 duration = (int)(duration * 1.5);
                             else if (Player.HasCooldown(Cooldowns.CounterScarf.ID))
@@ -2748,8 +2743,6 @@ namespace CalamityMod.CalPlayer
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = chaosStateDuration;
-                            if (areThereAnyDamnBosses || areThereAnyDamnEvents)
-                                duration = chaosStateDurationBoss;
                             if (Player.HasCooldown(Cooldowns.EvasionScarf.ID))
                                 duration = (int)(duration * 1.5);
                             else if (Player.HasCooldown(Cooldowns.CounterScarf.ID))
@@ -6135,6 +6128,22 @@ namespace CalamityMod.CalPlayer
             {
                 Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             }
+            else if (npc.type == NPCID.BloodNautilus)
+            {
+                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 480);
+            }
+            else if (npc.type == NPCID.GoblinShark || npc.type == NPCID.BloodEelHead)
+            {
+                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 300);
+            }
+            else if (npc.type == NPCID.BloodEelBody)
+            {
+                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
+            }
+            else if (npc.type == NPCID.BloodEelTail)
+            {
+                Player.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
+            }
         }
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
@@ -6210,6 +6219,14 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.PhantasmalDeathray)
                 {
                     Player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
+                }
+                else if (proj.type == ProjectileID.BloodNautilusShot)
+                {
+                    Player.AddBuff(ModContent.BuffType<BurningBlood>(), 240);
+                }
+                else if (proj.type == ProjectileID.BloodShot)
+                {
+                    Player.AddBuff(ModContent.BuffType<BurningBlood>(), 180);
                 }
             }
 

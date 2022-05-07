@@ -642,6 +642,50 @@ namespace CalamityMod.Projectiles
                 return false;
             }
 
+            else if (projectile.type == ProjectileID.BloodNautilusShot)
+            {
+                if (projectile.localAI[0] == 0f)
+                {
+                    SoundEngine.PlaySound(SoundID.Item171, projectile.Center);
+                    projectile.localAI[0] = 1f;
+                    for (int num160 = 0; num160 < 8; num160++)
+                    {
+                        Dust obj12 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, projectile.velocity.X, projectile.velocity.Y, 100)];
+                        obj12.velocity = (Main.rand.NextFloatDirection() * (float)Math.PI).ToRotationVector2() * 2f + projectile.velocity.SafeNormalize(Vector2.Zero) * 2f;
+                        obj12.scale = 0.9f;
+                        obj12.fadeIn = 1.1f;
+                        obj12.position = projectile.Center;
+                    }
+                }
+
+                projectile.alpha -= 20;
+                if (projectile.alpha < 0)
+                    projectile.alpha = 0;
+
+                for (int num161 = 0; num161 < 2; num161++)
+                {
+                    Dust obj13 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 5, projectile.velocity.X, projectile.velocity.Y, 100)];
+                    obj13.velocity = obj13.velocity / 4f + projectile.velocity / 2f;
+                    obj13.scale = 1.2f;
+                    obj13.position = projectile.Center + Main.rand.NextFloat() * projectile.velocity * 2f;
+                }
+
+                for (int num162 = 1; num162 < projectile.oldPos.Length && !(projectile.oldPos[num162] == Vector2.Zero); num162++)
+                {
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        Dust obj14 = Main.dust[Dust.NewDust(projectile.oldPos[num162], projectile.width, projectile.height, 5, projectile.velocity.X, projectile.velocity.Y, 100)];
+                        obj14.velocity = obj14.velocity / 4f + projectile.velocity / 2f;
+                        obj14.scale = 1.2f;
+                        obj14.position = projectile.oldPos[num162] + projectile.Size / 2f + Main.rand.NextFloat() * projectile.velocity * 2f;
+                    }
+                }
+
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+                return false;
+            }
+
             else if (projectile.type == ProjectileID.Starfury)
             {
                 if (projectile.timeLeft > 45)

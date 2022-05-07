@@ -124,7 +124,8 @@ namespace CalamityMod.Items.Weapons.Melee
         }
 
         //Makes the alt fire only spawn the projectile once
-        public override bool OnlyShootOnSwing => RoxAlt;
+        // TODO -- Fix this, because tmod removed this function
+        //public override bool OnlyShootOnSwing => RoxAlt;
 
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {

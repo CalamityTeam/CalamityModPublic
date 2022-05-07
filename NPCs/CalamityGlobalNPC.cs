@@ -2076,6 +2076,10 @@ namespace CalamityMod.NPCs
                     canBreakPlayerDefense = true;
                     break;
 
+                case NPCID.BloodSquid:
+                    npc.lifeMax = (int)(npc.lifeMax * 0.25);
+                    break;
+
                 case NPCID.ChatteringTeethBomb:
                     npc.damage = 100;
                     canBreakPlayerDefense = true;
@@ -2709,6 +2713,10 @@ namespace CalamityMod.NPCs
                 if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
                     return CultistAI.BuffedAncientDoomAI(npc, Mod);
             }
+
+            // Completely override the shitty AI and replace it
+            if (npc.type == NPCID.BloodNautilus)
+                return DreadnautilusAI.BuffedDreadnautilusAI(npc, Mod);
 
             // Disable teleports for hardmode dungeon casters if they get hit
             if (npc.type >= NPCID.RaggedCaster && npc.type <= NPCID.DiabolistWhite && npc.justHit)
