@@ -488,9 +488,7 @@ namespace CalamityMod.CalPlayer
         public bool laudanum = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
-        public bool rampartOfDeities = false;
         public bool vexation = false;
-        public bool fBulwark = false;
         public bool dodgeScarf = false;
         public bool evasionScarf = false;
         public bool badgeOfBravery = false;
@@ -1671,9 +1669,7 @@ namespace CalamityMod.CalPlayer
             fishingStation = false;
             rBrain = false;
             bloodyWormTooth = false;
-            rampartOfDeities = false;
             vexation = false;
-            fBulwark = false;
             badgeOfBravery = false;
             warbannerOfTheSun = false;
             aSpark = false;
@@ -3580,10 +3576,7 @@ namespace CalamityMod.CalPlayer
             }
             if (bloodyWormTooth)
             {
-                if (Player.statLife < (int)(Player.statLifeMax2 * 0.5))
-                    meleeSpeedMult += 0.1f;
-                else
-                    meleeSpeedMult += 0.05f;
+                meleeSpeedMult += 0.07f;
             }
             if (Player.beetleOffense && Player.beetleOrbs > 0)
             {

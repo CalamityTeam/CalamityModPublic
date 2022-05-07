@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloody Worm Tooth");
-            Tooltip.SetDefault("5% increased damage reduction and increased melee stats\n" +
-                               "10% increased damage reduction and melee stats when below 50% life");
+            Tooltip.SetDefault("7% increased melee damage and speed");
         }
 
         public override void SetDefaults()
         {
+            Item.defense = 7;
             Item.width = 12;
             Item.height = 15;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;

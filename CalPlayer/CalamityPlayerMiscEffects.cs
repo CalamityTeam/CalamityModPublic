@@ -1337,7 +1337,7 @@ namespace CalamityMod.CalPlayer
                 Player.moveSpeed += 0.05f;
                 Player.jumpSpeedBoost += 0.25f;
                 Player.thorns += 0.5f;
-                Player.endurance += sponge ? 0.15f : 0.1f;
+                Player.endurance += sponge ? 0.07f : 0.05f;
 
                 if (Player.StandingStill() && Player.itemAnimation == 0)
                     Player.manaRegenBonus += 4;
@@ -1373,7 +1373,7 @@ namespace CalamityMod.CalPlayer
             }
             if (aAmpoule)
             {
-                Player.endurance += 0.07f;
+                Player.endurance += 0.05f;
                 Player.buffImmune[BuffID.Frozen] = true;
                 Player.buffImmune[BuffID.Chilled] = true;
                 Player.buffImmune[BuffID.Frostburn] = true;
@@ -1411,10 +1411,6 @@ namespace CalamityMod.CalPlayer
                 light[2] += 0.2f;
             }
             Lighting.AddLight((int)(Player.Center.X / 16f), (int)(Player.Center.Y / 16f), light[0], light[1], light[2]);
-
-            // Blazing Core bonus
-            if (blazingCore)
-                Player.endurance += 0.1f;
 
             //Permafrost's Concoction bonuses/debuffs
             if (permafrostsConcoction)
@@ -1475,11 +1471,6 @@ namespace CalamityMod.CalPlayer
             }
 
             // Polaris fish stuff
-            if (polarisBoost)
-            {
-                Player.endurance += 0.01f;
-                Player.statDefense += 2;
-            }
             if (!polarisBoost || Player.ActiveItem().type != ModContent.ItemType<PolarisParrotfish>())
             {
                 polarisBoost = false;
@@ -2420,7 +2411,7 @@ namespace CalamityMod.CalPlayer
 
             if (yPower)
             {
-                Player.endurance += 0.06f;
+                Player.endurance += 0.04f;
                 Player.statDefense += 8;
                 Player.pickSpeed -= 0.05f;
                 Player.GetDamage<GenericDamageClass>() += 0.06f;
@@ -2436,8 +2427,8 @@ namespace CalamityMod.CalPlayer
                 Player.kbBuff = true;
                 if (titanBoost > 0)
                 {
-                    Player.statDefense += 25;
-                    Player.endurance += 0.1f;
+                    Player.statDefense += 20;
+                    Player.endurance += 0.05f;
                 }
             }
             else
@@ -2466,7 +2457,6 @@ namespace CalamityMod.CalPlayer
             {
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
                 Player.statDefense += 20;
-                Player.endurance += 0.1f;
                 Player.longInvince = true;
                 Player.crimsonRegen = true;
             }
@@ -2492,7 +2482,7 @@ namespace CalamityMod.CalPlayer
             if (moonshine)
             {
                 Player.statDefense += 10;
-                Player.endurance += 0.05f;
+                Player.endurance += 0.03f;
             }
 
             if (rum)
@@ -2535,7 +2525,7 @@ namespace CalamityMod.CalPlayer
                     Player.statDefense += 10;
                     Player.GetDamage<GenericDamageClass>() += 0.07f;
                     AllCritBoost(3);
-                    Player.endurance += 0.07f;
+                    Player.endurance += 0.03f;
                 }
             }
 
@@ -2562,9 +2552,6 @@ namespace CalamityMod.CalPlayer
 
             if (whiteWine)
                 Player.GetDamage(DamageClass.Magic) += 0.1f;
-
-            if (evergreenGin)
-                Player.endurance += 0.05f;
 
             if (giantPearl)
             {
@@ -2913,45 +2900,10 @@ namespace CalamityMod.CalPlayer
             }
 
             if (bloodyWormTooth)
-            {
-                if (Player.statLife < (int)(Player.statLifeMax2 * 0.5))
-                {
-                    Player.GetDamage(DamageClass.Melee) += 0.1f;
-                    Player.endurance += 0.1f;
-                }
-                else
-                {
-                    Player.GetDamage(DamageClass.Melee) += 0.05f;
-                    Player.endurance += 0.05f;
-                }
-            }
+                Player.GetDamage(DamageClass.Melee) += 0.07f;
 
             if (dAmulet)
                 Player.pStone = true;
-
-            if (fBulwark)
-            {
-                Player.noKnockback = true;
-                if (Player.statLife > (int)(Player.statLifeMax2 * 0.25))
-                {
-                    Player.hasPaladinShield = true;
-                    if (Player.whoAmI != Main.myPlayer && Player.miscCounter % 10 == 0)
-                    {
-                        if (Main.LocalPlayer.team == Player.team && Player.team != 0)
-                        {
-                            Vector2 otherPlayerPos = Player.position - Main.LocalPlayer.position;
-
-                            if (otherPlayerPos.Length() < 800f)
-                                Main.LocalPlayer.AddBuff(BuffID.PaladinsShield, 20, true);
-                        }
-                    }
-                }
-
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
-                    Player.AddBuff(BuffID.IceBarrier, 5, true);
-                if (Player.statLife <= (int)(Player.statLifeMax2 * 0.15))
-                    Player.endurance += 0.05f;
-            }
 
             if (frostFlare)
             {
@@ -3043,12 +2995,6 @@ namespace CalamityMod.CalPlayer
 
             if (elysianGuard)
                 Player.moveSpeed -= 0.5f;
-
-            if (coreOfTheBloodGod)
-            {
-                Player.endurance += 0.08f;
-                Player.GetDamage<GenericDamageClass>() += 0.08f;
-            }
 
             if (godSlayerThrowing)
             {

@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("8% increased damage and damage reduction\n" +
-                "Boosts your max HP by 10%\n" +
+            Tooltip.SetDefault("Boosts your max HP by 10%\n" +
                 "Healing Potions are 15% more effective\n" +
                 "Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 20 second cooldown");
@@ -42,7 +41,6 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BloodyWormScarf>().
                 AddIngredient<BloodPact>().
                 AddIngredient<FleshTotem>().
                 AddIngredient<CosmiliteBar>(5).

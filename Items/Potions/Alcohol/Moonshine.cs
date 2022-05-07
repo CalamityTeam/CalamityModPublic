@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Moonshine");
             Tooltip.SetDefault(@"This stuff is pretty strong but I'm sure you can handle it
-Increases defense by 10 and damage reduction by 5%
+Increases defense by 10 and damage reduction by 3%
 Reduces life regen by 1");
         }
 

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,8 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Absorbs 25% of damage done to players on your team\n" +
                 "This effect is only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
-                "Puts a shell around the owner when below 50% life that reduces damage\n" +
-                "The shell becomes more powerful when below 15% life and reduces damage even further");
+                "Puts a shell around the owner when below 50% life that reduces damage");
         }
 
         public override void SetDefaults()
@@ -38,10 +38,28 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
-            modPlayer.rampartOfDeities = true;
-            modPlayer.fBulwark = true;
             player.longInvince = true;
             player.lifeRegen += 1;
+
+            if (player.statLife <= player.statLifeMax2 * 0.5)
+                player.AddBuff(BuffID.IceBarrier, 5);
+
+            player.noKnockback = true;
+            if (player.statLife > player.statLifeMax2 * 0.25f)
+            {
+                player.hasPaladinShield = true;
+                if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
+                {
+                    int myPlayer = Main.myPlayer;
+                    if (Main.player[myPlayer].team == player.team && player.team != 0)
+                    {
+                        float num = player.position.X - Main.player[myPlayer].position.X;
+                        float num2 = player.position.Y - Main.player[myPlayer].position.Y;
+                        if ((float)Math.Sqrt(num * num + num2 * num2) < 800f)
+                            Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20);
+                    }
+                }
+            }
         }
 
         public override void AddRecipes()

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Evergreen Gin");
-            Description.SetDefault("Sickness and water debuff damage and damage reduction boosted, life regen reduced");
+            Description.SetDefault("Sickness and water debuff damage boosted, life regen reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;

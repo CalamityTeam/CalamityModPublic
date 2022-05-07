@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Ambrosial Ampoule");
             Tooltip.SetDefault("You emit light\n" +
-                "7% increased damage reduction and increased life regen\n" +
+                "5% increased damage reduction and increased life regen\n" +
                 "Grants immunity to the Frozen, Chilled, Frostburn, Cursed Inferno and Burning Blood debuffs");
         }
 

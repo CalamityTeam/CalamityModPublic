@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Polaris Parrotfish");
             Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
-                "Projectile hits grant buffs to the weapon and the player\n" +
+                "Projectile hits grant buffs to the weapon\n" +
                 "Buffs are removed on hit");
             Item.staff[Item.type] = true; //so it doesn't look weird af when holding it
         }

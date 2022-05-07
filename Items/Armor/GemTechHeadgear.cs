@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
 
         public const int BaseGemDefenseBoost = 75;
         public const int BaseGemLifeRegenBoost = 2;
-        public const float BaseGemDRBoost = 0.12f;
+        public const float BaseGemDRBoost = 0.06f;
         public const float BaseGemMovementSpeedBoost = 0.4f;
         public const float BaseGemJumpSpeedBoost = 0.4f;
 

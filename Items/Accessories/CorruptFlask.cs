@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Corrupt Flask");
-            Tooltip.SetDefault("7% increased damage reduction and +3 defense while in the corruption\n" +
+            Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the corruption\n" +
                 "Grants immunity to the Cursed Inferno debuff");
         }
 
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             if (player.ZoneCorrupt)
             {
                 player.statDefense += 6;
-                player.endurance += 0.07f;
+                player.endurance += 0.04f;
             }
         }
 

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Honey Dew");
-            Tooltip.SetDefault("5% increased damage reduction, plus 9 defense and increased life regen while in the Jungle\n" +
+            Tooltip.SetDefault("5% increased damage reduction, +9 defense and increased life regen while in the Jungle\n" +
             "Poison and Venom immunity\n" +
             "Honey-like life regen with no speed penalty\n" +
             "Most bee/hornet enemies and projectiles do 75% damage to you");

@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Giant Shell");
-            Tooltip.SetDefault("15% reduced movement speed and 5% increased damage reduction\n" +
+            Tooltip.SetDefault("15% reduced movement speed\n" +
                 "Taking a hit will make you move very fast for a short time");
         }
 
         public override void SetDefaults()
         {
-            Item.defense = 6;
+            Item.defense = 10;
             Item.width = 30;
             Item.height = 28;
             Item.value = CalamityGlobalItem.Rarity1BuyPrice;
@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.endurance += 0.05f;
             player.moveSpeed -= 0.15f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gShell = true;

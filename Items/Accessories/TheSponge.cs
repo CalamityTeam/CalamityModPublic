@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("The Sponge");
-            Tooltip.SetDefault("15% increased damage reduction\n" +
+            Tooltip.SetDefault("7% increased damage reduction\n" +
                 "+30 max life and mana\n" +
                 "5% increased movement and jump speed\n" +
                 "Standing still boosts life and mana regen\n" +
                 "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
-                "Enemies take damage when they hit you\n" +
+                "Enemies take damage when they touch you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
                 "6.25% of the damage from enemy attacks is absorbed and converted into healing\n" +
                 "Grants immunity to Armor Crunch");

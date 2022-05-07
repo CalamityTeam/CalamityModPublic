@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Potions
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
             DisplayName.SetDefault("Titan Scale Potion");
             Tooltip.SetDefault("Increases knockback, defense by 5 and damage reduction by 5%\n" +
-                "Increases defense by 25 and damage reduction by 10% for a few seconds after a true melee strike");
+                "Increases defense by an additional 20 and damage reduction by an additional 5% for 10 seconds after a true melee strike");
         }
 
         public override void SetDefaults()

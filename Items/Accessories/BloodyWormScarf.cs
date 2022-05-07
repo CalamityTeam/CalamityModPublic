@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
@@ -12,11 +13,13 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Bloody Worm Scarf");
-            Tooltip.SetDefault("10% increased damage reduction and increased melee stats");
+            Tooltip.SetDefault("10% increased damage reduction\n" +
+                "7% increased melee damage and speed");
         }
 
         public override void SetDefaults()
         {
+            Item.defense = 7;
             Item.width = 26;
             Item.height = 42;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
@@ -26,8 +29,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.bloodyWormTooth = true;
             player.endurance += 0.1f;
         }
 

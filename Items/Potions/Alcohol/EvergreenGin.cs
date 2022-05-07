@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
             DisplayName.SetDefault("Evergreen Gin");
             Tooltip.SetDefault(@"It tastes like a Christmas tree, if you can imagine that
-Multiplies all sickness and water-related debuff damage by 1.5 and increases damage reduction by 5%
+Multiplies all sickness and water-related debuff damage by 1.5
 Reduces life regen by 1");
         }
 

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Crimson Flask");
-            Tooltip.SetDefault("7% increased damage reduction and +3 defense while in the crimson\n" +
+            Tooltip.SetDefault("4% increased damage reduction and +6 defense while in the crimson\n" +
                 "Grants immunity to the Burning Blood debuff");
         }
 
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             if (player.ZoneCrimson)
             {
                 player.statDefense += 6;
-                player.endurance += 0.07f;
+                player.endurance += 0.04f;
             }
         }
 

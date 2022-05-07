@@ -19,16 +19,16 @@ namespace CalamityMod.Items.Accessories
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen\n" +
                 "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
-                "Enemies take damage when they hit you\n" +
+                "Enemies take damage when they touch you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
-                "10% increased damage reduction\n" +
+                "5% increased damage reduction\n" +
                 "5% of the damage from enemy attacks is absorbed and converted into healing\n" +
                 "Grants immunity to Armor Crunch");
         }
 
         public override void SetDefaults()
         {
-            Item.defense = 10;
+            Item.defense = 15;
             Item.width = 20;
             Item.height = 24;
             Item.value = CalamityGlobalItem.Rarity9BuyPrice;
