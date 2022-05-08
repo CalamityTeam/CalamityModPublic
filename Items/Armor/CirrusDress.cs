@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Mod.AddEquipTexture(this, EquipType.Legs,  "CalamityMod/Items/Armor/CirrusDress_Legs");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/CirrusDress_Legs", EquipType.Legs, this);
             }
         }
         
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
                 "5% increased magic damage and critical strike chance\n" +
                 "You feel thick...");
 
-            int equipSlot = Mod.GetEquipSlot(Name, EquipType.Body);
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
             ArmorIDs.Body.Sets.HidesHands[equipSlot] = true;
         }
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Armor
         public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
         {
             robes = true;
-            equipSlot = Mod.GetEquipSlot(Name, EquipType.Legs);
+            equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
         }
     }
 }

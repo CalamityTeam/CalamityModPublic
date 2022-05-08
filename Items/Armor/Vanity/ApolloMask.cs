@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Apollo Mask");
-            int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+            int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
 
             if (Main.netMode != NetmodeID.Server)
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;

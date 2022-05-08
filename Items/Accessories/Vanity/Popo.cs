@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Accessories.Vanity
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/Vanity/Popo_Head");
-                //Mod.AddEquipTexture(new EquipTexture(), "PopoNoseless", EquipType.Head, "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
-                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/Vanity/Popo_Body");
-                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/Vanity/Popo_Legs");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Head", EquipType.Head, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head", EquipType.Head, name: "PopoNoseless");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Body", EquipType.Body, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Legs", EquipType.Legs, this);
             }
         }
 
@@ -25,6 +25,9 @@ namespace CalamityMod.Items.Accessories.Vanity
             DisplayName.SetDefault("Magic Scarf and Hat");
             Tooltip.SetDefault("Don't let the demons steal your nose\n" +
                 "Transforms the holder into a snowman");
+
+            int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()

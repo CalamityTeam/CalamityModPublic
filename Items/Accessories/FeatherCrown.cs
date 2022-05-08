@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/Items/Accessories/FeatherCrown_Face");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/FeatherCrown_Face", EquipType.Head, this);
             }
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
 
             if (Main.netMode != NetmodeID.Server)
             {
-                int equipSlot = Mod.GetEquipSlot(Name, EquipType.Head);
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
                 ArmorIDs.Head.Sets.DrawFullHair[equipSlot] = false;
                 ArmorIDs.Head.Sets.DrawHatHair[equipSlot] = false;
             }

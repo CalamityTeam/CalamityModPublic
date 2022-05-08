@@ -34,10 +34,10 @@ namespace CalamityMod.Items.Accessories
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/ProfanedSoulTransHead");
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/ProfanedSoulTransBody");
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/ProfanedSoulTransLegs");
-            Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Wings, "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/ProfanedSoulTransHead", EquipType.Head, this);
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/ProfanedSoulTransBody", EquipType.Body, this);
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/ProfanedSoulTransLegs", EquipType.Legs, this);
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings", EquipType.Wings, this);
         }
 
         public override void SetStaticDefaults()
@@ -47,6 +47,9 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+
+            int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()

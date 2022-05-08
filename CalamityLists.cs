@@ -2694,10 +2694,10 @@ namespace CalamityMod
 
             legOverrideList = new List<int>()
             {
-                CalamityMod.Instance.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs),
-                CalamityMod.Instance.GetEquipSlot("AquaticHeart", EquipType.Legs),
+                EquipLoader.GetEquipSlot(CalamityMod.Instance, "ProfanedSoulCrystal", EquipType.Legs),
+                EquipLoader.GetEquipSlot(CalamityMod.Instance, "AquaticHeart", EquipType.Legs),
                 //CalamityMod.Instance.GetEquipSlot("SirenLeg", EquipType.Legs), whate even was SirenLeg vs SirenLegAlt?
-                CalamityMod.Instance.GetEquipSlot("Popo", EquipType.Legs)
+                EquipLoader.GetEquipSlot(CalamityMod.Instance, "Popo", EquipType.Legs)
             };
 
             // Duke Fishron and Old Duke phase 3 becomes way too easy if you can make him stop being invisible with Yanmei's Knife.
