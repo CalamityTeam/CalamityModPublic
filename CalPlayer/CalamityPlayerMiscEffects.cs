@@ -1232,7 +1232,6 @@ namespace CalamityMod.CalPlayer
                 if (tarragonImmunity && !disableAllDodges)
                     Player.GiveIFrames(2, true);
 
-
                 if (tarraThrowingCrits >= 25)
                 {
                     tarraThrowingCrits = 0;
@@ -1245,7 +1244,7 @@ namespace CalamityMod.CalPlayer
                     int hasBuff = Player.buffType[l];
                     if (Player.buffTime[l] <= 2 && hasBuff == ModContent.BuffType<Buffs.StatBuffs.TarragonImmunity>())
                         if (Player.whoAmI == Main.myPlayer)
-                            Player.AddCooldown(Cooldowns.TarragonImmunity.ID, CalamityUtils.SecondsToFrames(25));
+                            Player.AddCooldown(Cooldowns.TarragonImmunity.ID, CalamityUtils.SecondsToFrames(27));
 
                     bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
                     if (shouldAffect)
