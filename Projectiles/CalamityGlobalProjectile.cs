@@ -313,7 +313,12 @@ namespace CalamityMod.Projectiles
                     break;
 
                 case ProjectileID.StarWrath:
+                case ProjectileID.QueenSlimeGelAttack:
                     projectile.penetrate = projectile.maxPenetrate = 1;
+                    break;
+
+                case ProjectileID.QueenSlimeMinionPinkBall:
+                    projectile.penetrate = projectile.maxPenetrate = 2;
                     break;
 
                 case ProjectileID.MonkStaffT2:
@@ -684,6 +689,36 @@ namespace CalamityMod.Projectiles
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
                 return false;
+            }
+
+            else if (projectile.type == ProjectileID.QueenSlimeGelAttack)
+            {
+                // Phase 1 and 2 projectiles do not bounce and phase 2 projectiles do not have gravity.
+                if (projectile.ai[1] == -2f)
+                {
+                    if (projectile.alpha == 0 && Main.rand.Next(3) == 0)
+                    {
+                        int num70 = 4;
+                        Color newColor = NPC.AI_121_QueenSlime_GetDustColor();
+                        newColor.A = 150;
+                        float num71 = 1.2f;
+                        int num72 = 8;
+                        bool noGravity = Main.rand.NextBool();
+
+                        int num73 = Dust.NewDust(projectile.position - new Vector2(num72, num72) + projectile.velocity, projectile.width + num72 * 2, projectile.height + num72 * 2, num70, 0f, 0f, 50, newColor, num71);
+                        Main.dust[num73].velocity *= 0.3f;
+                        Main.dust[num73].velocity += projectile.velocity * 0.3f;
+                        Main.dust[num73].noGravity = noGravity;
+                    }
+
+                    projectile.alpha -= 50;
+                    if (projectile.alpha < 0)
+                        projectile.alpha = 0;
+
+                    projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.05f;
+
+                    return false;
+                }
             }
 
             else if (projectile.type == ProjectileID.Starfury)
