@@ -161,6 +161,7 @@ namespace CalamityMod.NPCs
             "Toxin", // <@!348174404984766465> (Toxin#9598),
             "Mixcoatl", // <@!284775927294984203> (SharZz#7777)
             "Khatunz", // <@!303022375191183360> (jackshiz#7839)
+            "Amnesia Wapers", // <@!326821498323075073> (Retarded Advice from a Retard#6969)
         };
         private const int WizardVanillaNames = 22;
         private static readonly string[] WizardNames =
