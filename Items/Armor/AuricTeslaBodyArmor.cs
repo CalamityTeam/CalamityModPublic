@@ -6,12 +6,23 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
     public class AuricTeslaBodyArmor : ModItem
     {
+        public override void Load()
+        {
+            // All code below runs only if we're not loading on a server
+            if (Main.netMode != NetmodeID.Server)
+            {
+                // Add equip textures
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/AuricTeslaBodyArmor_Back", EquipType.Back, this);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
