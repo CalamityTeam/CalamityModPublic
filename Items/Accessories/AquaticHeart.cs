@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
             if (Main.netMode != NetmodeID.Server)
             {
                 // Add equip textures
-                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Head, "CalamityMod/Items/Accessories/AquaticTrans_Head");
-                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Body, "CalamityMod/Items/Accessories/AquaticTrans_Body");
-                Mod.AddEquipTexture(new EquipTexture(), this, EquipType.Legs, "CalamityMod/Items/Accessories/AquaticTrans_Legs");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/AquaticTrans_Head", EquipType.Head, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/AquaticTrans_Body", EquipType.Body, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/AquaticTrans_Legs", EquipType.Legs, this);
             }
         }
 
@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Accessories
 
             if (Main.netMode != NetmodeID.Server)
             {
-                int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
-                int equipSlotBody = Mod.GetEquipSlot(Name, EquipType.Body);
-                int equipSlotLegs = Mod.GetEquipSlot(Name, EquipType.Legs);
+                int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
+                int equipSlotBody = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
                 ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
                 ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;

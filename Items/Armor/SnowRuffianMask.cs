@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Mod.AddEquipTexture(new SnowRuffianWings(), this, EquipType.Wings, "CalamityMod/Items/Armor/SnowRuffianWings");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/SnowRuffianWings", EquipType.Wings, this, equipTexture : new SnowRuffianWings());
             }
         }
 

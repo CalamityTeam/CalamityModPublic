@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor.Vanity
 
             if (Main.netMode != NetmodeID.Server)
             {
-                int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+                int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
             }
         }

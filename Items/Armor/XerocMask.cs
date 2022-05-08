@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Armor
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                //Mod.AddEquipTexture("MeldTransformation", EquipType.Head, "CalamityMod/Items/Armor/MeldTransformation_Head");
-                //Mod.AddEquipTexture(MeldTransformation, EquipType.Body, "CalamityMod/Items/Armor/MeldTransformation_Body");
-                //Mod.AddEquipTexture(MeldTransformation, EquipType.Legs, "CalamityMod/Items/Armor/MeldTransformation_Legs");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Head", EquipType.Head, name : "MeldTransformation");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Body", EquipType.Body, name: "MeldTransformation");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Legs", EquipType.Legs, name : "MeldTransformation");
             }
         }
 
@@ -29,14 +29,14 @@ namespace CalamityMod.Items.Armor
                 "11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
                 "Temporary immunity to lava");
 
-            //int equipSlotHead = Mod.GetEquipSlot("MeldTransformation", EquipType.Head);
-            //int equipSlotBody = Mod.GetEquipSlot("MeldTransformation", EquipType.Body);
-            //int equipSlotLegs = Mod.GetEquipSlot("MeldTransformation", EquipType.Legs);
+            int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
+            int equipSlotBody = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
+            int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
 
-            //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
-            //ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
-            //ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
-            //ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlotBody] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlotBody] = true;
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()

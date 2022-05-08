@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                //Mod.AddEquipTexture("OmegaBlueTransformation", EquipType.Head, "CalamityMod/Items/Armor/OmegaBlueHelmet_HeadMadness");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/OmegaBlueHelmet_HeadMadness", EquipType.Head, name : "OmegaBlueTransformation");
             }
         }
 
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance");
 
-            //int equipSlotHead = Mod.GetEquipSlot("OmegaBlueTransformation", EquipType.Head);
-            //ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "OmegaBlueTransformation", EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }
 
         public override void SetDefaults()

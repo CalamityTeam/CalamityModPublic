@@ -6381,14 +6381,14 @@ namespace CalamityMod.CalPlayer
             if (Player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
                 Player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
             {
-                Player.head = Mod.GetEquipSlot("PrototypeAndromechaRing", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+                Player.head = EquipLoader.GetEquipSlot(Mod, "HeadlessEquipTexture", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
             }
             else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
             {
-                Player.legs = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Head);
-                Player.wings = Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Wings);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Body);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Head);
+                Player.wings = EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Wings);
                 Player.face = -1;
 
                 bool enrage = !profanedCrystalForce && profanedCrystalBuffs && Player.statLife <= (int)(Player.statLifeMax2 * 0.5);
@@ -6413,37 +6413,36 @@ namespace CalamityMod.CalPlayer
             }
             else if ((snowmanPower || snowmanForce) && !snowmanHide)
             {
-                Player.legs = Mod.GetEquipSlot("Popo", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("Popo", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("Popo", EquipType.Head);
-                //Player.head = snowmanNoseless ? Mod.GetEquipSlot("PopoNoseless", EquipType.Head) : Mod.GetEquipSlot("Popo", EquipType.Head); 
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "Popo", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "Popo", EquipType.Body);
+                Player.head = EquipLoader.GetEquipSlot(Mod, snowmanNoseless ? "PopoNoseless" : "Popo", EquipType.Head);
                 Player.face = -1;
             }
             else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
             {
-                Player.legs = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("AbyssalDivingSuit", EquipType.Head);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Body);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingSuit", EquipType.Head);
                 Player.face = -1;
             }
             else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
             {
-                Player.legs = Mod.GetEquipSlot("AquaticHeart", EquipType.Legs);
-                Player.body = Mod.GetEquipSlot("AquaticHeart", EquipType.Body);
-                Player.head = Mod.GetEquipSlot("AquaticHeart", EquipType.Head);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "AquaticHeart", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "AquaticHeart", EquipType.Body);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "AquaticHeart", EquipType.Head);
                 Player.face = -1;
             }
             else if (meldTransformationPower || meldTransformationForce)
             {
-                //Player.legs = Mod.GetEquipSlot("MeldTransformation", EquipType.Legs);
-                //Player.body = Mod.GetEquipSlot("MeldTransformation", EquipType.Body);
-                //Player.head = Mod.GetEquipSlot("MeldTransformation", EquipType.Head);
+                EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
+                EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
+                EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
             }
             else if (omegaBlueTransformationPower || omegaBlueTransformationForce)
             {
-                //bool hasOmegaBlueCooldown = cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
-                //if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
-                    //Player.head = Mod.GetEquipSlot("OmegaBlueTransformation", EquipType.Head);
+                bool hasOmegaBlueCooldown = cooldowns.TryGetValue(OmegaBlue.ID, out CooldownInstance cd);
+                if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
+                    Player.head = EquipLoader.GetEquipSlot(Mod, "OmegaBlueTransformation", EquipType.Head);
             }
             else
             {
@@ -6454,7 +6453,7 @@ namespace CalamityMod.CalPlayer
             }
             if (snowRuffianSet)
             {
-                Player.wings = Mod.GetEquipSlot("SnowRuffianMask", EquipType.Wings);
+                Player.wings = EquipLoader.GetEquipSlot(Mod, "SnowRuffianMask", EquipType.Wings);
                 bool falling = Player.gravDir == -1 ? Player.velocity.Y < 0.05f : Player.velocity.Y > 0.05f;
                 if (Player.controlJump && falling)
                 {
@@ -6469,17 +6468,17 @@ namespace CalamityMod.CalPlayer
             }
             if (abyssDivingGear && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
             {
-                Player.head = Mod.GetEquipSlot("AbyssalDivingGear", EquipType.Head);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "AbyssalDivingGear", EquipType.Head);
                 Player.face = -1;
             }
             if (featherCrownDraw && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
             {
-                Player.head = Mod.GetEquipSlot("FeatherCrown", EquipType.Head);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "FeatherCrown", EquipType.Head);
                 Player.face = -1;
             }
             if (moonCrownDraw && (Player.head == -1 || Player.head == ArmorIDs.Head.FamiliarWig))
             {
-                Player.head = Mod.GetEquipSlot("MoonstoneCrown", EquipType.Head);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "MoonstoneCrown", EquipType.Head);
                 Player.face = -1;
             }
         }
@@ -9869,7 +9868,7 @@ namespace CalamityMod.CalPlayer
 
         public override void PostUpdate() //needs to be here else it doesn't work properly, otherwise i'd have stuck it with the wing anim stuffs
         {
-            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == Mod.GetEquipSlot("ProfanedSoulCrystal", EquipType.Legs))
+            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide && Player.legs == EquipLoader.GetEquipSlot(Mod, "ProfanedSoulCrystal", EquipType.Legs))
             {
                 bool usingCarpet = Player.carpetTime > 0 && Player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
                 AnimationType animType = AnimationType.Walk;

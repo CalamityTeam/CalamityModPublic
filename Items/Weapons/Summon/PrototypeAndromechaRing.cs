@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                Mod.AddEquipTexture(this, EquipType.Head, "CalamityMod/ExtraTextures/AndromedaWithout_Head");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/ExtraTextures/AndromedaWithout_Head", EquipType.Head, name : "HeadlessEquipTexture");
             }
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             if (Main.netMode != NetmodeID.Server)
             {
-                int equipSlotHead = Mod.GetEquipSlot(Name, EquipType.Head);
+                int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "HeadlessEquipTexture", EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
             }
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
