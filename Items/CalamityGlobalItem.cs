@@ -867,10 +867,6 @@ namespace CalamityMod.Items
                     if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
                     {
                         int duration = CalamityPlayer.chaosStateDuration;
-                        if (player.HasCooldown(Cooldowns.EvasionScarf.ID))
-                            duration = (int)(duration * 1.5);
-                        else if (player.HasCooldown(Cooldowns.CounterScarf.ID))
-                            duration *= 2;
                         player.AddBuff(BuffID.ChaosState, duration, true);
                     }
                 }

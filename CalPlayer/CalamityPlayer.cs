@@ -2665,10 +2665,6 @@ namespace CalamityMod.CalPlayer
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = chaosStateDuration_NR;
-                            if (Player.HasCooldown(Cooldowns.EvasionScarf.ID))
-                                duration = (int)(duration * 1.5);
-                            else if (Player.HasCooldown(Cooldowns.CounterScarf.ID))
-                                duration *= 2;
                             Player.AddBuff(BuffID.ChaosState, duration, true);
                             // Add a cooldown here so it can have the custom NR icon
                             Player.AddCooldown(ChaosState.ID, duration, true, "normalityrelocator");
@@ -2744,10 +2740,6 @@ namespace CalamityMod.CalPlayer
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
                             int duration = chaosStateDuration;
-                            if (Player.HasCooldown(Cooldowns.EvasionScarf.ID))
-                                duration = (int)(duration * 1.5);
-                            else if (Player.HasCooldown(Cooldowns.CounterScarf.ID))
-                                duration *= 2;
                             Player.AddBuff(BuffID.ChaosState, duration, true);
                             Player.AddCooldown(ChaosState.ID, duration, true, "spectralveil");
 
@@ -3984,12 +3976,12 @@ namespace CalamityMod.CalPlayer
         {
             if (evasionScarf)
             {
-                int duration = CalamityUtils.SecondsToFrames(Player.chaosState ? 20 : 13);
+                int duration = CalamityUtils.SecondsToFrames(30);
                 Player.AddCooldown(Cooldowns.EvasionScarf.ID, duration);
             }
             else
             {
-                int duration = CalamityUtils.SecondsToFrames(Player.chaosState ? 30 : 15);
+                int duration = CalamityUtils.SecondsToFrames(30);
                 Player.AddCooldown(Cooldowns.CounterScarf.ID, duration);
             }
 

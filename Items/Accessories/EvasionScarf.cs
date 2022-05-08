@@ -15,9 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Evasion Scarf");
             Tooltip.SetDefault("True melee strikes deal 15% more damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
-                "After a successful dodge you must wait 13 seconds before you can dodge again\n" +
-                "This cooldown will be 50 percent longer if you have Chaos State\n" +
-                "While on cooldown, Chaos State will be 50 percent longer");
+                "After a successful dodge you must wait 30 seconds before you can dodge again\n");
         }
 
         public override void SetDefaults()

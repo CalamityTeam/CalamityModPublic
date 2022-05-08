@@ -2757,6 +2757,9 @@ namespace CalamityMod.NPCs
                     case NPCID.WallofFleshEye:
                         return WallOfFleshAI.BuffedWallofFleshEyeAI(npc, Mod);
 
+                    case NPCID.QueenSlimeBoss:
+                        return QueenSlimeAI.BuffedQueenSlimeAI(npc, Mod);
+
                     case NPCID.TheDestroyer:
                     case NPCID.TheDestroyerBody:
                     case NPCID.TheDestroyerTail:
