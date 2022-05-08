@@ -101,6 +101,7 @@ namespace CalamityMod.CalPlayer
         public int deathCount = 0;
         public int actualMaxLife = 0;
         public static int chaosStateDuration = 900;
+        public static int chaosStateDuration_NR = 1200;
         public bool killSpikyBalls = false;
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
@@ -2663,7 +2664,7 @@ namespace CalamityMod.CalPlayer
                             Player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)Player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            int duration = (int)(chaosStateDuration * 1.5);
+                            int duration = chaosStateDuration_NR;
                             if (Player.HasCooldown(Cooldowns.EvasionScarf.ID))
                                 duration = (int)(duration * 1.5);
                             else if (Player.HasCooldown(Cooldowns.CounterScarf.ID))
