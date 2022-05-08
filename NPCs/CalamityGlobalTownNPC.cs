@@ -161,6 +161,7 @@ namespace CalamityMod.NPCs
             "Toxin", // <@!348174404984766465> (Toxin#9598),
             "Mixcoatl", // <@!284775927294984203> (SharZz#7777)
             "Khatunz", // <@!303022375191183360> (jackshiz#7839)
+            "Amnesia Wapers", // <@!326821498323075073> (Retarded Advice from a Retard#6969)
         };
         private const int WizardVanillaNames = 22;
         private static readonly string[] WizardNames =
@@ -189,6 +190,7 @@ namespace CalamityMod.NPCs
         {
             "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
             // "Kendra", // <@!237247188005158912> (LordMetarex#6407) ONLY IF the dog is a Beagle
+			"Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643) ONLY IF the dog is a Husky
         };
 
         private const int TownCatSiameseVanillaNames = 12;
