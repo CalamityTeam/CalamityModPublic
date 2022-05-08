@@ -48,18 +48,19 @@ namespace CalamityMod.CalPlayer
     public partial class CalamityPlayer : ModPlayer
     {
         #region Draw Hooks
+        
 
-        /*
-        public override void ModifyDrawLayerOrdering(IDictionary<PlayerDrawLayer, PlayerDrawLayer.Position> positions)
+        public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
             if (Player is null)
                 return;
 
             // Remove shoe drawing effects if special legs are meant to be drawn.
             if (CalamityLists.legOverrideList.Contains(Player.legs))
-                positions.Remove(PlayerDrawLayers.Leggings);
+            {
+                PlayerDrawLayers.Shoes.Hide();
+            }
         }
-        */
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {

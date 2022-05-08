@@ -25,6 +25,9 @@ namespace CalamityMod.Items.Accessories.Vanity
             DisplayName.SetDefault("Magic Scarf and Hat");
             Tooltip.SetDefault("Don't let the demons steal your nose\n" +
                 "Transforms the holder into a snowman");
+
+            int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()

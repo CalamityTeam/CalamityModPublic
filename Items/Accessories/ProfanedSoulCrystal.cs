@@ -47,6 +47,9 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+
+            int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
 
         public override void SetDefaults()
