@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
             DecideCurrentState();
 
             // Glue the sword to its owner.
-            Projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - Projectile.Size / 2f + Vector2.UnitY * Owner.gfxOffY;
+            Projectile.position = Owner.RotatedRelativePoint(Owner.MountedCenter, true) - Projectile.Size / 2f;
 
             // Use the direction of the owner when not spinning.
             if (CurrentState != SwingState.Spinning)
