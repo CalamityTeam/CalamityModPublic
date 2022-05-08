@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories.Vanity
             if (Main.netMode != NetmodeID.Server)
             {
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Head", EquipType.Head, this);
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Head", EquipType.Head, name: "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head", EquipType.Head, name: "PopoNoseless");
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Body", EquipType.Body, this);
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Accessories/Vanity/Popo_Legs", EquipType.Legs, this);
             }
