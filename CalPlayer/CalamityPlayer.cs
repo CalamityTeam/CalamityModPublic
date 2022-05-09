@@ -7445,8 +7445,8 @@ namespace CalamityMod.CalPlayer
                             Player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
                             Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(135 * Player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(90 * Player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 6)
-                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
+                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 
                             Player.GiveIFrames(AsgardianAegis.ShieldSlamIFrames, false);
@@ -7492,8 +7492,8 @@ namespace CalamityMod.CalPlayer
                             Player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
                             Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(120 * Player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(80 * Player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 6)
-                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
+                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
 
                             Player.GiveIFrames(ElysianAegis.ShieldSlamIFrames, false);
                         }
@@ -7537,8 +7537,8 @@ namespace CalamityMod.CalPlayer
                             }
                             Player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
                             Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), (int)(60 * Player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
-                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 6)
-                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
+                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
 
                             Player.GiveIFrames(AsgardsValor.ShieldSlamIFrames, false);
                         }
@@ -7581,8 +7581,8 @@ namespace CalamityMod.CalPlayer
                                 direction = 1;
                             }
                             Player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 6)
-                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
+                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(BuffID.Frostburn, 300);
 
                             Player.GiveIFrames(OrnateShield.ShieldSlamIFrames, false);
@@ -7614,8 +7614,8 @@ namespace CalamityMod.CalPlayer
                                 direction = 1;
                             }
                             Player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 6)
-                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
+                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(ModContent.BuffType<Plague>(), 300);
 
                             Player.GiveIFrames(PlaguebringerVisor.PlagueDashIFrames, false);
@@ -7674,8 +7674,8 @@ namespace CalamityMod.CalPlayer
                                 direction = 1;
                             }
                             Player.ApplyDamageToNPC(npc, (int)num, num2, direction, crit);
-                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 6)
-                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 6;
+                            if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
+                                npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 
                             Player.GiveIFrames(GodSlayerChestplate.DashIFrames, false);
@@ -7693,7 +7693,7 @@ namespace CalamityMod.CalPlayer
                 float num8 = 0.985f;
                 float num9 = Math.Max(Player.accRunSpeed, Player.maxRunSpeed);
                 float num10 = 0.94f;
-                int delay = 20;
+                int delay = 120;
                 if (dashMod == 1) // Counter Scarf
                 {
                     for (int k = 0; k < 2; k++)

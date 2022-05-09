@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Body)]
     public class GodSlayerChestplate : ModItem
     {
-        public const int DashIFrames = 6;
+        public const int DashIFrames = 12;
 
         public override void SetStaticDefaults()
         {

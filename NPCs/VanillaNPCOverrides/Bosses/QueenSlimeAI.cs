@@ -215,7 +215,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             Player player = Main.player[npc.target];
 
-                            npc.ai[0] = npc.Calamity().newAI[0] == 4f ? 5f : 4f;
+                            switch ((int)npc.Calamity().newAI[0])
+                            {
+                                case 4:
+                                    npc.ai[0] = Main.rand.NextBool() ? 6f : 5f;
+                                    break;
+                                case 5:
+                                    npc.ai[0] = Main.rand.NextBool() ? 4f : 6f;
+                                    break;
+                                case 6:
+                                    npc.ai[0] = Main.rand.NextBool() ? 5f : 4f;
+                                    break;
+                            }
+
                             if (npc.ai[0] == 4f)
                             {
                                 npc.ai[2] = 1f;
@@ -623,6 +635,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         break;
                     }
+
+                // 
+                case 6:
+                    break;
             }
 
             // Don't take damage while teleporting

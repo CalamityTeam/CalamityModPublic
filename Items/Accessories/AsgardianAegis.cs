@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class AsgardianAegis : ModItem
     {
-        public const int ShieldSlamIFrames = 6;
+        public const int ShieldSlamIFrames = 12;
 
         public override void SetStaticDefaults()
         {

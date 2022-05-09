@@ -46,7 +46,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
             IL.Terraria.Player.QuickHeal += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.ItemCheck += ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.ItemCheck_Inner += ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
             On.Terraria.Main.DrawInterface += DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms += DrawFusableParticles;
@@ -131,7 +131,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
             IL.Terraria.Player.QuickHeal -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.ItemCheck -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.ItemCheck_Inner -= ApplyManaBurnIfNeeded;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;

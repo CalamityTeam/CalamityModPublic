@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     [AutoloadEquip(EquipType.Shield)]
     public class OrnateShield : ModItem
     {
-        public const int ShieldSlamIFrames = 4;
+        public const int ShieldSlamIFrames = 12;
 
         public override void SetStaticDefaults()
         {
