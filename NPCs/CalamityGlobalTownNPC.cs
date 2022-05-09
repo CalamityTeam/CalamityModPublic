@@ -108,7 +108,10 @@ namespace CalamityMod.NPCs
             "Picasso", // <@!353316526306361347> (SCONICBOOM#2164 -- for the late Picasso's Bean#2819)
         };
         private const int PartyGirlVanillaNames = 17;
-        private static readonly string[] PartyGirlNames = null;
+        private static readonly string[] PartyGirlNames =
+		{
+			"Arin", // <@!268169458302976012> (Kiyotu#0006)
+		};
         private const int PirateVanillaNames = 11;
         private static readonly string[] PirateNames =
         {

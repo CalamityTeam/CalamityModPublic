@@ -6426,9 +6426,10 @@ namespace CalamityMod.CalPlayer
             }
             else if (meldTransformationPower || meldTransformationForce)
             {
-                EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
-                EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
-                EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
+                Player.legs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
+                Player.body = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
+                Player.head = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
+                Player.face = -1;
             }
             else if (omegaBlueTransformationPower || omegaBlueTransformationForce)
             {
@@ -6472,6 +6473,10 @@ namespace CalamityMod.CalPlayer
             {
                 Player.head = EquipLoader.GetEquipSlot(Mod, "MoonstoneCrown", EquipType.Head);
                 Player.face = -1;
+            }
+            if (Player.body == EquipLoader.GetEquipSlot(Mod, "AuricTeslaBodyArmor", EquipType.Body))
+            {
+                Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "AuricTeslaBodyArmor", EquipType.Back);
             }
         }
         #endregion

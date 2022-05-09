@@ -36,6 +36,19 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.Opacity <= 0f)
                 Projectile.Kill();
 
+            // Weakly home in on enemies.
+            NPC potentialTarget = Projectile.Center.ClosestNPCAt(540f);
+            if (potentialTarget != null && Projectile.timeLeft >= 480)
+            {
+                float flySpeed = Projectile.velocity.Length();
+                if (flySpeed < 8f)
+                    flySpeed = 8f;
+
+                Projectile.Center = Projectile.Center.MoveTowards(potentialTarget.Center, 1.75f);
+                Projectile.velocity = (Projectile.velocity * 14f + Projectile.SafeDirectionTo(potentialTarget.Center) * flySpeed) / 15f;
+                Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY) * flySpeed;
+            }
+
             if (Main.rand.NextBool(5))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 5, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }
