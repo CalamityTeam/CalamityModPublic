@@ -313,11 +313,16 @@ namespace CalamityMod.Projectiles
                     break;
 
                 case ProjectileID.StarWrath:
+                    projectile.penetrate = projectile.maxPenetrate = 1;
+                    break;
+
                 case ProjectileID.QueenSlimeGelAttack:
+                    affectedByMaliceModeVelocityMultiplier = true;
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;
 
                 case ProjectileID.QueenSlimeMinionPinkBall:
+                    affectedByMaliceModeVelocityMultiplier = true;
                     projectile.penetrate = projectile.maxPenetrate = 2;
                     break;
 
@@ -433,6 +438,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.AncientDoomProjectile:
                 case ProjectileID.PhantasmalBolt:
                 case ProjectileID.PhantasmalEye:
+                case ProjectileID.QueenSlimeMinionBlueSpike:
                     affectedByMaliceModeVelocityMultiplier = true;
                     break;
 

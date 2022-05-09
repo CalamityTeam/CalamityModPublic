@@ -45,8 +45,10 @@ namespace CalamityMod
     public static partial class NPCStats
     {
         private const double ExpertContactVanillaMultiplier = 2D;
+        private const double MasterContactVanillaMultiplier = 3D;
         private const double NormalProjectileVanillaMultiplier = 2D;
         private const double ExpertProjectileVanillaMultiplier = 4D;
+        private const double MasterProjectileVanillaMultiplier = 6D;
 
         #region Enemy Stats Container Struct
         internal partial struct EnemyStats
@@ -60,7 +62,7 @@ namespace CalamityMod
         #region Stat Retrieval Methods
         public static void GetNPCDamage(this NPC npc)
         {
-            double damageAdjustment = GetExpertDamageMultiplier(npc) * ExpertContactVanillaMultiplier;
+            double damageAdjustment = GetExpertDamageMultiplier(npc) * (Main.masterMode ? MasterContactVanillaMultiplier : ExpertContactVanillaMultiplier);
 
             // Safety check: If for some reason the contact damage array is not initialized yet, set the NPC's damage to 1.
             bool exists = EnemyStats.ContactDamageValues.TryGetValue(npc.type, out int[] contactDamage);
@@ -74,7 +76,7 @@ namespace CalamityMod
             int masterDamage = contactDamage[4] == -1 ? -1 : (int)Math.Round(contactDamage[4] / damageAdjustment);
 
             // If the assigned value would be -1, don't actually assign it. This allows for conditionally disabling the system.
-            int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+            int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
             if (CalamityWorld.malice && damageToUse != -1)
                 damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
             if (damageToUse != -1)
@@ -85,7 +87,7 @@ namespace CalamityMod
         // Automatically compensates for Terraria's internal spaghetti scaling.
         public static int GetProjectileDamage(this NPC npc, int projType)
         {
-            double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
+            double damageAdjustment = Main.masterMode ? MasterProjectileVanillaMultiplier : Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
 
             // Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
             bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
@@ -98,7 +100,7 @@ namespace CalamityMod
             int deathDamage = (int)Math.Round(projectileDamage[3] / damageAdjustment);
             int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
 
-            int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+            int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
             if (CalamityWorld.malice)
                 damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 
@@ -109,7 +111,7 @@ namespace CalamityMod
         // Automatically compensates for Terraria's internal spaghetti scaling.
         public static int GetProjectileDamage(this Projectile projectile, int npcType)
         {
-            double damageAdjustment = Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
+            double damageAdjustment = Main.masterMode ? MasterProjectileVanillaMultiplier : Main.expertMode ? ExpertProjectileVanillaMultiplier : NormalProjectileVanillaMultiplier;
 
             // Safety check: If for some reason the projectile damage array is not initialized yet, return 1.
             bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npcType, projectile.type), out int[] projectileDamage);
@@ -122,7 +124,7 @@ namespace CalamityMod
             int deathDamage = (int)Math.Round(projectileDamage[3] / damageAdjustment);
             int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
 
-            int damageToUse = CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
+            int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
             if (CalamityWorld.malice)
                 damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 
@@ -135,6 +137,7 @@ namespace CalamityMod
         {
             bool exists = EnemyStats.ProjectileDamageValues.TryGetValue(new Tuple<int, int>(npc.type, projType), out int[] projectileDamage);
             return !exists ? 1 // Base case for safety, in case the array is not initialized yet.
+                : Main.masterMode ? projectileDamage[4]
                 : (CalamityWorld.death || CalamityWorld.malice) ? projectileDamage[3]
                 : CalamityWorld.revenge ? projectileDamage[2]
                 : Main.expertMode ? projectileDamage[1]
@@ -377,6 +380,8 @@ namespace CalamityMod
                 { NPCID.LeechBody, new int[] { 22, 44, 52, 56, 66 } },
                 { NPCID.LeechTail, new int[] { 18, 36, 42, 44, 54 } },
 
+                { NPCID.QueenSlimeBoss, new int[] { 60, 120, 150, 170, 240 } },
+
                 { ModContent.NPCType<Cryogen>(), new int[] { 60, 138, 161, 184, 276 } },
                 { ModContent.NPCType<CryogenIce>(), new int[] { 60, 120, 138, 158, 216 } },
 
@@ -582,6 +587,10 @@ namespace CalamityMod
                     102 } }, // 66 to 90, depending on life
                 { new Tuple<int, int>(NPCID.WallofFleshEye, ProjectileID.DeathLaser), new int[] { 40, 72, 88, 96, 132 } },
                 { new Tuple<int, int>(NPCID.WallofFlesh, ProjectileID.DemonSickle), new int[] { 52, 92, 112, 124, 168 } },
+
+                { new Tuple<int, int>(NPCID.QueenSlimeBoss, ProjectileID.QueenSlimeGelAttack), new int[] { 60, 120, 136, 152, 210 } },
+                { new Tuple<int, int>(NPCID.QueenSlimeBoss, ProjectileID.QueenSlimeSmash), new int[] { 80, 160, 188, 200, 270 } },
+                { new Tuple<int, int>(NPCID.QueenSlimeBoss, ProjectileID.QueenSlimeMinionBlueSpike), new int[] { 0, 0, 112, 124, 168 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceBlast>()), new int[] { 52, 92, 112, 124, 168 } },
                 { new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceBomb>()), new int[] { 70, 120, 136, 152, 210 } },

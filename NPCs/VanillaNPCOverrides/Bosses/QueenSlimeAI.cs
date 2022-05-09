@@ -16,11 +16,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool malice = CalamityWorld.malice;
             bool death = CalamityWorld.death;
 
-            int num = 30;
-            int num2 = 40;
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+
             float num3 = 1f;
             bool flag = false;
-            bool phase2 = npc.life <= npc.lifeMax / 2;
+            bool phase2 = lifeRatio <= 0.5f;
+            bool phase3 = lifeRatio <= 0.35f;
+            bool phase4 = lifeRatio <= 0.15f;
 
             // Spawn settings
             if (npc.localAI[0] == 0f)
@@ -170,7 +173,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.localAI[3] >= 24f)
                     npc.localAI[3] = 0f;
 
-                if (npc.ai[0] == 4f && npc.ai[2] == 1f)
+                if ((npc.ai[0] == 4f || npc.ai[0] == 6f) && npc.ai[2] == 1f)
                     npc.localAI[3] = 6f;
 
                 if (npc.ai[0] == 5f && npc.ai[2] != 1f)
@@ -206,6 +209,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int idleTime = malice ? 20 : death ? 30 : 40;
                         if (phase2)
                             idleTime = malice ? 40 : death ? 60 : 80;
+                        if (phase4)
+                            idleTime = 0;
 
                         if (!(npc.ai[1] > idleTime))
                             break;
@@ -221,14 +226,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     npc.ai[0] = Main.rand.NextBool() ? 6f : 5f;
                                     break;
                                 case 5:
-                                    npc.ai[0] = Main.rand.NextBool() ? 4f : 6f;
+                                    npc.ai[0] = phase4 ? 6f : Main.rand.NextBool() ? 4f : 6f;
                                     break;
                                 case 6:
-                                    npc.ai[0] = Main.rand.NextBool() ? 5f : 4f;
+                                    npc.ai[0] = phase4 ? 5f : Main.rand.NextBool() ? 5f : 4f;
                                     break;
                             }
 
-                            if (npc.ai[0] == 4f)
+                            if (npc.ai[0] == 4f || npc.ai[0] == 6f)
                             {
                                 npc.ai[2] = 1f;
                                 if (player != null && player.active && !player.dead && (player.Bottom.Y < npc.Bottom.Y || Math.Abs(player.Center.X - npc.Center.X) > 450f))
@@ -353,9 +358,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         float timerIncrement = malice ? 7f : death ? 6f : 5f;
                         npc.ai[1] += timerIncrement;
-                        if (npc.life < npc.lifeMax * 0.85)
+                        if (lifeRatio < 0.85f)
                             npc.ai[1] += timerIncrement;
-                        if (npc.life < npc.lifeMax * 0.7)
+                        if (lifeRatio < 0.7f)
                             npc.ai[1] += timerIncrement;
 
                         if (!(npc.ai[1] >= 0f))
@@ -379,9 +384,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.ai[2] = 0f;
                             if (npc.timeLeft > 10)
                             {
-                                npc.ai[0] = 0f;
-                                npc.Calamity().newAI[0] = 3f;
+                                npc.Calamity().newAI[0] = npc.ai[0];
                                 npc.SyncExtraAI();
+                                npc.ai[0] = 0f;
                             }
                             else
                                 npc.ai[1] = -60f;
@@ -421,7 +426,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     break;
 
                 // Slam down and create shockwave
+                // Create a cascade of crystals while falling down in phase 3 and the case is 4
+                // Release a massive eruption of crystals in phase 3 and the case is 6
                 case 4:
+                case 6:
                     {
                         npc.rotation *= 0.9f;
                         npc.noTileCollide = true;
@@ -441,15 +449,37 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             if (npc.velocity.Y == 0f)
                             {
-                                npc.ai[0] = 0f;
-                                npc.Calamity().newAI[0] = 4f;
+                                npc.Calamity().newAI[0] = npc.ai[0];
                                 npc.SyncExtraAI();
+                                npc.ai[0] = 0f;
                                 npc.ai[1] = 0f;
                                 npc.ai[2] = 0f;
                                 npc.netUpdate = true;
                                 SoundEngine.PlaySound(SoundID.Item167, npc.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Bottom, Vector2.Zero, ProjectileID.QueenSlimeSmash, num2, 0f, Main.myPlayer);
+                                {
+                                    int type = ProjectileID.QueenSlimeSmash;
+                                    int damage = npc.GetProjectileDamage(type);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Bottom, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+
+                                    // Eruption of crystals in phase 3
+                                    if (npc.ai[0] == 6f && phase3)
+                                    {
+                                        float projectileVelocity = 12f;
+                                        type = ProjectileID.QueenSlimeMinionBlueSpike;
+                                        damage = npc.GetProjectileDamage(type);
+                                        Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y - 100f) - npc.Center;
+                                        destination.Normalize();
+                                        destination *= projectileVelocity;
+                                        int numProj = 30;
+                                        float rotation = MathHelper.ToRadians(90);
+                                        for (int i = 0; i < numProj + 1; i++)
+                                        {
+                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer);
+                                        }
+                                    }
+                                }
 
                                 for (int l = 0; l < 20; l++)
                                 {
@@ -482,9 +512,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 if (phase2 && npc.ai[1] > (num20 + 120))
                                 {
-                                    npc.ai[0] = 0f;
-                                    npc.Calamity().newAI[0] = 4f;
+                                    npc.Calamity().newAI[0] = npc.ai[0];
                                     npc.SyncExtraAI();
+                                    npc.ai[0] = 0f;
                                     npc.ai[1] = 0f;
                                     npc.ai[2] = 0f;
                                     npc.velocity.Y *= 0.8f;
@@ -505,6 +535,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                                 if (npc.velocity.Y >= num24)
                                     npc.velocity.Y = num24;
+
+                                // Cascade of crystals in phase 3 or 4 while falling down
+                                if (((npc.ai[0] == 4f && phase3) || phase4) && npc.ai[1] % 6f == 0f)
+                                {
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        Vector2 fireFrom = npc.Center;
+                                        int projectileAmt = 2;
+                                        int type = ProjectileID.QueenSlimeMinionBlueSpike;
+                                        int damage = npc.GetProjectileDamage(type);
+                                        for (int i = 0; i < projectileAmt; i++)
+                                        {
+                                            int totalProjectiles = 2;
+                                            float radians = MathHelper.TwoPi / totalProjectiles;
+                                            for (int j = 0; j < totalProjectiles; j++)
+                                            {
+                                                Vector2 projVelocity = npc.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
+                                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             else
                                 npc.velocity.Y *= 0.8f;
@@ -570,25 +622,27 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int numGelProjectiles = phase2 ? Main.rand.Next(6, 9) : 8;
+                                int numGelProjectiles = phase4 ? Main.rand.Next(9, 12) : phase2 ? Main.rand.Next(6, 9) : 12;
                                 if (Main.getGoodWorld)
                                     numGelProjectiles = 15;
 
-                                float projectileVelocity = malice ? 15f : death ? 12f : 10.5f;
+                                float projectileVelocity = death ? 12f : 10.5f;
+                                int type = ProjectileID.QueenSlimeGelAttack;
+                                int damage = npc.GetProjectileDamage(type);
                                 float ai1 = phase2 ? -2f : -1f;
                                 for (int j = 0; j < numGelProjectiles; j++)
                                 {
                                     Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
                                     spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, ProjectileID.QueenSlimeGelAttack, num, 0f, Main.myPlayer, 0f, ai1);
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, type, damage, 0f, Main.myPlayer, 0f, ai1);
                                     Main.projectile[proj].timeLeft = 900;
                                 }
                             }
 
                             SoundEngine.PlaySound(SoundID.Item155, npc.Center);
-                            npc.ai[0] = 0f;
-                            npc.Calamity().newAI[0] = 5f;
+                            npc.Calamity().newAI[0] = npc.ai[0];
                             npc.SyncExtraAI();
+                            npc.ai[0] = 0f;
                             npc.ai[1] = 0f;
                             npc.ai[2] = 0f;
                             npc.netUpdate = true;
@@ -635,10 +689,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         break;
                     }
-
-                // 
-                case 6:
-                    break;
             }
 
             // Don't take damage while teleporting
@@ -657,7 +707,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Spawn small slimes
-            if (npc.life <= 0)
+            // Don't spawn any slimes in final phase
+            if (npc.life <= 0 || phase4)
                 return false;
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -684,6 +735,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             int random = Main.rand.Next(2);
             if (phase2)
                 random += 1;
+            if (phase3)
+                random = 2;
 
             int typeToSpawn = NPCID.QueenSlimeMinionBlue;
             switch (random)
