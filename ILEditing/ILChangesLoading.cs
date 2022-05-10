@@ -121,6 +121,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
             IL.Terraria.Player.DashMovement -= BuffSolarFlareShieldSlam;
+            IL.Terraria.Player.GiveImmuneTimeForCollisionAttack -= MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
             On.Terraria.WorldGen.CloseDoor -= CloseDoor_LabDoorOverride;
@@ -132,7 +133,6 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickHeal -= ConditionallyReplaceManaSickness;
             IL.Terraria.Player.QuickMana -= ConditionallyReplaceManaSickness;
             IL.Terraria.Player.ItemCheck_Inner -= ConditionallyReplaceManaSickness;
-            IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
