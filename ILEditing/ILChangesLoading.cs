@@ -44,10 +44,9 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName += IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor += UseCoolFireCursorEffect;
-            IL.Terraria.Player.QuickHeal += ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.QuickMana += ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.ItemCheck_Inner += ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.AddBuff += AllowBuffTimeStackingForManaBurn;
+            IL.Terraria.Player.QuickHeal += ConditionallyReplaceManaSickness;
+            IL.Terraria.Player.QuickMana += ConditionallyReplaceManaSickness;
+            IL.Terraria.Player.ItemCheck_Inner += ConditionallyReplaceManaSickness;
             On.Terraria.Main.DrawInterface += DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms += DrawFusableParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
@@ -57,6 +56,7 @@ namespace CalamityMod.ILEditing
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
             // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
+            // TODO -- This should be unnecessary. There is now a TML hook for platform collision for ModNPCs.
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms += EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle += AddTwinklersToStatue;
 
@@ -95,14 +95,13 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
             // TODO -- Beat Lava Slimes once and for all
-            //IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
+            // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Player.IsTileTypeInInteractionRange += IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile += MakeMeteoriteExplodable;
             IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
 
             // Fix vanilla bugs exposed by Calamity mechanics
-            // On.Terraria.Main.InitLifeBytes += BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
@@ -129,9 +128,9 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.AffixName -= IncorporateEnchantmentInAffix;
             On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float -= IncorporateMinionExplodingCountdown;
             On.Terraria.Main.DrawCursor -= UseCoolFireCursorEffect;
-            IL.Terraria.Player.QuickHeal -= ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.QuickMana -= ApplyManaBurnIfNeeded;
-            IL.Terraria.Player.ItemCheck_Inner -= ApplyManaBurnIfNeeded;
+            IL.Terraria.Player.QuickHeal -= ConditionallyReplaceManaSickness;
+            IL.Terraria.Player.QuickMana -= ConditionallyReplaceManaSickness;
+            IL.Terraria.Player.ItemCheck_Inner -= ConditionallyReplaceManaSickness;
             IL.Terraria.Player.AddBuff -= AllowBuffTimeStackingForManaBurn;
             On.Terraria.Main.DrawInterface -= DrawGeneralParticles;
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;

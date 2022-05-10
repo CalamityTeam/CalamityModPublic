@@ -310,86 +310,30 @@ namespace CalamityMod.ILEditing
         #endregion Hellbound Enchantment Projectile Creation Effects
 
         #region Mana Sickness Replacement for Chaos Stone
-        private static void ApplyManaBurnIfNeeded(ILContext il)
+        private static void ConditionallyReplaceManaSickness(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
 
+            // Start by finding the vanilla code which applies Mana Sickness (buff ID 94).
             if (!cursor.TryGotoNext(c => c.MatchLdcI4(BuffID.ManaSickness)))
             {
-                LogFailure("Mana Burn Application", "Could not locate the mana sickness buff ID.");
+                LogFailure("Conditionally Replace Mana Sickness", "Could not locate the mana sickness buff ID.");
                 return;
             }
 
+            // Remove the constant buff ID.
             cursor.Remove();
+
+            // Load the player onto the stack for use in the following delegate.
             cursor.Emit(OpCodes.Ldarg_0);
+
+            // Emit code which checks for the Chaos Stone. If equipped, the player gets Mana Burn instead of Mana Sickness.
             cursor.EmitDelegate<Func<Player, int>>(player =>
             {
                 if (!player.active || !player.Calamity().ChaosStone)
                     return BuffID.ManaSickness;
                 return ModContent.BuffType<ManaBurn>();
             });
-        }
-
-        private static void AllowBuffTimeStackingForManaBurn(ILContext il)
-        {
-            ILCursor cursor = new ILCursor(il);
-
-            // Get a label that points to the final return before doing anything else.
-            cursor.GotoFinalRet();
-
-            ILLabel finalReturn = cursor.DefineLabel();
-            cursor.MarkLabel(finalReturn);
-
-            // After the label has been created go back to the beginning of the method.
-            cursor.Goto(0);
-
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchStloc(4)))
-            {
-                LogFailure("Mana Burn Time Stacking", "Could not locate the buff loop incremental variable.");
-                return;
-            }
-
-            int startOfBuffTimeLogic = cursor.Index - 1;
-
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdsfld<Main>("vanityPet")))
-            {
-                LogFailure("Mana Burn Time Stacking", "Could not locate the Main.vanityPet load.");
-                return;
-            }
-
-            // Clear away the vanilla logic and re-add it with a delegate.
-            // The alternative is a mess of various labels and branches.
-            int endOfBuffTimeLogic = cursor.Index;
-            cursor.Goto(startOfBuffTimeLogic);
-            cursor.RemoveRange(endOfBuffTimeLogic - startOfBuffTimeLogic);
-
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.Emit(OpCodes.Ldarg_1);
-            cursor.Emit(OpCodes.Ldloc_0);
-            cursor.EmitDelegate<Func<Player, int, int, bool>>((player, type, buffTime) =>
-            {
-                for (int j = 0; j < Player.MaxBuffs; j++)
-                {
-                    if (player.buffType[j] == type)
-                    {
-                        if (!BuffLoader.ReApply(type, player, buffTime, j))
-                        {
-                            if (type == BuffID.ManaSickness || type == ModContent.BuffType<ManaBurn>())
-                            {
-                                player.buffTime[j] += buffTime;
-                                if (player.buffTime[j] > Player.manaSickTimeMax)
-                                    player.buffTime[j] = Player.manaSickTimeMax;
-
-                            }
-                            else if (player.buffTime[j] < buffTime)
-                                player.buffTime[j] = buffTime;
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            });
-            cursor.Emit(OpCodes.Brtrue, finalReturn);
         }
         #endregion Mana Sickness Replacement for Chaos Stone
 
