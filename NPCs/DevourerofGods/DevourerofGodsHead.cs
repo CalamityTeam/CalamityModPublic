@@ -57,6 +57,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         // Laser velocity
         private const float laserVelocity = 10f;
 
+        // Velocity prior to swapping from flight to ground and vice versa
+        private float velocityPriorToPhaseSwap = 0f;
+
         // Phase 1 variables
 
         // Enums
@@ -186,6 +189,9 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             bool wasDyingBefore = Dying;
 
+            // Velocity sync
+            writer.Write(velocityPriorToPhaseSwap);
+
             // Phase 1 syncs
             writer.Write(NPC.dontTakeDamage);
             writer.Write(spawnedGuardians);
@@ -235,6 +241,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+            // Velocity sync
+            velocityPriorToPhaseSwap = reader.ReadSingle();
+
             // Phase 1 syncs
             NPC.dontTakeDamage = reader.ReadBoolean();
             spawnedGuardians = reader.ReadBoolean();
@@ -326,6 +335,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
             float homingSpeed = malice ? 36f : death ? 30f : 24f;
             float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
+            float velocityPriorToPhaseSwapIncrement = 0.05f;
 
             if (expertMode)
             {
@@ -1053,10 +1063,22 @@ namespace CalamityMod.NPCs.DevourerofGods
                             }
                         }
 
+                        // Set velocity so that DoG cannot speed burst instantly at the start of a phase swap
+                        if (velocityPriorToPhaseSwap > 0f)
+                        {
+                            if (NPC.velocity.Length() > velocityPriorToPhaseSwap)
+                            {
+                                NPC.velocity.Normalize();
+                                NPC.velocity *= velocityPriorToPhaseSwap;
+                                velocityPriorToPhaseSwap += velocityPriorToPhaseSwapIncrement;
+                            }
+                        }
+
                         NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + MathHelper.PiOver2;
 
                         if (calamityGlobalNPC.newAI[2] > phaseLimit)
                         {
+                            velocityPriorToPhaseSwap = NPC.velocity.Length();
                             NPC.ai[3] = 1f;
                             calamityGlobalNPC.newAI[2] = 0f;
                             NPC.TargetClosest();
@@ -1282,6 +1304,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                             }
                         }
 
+                        // Set velocity so that DoG cannot speed burst instantly at the start of a phase swap
+                        if (velocityPriorToPhaseSwap > 0f)
+                        {
+                            if (NPC.velocity.Length() > velocityPriorToPhaseSwap)
+                            {
+                                NPC.velocity.Normalize();
+                                NPC.velocity *= velocityPriorToPhaseSwap;
+                                velocityPriorToPhaseSwap += velocityPriorToPhaseSwapIncrement;
+                            }
+                        }
+
                         NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + MathHelper.PiOver2;
 
                         if (flies)
@@ -1304,6 +1337,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                         if (calamityGlobalNPC.newAI[2] > phaseLimit)
                         {
+                            velocityPriorToPhaseSwap = NPC.velocity.Length();
                             NPC.ai[3] = 0f;
                             calamityGlobalNPC.newAI[2] = 0f;
                             NPC.TargetClosest();
@@ -1736,10 +1770,22 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                     }
 
+                    // Set velocity so that DoG cannot speed burst instantly at the start of a phase swap
+                    if (velocityPriorToPhaseSwap > 0f)
+                    {
+                        if (NPC.velocity.Length() > velocityPriorToPhaseSwap)
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= velocityPriorToPhaseSwap;
+                            velocityPriorToPhaseSwap += velocityPriorToPhaseSwapIncrement;
+                        }
+                    }
+
                     NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + MathHelper.PiOver2;
 
                     if (calamityGlobalNPC.newAI[2] > phaseLimit)
                     {
+                        velocityPriorToPhaseSwap = NPC.velocity.Length();
                         NPC.ai[3] = 1f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         NPC.TargetClosest();
@@ -1951,6 +1997,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                     }
 
+                    // Set velocity so that DoG cannot speed burst instantly at the start of a phase swap
+                    if (velocityPriorToPhaseSwap > 0f)
+                    {
+                        if (NPC.velocity.Length() > velocityPriorToPhaseSwap)
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= velocityPriorToPhaseSwap;
+                            velocityPriorToPhaseSwap += velocityPriorToPhaseSwapIncrement;
+                        }
+                    }
+
                     NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X) + MathHelper.PiOver2;
 
                     if (flies)
@@ -1973,6 +2030,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     if (calamityGlobalNPC.newAI[2] > phaseLimit)
                     {
+                        velocityPriorToPhaseSwap = NPC.velocity.Length();
                         NPC.ai[3] = 0f;
                         calamityGlobalNPC.newAI[2] = 0f;
                         NPC.TargetClosest();

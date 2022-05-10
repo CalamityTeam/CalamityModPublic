@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             switch ((int)npc.Calamity().newAI[0])
                             {
-                                case 4:
+                                default:
                                     npc.ai[0] = Main.rand.NextBool() ? 6f : 5f;
                                     break;
                                 case 5:
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             switch ((int)npc.Calamity().newAI[0])
                             {
-                                case 3:
+                                default:
                                     npc.ai[0] = Main.rand.NextBool() ? 5f : 4f;
                                     break;
                                 case 4:
@@ -465,7 +465,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     // Eruption of crystals in phase 3
                                     if (npc.ai[0] == 6f && phase3)
                                     {
-                                        float projectileVelocity = 12f;
+                                        float projectileVelocity = 24f;
                                         type = ProjectileID.QueenSlimeMinionBlueSpike;
                                         damage = npc.GetProjectileDamage(type);
                                         Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y - 100f) - npc.Center;
@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                             for (int j = 0; j < totalProjectiles; j++)
                                             {
                                                 Vector2 projVelocity = npc.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
-                                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer);
+                                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity * 2f, type, damage, 0f, Main.myPlayer);
                                             }
                                         }
                                     }
@@ -724,7 +724,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.netUpdate = true;
             }
 
-            int num28 = (int)(npc.lifeMax * 0.04f);
+            int num28 = (int)(npc.lifeMax * (phase2 ? 0.03f : 0.015f));
             if (!((npc.life + num28) < npc.localAI[0]))
                 return false;
 

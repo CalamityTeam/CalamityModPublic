@@ -1957,6 +1957,10 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.hostile)
                 {
+                    // These projectiles are way too fucking fast so they need to be slower
+                    if (projectile.type == ProjectileID.QueenSlimeMinionBlueSpike || projectile.type == ProjectileID.QueenSlimeMinionPinkBall)
+                        projectile.velocity *= 0.5f;
+
                     if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier && (CalamityWorld.malice || BossRushEvent.BossRushActive))
                         projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
 
