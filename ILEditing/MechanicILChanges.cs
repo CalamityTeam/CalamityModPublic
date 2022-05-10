@@ -152,14 +152,11 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            // Delete this instruction. The stack still contains the amount of iframes to give.
+            // Delete this instruction. The stack still contains the player and amount of iframes to give.
             cursor.Remove();
 
-            // Load the player itself onto the stack so that it becomes the second argument for the following delegate.
-            cursor.Emit(OpCodes.Ldarg_0);
-
             // Emit a delegate which calls the Calamity utility to consistently provide iframes.
-            cursor.EmitDelegate<Action<int, Player>>((frames, p) => CalamityUtils.GiveIFrames(p, frames, false));
+            cursor.EmitDelegate<Action<Player, int>>((p, frames) => CalamityUtils.GiveIFrames(p, frames, false));
         }
 
         private static void BuffSolarFlareShieldSlam(ILContext il)
