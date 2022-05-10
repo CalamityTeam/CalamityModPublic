@@ -7454,7 +7454,7 @@ namespace CalamityMod.CalPlayer
                                 npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 
-                            Player.GiveIFrames(AsgardianAegis.ShieldSlamIFrames, false);
+                            Player.GiveImmuneTimeForCollisionAttack(AsgardianAegis.ShieldSlamIFrames);
                         }
                     }
                 }
@@ -7500,7 +7500,7 @@ namespace CalamityMod.CalPlayer
                             if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
                                 npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
 
-                            Player.GiveIFrames(ElysianAegis.ShieldSlamIFrames, false);
+                            Player.GiveImmuneTimeForCollisionAttack(ElysianAegis.ShieldSlamIFrames);
                         }
                     }
                 }
@@ -7545,7 +7545,7 @@ namespace CalamityMod.CalPlayer
                             if (npc.Calamity().dashImmunityTime[Player.whoAmI] < 12)
                                 npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
 
-                            Player.GiveIFrames(AsgardsValor.ShieldSlamIFrames, false);
+                            Player.GiveImmuneTimeForCollisionAttack(AsgardsValor.ShieldSlamIFrames);
                         }
                     }
                 }
@@ -7590,7 +7590,7 @@ namespace CalamityMod.CalPlayer
                                 npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(BuffID.Frostburn, 300);
 
-                            Player.GiveIFrames(OrnateShield.ShieldSlamIFrames, false);
+                            Player.GiveImmuneTimeForCollisionAttack(OrnateShield.ShieldSlamIFrames);
                         }
                     }
                 }
@@ -7623,7 +7623,7 @@ namespace CalamityMod.CalPlayer
                                 npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(ModContent.BuffType<Plague>(), 300);
 
-                            Player.GiveIFrames(PlaguebringerVisor.PlagueDashIFrames, false);
+                            Player.GiveImmuneTimeForCollisionAttack(PlaguebringerVisor.PlagueDashIFrames);
                         }
                     }
                 }
@@ -7683,6 +7683,8 @@ namespace CalamityMod.CalPlayer
                                 npc.Calamity().dashImmunityTime[Player.whoAmI] = 12;
                             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
 
+                            // God Slayer Dash intentionally does not use the vanilla function for collision attack iframes.
+                            // This is because its immunity is meant to be completely consistent and not subject to vanilla anticheese.
                             Player.GiveIFrames(GodSlayerChestplate.DashIFrames, false);
                         }
                     }
