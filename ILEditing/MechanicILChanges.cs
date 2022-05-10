@@ -140,26 +140,31 @@ namespace CalamityMod.ILEditing
         }
         #endregion Removal of Black Belt Dodge RNG
 
-        #region Vanilla Dash Shield Improvements
-        private static void FixVanillaShieldSlams(ILContext il)
+        #region Vanilla Dash / Shield Slam Improvements
+        private static void MakeShieldSlamIFramesConsistent(ILContext il)
         {
-            // Remove Shield of Cthulhu setting your iframes to an exact number and instead run Calamity's utility to safely provide iframes.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
+
+            // Find the direct assignment of the player's iframes.
+            if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchStfld<Player>("immuneTime")))
             {
-                LogFailure("Vanilla Shield Slam Fix", "Could not locate Shield of Cthulhu immunity blinking set.");
+                LogFailure("Shield Slam Consistent Immunity Frames", "Could not locate the assignment of the player's immune time.");
                 return;
             }
 
-            // Destroy the entire operation which sets your iframes to exactly 4:
-            // ldarg.0 (load "this", aka the Player)
-            // ldc.i4.4 (load 4)
-            // stfld int32 Terraria.Player::immuneTime
-            cursor.RemoveRange(3);
+            // Delete this instruction. The stack still contains the amount of iframes to give.
+            cursor.Remove();
 
-            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            // Load the player itself onto the stack so that it becomes the second argument for the following delegate.
             cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.ShieldOfCthulhuIFrames, false));
+
+            // Emit a delegate which calls the Calamity utility to consistently provide iframes.
+            cursor.EmitDelegate<Action<int, Player>>((frames, p) => CalamityUtils.GiveIFrames(p, frames, false));
+        }
+
+        private static void BuffSolarFlareShieldSlam(ILContext il)
+        {
+            var cursor = new ILCursor(il);
 
             // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(150f)))
@@ -178,27 +183,21 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with Calamity's calculation.
+            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with the already-calculated base damage, then cast it to int.
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 12);
+            cursor.Emit(OpCodes.Ldloc, 13);
             cursor.Emit(OpCodes.Conv_I4);
 
-            // Move to the immunity frame setting code for the Solar Flare set bonus.
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("immuneNoBlink")))
+            // Move to the immunity frame setting code for the Solar Flare set bonus. Find the constant 4 given as iframes.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(4)))
             {
-                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
+                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare shield slam iframes.");
                 return;
             }
 
-            // Destroy the entire operation which sets your iframes to exactly 4:
-            // ldarg.0 (load "this", aka the Player)
-            // ldc.i4.4 (load 4)
-            // stfld int32 Terraria.Player::immuneTime
-            cursor.RemoveRange(3);
-
-            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Action<Player>>((Player p) => p.GiveIFrames(CalamityPlayer.SolarFlareIFrames, false));
+            // Replace it with Calamity's number of iframes.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, CalamityPlayer.SolarFlareIFrames);
         }
 
         private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
@@ -310,86 +309,30 @@ namespace CalamityMod.ILEditing
         #endregion Hellbound Enchantment Projectile Creation Effects
 
         #region Mana Sickness Replacement for Chaos Stone
-        private static void ApplyManaBurnIfNeeded(ILContext il)
+        private static void ConditionallyReplaceManaSickness(ILContext il)
         {
             ILCursor cursor = new ILCursor(il);
 
+            // Start by finding the vanilla code which applies Mana Sickness (buff ID 94).
             if (!cursor.TryGotoNext(c => c.MatchLdcI4(BuffID.ManaSickness)))
             {
-                LogFailure("Mana Burn Application", "Could not locate the mana sickness buff ID.");
+                LogFailure("Conditionally Replace Mana Sickness", "Could not locate the mana sickness buff ID.");
                 return;
             }
 
+            // Remove the constant buff ID.
             cursor.Remove();
+
+            // Load the player onto the stack for use in the following delegate.
             cursor.Emit(OpCodes.Ldarg_0);
+
+            // Emit code which checks for the Chaos Stone. If equipped, the player gets Mana Burn instead of Mana Sickness.
             cursor.EmitDelegate<Func<Player, int>>(player =>
             {
                 if (!player.active || !player.Calamity().ChaosStone)
                     return BuffID.ManaSickness;
                 return ModContent.BuffType<ManaBurn>();
             });
-        }
-
-        private static void AllowBuffTimeStackingForManaBurn(ILContext il)
-        {
-            ILCursor cursor = new ILCursor(il);
-
-            // Get a label that points to the final return before doing anything else.
-            cursor.GotoFinalRet();
-
-            ILLabel finalReturn = cursor.DefineLabel();
-            cursor.MarkLabel(finalReturn);
-
-            // After the label has been created go back to the beginning of the method.
-            cursor.Goto(0);
-
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchStloc(4)))
-            {
-                LogFailure("Mana Burn Time Stacking", "Could not locate the buff loop incremental variable.");
-                return;
-            }
-
-            int startOfBuffTimeLogic = cursor.Index - 1;
-
-            if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchLdsfld<Main>("vanityPet")))
-            {
-                LogFailure("Mana Burn Time Stacking", "Could not locate the Main.vanityPet load.");
-                return;
-            }
-
-            // Clear away the vanilla logic and re-add it with a delegate.
-            // The alternative is a mess of various labels and branches.
-            int endOfBuffTimeLogic = cursor.Index;
-            cursor.Goto(startOfBuffTimeLogic);
-            cursor.RemoveRange(endOfBuffTimeLogic - startOfBuffTimeLogic);
-
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.Emit(OpCodes.Ldarg_1);
-            cursor.Emit(OpCodes.Ldloc_0);
-            cursor.EmitDelegate<Func<Player, int, int, bool>>((player, type, buffTime) =>
-            {
-                for (int j = 0; j < Player.MaxBuffs; j++)
-                {
-                    if (player.buffType[j] == type)
-                    {
-                        if (!BuffLoader.ReApply(type, player, buffTime, j))
-                        {
-                            if (type == BuffID.ManaSickness || type == ModContent.BuffType<ManaBurn>())
-                            {
-                                player.buffTime[j] += buffTime;
-                                if (player.buffTime[j] > Player.manaSickTimeMax)
-                                    player.buffTime[j] = Player.manaSickTimeMax;
-
-                            }
-                            else if (player.buffTime[j] < buffTime)
-                                player.buffTime[j] = buffTime;
-                        }
-                        return true;
-                    }
-                }
-                return false;
-            });
-            cursor.Emit(OpCodes.Brtrue, finalReturn);
         }
         #endregion Mana Sickness Replacement for Chaos Stone
 
