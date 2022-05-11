@@ -4292,7 +4292,7 @@ namespace CalamityMod.NPCs
                     acceleration *= 2f;
                 }
 
-                Vector2 moveTo = new Vector2(player.Center.X - vector.X, player.Center.Y - vector.Y);
+                Vector2 destination = player.Center;
 
                 // Move between 8 different positions around the player, in order
                 float maxDistance = 320f;
@@ -4343,38 +4343,28 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                moveTo += moveToOffset;
+                destination += moveToOffset;
 
-                float distance = (float)Math.Sqrt(moveTo.X * moveTo.X + moveTo.Y * moveTo.Y);
+                // How far Ceaseless Void is from where it's supposed to be
+                Vector2 distanceFromDestination = destination - npc.Center;
 
-                distance = velocity / distance;
-                moveTo.X *= distance;
-                moveTo.Y *= distance;
+                // Inverse lerp returns the percentage of progress between A and B
+                float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
 
-                if (npc.velocity.X < moveTo.X)
-                {
-                    npc.velocity.X += acceleration;
-                    if (npc.velocity.X < 0f && moveTo.X > 0f)
-                        npc.velocity.X += acceleration;
-                }
-                else if (npc.velocity.X > moveTo.X)
-                {
-                    npc.velocity.X -= acceleration;
-                    if (npc.velocity.X > 0f && moveTo.X < 0f)
-                        npc.velocity.X -= acceleration;
-                }
-                if (npc.velocity.Y < moveTo.Y)
-                {
-                    npc.velocity.Y += acceleration;
-                    if (npc.velocity.Y < 0f && moveTo.Y > 0f)
-                        npc.velocity.Y += acceleration;
-                }
-                else if (npc.velocity.Y > moveTo.Y)
-                {
-                    npc.velocity.Y -= acceleration;
-                    if (npc.velocity.Y > 0f && moveTo.Y < 0f)
-                        npc.velocity.Y -= acceleration;
-                }
+                // Min velocity
+                float minVelocity = distanceFromDestination.Length();
+                float minVelocityCap = velocity;
+                if (minVelocity > minVelocityCap)
+                    minVelocity = minVelocityCap;
+
+                // Max velocity
+                Vector2 maxVelocity = distanceFromDestination / 24f;
+                float maxVelocityCap = minVelocityCap * 3f;
+                if (maxVelocity.Length() > maxVelocityCap)
+                    maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                npc.SimpleFlyMovement(desiredVelocity, acceleration);
             }
 
             // Spawn more Dark Energies as the fight progresses

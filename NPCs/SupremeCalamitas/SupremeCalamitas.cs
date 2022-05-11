@@ -373,6 +373,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
+            // Percent life remaining
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
             // Projectile damage values
             int bulletHellblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
             int firstBulletHellblastDamage = (int)Math.Round(bulletHellblastDamage * 1.25);
@@ -430,7 +433,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.ai[0] == 1f || NPC.ai[0] == 2f;
 
             // Make the shield and forcefield fade away in SCal's acceptance phase.
-            if (NPC.life <= NPC.lifeMax * 0.01)
+            if (lifeRatio <= 0.01f)
             {
                 shieldOpacity = MathHelper.Lerp(shieldOpacity, 0f, 0.08f);
                 forcefieldScale = MathHelper.Lerp(forcefieldScale, 0f, 0.08f);
@@ -549,7 +552,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             #region Enrage and DR
             if ((spawnArena && !player.Hitbox.Intersects(safeBox)) || malice)
             {
-                float projectileVelocityMultCap = !player.Hitbox.Intersects(safeBox) && spawnArena ? 2f : 1.5f;
+                float projectileVelocityMultCap = (!player.Hitbox.Intersects(safeBox) && spawnArena) ? 2f : 1.5f;
                 uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);
                 protectionBoost = !malice;
             }
@@ -787,7 +790,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
-            if (!startSecondAttack && (NPC.life <= NPC.lifeMax * 0.75))
+            if (!startSecondAttack && lifeRatio <= 0.75f)
             {
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -848,7 +851,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
-            if (!startThirdAttack && (NPC.life <= NPC.lifeMax * 0.5))
+            if (!startThirdAttack && lifeRatio <= 0.5f)
             {
                 // Switch from the Grief section of Stained, Brutal Calamity to the Lament section.
                 Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas2") ?? MusicID.Boss3;
@@ -921,7 +924,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
-            if (!startFourthAttack && (NPC.life <= NPC.lifeMax * 0.3))
+            if (!startFourthAttack && lifeRatio <= 0.3f)
             {
                 // Switch from the Lament section of Stained, Brutal Calamity to the Epiphany section.
                 Music = CalamityMod.Instance.GetMusicFromMusicMod("SupremeCalamitas3") ?? MusicID.LunarBoss;
@@ -994,7 +997,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 FrameType = FrameAnimationType.Casting;
                 return;
             }
-            if (!startFifthAttack && (NPC.life <= NPC.lifeMax * 0.1))
+            if (!startFifthAttack && lifeRatio <= 0.1f)
             {
                 string key = "Mods.CalamityMod.SCalBH5Text";
 
@@ -1079,7 +1082,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.dontTakeDamage = true;
                     return;
                 }
-                if (!gettingTired5 && (NPC.life <= NPC.lifeMax * 0.01))
+                if (!gettingTired5 && lifeRatio <= 0.01f)
                 {
                     for (int x = 0; x < Main.maxProjectiles; x++)
                     {
@@ -1101,7 +1104,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     gettingTired5 = true;
                     return;
                 }
-                else if (!gettingTired4 && (NPC.life <= NPC.lifeMax * 0.02))
+                else if (!gettingTired4 && lifeRatio <= 0.02f)
                 {
                     if (!BossRushEvent.BossRushActive)
                     {
@@ -1113,7 +1116,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     gettingTired4 = true;
                     return;
                 }
-                else if (!gettingTired3 && (NPC.life <= NPC.lifeMax * 0.04))
+                else if (!gettingTired3 && lifeRatio <= 0.04f)
                 {
                     if (!BossRushEvent.BossRushActive)
                     {
@@ -1125,7 +1128,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     gettingTired3 = true;
                     return;
                 }
-                else if (!gettingTired2 && (NPC.life <= NPC.lifeMax * 0.06))
+                else if (!gettingTired2 && lifeRatio <= 0.06f)
                 {
                     if (!BossRushEvent.BossRushActive)
                     {
@@ -1137,7 +1140,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     gettingTired2 = true;
                     return;
                 }
-                else if (!gettingTired && (NPC.life <= NPC.lifeMax * 0.08))
+                else if (!gettingTired && lifeRatio <= 0.08f)
                 {
                     attackCastDelay = sepulcherSpawnCastTime;
                     for (int i = 0; i < 40; i++)
@@ -1194,7 +1197,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             #endregion
             #region TransformSeekerandBrotherTriggers
-            if (!halfLife && (NPC.life <= NPC.lifeMax * 0.4))
+            if (!halfLife && lifeRatio <= 0.4f)
             {
                 if (!BossRushEvent.BossRushActive)
                 {
@@ -1206,7 +1209,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 halfLife = true;
             }
 
-            if (NPC.life <= NPC.lifeMax * 0.2)
+            if (lifeRatio <= 0.2f)
             {
                 if (!secondStage)
                 {
@@ -1239,7 +1242,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (NPC.life > 0)
             {
-                if (NPC.life < NPC.lifeMax * 0.45f && !enteredBrothersPhase)
+                if (lifeRatio < 0.45f && !enteredBrothersPhase)
                 {
                     enteredBrothersPhase = true;
                     attackCastDelay = brothersSpawnCastTime;
@@ -1375,51 +1378,43 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (NPC.ai[1] == 0f)
                     {
-                        float num823 = 12f;
-                        float num824 = 0.12f;
+                        // How fast SCal moves to the destination
+                        float velocity = 12f;
+                        float acceleration = 0.12f;
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
                         if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
-                            num824 *= 0.5f;
+                            acceleration *= 0.5f;
                         }
 
-                        Vector2 vector82 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num825 = player.position.X + (player.width / 2) - vector82.X;
-                        float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
-                        float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                        // This is where SCal should be
+                        Vector2 destination = new Vector2(player.Center.X, player.Center.Y - 550f);
 
-                        num827 = num823 / num827;
-                        num825 *= num827;
-                        num826 *= num827;
+                        // How far SCal is from where she's supposed to be
+                        Vector2 distanceFromDestination = destination - NPC.Center;
 
+                        // Movement
                         if (!canDespawn)
                         {
-                            if (NPC.velocity.X < num825)
-                            {
-                                NPC.velocity.X += num824;
-                                if (NPC.velocity.X < 0f && num825 > 0f)
-                                    NPC.velocity.X += num824;
-                            }
-                            else if (NPC.velocity.X > num825)
-                            {
-                                NPC.velocity.X -= num824;
-                                if (NPC.velocity.X > 0f && num825 < 0f)
-                                    NPC.velocity.X -= num824;
-                            }
-                            if (NPC.velocity.Y < num826)
-                            {
-                                NPC.velocity.Y += num824;
-                                if (NPC.velocity.Y < 0f && num826 > 0f)
-                                    NPC.velocity.Y += num824;
-                            }
-                            else if (NPC.velocity.Y > num826)
-                            {
-                                NPC.velocity.Y -= num824;
-                                if (NPC.velocity.Y > 0f && num826 < 0f)
-                                    NPC.velocity.Y -= num824;
-                            }
+                            // Inverse lerp returns the percentage of progress between A and B
+                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
+
+                            // Min velocity
+                            float minVelocity = distanceFromDestination.Length();
+                            float minVelocityCap = velocity;
+                            if (minVelocity > minVelocityCap)
+                                minVelocity = minVelocityCap;
+
+                            // Max velocity
+                            Vector2 maxVelocity = distanceFromDestination / 24f;
+                            float maxVelocityCap = minVelocityCap * 3f;
+                            if (maxVelocity.Length() > maxVelocityCap)
+                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
                         }
 
                         NPC.ai[2] += 1f;
@@ -1430,27 +1425,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.netUpdate = true;
                         }
 
-                        vector82 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        num825 = player.position.X + (player.width / 2) - vector82.X;
-                        num826 = player.position.Y + (player.height / 2) - vector82.Y;
+                        Vector2 projectileVelocity = player.Center - NPC.Center;
+                        projectileVelocity.Normalize();
+                        Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
+                        projectileVelocity *= 10f * uDieLul;
 
                         NPC.localAI[1] += wormAlive ? 0.5f : 1f;
                         if (NPC.localAI[1] > 90f)
                         {
                             NPC.localAI[1] = 0f;
-
-                            float num828 = 10f * uDieLul;
-                            Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                            float num180 = player.position.X + player.width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-
-                            num183 = num828 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            value9.X += num180;
-                            value9.Y += num182;
 
                             int randomShot = Main.rand.Next(6);
                             if (randomShot == 0 && canFireSplitingFireball)
@@ -1458,17 +1441,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
-                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 8f;
-                                vector82.Y += num826 * 8f;
 
                                 for (int i = 0; i < 15; i++)
                                 {
-                                    Dust magic = Dust.NewDustPerfect(value9, 264);
-                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f);
+                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
+                                    magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f);
                                     magic.color = Color.OrangeRed;
                                     magic.scale = 1.2f;
                                     magic.fadeIn = 0.6f;
@@ -1478,7 +1455,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector82.X, vector82.Y, num825, num826, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, randomShot, fireblastDamage, 0f, Main.myPlayer);
                                     NPC.netUpdate = true;
                                 }
                             }
@@ -1487,17 +1464,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
-                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 8f;
-                                vector82.Y += num826 * 8f;
 
                                 for (int i = 0; i < 20; i++)
                                 {
-                                    Dust magic = Dust.NewDustPerfect(value9, (int)CalamityDusts.Brimstone);
-                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.3f;
+                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, (int)CalamityDusts.Brimstone);
+                                    magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.3f;
                                     magic.color = Color.Red;
                                     magic.scale = 1.425f;
                                     magic.fadeIn = 0.75f;
@@ -1507,7 +1478,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector82.X, vector82.Y, num825, num826, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, randomShot, gigablastDamage, 0f, Main.myPlayer);
                                     NPC.netUpdate = true;
                                 }
                             }
@@ -1516,22 +1487,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 canFireSplitingFireball = true;
                                 randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
-                                for (int num186 = 0; num186 < 8; num186++)
+                                float rotation = MathHelper.ToRadians(20);
+                                int numProj = 8;
+                                for (int j = 0; j < numProj; j++)
                                 {
-                                    num180 = player.position.X + player.width * 0.5f - value9.X;
-                                    num182 = player.position.Y + player.height * 0.5f - value9.Y;
-                                    num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                                    float speedBoost = num186 > 3 ? -(num186 - 3) : num186;
-                                    num183 = (8f + speedBoost) / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
-
                                     for (int i = 0; i < 7; i++)
                                     {
-                                        Vector2 magicDustVelocity = new Vector2(num180 + speedBoost, num182 + speedBoost);
+                                        Vector2 magicDustVelocity = projectileVelocity;
                                         magicDustVelocity *= MathHelper.Lerp(0.3f, 1f, i / 7f);
 
-                                        Dust magic = Dust.NewDustPerfect(value9, 264);
+                                        Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
                                         magic.velocity = magicDustVelocity;
                                         magic.color = Color.Red;
                                         magic.scale = MathHelper.Lerp(0.85f, 1.5f, i / 7f);
@@ -1542,7 +1507,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, barrageDamage, 0f, Main.myPlayer, 0f, 0f);
+                                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, j / (float)(numProj - 1)));
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, perturbedSpeed, randomShot, barrageDamage, 0f, Main.myPlayer);
                                         NPC.netUpdate = true;
                                     }
                                 }
@@ -1553,28 +1519,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 1f)
                     {
-                        float num383 = wormAlive ? 26f : 30f;
-                        if (NPC.life < NPC.lifeMax * 0.95)
-                            num383 += 1f;
-                        if (NPC.life < NPC.lifeMax * 0.85)
-                            num383 += 1f;
-                        if (NPC.life < NPC.lifeMax * 0.7)
-                            num383 += 1f;
-                        if (NPC.life < NPC.lifeMax * 0.6)
-                            num383 += 1f;
-                        if (NPC.life < NPC.lifeMax * 0.5)
-                            num383 += 1f;
-
-                        Vector2 vector37 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num384 = player.position.X + (player.width / 2) - vector37.X;
-                        float num385 = player.position.Y + (player.height / 2) - vector37.Y;
-                        float num386 = (float)Math.Sqrt(num384 * num384 + num385 * num385);
-                        num386 = num383 / num386;
+                        float chargeVelocity = (wormAlive ? 26f : 30f) + (1f - lifeRatio) * 8f;
 
                         if (!canDespawn)
                         {
-                            NPC.velocity.X = num384 * num386;
-                            NPC.velocity.Y = num385 * num386;
+                            Vector2 vector = Vector2.Normalize(player.Center - NPC.Center);
+                            NPC.velocity = vector * chargeVelocity;
+
                             shieldRotation = NPC.velocity.ToRotation();
                             NPC.netUpdate = true;
 
@@ -1589,6 +1540,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         if (Math.Abs(NPC.velocity.X) > 0.15f)
                             NPC.spriteDirection = (NPC.velocity.X < 0f).ToDirectionInt();
+
                         if (NPC.ai[2] >= 25f)
                         {
                             if (!canDespawn)
@@ -1627,57 +1579,50 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 3f)
                     {
-                        float num412 = 32f;
-                        float num413 = 1.2f;
+                        // How fast SCal moves to the destination
+                        float velocity = 32f;
+                        float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
                         if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
-                            num413 *= 0.5f;
+                            acceleration *= 0.5f;
                         }
 
-                        int num414 = 1;
+                        int posX = 1;
                         if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
-                            num414 = -1;
+                            posX = -1;
 
-                        Vector2 handPosition = NPC.Center + new Vector2(NPC.spriteDirection * -18f, 2f);
-                        Vector2 vector40 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
-                        float num416 = player.position.Y + (player.height / 2) - vector40.Y;
-                        float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
+                        // This is where SCal should be
+                        Vector2 destination = new Vector2(player.Center.X + posX * 600f, player.Center.Y);
 
-                        num417 = num412 / num417;
-                        num415 *= num417;
-                        num416 *= num417;
+                        // How far SCal is from where she's supposed to be
+                        Vector2 distanceFromDestination = destination - NPC.Center;
 
+                        // Movement
                         if (!canDespawn)
                         {
-                            if (NPC.velocity.X < num415)
-                            {
-                                NPC.velocity.X += num413;
-                                if (NPC.velocity.X < 0f && num415 > 0f)
-                                    NPC.velocity.X += num413;
-                            }
-                            else if (NPC.velocity.X > num415)
-                            {
-                                NPC.velocity.X -= num413;
-                                if (NPC.velocity.X > 0f && num415 < 0f)
-                                    NPC.velocity.X -= num413;
-                            }
-                            if (NPC.velocity.Y < num416)
-                            {
-                                NPC.velocity.Y += num413;
-                                if (NPC.velocity.Y < 0f && num416 > 0f)
-                                    NPC.velocity.Y += num413;
-                            }
-                            else if (NPC.velocity.Y > num416)
-                            {
-                                NPC.velocity.Y -= num413;
-                                if (NPC.velocity.Y > 0f && num416 < 0f)
-                                    NPC.velocity.Y -= num413;
-                            }
+                            // Inverse lerp returns the percentage of progress between A and B
+                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
+
+                            // Min velocity
+                            float minVelocity = distanceFromDestination.Length();
+                            float minVelocityCap = velocity;
+                            if (minVelocity > minVelocityCap)
+                                minVelocity = minVelocityCap;
+
+                            // Max velocity
+                            Vector2 maxVelocity = distanceFromDestination / 24f;
+                            float maxVelocityCap = minVelocityCap * 3f;
+                            if (maxVelocity.Length() > maxVelocityCap)
+                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
                         }
+
+                        Vector2 handPosition = NPC.Center + new Vector2(NPC.spriteDirection * -18f, 2f);
 
                         NPC.ai[2] += 1f;
                         if (NPC.ai[2] >= 480f)
@@ -1694,9 +1639,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (NPC.ai[3] >= 20f)
                             {
                                 NPC.ai[3] = 0f;
-                                vector40 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                                num415 = player.position.X + (player.width / 2) - vector40.X;
-                                num416 = player.position.Y + (player.height / 2) - vector40.Y;
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
@@ -1713,15 +1655,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    float num418 = 10f * uDieLul;
-                                    int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
-                                    num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-                                    num417 = num418 / num417;
-                                    num415 *= num417;
-                                    num416 *= num417;
-                                    vector40.X += num415 * 2f;
-                                    vector40.Y += num416 * 2f;
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    Vector2 projectileVelocity = player.Center - NPC.Center;
+                                    projectileVelocity.Normalize();
+                                    Vector2 projectileSpawn = NPC.Center + projectileVelocity * 4f;
+                                    projectileVelocity *= 10f * uDieLul;
+                                    int projectileType = ModContent.ProjectileType<BrimstoneHellblast>();
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, hellblastDamage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -1739,60 +1678,48 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 4f)
                     {
-                        int num831 = 1;
-                        if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
-                            num831 = -1;
-
-                        float num832 = 32f;
-                        float num833 = 1.2f;
+                        // How fast SCal moves to the destination
+                        float velocity = 32f;
+                        float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.HeldItem;
+                        Item targetSelectedItem = player.inventory[player.selectedItem];
                         if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
-                            num833 *= 0.5f;
+                            acceleration *= 0.5f;
                         }
 
-                        Vector2 vector83 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
-                        float num835 = player.position.Y + (player.height / 2) - vector83.Y;
-                        float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+                        int posX = 1;
+                        if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
+                            posX = -1;
 
-                        num836 = num832 / num836;
-                        num834 *= num836;
-                        num835 *= num836;
+                        // This is where SCal should be
+                        Vector2 destination = new Vector2(player.Center.X + posX * 750f, player.Center.Y);
 
+                        // How far SCal is from where she's supposed to be
+                        Vector2 distanceFromDestination = destination - NPC.Center;
+
+                        // Movement
                         if (!canDespawn)
                         {
-                            if (NPC.velocity.X < num834)
-                            {
-                                NPC.velocity.X += num833;
-                                if (NPC.velocity.X < 0f && num834 > 0f)
-                                    NPC.velocity.X += num833;
-                            }
-                            else if (NPC.velocity.X > num834)
-                            {
-                                NPC.velocity.X -= num833;
-                                if (NPC.velocity.X > 0f && num834 < 0f)
-                                    NPC.velocity.X -= num833;
-                            }
-                            if (NPC.velocity.Y < num835)
-                            {
-                                NPC.velocity.Y += num833;
-                                if (NPC.velocity.Y < 0f && num835 > 0f)
-                                    NPC.velocity.Y += num833;
-                            }
-                            else if (NPC.velocity.Y > num835)
-                            {
-                                NPC.velocity.Y -= num833;
-                                if (NPC.velocity.Y > 0f && num835 < 0f)
-                                    NPC.velocity.Y -= num833;
-                            }
-                        }
+                            // Inverse lerp returns the percentage of progress between A and B
+                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
 
-                        vector83 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        num834 = player.position.X + (player.width / 2) - vector83.X;
-                        num835 = player.position.Y + (player.height / 2) - vector83.Y;
+                            // Min velocity
+                            float minVelocity = distanceFromDestination.Length();
+                            float minVelocityCap = velocity;
+                            if (minVelocity > minVelocityCap)
+                                minVelocity = minVelocityCap;
+
+                            // Max velocity
+                            Vector2 maxVelocity = distanceFromDestination / 24f;
+                            float maxVelocityCap = minVelocityCap * 3f;
+                            if (maxVelocity.Length() > maxVelocityCap)
+                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                        }
 
                         int shootRate = wormAlive ? 280 : 140;
                         NPC.localAI[1]++;
@@ -1819,15 +1746,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
-                                float num837 = 5f * uDieLul;
-                                int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
-                                num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-                                num836 = num837 / num836;
-                                num834 *= num836;
-                                num835 *= num836;
-                                vector83.X += num834 * 8f;
-                                vector83.Y += num835 * 8f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector83.X, vector83.Y, num834, num835, num839, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                Vector2 projectileVelocity = player.Center - NPC.Center;
+                                projectileVelocity.Normalize();
+                                Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
+                                projectileVelocity *= 5f * uDieLul;
+                                int projectileType = ModContent.ProjectileType<BrimstoneFireblast>();
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, fireblastDamage, 0f, Main.myPlayer);
                             }
                         }
 
@@ -1841,7 +1765,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                 }
 
-                if (NPC.life < NPC.lifeMax * 0.4)
+                if (lifeRatio < 0.4f)
                 {
                     NPC.ai[0] = 1f;
                     NPC.ai[1] = 0f;
@@ -2029,52 +1953,43 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 {
                     if (NPC.ai[1] == 0f)
                     {
-                        float num823 = 12f;
-                        float num824 = 0.12f;
+                        // How fast SCal moves to the destination
+                        float velocity = 12f;
+                        float acceleration = 0.12f;
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
                         if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
-                            num824 *= 0.5f;
+                            acceleration *= 0.5f;
                         }
 
-                        Vector2 vector82 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num825 = player.position.X + (player.width / 2) - vector82.X;
-                        float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
-                        float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
+                        // This is where SCal should be
+                        Vector2 destination = new Vector2(player.Center.X, player.Center.Y - 550f);
 
-                        num827 = num823 / num827;
-                        num825 *= num827;
-                        num826 *= num827;
+                        // How far SCal is from where she's supposed to be
+                        Vector2 distanceFromDestination = destination - NPC.Center;
 
+                        // Movement
                         if (!canDespawn)
                         {
-                            if (NPC.velocity.X < num825)
-                            {
-                                NPC.velocity.X += num824;
-                                if (NPC.velocity.X < 0f && num825 > 0f)
-                                    NPC.velocity.X += num824;
-                            }
-                            else if (NPC.velocity.X > num825)
-                            {
-                                NPC.velocity.X -= num824;
-                                if (NPC.velocity.X > 0f && num825 < 0f)
-                                    NPC.velocity.X -= num824;
-                            }
+                            // Inverse lerp returns the percentage of progress between A and B
+                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
 
-                            if (NPC.velocity.Y < num826)
-                            {
-                                NPC.velocity.Y += num824;
-                                if (NPC.velocity.Y < 0f && num826 > 0f)
-                                    NPC.velocity.Y += num824;
-                            }
-                            else if (NPC.velocity.Y > num826)
-                            {
-                                NPC.velocity.Y -= num824;
-                                if (NPC.velocity.Y > 0f && num826 < 0f)
-                                    NPC.velocity.Y -= num824;
-                            }
+                            // Min velocity
+                            float minVelocity = distanceFromDestination.Length();
+                            float minVelocityCap = velocity;
+                            if (minVelocity > minVelocityCap)
+                                minVelocity = minVelocityCap;
+
+                            // Max velocity
+                            Vector2 maxVelocity = distanceFromDestination / 24f;
+                            float maxVelocityCap = minVelocityCap * 3f;
+                            if (maxVelocity.Length() > maxVelocityCap)
+                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
                         }
 
                         NPC.ai[2] += 1f;
@@ -2085,27 +2000,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             NPC.netUpdate = true;
                         }
 
-                        vector82 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        num825 = player.position.X + (player.width / 2) - vector82.X;
-                        num826 = player.position.Y + (player.height / 2) - vector82.Y;
+                        Vector2 projectileVelocity = player.Center - NPC.Center;
+                        projectileVelocity.Normalize();
+                        Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
+                        projectileVelocity *= 10f * uDieLul;
 
                         NPC.localAI[1] += wormAlive ? 0.5f : 1f;
                         if (NPC.localAI[1] > 60f)
                         {
                             NPC.localAI[1] = 0f;
-
-                            float num828 = 10f * uDieLul;
-                            Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                            float num180 = player.position.X + player.width * 0.5f - value9.X;
-                            float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-
-                            num183 = num828 / num183;
-                            num180 *= num183;
-                            num182 *= num183;
-                            value9.X += num180;
-                            value9.Y += num182;
 
                             int randomShot = Main.rand.Next(6);
                             if (randomShot == 0 && canFireSplitingFireball)
@@ -2113,17 +2016,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 8f;
-                                vector82.Y += num826 * 8f;
 
                                 for (int i = 0; i < 16; i++)
                                 {
-                                    Dust magic = Dust.NewDustPerfect(value9, 264);
-                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.2f;
+                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
+                                    magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.2f;
                                     magic.color = Color.OrangeRed;
                                     magic.scale = 1.3f;
                                     magic.fadeIn = 0.6f;
@@ -2133,7 +2030,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector82.X, vector82.Y, num825, num826, randomShot, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, randomShot, fireblastDamage, 0f, Main.myPlayer);
                                     NPC.netUpdate = true;
                                 }
                             }
@@ -2142,17 +2039,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-                                num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
-                                num827 = num828 / num827;
-                                num825 *= num827;
-                                num826 *= num827;
-                                vector82.X += num825 * 8f;
-                                vector82.Y += num826 * 8f;
 
                                 for (int i = 0; i < 24; i++)
                                 {
-                                    Dust magic = Dust.NewDustPerfect(value9, (int)CalamityDusts.Brimstone);
-                                    magic.velocity = new Vector2(num180, num182).RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.6f;
+                                    Dust magic = Dust.NewDustPerfect(projectileSpawn, (int)CalamityDusts.Brimstone);
+                                    magic.velocity = projectileVelocity.RotatedByRandom(0.36f) * Main.rand.NextFloat(0.9f, 1.1f) * 1.6f;
                                     magic.color = Color.Red;
                                     magic.scale = 1.5f;
                                     magic.fadeIn = 0.8f;
@@ -2162,7 +2053,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector82.X, vector82.Y, num825, num826, randomShot, gigablastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, randomShot, gigablastDamage, 0f, Main.myPlayer);
                                     NPC.netUpdate = true;
                                 }
                             }
@@ -2171,33 +2062,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
                                 canFireSplitingFireball = true;
                                 randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-                                for (int num186 = 0; num186 < 8; num186++)
+                                float rotation = MathHelper.ToRadians(20);
+                                int numProj = 8;
+                                for (int j = 0; j < numProj; j++)
                                 {
-                                    num180 = player.position.X + player.width * 0.5f - value9.X;
-                                    num182 = player.position.Y + player.height * 0.5f - value9.Y;
-                                    num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                                    float speedBoost = num186 > 3 ? -(num186 - 3) : num186;
-                                    num183 = (8f + speedBoost) / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
-
-                                    for (int i = 0; i < 10; i++)
+                                    for (int i = 0; i < 7; i++)
                                     {
-                                        Vector2 magicDustVelocity = new Vector2(num180 + speedBoost, num182 + speedBoost);
-                                        magicDustVelocity *= MathHelper.Lerp(0.3f, 1f, i / 10f);
+                                        Vector2 magicDustVelocity = projectileVelocity;
+                                        magicDustVelocity *= MathHelper.Lerp(0.3f, 1f, i / 7f);
 
-                                        Dust magic = Dust.NewDustPerfect(value9, 264);
+                                        Dust magic = Dust.NewDustPerfect(projectileSpawn, 264);
                                         magic.velocity = magicDustVelocity;
                                         magic.color = Color.Red;
-                                        magic.scale = MathHelper.Lerp(0.975f, 1.7f, i / 10f);
-                                        magic.fadeIn = 0.9f;
+                                        magic.scale = MathHelper.Lerp(0.85f, 1.5f, i / 7f);
+                                        magic.fadeIn = 0.67f;
                                         magic.noLight = true;
                                         magic.noGravity = true;
                                     }
 
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, barrageDamage, 0f, Main.myPlayer, 0f, 0f);
+                                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, j / (float)(numProj - 1)));
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, perturbedSpeed, randomShot, barrageDamage, 0f, Main.myPlayer);
                                         NPC.netUpdate = true;
                                     }
                                 }
@@ -2206,24 +2092,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 1f)
                     {
-                        float num383 = wormAlive ? 31f : 35f;
-                        if (NPC.life < NPC.lifeMax * 0.3)
-                            num383 += 1f;
-                        if (NPC.life < NPC.lifeMax * 0.2)
-                            num383 += 1f;
-                        if (NPC.life < NPC.lifeMax * 0.1)
-                            num383 += 1f;
-
-                        Vector2 vector37 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num384 = player.position.X + (player.width / 2) - vector37.X;
-                        float num385 = player.position.Y + (player.height / 2) - vector37.Y;
-                        float num386 = (float)Math.Sqrt(num384 * num384 + num385 * num385);
-                        num386 = num383 / num386;
+                        float chargeVelocity = (wormAlive ? 31f : 35f) + (0.4f - lifeRatio) * 3f;
 
                         if (!canDespawn)
                         {
-                            NPC.velocity.X = num384 * num386;
-                            NPC.velocity.Y = num385 * num386;
+                            Vector2 vector = Vector2.Normalize(player.Center - NPC.Center);
+                            NPC.velocity = vector * chargeVelocity;
+
                             shieldRotation = NPC.velocity.ToRotation();
                             NPC.netUpdate = true;
 
@@ -2274,57 +2149,50 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 3f)
                     {
-                        float num412 = 32f;
-                        float num413 = 1.2f;
+                        // How fast SCal moves to the destination
+                        float velocity = 32f;
+                        float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
                         if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
-                            num413 *= 0.5f;
+                            acceleration *= 0.5f;
                         }
 
-                        int num414 = 1;
+                        int posX = 1;
                         if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
-                            num414 = -1;
+                            posX = -1;
 
-                        Vector2 handPosition = NPC.Center + new Vector2(NPC.spriteDirection * -18f, 2f);
-                        Vector2 vector40 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num415 = player.position.X + (player.width / 2) + (num414 * 600) - vector40.X;
-                        float num416 = player.position.Y + (player.height / 2) - vector40.Y;
-                        float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
+                        // This is where SCal should be
+                        Vector2 destination = new Vector2(player.Center.X + posX * 600f, player.Center.Y);
 
-                        num417 = num412 / num417;
-                        num415 *= num417;
-                        num416 *= num417;
+                        // How far SCal is from where she's supposed to be
+                        Vector2 distanceFromDestination = destination - NPC.Center;
 
+                        // Movement
                         if (!canDespawn)
                         {
-                            if (NPC.velocity.X < num415)
-                            {
-                                NPC.velocity.X += num413;
-                                if (NPC.velocity.X < 0f && num415 > 0f)
-                                    NPC.velocity.X += num413;
-                            }
-                            else if (NPC.velocity.X > num415)
-                            {
-                                NPC.velocity.X -= num413;
-                                if (NPC.velocity.X > 0f && num415 < 0f)
-                                    NPC.velocity.X -= num413;
-                            }
-                            if (NPC.velocity.Y < num416)
-                            {
-                                NPC.velocity.Y += num413;
-                                if (NPC.velocity.Y < 0f && num416 > 0f)
-                                    NPC.velocity.Y += num413;
-                            }
-                            else if (NPC.velocity.Y > num416)
-                            {
-                                NPC.velocity.Y -= num413;
-                                if (NPC.velocity.Y > 0f && num416 < 0f)
-                                    NPC.velocity.Y -= num413;
-                            }
+                            // Inverse lerp returns the percentage of progress between A and B
+                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
+
+                            // Min velocity
+                            float minVelocity = distanceFromDestination.Length();
+                            float minVelocityCap = velocity;
+                            if (minVelocity > minVelocityCap)
+                                minVelocity = minVelocityCap;
+
+                            // Max velocity
+                            Vector2 maxVelocity = distanceFromDestination / 24f;
+                            float maxVelocityCap = minVelocityCap * 3f;
+                            if (maxVelocity.Length() > maxVelocityCap)
+                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
                         }
+
+                        Vector2 handPosition = NPC.Center + new Vector2(NPC.spriteDirection * -18f, 2f);
 
                         NPC.ai[2] += 1f;
                         if (NPC.ai[2] >= 300f)
@@ -2341,9 +2209,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (NPC.ai[3] >= 24f)
                             {
                                 NPC.ai[3] = 0f;
-                                vector40 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                                num415 = player.position.X + (player.width / 2) - vector40.X;
-                                num416 = player.position.Y + (player.height / 2) - vector40.Y;
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
@@ -2360,15 +2225,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    float num418 = 10f * uDieLul;
-                                    int num420 = ModContent.ProjectileType<BrimstoneHellblast>();
-                                    num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-                                    num417 = num418 / num417;
-                                    num415 *= num417;
-                                    num416 *= num417;
-                                    vector40.X += num415 * 4f;
-                                    vector40.Y += num416 * 4f;
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector40.X, vector40.Y, num415, num416, num420, hellblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                    Vector2 projectileVelocity = player.Center - NPC.Center;
+                                    projectileVelocity.Normalize();
+                                    Vector2 projectileSpawn = NPC.Center + projectileVelocity * 4f;
+                                    projectileVelocity *= 10f * uDieLul;
+                                    int projectileType = ModContent.ProjectileType<BrimstoneHellblast>();
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, hellblastDamage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -2387,60 +2249,48 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 4f)
                     {
-                        int num831 = 1;
-                        if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
-                            num831 = -1;
-
-                        float num832 = 32f;
-                        float num833 = 1.2f;
+                        // How fast SCal moves to the destination
+                        float velocity = 32f;
+                        float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
                         Item targetSelectedItem = player.inventory[player.selectedItem];
                         if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
                         {
-                            num833 *= 0.5f;
+                            acceleration *= 0.5f;
                         }
 
-                        Vector2 vector83 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
-                        float num835 = player.position.Y + (player.height / 2) - vector83.Y;
-                        float num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
+                        int posX = 1;
+                        if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
+                            posX = -1;
 
-                        num836 = num832 / num836;
-                        num834 *= num836;
-                        num835 *= num836;
+                        // This is where SCal should be
+                        Vector2 destination = new Vector2(player.Center.X + posX * 750f, player.Center.Y);
 
+                        // How far SCal is from where she's supposed to be
+                        Vector2 distanceFromDestination = destination - NPC.Center;
+
+                        // Movement
                         if (!canDespawn)
                         {
-                            if (NPC.velocity.X < num834)
-                            {
-                                NPC.velocity.X += num833;
-                                if (NPC.velocity.X < 0f && num834 > 0f)
-                                    NPC.velocity.X += num833;
-                            }
-                            else if (NPC.velocity.X > num834)
-                            {
-                                NPC.velocity.X -= num833;
-                                if (NPC.velocity.X > 0f && num834 < 0f)
-                                    NPC.velocity.X -= num833;
-                            }
-                            if (NPC.velocity.Y < num835)
-                            {
-                                NPC.velocity.Y += num833;
-                                if (NPC.velocity.Y < 0f && num835 > 0f)
-                                    NPC.velocity.Y += num833;
-                            }
-                            else if (NPC.velocity.Y > num835)
-                            {
-                                NPC.velocity.Y -= num833;
-                                if (NPC.velocity.Y > 0f && num835 < 0f)
-                                    NPC.velocity.Y -= num833;
-                            }
-                        }
+                            // Inverse lerp returns the percentage of progress between A and B
+                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
 
-                        vector83 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                        num834 = player.position.X + (player.width / 2) - vector83.X;
-                        num835 = player.position.Y + (player.height / 2) - vector83.Y;
+                            // Min velocity
+                            float minVelocity = distanceFromDestination.Length();
+                            float minVelocityCap = velocity;
+                            if (minVelocity > minVelocityCap)
+                                minVelocity = minVelocityCap;
+
+                            // Max velocity
+                            Vector2 maxVelocity = distanceFromDestination / 24f;
+                            float maxVelocityCap = minVelocityCap * 3f;
+                            if (maxVelocity.Length() > maxVelocityCap)
+                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                        }
 
                         int shootRate = wormAlive ? 200 : 100;
                         NPC.localAI[1]++;
@@ -2470,16 +2320,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
-                                NPC.localAI[1] = 0f;
-                                float num837 = 5f * uDieLul;
-                                int num839 = ModContent.ProjectileType<BrimstoneFireblast>();
-                                num836 = (float)Math.Sqrt(num834 * num834 + num835 * num835);
-                                num836 = num837 / num836;
-                                num834 *= num836;
-                                num835 *= num836;
-                                vector83.X += num834 * 8f;
-                                vector83.Y += num835 * 8f;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector83.X, vector83.Y, num834, num835, num839, fireblastDamage, 0f, Main.myPlayer, 0f, 0f);
+                                Vector2 projectileVelocity = player.Center - NPC.Center;
+                                projectileVelocity.Normalize();
+                                Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
+                                projectileVelocity *= 5f * uDieLul;
+                                int projectileType = ModContent.ProjectileType<BrimstoneFireblast>();
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, fireblastDamage, 0f, Main.myPlayer);
                             }
                         }
 

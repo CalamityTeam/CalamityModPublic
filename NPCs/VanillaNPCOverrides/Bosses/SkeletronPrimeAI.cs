@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -244,25 +244,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Vector2 value19 = Main.player[npc.target].Center - npc.Center;
                             value19.Normalize();
                             value19 *= num502;
-                            int numProj = 2;
-                            float rotation = MathHelper.ToRadians(5);
-                            if (malice)
+                            int numProj = malice ? 5 : 3;
+                            float rotation = MathHelper.ToRadians(malice ? 8 : 5);
+                            for (int i = 0; i < numProj; i++)
                             {
-                                rotation = MathHelper.ToRadians(8);
-                                for (int i = 0; i < numProj; i++)
-                                {
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, value19.RotatedBy(-rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, value19.RotatedBy(+rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                                }
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, value19, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            }
-                            else
-                            {
-                                for (int i = 0; i < numProj + 1; i++)
-                                {
-                                    Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                                }
+                                Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                         }
                     }
@@ -309,20 +296,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     acceleration *= 0.5f;
                 }
 
-                if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
+                if (npc.position.Y > Main.player[npc.target].position.Y - 400f)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.98f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y -= acceleration;
 
                     if (npc.velocity.Y > velocityY)
                         npc.velocity.Y = velocityY;
                 }
-                else if (npc.position.Y < Main.player[npc.target].position.Y - 500f)
+                else if (npc.position.Y < Main.player[npc.target].position.Y - 450f)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.98f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y += acceleration;
 
@@ -330,20 +317,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.velocity.Y = -velocityY;
                 }
 
-                if (npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + 150f)
+                if (npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) + 400f)
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.98f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X -= acceleration;
 
                     if (npc.velocity.X > velocityX)
                         npc.velocity.X = velocityX;
                 }
-                if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - 150f)
+                if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - 400f)
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.98f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X += acceleration;
 
@@ -488,9 +475,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.velocity.Y += 0.1f;
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.95f;
+                        npc.velocity.Y *= 0.9f;
 
-                    npc.velocity.X *= 0.95f;
+                    npc.velocity.X *= 0.9f;
 
                     if (npc.timeLeft > 500)
                         npc.timeLeft = 500;
@@ -726,7 +713,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y -= malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -736,7 +723,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 100f)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y += malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -747,7 +734,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 180f * npc.ai[0])
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X -= malice ? 0.3f : death ? 0.16f : 0.14f;
 
@@ -757,7 +744,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 180f * npc.ai[0])
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X += malice ? 0.3f : death ? 0.16f : 0.14f;
 
@@ -825,7 +812,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 Vector2 vector63 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num513 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - 320f - vector63.X;
-                float num514 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 160f - vector63.Y;
+                float num514 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 320f - vector63.Y;
                 float num515 = (float)Math.Sqrt(num513 * num513 + num514 * num514);
                 num515 = 9f / num515;
                 num513 *= num515;
@@ -1026,7 +1013,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 150f)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y -= malice ? 0.275f : death ? 0.1f : 0.08f;
 
@@ -1036,7 +1023,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 150f)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y += malice ? 0.275f : death ? 0.1f : 0.08f;
 
@@ -1047,7 +1034,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) + 200f)
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X -= malice ? 0.275f : death ? 0.22f : 0.2f;
 
@@ -1057,7 +1044,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) + 160f)
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X += malice ? 0.275f : death ? 0.22f : 0.2f;
 
@@ -1103,8 +1090,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 Vector2 vector61 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num499 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - vector61.X;
-                float num500 = Main.npc[(int)npc.ai[1]].position.Y - vector61.Y;
-                num500 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 160f - vector61.Y;
+                float num500 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 320f - vector61.Y;
                 float num501 = (float)Math.Sqrt(num499 * num499 + num500 * num500);
                 num501 = 9f / num501;
                 num499 *= num501;
@@ -1161,25 +1147,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Vector2 value19 = Main.player[npc.target].Center - npc.Center;
                         value19.Normalize();
                         value19 *= num502;
-                        int numProj = 2;
-                        float rotation = MathHelper.ToRadians(5);
-                        if (malice)
+                        int numProj = malice ? 5 : 3;
+                        float rotation = MathHelper.ToRadians(malice ? 8 : 5);
+                        for (int i = 0; i < numProj; i++)
                         {
-                            rotation = MathHelper.ToRadians(8);
-                            for (int i = 0; i < numProj; i++)
-                            {
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, value19.RotatedBy(-rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, value19.RotatedBy(+rotation * (i + 1)), type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            }
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, value19, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                        }
-                        else
-                        {
-                            for (int i = 0; i < numProj + 1; i++)
-                            {
-                                Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, 1f);
-                            }
+                            Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 1f);
                         }
                     }
                 }
@@ -1271,7 +1244,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y -= malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -1281,7 +1254,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y += malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -1292,7 +1265,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2))
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X -= malice ? 1f : death ? 0.55f : 0.5f;
 
@@ -1302,7 +1275,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2))
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X += malice ? 1f : death ? 0.55f : 0.5f;
 
@@ -1345,7 +1318,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 300f)
                     {
                         if (npc.velocity.Y > 0f)
-                            npc.velocity.Y *= 0.96f;
+                            npc.velocity.Y *= 0.9f;
 
                         npc.velocity.Y -= malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -1355,7 +1328,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 230f)
                     {
                         if (npc.velocity.Y < 0f)
-                            npc.velocity.Y *= 0.96f;
+                            npc.velocity.Y *= 0.9f;
 
                         npc.velocity.Y += malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -1366,7 +1339,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.position.X + (npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) + 250f)
                     {
                         if (npc.velocity.X > 0f)
-                            npc.velocity.X *= 0.94f;
+                            npc.velocity.X *= 0.9f;
 
                         npc.velocity.X -= malice ? 0.8f : death ? 0.33f : 0.3f;
 
@@ -1376,7 +1349,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.position.X + (npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2))
                     {
                         if (npc.velocity.X < 0f)
-                            npc.velocity.X *= 0.94f;
+                            npc.velocity.X *= 0.9f;
 
                         npc.velocity.X += malice ? 0.8f : death ? 0.22f : 0.2f;
 
@@ -1406,8 +1379,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.velocity.X += 0.5f;
 
                     npc.velocity.Y -= 0.5f;
-                    if (npc.velocity.Y < -9f)
-                        npc.velocity.Y = -9f;
+                    if (npc.velocity.Y < -12f)
+                        npc.velocity.Y = -12f;
 
                     if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 280f)
                     {
@@ -1602,7 +1575,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y)
                 {
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y -= malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -1612,7 +1585,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y)
                 {
                     if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.96f;
+                        npc.velocity.Y *= 0.9f;
 
                     npc.velocity.Y += malice ? 0.3f : death ? 0.12f : 0.1f;
 
@@ -1623,7 +1596,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2))
                 {
                     if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X -= malice ? 1.2f : death ? 0.55f : 0.5f;
 
@@ -1633,7 +1606,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (npc.position.X + (npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2))
                 {
                     if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.96f;
+                        npc.velocity.X *= 0.9f;
 
                     npc.velocity.X += malice ? 1.2f : death ? 0.55f : 0.5f;
 
@@ -1671,7 +1644,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 320f)
                     {
                         if (npc.velocity.Y > 0f)
-                            npc.velocity.Y *= 0.96f;
+                            npc.velocity.Y *= 0.9f;
 
                         npc.velocity.Y -= malice ? 0.15f : death ? 0.05f : 0.04f;
 
@@ -1681,7 +1654,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 260f)
                     {
                         if (npc.velocity.Y < 0f)
-                            npc.velocity.Y *= 0.96f;
+                            npc.velocity.Y *= 0.9f;
 
                         npc.velocity.Y += malice ? 0.15f : death ? 0.05f : 0.04f;
 
@@ -1692,7 +1665,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.position.X + (npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2))
                     {
                         if (npc.velocity.X > 0f)
-                            npc.velocity.X *= 0.96f;
+                            npc.velocity.X *= 0.9f;
 
                         npc.velocity.X -= malice ? 0.8f : death ? 0.33f : 0.3f;
 
@@ -1702,7 +1675,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.position.X + (npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 250f)
                     {
                         if (npc.velocity.X < 0f)
-                            npc.velocity.X *= 0.96f;
+                            npc.velocity.X *= 0.9f;
 
                         npc.velocity.X += malice ? 0.8f : death ? 0.33f : 0.3f;
 
@@ -1725,9 +1698,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.rotation = (float)Math.Atan2(num472, num471) + MathHelper.PiOver2;
 
                     npc.velocity.X *= 0.95f;
-                    npc.velocity.Y -= 0.3f;
-                    if (npc.velocity.Y < -8f)
-                        npc.velocity.Y = -8f;
+                    npc.velocity.Y -= 0.5f;
+                    if (npc.velocity.Y < -12f)
+                        npc.velocity.Y = -12f;
 
                     if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 200f)
                     {
@@ -1782,25 +1755,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.velocity.X > num474)
                         {
                             if (npc.velocity.X > 0f)
-                                npc.velocity.X *= 0.97f;
+                                npc.velocity.X *= 0.9f;
                             npc.velocity.X -= acceleration;
                         }
                         if (npc.velocity.X < num474)
                         {
                             if (npc.velocity.X < 0f)
-                                npc.velocity.X *= 0.97f;
+                                npc.velocity.X *= 0.9f;
                             npc.velocity.X += acceleration;
                         }
                         if (npc.velocity.Y > num475)
                         {
                             if (npc.velocity.Y > 0f)
-                                npc.velocity.Y *= 0.97f;
+                                npc.velocity.Y *= 0.9f;
                             npc.velocity.Y -= acceleration;
                         }
                         if (npc.velocity.Y < num475)
                         {
                             if (npc.velocity.Y < 0f)
-                                npc.velocity.Y *= 0.97f;
+                                npc.velocity.Y *= 0.9f;
                             npc.velocity.Y += acceleration;
                         }
 

@@ -3449,7 +3449,7 @@ namespace CalamityMod.NPCs
             }
 
             // Fairies don't run away and are immune to damage while wearing Fairy Boots.
-            if (npc.type >= NPCID.FairyCritterPink && npc.type <= NPCID.FairyCritterBlue && npc.ai[2] < 2f)
+            if (npc.type >= NPCID.FairyCritterPink && npc.type <= NPCID.FairyCritterBlue && (npc.ai[2] < 2f || npc.ai[2] == 7f))
             {
                 npc.TargetClosest();
                 if (Main.player[npc.target].Calamity().fairyBoots)
@@ -3461,8 +3461,8 @@ namespace CalamityMod.NPCs
                             return true;
                     }
 
-                    // Set this to 1 so that the CheckActive shit never runs and thus the faries don't randomly vanish.
-                    npc.ai[2] = 1f;
+                    // Set this to 7 so that they run away when the player takes off their Fairy Boots.
+                    npc.ai[2] = 7f;
 
                     npc.lavaImmune = true;
                     npc.dontTakeDamage = true;

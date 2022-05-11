@@ -495,18 +495,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
                             else
                             {
-                                int numProj = 2;
                                 int spread = 3 + (int)Math.Round((0.5f - lifeRatio) * 10f); // 3 to 8, wider spread is harder to avoid
                                 if (nearbyActiveTiles < 300)
                                     spread = Main.rand.Next(3, 7) + (int)Math.Round((0.5f - lifeRatio) * 8f);
 
+                                int numProj = spread / 2;
                                 int type = ProjectileID.PoisonSeedPlantera;
                                 int damage = npc.GetProjectileDamage(type);
 
                                 float rotation = MathHelper.ToRadians(spread);
-                                for (int i = 0; i < numProj + 1; i++)
+                                for (int i = 0; i < numProj; i++)
                                 {
-                                    Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                                    Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                     Projectile.NewProjectile(npc.GetSource_FromAI(), vector93, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 }
 

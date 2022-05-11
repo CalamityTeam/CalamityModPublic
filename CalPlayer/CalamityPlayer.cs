@@ -2582,12 +2582,12 @@ namespace CalamityMod.CalPlayer
                     Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BossRushFailureEffectThing>(), 0, 0f);
             }
 
-            if (Player.respawnTimer > 300)
+            // Respawn the player faster if no bosses are alive
+            if (!areThereAnyDamnBosses)
             {
-                if (CalamityWorld.armageddon && !areThereAnyDamnBosses)
-                    Player.respawnTimer -= 5;
-                else if (Main.expertMode) // 600 normal 900 expert
-                    Player.respawnTimer--;
+                int respawnTimerSet = areThereAnyDamnEvents ? 360 : 180;
+                if (Player.respawnTimer > respawnTimerSet)
+                    Player.respawnTimer = respawnTimerSet;
             }
         }
         #endregion

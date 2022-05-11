@@ -132,7 +132,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     float rotation = MathHelper.ToRadians(10f);
                     for (int i = 0; i < numProj; i++)
                     {
-                        Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                         Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
                     }
                     break;

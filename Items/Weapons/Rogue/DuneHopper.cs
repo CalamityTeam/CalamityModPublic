@@ -45,11 +45,11 @@ Stealth strikes throw three high speed spears");
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int numProj = 2;
+                int numProj = 3;
                 float rotation = MathHelper.ToRadians(3);
-                for (int i = 0; i < numProj + 1; i++)
+                for (int i = 0; i < numProj; i++)
                 {
-                    Vector2 perturbedSpeed = new Vector2(velocity.X - 3f, velocity.Y - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                    Vector2 perturbedSpeed = new Vector2(velocity.X - 3f, velocity.Y - 3f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                     int stealth = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<DuneHopperProjectile>(), Math.Max(damage / 3, 1), knockback, player.whoAmI);
                     if (stealth.WithinBounds(Main.maxProjectiles))
                         Main.projectile[stealth].Calamity().stealthStrike = true;

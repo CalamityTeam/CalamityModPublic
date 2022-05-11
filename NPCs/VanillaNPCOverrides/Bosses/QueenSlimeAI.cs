@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (phase2)
                             idleTime = malice ? 40 : death ? 60 : 80;
                         if (phase4)
-                            idleTime = 0;
+                            idleTime /= 2;
 
                         if (!(npc.ai[1] > idleTime))
                             break;
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.ai[2] == 3f)
                         {
                             npc.velocity.Y = -13f * speedMult;
-                            npc.velocity.X += (malice ? 5.5f : death ? 5f : 4.5f) * npc.direction;
+                            npc.velocity.X += (malice ? 7f : death ? 6f : 5.5f) * npc.direction;
                             npc.ai[1] = 0f;
                             npc.ai[2] = 0f;
                             if (npc.timeLeft > 10)
@@ -394,14 +394,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         else if (npc.ai[2] == 2f)
                         {
                             npc.velocity.Y = -(malice ? 10f : death ? 8f : 6f) * speedMult;
-                            npc.velocity.X += (malice ? 6.5f : death ? 6f : 5.5f) * npc.direction;
+                            npc.velocity.X += (malice ? 8.5f : death ? 7.5f : 7f) * npc.direction;
                             npc.ai[1] = -40f;
                             npc.ai[2] += 1f;
                         }
                         else
                         {
                             npc.velocity.Y = -(malice ? 12f : death ? 10f : 8f) * speedMult;
-                            npc.velocity.X += (malice ? 6f : death ? 5.5f : 5f) * npc.direction;
+                            npc.velocity.X += (malice ? 7.5f : death ? 6.5f : 6f) * npc.direction;
                             npc.ai[1] = -40f;
                             npc.ai[2] += 1f;
                         }
@@ -418,9 +418,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if ((npc.direction == 1 && npc.velocity.X < num19) || (npc.direction == -1 && npc.velocity.X > 0f - num19))
                         {
                             if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
-                                npc.velocity.X += 0.2f * npc.direction;
+                                npc.velocity.X += (malice ? 0.5f : death ? 0.35f : 0.3f) * npc.direction;
                             else
-                                npc.velocity.X *= 0.93f;
+                                npc.velocity.X *= malice ? 0.88f : death ? 0.9f : 0.91f;
                         }
                     }
                     break;
@@ -449,12 +449,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             if (npc.velocity.Y == 0f)
                             {
-                                npc.Calamity().newAI[0] = npc.ai[0];
-                                npc.SyncExtraAI();
-                                npc.ai[0] = 0f;
-                                npc.ai[1] = 0f;
-                                npc.ai[2] = 0f;
-                                npc.netUpdate = true;
                                 SoundEngine.PlaySound(SoundID.Item167, npc.Center);
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
@@ -465,18 +459,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     // Eruption of crystals in phase 3
                                     if (npc.ai[0] == 6f && phase3)
                                     {
-                                        float projectileVelocity = 24f;
+                                        float projectileVelocity = 12f;
                                         type = ProjectileID.QueenSlimeMinionBlueSpike;
                                         damage = npc.GetProjectileDamage(type);
                                         Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y - 100f) - npc.Center;
                                         destination.Normalize();
                                         destination *= projectileVelocity;
-                                        int numProj = 30;
+                                        int numProj = 18;
                                         float rotation = MathHelper.ToRadians(90);
-                                        for (int i = 0; i < numProj + 1; i++)
+                                        for (int i = 0; i < numProj; i++)
                                         {
-                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer);
+                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
                                         }
                                     }
                                 }
@@ -488,6 +482,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     Main.dust[num21].velocity.Y = -5f + Main.rand.NextFloat() * -3f;
                                     Main.dust[num21].velocity.X *= 7f;
                                 }
+
+                                npc.Calamity().newAI[0] = npc.ai[0];
+                                npc.SyncExtraAI();
+                                npc.ai[0] = 0f;
+                                npc.ai[1] = 0f;
+                                npc.ai[2] = 0f;
+                                npc.netUpdate = true;
                             }
                             else if (npc.ai[1] >= num20)
                             {
@@ -537,8 +538,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     npc.velocity.Y = num24;
 
                                 // Cascade of crystals in phase 3 or 4 while falling down
-                                if (((npc.ai[0] == 4f && phase3) || phase4) && npc.ai[1] % 6f == 0f)
+                                if (((npc.ai[0] == 4f && phase3) || phase4) && npc.ai[1] % 12f == 0f)
                                 {
+                                    SoundEngine.PlaySound(SoundID.Item154, npc.Center);
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
                                         Vector2 fireFrom = npc.Center;
@@ -552,7 +554,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                             for (int j = 0; j < totalProjectiles; j++)
                                             {
                                                 Vector2 projVelocity = npc.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
-                                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity * 2f, type, damage, 0f, Main.myPlayer);
+                                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
                                             }
                                         }
                                     }
@@ -596,7 +598,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             npc.velocity = center - npc.Center;
                             npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero);
-                            npc.velocity *= 20f;
+                            npc.velocity *= malice ? 30f : death ? 26f : 24f;
                         }
                         else
                             npc.velocity.Y *= 0.95f;
@@ -629,13 +631,27 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 float projectileVelocity = death ? 12f : 10.5f;
                                 int type = ProjectileID.QueenSlimeGelAttack;
                                 int damage = npc.GetProjectileDamage(type);
-                                float ai1 = phase2 ? -2f : -1f;
-                                for (int j = 0; j < numGelProjectiles; j++)
+                                if (phase2)
                                 {
-                                    Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
-                                    spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, type, damage, 0f, Main.myPlayer, 0f, ai1);
-                                    Main.projectile[proj].timeLeft = 900;
+                                    Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y + 100f) - npc.Center;
+                                    destination.Normalize();
+                                    destination *= projectileVelocity;
+                                    float rotation = MathHelper.ToRadians(120);
+                                    for (int i = 0; i < numGelProjectiles; i++)
+                                    {
+                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numGelProjectiles - 1)));
+                                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
+                                        Main.projectile[proj].timeLeft = 900;
+                                    }
+                                }
+                                else
+                                {
+                                    for (int j = 0; j < numGelProjectiles; j++)
+                                    {
+                                        Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
+                                        spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                                    }
                                 }
                             }
 
@@ -724,7 +740,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.netUpdate = true;
             }
 
-            int num28 = (int)(npc.lifeMax * (phase2 ? 0.03f : 0.015f));
+            int num28 = (int)(npc.lifeMax * 0.04f);
             if (!((npc.life + num28) < npc.localAI[0]))
                 return false;
 

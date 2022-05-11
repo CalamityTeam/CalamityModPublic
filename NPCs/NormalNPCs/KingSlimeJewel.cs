@@ -140,11 +140,11 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int damage = NPC.GetProjectileDamage(type);
                     if (CalamityWorld.death || BossRushEvent.BossRushActive)
                     {
-                        int numProj = 2;
+                        int numProj = 3;
                         float rotation = MathHelper.ToRadians(9);
-                        for (int i = 0; i < numProj + 1; i++)
+                        for (int i = 0; i < numProj; i++)
                         {
-                            Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                            Vector2 perturbedSpeed = projVector.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                             Projectile.NewProjectile(NPC.GetSource_FromAI(), npcPos, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
