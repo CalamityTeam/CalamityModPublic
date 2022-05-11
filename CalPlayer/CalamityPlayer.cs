@@ -3670,7 +3670,8 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(Player.dye[i].dye, Player)?.UseColor(ProfanedMoonlightDyeLayer.GetCurrentMoonlightDyeColor());
                 }
             }
-            //Syncing mouse controls
+
+            // Syncing mouse controls
             if (Main.myPlayer == Player.whoAmI)
             {
                 mouseRight = PlayerInput.Triggers.Current.MouseRight;

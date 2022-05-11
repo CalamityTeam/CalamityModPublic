@@ -82,12 +82,6 @@ namespace CalamityMod.CalPlayer
                 Main.RegisteredGameModes[GameModeID.Expert] = copy;
             }
 
-            // Bool for any existing bosses, true if any boss NPC is active
-            areThereAnyDamnBosses = CalamityUtils.AnyBossNPCS();
-
-            // Bool for any existing events, true if any event is active
-            areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(Player);
-
             // Go through the old positions for the player.
             for (int i = Player.Calamity().OldPositions.Length - 1; i > 0; i--)
             {
