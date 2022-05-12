@@ -16,8 +16,10 @@ namespace CalamityMod.Items.Armor.Vanity
             DisplayName.SetDefault("Apollo Mask");
 
             if (Main.netMode != NetmodeID.Server)
+            {
                 int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
+            }
         }
 
         public override void SetDefaults()
