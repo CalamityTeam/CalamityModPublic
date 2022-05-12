@@ -26,6 +26,8 @@ namespace CalamityMod.Items.Accessories.Vanity
             Tooltip.SetDefault("Don't let the demons steal your nose\n" +
                 "Transforms the holder into a snowman");
 
+            if (Main.netMode == NetmodeID.Server)
+                return;
             int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }
