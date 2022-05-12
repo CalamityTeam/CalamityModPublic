@@ -48,6 +48,9 @@ namespace CalamityMod.Items.Accessories
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
 
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
             int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
             ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlotLegs] = true;
         }

@@ -29,6 +29,9 @@ namespace CalamityMod.Items.Armor
                 "11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
                 "Temporary immunity to lava");
 
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
             int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
             int equipSlotBody = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
             int equipSlotLegs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);

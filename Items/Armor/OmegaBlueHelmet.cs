@@ -29,6 +29,8 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance");
 
+            if (Main.netMode == NetmodeID.Server)
+                return;
             int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "OmegaBlueTransformation", EquipType.Head);
             ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }

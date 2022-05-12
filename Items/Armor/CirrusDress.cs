@@ -30,6 +30,8 @@ namespace CalamityMod.Items.Armor
                 "5% increased magic damage and critical strike chance\n" +
                 "You feel thick...");
 
+            if (Main.netMode == NetmodeID.Server)
+                return;
             int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
             ArmorIDs.Body.Sets.HidesHands[equipSlot] = true;
         }
