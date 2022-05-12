@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 25, 0);
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath7;
-            NPC.coldDamage = true;
             NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<IceClasperBanner>();

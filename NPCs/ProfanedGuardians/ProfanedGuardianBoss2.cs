@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.netUpdate = true;
                     Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
                     velocity.Normalize();
-                    velocity *= (malice || biomeEnraged) ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 18f;
+                    velocity *= (malice || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
                     NPC.velocity = velocity;
                 }
             }

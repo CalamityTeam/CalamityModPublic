@@ -28,6 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.knockBackResist = 0f;
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath15;
+            NPC.coldDamage = true;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;
             NPC.Calamity().VulnerableToSickness = false;

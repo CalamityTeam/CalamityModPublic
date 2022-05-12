@@ -182,7 +182,7 @@ namespace CalamityMod.Buffs
                     break;
 
                 case BuffID.Warmth:
-                    tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+                    tip += ". Grants immunity to Chilled, Frozen and Glacial State";
                     break;
 
                 case BuffID.Invisibility:

@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.knockBackResist = 0.5f;
             NPC.noGravity = true;
+            NPC.coldDamage = true;
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath15;
             NPC.Calamity().VulnerableToHeat = true;

@@ -24,6 +24,7 @@ namespace CalamityMod.NPCs.Cryogen
             AIType = -1;
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
+            NPC.coldDamage = true;
             NPC.GetNPCDamage();
             NPC.width = 216;
             NPC.height = 216;

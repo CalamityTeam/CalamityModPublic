@@ -31,6 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lavaImmune = false;
             NPC.noGravity = false;
             NPC.noTileCollide = false;
+            NPC.coldDamage = true;
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             Banner = NPC.type;

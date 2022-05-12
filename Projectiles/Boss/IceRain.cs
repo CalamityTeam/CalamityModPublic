@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.hostile = true;
+            Projectile.coldDamage = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 300;
         }

@@ -344,6 +344,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Teleport and turn invisible
                 else if (npc.ai[0] == -2f || npc.ai[0] == -8f)
                 {
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
                     npc.velocity *= 0.9f;
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
@@ -368,6 +371,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Become visible
                 else if (npc.ai[0] == -3f || npc.ai[0] == -9f)
                 {
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
                     if (Main.netMode != NetmodeID.SinglePlayer)
                         npc.ai[3] -= 15f;
                     else
@@ -409,6 +415,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 1
             else
             {
+                // Set damage
+                npc.damage = npc.defDamage;
+
                 // Creeper count
                 int creeperCount = NPC.CountNPCS(NPCID.Creeper);
                 int creeperScale = GetBrainOfCthuluCreepersCountRevDeath() + 1 - creeperCount;
@@ -500,6 +509,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Turn invisible and teleport
                 else if (npc.ai[0] == 1f)
                 {
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
                     npc.alpha += 25;
                     if (npc.alpha >= 255)
                     {
@@ -514,6 +526,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Become visible
                 else if (npc.ai[0] == 2f)
                 {
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
                     npc.alpha -= 25;
                     if (npc.alpha <= 0)
                     {

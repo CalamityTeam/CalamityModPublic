@@ -20,6 +20,7 @@ namespace CalamityMod.NPCs.Leviathan
             AIType = -1;
             NPC.canGhostHeal = false;
             NPC.noTileCollide = true;
+            NPC.coldDamage = true;
             NPC.GetNPCDamage();
             NPC.width = 100;
             NPC.height = 100;

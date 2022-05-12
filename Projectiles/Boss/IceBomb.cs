@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 30;
             Projectile.scale = 0.5f;
             Projectile.hostile = true;
+            Projectile.coldDamage = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;

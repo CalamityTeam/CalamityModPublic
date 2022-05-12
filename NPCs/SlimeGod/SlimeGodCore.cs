@@ -242,6 +242,9 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 if (calamityGlobalNPC.newAI[3] == 1f)
                 {
+                    // Avoid cheap bullshit
+                    NPC.damage = 0;
+
                     NPC.dontTakeDamage = true;
 
                     NPC.rotation = NPC.velocity.X * 0.1f;
@@ -333,6 +336,9 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         if (NPC.localAI[1] == 0f)
                         {
+                            // Avoid cheap bullshit
+                            NPC.damage = 0;
+
                             // Slow down, rotation
                             NPC.rotation = NPC.velocity.X * 0.1f;
 
@@ -356,6 +362,9 @@ namespace CalamityMod.NPCs.SlimeGod
                         }
                         else if (NPC.localAI[1] == 1f)
                         {
+                            // Avoid cheap bullshit
+                            NPC.damage = 0;
+
                             // Rotation
                             NPC.rotation = NPC.velocity.X * 0.1f;
 

@@ -285,7 +285,7 @@ namespace CalamityMod.Items
             // Warmth Potion provides debuff immunities
             if (item.type == ItemID.WarmthPotion)
             {
-                string immunityLine = "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs";
+                string immunityLine = "\nGrants immunity to Chilled, Frozen and Glacial State";
                 EditTooltipByNum(0, (line) => line.Text += immunityLine);
             }
 

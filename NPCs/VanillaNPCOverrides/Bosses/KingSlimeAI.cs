@@ -25,6 +25,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool flag9 = false;
             npc.aiAction = 0;
 
+            // Reset damage
+            npc.damage = npc.defDamage;
+
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
@@ -103,6 +106,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Activate teleport
             if (!Main.player[npc.target].dead && npc.ai[2] >= 300f && npc.ai[1] < 5f && npc.velocity.Y == 0f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 npc.ai[2] = 0f;
                 npc.ai[0] = 0f;
                 npc.ai[1] = 5f;
@@ -146,6 +152,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Teleport
             if (npc.ai[1] == 5f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 teleporting = true;
                 npc.aiAction = 1;
                 npc.ai[0] += 1f;
@@ -187,6 +196,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Post-teleport
             else if (npc.ai[1] == 6f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 teleporting = true;
                 npc.aiAction = 0;
                 npc.ai[0] += 1f;

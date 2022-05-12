@@ -640,6 +640,9 @@ namespace CalamityMod.NPCs
             // Center
             Vector2 vectorCenter = npc.Center;
 
+            // Set damage
+            npc.damage = npc.defDamage;
+
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
@@ -884,6 +887,9 @@ namespace CalamityMod.NPCs
             // Teleport to location
             else if (npc.ai[0] == 1f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 npc.chaseable = true;
                 Vector2 position = new Vector2(npc.ai[1] * 16f - (npc.width / 2), npc.ai[2] * 16f - (npc.height / 2));
                 for (int m = 0; m < 5; m++)
@@ -915,6 +921,9 @@ namespace CalamityMod.NPCs
             // Either teleport again or go to next AI state
             else if (npc.ai[0] == 2f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 npc.alpha -= 50;
                 if (npc.alpha <= 0)
                 {
@@ -2938,9 +2947,6 @@ namespace CalamityMod.NPCs
             // Teleport
             else if (npc.ai[0] == 5f)
             {
-                // Don't deal damage
-                npc.damage = 0;
-
                 // Slow down
                 npc.velocity.X *= 0.9f;
 
@@ -3016,6 +3022,9 @@ namespace CalamityMod.NPCs
             // Mid-teleport
             else if (npc.ai[0] == 6f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 if (death)
                     npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
 
@@ -3059,6 +3068,9 @@ namespace CalamityMod.NPCs
             // End of teleport
             else if (npc.ai[0] == 7f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 // Turn visible
                 npc.alpha -= 10;
                 if (npc.alpha <= 0)
@@ -6431,6 +6443,9 @@ namespace CalamityMod.NPCs
             // Pause before teleport
             else if (npc.ai[0] == 12f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 // Alpha
                 if (npc.alpha < 255 && npc.ai[2] >= num12 - 15f)
                 {

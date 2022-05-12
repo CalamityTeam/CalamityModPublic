@@ -2076,6 +2076,17 @@ namespace CalamityMod.NPCs
                     canBreakPlayerDefense = true;
                     break;
 
+                // Enemies that should have coldDamage set to true
+                case NPCID.IceMimic:
+                    canBreakPlayerDefense = true;
+                    npc.coldDamage = true;
+                    break;
+
+                case NPCID.IceBat:
+                case NPCID.IceTortoise:
+                    npc.coldDamage = true;
+                    break;
+
                 case NPCID.BloodSquid:
                     npc.lifeMax = (int)(npc.lifeMax * 0.25);
                     break;

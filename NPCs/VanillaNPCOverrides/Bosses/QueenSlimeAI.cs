@@ -25,6 +25,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase3 = lifeRatio <= 0.35f;
             bool phase4 = lifeRatio <= 0.15f;
 
+            // Reset damage
+            npc.damage = npc.defDamage;
+
             // Spawn settings
             if (npc.localAI[0] == 0f)
             {
@@ -55,6 +58,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Teleport
             if (!Main.player[npc.target].dead && npc.timeLeft > 10 && !phase2 && npc.ai[3] >= 300f && npc.ai[0] == 0f && npc.velocity.Y == 0f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 npc.ai[0] = 2f;
                 npc.ai[1] = 0f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -185,122 +191,127 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Phase switch phase
                 case 0:
+
+                    if (phase2)
                     {
-                        if (phase2)
-                        {
-                            QueenSlime_FlyMovement(npc);
-                        }
-                        else
-                        {
-                            npc.noTileCollide = false;
-                            npc.noGravity = false;
-                            if (npc.velocity.Y == 0f)
-                            {
-                                npc.velocity.X *= 0.8f;
-                                if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
-                                    npc.velocity.X = 0f;
-                            }
-                        }
-
-                        if (npc.timeLeft <= 10 || (!phase2 && npc.velocity.Y != 0f))
-                            break;
-
-                        npc.ai[1] += 1f;
-                        int idleTime = malice ? 20 : death ? 30 : 40;
-                        if (phase2)
-                            idleTime = malice ? 40 : death ? 60 : 80;
-                        if (phase4)
-                            idleTime /= 2;
-
-                        if (!(npc.ai[1] > idleTime))
-                            break;
-
-                        npc.ai[1] = 0f;
-                        if (phase2)
-                        {
-                            Player player = Main.player[npc.target];
-
-                            switch ((int)npc.Calamity().newAI[0])
-                            {
-                                default:
-                                    npc.ai[0] = Main.rand.NextBool() ? 6f : 5f;
-                                    break;
-                                case 5:
-                                    npc.ai[0] = phase4 ? 6f : Main.rand.NextBool() ? 4f : 6f;
-                                    break;
-                                case 6:
-                                    npc.ai[0] = phase4 ? 5f : Main.rand.NextBool() ? 5f : 4f;
-                                    break;
-                            }
-
-                            if (npc.ai[0] == 4f || npc.ai[0] == 6f)
-                            {
-                                npc.ai[2] = 1f;
-                                if (player != null && player.active && !player.dead && (player.Bottom.Y < npc.Bottom.Y || Math.Abs(player.Center.X - npc.Center.X) > 450f))
-                                {
-                                    npc.ai[0] = 5f;
-                                    npc.ai[2] = 0f;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            switch ((int)npc.Calamity().newAI[0])
-                            {
-                                default:
-                                    npc.ai[0] = Main.rand.NextBool() ? 5f : 4f;
-                                    break;
-                                case 4:
-                                    npc.ai[0] = Main.rand.NextBool() ? 3f : 5f;
-                                    break;
-                                case 5:
-                                    npc.ai[0] = Main.rand.NextBool() ? 4f : 3f;
-                                    break;
-                            }
-                        }
-
-                        npc.netUpdate = true;
-                        break;
+                        QueenSlime_FlyMovement(npc);
                     }
+                    else
+                    {
+                        npc.noTileCollide = false;
+                        npc.noGravity = false;
+                        if (npc.velocity.Y == 0f)
+                        {
+                            npc.velocity.X *= 0.8f;
+                            if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
+                                npc.velocity.X = 0f;
+                        }
+                    }
+
+                    if (npc.timeLeft <= 10 || (!phase2 && npc.velocity.Y != 0f))
+                        break;
+
+                    npc.ai[1] += 1f;
+                    int idleTime = malice ? 20 : death ? 30 : 40;
+                    if (phase2)
+                        idleTime = malice ? 40 : death ? 60 : 80;
+                    if (phase4)
+                        idleTime /= 2;
+
+                    if (!(npc.ai[1] > idleTime))
+                        break;
+
+                    npc.ai[1] = 0f;
+                    if (phase2)
+                    {
+                        Player player = Main.player[npc.target];
+
+                        switch ((int)npc.Calamity().newAI[0])
+                        {
+                            default:
+                                npc.ai[0] = Main.rand.NextBool() ? 6f : 5f;
+                                break;
+                            case 5:
+                                npc.ai[0] = phase4 ? 6f : Main.rand.NextBool() ? 4f : 6f;
+                                break;
+                            case 6:
+                                npc.ai[0] = phase4 ? 5f : Main.rand.NextBool() ? 5f : 4f;
+                                break;
+                        }
+
+                        if (npc.ai[0] == 4f || npc.ai[0] == 6f)
+                        {
+                            npc.ai[2] = 1f;
+                            if (player != null && player.active && !player.dead && (player.Bottom.Y < npc.Bottom.Y || Math.Abs(player.Center.X - npc.Center.X) > 450f))
+                            {
+                                npc.ai[0] = 5f;
+                                npc.ai[2] = 0f;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        switch ((int)npc.Calamity().newAI[0])
+                        {
+                            default:
+                                npc.ai[0] = Main.rand.NextBool() ? 5f : 4f;
+                                break;
+                            case 4:
+                                npc.ai[0] = Main.rand.NextBool() ? 3f : 5f;
+                                break;
+                            case 5:
+                                npc.ai[0] = Main.rand.NextBool() ? 4f : 3f;
+                                break;
+                        }
+                    }
+
+                    npc.netUpdate = true;
+                    break;
 
                 // Enlarge after teleport
                 case 1:
+
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
+                    npc.rotation = 0f;
+                    npc.ai[1] += 1f;
+                    float teleportEndTime = malice ? 10f : death ? 15f : 20f;
+                    num3 = MathHelper.Clamp(npc.ai[1] / teleportEndTime, 0f, 1f);
+                    num3 = 0.5f + num3 * 0.5f;
+                    if (npc.ai[1] >= teleportEndTime && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        npc.rotation = 0f;
-                        npc.ai[1] += 1f;
-                        float teleportEndTime = malice ? 10f : death ? 15f : 20f;
-                        num3 = MathHelper.Clamp(npc.ai[1] / teleportEndTime, 0f, 1f);
-                        num3 = 0.5f + num3 * 0.5f;
-                        if (npc.ai[1] >= teleportEndTime && Main.netMode != NetmodeID.MultiplayerClient)
-                        {
-                            npc.ai[0] = 0f;
-                            npc.ai[1] = 0f;
-                            npc.netUpdate = true;
-                            npc.TargetClosest();
-                        }
-
-                        if (Main.netMode == NetmodeID.MultiplayerClient && npc.ai[1] >= teleportEndTime * 2f)
-                        {
-                            npc.ai[0] = 0f;
-                            npc.ai[1] = 0f;
-                            npc.TargetClosest();
-                        }
-
-                        // Emit teleport dust
-                        Color newColor2 = NPC.AI_121_QueenSlime_GetDustColor();
-                        newColor2.A = 150;
-                        for (int num26 = 0; num26 < 10; num26++)
-                        {
-                            int num27 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 50, newColor2, 1.5f);
-                            Main.dust[num27].noGravity = true;
-                            Main.dust[num27].velocity *= 2f;
-                        }
-
-                        break;
+                        npc.ai[0] = 0f;
+                        npc.ai[1] = 0f;
+                        npc.netUpdate = true;
+                        npc.TargetClosest();
                     }
+
+                    if (Main.netMode == NetmodeID.MultiplayerClient && npc.ai[1] >= teleportEndTime * 2f)
+                    {
+                        npc.ai[0] = 0f;
+                        npc.ai[1] = 0f;
+                        npc.TargetClosest();
+                    }
+
+                    // Emit teleport dust
+                    Color newColor2 = NPC.AI_121_QueenSlime_GetDustColor();
+                    newColor2.A = 150;
+                    for (int num26 = 0; num26 < 10; num26++)
+                    {
+                        int num27 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 50, newColor2, 1.5f);
+                        Main.dust[num27].noGravity = true;
+                        Main.dust[num27].velocity *= 2f;
+                    }
+
+                    break;
 
                 // Shrink and spawn teleport gore and dust
                 case 2:
+
+                    // Avoid cheap bullshit
+                    npc.damage = 0;
+
                     npc.rotation = 0f;
                     npc.ai[1] += 1f;
                     float teleportTime = malice ? 20f : death ? 30f : 40f;
@@ -340,6 +351,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Main.dust[num25].velocity *= 0.5f;
                         }
                     }
+
                     break;
 
                 // She jump
@@ -423,6 +435,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 npc.velocity.X *= malice ? 0.88f : death ? 0.9f : 0.91f;
                         }
                     }
+
                     break;
 
                 // Slam down and create shockwave
@@ -430,281 +443,279 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Release a massive eruption of crystals in phase 3 and the case is 6
                 case 4:
                 case 6:
+
+                    npc.rotation *= 0.9f;
+                    npc.noTileCollide = true;
+                    npc.noGravity = true;
+
+                    if (npc.ai[2] == 1f)
                     {
-                        npc.rotation *= 0.9f;
-                        npc.noTileCollide = true;
-                        npc.noGravity = true;
+                        npc.noTileCollide = false;
+                        npc.noGravity = false;
 
-                        if (npc.ai[2] == 1f)
-                        {
-                            npc.noTileCollide = false;
-                            npc.noGravity = false;
+                        int num20 = 30;
+                        if (phase2)
+                            num20 = 10;
 
-                            int num20 = 30;
-                            if (phase2)
-                                num20 = 10;
+                        if (Main.getGoodWorld)
+                            num20 = 0;
 
-                            if (Main.getGoodWorld)
-                                num20 = 0;
-
-                            if (npc.velocity.Y == 0f)
-                            {
-                                SoundEngine.PlaySound(SoundID.Item167, npc.Center);
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
-                                {
-                                    int type = ProjectileID.QueenSlimeSmash;
-                                    int damage = npc.GetProjectileDamage(type);
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Bottom, Vector2.Zero, type, damage, 0f, Main.myPlayer);
-
-                                    // Eruption of crystals in phase 3
-                                    if (npc.ai[0] == 6f && phase3)
-                                    {
-                                        float projectileVelocity = 12f;
-                                        type = ProjectileID.QueenSlimeMinionBlueSpike;
-                                        damage = npc.GetProjectileDamage(type);
-                                        Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y - 100f) - npc.Center;
-                                        destination.Normalize();
-                                        destination *= projectileVelocity;
-                                        int numProj = 18;
-                                        float rotation = MathHelper.ToRadians(90);
-                                        for (int i = 0; i < numProj; i++)
-                                        {
-                                            Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
-                                        }
-                                    }
-                                }
-
-                                for (int l = 0; l < 20; l++)
-                                {
-                                    int num21 = Dust.NewDust(npc.Bottom - new Vector2(npc.width / 2, 30f), npc.width, 30, 31, npc.velocity.X, npc.velocity.Y, 40, NPC.AI_121_QueenSlime_GetDustColor());
-                                    Main.dust[num21].noGravity = true;
-                                    Main.dust[num21].velocity.Y = -5f + Main.rand.NextFloat() * -3f;
-                                    Main.dust[num21].velocity.X *= 7f;
-                                }
-
-                                npc.Calamity().newAI[0] = npc.ai[0];
-                                npc.SyncExtraAI();
-                                npc.ai[0] = 0f;
-                                npc.ai[1] = 0f;
-                                npc.ai[2] = 0f;
-                                npc.netUpdate = true;
-                            }
-                            else if (npc.ai[1] >= num20)
-                            {
-                                for (int m = 0; m < 4; m++)
-                                {
-                                    Vector2 position = npc.Bottom - new Vector2(Main.rand.NextFloatDirection() * 16f, Main.rand.Next(8));
-                                    int num22 = Dust.NewDust(position, 2, 2, 31, npc.velocity.X, npc.velocity.Y, 40, NPC.AI_121_QueenSlime_GetDustColor(), 1.4f);
-                                    Main.dust[num22].position = position;
-                                    Main.dust[num22].noGravity = true;
-                                    Main.dust[num22].velocity.Y = npc.velocity.Y * 0.9f;
-                                    Main.dust[num22].velocity.X = ((Main.rand.Next(2) == 0) ? (-10f) : 10f) + Main.rand.NextFloatDirection() * 3f;
-                                }
-                            }
-
-                            npc.velocity.X *= 0.8f;
-                            float num23 = npc.ai[1];
-                            npc.ai[1] += 1f;
-                            if (npc.ai[1] >= num20)
-                            {
-                                if (num23 < num20)
-                                    npc.netUpdate = true;
-
-                                if (phase2 && npc.ai[1] > (num20 + 120))
-                                {
-                                    npc.Calamity().newAI[0] = npc.ai[0];
-                                    npc.SyncExtraAI();
-                                    npc.ai[0] = 0f;
-                                    npc.ai[1] = 0f;
-                                    npc.ai[2] = 0f;
-                                    npc.velocity.Y *= 0.8f;
-                                    npc.netUpdate = true;
-                                    break;
-                                }
-
-                                npc.velocity.Y += malice ? 2f : death ? 1.75f : 1.5f;
-                                float num24 = malice ? 15.99f : death ? 15.5f : 15f;
-                                if (Main.getGoodWorld)
-                                {
-                                    npc.velocity.Y += 1f;
-                                    num24 = 15.99f;
-                                }
-
-                                if (npc.velocity.Y == 0f)
-                                    npc.velocity.Y = 0.01f;
-
-                                if (npc.velocity.Y >= num24)
-                                    npc.velocity.Y = num24;
-
-                                // Cascade of crystals in phase 3 or 4 while falling down
-                                if (((npc.ai[0] == 4f && phase3) || phase4) && npc.ai[1] % 12f == 0f)
-                                {
-                                    SoundEngine.PlaySound(SoundID.Item154, npc.Center);
-                                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                                    {
-                                        Vector2 fireFrom = npc.Center;
-                                        int projectileAmt = 2;
-                                        int type = ProjectileID.QueenSlimeMinionBlueSpike;
-                                        int damage = npc.GetProjectileDamage(type);
-                                        for (int i = 0; i < projectileAmt; i++)
-                                        {
-                                            int totalProjectiles = 2;
-                                            float radians = MathHelper.TwoPi / totalProjectiles;
-                                            for (int j = 0; j < totalProjectiles; j++)
-                                            {
-                                                Vector2 projVelocity = npc.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
-                                                Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                                npc.velocity.Y *= 0.8f;
-
-                            break;
-                        }
-
-                        if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == 0f)
-                        {
-                            npc.TargetClosest();
-                            npc.netUpdate = true;
-                        }
-
-                        npc.ai[1] += 1f;
-                        if (!(npc.ai[1] >= 30f))
-                            break;
-
-                        if (npc.ai[1] >= 60f)
-                        {
-                            npc.ai[1] = 60f;
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                npc.ai[1] = 0f;
-                                npc.ai[2] = 1f;
-                                npc.velocity.Y = -3f;
-                                npc.netUpdate = true;
-                            }
-                        }
-
-                        Player player3 = Main.player[npc.target];
-                        Vector2 center = npc.Center;
-                        if (!player3.dead && player3.active && Math.Abs(npc.Center.X - player3.Center.X) / 16f <= despawnDistanceInTiles)
-                            center = player3.Center;
-
-                        center.Y -= 384f;
                         if (npc.velocity.Y == 0f)
                         {
-                            npc.velocity = center - npc.Center;
-                            npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero);
-                            npc.velocity *= malice ? 30f : death ? 26f : 24f;
-                        }
-                        else
-                            npc.velocity.Y *= 0.95f;
-
-                        break;
-                    }
-
-                // Fire spread of gel projectiles
-                case 5:
-                    {
-                        npc.rotation *= 0.9f;
-                        npc.noTileCollide = true;
-                        npc.noGravity = true;
-
-                        if (phase2)
-                            npc.ai[3] = 0f;
-
-                        if (npc.ai[2] == 1f)
-                        {
-                            npc.ai[1] += 1f;
-                            if (!(npc.ai[1] >= 10f))
-                                break;
-
+                            SoundEngine.PlaySound(SoundID.Item167, npc.Center);
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int numGelProjectiles = phase4 ? Main.rand.Next(9, 12) : phase2 ? Main.rand.Next(6, 9) : 12;
-                                if (Main.getGoodWorld)
-                                    numGelProjectiles = 15;
-
-                                float projectileVelocity = death ? 12f : 10.5f;
-                                int type = ProjectileID.QueenSlimeGelAttack;
+                                int type = ProjectileID.QueenSlimeSmash;
                                 int damage = npc.GetProjectileDamage(type);
-                                if (phase2)
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Bottom, Vector2.Zero, type, damage, 0f, Main.myPlayer);
+
+                                // Eruption of crystals in phase 3
+                                if (npc.ai[0] == 6f && phase3)
                                 {
-                                    Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y + 100f) - npc.Center;
+                                    float projectileVelocity = 12f;
+                                    type = ProjectileID.QueenSlimeMinionBlueSpike;
+                                    damage = npc.GetProjectileDamage(type);
+                                    Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y - 100f) - npc.Center;
                                     destination.Normalize();
                                     destination *= projectileVelocity;
-                                    float rotation = MathHelper.ToRadians(120);
-                                    for (int i = 0; i < numGelProjectiles; i++)
+                                    int numProj = 18;
+                                    float rotation = MathHelper.ToRadians(90);
+                                    for (int i = 0; i < numProj; i++)
                                     {
-                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numGelProjectiles - 1)));
-                                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
-                                        Main.projectile[proj].timeLeft = 900;
-                                    }
-                                }
-                                else
-                                {
-                                    for (int j = 0; j < numGelProjectiles; j++)
-                                    {
-                                        Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
-                                        spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
-                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                                        Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
                                     }
                                 }
                             }
 
-                            SoundEngine.PlaySound(SoundID.Item155, npc.Center);
+                            for (int l = 0; l < 20; l++)
+                            {
+                                int num21 = Dust.NewDust(npc.Bottom - new Vector2(npc.width / 2, 30f), npc.width, 30, 31, npc.velocity.X, npc.velocity.Y, 40, NPC.AI_121_QueenSlime_GetDustColor());
+                                Main.dust[num21].noGravity = true;
+                                Main.dust[num21].velocity.Y = -5f + Main.rand.NextFloat() * -3f;
+                                Main.dust[num21].velocity.X *= 7f;
+                            }
+
                             npc.Calamity().newAI[0] = npc.ai[0];
                             npc.SyncExtraAI();
                             npc.ai[0] = 0f;
                             npc.ai[1] = 0f;
                             npc.ai[2] = 0f;
                             npc.netUpdate = true;
-                            break;
                         }
-
-                        if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == 0f)
+                        else if (npc.ai[1] >= num20)
                         {
-                            npc.TargetClosest();
-                            npc.netUpdate = true;
-                        }
-
-                        npc.ai[1] += 1f;
-                        if (npc.ai[1] >= 50f)
-                        {
-                            npc.ai[1] = 50f;
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
+                            for (int m = 0; m < 4; m++)
                             {
-                                npc.ai[1] = 0f;
-                                npc.ai[2] = 1f;
-                                npc.netUpdate = true;
+                                Vector2 position = npc.Bottom - new Vector2(Main.rand.NextFloatDirection() * 16f, Main.rand.Next(8));
+                                int num22 = Dust.NewDust(position, 2, 2, 31, npc.velocity.X, npc.velocity.Y, 40, NPC.AI_121_QueenSlime_GetDustColor(), 1.4f);
+                                Main.dust[num22].position = position;
+                                Main.dust[num22].noGravity = true;
+                                Main.dust[num22].velocity.Y = npc.velocity.Y * 0.9f;
+                                Main.dust[num22].velocity.X = ((Main.rand.Next(2) == 0) ? (-10f) : 10f) + Main.rand.NextFloatDirection() * 3f;
                             }
                         }
 
-                        float num16 = 100f;
-                        for (int k = 0; k < 4; k++)
+                        npc.velocity.X *= 0.8f;
+                        float num23 = npc.ai[1];
+                        npc.ai[1] += 1f;
+                        if (npc.ai[1] >= num20)
                         {
-                            Vector2 vector2 = npc.Center + Main.rand.NextVector2CircularEdge(num16, num16);
-                            if (!phase2)
-                                vector2 += new Vector2(0f, 20f);
+                            if (num23 < num20)
+                                npc.netUpdate = true;
 
-                            Vector2 v = vector2 - npc.Center;
-                            v = v.SafeNormalize(Vector2.Zero) * -8f;
-                            int num17 = Dust.NewDust(vector2, 2, 2, 31, v.X, v.Y, 40, NPC.AI_121_QueenSlime_GetDustColor(), 1.8f);
-                            Main.dust[num17].position = vector2;
-                            Main.dust[num17].noGravity = true;
-                            Main.dust[num17].alpha = 250;
-                            Main.dust[num17].velocity = v;
-                            Main.dust[num17].customData = npc;
+                            if (phase2 && npc.ai[1] > (num20 + 120))
+                            {
+                                npc.Calamity().newAI[0] = npc.ai[0];
+                                npc.SyncExtraAI();
+                                npc.ai[0] = 0f;
+                                npc.ai[1] = 0f;
+                                npc.ai[2] = 0f;
+                                npc.velocity.Y *= 0.8f;
+                                npc.netUpdate = true;
+                                break;
+                            }
+
+                            npc.velocity.Y += malice ? 2f : death ? 1.75f : 1.5f;
+                            float num24 = malice ? 15.99f : death ? 15.5f : 15f;
+                            if (Main.getGoodWorld)
+                            {
+                                npc.velocity.Y += 1f;
+                                num24 = 15.99f;
+                            }
+
+                            if (npc.velocity.Y == 0f)
+                                npc.velocity.Y = 0.01f;
+
+                            if (npc.velocity.Y >= num24)
+                                npc.velocity.Y = num24;
+
+                            // Cascade of crystals in phase 3 or 4 while falling down
+                            if (((npc.ai[0] == 4f && phase3) || phase4) && npc.ai[1] % 12f == 0f)
+                            {
+                                SoundEngine.PlaySound(SoundID.Item154, npc.Center);
+                                if (Main.netMode != NetmodeID.MultiplayerClient)
+                                {
+                                    Vector2 fireFrom = npc.Center;
+                                    int projectileAmt = 2;
+                                    int type = ProjectileID.QueenSlimeMinionBlueSpike;
+                                    int damage = npc.GetProjectileDamage(type);
+                                    for (int i = 0; i < projectileAmt; i++)
+                                    {
+                                        int totalProjectiles = 2;
+                                        float radians = MathHelper.TwoPi / totalProjectiles;
+                                        for (int j = 0; j < totalProjectiles; j++)
+                                        {
+                                            Vector2 projVelocity = npc.velocity.RotatedBy(radians * j + MathHelper.PiOver2);
+                                            Projectile.NewProjectile(npc.GetSource_FromAI(), fireFrom, projVelocity, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                                        }
+                                    }
+                                }
+                            }
                         }
-
-                        if (phase2)
-                            QueenSlime_FlyMovement(npc);
+                        else
+                            npc.velocity.Y *= 0.8f;
 
                         break;
                     }
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == 0f)
+                    {
+                        npc.TargetClosest();
+                        npc.netUpdate = true;
+                    }
+
+                    npc.ai[1] += 1f;
+                    if (!(npc.ai[1] >= 30f))
+                        break;
+
+                    if (npc.ai[1] >= 60f)
+                    {
+                        npc.ai[1] = 60f;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.ai[1] = 0f;
+                            npc.ai[2] = 1f;
+                            npc.velocity.Y = -3f;
+                            npc.netUpdate = true;
+                        }
+                    }
+
+                    Player player3 = Main.player[npc.target];
+                    Vector2 center = npc.Center;
+                    if (!player3.dead && player3.active && Math.Abs(npc.Center.X - player3.Center.X) / 16f <= despawnDistanceInTiles)
+                        center = player3.Center;
+
+                    center.Y -= 384f;
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity = center - npc.Center;
+                        npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero);
+                        npc.velocity *= malice ? 30f : death ? 26f : 24f;
+                    }
+                    else
+                        npc.velocity.Y *= 0.95f;
+
+                    break;
+
+                // Fire spread of gel projectiles
+                case 5:
+
+                    npc.rotation *= 0.9f;
+                    npc.noTileCollide = true;
+                    npc.noGravity = true;
+
+                    if (phase2)
+                        npc.ai[3] = 0f;
+
+                    if (npc.ai[2] == 1f)
+                    {
+                        npc.ai[1] += 1f;
+                        if (!(npc.ai[1] >= 10f))
+                            break;
+
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            int numGelProjectiles = phase4 ? Main.rand.Next(9, 12) : phase2 ? Main.rand.Next(6, 9) : 12;
+                            if (Main.getGoodWorld)
+                                numGelProjectiles = 15;
+
+                            float projectileVelocity = death ? 12f : 10.5f;
+                            int type = ProjectileID.QueenSlimeGelAttack;
+                            int damage = npc.GetProjectileDamage(type);
+                            if (phase2)
+                            {
+                                Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y + 100f) - npc.Center;
+                                destination.Normalize();
+                                destination *= projectileVelocity;
+                                float rotation = MathHelper.ToRadians(120);
+                                for (int i = 0; i < numGelProjectiles; i++)
+                                {
+                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numGelProjectiles - 1)));
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
+                                    Main.projectile[proj].timeLeft = 900;
+                                }
+                            }
+                            else
+                            {
+                                for (int j = 0; j < numGelProjectiles; j++)
+                                {
+                                    Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
+                                    spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                                }
+                            }
+                        }
+
+                        SoundEngine.PlaySound(SoundID.Item155, npc.Center);
+                        npc.Calamity().newAI[0] = npc.ai[0];
+                        npc.SyncExtraAI();
+                        npc.ai[0] = 0f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                        npc.netUpdate = true;
+                        break;
+                    }
+
+                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == 0f)
+                    {
+                        npc.TargetClosest();
+                        npc.netUpdate = true;
+                    }
+
+                    npc.ai[1] += 1f;
+                    if (npc.ai[1] >= 50f)
+                    {
+                        npc.ai[1] = 50f;
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            npc.ai[1] = 0f;
+                            npc.ai[2] = 1f;
+                            npc.netUpdate = true;
+                        }
+                    }
+
+                    float num16 = 100f;
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Vector2 vector2 = npc.Center + Main.rand.NextVector2CircularEdge(num16, num16);
+                        if (!phase2)
+                            vector2 += new Vector2(0f, 20f);
+
+                        Vector2 v = vector2 - npc.Center;
+                        v = v.SafeNormalize(Vector2.Zero) * -8f;
+                        int num17 = Dust.NewDust(vector2, 2, 2, 31, v.X, v.Y, 40, NPC.AI_121_QueenSlime_GetDustColor(), 1.8f);
+                        Main.dust[num17].position = vector2;
+                        Main.dust[num17].noGravity = true;
+                        Main.dust[num17].alpha = 250;
+                        Main.dust[num17].velocity = v;
+                        Main.dust[num17].customData = npc;
+                    }
+
+                    if (phase2)
+                        QueenSlime_FlyMovement(npc);
+
+                    break;
             }
 
             // Don't take damage while teleporting

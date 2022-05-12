@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -808,6 +808,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Phase 3
             else if (npc.ai[0] == 10f && !player.dead)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 // Alpha
                 if (npc.alpha < 255)
                 {
@@ -966,6 +969,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Pause before teleport
             else if (npc.ai[0] == 12f)
             {
+                // Avoid cheap bullshit
+                npc.damage = 0;
+
                 // Alpha
                 if (npc.alpha < 255)
                 {

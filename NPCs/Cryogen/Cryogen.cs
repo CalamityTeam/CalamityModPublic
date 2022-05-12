@@ -64,6 +64,7 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.boss = true;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
+            NPC.coldDamage = true;
             NPC.HitSound = SoundID.NPCHit5;
             NPC.DeathSound = SoundID.NPCDeath15;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Cryogen") ?? MusicID.FrostMoon;
