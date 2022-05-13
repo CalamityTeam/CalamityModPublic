@@ -843,12 +843,15 @@ namespace CalamityMod.CalPlayer
                     Player.noFallDmg = true;
                 }
 
-                // Allow the player to increase their fall speed by holding down.
-                bool ableToFallFaster = Player.controlDown && !Player.wet && !Player.pulley && !Player.frozen && !Player.webbed && !Player.stoned && !Player.controlJump && Player.ropeCount == 0 && Player.grappling[0] == -1 && !Player.tongued;
-                bool hasWingsThatCanHover = HasWingsThatCanHover || Player.wingsLogic == 22 || Player.wingsLogic == 28 || Player.wingsLogic == 30 || Player.wingsLogic == 31 || Player.wingsLogic == 32 || Player.wingsLogic == 29 || Player.wingsLogic == 33 || Player.wingsLogic == 35 || Player.wingsLogic == 37 || Player.wingsLogic == 44 || Player.wingsLogic == 45;
-                if (!hasWingsThatCanHover && ableToFallFaster)
+                // Allow the player to double their gravity (but NOT max fall speed!) by holding the down button while in midair.
+                bool holdingDown = Player.controlDown && !Player.controlJump;
+                bool controlsEnabled = Player.ControlsEnabled();
+                bool notInLiquid = !Player.wet;
+                bool notOnRope = !Player.pulley && Player.ropeCount == 0;
+                bool notGrappling = Player.grappling[0] == -1;
+                if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling)
                 {
-                    Player.velocity.Y += Player.gravity;
+                    Player.velocity.Y += Player.gravity * (HoldingDownGravity - 1f);
                     if (Player.velocity.Y > Player.maxFallSpeed)
                         Player.velocity.Y = Player.maxFallSpeed;
                 }

@@ -144,7 +144,7 @@ namespace CalamityMod.CalPlayer
         public bool LungingDown = false;
         #endregion
 
-        #region IL Editing Constants
+        #region Balancing Constants
         // These values are referenced by IL edits but don't fit into any other category.
         public const float BalloonJumpSpeedBoost = 0.75f;
 
@@ -160,6 +160,9 @@ namespace CalamityMod.CalPlayer
         public const int DaedalusReflectCooldown = 5400;
         public const int ArcanumReflectCooldown = 5400;
         public const int EvolutionReflectCooldown = 7200;
+
+        // The multiplier for the player's gravity (downwards acceleration) while they are holding the Down button (S by default).
+        public static readonly float HoldingDownGravity = 2f;
         #endregion
 
         #region Speedrun Timer
@@ -497,7 +500,6 @@ namespace CalamityMod.CalPlayer
         private const float maxWarBannerBonus = 0.2f;
         private const float maxWarBannerDistance = 480f;
         public bool cryogenSoul = false;
-        public bool HasWingsThatCanHover = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
@@ -1695,7 +1697,6 @@ namespace CalamityMod.CalPlayer
             nanotech = false;
             artemisEmblem = false;
             cryogenSoul = false;
-            HasWingsThatCanHover = false;
             yInsignia = false;
             eGauntlet = false;
             eTalisman = false;

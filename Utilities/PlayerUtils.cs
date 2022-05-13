@@ -24,9 +24,52 @@ namespace CalamityMod
         public static float AverageDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive + player.GetDamage(DamageClass.Magic).Additive + player.GetDamage(DamageClass.Summon).Additive + player.Calamity().throwingDamage - 5f) / 5f;
         #endregion
 
+        #region Movement and Controls
+        public static bool ControlsEnabled(this Player player, bool allowWoFTongue = false)
+        {
+            if (player.CCed) // Covers frozen (player.frozen), webs (player.webbed), and Medusa (player.stoned)
+                return false;
+            if (player.tongued && !allowWoFTongue)
+                return false;
+            return true;
+        }
+        
         public static bool StandingStill(this Player player, float velocity = 0.05f) => player.velocity.Length() < velocity;
 
-        #region Location & Biomes
+        /// <summary>
+        /// Checks if the player is ontop of solid ground. May also check for solid ground for X tiles in front of them
+        /// </summary>
+        /// <param name="player">The Player whose position is being checked</param>
+        /// <param name="solidGroundAhead">How many tiles in front of the player to check</param>
+        /// <param name="airExposureNeeded">How many tiles above every checked tile are checked for non-solid ground</param>
+        public static bool CheckSolidGround(this Player player, int solidGroundAhead = 0, int airExposureNeeded = 0)
+        {
+            if (player.velocity.Y != 0) //Player gotta be standing still in any case
+                return false;
+
+            Tile checkedTile;
+            bool ConditionMet = true;
+
+            for (int i = 0; i <= solidGroundAhead; i++) //Check i tiles in front of the player
+            {
+                ConditionMet = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1].IsTileSolidGround();
+                if (!ConditionMet)
+                    return ConditionMet;
+
+                for (int j = 1; j <= airExposureNeeded; j++) //Check j tiles ontop of each checked tiles for non-solid ground
+                {
+                    checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
+
+                    ConditionMet = !(checkedTile != null && checkedTile.HasUnactuatedTile && Main.tileSolid[checkedTile.TileType]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
+                    if (!ConditionMet)
+                        return ConditionMet;
+                }
+            }
+            return ConditionMet;
+        }
+        #endregion
+
+        #region Location and Biomes
         public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
         public static bool InSpace(this Player player)
         {
@@ -275,38 +318,6 @@ namespace CalamityMod
             target.AddBuff(BuffID.OnFire, (int)(180 * multiplier));
         }
         #endregion
-
-        /// <summary>
-        /// Checks if the player is ontop of solid ground. May also check for solid ground for X tiles in front of them
-        /// </summary>
-        /// <param name="player">The Player whose position is being checked</param>
-        /// <param name="solidGroundAhead">How many tiles in front of the player to check</param>
-        /// <param name="airExposureNeeded">How many tiles above every checked tile are checked for non-solid ground</param>
-        public static bool CheckSolidGround(this Player player, int solidGroundAhead = 0, int airExposureNeeded = 0)
-        {
-            if (player.velocity.Y != 0) //Player gotta be standing still in any case
-                return false;
-
-            Tile checkedTile;
-            bool ConditionMet = true;
-
-            for (int i = 0; i <= solidGroundAhead; i++) //Check i tiles in front of the player
-            {
-                ConditionMet = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1].IsTileSolidGround();
-                if (!ConditionMet)
-                    return ConditionMet;
-
-                for (int j = 1; j <= airExposureNeeded; j++) //Check j tiles ontop of each checked tiles for non-solid ground
-                {
-                    checkedTile = Main.tile[(int)player.Center.X / 16 + player.direction * i, (int)(player.position.Y + (float)player.height - 1f) / 16 + 1 - j];
-
-                    ConditionMet = !(checkedTile != null && checkedTile.HasUnactuatedTile && Main.tileSolid[checkedTile.TileType]); //IsTileSolidGround minus the ground part, to avoid platforms and other half solid tiles messing it up
-                    if (!ConditionMet)
-                        return ConditionMet;
-                }
-            }
-            return ConditionMet;
-        }
 
         /// <summary>
         /// Makes the given player send the given packet to all appropriate receivers.<br />
