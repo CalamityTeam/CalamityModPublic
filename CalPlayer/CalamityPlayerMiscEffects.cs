@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.Alcohol;
+﻿using CalamityMod.Balancing;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
@@ -851,7 +852,7 @@ namespace CalamityMod.CalPlayer
                 bool notGrappling = Player.grappling[0] == -1;
                 if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling)
                 {
-                    Player.velocity.Y += Player.gravity * (HoldingDownGravity - 1f);
+                    Player.velocity.Y += Player.gravity * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
                     if (Player.velocity.Y > Player.maxFallSpeed)
                         Player.velocity.Y = Player.maxFallSpeed;
                 }

@@ -121,10 +121,12 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Inventory Checks
         public static bool InventoryHas(this Player player, params int[] items)
         {
             return player.inventory.Any(item => items.Contains(item.type));
         }
+
         public static bool PortableStorageHas(this Player player, params int[] items)
         {
             bool hasItem = false;
@@ -136,6 +138,7 @@ namespace CalamityMod
                 hasItem = true;
             return hasItem;
         }
+        #endregion
 
         #region Immunity Frames
         /// <summary>

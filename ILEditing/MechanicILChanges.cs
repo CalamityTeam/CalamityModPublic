@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Balancing;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.NPCs.Astral;
@@ -136,7 +137,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldarg_0);
 
             // Emit a delegate which sets the player's Calamity dodge cooldown and sends a sync packet appropriately.
-            cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, CalamityPlayer.BeltDodgeCooldown));
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, BalancingConstants.BeltDodgeCooldown));
         }
         #endregion Removal of Black Belt Dodge RNG
 
@@ -171,7 +172,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Replace vanilla's base damage of 150 with Calamity's custom base damage.
-            cursor.Next.Operand = CalamityPlayer.SolarFlareBaseDamage;
+            cursor.Next.Operand = BalancingConstants.SolarFlareBaseDamage;
 
             // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
@@ -194,7 +195,7 @@ namespace CalamityMod.ILEditing
 
             // Replace it with Calamity's number of iframes.
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, CalamityPlayer.SolarFlareIFrames);
+            cursor.Emit(OpCodes.Ldc_I4, BalancingConstants.SolarFlareIFrames);
         }
 
         private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
@@ -217,7 +218,7 @@ namespace CalamityMod.ILEditing
             // Remove the zero and replace it with a calculated value.
             // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 10 - CalamityPlayer.ShieldOfCthulhuBonkNoCollideFrames);
+            cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
         }
         #endregion Vanilla Dash Shield Improvements
 
