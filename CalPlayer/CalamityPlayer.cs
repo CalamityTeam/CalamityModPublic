@@ -497,6 +497,7 @@ namespace CalamityMod.CalPlayer
         private const float maxWarBannerBonus = 0.2f;
         private const float maxWarBannerDistance = 480f;
         public bool cryogenSoul = false;
+        public bool HasWingsThatCanHover = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
@@ -1694,6 +1695,7 @@ namespace CalamityMod.CalPlayer
             nanotech = false;
             artemisEmblem = false;
             cryogenSoul = false;
+            HasWingsThatCanHover = false;
             yInsignia = false;
             eGauntlet = false;
             eTalisman = false;

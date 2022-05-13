@@ -842,6 +842,16 @@ namespace CalamityMod.CalPlayer
                     Player.maxFallSpeed = 80f;
                     Player.noFallDmg = true;
                 }
+
+                // Allow the player to increase their fall speed by holding down.
+                bool ableToFallFaster = Player.controlDown && !Player.wet && !Player.pulley && !Player.frozen && !Player.webbed && !Player.stoned && !Player.controlJump && Player.ropeCount == 0 && Player.grappling[0] == -1 && !Player.tongued;
+                bool hasWingsThatCanHover = HasWingsThatCanHover || Player.wingsLogic == 22 || Player.wingsLogic == 28 || Player.wingsLogic == 30 || Player.wingsLogic == 31 || Player.wingsLogic == 32 || Player.wingsLogic == 29 || Player.wingsLogic == 33 || Player.wingsLogic == 35 || Player.wingsLogic == 37 || Player.wingsLogic == 44 || Player.wingsLogic == 45;
+                if (!hasWingsThatCanHover && ableToFallFaster)
+                {
+                    Player.velocity.Y += Player.gravity;
+                    if (Player.velocity.Y > Player.maxFallSpeed)
+                        Player.velocity.Y = Player.maxFallSpeed;
+                }
             }
 
             // Omega Blue Armor bonus
