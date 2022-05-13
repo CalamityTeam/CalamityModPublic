@@ -86,6 +86,7 @@ namespace CalamityMod.NPCs
             "Woffle", // <@!185980979427540992> (Chipbeam#2268)
             "Cameron", // <@!340401981711712258> (CammyWammy#8634)
             "Wilbur", // <@!295171926324805634> (ChaosChaos#5979)
+            "Good Game Design", // <@!564267767042277385> (Dominic Karma#7777)
         };
         private const int MechanicVanillaNames = 24;
         private static readonly string[] MechanicNames =
