@@ -8,13 +8,9 @@ using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.ILEditing;
 using CalamityMod.Items;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Vanity;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Localization;
-using CalamityMod.NPCs;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -47,10 +43,8 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.BaseProjectiles;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
-using CalamityMod.TileEntities;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.Waters;
@@ -63,8 +57,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Dyes;
 using Terraria.Graphics.Effects;
@@ -72,8 +66,8 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using Terraria.UI;
 
+[assembly: InternalsVisibleTo("CalTestHelpers")]
 namespace CalamityMod
 {
     public class CalamityMod : Mod

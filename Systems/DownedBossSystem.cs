@@ -11,49 +11,49 @@ namespace CalamityMod
     public class DownedBossSystem : ModSystem
     {
         // Bosses
-        private static bool _downedDesertScourge = false;
-        private static bool _downedCrabulon = false;
-        private static bool _downedHiveMind = false;
-        private static bool _downedPerforator = false;
-        private static bool _downedSlimeGod = false;
-        private static bool _downedCryogen = false;
-        private static bool _downedAquaticScourge = false;
-        private static bool _downedBrimstoneElemental = false;
-        private static bool _downedCalamitas = false;
-        private static bool _downedLeviathan = false;
-        private static bool _downedAstrumAureus = false;
-        private static bool _downedPlaguebringer = false;
-        private static bool _downedRavager = false;
-        private static bool _downedAstrumDeus = false;
-        private static bool _downedGuardians = false;
-        private static bool _downedDragonfolly = false;
-        private static bool _downedProvidence = false;
-        private static bool _downedCeaselessVoid = false;
-        private static bool _downedStormWeaver = false;
-        private static bool _downedSignus = false;
-        private static bool _downedSecondSentinels = false;
-        private static bool _downedPolterghast = false;
-        private static bool _downedBoomerDuke = false;
-        private static bool _downedDoG = false;
-        private static bool _downedYharon = false;
-        private static bool _downedAres = false; // only used for loot drops
-        private static bool _downedThanatos = false; // only used for loot drops
-        private static bool _downedArtemisAndApollo = false; // only used for loot drops
-        private static bool _downedExoMechs = false;
-        private static bool _downedSCal = false;
-        private static bool _downedAdultEidolonWyrm = false;
+        internal static bool _downedDesertScourge = false;
+        internal static bool _downedCrabulon = false;
+        internal static bool _downedHiveMind = false;
+        internal static bool _downedPerforator = false;
+        internal static bool _downedSlimeGod = false;
+        internal static bool _downedCryogen = false;
+        internal static bool _downedAquaticScourge = false;
+        internal static bool _downedBrimstoneElemental = false;
+        internal static bool _downedCalamitas = false;
+        internal static bool _downedLeviathan = false;
+        internal static bool _downedAstrumAureus = false;
+        internal static bool _downedPlaguebringer = false;
+        internal static bool _downedRavager = false;
+        internal static bool _downedAstrumDeus = false;
+        internal static bool _downedGuardians = false;
+        internal static bool _downedDragonfolly = false;
+        internal static bool _downedProvidence = false;
+        internal static bool _downedCeaselessVoid = false;
+        internal static bool _downedStormWeaver = false;
+        internal static bool _downedSignus = false;
+        internal static bool _downedSecondSentinels = false;
+        internal static bool _downedPolterghast = false;
+        internal static bool _downedBoomerDuke = false;
+        internal static bool _downedDoG = false;
+        internal static bool _downedYharon = false;
+        internal static bool _downedAres = false; // only used for loot drops
+        internal static bool _downedThanatos = false; // only used for loot drops
+        internal static bool _downedArtemisAndApollo = false; // only used for loot drops
+        internal static bool _downedExoMechs = false;
+        internal static bool _downedSCal = false;
+        internal static bool _downedAdultEidolonWyrm = false;
 
         // Minibosses
-        private static bool _downedGSS = false;
-        private static bool _downedCLAM = false;
-        private static bool _downedCLAMHardMode = false;
+        internal static bool _downedGSS = false;
+        internal static bool _downedCLAM = false;
+        internal static bool _downedCLAMHardMode = false;
 
         // Events
-        private static bool _downedEoCAcidRain = false;
-        private static bool _downedAquaticScourgeAcidRain = false;
+        internal static bool _downedEoCAcidRain = false;
+        internal static bool _downedAquaticScourgeAcidRain = false;
 
         // Betsy, because vanilla doesn't track her
-        private static bool _downedBetsy = false;
+        internal static bool _downedBetsy = false;
 
         #region Wrapper Properties for Lantern Nights
         public static bool downedDesertScourge
