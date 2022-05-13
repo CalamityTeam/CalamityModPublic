@@ -295,6 +295,9 @@ namespace CalamityMod.NPCs.Signus
             }
             else if (NPC.ai[0] == 1f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 Vector2 position = new Vector2(NPC.ai[1] * 16f - (NPC.width / 2), NPC.ai[2] * 16f - (NPC.height / 2));
                 for (int m = 0; m < 5; m++)
                 {
@@ -328,6 +331,9 @@ namespace CalamityMod.NPCs.Signus
             }
             else if (NPC.ai[0] == 2f)
             {
+                // Avoid cheap bullshit
+                NPC.damage = 0;
+
                 NPC.alpha -= 50;
                 if (NPC.alpha <= lifeToAlpha)
                 {
@@ -395,7 +401,6 @@ namespace CalamityMod.NPCs.Signus
             }
             else if (NPC.ai[0] == 3f)
             {
-                NPC.damage = 0;
                 NPC.rotation = NPC.velocity.X * 0.04f;
                 float playerLocation = vectorCenter.X - player.Center.X;
                 NPC.direction = playerLocation < 0f ? 1 : -1;
@@ -434,20 +439,20 @@ namespace CalamityMod.NPCs.Signus
                 float maxVelocityY = malice ? 1.5f : death ? 2.5f : 3f;
                 float maxVelocityX = malice ? 5f : death ? 7f : 8f;
 
-                if (NPC.position.Y > player.position.Y - 200f)
+                if (NPC.position.Y > player.position.Y - 250f)
                 {
                     if (NPC.velocity.Y > 0f)
-                        NPC.velocity.Y *= 0.975f;
+                        NPC.velocity.Y *= 0.9f;
 
                     NPC.velocity.Y -= death ? 0.12f : 0.1f;
 
                     if (NPC.velocity.Y > maxVelocityY)
                         NPC.velocity.Y = maxVelocityY;
                 }
-                else if (NPC.position.Y < player.position.Y - 400f)
+                else if (NPC.position.Y < player.position.Y - 350f)
                 {
                     if (NPC.velocity.Y < 0f)
-                        NPC.velocity.Y *= 0.975f;
+                        NPC.velocity.Y *= 0.9f;
 
                     NPC.velocity.Y += death ? 0.12f : 0.1f;
 
@@ -455,10 +460,10 @@ namespace CalamityMod.NPCs.Signus
                         NPC.velocity.Y = -maxVelocityY;
                 }
 
-                if (vectorCenter.X > player.Center.X + 500f)
+                if (vectorCenter.X > player.Center.X + 600f)
                 {
                     if (NPC.velocity.X > 0f)
-                        NPC.velocity.X *= 0.98f;
+                        NPC.velocity.X *= 0.9f;
 
                     NPC.velocity.X -= death ? 0.12f : 0.1f;
 
@@ -466,10 +471,10 @@ namespace CalamityMod.NPCs.Signus
                         NPC.velocity.X = maxVelocityX;
                 }
 
-                if (vectorCenter.X < player.Center.X - 500f)
+                if (vectorCenter.X < player.Center.X - 600f)
                 {
                     if (NPC.velocity.X < 0f)
-                        NPC.velocity.X *= 0.98f;
+                        NPC.velocity.X *= 0.9f;
 
                     NPC.velocity.X += death ? 0.12f : 0.1f;
 

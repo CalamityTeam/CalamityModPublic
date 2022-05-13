@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
+            Projectile.timeLeft = 60000;
         }
 
         public override void AI()
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
                 float angle = MathHelper.TwoPi * i / 50f + Main.GlobalTimeWrappedHourly * MathHelper.TwoPi;
                 Color drawColor = Color.White * 0.04f;
                 drawColor.A = 0;
-                Vector2 drawPosition = Projectile.Center;
+                Vector2 drawPosition = Projectile.Center - Main.screenPosition;
 
                 drawPosition += (angle + Main.GlobalTimeWrappedHourly * i / 16f).ToRotationVector2() * 6f;
                 Main.EntitySpriteDraw(vortexTexture, drawPosition, null, drawColor, angle + MathHelper.PiOver2, vortexTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);

@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.knockBack = 0f;
             Item.useTime = Item.useAnimation = 20;
             Item.autoReuse = true;
+            Item.mana = 6;
 
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PulseRifleFire");

@@ -45,6 +45,9 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.frame = 0;
 
             Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
+
+            if (Projectile.velocity.Length() < Projectile.ai[0])
+                Projectile.velocity *= Projectile.ai[1];
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, Projectile.alpha);

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -17,13 +17,10 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.friendly = true;
             Projectile.aiStyle = 39;
             Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 10;
             Projectile.alpha = 255;
             Projectile.DamageType = DamageClass.Ranged;
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[Projectile.owner] = 5;
         }
     }
 }

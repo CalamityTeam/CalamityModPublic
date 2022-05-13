@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs.Yharon
             if (NPC.localAI[0] == 0f)
             {
                 NPC.localAI[0] = 1f;
-                NPC.alpha = 255;
+                NPC.Opacity = 0f;
                 NPC.rotation = 0f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -427,15 +427,15 @@ namespace CalamityMod.NPCs.Yharon
                 bool colliding = Collision.SolidCollision(NPC.position, NPC.width, NPC.height);
 
                 if (colliding)
-                    NPC.alpha += 25;
+                    NPC.Opacity -= 0.1f;
                 else
-                    NPC.alpha -= 25;
+                    NPC.Opacity += 0.1f;
 
-                if (NPC.alpha < 0)
-                    NPC.alpha = 0;
+                if (NPC.Opacity > 1f)
+                    NPC.Opacity = 1f;
 
-                if (NPC.alpha > 150)
-                    NPC.alpha = 150;
+                if (NPC.Opacity < 0.6f)
+                    NPC.Opacity = 0.6f;
             }
 
             // Spawn effects
@@ -453,18 +453,18 @@ namespace CalamityMod.NPCs.Yharon
                 if (NPC.ai[2] > 20f)
                 {
                     NPC.velocity.Y = -2f;
-                    NPC.alpha -= 25;
+                    NPC.Opacity += 0.1f;
 
                     bool colliding = Collision.SolidCollision(NPC.position, NPC.width, NPC.height);
 
                     if (colliding)
-                        NPC.alpha += 25;
+                        NPC.Opacity -= 0.1f;
 
-                    if (NPC.alpha < 0)
-                        NPC.alpha = 0;
+                    if (NPC.Opacity > 1f)
+                        NPC.Opacity = 1f;
 
-                    if (NPC.alpha > 150)
-                        NPC.alpha = 150;
+                    if (NPC.Opacity < 0.6f)
+                        NPC.Opacity = 0.6f;
                 }
 
                 if (NPC.ai[2] == fireTornadoPhaseTimer - 30)
@@ -842,11 +842,11 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         NPC.damage = 0;
 
-                        if (NPC.alpha < 255)
+                        if (NPC.Opacity > 0f)
                         {
-                            NPC.alpha += 42;
-                            if (NPC.alpha > 255)
-                                NPC.alpha = 255;
+                            NPC.Opacity -= 0.2f;
+                            if (NPC.Opacity < 0f)
+                                NPC.Opacity = 0f;
                         }
 
                         bool spawnBulletHellVortex = NPC.ai[2] == phaseSwitchTimer + 15f;
@@ -983,27 +983,6 @@ namespace CalamityMod.NPCs.Yharon
                         int ringReduction = (int)MathHelper.Lerp(0f, 14f, NPC.ai[2] / flareDustPhaseTimer);
                         int totalProjectiles = 38 - ringReduction; // 36 for first ring, 22 for last ring
                         DoFlareDustBulletHell(0, flareDustSpawnDivisor, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, false);
-
-                        // Fire a flame towards every player, with a limit of 5
-                        if (expertMode)
-                        {
-                            List<int> targets = new List<int>();
-                            for (int p = 0; p < Main.maxPlayers; p++)
-                            {
-                                if (Main.player[p].active && !Main.player[p].dead)
-                                    targets.Add(p);
-
-                                if (targets.Count > 4)
-                                    break;
-                            }
-                            foreach (int t in targets)
-                            {
-                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - NPC.Center) * 8f;
-                                int type = ModContent.ProjectileType<FlareDust>();
-                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
-                                Main.projectile[proj].extraUpdates += 1;
-                            }
-                        }
                     }
                 }
 
@@ -1093,10 +1072,11 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         Vector2 projectileVelocity = NPC.velocity;
                         projectileVelocity.Normalize();
-                        projectileVelocity *= 12f;
                         int type = ModContent.ProjectileType<FlareDust2>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                        float finalVelocity = 12f;
+                        float projectileAcceleration = 1.1f;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer, finalVelocity, projectileAcceleration);
                     }
                 }
 
@@ -1202,11 +1182,11 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         NPC.damage = 0;
 
-                        if (NPC.alpha < 255)
+                        if (NPC.Opacity > 0f)
                         {
-                            NPC.alpha += 42;
-                            if (NPC.alpha > 255)
-                                NPC.alpha = 255;
+                            NPC.Opacity -= 0.2f;
+                            if (NPC.Opacity < 0f)
+                                NPC.Opacity = 0f;
                         }
 
                         bool spawnBulletHellVortex = NPC.ai[2] == phaseSwitchTimer + 15f;
@@ -1349,27 +1329,6 @@ namespace CalamityMod.NPCs.Yharon
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         DoFlareDustBulletHell(1, flareDustPhaseTimer, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 8, 12f, 3.6f, false);
-
-                        // Fire a flame towards every player, with a limit of 5
-                        if (expertMode && NPC.ai[2] % (flareDustSpawnDivisor3 * 2) == 0f)
-                        {
-                            List<int> targets = new List<int>();
-                            for (int p = 0; p < Main.maxPlayers; p++)
-                            {
-                                if (Main.player[p].active && !Main.player[p].dead)
-                                    targets.Add(p);
-
-                                if (targets.Count > 4)
-                                    break;
-                            }
-                            foreach (int t in targets)
-                            {
-                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - NPC.Center) * 8f;
-                                int type = ModContent.ProjectileType<FlareDust>();
-                                int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
-                                Main.projectile[proj].extraUpdates += 1;
-                            }
-                        }
                     }
                 }
 
@@ -1462,10 +1421,11 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         Vector2 projectileVelocity = NPC.velocity;
                         projectileVelocity.Normalize();
-                        projectileVelocity *= 15f;
                         int type = ModContent.ProjectileType<FlareDust2>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer);
+                        float finalVelocity = 15f;
+                        float projectileAcceleration = 1.11f;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), fromMouth, projectileVelocity, type, damage, 0f, Main.myPlayer, finalVelocity, projectileAcceleration);
                     }
                 }
 
@@ -1547,9 +1507,9 @@ namespace CalamityMod.NPCs.Yharon
 
             if (NPC.ai[0] != 5f && NPC.ai[0] != 8f)
             {
-                NPC.alpha -= 25;
-                if (NPC.alpha < 0)
-                    NPC.alpha = 0;
+                NPC.Opacity += 0.1f;
+                if (NPC.Opacity > 1f)
+                    NPC.Opacity = 1f;
             }
 
             if (!moveCloser)
@@ -1899,11 +1859,11 @@ namespace CalamityMod.NPCs.Yharon
                         if (amount != 0f)
                             NPC.rotation = NPC.rotation.AngleTowards(newRotation, amount);
 
-                        if (NPC.alpha < 255)
+                        if (NPC.Opacity > 0f)
                         {
-                            NPC.alpha += 42;
-                            if (NPC.alpha > 255)
-                                NPC.alpha = 255;
+                            NPC.Opacity -= 0.2f;
+                            if (NPC.Opacity < 0f)
+                                NPC.Opacity = 0f;
                         }
 
                         float timeBeforeTeleport = teleportPhaseTimer - 15f;
@@ -2124,7 +2084,6 @@ namespace CalamityMod.NPCs.Yharon
                         Vector2 position = NPC.Center + new Vector2((110f + xOffset) * NPC.direction, -20f).RotatedBy(NPC.rotation);
                         Vector2 projectileVelocity = NPC.velocity;
                         projectileVelocity.Normalize();
-                        projectileVelocity *= 2f;
                         int type = ModContent.ProjectileType<FlareDust2>();
                         int damage = NPC.GetProjectileDamage(type);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), position, projectileVelocity, type, damage, 0f, Main.myPlayer);
@@ -2234,27 +2193,6 @@ namespace CalamityMod.NPCs.Yharon
                                 int totalProjectiles2 = 38 - ringReduction; // 36 for first ring, 24 for last ring
                                 DoFlareDustBulletHell(0, flareDustSpawnDivisor2, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles2, 0f, 0f, true);
                             }
-
-                            // Fire a flame towards every player, with a limit of 10
-                            if (expertMode && NPC.ai[2] % (flareDustSpawnDivisor2 * 2) == 0f)
-                            {
-                                List<int> targets = new List<int>();
-                                for (int p = 0; p < Main.maxPlayers; p++)
-                                {
-                                    if (Main.player[p].active && !Main.player[p].dead)
-                                        targets.Add(p);
-
-                                    if (targets.Count > 4)
-                                        break;
-                                }
-                                foreach (int t in targets)
-                                {
-                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - NPC.Center) * (projectileVelocity * 0.7f);
-                                    int type = ModContent.ProjectileType<FlareDust>();
-                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
-                                    Main.projectile[proj].extraUpdates += 1;
-                                }
-                            }
                         }
                     }
                     else
@@ -2264,27 +2202,6 @@ namespace CalamityMod.NPCs.Yharon
                             int ringReduction = (int)MathHelper.Lerp(0f, 12f, NPC.ai[1] / spinPhaseTimer);
                             int totalProjectiles = 38 - ringReduction; // 36 for first ring, 24 for last ring
                             DoFlareDustBulletHell(0, flareDustSpawnDivisor, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), totalProjectiles, 0f, 0f, true);
-
-                            // Fire a flame towards every player, with a limit of 10
-                            if (expertMode)
-                            {
-                                List<int> targets = new List<int>();
-                                for (int p = 0; p < Main.maxPlayers; p++)
-                                {
-                                    if (Main.player[p].active && !Main.player[p].dead)
-                                        targets.Add(p);
-
-                                    if (targets.Count > 4)
-                                        break;
-                                }
-                                foreach (int t in targets)
-                                {
-                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - NPC.Center) * 8f;
-                                    int type = ModContent.ProjectileType<FlareDust>();
-                                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, NPC.GetProjectileDamage(ModContent.ProjectileType<FlareDust>()), 0f, Main.myPlayer, 2f, 0f);
-                                    Main.projectile[proj].extraUpdates += 1;
-                                }
-                            }
                         }
                     }
 
@@ -2388,11 +2305,11 @@ namespace CalamityMod.NPCs.Yharon
             // Teleport
             else if (NPC.ai[0] == 8f)
             {
-                if (NPC.alpha < 255)
+                if (NPC.Opacity > 0f)
                 {
-                    NPC.alpha += 17;
-                    if (NPC.alpha > 255)
-                        NPC.alpha = 255;
+                    NPC.Opacity -= 0.1f;
+                    if (NPC.Opacity < 0f)
+                        NPC.Opacity = 0f;
                 }
 
                 NPC.velocity *= 0.98f;
@@ -2731,15 +2648,15 @@ namespace CalamityMod.NPCs.Yharon
             if (flag8 || NPC.ai[0] == 4f || startSecondAI)
             {
                 texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowOrange").Value;
-                Color color40 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.Orange, 0.5f);
+                Color color40 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.Orange, 0.5f) * NPC.Opacity;
                 color36 = invincible ? invincibleColor : Color.Orange;
 
                 Texture2D texture2 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowGreen").Value;
-                Color color43 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.Chartreuse, 0.5f);
+                Color color43 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.Chartreuse, 0.5f) * NPC.Opacity;
                 Color color44 = invincible ? invincibleColor : Color.Chartreuse;
 
                 Texture2D texture3 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Yharon/YharonGlowPurple").Value;
-                Color color45 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.BlueViolet, 0.5f);
+                Color color45 = Color.Lerp(Color.White, invincible ? invincibleColor : Color.BlueViolet, 0.5f) * NPC.Opacity;
                 Color color46 = invincible ? invincibleColor : Color.BlueViolet;
 
                 amount9 = 1f;

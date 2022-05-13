@@ -46,11 +46,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            for (int index = 0; index < 2; ++index)
+            int numProj = 2;
+            float rotation = MathHelper.ToRadians(3);
+            for (int i = 0; i < numProj; i++)
             {
-                float SpeedX = velocity.X + (float)Main.rand.Next(-10, 11) * 0.05f;
-                float SpeedY = velocity.Y + (float)Main.rand.Next(-10, 11) * 0.05f;
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
+                Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                Projectile.NewProjectile(source, position, perturbedSpeed, type, damage, knockback, player.whoAmI);
             }
             return false;
         }

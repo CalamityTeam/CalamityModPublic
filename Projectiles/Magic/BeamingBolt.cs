@@ -36,8 +36,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.01f * (float)Projectile.direction;
-            Projectile.velocity.X *= 0.95f;
-            Projectile.velocity.Y *= 0.985f;
+            Projectile.velocity *= 0.98f;
             for (int dust = 0; dust < 2; dust++)
             {
                 int randomDust = Utils.SelectRandom(Main.rand, new int[]

@@ -1025,75 +1025,38 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             float offsetX = calamityGlobalNPC.newAI[0];
             float offsetY = calamityGlobalNPC.newAI[1];
+            Vector2 destination = Main.player[npc.target].Center + new Vector2(offsetX, offsetY);
 
             // Velocity and acceleration
-            float num700 = 7f +
+            float velocity = 7f +
                 ((phase2 || turboEnrage) ? 4f : 0f) +
-                ((phase3 || turboEnrage) ? 14f : 0f);
+                ((phase3 || turboEnrage) ? 4f : 0f);
 
-            Vector2 vector87 = new Vector2(npc.Center.X, npc.Center.Y);
-            float num702 = Main.player[npc.target].Center.X - vector87.X + offsetX;
-            float num703 = Main.player[npc.target].Center.Y - vector87.Y + offsetY;
-            float num704 = (float)Math.Sqrt(num702 * num702 + num703 * num703);
+            if (enrage)
+                velocity = (phase3 || turboEnrage) ? 25f : 20f;
 
-            // Static movement
-            if (phase3 || turboEnrage)
-            {
-                if (enrage)
-                    num700 = 25f;
+            float acceleration = enrage ? 0.2f : 0.1f + (phase2 ? 0.1f : 0f);
 
-                if (num704 < num700)
-                {
-                    npc.velocity.X = num702;
-                    npc.velocity.Y = num703;
-                }
-                else
-                {
-                    num704 = num700 / num704;
-                    npc.velocity.X = num702 * num704;
-                    npc.velocity.Y = num703 * num704;
-                }
-            }
+            // How far Ceaseless Void is from where it's supposed to be
+            Vector2 distanceFromDestination = destination - npc.Center;
 
-            // Rubber band movement
-            else
-            {
-                if (enrage)
-                    num700 = 11f;
+            // Inverse lerp returns the percentage of progress between A and B
+            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
 
-                float num701 = 0.1f + (phase2 ? 0.1f : 0f);
-                if (enrage)
-                    num701 = 0.2f;
+            // Min velocity
+            float minVelocity = distanceFromDestination.Length();
+            float minVelocityCap = velocity;
+            if (minVelocity > minVelocityCap)
+                minVelocity = minVelocityCap;
 
-                num704 = num700 / num704;
-                num702 *= num704;
-                num703 *= num704;
+            // Max velocity
+            Vector2 maxVelocity = distanceFromDestination / 24f;
+            float maxVelocityCap = minVelocityCap * 3f;
+            if (maxVelocity.Length() > maxVelocityCap)
+                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
 
-                if (npc.velocity.X < num702)
-                {
-                    npc.velocity.X += num701;
-                    if (npc.velocity.X < 0f && num702 > 0f)
-                        npc.velocity.X += num701;
-                }
-                else if (npc.velocity.X > num702)
-                {
-                    npc.velocity.X -= num701;
-                    if (npc.velocity.X > 0f && num702 < 0f)
-                        npc.velocity.X -= num701;
-                }
-                if (npc.velocity.Y < num703)
-                {
-                    npc.velocity.Y += num701;
-                    if (npc.velocity.Y < 0f && num703 > 0f)
-                        npc.velocity.Y += num701;
-                }
-                else if (npc.velocity.Y > num703)
-                {
-                    npc.velocity.Y -= num701;
-                    if (npc.velocity.Y > 0f && num703 < 0f)
-                        npc.velocity.Y -= num701;
-                }
-            }
+            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+            npc.SimpleFlyMovement(desiredVelocity, acceleration);
 
             if (death && calamityGlobalNPC.newAI[2] < 120f)
             {
@@ -1186,8 +1149,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int num720 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num720].timeLeft = enrage ? 480 : 300;
                 }
-
-                npc.netUpdate = true;
             }
 
             return false;

@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.GetNPCDamage();
             NPC.width = 86;
             NPC.height = 88;
-            NPC.defense = 12;
+            NPC.defense = 15;
             NPC.DR_NERD(0.3f);
             NPC.LifeMaxNERB(30000, 36000, 300000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
@@ -150,6 +150,9 @@ namespace CalamityMod.NPCs.Cryogen
             bool phase5 = lifeRatio < (death ? 0.5f : revenge ? 0.45f : 0.3f);
             bool phase6 = lifeRatio < (death ? 0.35f : 0.25f) && revenge;
             bool phase7 = lifeRatio < (death ? 0.25f : 0.15f) && revenge;
+
+            // Reset damage
+            NPC.damage = NPC.defDamage;
 
             if ((int)NPC.ai[0] + 1 > currentPhase)
                 HandlePhaseTransition((int)NPC.ai[0] + 1);
@@ -664,6 +667,9 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else if (NPC.ai[1] == 1f)
                 {
+                    // Avoid cheap bullshit
+                    NPC.damage = 0;
+
                     Vector2 position = new Vector2(teleportLocationX * 16f - (NPC.width / 2), iceShard * 16f - (NPC.height / 2));
                     for (int m = 0; m < 5; m++)
                     {
@@ -720,6 +726,9 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else if (NPC.ai[1] == 2f)
                 {
+                    // Avoid cheap bullshit
+                    NPC.damage = 0;
+
                     NPC.Opacity += 0.2f;
                     if (NPC.Opacity >= 1f)
                     {
@@ -756,8 +765,6 @@ namespace CalamityMod.NPCs.Cryogen
             }
             else if (NPC.ai[0] == 4f)
             {
-                NPC.damage = NPC.defDamage;
-
                 if (phase6)
                 {
                     if (NPC.ai[1] == 60f)
@@ -805,8 +812,6 @@ namespace CalamityMod.NPCs.Cryogen
                         NPC.TargetClosest();
                         if (NPC.ai[3] > 2f)
                         {
-                            NPC.damage = 0;
-                            NPC.defense = 0;
                             NPC.ai[0] = 5f;
                             NPC.ai[1] = 0f;
                             NPC.ai[3] = 0f;
@@ -966,16 +971,20 @@ namespace CalamityMod.NPCs.Cryogen
                 case 1:
                     break;
                 case 2:
+                    NPC.defense = 13;
                     NPC.Calamity().DR = 0.27f;
                     break;
                 case 3:
+                    NPC.defense = 10;
                     NPC.Calamity().DR = 0.21f;
                     break;
                 case 4:
+                    NPC.defense = 6;
                     NPC.Calamity().DR = 0.12f;
                     break;
                 case 5:
                 case 6:
+                    NPC.defense = 0;
                     NPC.Calamity().DR = 0f;
                     break;
             }
