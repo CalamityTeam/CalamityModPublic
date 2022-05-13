@@ -378,7 +378,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 case (int)Phase.Nothing:
 
                     // Smooth movement towards the location Ares Laser Cannon is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     calamityGlobalNPC.newAI[1] += 1f;
                     if (calamityGlobalNPC.newAI[1] >= deathrayPhaseGateValue)
@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge"), NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
-                        CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                        CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                         // Set frames to deathray charge up frames, which begin on frame 12
                         if (calamityGlobalNPC.newAI[2] == 1f)
@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         if (fireNormalLasers)
                         {
                             // Smooth movement towards the location Ares Laser Cannon is meant to be at
-                            CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                            CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                             // Fire Thanatos lasers
                             int numLasers = enraged ? 9 : lastMechAlive ? 3 : 2;

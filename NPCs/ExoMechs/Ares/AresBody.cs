@@ -663,7 +663,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 case (int)Phase.Normal:
 
                     // Smooth movement towards the location Ares is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     if (shouldGetBuffedByBerserkPhase)
                     {

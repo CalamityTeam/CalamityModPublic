@@ -1,6 +1,6 @@
-﻿using CalamityMod.Events;
+﻿using CalamityMod;
+using CalamityMod.Events;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Projectiles.Boss;
@@ -977,7 +977,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.Normal:
 
                     // Smooth movement towards the location Apollo is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     // Default animation for 60 frames and then go to telegraph animation
                     // newAI[3] tells Apollo what animation state it's currently in
@@ -1049,7 +1049,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.RocketBarrage:
 
                     // Smooth movement towards the location Apollo is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     calamityGlobalNPC.newAI[2] += 1f;
                     if (calamityGlobalNPC.newAI[2] % (rocketPhaseDuration / numRockets) == 0f && canFire)
@@ -1086,7 +1086,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     if (!readyToCharge)
                     {
                         // Smooth movement towards the location Apollo is meant to be at
-                        CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                        CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
                     }
                     else
                     {
@@ -1281,7 +1281,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                 case (int)Phase.PhaseTransition:
 
                     // Smooth movement towards the location Apollo is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)

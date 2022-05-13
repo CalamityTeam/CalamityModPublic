@@ -395,23 +395,8 @@ namespace CalamityMod.NPCs.Perforator
             // How far Perf Hive is from where it's supposed to be
             Vector2 distanceFromDestination = destination - NPC.Center;
 
-            // Inverse lerp returns the percentage of progress between A and B
-            float lerpValue = Utils.GetLerpValue(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-            // Min velocity
-            float minVelocity = distanceFromDestination.Length();
-            float minVelocityCap = velocity;
-            if (minVelocity > minVelocityCap)
-                minVelocity = minVelocityCap;
-
-            // Max velocity
-            Vector2 maxVelocity = distanceFromDestination / 24f;
-            float maxVelocityCap = minVelocityCap * 3f;
-            if (maxVelocity.Length() > maxVelocityCap)
-                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+            // Set the velocity
+            CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, velocity, acceleration, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

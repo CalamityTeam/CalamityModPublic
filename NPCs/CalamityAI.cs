@@ -778,25 +778,7 @@ namespace CalamityMod.NPCs
 
             // Movement
             if (npc.ai[0] != 4f)
-            {
-                // Inverse lerp returns the percentage of progress between A and B
-                float lerpValue = Utils.GetLerpValue(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-                // Min velocity
-                float minVelocity = distanceFromDestination.Length();
-                float minVelocityCap = baseVelocity;
-                if (minVelocity > minVelocityCap)
-                    minVelocity = minVelocityCap;
-
-                // Max velocity
-                Vector2 maxVelocity = distanceFromDestination / 24f;
-                float maxVelocityCap = minVelocityCap * 3f;
-                if (maxVelocity.Length() > maxVelocityCap)
-                    maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-            }
+                CalamityUtils.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity, baseAcceleration, true);
 
             // Rotation and direction
             if (npc.ai[0] <= 2f || npc.ai[0] == 5f)
@@ -1536,25 +1518,7 @@ namespace CalamityMod.NPCs
 
             // Movement
             if (npc.ai[1] == 0f || npc.ai[1] == 1f || npc.ai[1] == 4f || calamityGlobalNPC.newAI[2] > 0f)
-            {
-                // Inverse lerp returns the percentage of progress between A and B
-                float lerpValue = Utils.GetLerpValue(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
-
-                // Min velocity
-                float minVelocity = distanceFromDestination.Length();
-                float minVelocityCap = baseVelocity;
-                if (minVelocity > minVelocityCap)
-                    minVelocity = minVelocityCap;
-
-                // Max velocity
-                Vector2 maxVelocity = distanceFromDestination / 24f;
-                float maxVelocityCap = minVelocityCap * 3f;
-                if (maxVelocity.Length() > maxVelocityCap)
-                    maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                npc.SimpleFlyMovement(desiredVelocity, baseAcceleration);
-            }
+                CalamityUtils.SmoothMovement(npc, movementDistanceGateValue, distanceFromDestination, baseVelocity, baseAcceleration, true);
 
             // Bullet hell phase
             if (calamityGlobalNPC.newAI[2] > 0f)
@@ -4360,23 +4324,8 @@ namespace CalamityMod.NPCs
                 // How far Ceaseless Void is from where it's supposed to be
                 Vector2 distanceFromDestination = destination - npc.Center;
 
-                // Inverse lerp returns the percentage of progress between A and B
-                float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                // Min velocity
-                float minVelocity = distanceFromDestination.Length();
-                float minVelocityCap = velocity;
-                if (minVelocity > minVelocityCap)
-                    minVelocity = minVelocityCap;
-
-                // Max velocity
-                Vector2 maxVelocity = distanceFromDestination / 24f;
-                float maxVelocityCap = minVelocityCap * 3f;
-                if (maxVelocity.Length() > maxVelocityCap)
-                    maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                npc.SimpleFlyMovement(desiredVelocity, acceleration);
+                // Movement
+                CalamityUtils.SmoothMovement(npc, 0f, distanceFromDestination, velocity, acceleration, true);
             }
 
             // Spawn more Dark Energies as the fight progresses

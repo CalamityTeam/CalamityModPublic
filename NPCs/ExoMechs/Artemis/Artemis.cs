@@ -679,7 +679,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         chargeVelocityNormalized = default;
 
                         // Smooth movement towards the location Artemis is meant to be at
-                        CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                        CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
                     }
                     else
                     {
@@ -837,7 +837,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                 case (int)Phase.LaserShotgun:
 
                     // Smooth movement towards the location Artemis is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     // Fire lasers
                     int numSpreads = lastMechAlive ? 3 : 2;
@@ -1034,7 +1034,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     else
                     {
                         // Smooth movement towards the location Artemis is meant to be at
-                        CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                        CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
                     }
 
                     // Reset phase and variables
@@ -1085,7 +1085,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                 case (int)Phase.PhaseTransition:
 
                     // Smooth movement towards the location Artemis is meant to be at
-                    CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+                    CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
 
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)

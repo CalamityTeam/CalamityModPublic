@@ -1398,23 +1398,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // Movement
                         if (!canDespawn)
                         {
-                            // Inverse lerp returns the percentage of progress between A and B
-                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                            // Min velocity
-                            float minVelocity = distanceFromDestination.Length();
-                            float minVelocityCap = velocity;
-                            if (minVelocity > minVelocityCap)
-                                minVelocity = minVelocityCap;
-
-                            // Max velocity
-                            Vector2 maxVelocity = distanceFromDestination / 24f;
-                            float maxVelocityCap = minVelocityCap * 3f;
-                            if (maxVelocity.Length() > maxVelocityCap)
-                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                            // Set the velocity
+                            CalamityUtils.SmoothMovement(NPC, 0f, distanceFromDestination, velocity, acceleration, true);
                         }
 
                         NPC.ai[2] += 1f;
@@ -1603,23 +1588,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // Movement
                         if (!canDespawn)
                         {
-                            // Inverse lerp returns the percentage of progress between A and B
-                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                            // Min velocity
-                            float minVelocity = distanceFromDestination.Length();
-                            float minVelocityCap = velocity;
-                            if (minVelocity > minVelocityCap)
-                                minVelocity = minVelocityCap;
-
-                            // Max velocity
-                            Vector2 maxVelocity = distanceFromDestination / 24f;
-                            float maxVelocityCap = minVelocityCap * 3f;
-                            if (maxVelocity.Length() > maxVelocityCap)
-                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                            // Set the velocity
+                            CalamityUtils.SmoothMovement(NPC, 0f, distanceFromDestination, velocity, acceleration, true);
                         }
 
                         Vector2 handPosition = NPC.Center + new Vector2(NPC.spriteDirection * -18f, 2f);
@@ -1702,23 +1672,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // Movement
                         if (!canDespawn)
                         {
-                            // Inverse lerp returns the percentage of progress between A and B
-                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                            // Min velocity
-                            float minVelocity = distanceFromDestination.Length();
-                            float minVelocityCap = velocity;
-                            if (minVelocity > minVelocityCap)
-                                minVelocity = minVelocityCap;
-
-                            // Max velocity
-                            Vector2 maxVelocity = distanceFromDestination / 24f;
-                            float maxVelocityCap = minVelocityCap * 3f;
-                            if (maxVelocity.Length() > maxVelocityCap)
-                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                            // Set the velocity
+                            CalamityUtils.SmoothMovement(NPC, 0f, distanceFromDestination, velocity, acceleration, true);
                         }
 
                         int shootRate = wormAlive ? 280 : 140;
@@ -1973,23 +1928,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // Movement
                         if (!canDespawn)
                         {
-                            // Inverse lerp returns the percentage of progress between A and B
-                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                            // Min velocity
-                            float minVelocity = distanceFromDestination.Length();
-                            float minVelocityCap = velocity;
-                            if (minVelocity > minVelocityCap)
-                                minVelocity = minVelocityCap;
-
-                            // Max velocity
-                            Vector2 maxVelocity = distanceFromDestination / 24f;
-                            float maxVelocityCap = minVelocityCap * 3f;
-                            if (maxVelocity.Length() > maxVelocityCap)
-                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                            // Set the velocity
+                            CalamityUtils.SmoothMovement(NPC, 0f, distanceFromDestination, velocity, acceleration, true);
                         }
 
                         NPC.ai[2] += 1f;
@@ -2173,23 +2113,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // Movement
                         if (!canDespawn)
                         {
-                            // Inverse lerp returns the percentage of progress between A and B
-                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                            // Min velocity
-                            float minVelocity = distanceFromDestination.Length();
-                            float minVelocityCap = velocity;
-                            if (minVelocity > minVelocityCap)
-                                minVelocity = minVelocityCap;
-
-                            // Max velocity
-                            Vector2 maxVelocity = distanceFromDestination / 24f;
-                            float maxVelocityCap = minVelocityCap * 3f;
-                            if (maxVelocity.Length() > maxVelocityCap)
-                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                            // Set the velocity
+                            CalamityUtils.SmoothMovement(NPC, 0f, distanceFromDestination, velocity, acceleration, true);
                         }
 
                         Vector2 handPosition = NPC.Center + new Vector2(NPC.spriteDirection * -18f, 2f);
@@ -2273,23 +2198,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // Movement
                         if (!canDespawn)
                         {
-                            // Inverse lerp returns the percentage of progress between A and B
-                            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-                            // Min velocity
-                            float minVelocity = distanceFromDestination.Length();
-                            float minVelocityCap = velocity;
-                            if (minVelocity > minVelocityCap)
-                                minVelocity = minVelocityCap;
-
-                            // Max velocity
-                            Vector2 maxVelocity = distanceFromDestination / 24f;
-                            float maxVelocityCap = minVelocityCap * 3f;
-                            if (maxVelocity.Length() > maxVelocityCap)
-                                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-                            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-                            NPC.SimpleFlyMovement(desiredVelocity, acceleration);
+                            // Set the velocity
+                            CalamityUtils.SmoothMovement(NPC, 0f, distanceFromDestination, velocity, acceleration, true);
                         }
 
                         int shootRate = wormAlive ? 200 : 100;

@@ -287,6 +287,39 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Smoother movement for NPCs
+        /// </summary>
+        /// <param name="npc">The NPC getting the movement change.</param>
+        /// <param name="movementDistanceGateValue">The distance where the NPC should stop moving once it's close enough to its destination.</param>
+        /// <param name="distanceFromDestination">How far the NPC is from its destination.</param>
+        /// <param name="baseVelocity">How quickly the NPC moves towards its destination.</param>
+        /// <param name="useSimpleFlyMovement">Whether the NPC should use SimpleFlyMovement to make the movement more affected by acceleration.</param>
+        public static void SmoothMovement(NPC npc, float movementDistanceGateValue, Vector2 distanceFromDestination, float baseVelocity, float acceleration, bool useSimpleFlyMovement)
+        {
+            // Inverse lerp returns the percentage of progress between A and B
+            float lerpValue = Utils.GetLerpValue(movementDistanceGateValue, 2400f, distanceFromDestination.Length(), true);
+
+            // Min velocity
+            float minVelocity = distanceFromDestination.Length();
+            float minVelocityCap = baseVelocity;
+            if (minVelocity > minVelocityCap)
+                minVelocity = minVelocityCap;
+
+            // Max velocity
+            Vector2 maxVelocity = distanceFromDestination / 24f;
+            float maxVelocityCap = minVelocityCap * 3f;
+            if (maxVelocity.Length() > maxVelocityCap)
+                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
+
+            // Set the velocity
+            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
+            if (useSimpleFlyMovement)
+                npc.SimpleFlyMovement(desiredVelocity, acceleration);
+            else
+                npc.velocity = desiredVelocity;
+        }
+
+        /// <summary>
         /// Check if an NPC is organic
         /// </summary>
         /// <param name="target">The NPC attacked.</param>

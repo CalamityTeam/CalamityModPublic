@@ -1040,23 +1040,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // How far Ceaseless Void is from where it's supposed to be
             Vector2 distanceFromDestination = destination - npc.Center;
 
-            // Inverse lerp returns the percentage of progress between A and B
-            float lerpValue = Utils.GetLerpValue(0f, 2400f, distanceFromDestination.Length(), true);
-
-            // Min velocity
-            float minVelocity = distanceFromDestination.Length();
-            float minVelocityCap = velocity;
-            if (minVelocity > minVelocityCap)
-                minVelocity = minVelocityCap;
-
-            // Max velocity
-            Vector2 maxVelocity = distanceFromDestination / 24f;
-            float maxVelocityCap = minVelocityCap * 3f;
-            if (maxVelocity.Length() > maxVelocityCap)
-                maxVelocity = distanceFromDestination.SafeNormalize(Vector2.Zero) * maxVelocityCap;
-
-            Vector2 desiredVelocity = Vector2.Lerp(distanceFromDestination.SafeNormalize(Vector2.Zero) * minVelocity, maxVelocity, lerpValue);
-            npc.SimpleFlyMovement(desiredVelocity, acceleration);
+            CalamityUtils.SmoothMovement(npc, 0f, distanceFromDestination, velocity, acceleration, true);
 
             if (death && calamityGlobalNPC.newAI[2] < 120f)
             {

@@ -459,7 +459,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             EnergyDrawer.Update();
 
             // Smooth movement towards the location Ares Plasma Flamethrower is meant to be at
-            CalamityGlobalNPC.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity);
+            CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;
