@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Balancing;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -118,7 +118,7 @@ namespace CalamityMod.ILEditing
             }
 
             // Replace the hardcoded 6.51 with a balanceable value in CalamityPlayer.
-            cursor.Prev.Operand = CalamityPlayer.BalloonJumpSpeedBoost;
+            cursor.Prev.Operand = BalancingConstants.BalloonJumpSpeedBoost;
             // Load the player's current jumpSpeed onto the stack and add the boost to it.
             cursor.Emit(OpCodes.Ldsfld, typeof(Player).GetField("jumpSpeed"));
             cursor.Emit(OpCodes.Add);

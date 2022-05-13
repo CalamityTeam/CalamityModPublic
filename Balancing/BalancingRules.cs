@@ -1,8 +1,15 @@
-using System.Linq;
+﻿using System.Linq;
 using Terraria;
 
 namespace CalamityMod.Balancing
 {
+    public interface IBalancingRule
+    {
+        bool AppliesTo(NPC npc, NPCHitContext hitContext);
+
+        void ApplyBalancingChange(NPC npc, ref int damage);
+    }
+
     public class ClassResistBalancingRule : IBalancingRule
     {
         public float DamageMultiplier;

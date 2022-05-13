@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+﻿using CalamityMod.Balancing;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
@@ -359,10 +359,10 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
             #endregion
 
-            // Black Belt and Master Ninja Gear have guaranteed dodges on a 90 second cooldown.
+            // Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
             #region Dodging Belt Tooltips
             string beltDodgeLine = "Grants the ability to dodge attacks\n" +
-                $"The dodge has a {CalamityPlayer.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
+                $"The dodge has a {BalancingConstants.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
             if (item.type == ItemID.BlackBelt)
                 EditTooltipByNum(0, (line) => line.Text = beltDodgeLine);
             if (item.type == ItemID.MasterNinjaGear)

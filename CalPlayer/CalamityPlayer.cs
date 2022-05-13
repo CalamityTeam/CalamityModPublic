@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs;
+﻿using CalamityMod.Balancing;
+using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Pets;
@@ -142,24 +143,6 @@ namespace CalamityMod.CalPlayer
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
         public bool LungingDown = false;
-        #endregion
-
-        #region IL Editing Constants
-        // These values are referenced by IL edits but don't fit into any other category.
-        public const float BalloonJumpSpeedBoost = 0.75f;
-
-        // Shield slam stats
-        public const int ShieldOfCthulhuIFrames = 6;
-        public const int ShieldOfCthulhuBonkNoCollideFrames = 6;
-        public const int SolarFlareIFrames = 12;
-        public const float SolarFlareBaseDamage = 400f;
-
-        // Dodge stats
-        public const int BeltDodgeCooldown = 5400;
-        public const int MirrorDodgeCooldown = 5400;
-        public const int DaedalusReflectCooldown = 5400;
-        public const int ArcanumReflectCooldown = 5400;
-        public const int EvolutionReflectCooldown = 7200;
         #endregion
 
         #region Speedrun Timer
@@ -497,7 +480,6 @@ namespace CalamityMod.CalPlayer
         private const float maxWarBannerBonus = 0.2f;
         private const float maxWarBannerDistance = 480f;
         public bool cryogenSoul = false;
-        public bool HasWingsThatCanHover = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
         public bool eTalisman = false;
@@ -1695,7 +1677,6 @@ namespace CalamityMod.CalPlayer
             nanotech = false;
             artemisEmblem = false;
             cryogenSoul = false;
-            HasWingsThatCanHover = false;
             yInsignia = false;
             eGauntlet = false;
             eTalisman = false;
@@ -4013,7 +3994,7 @@ namespace CalamityMod.CalPlayer
         {
             if (Player.whoAmI == Main.myPlayer && abyssalMirror && !eclipseMirror)
             {
-                Player.AddCooldown(GlobalDodge.ID, MirrorDodgeCooldown, true, "abyssmirror");
+                Player.AddCooldown(GlobalDodge.ID, BalancingConstants.MirrorDodgeCooldown, true, "abyssmirror");
 
                 // TODO -- why is this here?
                 Player.noKnockback = true;
@@ -4044,7 +4025,7 @@ namespace CalamityMod.CalPlayer
         {
             if (Player.whoAmI == Main.myPlayer && eclipseMirror)
             {
-                Player.AddCooldown(GlobalDodge.ID, MirrorDodgeCooldown, true, "eclipsemirror");
+                Player.AddCooldown(GlobalDodge.ID, BalancingConstants.MirrorDodgeCooldown, true, "eclipsemirror");
 
                 // TODO -- why is this here?
                 Player.noKnockback = true;
@@ -5311,7 +5292,7 @@ namespace CalamityMod.CalPlayer
                         projRefRareLifeRegenCounter = 300;
                         projTypeJustHitBy = proj.type;
 
-                        Player.AddCooldown(GlobalDodge.ID, EvolutionReflectCooldown);
+                        Player.AddCooldown(GlobalDodge.ID, BalancingConstants.EvolutionReflectCooldown);
                         return;
                     }
                 }
@@ -5675,7 +5656,7 @@ namespace CalamityMod.CalPlayer
 
                         damage /= 2;
 
-                        Player.AddCooldown(GlobalDodge.ID, DaedalusReflectCooldown);
+                        Player.AddCooldown(GlobalDodge.ID, BalancingConstants.DaedalusReflectCooldown);
                         // No return because the projectile hit isn't canceled -- it only does half damage.
                     }
                 }

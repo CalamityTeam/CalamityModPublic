@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
@@ -39,7 +38,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().HasWingsThatCanHover = true;
             if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0)
             {
                 if (player.controlDown && !player.merman)
