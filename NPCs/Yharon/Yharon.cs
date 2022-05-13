@@ -865,6 +865,9 @@ namespace CalamityMod.NPCs.Yharon
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
                                 NPC.life -= damageAmt;
+                                if (NPC.life < 1)
+                                    NPC.life = 1;
+
                                 NPC.HealEffect(-damageAmt, true);
                                 NPC.netUpdate = true;
                             }
@@ -1205,6 +1208,9 @@ namespace CalamityMod.NPCs.Yharon
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
                                 NPC.life -= damageAmt;
+                                if (NPC.life < 1)
+                                    NPC.life = 1;
+
                                 NPC.HealEffect(-damageAmt, true);
                                 NPC.netUpdate = true;
                             }
@@ -1883,6 +1889,9 @@ namespace CalamityMod.NPCs.Yharon
                                 // Yharon takes a small amount of damage in order to summon the bullet hell. This is to compensate for him being invulnerable during it.
                                 int damageAmt = (int)(NPC.lifeMax * (bulletHellVortexDuration / calamityGlobalNPC.KillTime));
                                 NPC.life -= damageAmt;
+                                if (NPC.life < 1)
+                                    NPC.life = 1;
+
                                 NPC.HealEffect(-damageAmt, true);
                                 NPC.netUpdate = true;
                             }
