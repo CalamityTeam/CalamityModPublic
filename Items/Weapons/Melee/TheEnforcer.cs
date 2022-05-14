@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
@@ -138,7 +138,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
