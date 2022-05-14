@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.direction = 1;
                 }
                 Projectile.ai[0]++;
-                int timerLimit = 120;
+                int timerLimit = 180;
                 if (Projectile.ai[0] > timerLimit && Projectile.alpha < 50)
                 {
                     if (Main.myPlayer == Projectile.owner)

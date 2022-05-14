@@ -2656,7 +2656,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Projectile proj = Main.projectile[projIndex];
                     float start = 360f / angelAmt;
-                    Projectile.NewProjectile(source, new Vector2((int)(Player.Center.X + (Math.Sin(projIndex * start) * 300)), (int)(Player.Center.Y + (Math.Cos(projIndex * start) * 300))), Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), proj.damage / 4, proj.knockBack / 4f, Player.whoAmI, Main.rand.Next(120), projIndex * start);
+                    Projectile.NewProjectile(source, new Vector2((int)(Player.Center.X + (Math.Sin(projIndex * start) * 300)), (int)(Player.Center.Y + (Math.Cos(projIndex * start) * 300))), Vector2.Zero, ModContent.ProjectileType<AngelicAllianceArchangel>(), proj.damage / 10, proj.knockBack / 10f, Player.whoAmI, Main.rand.Next(180), projIndex * start);
                     Player.statLife += 2;
                     Player.HealEffect(2);
                 }
@@ -2939,8 +2939,13 @@ namespace CalamityMod.CalPlayer
             }
 
             // Trigger for pressing the God Slayer dash key
-            if (CalamityKeybinds.GodSlayerDashHotKey.JustPressed && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
-                godSlayerDashHotKeyPressed = true;
+            if (CalamityKeybinds.GodSlayerDashHotKey.JustPressed)
+			{
+				if (godSlayer && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
+				{
+					godSlayerDashHotKeyPressed = true;
+				}
+			}
 
             // Trigger for pressing the Rage hotkey.
             if (CalamityKeybinds.RageHotKey.JustPressed)
