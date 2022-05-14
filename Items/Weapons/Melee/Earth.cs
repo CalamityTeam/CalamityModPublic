@@ -90,7 +90,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+
+                int projDamage = (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), projDamage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
             if (target.Calamity().miscDefenseLoss < target.defense)
@@ -149,7 +151,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
             if (player.moonLeech)

@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Weapons.Melee
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f) * 0.3), knockback, Main.myPlayer);
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f) * 0.3), knockback, Main.myPlayer);
             }
         }
 
@@ -68,8 +68,8 @@ namespace CalamityMod.Items.Weapons.Melee
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f) * 0.3), Item.knockBack, Main.myPlayer);
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f) * 0.3), Item.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f) * 0.3), Item.knockBack, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<HolyColliderHolyFire>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f) * 0.3), Item.knockBack, Main.myPlayer);
             }
         }
     }

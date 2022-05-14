@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 for (int i = 0; i < bloodAmt; i++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    Projectile.NewProjectile(source, targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Melee).Base - 1f)), kBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, targetPos, velocity, ModContent.ProjectileType<Blood>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), kBack, player.whoAmI, 0f, 0f);
                 }
             }
         }

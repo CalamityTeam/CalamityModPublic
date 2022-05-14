@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
-            Projectile.penetrate = 10;
+            Projectile.penetrate = 5;
             Projectile.extraUpdates = 200;
             Projectile.timeLeft = 600;
             Projectile.usesLocalNPCImmunity = true;

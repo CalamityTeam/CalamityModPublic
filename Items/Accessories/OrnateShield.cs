@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.Items.Accessories
                 player.endurance += 0.08f;
                 player.statLifeMax2 += 20;
             }
-            player.Calamity().dashMod = 6;
+            player.Calamity().DashID = OrnateShieldDash.ID;
             player.dash = 0;
         }
 

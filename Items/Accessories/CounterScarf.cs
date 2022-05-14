@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
-            modPlayer.dashMod = 1;
+            modPlayer.DashID = CounterScarfDash.ID;
             player.dash = 0;
         }
     }

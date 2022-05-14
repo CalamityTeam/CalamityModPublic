@@ -220,6 +220,36 @@ namespace CalamityMod.ILEditing
             cursor.Remove();
             cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
         }
+
+        private static void FixModdedDashesResettingDashCountdown(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("dashDelay")))
+            {
+                LogFailure("Modded Dashes Resetting Dash Countdown Fix", "Could not locate the dash delay storage.");
+                return;
+            }
+
+            int afterDashResetsIndex = cursor.Index;
+
+            // Go back to the start and remove the original check, replacing it with one that accepts modded dashes.
+            cursor.Goto(0);
+            cursor.RemoveRange(afterDashResetsIndex);
+
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Action<Player>>(p =>
+            {
+                if (p.dashDelay == 0)
+                    p.dash = p.dashType;
+
+                if (p.dash == 0 && !p.Calamity().HasCustomDash)
+                {
+                    p.dashTime = 0;
+                    p.dashDelay = 0;
+                }
+            });
+        }
+
         #endregion Vanilla Dash Shield Improvements
 
         #region Custom Gate Door Logic

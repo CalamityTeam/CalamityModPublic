@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 
 namespace CalamityMod.Cooldowns
 {
@@ -64,7 +65,7 @@ namespace CalamityMod.Cooldowns
         public static void RegisterModCooldowns(Mod mod)
         {
             Type baseHandlerType = typeof(CooldownHandler);
-            foreach (Type type in mod.Code.GetTypes())
+            foreach (Type type in AssemblyManager.GetLoadableTypes(mod.Code))
             {
                 if (type.IsSubclassOf(baseHandlerType) && !type.IsAbstract && type != baseHandlerType)
                 {

@@ -52,19 +52,19 @@ namespace CalamityMod.Items.Weapons.Magic
             offsetAngle += MathHelper.PiOver4 + Main.rand.NextFloat(0f, 1.3f);
             float shootSpeed = 1f;
 
-            if (player.itemAnimation == Item.useAnimation - 1f)
+            if (player.itemAnimation == Item.useAnimation)
                 type = ModContent.ProjectileType<SolarElementalBeam>();
-            else if (player.itemAnimation == Item.useAnimation - Item.useTime - 1)
+            else if (player.itemAnimation == Item.useAnimation - Item.useTime)
             {
                 type = ModContent.ProjectileType<NebulaElementalBeam>();
                 offsetAngle -= NebulaElementalBeam.UniversalAngularSpeed * 0.5f;
             }
-            else if (player.itemAnimation == Item.useAnimation - Item.useTime * 2 - 1)
+            else if (player.itemAnimation == Item.useAnimation - Item.useTime * 2)
             {
                 type = ModContent.ProjectileType<VortexElementalBeam>();
                 shootSpeed = 2f;
             }
-            else if (player.itemAnimation == Item.useAnimation - Item.useTime * 3 - 1)
+            else if (player.itemAnimation == Item.useAnimation - Item.useTime * 3)
                 type = ModContent.ProjectileType<StardustElementalBeam>();
             else
                 return false;

@@ -1029,7 +1029,7 @@ namespace CalamityMod.Items
             else if (set == "SolarFlare")
             {
 				if (player.solarShields > 0)
-					modPlayer.dashMod = 0;
+					modPlayer.DashID = string.Empty;
             }
         }
         #endregion
@@ -1432,7 +1432,7 @@ namespace CalamityMod.Items
                 modPlayer.handWarmer = true;
 
             if (item.type == ItemID.EoCShield || item.type == ItemID.Tabi || item.type == ItemID.MasterNinjaGear)
-                modPlayer.dashMod = 0;
+                modPlayer.DashID = string.Empty;
 
             // Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
             if (item.prefix == PrefixID.Hard)

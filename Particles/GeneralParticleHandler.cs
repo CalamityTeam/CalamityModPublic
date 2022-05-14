@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 
 namespace CalamityMod.Particles
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Particles
         public static void LoadModParticleInstances(Mod mod)
         {
             Type baseParticleType = typeof(Particle);
-            foreach (Type type in mod.Code.GetTypes())
+            foreach (Type type in AssemblyManager.GetLoadableTypes(mod.Code))
             {
                 if (type.IsSubclassOf(baseParticleType) && !type.IsAbstract && type != baseParticleType)
                 {

@@ -15,8 +15,8 @@ namespace CalamityMod
     #region Fraction Struct (thanks Yorai)
     public struct Fraction
     {
-        internal readonly int numerator = 1;
-        internal readonly int denominator = 1;
+        internal readonly int numerator;
+        internal readonly int denominator;
 
         public Fraction(int n, int d)
         {

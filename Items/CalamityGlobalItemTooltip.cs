@@ -1036,14 +1036,14 @@ namespace CalamityMod.Items
                 Vector2 backPosition = basePosition - new Vector2(1f, 0.1f) * backInterpolant * 10f;
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
 
                 // Draw the back text as an ominous pulse.
                 for (int i = 0; i < 2; i++)
                     ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, line.Text, backPosition, backColor, line.Rotation, line.Origin, backScale, line.MaxWidth, line.Spread);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.UIScaleMatrix);
 
                 // Draw the front text as usual.
                 ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, line.Font, line.Text, basePosition, rarityColor, line.Rotation, line.Origin, line.BaseScale, line.MaxWidth, line.Spread);

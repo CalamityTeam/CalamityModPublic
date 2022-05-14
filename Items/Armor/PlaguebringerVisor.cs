@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
 {
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Armor
             "+3 max minions";
 
             player.Calamity().plaguebringerPatronSet = true;
-            player.Calamity().dashMod = 8;
+            player.Calamity().DashID = PlaguebringerArmorDash.ID;
             player.dash = 0;
             player.maxMinions += 3;
             if (player.whoAmI == Main.myPlayer)

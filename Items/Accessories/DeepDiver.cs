@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.deepDiver = true;
-                modPlayer.dashMod = 5;
+                modPlayer.DashID = DeepDiverDash.ID;
                 player.dash = 0;
             }
         }

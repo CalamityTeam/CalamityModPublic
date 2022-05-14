@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
@@ -596,7 +597,7 @@ namespace CalamityMod.CalPlayer
                     Player.mount.Dismount(Player);
             }
 
-            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (dashMod == 9 && Player.dashDelay < 0))
+            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodSlayerDash.ID && Player.dashDelay < 0))
             {
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen = 0;
