@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             player.extraFall += 35;
             player.blackBelt = true;
             player.dash = 1;
-            player.Calamity().dashMod = 0;
+            player.Calamity().DashID = string.Empty;
             player.spikedBoots = 2;
         }
 

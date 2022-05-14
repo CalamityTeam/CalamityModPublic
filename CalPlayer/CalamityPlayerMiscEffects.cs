@@ -1155,7 +1155,7 @@ namespace CalamityMod.CalPlayer
                 adamantiteSetDefenseBoostInterpolant = 0f;
 
             // God Slayer Armor dash debuff immunity
-            if (dashMod == 9 && Player.dashDelay < 0)
+            if (DashID == GodSlayerDash.ID && Player.dashDelay < 0)
             {
                 foreach (int debuff in CalamityLists.debuffList)
                     Player.buffImmune[debuff] = true;

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 0.6f;
             player.noFallDmg = true;
             player.blackBelt = true;
-            modPlayer.dashMod = 7;
+            modPlayer.DashID = StatisBeltOfCursesDash.ID;
             player.dash = 0;
             player.spikedBoots = 2;
         }

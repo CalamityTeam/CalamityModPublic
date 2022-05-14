@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -50,7 +51,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.dashMod = 3;
+            modPlayer.DashID = ElysianAegisDash.ID;
             player.dash = 0;
             modPlayer.elysianAegis = true;
             player.buffImmune[BuffID.OnFire] = true;

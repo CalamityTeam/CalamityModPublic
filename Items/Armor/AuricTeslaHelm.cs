@@ -5,6 +5,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
 {
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Armor
             player.aggro += 1200;
 
             if (modPlayer.godSlayerDashHotKeyPressed)
-                modPlayer.dashMod = 9;
+                modPlayer.DashID = GodslayerArmorDash.ID;
         }
 
         public override void UpdateEquip(Player player)

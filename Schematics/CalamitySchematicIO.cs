@@ -28,17 +28,6 @@ namespace CalamityMod.Schematics
         public bool keepTile;
         public bool keepWall;
 
-        public SchematicMetaTile()
-        {
-            TileType = 0;
-            WallType = 0;
-            LiquidAmount = 0;
-            LiquidType = 0;
-            miscState = new TileWallWireStateData();
-            keepTile = false;
-            keepWall = false;
-        }
-
         public SchematicMetaTile(Tile t)
         {
             TileType = t.TileType;

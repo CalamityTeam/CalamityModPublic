@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Effects;
@@ -205,6 +206,7 @@ namespace CalamityMod
             Attunement.Load();
             BalancingChangesManager.Load();
             BaseIdleHoldoutProjectile.LoadAll();
+            PlayerDashManager.Load();
         }
 
         private void LoadClient()
@@ -329,6 +331,7 @@ namespace CalamityMod
             BossHealthBarManager.Unload();
             DraedonStructures.Unload();
             CooldownRegistry.Unload();
+            PlayerDashManager.Unload();
 
             TileFraming.Unload();
 
