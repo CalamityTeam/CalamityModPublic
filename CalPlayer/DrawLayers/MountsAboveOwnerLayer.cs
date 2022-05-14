@@ -17,6 +17,9 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
+            if (drawInfo.drawPlayer.dead || !drawInfo.drawPlayer.active)
+                return;
+
             drawInfo.drawPlayer.mount.Draw(drawInfo.DrawDataCache, 3, drawInfo.drawPlayer, drawInfo.Center - drawInfo.drawPlayer.Size * 0.5f, drawInfo.colorMount, drawInfo.playerEffect, drawInfo.shadow);
         }
     }
