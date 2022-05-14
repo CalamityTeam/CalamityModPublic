@@ -59,7 +59,7 @@ namespace CalamityMod.CalPlayer.Dashes
             runSpeedDecelerationFactor = 0.8f;
 
             // Cooldown for God Slayer Armor dash.
-            player.AddCooldown(ID, CalamityUtils.SecondsToFrames(35));
+            player.AddCooldown(Cooldowns.GodSlayerDash.ID, CalamityUtils.SecondsToFrames(35));
             player.Calamity().godSlayerDashHotKeyPressed = false;
         }
 
