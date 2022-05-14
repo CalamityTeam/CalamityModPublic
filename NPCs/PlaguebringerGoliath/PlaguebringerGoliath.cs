@@ -994,7 +994,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             Vector2 acceleration = new Vector2(0.1f, 0.15f);
             Vector2 velocity = new Vector2(8f, 5f);
-            float deceleration = 0.98f;
+            float deceleration = 0.9f;
 
             acceleration *= 0.1f * enrageScale + 1f;
             velocity *= 1f - enrageScale * 0.1f;

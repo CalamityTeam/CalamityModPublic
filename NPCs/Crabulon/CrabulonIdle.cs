@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.Crabulon
     {
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private int shotSpacing = 1000;
+        private bool stomping = false;
 
         public override void SetStaticDefaults()
         {
@@ -85,6 +86,7 @@ namespace CalamityMod.NPCs.Crabulon
             writer.Write(biomeEnrageTimer);
             writer.Write(NPC.localAI[0]);
             writer.Write(shotSpacing);
+            writer.Write(stomping);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -92,6 +94,7 @@ namespace CalamityMod.NPCs.Crabulon
             biomeEnrageTimer = reader.ReadInt32();
             NPC.localAI[0] = reader.ReadSingle();
             shotSpacing = reader.ReadInt32();
+            stomping = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -684,10 +687,57 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.15f;
-            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
-            int frame = (int)NPC.frameCounter;
-            NPC.frame.Y = frame * frameHeight;
+            if (NPC.ai[0] > 2f)
+            {
+                if (NPC.velocity.Y == 0f && NPC.ai[1] >= 0f && NPC.ai[0] == 3f) // Idle just before jump
+                {
+                    if (stomping)
+                        stomping = false;
+
+                    NPC.frameCounter += 0.15;
+                    NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+                    int frame = (int)NPC.frameCounter;
+                    NPC.frame.Y = frame * frameHeight;
+                }
+                else if (NPC.velocity.Y <= 0f || NPC.ai[1] < 0f) // Prepare to jump and then jump
+                {
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 12D)
+                    {
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
+                    }
+                    if (NPC.frame.Y >= frameHeight)
+                        NPC.frame.Y = frameHeight;
+                }
+                else // Stomping
+                {
+                    if (!stomping)
+                    {
+                        stomping = true;
+                        NPC.frameCounter = 0D;
+                    }
+
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 8D)
+                    {
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
+                    }
+                    if (NPC.frame.Y >= frameHeight * 5)
+                        NPC.frame.Y = frameHeight * 5;
+                }
+            }
+            else
+            {
+                if (stomping)
+                    stomping = false;
+
+                NPC.frameCounter += 0.15f;
+                NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+                int frame = (int)NPC.frameCounter;
+                NPC.frame.Y = frame * frameHeight;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -708,17 +758,29 @@ namespace CalamityMod.NPCs.Crabulon
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
+            // Jumping
             if (NPC.ai[0] > 2f)
             {
-                vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
-                vector43 = NPC.Center - screenPos;
-                vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
-                vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
+                if (NPC.velocity.Y == 0f && NPC.ai[1] >= 0f && NPC.ai[0] == 3f)
+                {
+                    spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-                spriteBatch.Draw(textureAttack, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(glow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                }
+                else
+                {
+                    vector11 = new Vector2(textureAttack.Width / 2, textureAttack.Height / 2);
+                    vector43 = NPC.Center - screenPos;
+                    vector43 -= new Vector2(textureAttack.Width, textureAttack.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
+                    vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
 
-                spriteBatch.Draw(textureAttackGlow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                    spriteBatch.Draw(textureAttack, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+
+                    spriteBatch.Draw(textureAttackGlow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
+                }
             }
+
+            // Walking
             else if (NPC.ai[0] == 2f)
             {
                 vector11 = new Vector2(texture.Width / 2, texture.Height / 2);
@@ -730,6 +792,8 @@ namespace CalamityMod.NPCs.Crabulon
 
                 spriteBatch.Draw(textureGlow, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
             }
+
+            // Standing still
             else
             {
                 spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

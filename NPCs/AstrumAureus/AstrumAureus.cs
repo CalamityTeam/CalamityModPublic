@@ -3,7 +3,6 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
@@ -103,102 +102,88 @@ namespace CalamityMod.NPCs.AstrumAureus
                 if (NPC.velocity.Y == 0f && NPC.ai[1] >= 0f && NPC.ai[0] == 3f) //idle before jump
                 {
                     if (stomping)
-                    {
                         stomping = false;
-                    }
-                    NPC.frameCounter += 1.0;
-                    if (NPC.frameCounter > 12.0)
+
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 12D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
                     if (NPC.frame.Y >= frameHeight * 6)
-                    {
                         NPC.frame.Y = 0;
-                    }
                 }
                 else if (NPC.velocity.Y <= 0f || NPC.ai[1] < 0f) //prepare to jump and then jump
                 {
-                    NPC.frameCounter += 1.0;
-                    if (NPC.frameCounter > 12.0)
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 12D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
                     if (NPC.frame.Y >= frameHeight * 5)
-                    {
                         NPC.frame.Y = frameHeight * 5;
-                    }
                 }
                 else //stomping
                 {
                     if (!stomping)
                     {
                         stomping = true;
-                        NPC.frameCounter = 0.0;
+                        NPC.frameCounter = 0D;
                         NPC.frame.Y = 0;
                     }
-                    NPC.frameCounter += 1.0;
-                    if (NPC.frameCounter > 12.0)
+
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 12D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
                     if (NPC.frame.Y >= frameHeight * 5)
-                    {
                         NPC.frame.Y = frameHeight * 5;
-                    }
                 }
             }
             else if (NPC.ai[0] >= 5f)
             {
                 if (stomping)
-                {
                     stomping = false;
-                }
+
                 if (NPC.velocity.Y == 0f) //idle before teleport
                 {
-                    NPC.frameCounter += 1.0;
-                    if (NPC.frameCounter > 12.0)
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 12D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
                     if (NPC.frame.Y >= frameHeight * 6)
-                    {
                         NPC.frame.Y = 0;
-                    }
                 }
                 else //in-air
                 {
-                    NPC.frameCounter += 1.0;
-                    if (NPC.frameCounter > 12.0)
+                    NPC.frameCounter += 1D;
+                    if (NPC.frameCounter > 12D)
                     {
-                        NPC.frame.Y = NPC.frame.Y + frameHeight;
-                        NPC.frameCounter = 0.0;
+                        NPC.frame.Y += frameHeight;
+                        NPC.frameCounter = 0D;
                     }
                     if (NPC.frame.Y >= frameHeight * 5)
-                    {
                         NPC.frame.Y = frameHeight * 5;
-                    }
                 }
             }
             else
             {
                 if (stomping)
-                {
                     stomping = false;
-                }
-                NPC.frameCounter += 1.0;
-                if (NPC.frameCounter > 8.0)
+
+                NPC.frameCounter += 1D;
+                if (NPC.frameCounter > 8D)
                 {
-                    NPC.frame.Y = NPC.frame.Y + frameHeight;
-                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y += frameHeight;
+                    NPC.frameCounter = 0D;
                 }
                 if (NPC.frame.Y >= frameHeight * 6)
-                {
                     NPC.frame.Y = 0;
-                }
             }
         }
 

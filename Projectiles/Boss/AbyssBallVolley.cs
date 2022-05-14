@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (Projectile.velocity.Length() < 16f && (Main.expertMode || BossRushEvent.BossRushActive))
+            if (Projectile.velocity.Length() < 12f && (Main.expertMode || BossRushEvent.BossRushActive))
             {
                 float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1f;
                 Projectile.velocity *= velocityMult;

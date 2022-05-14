@@ -1035,7 +1035,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (enrage)
                 velocity = (phase3 || turboEnrage) ? 25f : 20f;
 
-            float acceleration = enrage ? 0.2f : 0.1f + (phase2 ? 0.1f : 0f);
+            float acceleration = enrage ? 0.4f : phase3 ? 0.2f : phase2 ? 0.15f : 0.1f;
 
             // How far Ceaseless Void is from where it's supposed to be
             Vector2 distanceFromDestination = destination - npc.Center;
