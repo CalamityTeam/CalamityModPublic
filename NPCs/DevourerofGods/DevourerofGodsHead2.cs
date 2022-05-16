@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             float num189 = CalamityWorld.malice ? 0.9f : CalamityWorld.revenge ? 0.75f : 0.23f;
 
             if (increaseSpeedMore)
-                num189 *= 3f;
+                num189 *= 4f;
             else if (increaseSpeed)
                 num189 *= 2f;
 

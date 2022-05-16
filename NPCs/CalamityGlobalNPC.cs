@@ -116,6 +116,11 @@ namespace CalamityMod.NPCs
         // Biome enrage timer max
         public const int biomeEnrageTimerMax = 300;
 
+        // Variable for certain worm bosses used to prevent them from moving too fast upon swapping phases while far away from their target
+        // Currently only used by DoG
+        public float velocityPriorToPhaseSwap = 0f;
+        public const float velocityPriorToPhaseSwapIncrement = 0.1f;
+
         public bool ShouldFallThroughPlatforms;
 
         /// <summary>
@@ -323,6 +328,8 @@ namespace CalamityMod.NPCs
             myClone.IncreasedColdEffects = IncreasedColdEffects;
             myClone.IncreasedHeatEffects = IncreasedHeatEffects;
             myClone.IncreasedSicknessAndWaterEffects = IncreasedSicknessAndWaterEffects;
+
+            myClone.velocityPriorToPhaseSwap = velocityPriorToPhaseSwap;
 
             myClone.ShouldFallThroughPlatforms = ShouldFallThroughPlatforms;
 
