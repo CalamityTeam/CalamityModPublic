@@ -23,6 +23,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
@@ -487,28 +489,26 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
 
-            float num1372 = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
+            float flySpeed = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
             if (phase2)
             {
-                num1372 = revenge ? 18f : expertMode ? 16f : 14f;
+                flySpeed = revenge ? 18f : expertMode ? 16f : 14f;
             }
             if (hyperMode || malice)
             {
-                num1372 *= 1.25f;
+                flySpeed *= 1.25f;
             }
 
             Vector2 vector167 = new Vector2(vectorCenter.X + (NPC.direction * 20), vectorCenter.Y + 6f);
-            float num1373 = player.position.X + player.width * 0.5f - vector167.X;
-            float num1374 = player.Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
-            float num1376 = num1372 / num1375;
-            num1373 *= num1376;
-            num1374 *= num1376;
+            Vector2 flyDestination = GetFlyDestination(player);
+            Vector2 idealVelocity = (flyDestination - vector167).SafeNormalize(Vector2.UnitY) * flySpeed;
+
+            float distanceFromFlyDestination = NPC.Distance(flyDestination);
 
             NPC.ai[0] -= 1f;
-            if (num1375 < 200f || NPC.ai[0] > 0f)
+            if (distanceFromFlyDestination < 200f || NPC.ai[0] > 0f)
             {
-                if (num1375 < 200f)
+                if (distanceFromFlyDestination < 200f)
                 {
                     NPC.ai[0] = 20f;
                 }
@@ -524,19 +524,69 @@ namespace CalamityMod.NPCs.SlimeGod
                 return;
             }
 
-            NPC.velocity.X = (NPC.velocity.X * 50f + num1373) / 51f;
-            NPC.velocity.Y = (NPC.velocity.Y * 50f + num1374) / 51f;
-            if (num1375 < 350f)
-            {
-                NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
-                NPC.velocity.Y = (NPC.velocity.Y * 10f + num1374) / 11f;
-            }
-            if (num1375 < 300f)
-            {
-                NPC.velocity.X = (NPC.velocity.X * 7f + num1373) / 8f;
-                NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
-            }
+            NPC.velocity = (NPC.velocity * 50f + idealVelocity) / 51f;
+            if (distanceFromFlyDestination < 350f)
+                NPC.velocity = (NPC.velocity * 10f + idealVelocity) / 11f;
+            if (distanceFromFlyDestination < 300f)
+                NPC.velocity = (NPC.velocity * 7f + idealVelocity) / 8f;
             NPC.rotation = NPC.velocity.X * 0.1f;
+        }
+
+        public Vector2 GetFlyDestination(Player target)
+        {
+            // Find all large slimes in the world.
+            // If multiple slimes are present, and they are all relatively close together, try to stay in their general area.
+            // If they are far apart, try to stay towards the closest slime.
+            // If no slimes exist, or they are all extremely far away, try to stay near the target player instead.
+            // TODO -- Consider renaming the big slime god's internal names to be more intuitive?
+            int crimulanSlimeID = ModContent.NPCType<SlimeGodRun>();
+            int crimulanSlimeSplitID = ModContent.NPCType<SlimeGodRunSplit>();
+            int ebonianSlimeID = ModContent.NPCType<SlimeGod>();
+            int ebonianSlimeSplitID = ModContent.NPCType<SlimeGodSplit>();
+            List<NPC> largeSlimes = new();
+
+            float ignoreGeneralAreaDistanceThreshold = 750f;
+            float ignoreAllSlimesDistanceThreshold = 3200f;
+
+            // Find all slimes within a generous area.
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                int npcType = Main.npc[i].type;
+                if (npcType != crimulanSlimeID && npcType != crimulanSlimeSplitID && npcType != ebonianSlimeID && npcType != ebonianSlimeSplitID)
+                    continue;
+
+                if (!Main.npc[i].active)
+                    continue;
+
+                if (!NPC.WithinRange(Main.npc[i].Center, ignoreAllSlimesDistanceThreshold))
+                    continue;
+
+                largeSlimes.Add(Main.npc[i]);
+            }
+
+            // If no slimes were found, don't bother doing any more calculations. Just use the player's center.
+            if (largeSlimes.Count <= 0)
+                return target.Center;
+
+            // Find the closest slime.
+            NPC closestSlime = largeSlimes.OrderBy(n => n.Distance(NPC.Center)).First();
+
+            // Get the general area of all the slimes by averaging together their positions.
+            Vector2 generalSlimeArea = Vector2.Zero;
+            for (int i = 0; i < largeSlimes.Count; i++)
+                generalSlimeArea += largeSlimes[i].Center;
+            generalSlimeArea /= largeSlimes.Count;
+
+            // Determine the average deviation of all slimes from the general area.
+            // This provides a general idea of how far apart all the slimes are from each-other.
+            float averageGeneralAreaDistanceDeviation = largeSlimes.Average(s => s.Distance(generalSlimeArea));
+
+            // The slimes are too far apart. Simply go with the closest slime.
+            if (averageGeneralAreaDistanceDeviation > ignoreGeneralAreaDistanceThreshold)
+                return closestSlime.Center;
+
+            // Otherwise, use the average general position as a place to hover.
+            return generalSlimeArea;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
