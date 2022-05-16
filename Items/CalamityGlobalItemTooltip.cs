@@ -291,7 +291,7 @@ namespace CalamityMod.Items
 
             // Nerfed Archery Potion tooltip
             if (item.type == ItemID.ArcheryPotion)
-                EditTooltipByNum(0, (line) => line.Text = "20% increased arrow speed and 1.05x arrow damage");
+                EditTooltipByNum(0, (line) => line.Text = "20% increased arrow speed and 5% increased arrow damage");
 
             // Nerfed Swiftness Potion tooltip
             if (item.type == ItemID.SwiftnessPotion)

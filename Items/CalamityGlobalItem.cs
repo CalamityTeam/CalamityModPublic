@@ -886,10 +886,6 @@ namespace CalamityMod.Items
             if (player.yoyoGlove && ItemID.Sets.Yoyo[item.type])
                 damage *= 0.66f;
 
-            // Nerf archery potion damage buff from 1.2x to 1.05x.
-            if (item.useAmmo == AmmoID.Arrow && player.archery)
-                damage *= 0.875f;
-
             if (item.type < ItemID.Count)
                 return;
 

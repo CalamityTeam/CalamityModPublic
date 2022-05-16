@@ -10,7 +10,11 @@ namespace CalamityMod.Buffs
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {
-            if (type == BuffID.Endurance)
+            if (type == BuffID.Archery)
+            {
+                player.arrowDamage *= 0.875f;
+            }
+            else if (type == BuffID.Endurance)
             {
                 player.endurance -= 0.05f;
             }
@@ -94,8 +98,6 @@ namespace CalamityMod.Buffs
 
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
         {
-            Player player = Main.player[Main.myPlayer];
-
             // Vanilla buffs
             switch (type)
             {
@@ -108,7 +110,7 @@ namespace CalamityMod.Buffs
                     break;
 
                 case BuffID.Archery:
-                    tip = "20% increased arrow speed and 1.05x arrow damage";
+                    tip = "20% increased arrow speed and 5% increased arrow damage";
                     break;
 
                 case BuffID.Swiftness:
