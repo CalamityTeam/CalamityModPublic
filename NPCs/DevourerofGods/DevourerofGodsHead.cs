@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
             float homingSpeed = malice ? 36f : death ? 30f : 24f;
             float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
-            float velocityPriorToPhaseSwapIncrement = 0.05f;
+            float velocityPriorToPhaseSwapIncrement = 0.1f;
 
             if (expertMode)
             {
