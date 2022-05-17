@@ -460,6 +460,7 @@ namespace CalamityMod.ILEditing
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             DeathAshParticle.DrawAll();
+            CalamityMod.GasThing?.Draw();
 
             orig(self, gameTime);
         }
