@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.FluidSimulation;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
@@ -401,19 +402,38 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
-                    Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamityAura").Value;
-                    Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTimeWrappedHourly * 12.3f) % 6);
-                    float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f);
+                    int size = 228;
+                    ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
+                    ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
+                    if (calamityFireDrawer is null || calamityFireDrawer.Size != size)
+                        calamityFireDrawer = FluidFieldManager.CreateField(size, 0.1f, 1.6f, 0.99f);
 
-                    for (int i = 0; i < 12; i++)
+                    // Update the fire draw position.
+                    firePosition = Vector2.Lerp(firePosition, Main.MouseScreen, 0.2f).MoveTowards(Main.MouseScreen, 1f);
+                    if (Vector2.Distance(firePosition, Main.MouseScreen) > 150f)
+                        firePosition = Main.MouseScreen;
+
+                    int x = (int)((firePosition.X - drawPosition.X) / 2f);
+                    int y = (int)((firePosition.Y - drawPosition.Y) / 2f);
+
+                    calamityFireDrawer.ShouldUpdate = true;
+                    calamityFireDrawer.UpdateAction = () =>
                     {
-                        Color auraColor = Color.Orange * Main.LocalPlayer.Calamity().blazingMouseAuraFade * 0.125f;
-                        auraColor.A = 0;
-                        Vector2 offsetDrawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 12f + Main.GlobalTimeWrappedHourly * 5f).ToRotationVector2() * 2.5f;
-                        offsetDrawPosition.Y -= 18f;
-
-                        Main.spriteBatch.Draw(auraTexture, offsetDrawPosition, auraFrame, auraColor, 0f, auraFrame.Size() * 0.5f, Main.cursorScale * auraScale, SpriteEffects.None, 0f);
-                    }
+                        Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
+                        color.A /= 6;
+                        for (int i = -2; i <= 2; i++)
+                        {
+                            float offsetAngle = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
+                            offsetAngle += (i / 6f) * 0.34f;
+                            Vector2 velocity = (Main.LocalPlayer.Calamity().FireDrawerPosition - drawPosition).SafeNormalize(-Vector2.UnitY);
+                            velocity = velocity.SafeNormalize(Vector2.UnitY).RotatedBy(offsetAngle) * 0.92f;
+                            for (int j = -4; j <= 4; j++)
+                            {
+                                Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
+                            }
+                        }
+                    };
+                    calamityFireDrawer.Draw(drawPosition, true);
                 }
 
                 Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
@@ -460,7 +480,6 @@ namespace CalamityMod.ILEditing
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             DeathAshParticle.DrawAll();
-            CalamityMod.GasThing?.Draw();
 
             orig(self, gameTime);
         }

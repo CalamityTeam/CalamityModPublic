@@ -10,6 +10,7 @@ bool handlingColors;
 float size;
 float diffusionFactor;
 float deltaTime;
+float dissipationFactor;
 
 float round(float n, float precision)
 {
@@ -51,14 +52,14 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
         float4 totalCardinalStateIteration = leftState + rightState + upState + downState;
         currentValue = (previousValue + diffusionFactor * totalCardinalStateIteration) / (diffusionFactor * 4 + 1);
     }
-    return currentValue;
+    return currentValue * dissipationFactor;
 }
 
 // TODO -- Discuss the details of this function a bit more.
 float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
-    float2 roundedCoords = clamp(round(coords, step), step, 1 - step);
+    float2 roundedCoords = clamp(coords, step, 1 - step);
 
     float color;
     float xSpeed = tex2D(horizontalSpeeds, roundedCoords).r;
@@ -77,9 +78,9 @@ float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     X = clamp(X, 0, 1 - step);
     Y = clamp(Y, 0, 1 - step);
     
-    float xGrid = round(X, step);
+    float xGrid = X;
     float xGrid1 = xGrid + step;
-    float YGrid = round(Y, step);
+    float YGrid = Y;
     float yGrid = YGrid + step;
     
     xGrid = clamp(xGrid, 0, 1);

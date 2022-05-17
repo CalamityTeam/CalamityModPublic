@@ -375,19 +375,13 @@ namespace CalamityMod
 
         #region Render Target Management
 
-        public static FluidField GasThing = null;
-
         public static void PrepareRenderTargets(GameTime gameTime)
         {
             FusableParticleManager.PrepareFusableParticleTargets();
             DeathAshParticle.PrepareRenderTargets();
 
             if (!Main.gameMenu)
-            {
-                if (GasThing is null || Main.GameUpdateCount % 300 == 0)
-                    GasThing = new(205, 2f, 8f);
-                GasThing.Update();
-            }
+                FluidFieldManager.Update();
         }
         #endregion Render Target Management
 
