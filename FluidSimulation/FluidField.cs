@@ -296,19 +296,19 @@ namespace CalamityMod.FluidSimulation
             DensityQueue.Enqueue(new PixelQueueValue(pos, new Color(density, 0f, 0f)));
         }
 
-        public void Draw(Vector2 drawPosition, bool needsToCallEnd)
+        public void Draw(Vector2 drawPosition, bool needsToCallEnd, Matrix drawPerspective, Matrix previousPerspective)
         {
             if (needsToCallEnd)
                 Main.spriteBatch.End();
 
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, drawPerspective);
             Main.instance.GraphicsDevice.Textures[5] = ColorField.NextState;
             CalamityShaders.FluidShaders.CurrentTechnique.Passes["DrawFluidPass"].Apply();
             Main.spriteBatch.Draw(DensityField.NextState, drawPosition, null, Color.White, 0f, DensityField.NextState.Size() * 0.5f, 2f, 0, 0f);
             Main.spriteBatch.End();
 
             if (needsToCallEnd)
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, previousPerspective);
         }
     }
 }

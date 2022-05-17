@@ -428,12 +428,10 @@ namespace CalamityMod.ILEditing
                             Vector2 velocity = (Main.LocalPlayer.Calamity().FireDrawerPosition - drawPosition).SafeNormalize(-Vector2.UnitY);
                             velocity = velocity.SafeNormalize(Vector2.UnitY).RotatedBy(offsetAngle) * 0.92f;
                             for (int j = -4; j <= 4; j++)
-                            {
                                 Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
-                            }
                         }
                     };
-                    calamityFireDrawer.Draw(drawPosition, true);
+                    calamityFireDrawer.Draw(drawPosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix);
                 }
 
                 Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);
