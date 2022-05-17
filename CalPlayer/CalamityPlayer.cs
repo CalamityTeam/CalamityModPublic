@@ -90,7 +90,7 @@ namespace CalamityMod.CalPlayer
         public double trueMeleeDamage = 0D;
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
-        public const float projectileMeleeWeaponMeleeSpeedMultiplier = 0.25f;
+        public const float projectileMeleeWeaponMeleeSpeedMultiplier = 0f;
         public bool brimlashBusterBoost = false;
         public int evilSmasherBoost = 0;
         public int hellbornBoost = 0;
@@ -3542,12 +3542,22 @@ namespace CalamityMod.CalPlayer
 
             Player.GetAttackSpeed(DamageClass.Melee) += meleeSpeedMult;
 
-            // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade, Blade of Enmity and non-true melee weapons.
+            // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade and Blade of Enmity.
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
-                Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>() ||
-                (Player.ActiveItem().DamageType == DamageClass.Melee && Player.ActiveItem().shoot != ProjectileID.None && !Player.ActiveItem().Calamity().trueMelee))
+                Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
             {
                 float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * 0.25f);
+                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
+            }
+
+            // Melee speed does not affect non-true melee weapon projectile rate of fire.
+            if (Player.ActiveItem().DamageType == DamageClass.Melee && Player.ActiveItem().shoot != ProjectileID.None)
+            {
+                // Melee weapons that fire any kind of projectile don't benefit from melee speed anymore, so they get a damage boost from it instead.
+                Player.GetDamage(DamageClass.Melee) += Player.GetAttackSpeed(DamageClass.Melee) - 1f;
+
+                // Set melee speed to 1f.
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
                 Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
             }
             #endregion
@@ -4590,21 +4600,17 @@ namespace CalamityMod.CalPlayer
             double damageMult = 1.0;
             bool isTrueMelee = item.CountsAsClass<MeleeDamageClass>() && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>();
             if (isTrueMelee)
-            {
                 damageMult += trueMeleeDamage;
-            }
+
             if (enraged)
-            {
                 damageMult += 1.25;
-            }
 
             if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
             if (CalamityWorld.revenge)
-            {
                 CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
-            }
+
             damage = (int)(damage * damageMult);
 
             if (oldDie)
@@ -4699,11 +4705,7 @@ namespace CalamityMod.CalPlayer
             #region MultiplierBoosts
             double damageMult = 1.0;
             if (isTrueMelee)
-            {
-                // Add more true melee damage to the true melee projectile that scales with melee speed
-                // This is done because melee speed does nothing to melee weapons that are purely projectiles
-                damageMult += trueMeleeDamage + ((1f - Player.GetAttackSpeed(DamageClass.Melee)) * (100f / Player.GetAttackSpeed(DamageClass.Melee)) / 100f * 0.25f);
-            }
+                damageMult += trueMeleeDamage;
 
             if (screwdriver)
             {
