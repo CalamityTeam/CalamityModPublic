@@ -3,11 +3,10 @@ sampler previousStates : register(s1);
 sampler horizontalSpeeds : register(s2);
 sampler verticalSpeeds : register(s3);
 sampler divergencePBuffer : register(s4);
-sampler redField : register(s5);
-sampler greenField : register(s6);
-sampler blueField : register(s7);
+sampler colorField : register(s5);
 
 bool horizontalCase_Divergence;
+bool handlingColors;
 float size;
 float diffusionFactor;
 float deltaTime;
@@ -45,11 +44,11 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     float4 previousValue = tex2D(previousStates, coords);
     for (int i = 0; i < 4; i++)
     {
-        float leftState = tex2D(nextStates, clamp(coords - float2(step, 0), step, 1 - step));
-        float rightState = tex2D(nextStates, clamp(coords + float2(step, 0), step, 1 - step));
-        float upState = tex2D(nextStates, clamp(coords - float2(0, step), step, 1 - step));
-        float downState = tex2D(nextStates, clamp(coords + float2(0, step), step, 1 - step));
-        float totalCardinalStateIteration = leftState + rightState + upState + downState;
+        float4 leftState = tex2D(nextStates, clamp(coords - float2(step, 0), step, 1 - step));
+        float4 rightState = tex2D(nextStates, clamp(coords + float2(step, 0), step, 1 - step));
+        float4 upState = tex2D(nextStates, clamp(coords - float2(0, step), step, 1 - step));
+        float4 downState = tex2D(nextStates, clamp(coords + float2(0, step), step, 1 - step));
+        float4 totalCardinalStateIteration = leftState + rightState + upState + downState;
         currentValue = (previousValue + diffusionFactor * totalCardinalStateIteration) / (diffusionFactor * 4 + 1);
     }
     return currentValue;
@@ -93,11 +92,10 @@ float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     float YRelative1 = (Y - YGrid) / step;
     float YRelative0 = 1 - YRelative1;
 
-    float c1 = tex2D(previousStates, float2(xGrid, YGrid)).r;
-    float c2 = tex2D(previousStates, float2(xGrid, yGrid)).r;
-    float c3 = tex2D(previousStates, float2(xGrid1, YGrid)).r;
-    float c4 = tex2D(previousStates, float2(xGrid1, yGrid)).r;
-    
+    float4 c1 = tex2D(previousStates, float2(xGrid, YGrid));
+    float4 c2 = tex2D(previousStates, float2(xGrid, yGrid));
+    float4 c3 = tex2D(previousStates, float2(xGrid1, YGrid));
+    float4 c4 = tex2D(previousStates, float2(xGrid1, yGrid));
     return XRelative0 * (YRelative0 * c1 + YRelative1 * c2) +
            XRelative1 * (YRelative0 * c3 + YRelative1 * c4);
 }
@@ -142,7 +140,7 @@ float4 PerformPoissonIteration(float4 sampleColor : TEXCOORD, float2 coords : TE
 float4 DrawField(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float density = tex2D(nextStates, coords).r;
-    return float4(tex2D(redField, coords).r, tex2D(greenField, coords).r, tex2D(blueField, coords).r, 1) * density;
+    return float4(tex2D(colorField, coords).rgb, 1) * density;
 }
 
 technique Technique1

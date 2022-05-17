@@ -21,11 +21,7 @@ namespace CalamityMod.FluidSimulation
 
         internal RenderTarget2D DensityField;
 
-        internal RenderTarget2D RedField;
-
-        internal RenderTarget2D BlueField;
-
-        internal RenderTarget2D GreenField;
+        internal RenderTarget2D ColorField;
 
         internal RenderTarget2D PreviousHorizontalFieldSpeed;
 
@@ -33,11 +29,7 @@ namespace CalamityMod.FluidSimulation
 
         internal RenderTarget2D PreviousDensityField;
 
-        internal RenderTarget2D PreviousRedField;
-
-        internal RenderTarget2D PreviousBlueField;
-
-        internal RenderTarget2D PreviousGreenField;
+        internal RenderTarget2D PreviousColorField;
 
         internal Queue<PixelQueueValue> DensityQueue = new();
 
@@ -45,11 +37,7 @@ namespace CalamityMod.FluidSimulation
 
         internal Queue<PixelQueueValue> VerticalSpeedQueue = new();
 
-        internal Queue<PixelQueueValue> RedFieldQueue = new();
-
-        internal Queue<PixelQueueValue> GreenFieldQueue = new();
-
-        internal Queue<PixelQueueValue> BlueFieldQueue = new();
+        internal Queue<PixelQueueValue> ColorFieldQueue = new();
 
         public int Size;
 
@@ -88,16 +76,12 @@ namespace CalamityMod.FluidSimulation
             HorizontalFieldSpeed = new(Main.instance.GraphicsDevice, Size, Size, false, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
             VerticalFieldSpeed = new(Main.instance.GraphicsDevice, Size, Size, false, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
             DensityField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            RedField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            GreenField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            BlueField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            ColorField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 
             PreviousHorizontalFieldSpeed = new(Main.instance.GraphicsDevice, Size, Size, false, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
             PreviousVerticalFieldSpeed = new(Main.instance.GraphicsDevice, Size, Size, false, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
             PreviousDensityField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            PreviousRedField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            PreviousGreenField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            PreviousBlueField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            PreviousColorField = new(Main.instance.GraphicsDevice, Size, Size, false, 0, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
 
             // A surface format of Vector4 is used here to allow for both 0-1 ranged colors and other things at the same time.
             TemporaryAuxilaryTarget = new(Main.instance.GraphicsDevice, Size, Size, false, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
@@ -174,7 +158,7 @@ namespace CalamityMod.FluidSimulation
             });
         }
 
-        public void CalculateDiffusion(float diffusionFactor, RenderTarget2D currentField, RenderTarget2D nextField, bool clamp = false)
+        public void CalculateDiffusion(float diffusionFactor, RenderTarget2D currentField, RenderTarget2D nextField, bool colors = false)
         {
             diffusionFactor *= DeltaTime * Size;
             ApplyThingToTarget(nextField, () =>
@@ -182,11 +166,12 @@ namespace CalamityMod.FluidSimulation
                 Main.instance.GraphicsDevice.Textures[1] = currentField;
                 CalamityShaders.FluidShaders.Parameters["size"].SetValue(Size);
                 CalamityShaders.FluidShaders.Parameters["diffusionFactor"].SetValue(diffusionFactor);
+                CalamityShaders.FluidShaders.Parameters["handlingColors"].SetValue(colors);
                 CalamityShaders.FluidShaders.CurrentTechnique.Passes["DiffusionPass"].Apply();
             });
         }
 
-        public void CalculateAdvection(RenderTarget2D currentField, RenderTarget2D nextField, RenderTarget2D horizontalVelocities, RenderTarget2D verticalVelocities)
+        public void CalculateAdvection(RenderTarget2D currentField, RenderTarget2D nextField, RenderTarget2D horizontalVelocities, RenderTarget2D verticalVelocities, bool colors = false)
         {
             ApplyThingToTarget(nextField, () =>
             {
@@ -195,6 +180,7 @@ namespace CalamityMod.FluidSimulation
                 Main.instance.GraphicsDevice.Textures[3] = verticalVelocities;
                 CalamityShaders.FluidShaders.Parameters["size"].SetValue(Size);
                 CalamityShaders.FluidShaders.Parameters["deltaTime"].SetValue(DeltaTime);
+                CalamityShaders.FluidShaders.Parameters["handlingColors"].SetValue(colors);
                 CalamityShaders.FluidShaders.CurrentTechnique.Passes["AdvectionPass"].Apply();
             });
         }
@@ -241,9 +227,7 @@ namespace CalamityMod.FluidSimulation
             if (x < 0 || y < 0 || x >= Size || y >= Size)
                 return;
 
-            RedFieldQueue.Enqueue(new PixelQueueValue(pos, new Color(color.R / 255f, 0f, 0f)));
-            GreenFieldQueue.Enqueue(new PixelQueueValue(pos, new Color(color.G / 255f, 0f, 0f)));
-            BlueFieldQueue.Enqueue(new PixelQueueValue(pos, new Color(color.B / 255f, 0f, 0f)));
+            ColorFieldQueue.Enqueue(new PixelQueueValue(pos, color));
 
             HorizontalSpeedQueue.Enqueue(new(pos, new Vector4(velocity.X, 0f, 0f, 0f)));
             VerticalSpeedQueue.Enqueue(new(pos, new Vector4(velocity.Y, 0f, 0f, 0f)));
@@ -273,9 +257,7 @@ namespace CalamityMod.FluidSimulation
             // Clear queues.
             FlushQueueToTarget(HorizontalFieldSpeed, HorizontalSpeedQueue);
             FlushQueueToTarget(VerticalFieldSpeed, VerticalSpeedQueue);
-            FlushQueueToTarget(RedField, RedFieldQueue);
-            FlushQueueToTarget(GreenField, GreenFieldQueue);
-            FlushQueueToTarget(BlueField, BlueFieldQueue);
+            FlushQueueToTarget(ColorField, ColorFieldQueue);
             FlushQueueToTarget(DensityField, DensityQueue);
 
             UpdateVelocityFields();
@@ -303,30 +285,20 @@ namespace CalamityMod.FluidSimulation
         public void UpdateDensityFields()
         {
             Utils.Swap(ref PreviousDensityField, ref DensityField);
-            CalculateDiffusion(DiffusionFactor, DensityField, PreviousDensityField, true);
+            CalculateDiffusion(DiffusionFactor, DensityField, PreviousDensityField);
             CalculateAdvection(PreviousDensityField, DensityField, HorizontalFieldSpeed, VerticalFieldSpeed);
 
-            Utils.Swap(ref PreviousRedField, ref RedField);
-            CalculateDiffusion(DiffusionFactor, RedField, PreviousRedField, true);
-            CalculateAdvection(PreviousRedField, RedField, HorizontalFieldSpeed, VerticalFieldSpeed);
-
-            Utils.Swap(ref PreviousGreenField, ref GreenField);
-            CalculateDiffusion(DiffusionFactor, GreenField, PreviousGreenField, true);
-            CalculateAdvection(PreviousGreenField, GreenField, HorizontalFieldSpeed, VerticalFieldSpeed);
-
-            Utils.Swap(ref PreviousBlueField, ref BlueField);
-            CalculateDiffusion(DiffusionFactor, BlueField, PreviousBlueField, true);
-            CalculateAdvection(PreviousBlueField, BlueField, HorizontalFieldSpeed, VerticalFieldSpeed);
+            Utils.Swap(ref PreviousColorField, ref ColorField);
+            CalculateDiffusion(DiffusionFactor, ColorField, PreviousColorField, true);
+            CalculateAdvection(PreviousColorField, ColorField, HorizontalFieldSpeed, VerticalFieldSpeed, true);
         }
 
         public void Draw()
         {
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
-            Main.instance.GraphicsDevice.Textures[5] = RedField;
-            Main.instance.GraphicsDevice.Textures[6] = GreenField;
-            Main.instance.GraphicsDevice.Textures[7] = BlueField;
+            Main.instance.GraphicsDevice.Textures[5] = ColorField;
             CalamityShaders.FluidShaders.CurrentTechnique.Passes["DrawFluidPass"].Apply();
-            Main.spriteBatch.Draw(DensityField, new Vector2(Main.screenWidth, Main.screenHeight) * 0.2f, null, Color.White, 0f, Vector2.Zero, 2f, 0, 0f);
+            Main.spriteBatch.Draw(DensityField, new Vector2(Main.screenWidth, Main.screenHeight) * 0.21f, null, Color.White, 0f, Vector2.Zero, 2f, 0, 0f);
             Main.spriteBatch.End();
         }
     }
