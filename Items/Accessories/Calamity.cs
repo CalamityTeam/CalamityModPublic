@@ -21,7 +21,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Calamity");
             Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, summoning a burning sigil around it\n" +
                 "Enemies touching the sigil take immense damage and are inflicted with Vulnerability Hex\n" +
-                "Equip in a vanity slot to change the cursor without dealing damage");
+                "Equip in a vanity slot to change the cursor without dealing damage\n" +
+                "These changes work in conjunction with the Rainbow Cursor");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
         }
 
