@@ -141,6 +141,9 @@ float4 PerformPoissonIteration(float4 sampleColor : TEXCOORD, float2 coords : TE
 float4 DrawField(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float density = tex2D(nextStates, coords).r;
+    if (density < 0.05)
+        return 0;
+    
     return float4(tex2D(colorField, coords).rgb, 1) * density;
 }
 

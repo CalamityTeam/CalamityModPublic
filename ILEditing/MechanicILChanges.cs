@@ -402,7 +402,7 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
-                    int size = 228;
+                    int size = 256;
                     ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
                     ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
                     if (calamityFireDrawer is null || calamityFireDrawer.Size != size)
@@ -425,8 +425,20 @@ namespace CalamityMod.ILEditing
                         {
                             float offsetAngle = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
                             offsetAngle += (i / 6f) * 0.34f;
-                            Vector2 velocity = (Main.LocalPlayer.Calamity().FireDrawerPosition - drawPosition).SafeNormalize(-Vector2.UnitY);
-                            velocity = velocity.SafeNormalize(Vector2.UnitY).RotatedBy(offsetAngle) * 0.92f;
+                            Vector2 velocity = (Main.LocalPlayer.Calamity().FireDrawerPosition - drawPosition);
+                            if (velocity.Length() < 5f)
+                            {
+                                offsetAngle *= 0.5f;
+                                velocity = Vector2.Zero;
+                            }
+
+                            velocity = velocity.SafeNormalize(-Vector2.UnitY * 0.35f).RotatedBy(offsetAngle) * 0.92f;
+
+                            // Add a tiny bit of randomness to the velocity.
+                            // Chaos in the advection calculations should result in different flames being made over time, instead of a
+                            // static animation.
+                            velocity += Main.rand.NextVector2Circular(0.08f, 0.08f);
+
                             for (int j = -4; j <= 4; j++)
                                 Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
                         }

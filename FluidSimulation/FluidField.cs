@@ -49,7 +49,7 @@ namespace CalamityMod.FluidSimulation
 
         public const float DeltaTime = 0.016666f;
 
-        public const int GaussSeidelIterations = 8;
+        public const int GaussSeidelIterations = 3;
 
         internal static BasicEffect basicShader = null;
 
