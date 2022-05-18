@@ -2426,7 +2426,7 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            // Don't bother tampering with the damage is it is already zero.
+            // Don't bother tampering with the damage if it is already zero.
             // Zero damage does not happen in the base game and is always indicative of antibutcher in Calamity.
             if (damage == 0D)
                 return false;

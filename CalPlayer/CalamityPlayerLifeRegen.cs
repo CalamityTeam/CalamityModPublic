@@ -388,6 +388,10 @@ namespace CalamityMod.CalPlayer
                 alcoholPoisonLevel++;
                 lifeRegenLost += 1;
             }
+            if (Player.tipsy)
+            {
+                alcoholPoisonLevel++;
+            }
 
             if (cirrusDress)
                 alcoholPoisonLevel = 0;

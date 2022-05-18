@@ -988,6 +988,7 @@ namespace CalamityMod
 
             alcoholList = new List<int>()
             {
+                BuffID.Tipsy,
                 BuffType<BloodyMaryBuff>(),
                 BuffType<CaribbeanRumBuff>(),
                 BuffType<CinnamonRollBuff>(),

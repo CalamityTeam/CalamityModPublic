@@ -2560,6 +2560,12 @@ namespace CalamityMod.CalPlayer
             if (whiteWine)
                 Player.GetDamage(DamageClass.Magic) += 0.1f;
 
+            if (Player.tipsy)
+            {
+                Player.statDefense += 4;
+                Player.GetCritChance(DamageClass.Melee) -= 2;
+            }
+
             if (giantPearl)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient && !areThereAnyDamnBosses)
@@ -3871,6 +3877,12 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.statDefense > 0)
                     Player.statDefense -= (int)(Player.statDefense * 0.06);
+            }
+
+            if (Player.tipsy)
+            {
+                if (Player.statDefense > 0)
+                    Player.statDefense -= (int)(Player.statDefense * 0.1);
             }
         }
         #endregion

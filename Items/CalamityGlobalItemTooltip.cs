@@ -500,6 +500,10 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Ale and Sake rebalance.
+            if (item.type == ItemID.Ale || item.type == ItemID.Sake)
+                EditTooltipByNum(0, (line) => line.Text = "Increases melee damage and speed by 10% and reduces defense by 10%");
+
             // Hellfire Treads buff.
             if (item.type == ItemID.HellfireTreads)
             {
