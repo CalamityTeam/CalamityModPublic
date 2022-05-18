@@ -437,7 +437,7 @@ namespace CalamityMod.ILEditing
                             // Add a tiny bit of randomness to the velocity.
                             // Chaos in the advection calculations should result in different flames being made over time, instead of a
                             // static animation.
-                            velocity += Main.rand.NextVector2Circular(0.08f, 0.08f);
+                            velocity *= Main.rand.NextFloat(0.9f, 1.1f);
 
                             for (int j = -4; j <= 4; j++)
                                 Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
