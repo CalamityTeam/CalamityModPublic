@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
         private const int FramesPerFireRateIncrease = 36;
 
         private Player Owner => Main.player[Projectile.owner];
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
 
         private ref float DeployedFrames => ref Projectile.ai[0];
         private ref float AnimationRate => ref Projectile.ai[1];

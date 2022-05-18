@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.ai[1] = (float)(initialRate - fireRateMult * fireRate);
                 shouldShoot = true;
             }
-            bool canShoot = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool canShoot = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
             if (Projectile.localAI[0] > 0f)
             {
                 Projectile.localAI[0] -= 1f;
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float kBack = player.ActiveItem().knockBack;
                 if (canShoot)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, out _);
+                    player.PickAmmo(player.ActiveItem(), out projType, out speedMult2, out dmg, out kBack, out _);
                     kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);
                     float shootSpeed = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);

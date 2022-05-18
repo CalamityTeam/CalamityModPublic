@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Ranged
                 timeToFire = true;
             }
 
-            bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool canFire = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
 
             if (Projectile.soundDelay <= 0 && canFire)
             {
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
 
-                    player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, out _);
+                    player.PickAmmo(player.ActiveItem(), out type, out scaleFactor, out damage, out knockBack, out _);
 
                     type = ModContent.ProjectileType<DrataliornusFlame>();
                     knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);

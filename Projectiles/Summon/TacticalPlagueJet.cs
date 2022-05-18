@@ -43,6 +43,9 @@ namespace CalamityMod.Projectiles.Summon
             int p90ID = ModContent.ItemType<Items.Weapons.Ranged.P90>();
             FalseGun = new Item();
             FalseGun.SetDefaults(p90ID, true);
+            FalseGun.consumeAmmoOnFirstShotOnly = false;
+            FalseGun.consumeAmmoOnLastShotOnly = false;
+
             // FalseGun.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
             FalseGun.DamageType = DamageClass.Summon;
         }
@@ -95,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
             NPC potentialTarget = Projectile.Center.MinionHoming(1560f, player);
 
             // If the jet has no target or is out of ammo, passively fly around the player.
-            if (potentialTarget is null || !player.HasAmmo(FalseGun, false))
+            if (potentialTarget is null || !player.HasAmmo(FalseGun))
             {
                 float distanceToOwner = (player.Center - Projectile.Center).Length();
                 float acceleration = 0.1f;
@@ -164,7 +167,7 @@ namespace CalamityMod.Projectiles.Summon
                     int projIndex;
 
                     // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
-                    player.PickAmmo(FalseGun, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, out _, dontConsumeAmmo);
+                    player.PickAmmo(FalseGun, out projID, out shootSpeed, out damage, out kb, out _);
 
                     // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
                     if (shootRocket)

@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override bool CanUseItem(Player player) => CalamityGlobalItem.HasEnoughAmmo(player, Item, 5);
 
         // Disable vanilla ammo consumption
-        public override bool CanConsumeAmmo(Player player) => false;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => false;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

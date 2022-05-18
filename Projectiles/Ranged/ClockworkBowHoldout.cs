@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         private Player Owner => Main.player[Projectile.owner];
 
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
         private ref float CurrentChargingFrames => ref Projectile.ai[0];
         private ref float LoadedBolts => ref Projectile.ai[1];
         private ref float FramesToLoadBolt => ref Projectile.localAI[0];
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Ranged
             bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/
             int projectileType = 0;
 
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref BoltDamage, ref knockback, out _, false);
+            Owner.PickAmmo(heldItem, out projectileType, out shootSpeed, out BoltDamage, out knockback, out _);
             projectileType = ModContent.ProjectileType<PrecisionBolt>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);

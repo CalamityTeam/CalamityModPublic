@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
 
         // Consume two ammo per fire
-        public override bool CanConsumeAmmo(Player player) => counter % 2 == 0;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => counter % 2 == 0;
 
         public override Vector2? HoldoutOffset() => new Vector2(-30, 0);
 

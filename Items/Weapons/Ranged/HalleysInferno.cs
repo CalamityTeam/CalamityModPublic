@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
-        public override bool CanConsumeAmmo(Player player) => Main.rand.Next(100) >= 50;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) >= 50;
 
         public override void AddRecipes()
         {

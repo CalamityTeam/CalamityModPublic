@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
                 flag15 = true;
                 int arg_1EF4_0 = (int)Projectile.ai[0] / (num40 - num41 * num39);
             }
-            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
             if (Projectile.localAI[0] > 0f)
             {
                 Projectile.localAI[0] -= 1f;
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
                 {
-                    player.PickAmmo(player.ActiveItem(), ref num42, ref scaleFactor11, ref flag16, ref weaponDamage2, ref weaponKnockback2, out _);
+                    player.PickAmmo(player.ActiveItem(), out num42, out scaleFactor11, out weaponDamage2, out weaponKnockback2, out _);
                     weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
                     float scaleFactor12 = player.ActiveItem().shootSpeed * Projectile.scale;
                     Vector2 vector19 = vector;

@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class SurgeDriverHoldout : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-        public bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        public bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
         public ref float ShootCountdown => ref Projectile.ai[0];
         public override void SetStaticDefaults() => DisplayName.SetDefault("Surge Driver");
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             float knockback = heldItem.knockBack;
 
             bool uselessFuckYou = OwnerCanShoot;
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref damage, ref knockback, out _);
+            Owner.PickAmmo(heldItem, out projectileType, out shootSpeed, out damage, out knockback, out _);
             projectileType = ModContent.ProjectileType<PrismaticEnergyBlast>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);
