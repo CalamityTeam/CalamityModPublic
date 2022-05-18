@@ -9,6 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.FluidSimulation
 {
+    // Details about the math operations are present in the shader files.
+    // Please do not change this system too much without contacting me first. -Dominic
     public class FluidField : IDisposable
     {
         internal RenderTarget2D TemporaryAuxilaryTarget;
@@ -20,14 +22,6 @@ namespace CalamityMod.FluidSimulation
         internal FluidFieldState DensityField;
 
         internal FluidFieldState ColorField;
-
-        internal Queue<PixelQueueValue> DensityQueue = new();
-
-        internal Queue<PixelQueueValue> HorizontalSpeedQueue = new();
-
-        internal Queue<PixelQueueValue> VerticalSpeedQueue = new();
-
-        internal Queue<PixelQueueValue> ColorFieldQueue = new();
 
         public float Viscosity;
 
@@ -104,19 +98,19 @@ namespace CalamityMod.FluidSimulation
             currentField.CopyContentsFrom(TemporaryAuxilaryTarget);
         }
 
-        internal void FlushQueueToTarget(FluidFieldState field, Queue<PixelQueueValue> queue)
+        internal void FlushQueueToTarget(FluidFieldState field)
         {
             ApplyThingToTarget(field.NextState, () =>
             {
                 int batchIndex = 0;
-                int pixelCount = queue.Count;
+                int pixelCount = field.PendingChanges.Count;
 
                 // Get the FUCK out of here if the queue is empty. If this check isn't here the primitive drawing method will attempt to access
                 // memory that it shouldn't and the OS will tell the program to go fuck itself, resulting in a crash.
-                Texture2D pixel = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Pixel").Value;
                 if (pixelCount <= 0)
                     return;
 
+                Texture2D pixel = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Pixel").Value;
                 CalamityUtils.CalculatePerspectiveMatricies(out Matrix viewMatrix, out Matrix projectionMatrix);
                 BasicShader.View = viewMatrix;
                 BasicShader.Projection = projectionMatrix;
@@ -129,7 +123,7 @@ namespace CalamityMod.FluidSimulation
                 short[] indices = new short[pixelCount * 6];
 
                 // Go through the queue and prepare the vertices/indices.
-                while (queue.TryDequeue(out PixelQueueValue v))
+                while (field.PendingChanges.TryDequeue(out PixelQueueValue v))
                 {
                     Color value = new(v.Value.X, v.Value.Y, v.Value.Z, v.Value.W);
                     Vector2 topLeft = v.Position;
@@ -238,10 +232,10 @@ namespace CalamityMod.FluidSimulation
             UpdateAction = null;
 
             // Clear queues.
-            FlushQueueToTarget(HorizontalFieldSpeed, HorizontalSpeedQueue);
-            FlushQueueToTarget(VerticalFieldSpeed, VerticalSpeedQueue);
-            FlushQueueToTarget(ColorField, ColorFieldQueue);
-            FlushQueueToTarget(DensityField, DensityQueue);
+            FlushQueueToTarget(HorizontalFieldSpeed);
+            FlushQueueToTarget(VerticalFieldSpeed);
+            FlushQueueToTarget(ColorField);
+            FlushQueueToTarget(DensityField);
 
             UpdateVelocityFields();
             UpdateDensityFields();
@@ -298,12 +292,12 @@ namespace CalamityMod.FluidSimulation
             if (x < 0 || y < 0 || x >= Size || y >= Size)
                 return;
 
-            ColorFieldQueue.Enqueue(new PixelQueueValue(pos, color));
+            ColorField.PendingChanges.Enqueue(new PixelQueueValue(pos, color));
 
-            HorizontalSpeedQueue.Enqueue(new(pos, new Vector4(velocity.X, 0f, 0f, 0f)));
-            VerticalSpeedQueue.Enqueue(new(pos, new Vector4(velocity.Y, 0f, 0f, 0f)));
+            HorizontalFieldSpeed.PendingChanges.Enqueue(new(pos, new Vector4(velocity.X, 0f, 0f, 0f)));
+            VerticalFieldSpeed.PendingChanges.Enqueue(new(pos, new Vector4(velocity.Y, 0f, 0f, 0f)));
 
-            DensityQueue.Enqueue(new PixelQueueValue(pos, new Color(density, 0f, 0f)));
+            DensityField.PendingChanges.Enqueue(new PixelQueueValue(pos, new Color(density, 0f, 0f)));
         }
 
         public void Draw(Vector2 drawPosition, bool needsToCallEnd, Matrix drawPerspective, Matrix previousPerspective)

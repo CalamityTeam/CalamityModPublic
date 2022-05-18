@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -11,6 +12,8 @@ namespace CalamityMod.FluidSimulation
         public RenderTarget2D PreviousState;
 
         public RenderTarget2D NextState;
+
+        public Queue<PixelQueueValue> PendingChanges = new();
 
         public void Dispose()
         {
