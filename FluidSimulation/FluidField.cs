@@ -29,8 +29,6 @@ namespace CalamityMod.FluidSimulation
 
         internal Queue<PixelQueueValue> ColorFieldQueue = new();
 
-        public int Size;
-
         public float Viscosity;
 
         public float DiffusionFactor;
@@ -39,6 +37,8 @@ namespace CalamityMod.FluidSimulation
 
         public bool ShouldUpdate;
 
+        public bool ShouldSkipDivergenceClearingStep;
+
         public Action UpdateAction;
 
         public bool Disposing
@@ -46,6 +46,10 @@ namespace CalamityMod.FluidSimulation
             get;
             private set;
         }
+
+        public readonly int Size;
+
+        public readonly float Scale;
 
         public const float DeltaTime = 0.016666f;
 
@@ -69,9 +73,10 @@ namespace CalamityMod.FluidSimulation
             }
         }
 
-        internal FluidField(int size, float viscosity, float diffusionFactor, float dissipationFactor)
+        internal FluidField(int size, float scale, float viscosity, float diffusionFactor, float dissipationFactor)
         {
             Size = size;
+            Scale = scale;
             Viscosity = viscosity;
             DiffusionFactor = diffusionFactor;
             DissipationFactor = dissipationFactor;
@@ -82,7 +87,7 @@ namespace CalamityMod.FluidSimulation
             ColorField = new(size);
 
             // A surface format of Vector4 is used here to allow for both 0-1 ranged colors and other things at the same time.
-            TemporaryAuxilaryTarget = new(Main.instance.GraphicsDevice, Size, Size, false, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            TemporaryAuxilaryTarget = new(Main.instance.GraphicsDevice, Size, Size, true, SurfaceFormat.Vector4, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
         }
 
         internal void ApplyThingToTarget(RenderTarget2D currentField, Action shaderPreparationsAction)
@@ -240,6 +245,8 @@ namespace CalamityMod.FluidSimulation
 
             UpdateVelocityFields();
             UpdateDensityFields();
+
+            ShouldSkipDivergenceClearingStep = false;
         }
 
         internal void UpdateVelocityFields()
@@ -247,12 +254,14 @@ namespace CalamityMod.FluidSimulation
             CalculateDiffusion(Viscosity, HorizontalFieldSpeed);
             CalculateDiffusion(Viscosity, VerticalFieldSpeed);
 
-            ClearDivergence(HorizontalFieldSpeed.NextState, VerticalFieldSpeed.NextState, HorizontalFieldSpeed.PreviousState);
+            if (!ShouldSkipDivergenceClearingStep)
+                ClearDivergence(HorizontalFieldSpeed.NextState, VerticalFieldSpeed.NextState, HorizontalFieldSpeed.PreviousState);
 
             CalculateAdvection(HorizontalFieldSpeed.NextState, HorizontalFieldSpeed.PreviousState, HorizontalFieldSpeed.PreviousState, VerticalFieldSpeed.PreviousState);
             CalculateAdvection(VerticalFieldSpeed.NextState, VerticalFieldSpeed.PreviousState, HorizontalFieldSpeed.PreviousState, VerticalFieldSpeed.PreviousState);
 
-            ClearDivergence(HorizontalFieldSpeed.NextState, VerticalFieldSpeed.NextState, HorizontalFieldSpeed.PreviousState);
+            if (!ShouldSkipDivergenceClearingStep)
+                ClearDivergence(HorizontalFieldSpeed.NextState, VerticalFieldSpeed.NextState, HorizontalFieldSpeed.PreviousState);
         }
 
         internal void UpdateDensityFields()
@@ -272,6 +281,7 @@ namespace CalamityMod.FluidSimulation
             if (Disposing)
                 return;
 
+            FluidFieldManager.Fields.Remove(this);
             Disposing = true;
 
             TemporaryAuxilaryTarget?.Dispose();
@@ -304,7 +314,7 @@ namespace CalamityMod.FluidSimulation
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, drawPerspective);
             Main.instance.GraphicsDevice.Textures[5] = ColorField.NextState;
             CalamityShaders.FluidShaders.CurrentTechnique.Passes["DrawFluidPass"].Apply();
-            Main.spriteBatch.Draw(DensityField.NextState, drawPosition, null, Color.White, 0f, DensityField.NextState.Size() * 0.5f, 2f, 0, 0f);
+            Main.spriteBatch.Draw(DensityField.NextState, drawPosition, null, Color.White, 0f, DensityField.NextState.Size() * 0.5f, Scale, 0, 0f);
             Main.spriteBatch.End();
 
             if (needsToCallEnd)

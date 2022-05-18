@@ -25,8 +25,8 @@ namespace CalamityMod.FluidSimulation
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            PreviousState = new(Main.instance.GraphicsDevice, size, size, false, fieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
-            NextState = new(Main.instance.GraphicsDevice, size, size, false, fieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            PreviousState = new(Main.instance.GraphicsDevice, size, size, true, fieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
+            NextState = new(Main.instance.GraphicsDevice, size, size, true, fieldContents, DepthFormat.Depth24, 0, RenderTargetUsage.PreserveContents);
         }
     }
 }

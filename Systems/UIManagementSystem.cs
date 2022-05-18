@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -9,8 +10,12 @@ namespace CalamityMod.Systems
 {
     public class UIManagementSystem : ModSystem
     {
+        public static Vector2 PreviousMouseWorld;
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
+            PreviousMouseWorld = Main.MouseWorld;
+
             int buffDisplayIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Resource Bars");
             if (buffDisplayIndex != -1)
             {

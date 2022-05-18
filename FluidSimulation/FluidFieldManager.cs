@@ -6,18 +6,11 @@ namespace CalamityMod.FluidSimulation
     {
         internal static List<FluidField> Fields = new();
 
-        public static FluidField CreateField(int size, float viscosity, float diffusionFactor, float dissipationFactor)
+        public static FluidField CreateField(int size, float scale, float viscosity, float diffusionFactor, float dissipationFactor)
         {
-            var field = new FluidField(size, viscosity, diffusionFactor, dissipationFactor);
+            var field = new FluidField(size, scale, viscosity, diffusionFactor, dissipationFactor);
             Fields.Add(field);
             return field;
-        }
-
-        public static void DestroyField(ref FluidField field)
-        {
-            Fields.Remove(field);
-            field.Dispose();
-            field = null;
         }
 
         // Update logic SHOULD NOT be called manually in external parts.
