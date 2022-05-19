@@ -1,9 +1,8 @@
 sampler nextStates : register(s0);
 sampler previousStates : register(s1);
-sampler horizontalSpeeds : register(s2);
-sampler verticalSpeeds : register(s3);
-sampler divergencePBuffer : register(s4);
-sampler colorField : register(s5);
+sampler velocityField : register(s2);
+sampler divergencePBuffer : register(s3);
+sampler colorField : register(s4);
 
 bool horizontalCase_Divergence;
 bool handlingColors;
@@ -62,18 +61,17 @@ float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     float2 roundedCoords = clamp(coords, step, 1 - step);
 
     float color;
-    float xSpeed = tex2D(horizontalSpeeds, roundedCoords).r;
-    float ySpeed = tex2D(verticalSpeeds, roundedCoords).r;
+    float2 velocity = tex2D(velocityField, roundedCoords).rg;
     
     if (coords.x <= step * 4 || coords.x >= 1 - step * 4)
-        xSpeed = 0;
+        velocity.x = 0;
     
     if (coords.y <= step * 4 || coords.y >= 1 - step * 4)
-        ySpeed = 0;
+        velocity.y = 0;
         
     float viscosity = deltaTime * size;
-    float X = clamp(roundedCoords.x - (viscosity * xSpeed) * step, step, 1 - step);
-    float Y = clamp(roundedCoords.y - (viscosity * ySpeed) * step, step, 1 - step);
+    float X = clamp(roundedCoords.x - (viscosity * velocity.x) * step, step, 1 - step);
+    float Y = clamp(roundedCoords.y - (viscosity * velocity.y) * step, step, 1 - step);
     
     X = clamp(X, 0, 1 - step);
     Y = clamp(Y, 0, 1 - step);
@@ -105,7 +103,7 @@ float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
 float4 ClearDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
-    float2 originalVelocity = float2(tex2D(horizontalSpeeds, coords).r, tex2D(verticalSpeeds, coords).r);
+    float2 originalVelocity = tex2D(velocityField, coords).rg;
     if (horizontalCase_Divergence)
     {
         float rightPValue = tex2D(divergencePBuffer, clamp(coords + float2(step, 0), step, 1 - step));
@@ -125,10 +123,10 @@ float4 ClearDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0)
 float4 PerformPoissonIteration(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
-    float rightHorizontalSpeed = tex2D(horizontalSpeeds, clamp(coords + float2(step, 0), step, 1 - step));
-    float leftHorizontalSpeed = tex2D(horizontalSpeeds, clamp(coords - float2(step, 0), step, 1 - step));
-    float upVerticalSpeed = tex2D(verticalSpeeds, clamp(coords - float2(0, step), step, 1 - step));
-    float downVerticalSpeed = tex2D(verticalSpeeds, clamp(coords + float2(0, step), step, 1 - step));
+    float rightHorizontalSpeed = tex2D(velocityField, clamp(coords + float2(step, 0), step, 1 - step)).r;
+    float leftHorizontalSpeed = tex2D(velocityField, clamp(coords - float2(step, 0), step, 1 - step)).r;
+    float upVerticalSpeed = tex2D(velocityField, clamp(coords - float2(0, step), step, 1 - step)).g;
+    float downVerticalSpeed = tex2D(velocityField, clamp(coords + float2(0, step), step, 1 - step)).g;
     float divergence = -step * (rightHorizontalSpeed - leftHorizontalSpeed + downVerticalSpeed - upVerticalSpeed) * 0.5;
     
     float rightPValue = tex2D(previousStates, clamp(coords + float2(step, 0), step, 1 - step));
