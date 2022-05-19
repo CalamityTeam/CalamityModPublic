@@ -187,10 +187,9 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[Projectile.owner];
             int projID = ProjectileID.RocketI;
             float shootSpeed = 0f;
-            bool canShoot = true;
             int damage = 0;
             float kb = 0f;
-            player.PickAmmo(FalseLauncher, ref projID, ref shootSpeed, ref canShoot, ref damage, ref kb, out _, true);
+            player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
             int blastRadius = 0;
             if (projID == ProjectileID.RocketII)
                 blastRadius = 4;

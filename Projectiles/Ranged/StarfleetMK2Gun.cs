@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.ai[1] = baseUseTime - modifier * Projectile.localAI[0];
                 timeToFire = true;
             }
-            bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool canFire = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
             if (Projectile.soundDelay <= 0 && canFire)
             {
                 Projectile.soundDelay = baseUseTime - modifier * (int)Projectile.localAI[0];
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
                     float shootSpeed = 16f;
                     int damage = player.GetWeaponDamage(player.ActiveItem());
                     float knockBack = player.ActiveItem().knockBack;
-                    player.PickAmmo(player.ActiveItem(), ref type, ref shootSpeed, ref canFire, ref damage, ref knockBack, out _);
+                    player.PickAmmo(player.ActiveItem(), out type, out shootSpeed, out damage, out knockBack, out _);
                     for (int i = 0; i < 5; i++)
                     {
                         knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);

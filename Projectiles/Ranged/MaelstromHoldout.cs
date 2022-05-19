@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class MaelstromHoldout : ModProjectile
     {
         private Player Owner => Main.player[Projectile.owner];
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
         private ref float CurrentChargingFrames => ref Projectile.ai[0];
         private ref float ArrowsLoaded => ref Projectile.ai[1];
         private ref float FramesToLoadNextArrow => ref Projectile.localAI[0];
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             bool uselessFuckYou = OwnerCanShoot;
             int projectileType = 0;
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref arrowDamage, ref knockback, out _);
+            Owner.PickAmmo(heldItem, out projectileType, out shootSpeed, out arrowDamage, out knockback, out _);
             projectileType = ModContent.ProjectileType<TheMaelstromShark>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);

@@ -20,6 +20,8 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
+            TileID.Sets.CommonSapling[Type] = true;
+            TileID.Sets.TreeSapling[Type] = true;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 1);
@@ -49,10 +51,12 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override void RandomUpdate(int i, int j)
         {
-            if (WorldGen.genRand.Next(20) == 0)
+            if (WorldGen.genRand.Next(20) == 0 || true)
             {
                 bool isPlayerNear = WorldGen.PlayerLOS(i, j);
-                bool success = WorldGen.GrowTree(i, j);
+
+                bool success = WorldGen.GrowPalmTree(i, j);
+
                 if (success && isPlayerNear)
                 {
                     WorldGen.TreeGrowFXCheck(i, j);

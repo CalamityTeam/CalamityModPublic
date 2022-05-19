@@ -30,8 +30,6 @@ namespace CalamityMod.Tiles.AstralSnow
             TileID.Sets.Snow[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
-
-            SetModTree(new AstralSnowTree());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -44,12 +42,6 @@ namespace CalamityMod.Tiles.AstralSnow
             // CustomTileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>(), false, false, false, false, resetFrame);
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AstralDirt>());
             return false;
-        }
-
-        public override int SaplingGrowthType(ref int style)
-        {
-            style = 0;
-            return ModContent.TileType<AstralSnowTreeSapling>();
         }
     }
 }

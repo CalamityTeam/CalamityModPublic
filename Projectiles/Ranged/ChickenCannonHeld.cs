@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
                 FramesTillNextShot = FireRate;
                 shouldShoot = true;
             }
-            bool canShoot = player.channel && (player.HasAmmo(player.ActiveItem(), true) || FreeShotLoaded > 0) && !player.noItems && !player.CCed;
+            bool canShoot = player.channel && (player.HasAmmo(player.ActiveItem()) || FreeShotLoaded > 0) && !player.noItems && !player.CCed;
             if (Projectile.soundDelay <= 0 && canShoot)
             {
                 Projectile.soundDelay = (int)FireRate;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (FreeShotLoaded > 0)
                             FreeShotLoaded--;
                         else
-                            player.PickAmmo(player.ActiveItem(), ref projType, ref speedMult2, ref canShoot, ref dmg, ref kBack, out _);
+                            player.PickAmmo(player.ActiveItem(), out projType, out speedMult2, out dmg, out kBack, out _);
 
                         projType = ModContent.ProjectileType<ChickenRocket>();
                         kBack = player.GetWeaponKnockback(player.ActiveItem(), kBack);

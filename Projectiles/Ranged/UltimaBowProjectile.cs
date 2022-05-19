@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public void AttemptToFireProjectiles(Player player)
         {
-            bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
+            bool canFire = player.channel && player.HasAmmo(player.ActiveItem()) && !player.noItems && !player.CCed;
             if (!canFire)
             {
                 Projectile.Kill();
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int damage = player.GetWeaponDamage(player.ActiveItem());
                 float knockBack = player.ActiveItem().knockBack;
 
-                player.PickAmmo(player.ActiveItem(), ref type, ref shotSpeed, ref canFire, ref damage, ref knockBack, out _); // Pick ammo and consume it (this incorporates the bow's chance to not consume ammo).
+                player.PickAmmo(player.ActiveItem(), out type, out shotSpeed, out damage, out knockBack, out _); // Pick ammo and consume it (this incorporates the bow's chance to not consume ammo).
 
                 SoundEngine.PlaySound(player.ActiveItem().UseSound, Projectile.Center);
 

@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool CanConsumeAmmo(Player player) => Main.rand.Next(100) > 40;
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.Next(100) > 40;
 
         public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
 

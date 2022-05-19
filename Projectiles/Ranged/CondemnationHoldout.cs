@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
     public class CondemnationHoldout : ModProjectile
     {
         private Player Owner => Main.player[Projectile.owner];
-        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem(), true) && !Owner.noItems && !Owner.CCed;
+        private bool OwnerCanShoot => Owner.channel && Owner.HasAmmo(Owner.ActiveItem()) && !Owner.noItems && !Owner.CCed;
         private ref float CurrentChargingFrames => ref Projectile.ai[0];
         private ref float ArrowsLoaded => ref Projectile.ai[1];
         private ref float FramesToLoadNextArrow => ref Projectile.localAI[0];
@@ -126,13 +126,9 @@ namespace CalamityMod.Projectiles.Ranged
 
             Item heldItem = Owner.ActiveItem();
             // calculate damage at the instant this arrow is fired
-            int arrowDamage = (int)(heldItem.damage * Owner.RangedDamage());
-            float shootSpeed = heldItem.shootSpeed * 1.5f; // Loaded arrows move faster than normal.
-            float knockback = heldItem.knockBack;
+            Owner.PickAmmo(heldItem, out int projectileType, out float shootSpeed, out int arrowDamage, out float knockback, out _);
+            shootSpeed *= 1.5f;
 
-            bool uselessFuckYou = OwnerCanShoot;
-            int projectileType = 0;
-            Owner.PickAmmo(heldItem, ref projectileType, ref shootSpeed, ref uselessFuckYou, ref arrowDamage, ref knockback, out _);
             projectileType = ModContent.ProjectileType<CondemnationArrow>();
 
             knockback = Owner.GetWeaponKnockback(heldItem, knockback);

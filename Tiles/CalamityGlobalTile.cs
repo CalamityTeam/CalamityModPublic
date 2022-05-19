@@ -129,7 +129,7 @@ namespace CalamityMod.Tiles
             // If it is actually astral cactus, then draw its glowmask.
             if (astralCactus)
             {
-                spriteBatch.Draw(CalamityMod.AstralCactusGlowTexture, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralDesert/AstralCactusGlow").Value, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
 

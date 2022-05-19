@@ -31,8 +31,6 @@ namespace CalamityMod.Tiles.Astral
             //Grass framing (<3 terraria devs)
             TileID.Sets.NeedsGrassFraming[Type] = true;
             TileID.Sets.NeedsGrassFramingDirt[Type] = ModContent.TileType<AstralDirt>();
-
-            SetModTree(new AstralTree());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int Type)
@@ -46,12 +44,6 @@ namespace CalamityMod.Tiles.Astral
             {
                 Main.tile[i, j].TileType = (ushort)ModContent.TileType<AstralDirt>();
             }
-        }
-
-        public override int SaplingGrowthType(ref int style)
-        {
-            style = 0;
-            return ModContent.TileType<AstralTreeSapling>();
         }
     }
 }

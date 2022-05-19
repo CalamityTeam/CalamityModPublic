@@ -24,8 +24,6 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(150, 100, 50));
             MineResist = 1f;
             SoundType = SoundID.Dig;
-            SetModPalmTree(new AcidWoodTree());
-            SetModCactus(new SulphurousCactus());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -254,11 +252,6 @@ namespace CalamityMod.Tiles.Abyss
         {
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<SulphurousSandstone>(), false, false, false, false, resetFrame);
             return false;
-        }
-        public override int SaplingGrowthType(ref int style)
-        {
-            style = 0;
-            return ModContent.TileType<AcidWoodTreeSapling>();
         }
     }
 }

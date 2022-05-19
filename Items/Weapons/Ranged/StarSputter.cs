@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
-        public override bool CanConsumeAmmo(Player player) //consume ammo only once per round
+        public override bool CanConsumeAmmo(Item ammo, Player player) //consume ammo only once per round
         {
             if (counter == 1 || counter == 2 || counter == 4 || counter == 5 || counter == 7 || counter == 8 || counter == 10 || counter == 11)
                 return false;

@@ -1,10 +1,20 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+using ReLogic.Content;
 
 namespace CalamityMod.Tiles.Abyss
 {
     public class SulphurousCactus : ModCactus
     {
-        public override Texture2D GetTexture() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/SulphurousCactus").Value;
+        public override void SetStaticDefaults()
+        {
+            // Grows on sulphurous sand
+            GrowsOnTileId = new int[2] { ModContent.TileType<SulphurousSand>(), ModContent.TileType<SulphurousSandNoWater>() };
+        }
+
+        public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/SulphurousCactus");
+
+        //What is a FruitTexture
+        public override Asset<Texture2D> GetFruitTexture() => null;
     }
 }

@@ -86,8 +86,6 @@ namespace CalamityMod
         public static Asset<Texture2D> rainOriginal;
         public static Asset<Texture2D> manaOriginal;
         public static Asset<Texture2D> carpetOriginal;
-        public static Texture2D AstralCactusTexture;
-        public static Texture2D AstralCactusGlowTexture;
         public static Texture2D AstralSky;
 
         // DR data structure
@@ -211,8 +209,6 @@ namespace CalamityMod
 
         private void LoadClient()
         {
-            AstralCactusTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactus", AssetRequestMode.ImmediateLoad).Value;
-            AstralCactusGlowTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow", AssetRequestMode.ImmediateLoad).Value;
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky", AssetRequestMode.ImmediateLoad).Value;
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
@@ -304,8 +300,6 @@ namespace CalamityMod
             thorium = null;
             varia = null;
 
-            AstralCactusTexture = null;
-            AstralCactusGlowTexture = null;
             AstralSky = null;
 
             DRValues?.Clear();
