@@ -1,8 +1,11 @@
-﻿using Mono.Cecil.Cil;
+﻿using CalamityMod.Balancing;
+using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.ILEditing
 {
@@ -219,6 +222,96 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4, TileID.PixelBox); // Change to Pixel Box because it cannot be obtained in-game without cheating.
         }
         #endregion
+
+        #region Make Tag Damage Multiplicative
+        private static void MakeTagDamageMultiplicative(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+            int damageLocalIndex = 37;
+
+            bool replaceWithMultipler(int flagLocalIndex, float damageFactor, bool usesExtraVariableToStoreDamage = false)
+            {
+                // Move after the bool load and branch-if-false instruction.
+                cursor.Goto(0);
+                if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdloc(flagLocalIndex)))
+                {
+                    LogFailure("Making Tag Damage Multiplicative", $"Could not locate the flag local index of '{flagLocalIndex}'.");
+                    return false;
+                }
+                cursor.Index += 2;
+
+                // OPTIONAL case for if an extra variable to store damage is used:
+                // Load damage to add.
+                // Store damage to add as a variable.
+
+                // Load damage ->
+                // Load damage addition ->
+                // Add the two ->
+                // Store damage.
+                cursor.RemoveRange(usesExtraVariableToStoreDamage ? 6 : 4);
+
+                // Load damage ->
+                // Cast damage to float ->
+                // Load the damage factor ->
+                // Multiply the two ->
+                // Cast the result to int, removing the fractional part ->
+                // Store damage.
+                cursor.Emit(OpCodes.Ldloc, damageLocalIndex);
+                cursor.Emit(OpCodes.Conv_R4);
+                cursor.Emit(OpCodes.Ldc_R4, damageFactor);
+                cursor.Emit(OpCodes.Mul);
+                cursor.Emit(OpCodes.Conv_I4);
+                cursor.Emit(OpCodes.Stloc, damageLocalIndex);
+                return true;
+            }
+
+            // Leather whip.
+            replaceWithMultipler(50, BalancingConstants.LeatherWhipTagDamageMultiplier);
+
+            // Durendal.
+            replaceWithMultipler(51, BalancingConstants.DurendalTagDamageMultiplier);
+
+            // Snapthorn.
+            replaceWithMultipler(54, BalancingConstants.SnapthornTagDamageMultiplier);
+
+            // Spinal Tap.
+            replaceWithMultipler(55, BalancingConstants.SpinalTapTagDamageMultiplier);
+
+            // Morning Star.
+            replaceWithMultipler(56, BalancingConstants.MorningStarTagDamageMultiplier);
+
+            // Kaleidoscope.
+            replaceWithMultipler(57, BalancingConstants.KaleidoscopeTagDamageMultiplier, true);
+
+            // SPECIAL CASE: Firecracker's damage is fucking absurd and everything needs to go.
+            cursor.Goto(0);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStloc(64)))
+            {
+                LogFailure("Making Tag Damage Multiplicative", $"Could not locate the flag local index of 52.");
+                return;
+            }
+
+            // Change the damage of the explosions.
+            cursor.Emit(OpCodes.Ldarg_0);
+            cursor.EmitDelegate<Func<Projectile, int>>(projectile =>
+            {
+                int damage = (int)(Main.player[projectile.owner].ActiveItem().damage * BalancingConstants.FirecrackerExplosionDamageMultiplier);
+                damage = (int)Main.player[projectile.owner].GetDamage(DamageClass.Summon).ApplyTo(damage);
+                return damage;
+            });
+            cursor.Emit(OpCodes.Stloc, 64);
+
+            // Change the x in damage += x; to zero.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchAdd()))
+            {
+                LogFailure("Making Tag Damage Multiplicative", $"Could not locate the damage additive value.");
+                return;
+            }
+            cursor.Index--;
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4_0);
+        }
+        #endregion Make Tag Damage Multiplicative
 
         #region Fix Chlorophyte Crystal Attacking Where it Shouldn't
 

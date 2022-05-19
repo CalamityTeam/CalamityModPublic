@@ -22,6 +22,15 @@
         internal static readonly int DaedalusReflectCooldown = 5400;
         internal static readonly int EvolutionReflectCooldown = 7200;
 
+        // Internal vanilla item damage variables
+        internal static readonly float LeatherWhipTagDamageMultiplier = 1.08f;
+        internal static readonly float SnapthornTagDamageMultiplier = 1.04f;
+        internal static readonly float SpinalTapTagDamageMultiplier = 1.08f;
+        internal static readonly float FirecrackerExplosionDamageMultiplier = 2.25f; // Relative to the whip, not the summon.
+        internal static readonly float DurendalTagDamageMultiplier = 1.09f;
+        internal static readonly float MorningStarTagDamageMultiplier = 1.11f;
+        internal static readonly float KaleidoscopeTagDamageMultiplier = 1.12f;
+
         // TODO -- Add all balance related constants here that don't belong in other files.
         // These constants were just the ones sitting in CalamityPlayer.
         // Review all constants and static readonlys in the entire mod to find things to add.
