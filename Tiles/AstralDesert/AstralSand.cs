@@ -32,10 +32,6 @@ namespace CalamityMod.Tiles.AstralDesert
             TileID.Sets.Conversion.Sand[Type] = true;
             TileID.Sets.ForAdvancedCollision.ForSandshark[Type] = true;
             TileID.Sets.Falling[Type] = true;
-
-            SetModCactus(new AstralCactus());
-
-            SetModPalmTree(new AstralPalmTree());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -69,20 +65,6 @@ namespace CalamityMod.Tiles.AstralDesert
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
         {
             DustType = 108;
-        }
-
-        public override int SaplingGrowthType(ref int style)
-        {
-            style = 0;
-            return ModContent.TileType<AstralPalmSapling>();
-        }
-    }
-
-    public class AstralCactus : ModCactus
-    {
-        public override Texture2D GetTexture()
-        {
-            return CalamityMod.AstralCactusTexture;
         }
     }
 }
