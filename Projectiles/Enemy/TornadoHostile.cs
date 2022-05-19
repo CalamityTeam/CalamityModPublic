@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            float num1125 = 600f;
+            float num1125 = Projectile.ai[1] == 1f ? 420f : 600f;
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = -1;
@@ -38,18 +38,8 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 Projectile.Kill();
             }
-            if (Projectile.localAI[0] >= 30f)
-            {
-                Projectile.damage = 0;
-                if (Projectile.ai[0] < num1125 - 120f)
-                {
-                    float num1126 = Projectile.ai[0] % 60f;
-                    Projectile.ai[0] = num1125 - 120f + num1126;
-                    Projectile.netUpdate = true;
-                }
-            }
-            float num1127 = 15f;
-            float num1128 = 15f;
+            float num1127 = Projectile.ai[1] == 1f ? 60f : 15f;
+            float num1128 = Projectile.ai[1] == 1f ? 60f : 15f;
             Point point8 = Projectile.Center.ToTileCoordinates();
             int num1129;
             int num1130;
@@ -111,11 +101,13 @@ namespace CalamityMod.Projectiles.Enemy
             }
         }
 
+        public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 60f && Projectile.ai[0] <= (Projectile.ai[1] == 1f ? 360f : 540f);
+
         public override bool PreDraw(ref Color lightColor)
         {
-            float num226 = 600f;
-            float num227 = 15f;
-            float num228 = 15f;
+            float num226 = Projectile.ai[1] == 1f ? 420f : 600f;
+            float num227 = Projectile.ai[1] == 1f ? 60f : 15f;
+            float num228 = Projectile.ai[1] == 1f ? 60f : 15f;
             float num229 = Projectile.ai[0];
             float scale5 = MathHelper.Clamp(num229 / 30f, 0f, 1f);
             if (num229 > num226 - 60f)

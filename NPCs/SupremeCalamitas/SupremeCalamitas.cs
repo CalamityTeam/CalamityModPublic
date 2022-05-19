@@ -2032,7 +2032,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     else if (NPC.ai[1] == 1f)
                     {
-                        float chargeVelocity = (wormAlive ? 31f : 35f) + (0.4f - lifeRatio) * 3f;
+                        float chargeVelocity = (wormAlive ? 26f : 30f) + (1f - lifeRatio) * 8f;
 
                         if (!canDespawn)
                         {

@@ -110,10 +110,10 @@ namespace CalamityMod.NPCs.StormWeaver
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
             // Shed armor
-            bool shedArmor = NPC.life / (float)NPC.lifeMax < 0.9f;
+            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.9f;
 
             // Update armored settings to naked settings
-            if (shedArmor)
+            if (phase2)
             {
                 // Spawn armor gore and set other crucial variables
                 if (NPC.takenDamageMultiplier == 3f)
@@ -227,8 +227,8 @@ namespace CalamityMod.NPCs.StormWeaver
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool shedArmor = NPC.life / (float)NPC.lifeMax < 0.9f;
-            Texture2D texture2D15 = shedArmor ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailNaked").Value : TextureAssets.Npc[NPC.type].Value;
+            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.9f;
+            Texture2D texture2D15 = phase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailNaked").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            if (!shedArmor)
+            if (!phase2)
             {
                 texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverTailGlow").Value;
                 Color rainbowBecauseWhyTheFuckNot = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);

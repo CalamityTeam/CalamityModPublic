@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool phase3 = lifeRatio < 0.65f;
             bool phase4 = lifeRatio < 0.55f;
             bool phase5 = lifeRatio < 0.4f;
-            float num5 = (float)(death ? 20 - Math.Round(5f * (1f - lifeRatio)) : 20);
+            float num5 = death ? 15f : 20f;
 
             float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
             if (Main.dayTime || malice)
@@ -334,10 +334,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         hoverSpeed += 5f * (0.75f - lifeRatio);
                         hoverAcceleration += 0.04f * (0.75f - lifeRatio);
                     }
-
-                    Vector2 vector8 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num39 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector8.X;
-                    float num40 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 120f - vector8.Y;
 
                     Vector2 hoverDestination = Main.player[npc.target].Center - Vector2.UnitY * 120f;
                     float distanceFromHoverDestination = npc.Distance(hoverDestination);

@@ -295,9 +295,9 @@ namespace CalamityMod.NPCs
                                             vector15.Normalize();
                                             vector15 *= Main.rand.Next(death ? 200 : 50, 401) * 0.01f;
 
-                                            float maximumVelocityMult = death ? 0.35f : 0.25f;
+                                            float maximumVelocityMult = death ? 0.7f : 0.5f;
                                             if (expertMode)
-                                                vector15 *= 1f + (maximumVelocityMult * (0.5f - lifeRatio) * 2f);
+                                                vector15 *= 1f + (maximumVelocityMult * (0.5f - lifeRatio));
 
                                             Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector15, type, damage, 0f, Main.myPlayer, 0f, Main.rand.Next(-45, 1));
                                         }
@@ -1774,7 +1774,7 @@ namespace CalamityMod.NPCs
             {
                 npc.rotation = rotation;
 
-                float chargeVelocity = phase5 ? 30f : (25f + (death ? 4f * (1f - lifeRatio) : 0f));
+                float chargeVelocity = phase5 ? 30f : death ? 28f : 25f;
                 chargeVelocity += 5f * enrageScale;
 
                 if (provy)
@@ -1790,7 +1790,7 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[2] += 1f;
 
-                float chargeTime = phase5 ? 35f : (45f - (death ? 6f * (1f - lifeRatio) : 0f));
+                float chargeTime = phase5 ? 35f : death ? 40f : 45f;
                 if (npc.ai[2] >= chargeTime)
                 {
                     npc.velocity *= 0.9f;
@@ -2919,16 +2919,16 @@ namespace CalamityMod.NPCs
                 {
                     npc.localAI[1] += 1f;
                     if (death)
-                        npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+                        npc.localAI[2] += 1.25f;
 
                     if (phase3)
                     {
                         npc.localAI[1] += 1f;
                         if (death)
-                            npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+                            npc.localAI[2] += 1.25f;
                     }
 
-                    if (npc.localAI[1] >= ((malice ? 120f : 240f) - (death ? 60f * (1f - lifeRatio) : 0f)))
+                    if (npc.localAI[1] >= (malice ? 60f : death ? 180f : 240f))
                     {
                         // Spawn slimes
                         bool spawnFlag = revenge;
@@ -2990,12 +2990,12 @@ namespace CalamityMod.NPCs
                 npc.damage = 0;
 
                 if (death)
-                    npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+                    npc.localAI[2] += 1.25f;
 
                 if (phase3)
                 {
                     if (death)
-                        npc.localAI[2] += 1f + 0.33f * (1f - lifeRatio);
+                        npc.localAI[2] += 1.25f;
                 }
 
                 // Turn invisible

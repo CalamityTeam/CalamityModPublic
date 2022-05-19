@@ -573,8 +573,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.rotation = npc.velocity.X / 15f;
 
-                    float flightVelocity = malice ? 25f : 15f + (death ? 5f * (1f - lifeRatio) : 0f);
-                    float flightAcceleration = malice ? 0.25f : 0.15f + (death ? 0.5f * (1f - lifeRatio) : 0f);
+                    float flightVelocity = malice ? 25f : death ? 20f : 15f;
+                    float flightAcceleration = malice ? 0.25f : death ? 0.2f : 0.15f;
 
                     Vector2 destination = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 500f);
                     npc.SimpleFlyMovement(Vector2.Normalize(destination - npc.Center) * flightVelocity, flightAcceleration);
@@ -582,7 +582,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Spit homing missiles and then go to floating phase
                     if (Vector2.Distance(npc.Center, destination) < 160f || npc.ai[2] > 0f)
                     {
-                        float missileSpawnDivisor = death ? 12f - (float)Math.Round(4f * (1f - lifeRatio)) : 12f;
+                        float missileSpawnDivisor = death ? 8f : 12f;
                         npc.ai[2] += 1f;
                         if (npc.ai[2] % missileSpawnDivisor == 0f)
                         {
