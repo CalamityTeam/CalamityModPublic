@@ -313,6 +313,16 @@ namespace CalamityMod.ILEditing
         }
         #endregion Make Tag Damage Multiplicative
 
+        #region Remove Hellforge Pickaxe Requirement
+        private static int RemoveHellforgePickaxeRequirement(On.Terraria.Player.orig_GetPickaxeDamage orig, Player self, int x, int y, int pickPower, int hitBufferIndex, Tile tileTarget)
+        {
+            if (tileTarget.TileType == TileID.Hellforge)
+                pickPower = 65;
+
+            return orig(self, x, y, pickPower, hitBufferIndex, tileTarget);
+        }
+        #endregion
+
         #region Fix Chlorophyte Crystal Attacking Where it Shouldn't
 
         #endregion Fix Chlorophyte Crystal Attacking Where it Shouldn't
