@@ -693,6 +693,37 @@ namespace CalamityMod.Projectiles
                 return false;
             }
 
+            else if (projectile.type == ProjectileID.FrostWave && projectile.ai[1] > 0f)
+            {
+                if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
+                {
+                    projectile.scale += 0.005f;
+                    projectile.alpha -= 25;
+                    if (projectile.alpha <= 0)
+                    {
+                        projectile.ai[0] = 1f;
+                        projectile.alpha = 0;
+                    }
+                }
+                else if (projectile.ai[0] == 1f)
+                {
+                    projectile.scale -= 0.005f;
+                    projectile.alpha += 25;
+                    if (projectile.alpha >= 255)
+                    {
+                        projectile.ai[0] = 2f;
+                        projectile.alpha = 255;
+                    }
+                }
+
+                if (projectile.velocity.Length() < projectile.ai[1])
+                    projectile.velocity *= 1.0125f;
+
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+                return false;
+            }
+
             else if (projectile.type == ProjectileID.Starfury)
             {
                 if (projectile.timeLeft > 45)
@@ -2545,6 +2576,13 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+                // Storm Weaver frost waves don't deal damage unless they're at their max velocity
+                case ProjectileID.FrostWave:
+                    if (projectile.ai[1] > 0f)
+                        return projectile.velocity.Length() >= projectile.ai[1];
+                    break;
+
+                // Duke Fishron tornadoes don't deal damage for a bit after they spawn
                 case ProjectileID.Sharknado:
                     if (projectile.timeLeft > 420)
                         return false;

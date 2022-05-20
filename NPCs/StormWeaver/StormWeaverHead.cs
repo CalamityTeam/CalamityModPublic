@@ -344,14 +344,83 @@ namespace CalamityMod.NPCs.StormWeaver
                 bool useTornadoes = phase4 && calamityGlobalNPC.newAI[3] % 2f == 0f;
 
                 // Gate value that decides when Storm Weaver will charge
-                float chargePhaseGateValue = (malice ? 280f : death ? 320f : revenge ? 360f : 400f) - (malice ? 28f : death ? 32f : revenge ? 36f : 40f) * (1f - (lifeRatio / 0.9f));
+                float chargePhaseGateValue = (int)((malice ? 280f : death ? 320f : revenge ? 360f : 400f) - (malice ? 56f : death ? 64f : revenge ? 72f : 80f) * (1f - (lifeRatio / 0.9f)));
 
                 // Divisor that dictates whether frost waves or tornadoes will be fired or not
-                float projectileShootDivisor = (malice ? 180f : death ? 220f : revenge ? 260f : 300f) - (malice ? 18f : death ? 22f : revenge ? 26f : 30f) * (1f - (lifeRatio / 0.9f));
+                float projectileShootDivisor = (int)((malice ? 180f : death ? 220f : revenge ? 260f : 300f) - (malice ? 36f : death ? 44f : revenge ? 42f : 60f) * (1f - (lifeRatio / 0.9f)));
 
                 // Call down frost waves from the sky
                 if (phase3 && !useTornadoes)
                 {
+                    // Let it snow while able to use the frost wave attack
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        Vector2 scaledSize = Main.Camera.ScaledSize;
+                        Vector2 scaledPosition = Main.Camera.ScaledPosition;
+                        if (Main.gamePaused || !(Main.player[NPC.target].position.Y < Main.worldSurface * 16.0))
+                            return;
+
+                        float screenWidth = Main.Camera.ScaledSize.X / Main.maxScreenW;
+                        int snowDustMax = (int)(500f * screenWidth);
+                        snowDustMax = (int)(snowDustMax * 3f);
+                        float snowDustAmt = 50f;
+
+                        for (int i = 0; i < snowDustAmt; i++)
+                        {
+                            try
+                            {
+                                if (!(Main.snowDust < snowDustMax * (Main.gfxQuality / 2f + 0.5f) + snowDustMax * 0.1f))
+                                    return;
+
+                                if (!(Main.rand.NextFloat() < 0.125f))
+                                    continue;
+
+                                int snowDustSpawnX = Main.rand.Next((int)scaledSize.X + 1500) - 750;
+                                int snowDustSpawnY = (int)scaledPosition.Y - Main.rand.Next(50);
+                                if (Main.player[NPC.target].velocity.Y > 0f)
+                                    snowDustSpawnY -= (int)Main.player[NPC.target].velocity.Y;
+
+                                if (Main.rand.Next(5) == 0)
+                                    snowDustSpawnX = Main.rand.Next(500) - 500;
+                                else if (Main.rand.Next(5) == 0)
+                                    snowDustSpawnX = Main.rand.Next(500) + (int)scaledSize.X;
+
+                                if (snowDustSpawnX < 0 || snowDustSpawnX > scaledSize.X)
+                                    snowDustSpawnY += Main.rand.Next((int)(scaledSize.Y * 0.8)) + (int)(scaledSize.Y * 0.1);
+
+                                snowDustSpawnX += (int)scaledPosition.X;
+                                int snowDustSpawnTileX = snowDustSpawnX / 16;
+                                int snowDustSpawnTileY = snowDustSpawnY / 16;
+                                if (WorldGen.InWorld(snowDustSpawnTileX, snowDustSpawnTileY) && !Main.tile[snowDustSpawnTileX, snowDustSpawnTileY].HasUnactuatedTile)
+                                {
+                                    int dust = Dust.NewDust(new Vector2(snowDustSpawnX, snowDustSpawnY), 10, 10, 76);
+                                    Main.dust[dust].scale += 0.2f;
+                                    Main.dust[dust].velocity.Y = 3f + Main.rand.Next(30) * 0.1f;
+                                    Main.dust[dust].velocity.Y *= Main.dust[dust].scale;
+                                    if (!Main.raining)
+                                    {
+                                        Main.dust[dust].velocity.X = Main.windSpeedCurrent + Main.rand.Next(-10, 10) * 0.1f;
+                                        Main.dust[dust].velocity.X += Main.windSpeedCurrent * 15f;
+                                    }
+                                    else
+                                    {
+                                        Main.dust[dust].velocity.X = (float)Math.Sqrt(Math.Abs(Main.windSpeedCurrent)) * Math.Sign(Main.windSpeedCurrent) * 15f + Main.rand.NextFloat() * 0.2f - 0.1f;
+                                        Main.dust[dust].velocity.Y *= 0.5f;
+                                    }
+
+                                    Main.dust[dust].velocity.Y *= 1.3f;
+                                    Main.dust[dust].scale += 0.2f;
+                                    Main.dust[dust].velocity *= 1.5f;
+                                }
+
+                                continue;
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    }
+
                     if (calamityGlobalNPC.newAI[2] % projectileShootDivisor == 0f)
                     {
                         // Dictates whether Storm Weaver will use frost or tornadoes
@@ -364,43 +433,52 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             int type = ProjectileID.FrostWave;
                             int waveDamage = NPC.GetProjectileDamage(type);
-                            int totalWaves = phase4 ? 7 : 9;
-                            int shotSpacing = phase4 ? 258 : 200;
+                            int totalWaves = phase4 ? 14 : 18;
+                            int shotSpacing = phase4 ? 143 : 150;
                             float projectileSpawnX = Main.player[NPC.target].Center.X - totalWaves * shotSpacing * 0.5f;
 
                             for (int x = 0; x < totalWaves; x++)
                             {
-                                float velocityY = 16f;
+                                float velocityY = phase4 ? 8f : 6f;
                                 switch (x)
                                 {
                                     case 0:
-                                        break;
                                     case 1:
-                                        velocityY -= phase4 ? 2.667f : 2f;
                                         break;
                                     case 2:
-                                        velocityY -= phase4 ? 5.333f : 4f;
-                                        break;
                                     case 3:
-                                        velocityY -= phase4 ? 8f : 6f;
+                                        velocityY -= phase4 ? 1.333f : 1f;
                                         break;
                                     case 4:
-                                        velocityY -= phase4 ? 5.333f : 8f;
-                                        break;
                                     case 5:
-                                        velocityY -= phase4 ? 2.667f : 6f;
+                                        velocityY -= phase4 ? 2.667f : 2f;
                                         break;
                                     case 6:
-                                        velocityY -= phase4 ? 0f : 4f;
-                                        break;
                                     case 7:
-                                        velocityY -= 2f;
+                                        velocityY -= phase4 ? 4f : 3f;
                                         break;
                                     case 8:
+                                    case 9:
+                                        velocityY -= phase4 ? 2.667f : 4f;
+                                        break;
+                                    case 10:
+                                    case 11:
+                                        velocityY -= phase4 ? 1.333f : 3f;
+                                        break;
+                                    case 12:
+                                    case 13:
+                                        velocityY -= phase4 ? 0f : 2f;
+                                        break;
+                                    case 14:
+                                    case 15:
+                                        velocityY -= 1f;
+                                        break;
+                                    case 16:
+                                    case 17:
                                         break;
                                 }
 
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 800f, 0f, velocityY, type, waveDamage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - (phase4 ? 1200f : 1500f), 0f, velocityY * 0.5f, type, waveDamage, 0f, Main.myPlayer, 0f, velocityY);
                                 projectileSpawnX += shotSpacing;
                             }
                         }
@@ -423,7 +501,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             for (int i = 0; i < totalTornadoes; i++)
                             {
                                 float angle = MathHelper.TwoPi / totalTornadoes * i;
-                                Vector2 spawnPosition = Main.player[NPC.target].Center + angle.ToRotationVector2() * 1600f;
+                                Vector2 spawnPosition = Main.player[NPC.target].Center + angle.ToRotationVector2() * 750f;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), spawnPosition, Vector2.Zero, projectileType, 0, 0f, Main.myPlayer, tornadoDamage, 1f);
                             }
                         }
