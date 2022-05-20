@@ -102,6 +102,11 @@ float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
            XRelative1 * (YRelative0 * c3 + YRelative1 * c4);
 }
 
+// According to the Navier-Stokes continuity equation, the divergence of the field is always zero, as anything else implies that matter is either being
+// created from nothing or being destroyed. However, prior calculations may introduce divergence to the field. As such, this method exists as a means
+// of clearing away the divergence in the field.
+// According to Helmholtz's Theorem, any sufficiently smooth vector field can be expressed as the sum of two fields; one that is irrotational, and one that is solenoidal.
+// This decomposition is used to get rid of the divergence part.
 float4 ClearDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
@@ -116,11 +121,6 @@ float4 ClearDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0)
     return float4(originalVelocity.x, originalVelocity.y, 0, 0);
 }
 
-// According to the Navier-Stokes continuity equation, the divergence of the field is always zero, as anything else implies that matter is either being
-// created from nothing or being destroyed. However, prior calculations may introduce divergence to the field. As such, this method exists as a means
-// of clearing away the divergence in the field.
-// According to Helmholtz's Theorem, any sufficiently smooth vector field can be expressed as the sum of two fields; one that is irrotational, and one that is solenoidal.
-// This decomposition is used to get rid of the divergence part.
 float4 PerformPoissonIteration(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
