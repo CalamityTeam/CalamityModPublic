@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.AcidRain
             return spawnRate;
         }
 
-        public override void OnCatchNPC(Player player, Item item)
+        public override void OnCaughtBy(Player player, Item item, bool failed)
         {
             try
             {

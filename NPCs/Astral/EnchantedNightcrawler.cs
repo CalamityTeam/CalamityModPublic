@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Astral
             return 0f;
         }
 
-        public override void OnCatchNPC(Player player, Item item)
+        public override void OnCaughtBy(Player player, Item item, bool failed)
         {
             try
             {
