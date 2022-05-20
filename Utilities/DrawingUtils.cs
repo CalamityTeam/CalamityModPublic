@@ -237,8 +237,8 @@ namespace CalamityMod
             Main.instance.GraphicsDevice.SetRenderTarget(to);
             Main.instance.GraphicsDevice.Clear(Color.Transparent);
 
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
-            Main.spriteBatch.Draw(from, from.Bounds, Color.White);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+            Main.spriteBatch.Draw(from, Vector2.Zero, null, Color.White);
             Main.spriteBatch.End();
 
             Main.instance.GraphicsDevice.SetRenderTarget(from);

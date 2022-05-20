@@ -2,7 +2,8 @@ sampler nextStates : register(s0);
 sampler previousStates : register(s1);
 sampler velocityField : register(s2);
 sampler divergencePBuffer : register(s3);
-sampler colorField : register(s4);
+sampler divergenceField : register(s4);
+sampler colorField : register(s5);
 
 bool horizontalCase_Divergence;
 bool handlingColors;
@@ -38,7 +39,7 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     // This equation is hyperbolic instead of linear, and will converge in a way that allows for arbitrarily large viscosities.
     // However, as you may have noticed, this equation seeks averageNextCardinalState, which is not known. Fortunately, enough
     // variables are known to find this via a system of equations. In this case, the Gauss-Seidel Method is utilized as an iterative
-    // solver
+    // solver.
     float step = 1.0 / size;
     float4 currentValue = 0;
     float4 previousValue = tex2D(previousStates, coords);
@@ -54,9 +55,11 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     return currentValue * dissipationFactor;
 }
 
-// TODO -- Discuss the details of this function a bit more.
 float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
+    // Similar to the diffusion calculations, this step is performed in such a way that works backwards instead of forwards, by calculating
+    // the contributions from the four pixels that will end up affecting the current pixel. This is determined based on a linear interpolantion
+    // that gives more weight to each of the four squares are the closer their centers are to the place where the backwards step landed.
     float step = 1.0 / size;
     float2 roundedCoords = clamp(coords, step, 1 - step);
 
@@ -99,20 +102,18 @@ float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
            XRelative1 * (YRelative0 * c3 + YRelative1 * c4);
 }
 
-// This should be applied twice to each velocity axis buffer.
 float4 ClearDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
     float2 originalVelocity = tex2D(velocityField, coords).rg;
-    if (horizontalCase_Divergence)
-    {
-        float rightPValue = tex2D(divergencePBuffer, clamp(coords + float2(step, 0), step, 1 - step));
-        float leftPValue = tex2D(divergencePBuffer, clamp(coords - float2(step, 0), step, 1 - step));
-        return float4(originalVelocity.x, 0, 0, 0);
-    }
+    float rightPValue = tex2D(divergencePBuffer, clamp(coords + float2(step, 0), step, 1 - step));
+    float leftPValue = tex2D(divergencePBuffer, clamp(coords - float2(step, 0), step, 1 - step));
     float upPValue = tex2D(divergencePBuffer, clamp(coords - float2(0, step), step, 1 - step));
     float downPValue = tex2D(divergencePBuffer, clamp(coords + float2(0, step), step, 1 - step));
-    return float4(originalVelocity.y, 0, 0, 0);
+    
+    originalVelocity.x -= (rightPValue - leftPValue) * 0.5 / step;
+    originalVelocity.y -= (downPValue - upPValue) * 0.5 / step;
+    return float4(originalVelocity.x, originalVelocity.y, 0, 0);
 }
 
 // According to the Navier-Stokes continuity equation, the divergence of the field is always zero, as anything else implies that matter is either being
@@ -123,17 +124,22 @@ float4 ClearDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0)
 float4 PerformPoissonIteration(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     float step = 1.0 / size;
-    float rightHorizontalSpeed = tex2D(velocityField, clamp(coords + float2(step, 0), step, 1 - step)).r;
-    float leftHorizontalSpeed = tex2D(velocityField, clamp(coords - float2(step, 0), step, 1 - step)).r;
-    float upVerticalSpeed = tex2D(velocityField, clamp(coords - float2(0, step), step, 1 - step)).g;
-    float downVerticalSpeed = tex2D(velocityField, clamp(coords + float2(0, step), step, 1 - step)).g;
-    float divergence = -step * (rightHorizontalSpeed - leftHorizontalSpeed + downVerticalSpeed - upVerticalSpeed) * 0.5;
     
     float rightPValue = tex2D(previousStates, clamp(coords + float2(step, 0), step, 1 - step));
     float leftPValue = tex2D(previousStates, clamp(coords - float2(step, 0), step, 1 - step));
     float upPValue = tex2D(previousStates, clamp(coords - float2(0, step), step, 1 - step));
     float downPValue = tex2D(previousStates, clamp(coords + float2(0, step), step, 1 - step));
-    return (divergence + rightPValue + leftPValue + upPValue + downPValue) / 4;
+    return (tex2D(divergenceField, clamp(coords, step, 1 - step)).r + rightPValue + leftPValue + upPValue + downPValue) / 4;
+}
+
+float4 InitializeDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+{
+    float step = 1.0 / size;
+    float rightHorizontalSpeed = tex2D(velocityField, clamp(coords + float2(step, 0), step, 1 - step)).r;
+    float leftHorizontalSpeed = tex2D(velocityField, clamp(coords - float2(step, 0), step, 1 - step)).r;
+    float upVerticalSpeed = tex2D(velocityField, clamp(coords - float2(0, step), step, 1 - step)).g;
+    float downVerticalSpeed = tex2D(velocityField, clamp(coords + float2(0, step), step, 1 - step)).g;
+    return -step * (rightHorizontalSpeed - leftHorizontalSpeed + downVerticalSpeed - upVerticalSpeed) * 0.5;
 }
 
 float4 DrawField(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
@@ -165,6 +171,11 @@ technique Technique1
     pass PerformPoissonIterationPass
     {
         PixelShader = compile ps_3_0 PerformPoissonIteration();
+    }
+
+    pass InitializeDivergencePass
+    {
+        PixelShader = compile ps_3_0 InitializeDivergence();
     }
 
     pass DrawFluidPass

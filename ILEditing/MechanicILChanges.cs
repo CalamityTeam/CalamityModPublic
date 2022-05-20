@@ -408,7 +408,7 @@ namespace CalamityMod.ILEditing
                     ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
                     ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
                     if (calamityFireDrawer is null || calamityFireDrawer.Size != size)
-                        calamityFireDrawer = FluidFieldManager.CreateField(size, scale, 0.08f, 20f, 0.992f);
+                        calamityFireDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
                     // Update the fire draw position.
                     firePosition = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
@@ -417,7 +417,6 @@ namespace CalamityMod.ILEditing
                     int y = (int)((drawPosition.Y - firePosition.Y) / calamityFireDrawer.Scale);
 
                     calamityFireDrawer.ShouldUpdate = true;
-                    calamityFireDrawer.ShouldSkipDivergenceClearingStep = true;
                     calamityFireDrawer.UpdateAction = () =>
                     {
                         Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
@@ -453,8 +452,6 @@ namespace CalamityMod.ILEditing
                         }
                     };
 
-                    UIManagementSystem.PreviousZoom = Main.GameViewMatrix.Zoom;
-                    Main.GameViewMatrix.Zoom = Vector2.One;
                     calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix);
                 }
 

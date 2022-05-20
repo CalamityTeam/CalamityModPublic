@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
 
 namespace CalamityMod.FluidSimulation
 {
@@ -20,8 +22,11 @@ namespace CalamityMod.FluidSimulation
         // if not done at an appropriate point in time.
         public static void Update()
         {
+            var old = Main.GameViewMatrix.Zoom;
+            Main.GameViewMatrix.Zoom = Vector2.One;
             foreach (FluidField field in Fields)
                 field.Update();
+            Main.GameViewMatrix.Zoom = old;
         }
     }
 }
