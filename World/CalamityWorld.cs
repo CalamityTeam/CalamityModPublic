@@ -30,18 +30,6 @@ namespace CalamityMod.World
         public static bool armageddon = false; // Armageddon Mode
         public static bool malice = false; // Malice Mode
 
-        // New Temple Altar
-        public static int newAltarX = 0;
-        public static int newAltarY = 0;
-
-        // Evil Islands
-        public static int fehX = 0;
-        public static int fehY = 0;
-
-        // Brimstone Crag
-        public static int fuhX = 0;
-        public static int fuhY = 0;
-
         // Abyss & Sulphur
         public static bool rainingAcid;
         public static int acidRainPoints = 0;

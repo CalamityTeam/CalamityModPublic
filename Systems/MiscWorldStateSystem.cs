@@ -50,8 +50,7 @@ namespace CalamityMod
             BossRushEvent.BossRushActive = false;
             BossRushEvent.BossRushSpawnCountdown = 180;
             BossRushEvent.HostileProjectileKillCounter = 0;
-            newAltarX = 0;
-            newAltarY = 0;
+            CustomTemple.NewAlterPosition = Point.Zero;
             Abyss.AbyssChasmBottom = 0;
             Abyss.AtLeftSideOfWorld = false;
 
