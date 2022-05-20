@@ -447,7 +447,8 @@ namespace CalamityMod.CalPlayer
             if (Player.miscCounter % framesPerHit != 1)
                 return;
 
-            Rectangle sigilHitbox = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
+            Vector2 sigilCenter = Vector2.Transform(Main.MouseScreen, Matrix.CreateScale(UIManagementSystem.PreviousZoom.X, UIManagementSystem.PreviousZoom.Y, 1f)) + Main.screenPosition;
+            Rectangle sigilHitbox = Utils.CenteredRectangle(sigilCenter, new Vector2(35f, 62f));
             int sigilDamage = (int)(Player.AverageDamage() * Calamity.BaseDamage);
             bool brightenedSigil = false;
             for (int i = 0; i < Main.maxNPCs; i++)

@@ -12,10 +12,10 @@ namespace CalamityMod.Systems
     {
         public static Vector2 PreviousMouseWorld;
 
+        public static Vector2 PreviousZoom;
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            PreviousMouseWorld = Main.MouseWorld;
-
             int buffDisplayIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Resource Bars");
             if (buffDisplayIndex != -1)
             {

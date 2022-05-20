@@ -432,13 +432,14 @@ namespace CalamityMod.ILEditing
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
                         {
                             float offsetAngle = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
-                            offsetAngle += (i / (float)horizontalArea) * 0.34f;
-                            Vector2 velocity = (Main.MouseWorld - UIManagementSystem.PreviousMouseWorld);
+                            offsetAngle += i / (float)horizontalArea * 0.34f;
+                            Vector2 velocity = Main.MouseWorld - UIManagementSystem.PreviousMouseWorld;
                             if (velocity.Length() < 64f)
                             {
                                 offsetAngle *= 0.5f;
                                 velocity = Vector2.Zero;
                             }
+                            UIManagementSystem.PreviousMouseWorld = Main.MouseWorld;
 
                             velocity = velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(offsetAngle) * 0.2f;
 
@@ -451,6 +452,9 @@ namespace CalamityMod.ILEditing
                                 Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
                         }
                     };
+
+                    UIManagementSystem.PreviousZoom = Main.GameViewMatrix.Zoom;
+                    Main.GameViewMatrix.Zoom = Vector2.One;
                     calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix);
                 }
 
