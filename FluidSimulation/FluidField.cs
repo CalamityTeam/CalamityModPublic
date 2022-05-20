@@ -277,6 +277,8 @@ namespace CalamityMod.FluidSimulation
             Disposing = true;
 
             TemporaryAuxilaryTarget?.Dispose();
+            DivergenceField?.Dispose();
+            DivergencePoissonField?.Dispose();
             VelocityField?.Dispose();
             ColorField?.Dispose();
             DensityField?.Dispose();

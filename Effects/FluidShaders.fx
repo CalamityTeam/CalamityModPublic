@@ -58,8 +58,8 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
 float4 CalculateAdvection(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
     // Similar to the diffusion calculations, this step is performed in such a way that works backwards instead of forwards, by calculating
-    // the contributions from the four pixels that will end up affecting the current pixel. This is determined based on a linear interpolantion
-    // that gives more weight to each of the four squares are the closer their centers are to the place where the backwards step landed.
+    // the contributions from the four pixels that will end up affecting the current pixel. This is determined based on a linear interpolation
+    // that gives more weight to each of the four squares the closer their centers are to the place where the backwards step landed.
     float step = 1.0 / size;
     float2 roundedCoords = clamp(coords, step, 1 - step);
 
