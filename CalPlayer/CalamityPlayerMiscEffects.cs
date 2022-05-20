@@ -57,6 +57,7 @@ using Terraria.DataStructures;
 using CalamityMod.EntitySources;
 using ReLogic.Content;
 using Terraria.GameContent;
+using CalamityMod.Systems;
 
 namespace CalamityMod.CalPlayer
 {
@@ -162,7 +163,6 @@ namespace CalamityMod.CalPlayer
                     MouseControlsSync();
                 }
             }
-
 
             // After everything else, if Daawnlight Spirit Origin is equipped, set ranged crit to the base 4%.
             // Store all the crit so it can be used in damage calculations.
