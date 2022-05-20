@@ -38,7 +38,7 @@ namespace CalamityMod.CalPlayer
 
             Point point = Player.Center.ToTileCoordinates();
             bool canSulphurFish = false;
-            if (CalamityWorld.abyssSide)
+            if (Abyss.AtLeftSideOfWorld)
             {
                 if (point.X < 380)
                     canSulphurFish = true;
@@ -570,7 +570,7 @@ namespace CalamityMod.CalPlayer
             {
                 Point point = Player.Center.ToTileCoordinates();
                 bool canSulphurFish = false;
-                if (CalamityWorld.abyssSide)
+                if (Abyss.AtLeftSideOfWorld)
                 {
                     if (point.X < 380)
                         canSulphurFish = true;

@@ -50,7 +50,7 @@ namespace CalamityMod.BiomeManagers
         {
             Point point = player.Center.ToTileCoordinates();
             bool sulphurPosX = false;
-            if (CalamityWorld.abyssSide)
+            if (Abyss.AtLeftSideOfWorld)
             {
                 if (point.X < 380)
                     sulphurPosX = true;

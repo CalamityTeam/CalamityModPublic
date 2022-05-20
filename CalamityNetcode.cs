@@ -220,7 +220,7 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
-                        CalamityWorld.bossRushHostileProjKillCounter = countdown3;
+                        BossRushEvent.HostileProjectileKillCounter = countdown3;
                         break;
                     case CalamityModMessageType.TeleportPlayer:
                         Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);

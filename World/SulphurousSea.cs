@@ -74,7 +74,7 @@ namespace CalamityMod.World
         #region Placement Methods
         public static void PlaceSulphurSea()
         {
-            CalamityWorld.abyssSide = Main.dungeonX < Main.maxTilesX / 2;
+            Abyss.AtLeftSideOfWorld = Main.dungeonX < Main.maxTilesX / 2;
             DetermineYStart();
             CreateStartingBlock();
             CreateWater();
@@ -154,7 +154,7 @@ namespace CalamityMod.World
                 float xRatio = x / (float)BiomeWidth;
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
-                    int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                     float yRatio = (y - YStart) / (float)BlockDepth;
                     float xAngleWrap = x / (float)BiomeWidth * MathHelper.TwoPi - MathHelper.Pi;
                     bool generateSand = yRatio < SandstoneYMinimum(xAngleWrap, randomValue1, randomValue2);
@@ -198,7 +198,7 @@ namespace CalamityMod.World
             float lakeSteepness = WorldGen.genRand.NextFloat(1.2f, 1.5f);
             for (int x = 1; x < BiomeWidth; x++)
             {
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 float xRatio = x / (float)BiomeWidth;
                 int lakeDepth = (int)(Math.Sin(MathHelper.Min((1f - xRatio) * MathHelper.PiOver2 * lakeSteepness * 1.2f, MathHelper.PiOver2)) * lakeDepthMax);
                 for (int y = YStart; y <= YStart + lakeDepth; y++)
@@ -224,7 +224,7 @@ namespace CalamityMod.World
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
                     float yRatio = (y - YStart) / (float)BlockDepth;
-                    int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                     if (y - YStart < BlockDepth - (int)(BlockDepth * 0.35f) + (int)(Math.Sin(xRatio * MathHelper.Pi) * (int)(BlockDepth * 0.35f)) - PerlinYDelta)
                     {
                         if (x < PerlinXEdgeClamp || x > BiomeWidth - PerlinXEdgeClamp)
@@ -260,7 +260,7 @@ namespace CalamityMod.World
             {
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
-                    int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                    int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                     int edgeScore = GetEdgeScore(trueX, y);
 
                     if (edgeScore >= MinimumEdgeScore)
@@ -334,7 +334,7 @@ namespace CalamityMod.World
             for (int x = 2; x < BiomeWidth - 2; x++)
             {
                 int trueX = x;
-                if (!CalamityWorld.abyssSide)
+                if (!Abyss.AtLeftSideOfWorld)
                     trueX = Main.maxTilesX - x;
                 for (int y = YStart - 300; y <= YStart; y++)
                 {
@@ -349,7 +349,7 @@ namespace CalamityMod.World
             {
                 int y = YStart - 240;
                 int x = WorldGen.genRand.Next(IslandMaxWidth + IslandXPadding, BiomeWidth - IslandMaxWidth - IslandXPadding);
-                if (!CalamityWorld.abyssSide)
+                if (!Abyss.AtLeftSideOfWorld)
                     x = Main.maxTilesX - x;
                 while (CalamityUtils.ParanoidTileRetrieval(x, y).LiquidAmount == 0)
                 {
@@ -407,7 +407,7 @@ namespace CalamityMod.World
             for (int x = 2; x < BiomeWidth - 2; x++)
             {
                 int trueX = x;
-                if (!CalamityWorld.abyssSide)
+                if (!Abyss.AtLeftSideOfWorld)
                     trueX = Main.maxTilesX - x;
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
@@ -427,7 +427,7 @@ namespace CalamityMod.World
         {
             for (int x = 1; x < BiomeWidth; x++)
             {
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
                     // Generate vents in the top 45%
@@ -486,7 +486,7 @@ namespace CalamityMod.World
             int style;
             for (int x = 1; x < BiomeWidth; x++)
             {
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
                     if (y - YStart > BlockDepth * 0.5f)
@@ -553,7 +553,7 @@ namespace CalamityMod.World
             };
             for (int x = 1; x < BiomeWidth; x++)
             {
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 for (int y = YStart; y <= YStart + BlockDepth; y++)
                 {
                     if (y - YStart > BlockDepth * 0.25f)
@@ -656,7 +656,7 @@ namespace CalamityMod.World
                 {
                     attempts++;
                     int x = WorldGen.genRand.Next(CheckCutoffDistance, BiomeWidth - CheckCutoffDistance);
-                    if (!CalamityWorld.abyssSide)
+                    if (!Abyss.AtLeftSideOfWorld)
                     {
                         x = Main.maxTilesX - x;
                     }
@@ -721,7 +721,7 @@ namespace CalamityMod.World
         {
             for (int x = 0; x < BiomeWidth; x++)
             {
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 for (int y = YStart - 140; y < YStart + 80; y++)
                 {
                     int type = CalamityUtils.ParanoidTileRetrieval(trueX, y).TileType;
@@ -789,7 +789,7 @@ namespace CalamityMod.World
             for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
             {
                 float xRatio = Utils.GetLerpValue(BiomeWidth - 10, BiomeWidth + beachWidth, x, true);
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 int depth = (int)(Math.Sin((1f - xRatio) * MathHelper.PiOver2) * 45 + 1);
                 for (int y = YStart - 40; y < YStart + depth; y++)
                 {
@@ -813,7 +813,7 @@ namespace CalamityMod.World
             // Plant new trees.
             for (int x = BiomeWidth - 10; x <= BiomeWidth + beachWidth; x++)
             {
-                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                int trueX = Abyss.AtLeftSideOfWorld ? x : Main.maxTilesX - x;
                 if (!WorldGen.genRand.NextBool(10))
                     continue;
 
@@ -838,7 +838,7 @@ namespace CalamityMod.World
                     continue;
 
                 int x = WorldGen.genRand.Next(75, BiomeWidth - 85);
-                if (!CalamityWorld.abyssSide)
+                if (!Abyss.AtLeftSideOfWorld)
                     x = Main.maxTilesX - x;
                 int y = WorldGen.genRand.Next(YStart + (int)(BlockDepth * 0.3f), YStart + (int)(BlockDepth * 0.8f));
 
@@ -947,14 +947,14 @@ namespace CalamityMod.World
         };
         public static void DetermineYStart()
         {
-            int xCheckPosition = CalamityWorld.abyssSide ? BiomeWidth + 1 : Main.maxTilesX - BiomeWidth - 1;
+            int xCheckPosition = Abyss.AtLeftSideOfWorld ? BiomeWidth + 1 : Main.maxTilesX - BiomeWidth - 1;
             var searchCondition = Searches.Chain(new Searches.Down(3000), new Conditions.IsSolid());
             Point determinedPoint;
 
             do
             {
                 WorldUtils.Find(new Point(xCheckPosition, (int)WorldGen.worldSurfaceLow - 20), searchCondition, out determinedPoint);
-                xCheckPosition += CalamityWorld.abyssSide.ToDirectionInt();
+                xCheckPosition += Abyss.AtLeftSideOfWorld.ToDirectionInt();
             }
             while (CalamityUtils.ParanoidTileRetrieval(determinedPoint.X, determinedPoint.Y).TileType == TileID.Ebonstone);
             YStart = determinedPoint.Y;

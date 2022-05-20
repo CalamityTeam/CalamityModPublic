@@ -1,6 +1,4 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Systems;
-using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -18,11 +16,11 @@ namespace CalamityMod.BiomeManagers
             int y = Main.maxTilesY;
             int genLimit = x / 2;
             int abyssChasmY = y - 250;
-            int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
+            int abyssChasmX = Abyss.AtLeftSideOfWorld ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
 
             bool abyssPosX = false;
             bool abyssPosY = point.Y <= abyssChasmY;
-            if (CalamityWorld.abyssSide)
+            if (Abyss.AtLeftSideOfWorld)
             {
                 if (point.X < abyssChasmX + 80)
                     abyssPosX = true;

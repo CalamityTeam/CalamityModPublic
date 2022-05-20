@@ -603,7 +603,7 @@ namespace CalamityMod.World
             if (ocean)
             {
                 int tileYLookup = j;
-                if (CalamityWorld.abyssSide)
+                if (Abyss.AtLeftSideOfWorld)
                 {
                     while (!Main.tile[i + 125, tileYLookup].HasTile)
                     {
@@ -665,14 +665,14 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    if ((double)vector.Y > CalamityWorld.abyssChasmBottom)
+                    if ((double)vector.Y > Abyss.AbyssChasmBottom)
                     {
                         num3 -= WorldGen.genRand.Next(5) + 8;
                     }
                 }
                 if (Main.maxTilesY > 2100)
                 {
-                    if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
+                    if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
                         (vector.Y >= Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
@@ -680,7 +680,7 @@ namespace CalamityMod.World
                 }
                 else if (Main.maxTilesY > 1500)
                 {
-                    if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
+                    if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
                         (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
@@ -688,7 +688,7 @@ namespace CalamityMod.World
                 }
                 else
                 {
-                    if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
+                    if (((double)vector.Y > Abyss.AbyssChasmBottom && num > 0f && ocean) ||
                         (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;

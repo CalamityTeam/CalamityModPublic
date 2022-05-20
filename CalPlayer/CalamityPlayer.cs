@@ -3190,7 +3190,7 @@ namespace CalamityMod.CalPlayer
 
         public static void JungleTeleport(Player player, bool syncData = false)
         {
-            int teleportStartX = CalamityWorld.abyssSide ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
+            int teleportStartX = Abyss.AtLeftSideOfWorld ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
             int teleportRangeX = (int)(Main.maxTilesX * 0.15);
 
             int teleportStartY = (int)Main.worldSurface - 75;

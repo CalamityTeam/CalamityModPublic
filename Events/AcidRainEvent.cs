@@ -211,7 +211,7 @@ namespace CalamityMod.Events
                     // While fighting the event in an artificial biome is not bad, having it be started by a patch of Sulphurous Sand
                     // would definitely be strange.
                     // Because of this, this code is executed based on if the player is in the sea (based on tile count) AND position relative to the naturally generated sea.
-                    bool inNaturalSeaPosition = (player.Center.X <= (sulphSeaWidth + 60f) * 16f && CalamityWorld.abyssSide) || (player.Center.X >= (Main.maxTilesX - (sulphSeaWidth + 60f)) * 16f && !CalamityWorld.abyssSide);
+                    bool inNaturalSeaPosition = (player.Center.X <= (sulphSeaWidth + 60f) * 16f && Abyss.AtLeftSideOfWorld) || (player.Center.X >= (Main.maxTilesX - (sulphSeaWidth + 60f)) * 16f && !Abyss.AtLeftSideOfWorld);
                     if (inNaturalSeaPosition && player.Calamity().ZoneSulphur)
                     {
                         // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
@@ -267,9 +267,9 @@ namespace CalamityMod.Events
                     else
                     {
                         var source = new EntitySource_WorldEvent();
-                        int playerClosestToAbyss = Player.FindClosest(new Vector2(CalamityWorld.abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
+                        int playerClosestToAbyss = Player.FindClosest(new Vector2(Abyss.AtLeftSideOfWorld ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
                         Player closestToAbyss = Main.player[playerClosestToAbyss];
-                        if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (CalamityWorld.abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                        if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (Abyss.AtLeftSideOfWorld ? 0 : Main.maxTilesX * 16)) <= 12000f)
                             Projectile.NewProjectile(source, closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero, ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
                     }
                 }

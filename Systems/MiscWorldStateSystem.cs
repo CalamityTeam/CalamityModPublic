@@ -2,6 +2,7 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -48,11 +49,11 @@ namespace CalamityMod
             ArmoredDiggerSpawnCooldown = 0;
             BossRushEvent.BossRushActive = false;
             BossRushEvent.BossRushSpawnCountdown = 180;
-            bossRushHostileProjKillCounter = 0;
+            BossRushEvent.HostileProjectileKillCounter = 0;
             newAltarX = 0;
             newAltarY = 0;
-            abyssChasmBottom = 0;
-            abyssSide = false;
+            Abyss.AbyssChasmBottom = 0;
+            Abyss.AtLeftSideOfWorld = false;
 
             spawnedBandit = false;
             spawnedCirrus = false;
@@ -111,7 +112,7 @@ namespace CalamityMod
                 downed.Add("death");
             if (malice)
                 downed.Add("malice");
-            if (abyssSide)
+            if (Abyss.AtLeftSideOfWorld)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
                 downed.Add("bossRushActive");
@@ -197,7 +198,7 @@ namespace CalamityMod
             RecipeUnlockHandler.Save(downed);
 
             tag["downed"] = downed;
-            tag["abyssChasmBottom"] = abyssChasmBottom;
+            tag["abyssChasmBottom"] = Abyss.AbyssChasmBottom;
             tag["acidRainPoints"] = acidRainPoints;
             tag["Reforges"] = Reforges;
             tag["MoneyStolenByBandit"] = MoneyStolenByBandit;
@@ -217,7 +218,7 @@ namespace CalamityMod
             revenge = downed.Contains("revenge");
             death = downed.Contains("death");
             malice = downed.Contains("malice");
-            abyssSide = downed.Contains("abyssSide");
+            Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             rainingAcid = downed.Contains("acidRain");
 
@@ -267,7 +268,7 @@ namespace CalamityMod
 
             RecipeUnlockHandler.Load(downed);
 
-            abyssChasmBottom = tag.GetInt("abyssChasmBottom");
+            Abyss.AbyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");

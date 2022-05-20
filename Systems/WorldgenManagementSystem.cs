@@ -16,7 +16,7 @@ namespace CalamityMod.Systems
         #region PreWorldGen
         public override void PreWorldGen()
         {
-            numAbyssIslands = 0;
+            Abyss.TotalPlacedIslandsSoFar = 0;
             roxShrinePlaced = false;
 
             // This will only be applied at world-gen time to new worlds.

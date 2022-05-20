@@ -23,9 +23,6 @@ namespace CalamityMod.World
         public static bool IsWorldAfterDraedonUpdate = false;
         public static ushort[] OreTypes = new ushort[4];
 
-        // Boss Rush
-        public static int bossRushHostileProjKillCounter = 0;
-
         // Modes
         public static bool onionMode = false; // Extra accessory from Moon Lord
         public static bool revenge = false; // Revengeance Mode
@@ -46,12 +43,6 @@ namespace CalamityMod.World
         public static int fuhY = 0;
 
         // Abyss & Sulphur
-        public static int numAbyssIslands = 0;
-        public static int[] AbyssIslandX = new int[20];
-        public static int[] AbyssIslandY = new int[20];
-        public static int[] AbyssItemArray = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public static bool abyssSide = false;
-        public static int abyssChasmBottom = 0;
         public static bool rainingAcid;
         public static int acidRainPoints = 0;
         public static bool triedToSummonOldDuke = false;

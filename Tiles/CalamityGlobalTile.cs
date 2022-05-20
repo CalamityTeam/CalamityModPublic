@@ -10,7 +10,6 @@ using CalamityMod.Tiles.DraedonSummoner;
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.FurnitureExo;
 using CalamityMod.Tiles.SunkenSea;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -20,6 +19,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+
+using AbyssGenerator = CalamityMod.World.Abyss;
 
 namespace CalamityMod.Tiles
 {
@@ -304,12 +305,12 @@ namespace CalamityMod.Tiles
                 {
                     abyssChasmY = y - abyssChasmSteps + (int)(y * 0.0735); //132 = 1482 medium
                 }
-                int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
+                int abyssChasmX = AbyssGenerator.AtLeftSideOfWorld ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
 
                 bool abyssPosX = false;
                 bool sulphurPosX = false;
                 bool abyssPosY = j <= abyssChasmY;
-                if (CalamityWorld.abyssSide)
+                if (AbyssGenerator.AtLeftSideOfWorld)
                 {
                     if (i < 380)
                     {

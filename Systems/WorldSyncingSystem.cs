@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Events;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using static CalamityMod.DownedBossSystem;
@@ -65,7 +66,7 @@ namespace CalamityMod.Systems
             flags5[7] = downedGSS;
 
             BitsByte flags6 = new BitsByte();
-            flags6[0] = abyssSide;
+            flags6[0] = Abyss.AtLeftSideOfWorld;
             flags6[1] = downedAquaticScourge;
             flags6[2] = downedAstrumAureus;
             flags6[3] = false;
@@ -138,7 +139,7 @@ namespace CalamityMod.Systems
 
             RecipeUnlockHandler.SendData(writer);
 
-            writer.Write(abyssChasmBottom);
+            writer.Write(Abyss.AtLeftSideOfWorld);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
@@ -208,7 +209,7 @@ namespace CalamityMod.Systems
             downedGSS = flags5[7];
 
             BitsByte flags6 = reader.ReadByte();
-            abyssSide = flags6[0];
+            Abyss.AtLeftSideOfWorld = flags6[0];
             downedAquaticScourge = flags6[1];
             downedAstrumAureus = flags6[2];
             _ = flags6[3];
@@ -269,7 +270,7 @@ namespace CalamityMod.Systems
 
             RecipeUnlockHandler.ReceiveData(reader);
 
-            abyssChasmBottom = reader.ReadInt32();
+            Abyss.AbyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
