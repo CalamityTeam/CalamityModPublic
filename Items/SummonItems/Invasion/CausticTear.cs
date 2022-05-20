@@ -33,7 +33,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool CanUseItem(Player player)
         {
-            return !CalamityWorld.rainingAcid;
+            return !AcidRainEvent.AcidRainEventIsOngoing;
         }
 
         public override bool? UseItem(Player player)
@@ -42,6 +42,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             AcidRainEvent.TryStartEvent(true);
             return true;
         }
+
         public override void AddRecipes()
         {
             CreateRecipe().

@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
@@ -978,7 +979,7 @@ namespace CalamityMod.NPCs
                         chat = "Well, I like " + Main.npc[fapsol].GivenName + ", but I, ah... I have my eyes on someone else.";
                     }
 
-                    if (Main.rand.NextBool(5) && CalamityWorld.rainingAcid)
+                    if (Main.rand.NextBool(5) && AcidRainEvent.AcidRainEventIsOngoing)
                     {
                         chat = "Maybe I should've waterproofed my gadgets... They're starting to corrode.";
                     }

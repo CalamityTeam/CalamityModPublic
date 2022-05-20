@@ -88,8 +88,8 @@ namespace CalamityMod
             death = false;
             armageddon = false;
             malice = false;
-            rainingAcid = false;
-            forceRainTimer = 0;
+            AcidRainEvent.AcidRainEventIsOngoing = false;
+            AcidRainEvent.CountdownUntilForcedAcidRain = 0;
         }
 
         public override void OnWorldLoad() => ResetWorldData();
@@ -115,7 +115,7 @@ namespace CalamityMod
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
                 downed.Add("bossRushActive");
-            if (rainingAcid)
+            if (AcidRainEvent.AcidRainEventIsOngoing)
                 downed.Add("acidRain");
             if (spawnedBandit)
                 downed.Add("bandit");
@@ -175,15 +175,13 @@ namespace CalamityMod
                 downed.Add("wizardName");
             #endregion
 
-            if (triedToSummonOldDuke)
+            if (AcidRainEvent.HasTriedToSummonOldDuke)
                 downed.Add("spawnedBoomer");
-            if (startAcidicDownpour)
+            if (AcidRainEvent.HasStartedAcidicDownpour)
                 downed.Add("startDownpour");
-            if (forcedRainAlready)
+            if (AcidRainEvent.HasBeenForceStartedByEoCDefeat)
                 downed.Add("forcedRain");
-            if (forcedDownpourWithTear)
-                downed.Add("forcedTear");
-            if (encounteredOldDuke)
+            if (AcidRainEvent.OldDukeHasBeenEncountered)
                 downed.Add("encounteredOldDuke");
             if (HasGeneratedLuminitePlanetoids)
                 downed.Add("HasGeneratedLuminitePlanetoids");
@@ -198,7 +196,7 @@ namespace CalamityMod
 
             tag["downed"] = downed;
             tag["abyssChasmBottom"] = Abyss.AbyssChasmBottom;
-            tag["acidRainPoints"] = acidRainPoints;
+            tag["acidRainPoints"] = AcidRainEvent.AccumulatedKillPoints;
             tag["Reforges"] = Reforges;
             tag["MoneyStolenByBandit"] = MoneyStolenByBandit;
 
@@ -219,7 +217,7 @@ namespace CalamityMod
             malice = downed.Contains("malice");
             Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
-            rainingAcid = downed.Contains("acidRain");
+            AcidRainEvent.AcidRainEventIsOngoing = downed.Contains("acidRain");
 
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
@@ -252,11 +250,10 @@ namespace CalamityMod
             wizardName = downed.Contains("wizardName");
             #endregion
 
-            triedToSummonOldDuke = downed.Contains("spawnedBoomer");
-            startAcidicDownpour = downed.Contains("startDownpour");
-            forcedRainAlready = downed.Contains("forcedRain");
-            forcedDownpourWithTear = downed.Contains("forcedTear");
-            encounteredOldDuke = downed.Contains("encounteredOldDuke");
+            AcidRainEvent.HasTriedToSummonOldDuke = downed.Contains("spawnedBoomer");
+            AcidRainEvent.HasStartedAcidicDownpour = downed.Contains("startDownpour");
+            AcidRainEvent.HasBeenForceStartedByEoCDefeat = downed.Contains("forcedRain");
+            AcidRainEvent.OldDukeHasBeenEncountered = downed.Contains("encounteredOldDuke");
             HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
             IsWorldAfterDraedonUpdate = downed.Contains("IsWorldAfterDraedonUpdate");
 
@@ -268,7 +265,7 @@ namespace CalamityMod
             RecipeUnlockHandler.Load(downed);
 
             Abyss.AbyssChasmBottom = tag.GetInt("abyssChasmBottom");
-            acidRainPoints = tag.GetInt("acidRainPoints");
+            AcidRainEvent.AccumulatedKillPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
 

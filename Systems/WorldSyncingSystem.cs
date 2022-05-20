@@ -59,7 +59,7 @@ namespace CalamityMod.Systems
             flags5[0] = downedAstrumDeus;
             flags5[1] = spawnedBandit;
             flags5[2] = spawnedCirrus;
-            flags5[3] = startAcidicDownpour;
+            flags5[3] = AcidRainEvent.HasStartedAcidicDownpour;
             flags5[4] = false;
             flags5[5] = downedPolterghast;
             flags5[6] = death;
@@ -80,14 +80,14 @@ namespace CalamityMod.Systems
             flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
             flags7[3] = false;
-            flags7[4] = rainingAcid;
+            flags7[4] = AcidRainEvent.AcidRainEventIsOngoing;
             flags7[5] = downedEoCAcidRain;
             flags7[6] = downedAquaticScourgeAcidRain;
-            flags7[7] = triedToSummonOldDuke;
+            flags7[7] = AcidRainEvent.HasTriedToSummonOldDuke;
 
             BitsByte flags8 = new BitsByte();
-            flags8[0] = forcedRainAlready;
-            flags8[1] = forcedDownpourWithTear;
+            flags8[0] = AcidRainEvent.HasBeenForceStartedByEoCDefeat;
+            flags8[1] = false;
             flags8[2] = downedSecondSentinels;
             flags8[3] = foundHomePermafrost;
             flags8[4] = downedCLAMHardMode;
@@ -108,7 +108,7 @@ namespace CalamityMod.Systems
             BitsByte flags10 = new BitsByte();
             flags10[0] = anglerName;
             flags10[1] = clothierName;
-            flags10[2] = encounteredOldDuke;
+            flags10[2] = AcidRainEvent.OldDukeHasBeenEncountered;
             flags10[3] = travelingMerchantName;
             flags10[4] = false;
             flags10[5] = false;
@@ -140,7 +140,7 @@ namespace CalamityMod.Systems
             RecipeUnlockHandler.SendData(writer);
 
             writer.Write(Abyss.AtLeftSideOfWorld);
-            writer.Write(acidRainPoints);
+            writer.Write(AcidRainEvent.AccumulatedKillPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
             writer.Write(DraedonSummonCountdown);
@@ -202,7 +202,7 @@ namespace CalamityMod.Systems
             downedAstrumDeus = flags5[0];
             spawnedBandit = flags5[1];
             spawnedCirrus = flags5[2];
-            startAcidicDownpour = flags5[3];
+            AcidRainEvent.HasStartedAcidicDownpour = flags5[3];
             _ = flags5[4];
             downedPolterghast = flags5[5];
             death = flags5[6];
@@ -223,14 +223,14 @@ namespace CalamityMod.Systems
             downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
             _ = flags7[3];
-            rainingAcid = flags7[4];
+            AcidRainEvent.AcidRainEventIsOngoing = flags7[4];
             downedEoCAcidRain = flags7[5];
             downedAquaticScourgeAcidRain = flags7[6];
-            triedToSummonOldDuke = flags7[7];
+            AcidRainEvent.HasTriedToSummonOldDuke = flags7[7];
 
             BitsByte flags8 = reader.ReadByte();
-            forcedRainAlready = flags8[0];
-            forcedDownpourWithTear = flags8[1];
+            AcidRainEvent.HasBeenForceStartedByEoCDefeat = flags8[0];
+            _ = flags8[1];
             downedSecondSentinels = flags8[2];
             foundHomePermafrost = flags8[3];
             downedCLAMHardMode = flags8[4];
@@ -251,7 +251,7 @@ namespace CalamityMod.Systems
             BitsByte flags10 = reader.ReadByte();
             anglerName = flags10[0];
             clothierName = flags10[1];
-            encounteredOldDuke = flags10[2];
+            AcidRainEvent.OldDukeHasBeenEncountered = flags10[2];
             travelingMerchantName = flags10[3];
             _ = flags10[4];
             _ = flags10[5];
@@ -271,7 +271,7 @@ namespace CalamityMod.Systems
             RecipeUnlockHandler.ReceiveData(reader);
 
             Abyss.AbyssChasmBottom = reader.ReadInt32();
-            acidRainPoints = reader.ReadInt32();
+            AcidRainEvent.AccumulatedKillPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
             DraedonSummonCountdown = reader.ReadInt32();

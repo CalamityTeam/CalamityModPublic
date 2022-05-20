@@ -753,10 +753,10 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Acid rain droplets
+            // Release irradiated slimes from the sky during the Acid Rain event.
             if (Player.whoAmI == Main.myPlayer)
             {
-                if (CalamityWorld.rainingAcid && ZoneSulphur && !areThereAnyDamnBosses && Player.Center.Y < Main.worldSurface * 16f + 800f)
+                if (AcidRainEvent.AcidRainEventIsOngoing && ZoneSulphur && !areThereAnyDamnBosses && Player.Center.Y < Main.worldSurface * 16f + 800f)
                 {
                     int slimeRainRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
                     Vector2 spawnPoint = new Vector2(Player.Center.X + Main.rand.Next(-1000, 1001), Player.Center.Y - Main.rand.Next(700, 801));

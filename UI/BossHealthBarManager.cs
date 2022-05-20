@@ -416,7 +416,7 @@ namespace CalamityMod.UI
             int startHeight = 100;
             int x = Main.screenWidth - 420;
             int y = Main.screenHeight - startHeight;
-            if (Main.playerInventory || Main.invasionType > 0 || Main.pumpkinMoon || Main.snowMoon || DD2Event.Ongoing || CalamityWorld.rainingAcid)
+            if (Main.playerInventory || Main.invasionType > 0 || Main.pumpkinMoon || Main.snowMoon || DD2Event.Ongoing || AcidRainEvent.AcidRainEventIsOngoing)
                 x -= 250;
 
             foreach (BossHPUI ui in Bars)

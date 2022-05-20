@@ -231,15 +231,15 @@ namespace CalamityMod
                     //
 
                     case CalamityModMessageType.AcidRainSync:
-                        CalamityWorld.rainingAcid = reader.ReadBoolean();
-                        CalamityWorld.acidRainPoints = reader.ReadInt32();
-                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
+                        AcidRainEvent.AcidRainEventIsOngoing = reader.ReadBoolean();
+                        AcidRainEvent.AccumulatedKillPoints = reader.ReadInt32();
+                        AcidRainEvent.TimeSinceLastAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainOldDukeSummonSync:
-                        CalamityWorld.triedToSummonOldDuke = reader.ReadBoolean();
+                        AcidRainEvent.HasTriedToSummonOldDuke = reader.ReadBoolean();
                         break;
                     case CalamityModMessageType.EncounteredOldDukeSync:
-                        CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
+                        AcidRainEvent.OldDukeHasBeenEncountered = reader.ReadBoolean();
                         break;
 
                     //

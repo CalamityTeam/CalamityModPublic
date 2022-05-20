@@ -1839,7 +1839,7 @@ namespace CalamityMod
                 case "AcidRainActive":
                 case "IsAcidRainActive":
                 case "GetAcidRainActive":
-                    return CalamityWorld.rainingAcid;
+                    return AcidRainEvent.AcidRainEventIsOngoing;
 
                 case "StartAcidRain":
                     AcidRainEvent.TryStartEvent(true);
@@ -1847,22 +1847,22 @@ namespace CalamityMod
                     return true;
 
                 case "StopAcidRain":
-                    if (CalamityWorld.rainingAcid)
+                    if (AcidRainEvent.AcidRainEventIsOngoing)
                     {
-                        CalamityWorld.acidRainPoints = 0;
-                        CalamityWorld.triedToSummonOldDuke = false;
+                        AcidRainEvent.AccumulatedKillPoints = 0;
+                        AcidRainEvent.HasTriedToSummonOldDuke = false;
                         AcidRainEvent.UpdateInvasion(false);
                     }
                     return true;
 
                 // This is intentionally separate from the above because it will stop other events when they are added.
                 case "AbominationnClearEvents":
-                    bool eventActive = CalamityWorld.rainingAcid;
+                    bool eventActive = AcidRainEvent.AcidRainEventIsOngoing;
                     bool canClear = Convert.ToBoolean(args[1]); //This is to indicate whether abomm is able to clear the event due to a cooldown
                     if (eventActive && canClear) //adjust based on other events when added.
                     {
-                        CalamityWorld.acidRainPoints = 0;
-                        CalamityWorld.triedToSummonOldDuke = false;
+                        AcidRainEvent.AccumulatedKillPoints = 0;
+                        AcidRainEvent.HasTriedToSummonOldDuke = false;
                         AcidRainEvent.UpdateInvasion(false);
                     }
                     return eventActive;

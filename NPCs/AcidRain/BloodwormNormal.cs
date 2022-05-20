@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.SummonItems;
+﻿using CalamityMod.Events;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -111,13 +112,13 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!spawnInfo.Player.Calamity().ZoneSulphur || CalamityWorld.rainingAcid)
+            if (!spawnInfo.Player.Calamity().ZoneSulphur || AcidRainEvent.AcidRainEventIsOngoing)
                 return 0f;
 
             // Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
             int bloodwormAmt = NPC.CountNPCS(NPC.type);
             float spawnMult = bloodwormAmt > 5 ? 1f : (float)(0.16 * Math.Pow(5 - bloodwormAmt, 2)) + 1f;
-            float baseSpawnRate = CalamityWorld.encounteredOldDuke ? 2.569f : 5.138f;
+            float baseSpawnRate = AcidRainEvent.OldDukeHasBeenEncountered ? 2.569f : 5.138f;
             float spawnRate = SpawnCondition.WormCritter.Chance * baseSpawnRate * spawnMult;
 
             return spawnRate;

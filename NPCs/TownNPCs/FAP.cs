@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Mounts;
+﻿using CalamityMod.Events;
+using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Projectiles.Magic;
@@ -168,7 +169,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (NPC.downedMoonlord)
                 dialogue.Add("Ever wondered why the Moon Lord needed so many tentacles? Uh... on second thought, I won't answer that.");
 
-            if (CalamityWorld.rainingAcid)
+            if (AcidRainEvent.AcidRainEventIsOngoing)
                 dialogue.Add("I'm melting! Put a stop to this inclement weather this instant before it ruins my hair!");
 
             if (DownedBossSystem.downedPolterghast)

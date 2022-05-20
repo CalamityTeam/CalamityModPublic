@@ -22,6 +22,7 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -383,7 +384,7 @@ namespace CalamityMod.NPCs.OldDuke
             DownedBossSystem.downedBoomerDuke = true;
 
             // Mark first acid rain encounter as true even if he wasn't fought in the acid rain, because it makes sense
-            CalamityWorld.encounteredOldDuke = true;
+            AcidRainEvent.OldDukeHasBeenEncountered = true;
             CalamityNetcode.SyncWorld();
         }
 

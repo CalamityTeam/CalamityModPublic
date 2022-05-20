@@ -155,15 +155,15 @@ namespace CalamityMod.Projectiles.Boss
                             Main.npc[boomer].alpha = 255;
                             Main.npc[boomer].Calamity().newAI[3] = 1f; // To signal that Old Duke should not deccelerate as it normally would
                             Main.npc[boomer].netUpdate = true;
-                            CalamityWorld.triedToSummonOldDuke = true;
-                            CalamityWorld.encounteredOldDuke = true;
+                            AcidRainEvent.HasTriedToSummonOldDuke = true;
+                            AcidRainEvent.OldDukeHasBeenEncountered = true;
                             AcidRainEvent.UpdateInvasion(false);
                         }
                     }
                     else
                     {
-                        CalamityWorld.acidRainPoints = 0;
-                        CalamityWorld.triedToSummonOldDuke = false;
+                        AcidRainEvent.AccumulatedKillPoints = 0;
+                        AcidRainEvent.HasTriedToSummonOldDuke = false;
                         AcidRainEvent.UpdateInvasion(false);
                     }
                 }

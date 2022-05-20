@@ -248,8 +248,9 @@ namespace CalamityMod.NPCs.AquaticScourge
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
                 CalamityUtils.DisplayLocalizedText(sulfSeaBoostKey, sulfSeaBoostColor);
-                //set a timer for acid rain to start after 10 seconds
-                CalamityWorld.forceRainTimer = 601;
+
+                // Set a timer for acid rain to start after 10 seconds
+                AcidRainEvent.CountdownUntilForcedAcidRain = 601;
             }
 
             // Mark Aquatic Scourge as dead

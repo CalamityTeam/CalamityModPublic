@@ -64,13 +64,13 @@ namespace CalamityMod.Systems
             AcidRainEvent.TryToStartEventNaturally();
 
             // Handle Acid Rain update logic.
-            if (rainingAcid)
+            if (AcidRainEvent.AcidRainEventIsOngoing)
                 AcidRainEvent.Update();
             else
             {
-                if (timeSinceAcidStarted != 0)
-                    timeSinceAcidStarted = 0;
-                startAcidicDownpour = false;
+                if (AcidRainEvent.TimeSinceEventStarted != 0)
+                    AcidRainEvent.TimeSinceEventStarted = 0;
+                AcidRainEvent.HasStartedAcidicDownpour = false;
             }
 
             // Lumenyl crystal, tenebris spread and sea prism crystal spawn rates
