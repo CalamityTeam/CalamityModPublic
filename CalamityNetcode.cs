@@ -220,7 +220,7 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
-                        CalamityWorld.bossRushHostileProjKillCounter = countdown3;
+                        BossRushEvent.HostileProjectileKillCounter = countdown3;
                         break;
                     case CalamityModMessageType.TeleportPlayer:
                         Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);
@@ -231,15 +231,15 @@ namespace CalamityMod
                     //
 
                     case CalamityModMessageType.AcidRainSync:
-                        CalamityWorld.rainingAcid = reader.ReadBoolean();
-                        CalamityWorld.acidRainPoints = reader.ReadInt32();
-                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
+                        AcidRainEvent.AcidRainEventIsOngoing = reader.ReadBoolean();
+                        AcidRainEvent.AccumulatedKillPoints = reader.ReadInt32();
+                        AcidRainEvent.TimeSinceLastAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainOldDukeSummonSync:
-                        CalamityWorld.triedToSummonOldDuke = reader.ReadBoolean();
+                        AcidRainEvent.HasTriedToSummonOldDuke = reader.ReadBoolean();
                         break;
                     case CalamityModMessageType.EncounteredOldDukeSync:
-                        CalamityWorld.encounteredOldDuke = reader.ReadBoolean();
+                        AcidRainEvent.OldDukeHasBeenEncountered = reader.ReadBoolean();
                         break;
 
                     //

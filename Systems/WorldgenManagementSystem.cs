@@ -16,7 +16,7 @@ namespace CalamityMod.Systems
         #region PreWorldGen
         public override void PreWorldGen()
         {
-            numAbyssIslands = 0;
+            Abyss.TotalPlacedIslandsSoFar = 0;
             roxShrinePlaced = false;
 
             // This will only be applied at world-gen time to new worlds.
@@ -105,30 +105,27 @@ namespace CalamityMod.Systems
                     int xUnderworldGen = WorldGen.genRand.Next((int)((double)x * 0.1), (int)((double)x * 0.15));
                     int yUnderworldGen = Main.maxTilesY - 100;
 
-                    fuhX = xUnderworldGen;
-                    fuhY = yUnderworldGen;
-
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen, yUnderworldGen, 180, 201, 120, 136);
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 50, yUnderworldGen - 30, 100, 111, 60, 71);
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 50, yUnderworldGen - 30, 100, 111, 60, 71);
 
-                    MiscWorldgenRoutines.ChasmGenerator(fuhX - 110, fuhY - 10, WorldGen.genRand.Next(150) + 150);
-                    MiscWorldgenRoutines.ChasmGenerator(fuhX + 110, fuhY - 10, WorldGen.genRand.Next(150) + 150);
+                    MiscWorldgenRoutines.ChasmGenerator(xUnderworldGen - 110, yUnderworldGen - 10, WorldGen.genRand.Next(150) + 150);
+                    MiscWorldgenRoutines.ChasmGenerator(xUnderworldGen + 110, yUnderworldGen - 10, WorldGen.genRand.Next(150) + 150);
 
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 150, yUnderworldGen - 30, 60, 66, 35, 41);
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 150, yUnderworldGen - 30, 60, 66, 35, 41);
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen - 180, yUnderworldGen - 20, 60, 66, 35, 41);
                     MiscWorldgenRoutines.UnderworldIsland(xUnderworldGen + 180, yUnderworldGen - 20, 60, 66, 35, 41);
 
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX, fuhY + 30, 1323);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX - 22, fuhY + 15, 1322);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX + 22, fuhY + 15, 535);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX - 50, fuhY - 30, 112);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX + 50, fuhY - 30, 906);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX - 150, fuhY - 30, 218);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX + 150, fuhY - 30, 3019);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX - 180, fuhY - 20, 274);
-                    MiscWorldgenRoutines.UnderworldIslandHouse(fuhX + 180, fuhY - 20, 220);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen, yUnderworldGen + 30, 1323);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 22, yUnderworldGen + 15, 1322);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 22, yUnderworldGen + 15, 535);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 50, yUnderworldGen - 30, 112);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 50, yUnderworldGen - 30, 906);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 150, yUnderworldGen - 30, 218);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 150, yUnderworldGen - 30, 3019);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen - 180, yUnderworldGen - 20, 274);
+                    MiscWorldgenRoutines.UnderworldIslandHouse(xUnderworldGen + 180, yUnderworldGen - 20, 220);
                 }));
                 #endregion
 

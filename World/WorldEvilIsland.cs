@@ -45,10 +45,8 @@ namespace CalamityMod.World
             }
 
             xIslandGen = tileXLookup;
-            CalamityWorld.fehX = xIslandGen;
-            CalamityWorld.fehY = yIslandGen;
             EvilIsland(xIslandGen, yIslandGen);
-            EvilIslandHouse(CalamityWorld.fehX, CalamityWorld.fehY);
+            EvilIslandHouse(xIslandGen, yIslandGen);
         }
 
         public static void EvilIsland(int i, int j)

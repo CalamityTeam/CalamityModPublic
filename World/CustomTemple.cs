@@ -7,6 +7,10 @@ namespace CalamityMod.World
 {
     public class CustomTemple
     {
+        public static Point NewAlterPosition = Point.Zero;
+
+        public static Vector2 FinalRoomSize = new(105f, 95f);
+
         public static void NewJungleTemple()
         {
             bool success = false;
@@ -66,8 +70,8 @@ namespace CalamityMod.World
                     // Final temple room size.
                     if (i == totalRooms - 1)
                     {
-                        width = WorldGen.genRand.Next(105, 116);
-                        height = WorldGen.genRand.Next(90, 106);
+                        width = (int)FinalRoomSize.X;
+                        height = (int)FinalRoomSize.Y;
                         roomPositionY += WorldGen.genRand.Next(6, 9);
                     }
 
@@ -90,7 +94,7 @@ namespace CalamityMod.World
                     {
                         if (rectangle.Intersects(roomBounds[j]))
                             isValidRoom = false;
-                        if (WorldGen.genRand.Next(100) == 0)
+                        if (WorldGen.genRand.NextBool(100))
                         {
                             xOffset++;
                         }
@@ -217,7 +221,7 @@ namespace CalamityMod.World
                 if (i < totalRooms - 1)
                 {
                     reachedDestination = false;
-                    if (WorldGen.genRand.Next(3) != 0)
+                    if (!WorldGen.genRand.NextBool(3))
                     {
                         Rectangle nextRoom = roomBounds[i + 1];
                         if (nextRoom.Y >= roomBounds[i].Y + roomBounds[i].Height)
@@ -461,7 +465,7 @@ namespace CalamityMod.World
                 if (Main.tile[randomPointInRoomX, randomPointInRoomY].WallType == 87 && !Main.tile[randomPointInRoomX, randomPointInRoomY].HasTile)
                 {
                     bool successPlacingSpikes = false;
-                    if (WorldGen.genRand.Next(2) == 0)
+                    if (WorldGen.genRand.NextBool(2))
                     {
                         int xMoveDirection = WorldGen.genRand.NextBool(2).ToDirectionInt();
                         while (!Main.tile[randomPointInRoomX, randomPointInRoomY].HasTile)
@@ -718,8 +722,7 @@ namespace CalamityMod.World
             }
 
             // And place the shrine.
-            CalamityWorld.newAltarX = roomCenterX - 1;
-            CalamityWorld.newAltarY = roomBottom - calculateHeightFromOutwardness(0) - 2;
+            NewAlterPosition = new(roomCenterX - 1, roomBottom - calculateHeightFromOutwardness(0) - 2);
 
             // Place some lanterns on the top of the room.
             for (int dx = 6; dx < roomBounds.Width - 6; dx += 10)
@@ -896,14 +899,12 @@ namespace CalamityMod.World
 
         public static void NewJungleTempleLihzahrdAltar()
         {
-            int alterPositionX = CalamityWorld.newAltarX;
-            int alterPositionY = CalamityWorld.newAltarY;
             for (int i = 0; i <= 2; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    int framedAlterPositionX = alterPositionX + i;
-                    int framedAlterPositionY = alterPositionY + j;
+                    int framedAlterPositionX = NewAlterPosition.X + i;
+                    int framedAlterPositionY = NewAlterPosition.Y + j;
                     Main.tile[framedAlterPositionX, framedAlterPositionY].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[framedAlterPositionX, framedAlterPositionY].TileType = TileID.LihzahrdAltar;
                     Main.tile[framedAlterPositionX, framedAlterPositionY].TileFrameX = (short)(i * 18);
@@ -911,10 +912,10 @@ namespace CalamityMod.World
                 }
 
                 // Ensure that the tiles below the altar are active and valid.
-                Main.tile[i, alterPositionY + 2].Get<TileWallWireStateData>().HasTile = true;
-                Main.tile[i, alterPositionY + 2].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
-                Main.tile[i, alterPositionY + 2].Get<TileWallWireStateData>().IsHalfBlock = false;
-                Main.tile[i, alterPositionY + 2].TileType = TileID.LihzahrdBrick;
+                Main.tile[i, NewAlterPosition.Y + 2].Get<TileWallWireStateData>().HasTile = true;
+                Main.tile[i, NewAlterPosition.Y + 2].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
+                Main.tile[i, NewAlterPosition.Y + 2].Get<TileWallWireStateData>().IsHalfBlock = false;
+                Main.tile[i, NewAlterPosition.Y + 2].TileType = TileID.LihzahrdBrick;
             }
         }
     }

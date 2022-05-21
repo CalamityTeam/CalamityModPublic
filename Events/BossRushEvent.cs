@@ -48,6 +48,7 @@ namespace CalamityMod.Events
             Day = 1,
             Night = -1
         }
+
         public struct Boss
         {
             public int EntityID;
@@ -83,6 +84,8 @@ namespace CalamityMod.Events
         }
 
         internal static IEntitySource Source => new EntitySource_WorldEvent();
+
+        public static int HostileProjectileKillCounter;
         public static bool BossRushActive = false; // Whether Boss Rush is active or not.
         public static bool DeactivateStupidFuckingBullshit = false; // Force Boss Rush to inactive.
         public static int BossRushStage = 0; // Boss Rush Stage.
@@ -104,6 +107,8 @@ namespace CalamityMod.Events
         public static void Load()
         {
             BossIDsAfterDeath = new Dictionary<int, int[]>();
+
+            // TODO -- Multiple different lists might be ideal for this at some point instead of a god-struct? This is a lot of parameters.
             Bosses = new List<Boss>()
             {
                 new Boss(NPCID.QueenBee),
@@ -325,7 +330,7 @@ namespace CalamityMod.Events
                 [ModContent.NPCType<DevourerofGodsHead>()] = npc =>
                 {
                     CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    HostileProjectileKillCounter = 3;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                         Projectile.NewProjectile(Source, npc.Center, Vector2.Zero, ModContent.ProjectileType<BossRushEndEffectThing>(), 0, 0f, Main.myPlayer);
@@ -392,17 +397,17 @@ namespace CalamityMod.Events
                 NPC.MoonLordCountdown = 0;
 
             // Handle projectile clearing.
-            if (CalamityWorld.bossRushHostileProjKillCounter > 0)
+            if (HostileProjectileKillCounter > 0)
             {
-                CalamityWorld.bossRushHostileProjKillCounter--;
-                if (CalamityWorld.bossRushHostileProjKillCounter == 1)
+                HostileProjectileKillCounter--;
+                if (HostileProjectileKillCounter == 1)
                     CalamityUtils.KillAllHostileProjectiles();
 
                 if (Main.netMode == NetmodeID.Server)
                 {
                     var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
-                    netMessage.Write(CalamityWorld.bossRushHostileProjKillCounter);
+                    netMessage.Write(HostileProjectileKillCounter);
                     netMessage.Send();
                 }
             }
@@ -533,7 +538,7 @@ namespace CalamityMod.Events
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    HostileProjectileKillCounter = 3;
                 }
             }
 
@@ -545,7 +550,7 @@ namespace CalamityMod.Events
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    HostileProjectileKillCounter = 3;
                 }
             }
 
@@ -554,7 +559,7 @@ namespace CalamityMod.Events
             {
                 BossRushStage++;
                 CalamityUtils.KillAllHostileProjectiles();
-                CalamityWorld.bossRushHostileProjKillCounter = 3;
+                HostileProjectileKillCounter = 3;
             }
 
             // All Slime God entities must be killed to progress to the next stage.
@@ -565,21 +570,21 @@ namespace CalamityMod.Events
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    HostileProjectileKillCounter = 3;
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    HostileProjectileKillCounter = 3;
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()))
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
-                    CalamityWorld.bossRushHostileProjKillCounter = 3;
+                    HostileProjectileKillCounter = 3;
                 }
             }
 
@@ -589,7 +594,7 @@ namespace CalamityMod.Events
             {
                 BossRushStage++;
                 CalamityUtils.KillAllHostileProjectiles();
-                CalamityWorld.bossRushHostileProjKillCounter = 3;
+                HostileProjectileKillCounter = 3;
                 if (BossDeathEffects.ContainsKey(npc.type))
                     BossDeathEffects[npc.type].Invoke(npc);
             }
@@ -603,7 +608,7 @@ namespace CalamityMod.Events
                 netMessage.Send();
                 var netMessage2 = mod.GetPacket();
                 netMessage2.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
-                netMessage2.Write(CalamityWorld.bossRushHostileProjKillCounter);
+                netMessage2.Write(HostileProjectileKillCounter);
                 netMessage2.Send();
             }
 

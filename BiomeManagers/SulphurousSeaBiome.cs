@@ -1,7 +1,6 @@
-﻿using CalamityMod.Backgrounds;
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Systems;
-using CalamityMod.Waters;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -23,7 +22,7 @@ namespace CalamityMod.BiomeManagers
                 int music = Main.curMusic;
                 if (!CalamityPlayer.areThereAnyDamnBosses)
                 {
-                    bool acidRain = CalamityWorld.rainingAcid;
+                    bool acidRain = AcidRainEvent.AcidRainEventIsOngoing;
 
                     // Acid Rain themes
                     if (acidRain)
@@ -50,7 +49,7 @@ namespace CalamityMod.BiomeManagers
         {
             Point point = player.Center.ToTileCoordinates();
             bool sulphurPosX = false;
-            if (CalamityWorld.abyssSide)
+            if (Abyss.AtLeftSideOfWorld)
             {
                 if (point.X < 380)
                     sulphurPosX = true;

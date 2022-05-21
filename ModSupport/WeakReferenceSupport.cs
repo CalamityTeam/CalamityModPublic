@@ -842,7 +842,7 @@ namespace CalamityMod
                 fargos.Call("AddSummon", order, "CalamityMod", summonItemName, downed, price);
             }
 
-            fargos.Call("AbominationnClearEvents", "CalamityMod", CalamityWorld.rainingAcid, true);
+            fargos.Call("AbominationnClearEvents", "CalamityMod", AcidRainEvent.AcidRainEventIsOngoing, true);
 
             AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 2));
         }

@@ -1305,7 +1305,7 @@ namespace CalamityMod.NPCs
             }
 
             // Acid Rain on-kill effects
-            if (CalamityWorld.rainingAcid)
+            if (AcidRainEvent.AcidRainEventIsOngoing)
                 AcidRainEvent.OnEnemyKill(npc);
 
             // Stop Death Mode splitting worms from dropping excessive loot

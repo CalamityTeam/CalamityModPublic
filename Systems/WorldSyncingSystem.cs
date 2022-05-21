@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Events;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 using static CalamityMod.DownedBossSystem;
@@ -58,14 +59,14 @@ namespace CalamityMod.Systems
             flags5[0] = downedAstrumDeus;
             flags5[1] = spawnedBandit;
             flags5[2] = spawnedCirrus;
-            flags5[3] = startAcidicDownpour;
+            flags5[3] = AcidRainEvent.HasStartedAcidicDownpour;
             flags5[4] = false;
             flags5[5] = downedPolterghast;
             flags5[6] = death;
             flags5[7] = downedGSS;
 
             BitsByte flags6 = new BitsByte();
-            flags6[0] = abyssSide;
+            flags6[0] = Abyss.AtLeftSideOfWorld;
             flags6[1] = downedAquaticScourge;
             flags6[2] = downedAstrumAureus;
             flags6[3] = false;
@@ -79,14 +80,14 @@ namespace CalamityMod.Systems
             flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
             flags7[3] = false;
-            flags7[4] = rainingAcid;
+            flags7[4] = AcidRainEvent.AcidRainEventIsOngoing;
             flags7[5] = downedEoCAcidRain;
             flags7[6] = downedAquaticScourgeAcidRain;
-            flags7[7] = triedToSummonOldDuke;
+            flags7[7] = AcidRainEvent.HasTriedToSummonOldDuke;
 
             BitsByte flags8 = new BitsByte();
-            flags8[0] = forcedRainAlready;
-            flags8[1] = forcedDownpourWithTear;
+            flags8[0] = AcidRainEvent.HasBeenForceStartedByEoCDefeat;
+            flags8[1] = false;
             flags8[2] = downedSecondSentinels;
             flags8[3] = foundHomePermafrost;
             flags8[4] = downedCLAMHardMode;
@@ -107,7 +108,7 @@ namespace CalamityMod.Systems
             BitsByte flags10 = new BitsByte();
             flags10[0] = anglerName;
             flags10[1] = clothierName;
-            flags10[2] = encounteredOldDuke;
+            flags10[2] = AcidRainEvent.OldDukeHasBeenEncountered;
             flags10[3] = travelingMerchantName;
             flags10[4] = false;
             flags10[5] = false;
@@ -138,8 +139,8 @@ namespace CalamityMod.Systems
 
             RecipeUnlockHandler.SendData(writer);
 
-            writer.Write(abyssChasmBottom);
-            writer.Write(acidRainPoints);
+            writer.Write(Abyss.AtLeftSideOfWorld);
+            writer.Write(AcidRainEvent.AccumulatedKillPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);
             writer.Write(DraedonSummonCountdown);
@@ -201,14 +202,14 @@ namespace CalamityMod.Systems
             downedAstrumDeus = flags5[0];
             spawnedBandit = flags5[1];
             spawnedCirrus = flags5[2];
-            startAcidicDownpour = flags5[3];
+            AcidRainEvent.HasStartedAcidicDownpour = flags5[3];
             _ = flags5[4];
             downedPolterghast = flags5[5];
             death = flags5[6];
             downedGSS = flags5[7];
 
             BitsByte flags6 = reader.ReadByte();
-            abyssSide = flags6[0];
+            Abyss.AtLeftSideOfWorld = flags6[0];
             downedAquaticScourge = flags6[1];
             downedAstrumAureus = flags6[2];
             _ = flags6[3];
@@ -222,14 +223,14 @@ namespace CalamityMod.Systems
             downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
             _ = flags7[3];
-            rainingAcid = flags7[4];
+            AcidRainEvent.AcidRainEventIsOngoing = flags7[4];
             downedEoCAcidRain = flags7[5];
             downedAquaticScourgeAcidRain = flags7[6];
-            triedToSummonOldDuke = flags7[7];
+            AcidRainEvent.HasTriedToSummonOldDuke = flags7[7];
 
             BitsByte flags8 = reader.ReadByte();
-            forcedRainAlready = flags8[0];
-            forcedDownpourWithTear = flags8[1];
+            AcidRainEvent.HasBeenForceStartedByEoCDefeat = flags8[0];
+            _ = flags8[1];
             downedSecondSentinels = flags8[2];
             foundHomePermafrost = flags8[3];
             downedCLAMHardMode = flags8[4];
@@ -250,7 +251,7 @@ namespace CalamityMod.Systems
             BitsByte flags10 = reader.ReadByte();
             anglerName = flags10[0];
             clothierName = flags10[1];
-            encounteredOldDuke = flags10[2];
+            AcidRainEvent.OldDukeHasBeenEncountered = flags10[2];
             travelingMerchantName = flags10[3];
             _ = flags10[4];
             _ = flags10[5];
@@ -269,8 +270,8 @@ namespace CalamityMod.Systems
 
             RecipeUnlockHandler.ReceiveData(reader);
 
-            abyssChasmBottom = reader.ReadInt32();
-            acidRainPoints = reader.ReadInt32();
+            Abyss.AbyssChasmBottom = reader.ReadInt32();
+            AcidRainEvent.AccumulatedKillPoints = reader.ReadInt32();
             Reforges = reader.ReadInt32();
             MoneyStolenByBandit = reader.ReadInt32();
             DraedonSummonCountdown = reader.ReadInt32();

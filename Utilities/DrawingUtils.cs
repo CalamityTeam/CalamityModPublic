@@ -230,6 +230,23 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Copies the contents of one render target to another.
+        /// </summary>
+        public static void CopyContentsFrom(this RenderTarget2D to, RenderTarget2D from)
+        {
+            Main.instance.GraphicsDevice.SetRenderTarget(to);
+            Main.instance.GraphicsDevice.Clear(Color.Transparent);
+
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Matrix.Identity);
+            Main.spriteBatch.Draw(from, Vector2.Zero, null, Color.White);
+            Main.spriteBatch.End();
+
+            Main.instance.GraphicsDevice.SetRenderTarget(from);
+            Main.instance.GraphicsDevice.Clear(Color.Transparent);
+            Main.instance.GraphicsDevice.SetRenderTarget(null);
+        }
+
+        /// <summary>
         /// Calculates perspective matrices for usage by vertex shaders.
         /// </summary>
         /// <param name="viewMatrix">The view matrix.</param>
@@ -240,6 +257,7 @@ namespace CalamityMod
             Matrix zoomScaleMatrix = Matrix.CreateScale(zoom.X, zoom.Y, 1f);
 
             // Screen bounds.
+            int width = Main.instance.GraphicsDevice.Viewport.Width;
             int height = Main.instance.GraphicsDevice.Viewport.Height;
 
             // Get a matrix that aims towards the Z axis (these calculations are relative to a 2D world).
@@ -258,7 +276,7 @@ namespace CalamityMod
             // And account for the current zoom.
             viewMatrix *= zoomScaleMatrix;
 
-            projectionMatrix = Matrix.CreateOrthographicOffCenter(0f, Main.screenWidth * zoom.X, 0f, Main.screenHeight * zoom.Y, 0f, 1f) * zoomScaleMatrix;
+            projectionMatrix = Matrix.CreateOrthographicOffCenter(0f, width * zoom.X, 0f, height * zoom.Y, 0f, 1f) * zoomScaleMatrix;
         }
 
         /// <summary>

@@ -61,6 +61,7 @@ using CalamityMod.CalPlayer.DrawLayers;
 using Terraria.Chat;
 using CalamityMod.EntitySources;
 using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.FluidSimulation;
 
 namespace CalamityMod.CalPlayer
 {
@@ -1109,6 +1110,10 @@ namespace CalamityMod.CalPlayer
 
         #region Draw Effects
         public FireParticleSet ProvidenceBurnEffectDrawer = new FireParticleSet(-1, int.MaxValue, Color.Yellow, Color.Red * 1.2f, 10f, 0.65f);
+
+        public FluidField CalamityFireDrawer;
+
+        public Vector2 FireDrawerPosition;
         #endregion Draw Effects
 
         #region Draedon Summoning
@@ -3185,7 +3190,7 @@ namespace CalamityMod.CalPlayer
 
         public static void JungleTeleport(Player player, bool syncData = false)
         {
-            int teleportStartX = CalamityWorld.abyssSide ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
+            int teleportStartX = Abyss.AtLeftSideOfWorld ? (int)(Main.maxTilesX * 0.65) : (int)(Main.maxTilesX * 0.2);
             int teleportRangeX = (int)(Main.maxTilesX * 0.15);
 
             int teleportStartY = (int)Main.worldSurface - 75;

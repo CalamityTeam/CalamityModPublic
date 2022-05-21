@@ -2,12 +2,14 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.FluidSimulation;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
+using CalamityMod.Systems;
 using CalamityMod.Waters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -401,19 +403,56 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
-                    Texture2D auraTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamityAura").Value;
-                    Rectangle auraFrame = auraTexture.Frame(1, 6, 0, (int)(Main.GlobalTimeWrappedHourly * 12.3f) % 6);
-                    float auraScale = MathHelper.Lerp(0.95f, 1f, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 1.1f) * 0.5f + 0.5f);
+                    int size = 375;
+                    float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
+                    ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
+                    ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
+                    if (calamityFireDrawer is null || calamityFireDrawer.Size != size)
+                        calamityFireDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
-                    for (int i = 0; i < 12; i++)
+                    // Update the fire draw position.
+                    firePosition = new Vector2(Main.screenWidth, Main.screenHeight) * 0.5f;
+
+                    int x = (int)((drawPosition.X - firePosition.X) / calamityFireDrawer.Scale);
+                    int y = (int)((drawPosition.Y - firePosition.Y) / calamityFireDrawer.Scale);
+
+                    calamityFireDrawer.ShouldUpdate = true;
+                    calamityFireDrawer.UpdateAction = () =>
                     {
-                        Color auraColor = Color.Orange * Main.LocalPlayer.Calamity().blazingMouseAuraFade * 0.125f;
-                        auraColor.A = 0;
-                        Vector2 offsetDrawPosition = baseDrawPosition + (MathHelper.TwoPi * i / 12f + Main.GlobalTimeWrappedHourly * 5f).ToRotationVector2() * 2.5f;
-                        offsetDrawPosition.Y -= 18f;
+                        Color color = Color.Lerp(Color.Red, Color.Orange, (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6f) * 0.5f + 0.5f);
 
-                        Main.spriteBatch.Draw(auraTexture, offsetDrawPosition, auraFrame, auraColor, 0f, auraFrame.Size() * 0.5f, Main.cursorScale * auraScale, SpriteEffects.None, 0f);
-                    }
+                        // Use a rainbow color if the player has the rainbow cursor equipped as well as Calamity.
+                        if (Main.LocalPlayer.hasRainbowCursor)
+                            color = Color.Lerp(color, Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.97f % 1f, 1f, 0.6f), 0.75f);
+
+                        int horizontalArea = 2;
+                        int verticalArea = 2;
+
+                        for (int i = -horizontalArea; i <= horizontalArea; i++)
+                        {
+                            float offsetAngle = (float)Math.Sin(Main.GlobalTimeWrappedHourly * 6.7f) * 0.99f;
+                            offsetAngle += i / (float)horizontalArea * 0.34f;
+                            Vector2 velocity = Main.MouseWorld - UIManagementSystem.PreviousMouseWorld;
+                            if (velocity.Length() < 64f)
+                            {
+                                offsetAngle *= 0.5f;
+                                velocity = Vector2.Zero;
+                            }
+                            UIManagementSystem.PreviousMouseWorld = Main.MouseWorld;
+
+                            velocity = velocity.SafeNormalize(-Vector2.UnitY).RotatedBy(offsetAngle) * 0.2f;
+
+                            // Add a tiny bit of randomness to the velocity.
+                            // Chaos in the advection calculations should result in different flames being made over time, instead of a
+                            // static animation.
+                            velocity *= Main.rand.NextFloat(0.9f, 1.1f);
+
+                            for (int j = -verticalArea; j <= verticalArea; j++)
+                                Main.LocalPlayer.Calamity().CalamityFireDrawer.CreateSource(x + size / 2 + i, y + size / 2 + j, 1f, color, velocity);
+                        }
+                    };
+
+                    calamityFireDrawer.Draw(firePosition, true, Main.UIScaleMatrix, Main.UIScaleMatrix);
                 }
 
                 Main.spriteBatch.Draw(TextureAssets.Cursors[cursorIndex].Value, drawPosition, null, desaturatedCursorColor, 0f, Vector2.Zero, Main.cursorScale, SpriteEffects.None, 0f);

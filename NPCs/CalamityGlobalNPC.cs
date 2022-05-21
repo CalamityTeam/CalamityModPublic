@@ -4450,7 +4450,7 @@ namespace CalamityMod.NPCs
                     spawnRate = (int)(spawnRate * 0.7);
                     maxSpawns = (int)(maxSpawns * 1.2f);
 
-                    if (!player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+                    if (!player.Calamity().ZoneAbyss && AcidRainEvent.AcidRainEventIsOngoing)
                     {
                         if (AcidRainEvent.AnyRainMinibosses)
                         {
@@ -4680,11 +4680,11 @@ namespace CalamityMod.NPCs
                 pool[0] = 0f;
             }
 
-            if (spawnInfo.Player.Calamity().ZoneSulphur && !spawnInfo.Player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+            if (spawnInfo.Player.Calamity().ZoneSulphur && !spawnInfo.Player.Calamity().ZoneAbyss && AcidRainEvent.AcidRainEventIsOngoing)
             {
                 pool.Clear();
 
-                if (!(DownedBossSystem.downedPolterghast && CalamityWorld.acidRainPoints == 1))
+                if (!(DownedBossSystem.downedPolterghast && AcidRainEvent.AccumulatedKillPoints == 1))
                 {
                     Dictionary<int, AcidRainSpawnData> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
                     Dictionary<int, AcidRainSpawnData> PossibleMinibosses = new Dictionary<int, AcidRainSpawnData>();
@@ -5553,7 +5553,7 @@ namespace CalamityMod.NPCs
                 return true;
             if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && (Main.eclipse || Main.bloodMoon || Main.pumpkinMoon || Main.snowMoon))
                 return true;
-            if (CalamityWorld.rainingAcid && player.InSulphur())
+            if (AcidRainEvent.AcidRainEventIsOngoing && player.InSulphur())
                 return true;
             return false;
         }

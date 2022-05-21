@@ -7,6 +7,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Effects;
 using CalamityMod.Events;
+using CalamityMod.FluidSimulation;
 using CalamityMod.ILEditing;
 using CalamityMod.Items;
 using CalamityMod.Items.Dyes.HairDye;
@@ -373,10 +374,14 @@ namespace CalamityMod
         #endregion
 
         #region Render Target Management
+
         public static void PrepareRenderTargets(GameTime gameTime)
         {
             FusableParticleManager.PrepareFusableParticleTargets();
             DeathAshParticle.PrepareRenderTargets();
+
+            if (!Main.gameMenu)
+                FluidFieldManager.Update();
         }
         #endregion Render Target Management
 

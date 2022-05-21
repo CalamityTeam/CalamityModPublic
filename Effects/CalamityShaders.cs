@@ -33,11 +33,14 @@ namespace CalamityMod.Effects
         public static Effect CircularAoETelegraph;
         public static Effect IntersectionClipShader;
         public static Effect LocalLinearTransformationShader;
+        public static Effect BasicPrimitiveShader;
 
         public static Effect BaseFusableParticleEdgeShader;
         public static Effect AdditiveFusableParticleEdgeShader;
 
         public static Effect DoGPortalShader;
+
+        public static Effect FluidShaders;
 
         public static void LoadShaders()
         {
@@ -68,11 +71,14 @@ namespace CalamityMod.Effects
             CircularAoETelegraph = CalamityMod.Instance.Assets.Request<Effect>("Effects/CircularAoETelegraph", AssetRequestMode.ImmediateLoad).Value;
             IntersectionClipShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/IntersectionClipShader", AssetRequestMode.ImmediateLoad).Value;
             LocalLinearTransformationShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/LocalLinearTransformationShader", AssetRequestMode.ImmediateLoad).Value;
+            BasicPrimitiveShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/BasicPrimitiveShader", AssetRequestMode.ImmediateLoad).Value;
 
             BaseFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/BaseFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
             AdditiveFusableParticleEdgeShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ParticleFusion/AdditiveFusableParticleEdgeShader", AssetRequestMode.ImmediateLoad).Value;
 
             DoGPortalShader = CalamityMod.Instance.Assets.Request<Effect>("Effects/ScreenShaders/DoGPortalShader", AssetRequestMode.ImmediateLoad).Value;
+
+            FluidShaders = CalamityMod.Instance.Assets.Request<Effect>("Effects/FluidShaders", AssetRequestMode.ImmediateLoad).Value;
 
             Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(AstralFogShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 
@@ -100,6 +106,7 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:CircularAoETelegraph"] = new MiscShaderData(new Ref<Effect>(CircularAoETelegraph), "TelegraphPass");
             GameShaders.Misc["CalamityMod:IntersectionClip"] = new MiscShaderData(new Ref<Effect>(IntersectionClipShader), "ClipPass");
             GameShaders.Misc["CalamityMod:LinearTransformation"] = new MiscShaderData(new Ref<Effect>(LocalLinearTransformationShader), "TransformationPass");
+            GameShaders.Misc["CalamityMod:PrimitiveDrawer"] = new MiscShaderData(new Ref<Effect>(BasicPrimitiveShader), "TrailPass");
 
             GameShaders.Misc["CalamityMod:BaseFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(BaseFusableParticleEdgeShader), "ParticlePass");
             GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");

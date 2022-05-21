@@ -2,6 +2,7 @@
 using CalamityMod.CustomRecipes;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -48,11 +49,10 @@ namespace CalamityMod
             ArmoredDiggerSpawnCooldown = 0;
             BossRushEvent.BossRushActive = false;
             BossRushEvent.BossRushSpawnCountdown = 180;
-            bossRushHostileProjKillCounter = 0;
-            newAltarX = 0;
-            newAltarY = 0;
-            abyssChasmBottom = 0;
-            abyssSide = false;
+            BossRushEvent.HostileProjectileKillCounter = 0;
+            CustomTemple.NewAlterPosition = Point.Zero;
+            Abyss.AbyssChasmBottom = 0;
+            Abyss.AtLeftSideOfWorld = false;
 
             spawnedBandit = false;
             spawnedCirrus = false;
@@ -88,8 +88,8 @@ namespace CalamityMod
             death = false;
             armageddon = false;
             malice = false;
-            rainingAcid = false;
-            forceRainTimer = 0;
+            AcidRainEvent.AcidRainEventIsOngoing = false;
+            AcidRainEvent.CountdownUntilForcedAcidRain = 0;
         }
 
         public override void OnWorldLoad() => ResetWorldData();
@@ -111,11 +111,11 @@ namespace CalamityMod
                 downed.Add("death");
             if (malice)
                 downed.Add("malice");
-            if (abyssSide)
+            if (Abyss.AtLeftSideOfWorld)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
                 downed.Add("bossRushActive");
-            if (rainingAcid)
+            if (AcidRainEvent.AcidRainEventIsOngoing)
                 downed.Add("acidRain");
             if (spawnedBandit)
                 downed.Add("bandit");
@@ -175,15 +175,13 @@ namespace CalamityMod
                 downed.Add("wizardName");
             #endregion
 
-            if (triedToSummonOldDuke)
+            if (AcidRainEvent.HasTriedToSummonOldDuke)
                 downed.Add("spawnedBoomer");
-            if (startAcidicDownpour)
+            if (AcidRainEvent.HasStartedAcidicDownpour)
                 downed.Add("startDownpour");
-            if (forcedRainAlready)
+            if (AcidRainEvent.HasBeenForceStartedByEoCDefeat)
                 downed.Add("forcedRain");
-            if (forcedDownpourWithTear)
-                downed.Add("forcedTear");
-            if (encounteredOldDuke)
+            if (AcidRainEvent.OldDukeHasBeenEncountered)
                 downed.Add("encounteredOldDuke");
             if (HasGeneratedLuminitePlanetoids)
                 downed.Add("HasGeneratedLuminitePlanetoids");
@@ -197,8 +195,8 @@ namespace CalamityMod
             RecipeUnlockHandler.Save(downed);
 
             tag["downed"] = downed;
-            tag["abyssChasmBottom"] = abyssChasmBottom;
-            tag["acidRainPoints"] = acidRainPoints;
+            tag["abyssChasmBottom"] = Abyss.AbyssChasmBottom;
+            tag["acidRainPoints"] = AcidRainEvent.AccumulatedKillPoints;
             tag["Reforges"] = Reforges;
             tag["MoneyStolenByBandit"] = MoneyStolenByBandit;
 
@@ -217,9 +215,9 @@ namespace CalamityMod
             revenge = downed.Contains("revenge");
             death = downed.Contains("death");
             malice = downed.Contains("malice");
-            abyssSide = downed.Contains("abyssSide");
+            Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
-            rainingAcid = downed.Contains("acidRain");
+            AcidRainEvent.AcidRainEventIsOngoing = downed.Contains("acidRain");
 
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
@@ -252,11 +250,10 @@ namespace CalamityMod
             wizardName = downed.Contains("wizardName");
             #endregion
 
-            triedToSummonOldDuke = downed.Contains("spawnedBoomer");
-            startAcidicDownpour = downed.Contains("startDownpour");
-            forcedRainAlready = downed.Contains("forcedRain");
-            forcedDownpourWithTear = downed.Contains("forcedTear");
-            encounteredOldDuke = downed.Contains("encounteredOldDuke");
+            AcidRainEvent.HasTriedToSummonOldDuke = downed.Contains("spawnedBoomer");
+            AcidRainEvent.HasStartedAcidicDownpour = downed.Contains("startDownpour");
+            AcidRainEvent.HasBeenForceStartedByEoCDefeat = downed.Contains("forcedRain");
+            AcidRainEvent.OldDukeHasBeenEncountered = downed.Contains("encounteredOldDuke");
             HasGeneratedLuminitePlanetoids = downed.Contains("HasGeneratedLuminitePlanetoids");
             IsWorldAfterDraedonUpdate = downed.Contains("IsWorldAfterDraedonUpdate");
 
@@ -267,8 +264,8 @@ namespace CalamityMod
 
             RecipeUnlockHandler.Load(downed);
 
-            abyssChasmBottom = tag.GetInt("abyssChasmBottom");
-            acidRainPoints = tag.GetInt("acidRainPoints");
+            Abyss.AbyssChasmBottom = tag.GetInt("abyssChasmBottom");
+            AcidRainEvent.AccumulatedKillPoints = tag.GetInt("acidRainPoints");
             Reforges = tag.GetInt("Reforges");
             MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
 

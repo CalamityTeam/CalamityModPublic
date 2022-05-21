@@ -23,52 +23,12 @@ namespace CalamityMod.World
         public static bool IsWorldAfterDraedonUpdate = false;
         public static ushort[] OreTypes = new ushort[4];
 
-        // Boss Rush
-        public static int bossRushHostileProjKillCounter = 0;
-
         // Modes
         public static bool onionMode = false; // Extra accessory from Moon Lord
         public static bool revenge = false; // Revengeance Mode
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
         public static bool malice = false; // Malice Mode
-
-        // New Temple Altar
-        public static int newAltarX = 0;
-        public static int newAltarY = 0;
-
-        // Evil Islands
-        public static int fehX = 0;
-        public static int fehY = 0;
-
-        // Brimstone Crag
-        public static int fuhX = 0;
-        public static int fuhY = 0;
-
-        // Abyss & Sulphur
-        public static int numAbyssIslands = 0;
-        public static int[] AbyssIslandX = new int[20];
-        public static int[] AbyssIslandY = new int[20];
-        public static int[] AbyssItemArray = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public static bool abyssSide = false;
-        public static int abyssChasmBottom = 0;
-        public static bool rainingAcid;
-        public static int acidRainPoints = 0;
-        public static bool triedToSummonOldDuke = false;
-        public static bool startAcidicDownpour = false;
-        public static bool forcedRainAlready = false;
-        public static bool forcedDownpourWithTear = false;
-        public static bool encounteredOldDuke = false;
-        public static int forceRainTimer = 0;
-        public static int timeSinceAcidRainKill = 0;
-        public static int timeSinceAcidStarted = 0;
-        public static float AcidRainCompletionRatio
-        {
-            get
-            {
-                return MathHelper.Clamp(acidRainPoints / (float)AcidRainEvent.NeededEnemyKills, 0f, 1f);
-            }
-        }
 
         // Sunken Sea
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;
