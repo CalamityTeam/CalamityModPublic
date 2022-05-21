@@ -217,12 +217,29 @@ namespace CalamityMod.NPCs.StormWeaver
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.9f;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
+            bool phase2 = lifeRatio < 0.9f;
+
+            bool phase3 = lifeRatio < (expertMode ? 0.7f : 0.5f);
+
+            // Gate value that decides when Storm Weaver will charge
+            float chargePhaseGateValue = (int)((malice ? 280f : death ? 320f : revenge ? 360f : 400f) - (malice ? 56f : death ? 64f : revenge ? 72f : 80f) * (1f - (lifeRatio / 0.9f)));
+            if (!phase3)
+                chargePhaseGateValue *= 0.5f;
+
             Texture2D texture2D15 = phase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverBodyNaked").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
             int num153 = 5;
+            float chargeTelegraphTime = 120f;
+            float chargeTelegraphGateValue = chargePhaseGateValue - chargeTelegraphTime;
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -230,13 +247,10 @@ namespace CalamityMod.NPCs.StormWeaver
                 {
                     Color color38 = drawColor;
 
-                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-                    {
-                        if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] > 280f)
-                            color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
-                        else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
-                            color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 60f, 0f, 1f));
-                    }
+                    if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] > chargeTelegraphGateValue)
+                        color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] - chargeTelegraphGateValue) / chargeTelegraphTime, 0f, 1f));
+                    else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
+                        color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 60f, 0f, 1f));
 
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
@@ -253,13 +267,10 @@ namespace CalamityMod.NPCs.StormWeaver
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color = NPC.GetAlpha(drawColor);
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] > 280f)
-                    color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
-                else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
-                    color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 60f, 0f, 1f));
-            }
+            if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] > chargeTelegraphGateValue)
+                color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] - chargeTelegraphGateValue) / chargeTelegraphTime, 0f, 1f));
+            else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
+                color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 60f, 0f, 1f));
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 

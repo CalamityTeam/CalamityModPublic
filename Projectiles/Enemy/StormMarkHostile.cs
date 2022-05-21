@@ -37,7 +37,8 @@ namespace CalamityMod.Projectiles.Enemy
             }
             if (Projectile.localAI[1] < 30f)
             {
-                for (int num1134 = 0; num1134 < 1; num1134++)
+                int totalDust = Projectile.ai[0] != 0f ? 2 : 1;
+                for (int num1134 = 0; num1134 < totalDust; num1134++)
                 {
                     float value79 = -0.5f;
                     float value80 = 0.9f;
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Enemy
                     value81.X *= MathHelper.Lerp(2.2f, 0.6f, amount4);
                     value81.X *= -1f;
                     Vector2 value82 = new Vector2(2f, 10f);
-                    Vector2 position4 = Projectile.Center + new Vector2(60f, 200f) * value81 * 0.5f + value82;
+                    Vector2 position4 = Projectile.Center + new Vector2(60f, Projectile.ai[0] != 0f ? 800f : 200f) * value81 * 0.5f + value82;
                     Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 16, 0f, 0f, 0, default, 0.5f)];
                     dust34.position = position4;
                     dust34.customData = Projectile.Center + value82;

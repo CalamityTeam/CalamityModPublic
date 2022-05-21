@@ -158,10 +158,11 @@ namespace CalamityMod.NPCs.StormWeaver
             bool phase2 = lifeRatio < 0.9f;
 
             // Start calling down frost waves from the sky in sheets
-            bool phase3 = lifeRatio < 0.7f && expertMode;
+            bool phase3 = lifeRatio < (expertMode ? 0.7f : 0.5f);
 
             // Lightning strike flash phase and start summoning tornadoes
-            bool phase4 = lifeRatio < 0.4f;
+            bool doLightningEffects = lifeRatio < 0.4f;
+            bool phase4 = doLightningEffects && expertMode;
 
             // Become weak and cancel the storm and all other attacks
             bool phase5 = lifeRatio < 0.05f;
@@ -328,11 +329,11 @@ namespace CalamityMod.NPCs.StormWeaver
             else if (NPC.velocity.X > 0f)
                 NPC.spriteDirection = 1;
 
-            Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-            float num191 = Main.player[NPC.target].position.X + (Main.player[NPC.target].width / 2);
-            float num192 = Main.player[NPC.target].position.Y + (Main.player[NPC.target].height / 2);
-            float num188 = (phase2 ? 12f : 10f) + (malice ? 3f : revenge ? 1.5f : expertMode ? 1f : 0f);
-            float num189 = (phase2 ? 0.24f : 0.2f) + (malice ? 0.12f : revenge ? 0.08f : expertMode ? 0.04f : 0f);
+            Vector2 npcCenter = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            float targetCenterX = Main.player[NPC.target].Center.X;
+            float targetCenterY = Main.player[NPC.target].Center.Y;
+            float velocity = (phase2 ? 12f : 10f) + (malice ? 3f : revenge ? 1.5f : expertMode ? 1f : 0f);
+            float acceleration = (phase2 ? 0.24f : 0.2f) + (malice ? 0.12f : revenge ? 0.08f : expertMode ? 0.04f : 0f);
 
             // Start charging at the player when in phase 2
             if (phase2 && !phase5)
@@ -345,6 +346,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 // Gate value that decides when Storm Weaver will charge
                 float chargePhaseGateValue = (int)((malice ? 280f : death ? 320f : revenge ? 360f : 400f) - (malice ? 56f : death ? 64f : revenge ? 72f : 80f) * (1f - (lifeRatio / 0.9f)));
+                if (!phase3)
+                    chargePhaseGateValue *= 0.5f;
 
                 // Divisor that dictates whether frost waves or tornadoes will be fired or not
                 float projectileShootDivisor = (int)((malice ? 180f : death ? 220f : revenge ? 260f : 300f) - (malice ? 36f : death ? 44f : revenge ? 42f : 60f) * (1f - (lifeRatio / 0.9f)));
@@ -526,57 +529,54 @@ namespace CalamityMod.NPCs.StormWeaver
                         calamityGlobalNPC.newAI[0] = 0f;
                     }
 
-                    if (revenge)
+                    if (NPC.localAI[1] == 2f)
                     {
-                        if (NPC.localAI[1] == 2f)
-                        {
-                            num188 += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.01f * (1f - (lifeRatio / 0.9f));
-                            num189 += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.0001f * (1f - (lifeRatio / 0.9f));
-                            num188 *= 2f;
-                            num189 *= 0.85f;
+                        velocity += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.01f * (1f - (lifeRatio / 0.9f));
+                        acceleration += Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.0001f * (1f - (lifeRatio / 0.9f));
+                        velocity *= 2f;
+                        acceleration *= 0.85f;
 
-                            float stopChargeDistance = 800f * NPC.localAI[2];
-                            if (stopChargeDistance < 0)
+                        float stopChargeDistance = 800f * NPC.localAI[2];
+                        if (stopChargeDistance < 0)
+                        {
+                            if (NPC.Center.X < Main.player[NPC.target].Center.X + stopChargeDistance)
                             {
-                                if (NPC.Center.X < Main.player[NPC.target].Center.X + stopChargeDistance)
-                                {
-                                    NPC.localAI[1] = 0f;
-                                    calamityGlobalNPC.newAI[0] = 0f;
-                                }
-                            }
-                            else
-                            {
-                                if (NPC.Center.X > Main.player[NPC.target].Center.X + stopChargeDistance)
-                                {
-                                    NPC.localAI[1] = 0f;
-                                    calamityGlobalNPC.newAI[0] = 0f;
-                                }
+                                NPC.localAI[1] = 0f;
+                                calamityGlobalNPC.newAI[0] = 0f;
                             }
                         }
-
-                        int dustAmt = 5;
-                        for (int num1474 = 0; num1474 < dustAmt; num1474++)
+                        else
                         {
-                            Vector2 vector171 = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
-                            vector171 = vector171.RotatedBy((num1474 - (dustAmt / 2 - 1)) * (double)MathHelper.Pi / (float)dustAmt) + NPC.Center;
-                            Vector2 value18 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
-                            int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 206, value18.X, value18.Y, 100, default, 3f);
-                            Main.dust[num1475].noGravity = true;
-                            Main.dust[num1475].noLight = true;
-                            Main.dust[num1475].velocity /= 4f;
-                            Main.dust[num1475].velocity -= NPC.velocity;
+                            if (NPC.Center.X > Main.player[NPC.target].Center.X + stopChargeDistance)
+                            {
+                                NPC.localAI[1] = 0f;
+                                calamityGlobalNPC.newAI[0] = 0f;
+                            }
                         }
                     }
+
+                    int dustAmt = 5;
+                    for (int num1474 = 0; num1474 < dustAmt; num1474++)
+                    {
+                        Vector2 vector171 = Vector2.Normalize(NPC.velocity) * new Vector2((NPC.width + 50) / 2f, NPC.height) * 0.75f;
+                        vector171 = vector171.RotatedBy((num1474 - (dustAmt / 2 - 1)) * (double)MathHelper.Pi / (float)dustAmt) + NPC.Center;
+                        Vector2 value18 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
+                        int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 206, value18.X, value18.Y, 100, default, 3f);
+                        Main.dust[num1475].noGravity = true;
+                        Main.dust[num1475].noLight = true;
+                        Main.dust[num1475].velocity /= 4f;
+                        Main.dust[num1475].velocity -= NPC.velocity;
+                    }
                 }
-                else if (revenge)
+                else
                 {
                     if (NPC.localAI[3] > 0f)
                         NPC.localAI[3] -= 1f;
                 }
             }
 
-            float num48 = num188 * 1.3f;
-            float num49 = num188 * 0.7f;
+            float num48 = velocity * 1.3f;
+            float num49 = velocity * 0.7f;
             float num50 = NPC.velocity.Length();
             if (num50 > 0f)
             {
@@ -600,7 +600,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     Vector2 soundCenter = Main.player[NPC.target].Center;
 
                     // Play lightning sound on all nearby players if in phase 3
-                    if (phase4)
+                    if (doLightningEffects)
                     {
                         if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < 2800f)
                         {
@@ -638,18 +638,18 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             Vector2 source = baseSpawn;
                             source.X += i * 30f - (boltProjectiles * 15f);
-                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / boltProjectiles)));
-                            velocity.X = velocity.X + 3f * Main.rand.NextFloat() - 1.5f;
+                            Vector2 boltVelocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / boltProjectiles)));
+                            boltVelocity.X = boltVelocity.X + 3f * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[NPC.target].Center - source;
                             float ai = Main.rand.Next(100);
                             int type = ProjectileID.CultistBossLightningOrbArc;
                             int damage = NPC.GetProjectileDamage(type);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), source, velocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), source, boltVelocity, type, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
                         }
                     }
 
                     if (revenge)
-                        NPC.velocity = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * (num188 + Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.01f * (1f - (lifeRatio / 0.9f))) * 2f;
+                        NPC.velocity = Vector2.Normalize(Main.player[NPC.target].Center - NPC.Center) * (velocity + Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) * 0.01f * (1f - (lifeRatio / 0.9f))) * 2f;
 
                     float chargeDirection = 0;
                     if (NPC.velocity.X < 0f)
@@ -661,87 +661,87 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
-            num191 = (int)(num191 / 16f) * 16;
-            num192 = (int)(num192 / 16f) * 16;
-            vector18.X = (int)(vector18.X / 16f) * 16;
-            vector18.Y = (int)(vector18.Y / 16f) * 16;
-            num191 -= vector18.X;
-            num192 -= vector18.Y;
-            float num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
-            float num196 = Math.Abs(num191);
-            float num197 = Math.Abs(num192);
-            float num198 = num188 / num193;
-            num191 *= num198;
-            num192 *= num198;
+            targetCenterX = (int)(targetCenterX / 16f) * 16;
+            targetCenterY = (int)(targetCenterY / 16f) * 16;
+            npcCenter.X = (int)(npcCenter.X / 16f) * 16;
+            npcCenter.Y = (int)(npcCenter.Y / 16f) * 16;
+            targetCenterX -= npcCenter.X;
+            targetCenterY -= npcCenter.Y;
+            float num193 = (float)Math.Sqrt(targetCenterX * targetCenterX + targetCenterY * targetCenterY);
+            float num196 = Math.Abs(targetCenterX);
+            float num197 = Math.Abs(targetCenterY);
+            float num198 = velocity / num193;
+            targetCenterX *= num198;
+            targetCenterY *= num198;
 
-            if ((NPC.velocity.X > 0f && num191 > 0f) || (NPC.velocity.X < 0f && num191 < 0f) || (NPC.velocity.Y > 0f && num192 > 0f) || (NPC.velocity.Y < 0f && num192 < 0f))
+            if ((NPC.velocity.X > 0f && targetCenterX > 0f) || (NPC.velocity.X < 0f && targetCenterX < 0f) || (NPC.velocity.Y > 0f && targetCenterY > 0f) || (NPC.velocity.Y < 0f && targetCenterY < 0f))
             {
-                if (NPC.velocity.X < num191)
+                if (NPC.velocity.X < targetCenterX)
                 {
-                    NPC.velocity.X = NPC.velocity.X + num189;
+                    NPC.velocity.X = NPC.velocity.X + acceleration;
                 }
                 else
                 {
-                    if (NPC.velocity.X > num191)
-                        NPC.velocity.X = NPC.velocity.X - num189;
+                    if (NPC.velocity.X > targetCenterX)
+                        NPC.velocity.X = NPC.velocity.X - acceleration;
                 }
 
-                if (NPC.velocity.Y < num192)
+                if (NPC.velocity.Y < targetCenterY)
                 {
-                    NPC.velocity.Y = NPC.velocity.Y + num189;
+                    NPC.velocity.Y = NPC.velocity.Y + acceleration;
                 }
                 else
                 {
-                    if (NPC.velocity.Y > num192)
-                        NPC.velocity.Y = NPC.velocity.Y - num189;
+                    if (NPC.velocity.Y > targetCenterY)
+                        NPC.velocity.Y = NPC.velocity.Y - acceleration;
                 }
 
-                if (Math.Abs(num192) < num188 * 0.2 && ((NPC.velocity.X > 0f && num191 < 0f) || (NPC.velocity.X < 0f && num191 > 0f)))
+                if (Math.Abs(targetCenterY) < velocity * 0.2 && ((NPC.velocity.X > 0f && targetCenterX < 0f) || (NPC.velocity.X < 0f && targetCenterX > 0f)))
                 {
                     if (NPC.velocity.Y > 0f)
-                        NPC.velocity.Y = NPC.velocity.Y + num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y + acceleration * 2f;
                     else
-                        NPC.velocity.Y = NPC.velocity.Y - num189 * 2f;
+                        NPC.velocity.Y = NPC.velocity.Y - acceleration * 2f;
                 }
 
-                if (Math.Abs(num191) < num188 * 0.2 && ((NPC.velocity.Y > 0f && num192 < 0f) || (NPC.velocity.Y < 0f && num192 > 0f)))
+                if (Math.Abs(targetCenterX) < velocity * 0.2 && ((NPC.velocity.Y > 0f && targetCenterY < 0f) || (NPC.velocity.Y < 0f && targetCenterY > 0f)))
                 {
                     if (NPC.velocity.X > 0f)
-                        NPC.velocity.X = NPC.velocity.X + num189 * 2f;
+                        NPC.velocity.X = NPC.velocity.X + acceleration * 2f;
                     else
-                        NPC.velocity.X = NPC.velocity.X - num189 * 2f;
+                        NPC.velocity.X = NPC.velocity.X - acceleration * 2f;
                 }
             }
             else
             {
                 if (num196 > num197)
                 {
-                    if (NPC.velocity.X < num191)
-                        NPC.velocity.X = NPC.velocity.X + num189 * 1.1f;
-                    else if (NPC.velocity.X > num191)
-                        NPC.velocity.X = NPC.velocity.X - num189 * 1.1f;
+                    if (NPC.velocity.X < targetCenterX)
+                        NPC.velocity.X = NPC.velocity.X + acceleration * 1.1f;
+                    else if (NPC.velocity.X > targetCenterX)
+                        NPC.velocity.X = NPC.velocity.X - acceleration * 1.1f;
 
-                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < num188 * 0.5)
+                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < velocity * 0.5)
                     {
                         if (NPC.velocity.Y > 0f)
-                            NPC.velocity.Y = NPC.velocity.Y + num189;
+                            NPC.velocity.Y = NPC.velocity.Y + acceleration;
                         else
-                            NPC.velocity.Y = NPC.velocity.Y - num189;
+                            NPC.velocity.Y = NPC.velocity.Y - acceleration;
                     }
                 }
                 else
                 {
-                    if (NPC.velocity.Y < num192)
-                        NPC.velocity.Y = NPC.velocity.Y + num189 * 1.1f;
-                    else if (NPC.velocity.Y > num192)
-                        NPC.velocity.Y = NPC.velocity.Y - num189 * 1.1f;
+                    if (NPC.velocity.Y < targetCenterY)
+                        NPC.velocity.Y = NPC.velocity.Y + acceleration * 1.1f;
+                    else if (NPC.velocity.Y > targetCenterY)
+                        NPC.velocity.Y = NPC.velocity.Y - acceleration * 1.1f;
 
-                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < num188 * 0.5)
+                    if ((Math.Abs(NPC.velocity.X) + Math.Abs(NPC.velocity.Y)) < velocity * 0.5)
                     {
                         if (NPC.velocity.X > 0f)
-                            NPC.velocity.X = NPC.velocity.X + num189;
+                            NPC.velocity.X = NPC.velocity.X + acceleration;
                         else
-                            NPC.velocity.X = NPC.velocity.X - num189;
+                            NPC.velocity.X = NPC.velocity.X - acceleration;
                     }
                 }
             }
@@ -755,7 +755,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 calamityGlobalNPC.newAI[0] = 0f;
                 CalamityMod.StopRain();
             }
-            else if (phase4)
+            else if (doLightningEffects)
             {
                 // Adjust lightning flash variables when in phase 3
                 if (Main.netMode != NetmodeID.Server)
@@ -791,12 +791,31 @@ namespace CalamityMod.NPCs.StormWeaver
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.9f;
+            CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();
+
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
+            bool phase2 = lifeRatio < 0.9f;
+
+            bool phase3 = lifeRatio < (expertMode ? 0.7f : 0.5f);
+
+            // Gate value that decides when Storm Weaver will charge
+            float chargePhaseGateValue = (int)((malice ? 280f : death ? 320f : revenge ? 360f : 400f) - (malice ? 56f : death ? 64f : revenge ? 72f : 80f) * (1f - (lifeRatio / 0.9f)));
+            if (!phase3)
+                chargePhaseGateValue *= 0.5f;
+
             Texture2D texture2D15 = phase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverHeadNaked").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
             int num153 = 5;
+            float chargeTelegraphTime = 120f;
+            float chargeTelegraphGateValue = chargePhaseGateValue - chargeTelegraphTime;
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -804,13 +823,10 @@ namespace CalamityMod.NPCs.StormWeaver
                 {
                     Color color38 = drawColor;
 
-                    if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-                    {
-                        if (NPC.Calamity().newAI[0] > 280f)
-                            color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((NPC.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
-                        else if (NPC.localAI[3] > 0f)
-                            color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp(NPC.localAI[3] / 60f, 0f, 1f));
-                    }
+                    if (calamityGlobalNPC.newAI[0] > chargeTelegraphGateValue)
+                        color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp((calamityGlobalNPC.newAI[0] - chargeTelegraphGateValue) / chargeTelegraphTime, 0f, 1f));
+                    else if (NPC.localAI[3] > 0f)
+                        color38 = Color.Lerp(color38, Color.Cyan, MathHelper.Clamp(NPC.localAI[3] / 60f, 0f, 1f));
 
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
@@ -827,13 +843,10 @@ namespace CalamityMod.NPCs.StormWeaver
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             Color color = NPC.GetAlpha(drawColor);
 
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
-            {
-                if (NPC.Calamity().newAI[0] > 280f)
-                    color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((NPC.Calamity().newAI[0] - 280f) / 120f, 0f, 1f));
-                else if (NPC.localAI[3] > 0f)
-                    color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp(NPC.localAI[3] / 60f, 0f, 1f));
-            }
+            if (calamityGlobalNPC.newAI[0] > chargeTelegraphGateValue)
+                color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp((calamityGlobalNPC.newAI[0] - chargeTelegraphGateValue) / chargeTelegraphTime, 0f, 1f));
+            else if (NPC.localAI[3] > 0f)
+                color = Color.Lerp(color, Color.Cyan, MathHelper.Clamp(NPC.localAI[3] / 60f, 0f, 1f));
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
