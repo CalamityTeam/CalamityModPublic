@@ -193,7 +193,7 @@ namespace CalamityMod.CalPlayer
             CalamityGlobalNPC cgn = target.Calamity();
 
             // Handle on-hit melee effects for the gem tech armor set.
-            if (proj.CountsAsClass(DamageClass.Melee))
+            if (proj.CountsAsClass<MeleeDamageClass>())
                 GemTechState.MeleeOnHitEffects(target);
 
             // Handle on-hit projectiles effects for the mythril armor set.
@@ -380,7 +380,7 @@ namespace CalamityMod.CalPlayer
 
                 ProjLifesteal(target, proj, damage, crit);
                 ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.CountsAsClass(DamageClass.Melee), proj.CountsAsClass(DamageClass.Ranged), proj.CountsAsClass(DamageClass.Magic), proj.IsSummon(), cgp.rogue, true);
+                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), cgp.rogue, true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -602,7 +602,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Plague>(), 300);
                 }
                 ProjOnHit(proj, target.Center, crit, true);
-                PvpDebuffs(target, proj.CountsAsClass(DamageClass.Melee), proj.CountsAsClass(DamageClass.Ranged), proj.CountsAsClass(DamageClass.Magic), proj.IsSummon(), proj.Calamity().rogue, true);
+                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.Calamity().rogue, true);
             }
         }
         #endregion
@@ -698,10 +698,10 @@ namespace CalamityMod.CalPlayer
         {
             CalamityGlobalProjectile modProj = proj.Calamity();
             var source = proj.GetSource_FromThis();
-            bool hasClass = proj.CountsAsClass(DamageClass.Melee) || proj.CountsAsClass(DamageClass.Ranged) || proj.CountsAsClass(DamageClass.Magic) || proj.CountsAsClass<SummonDamageClass>() || proj.CountsAsClass<ThrowingDamageClass>();
+            bool hasClass = proj.CountsAsClass<MeleeDamageClass>() || proj.CountsAsClass<RangedDamageClass>() || proj.CountsAsClass<MagicDamageClass>() || proj.CountsAsClass<SummonDamageClass>() || proj.CountsAsClass<ThrowingDamageClass>();
 
-            //flask of party affects all types of weapons, !proj.CountsAsClass(DamageClass.Melee) is to prevent double flask effects
-            if (!proj.CountsAsClass(DamageClass.Melee) && Player.meleeEnchant == 7)
+            //flask of party affects all types of weapons, !proj.CountsAsClass<MeleeDamageClass>() is to prevent double flask effects
+            if (!proj.CountsAsClass<MeleeDamageClass>() && Player.meleeEnchant == 7)
                 Projectile.NewProjectile(source, position, proj.velocity, ProjectileID.ConfettiMelee, 0, 0f, proj.owner);
 
             if (alchFlask && Player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 3 && hasClass)
@@ -749,11 +749,11 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (proj.CountsAsClass(DamageClass.Melee))
+            if (proj.CountsAsClass<MeleeDamageClass>())
                 MeleeOnHit(proj, modProj, position, crit, npcCheck);
-            if (proj.CountsAsClass(DamageClass.Ranged))
+            if (proj.CountsAsClass<RangedDamageClass>())
                 RangedOnHit(proj, modProj, position, crit, npcCheck);
-            if (proj.CountsAsClass(DamageClass.Magic))
+            if (proj.CountsAsClass<MagicDamageClass>())
                 MagicOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.IsSummon())
                 SummonOnHit(proj, modProj, position, crit, npcCheck);
@@ -820,7 +820,7 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (tarraRanged && proj.CountsAsClass(DamageClass.Ranged) && tarraRangedCooldown <= 0)
+                if (tarraRanged && proj.CountsAsClass<RangedDamageClass>() && tarraRangedCooldown <= 0)
                 {
                     tarraRangedCooldown = 60;
                     for (int l = 0; l < 2; l++)
@@ -1714,7 +1714,7 @@ namespace CalamityMod.CalPlayer
 
                 bool otherHealTypes = auricSet || silvaSet || tarraMage || ataxiaMage;
 
-                if (proj.CountsAsClass(DamageClass.Magic) && Player.ActiveItem().CountsAsClass<MagicDamageClass>())
+                if (proj.CountsAsClass<MagicDamageClass>() && Player.ActiveItem().CountsAsClass<MagicDamageClass>())
                 {
                     if (manaOverloader && otherHealTypes)
                     {
@@ -1763,7 +1763,7 @@ namespace CalamityMod.CalPlayer
 
                     CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<SilvaOrb>(), 1200f, 3f);
                 }
-                else if (proj.CountsAsClass(DamageClass.Magic) && Player.ActiveItem().CountsAsClass<MagicDamageClass>())
+                else if (proj.CountsAsClass<MagicDamageClass>() && Player.ActiveItem().CountsAsClass<MagicDamageClass>())
                 {
                     if (manaOverloader)
                     {

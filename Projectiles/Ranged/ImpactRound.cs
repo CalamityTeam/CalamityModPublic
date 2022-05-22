@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (!initialized && Projectile.CountsAsClass(DamageClass.Ranged)) //Ranged check prevents quiver splits triggering the sound
+            if (!initialized && Projectile.CountsAsClass<RangedDamageClass>()) //Ranged check prevents quiver splits triggering the sound
             {
                 initialized = true;
 

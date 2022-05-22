@@ -2058,7 +2058,7 @@ namespace CalamityMod.Projectiles
                 }
                 else
                 {
-                    if (modPlayer.artemisEmblem && projectile.CountsAsClass(DamageClass.Ranged) && player.heldProj != projectile.whoAmI)
+                    if (modPlayer.artemisEmblem && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
                         projectile.extraUpdates += 1;
 
                     if (modPlayer.camper && !player.StandingStill())
@@ -2385,7 +2385,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
 
-                if (!projectile.CountsAsClass(DamageClass.Melee) && player.meleeEnchant > 0 && !projectile.noEnchantments)
+                if (!projectile.CountsAsClass<MeleeDamageClass>() && player.meleeEnchant > 0 && !projectile.noEnchantments)
                 {
                     if (player.meleeEnchant == 7) //flask of party affects all types of weapons
                     {

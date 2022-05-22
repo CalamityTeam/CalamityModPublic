@@ -21,7 +21,8 @@ namespace CalamityMod
 
         public static bool FinalExtraUpdate(this Projectile proj) => proj.numUpdates == -1;
 
-        // TODO -- AAAAAA just check if it's summon class kthx
+        // TODO -- Why does this not simply check if the projectile is summon damage class?
+        // Is it because of whips? We can make it "IsSummonNotWhip" if needed
         public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityLists.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
 
         public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile

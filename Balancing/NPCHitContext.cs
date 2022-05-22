@@ -18,11 +18,11 @@ namespace CalamityMod.Balancing
             ClassType? classType = null;
             if (proj.active)
             {
-                if (proj.CountsAsClass(DamageClass.Melee))
+                if (proj.CountsAsClass<MeleeDamageClass>())
                     classType = ClassType.Melee;
-                if (proj.CountsAsClass(DamageClass.Ranged))
+                if (proj.CountsAsClass<RangedDamageClass>())
                     classType = ClassType.Ranged;
-                if (proj.CountsAsClass(DamageClass.Magic))
+                if (proj.CountsAsClass<MagicDamageClass>())
                     classType = ClassType.Magic;
                 if (proj.minion)
                     classType = ClassType.Summon;

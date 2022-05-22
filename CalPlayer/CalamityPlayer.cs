@@ -4687,7 +4687,7 @@ namespace CalamityMod.CalPlayer
 
             if (brimflameFrenzy && brimflameSet)
             {
-                if (proj.CountsAsClass(DamageClass.Magic))
+                if (proj.CountsAsClass<MagicDamageClass>())
                     damageMult += 0.3;
             }
 
@@ -4753,7 +4753,7 @@ namespace CalamityMod.CalPlayer
                 if (filthyGlove || bloodyGlove)
                     penetrateAmt += 10;
             }
-            if (proj.CountsAsClass(DamageClass.Melee) && badgeOfBravery)
+            if (proj.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
             {
                 penetrateAmt += 5;
             }
@@ -4784,7 +4784,7 @@ namespace CalamityMod.CalPlayer
                     damage = (int)(damage * summonNerfMult);
             }
 
-            if (proj.CountsAsClass(DamageClass.Ranged))
+            if (proj.CountsAsClass<RangedDamageClass>())
             {
                 switch (proj.type)
                 {
@@ -4812,7 +4812,7 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             // Handle on-hit ranged effects for the gem tech armor set.
-            if (proj.CountsAsClass(DamageClass.Ranged) && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
+            if (proj.CountsAsClass<RangedDamageClass>() && proj.type != ModContent.ProjectileType<GemTechGreenFlechette>())
                 GemTechState.RangedOnHitEffects(target, damage);
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && CalamityConfig.Instance.Proficiency)
@@ -4820,7 +4820,7 @@ namespace CalamityMod.CalPlayer
                 if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
                 {
                     gainLevelCooldown = 120; //2 seconds
-                    if (proj.CountsAsClass(DamageClass.Melee) && meleeLevel <= 12500)
+                    if (proj.CountsAsClass<MeleeDamageClass>() && meleeLevel <= 12500)
                     {
                         if (!ReduceCooldown((int)ClassType.Melee))
                         {
@@ -4841,7 +4841,7 @@ namespace CalamityMod.CalPlayer
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                             SyncLevel(false, (int)ClassType.Melee);
                     }
-                    else if (proj.CountsAsClass(DamageClass.Ranged) && rangedLevel <= 12500)
+                    else if (proj.CountsAsClass<RangedDamageClass>() && rangedLevel <= 12500)
                     {
                         if (!ReduceCooldown((int)ClassType.Ranged))
                         {
@@ -4862,7 +4862,7 @@ namespace CalamityMod.CalPlayer
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                             SyncLevel(false, (int)ClassType.Ranged);
                     }
-                    else if (proj.CountsAsClass(DamageClass.Magic) && magicLevel <= 12500)
+                    else if (proj.CountsAsClass<MagicDamageClass>() && magicLevel <= 12500)
                     {
                         if (!ReduceCooldown((int)ClassType.Magic))
                         {
