@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LeonidProgenitor : RogueWeapon
+    public class LeonidProgenitor : ModItem
     {
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 64;
             Item.Calamity().rogue = true;

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BouncingBetty : RogueWeapon
+    public class BouncingBetty : ModItem
     {
         public const int BaseDamage = 52;
         public override void SetStaticDefaults()
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.noMelee = true;

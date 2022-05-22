@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BouncingEyeball : RogueWeapon
+    public class BouncingEyeball : ModItem
     {
         public const int BaseDamage = 15;
         public override void SetStaticDefaults()
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Stealth strikes cause the eyeballs to move much faster and bounce more energetically");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.width = 26;

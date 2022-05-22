@@ -1383,11 +1383,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float acceleration = 0.12f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                        {
+                        if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
-                        }
 
                         // This is where SCal should be
                         Vector2 destination = new Vector2(player.Center.X, player.Center.Y - 550f);
@@ -1569,11 +1566,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                        {
+                        if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
-                        }
 
                         int posX = 1;
                         if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
@@ -1653,11 +1647,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                        {
+                        if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
-                        }
 
                         int posX = 1;
                         if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
@@ -1913,11 +1904,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float acceleration = 0.12f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                        {
+                        if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
-                        }
 
                         // This is where SCal should be
                         Vector2 destination = new Vector2(player.Center.X, player.Center.Y - 550f);
@@ -2094,11 +2082,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                        {
+                        if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
-                        }
 
                         int posX = 1;
                         if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)
@@ -2179,11 +2164,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float acceleration = 1.2f;
 
                         // Reduce acceleration if target is holding a true melee weapon
-                        Item targetSelectedItem = player.inventory[player.selectedItem];
-                        if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                        {
+                        if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
-                        }
 
                         int posX = 1;
                         if (NPC.position.X + (NPC.width / 2) < player.position.X + player.width)

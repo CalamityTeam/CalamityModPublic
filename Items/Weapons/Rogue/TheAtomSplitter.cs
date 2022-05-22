@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheAtomSplitter : RogueWeapon
+    public class TheAtomSplitter : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = Item.height = 128;
             Item.damage = 320;

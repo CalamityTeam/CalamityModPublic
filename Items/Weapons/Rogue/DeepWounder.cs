@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeepWounder : RogueWeapon
+    public class DeepWounder : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 52;
             Item.damage = 106;

@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SealedSingularity : RogueWeapon
+    public class SealedSingularity : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 260;
             Item.knockBack = 5f;

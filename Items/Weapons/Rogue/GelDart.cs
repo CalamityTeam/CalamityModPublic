@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GelDart : RogueWeapon
+    public class GelDart : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 28;

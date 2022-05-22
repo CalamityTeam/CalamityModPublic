@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DukesDecapitator : RogueWeapon
+    public class DukesDecapitator : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 60;
             Item.height = 64;

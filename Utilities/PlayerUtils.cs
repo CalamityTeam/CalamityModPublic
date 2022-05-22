@@ -225,6 +225,15 @@ namespace CalamityMod
         #endregion
 
         #region Inventory Checks
+        // TODO -- Wrong. This should return false for weapons which emit true melee projectiles e.g. Arkhalis
+        public static bool HoldingProjectileMeleeWeapon(this Player player)
+        {
+            Item item = player.ActiveItem();
+            return item.CountsAsClass<MeleeDamageClass>() && item.shoot != ProjectileID.None;
+        }
+
+        public static bool HoldingTrueMeleeWeapon(this Player player) => player.ActiveItem().IsTrueMelee();
+
         public static bool InventoryHas(this Player player, params int[] items)
         {
             return player.inventory.Any(item => items.Contains(item.type));

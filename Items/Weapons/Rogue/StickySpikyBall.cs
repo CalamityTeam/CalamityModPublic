@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class StickySpikyBall : RogueWeapon
+    public class StickySpikyBall : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ Stealth strikes throw seven at once and last a lot longer");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 10;

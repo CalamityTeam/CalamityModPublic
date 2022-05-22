@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CrystalPiercer : RogueWeapon
+    public class CrystalPiercer : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 62;
             Item.damage = 52;

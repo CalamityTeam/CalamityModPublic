@@ -256,9 +256,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rogue
-        // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
-        public static double StealthDamageConstant = 0.5;
-
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
@@ -273,13 +270,10 @@ namespace CalamityMod.CalPlayer
         public bool wearingRogueArmor = false;
         public float accStealthGenBoost = 0f;
 
-        public float throwingDamage = 1f;
+        // TODO -- Stealth needs to be its own damage class so that stealth bonuses only apply to stealth strikes
         public float stealthDamage = 0f; // This is extra Rogue Damage that is only added for stealth strikes.
-        public float RogueDamageWithStealth => throwingDamage + stealthDamage;
-        public float throwingVelocity = 1f;
-        public int throwingCrit = 0;
-        public float throwingAmmoCost = 1f;
-        public float rogueUseSpeedFactor = 0f;
+        public float rogueVelocity = 1f;
+        public float rogueAmmoCost = 1f;
         #endregion
 
         #region Mount
@@ -1476,13 +1470,9 @@ namespace CalamityMod.CalPlayer
 
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
-
-            throwingDamage = 1f;
-            throwingVelocity = 1f;
-            throwingCrit = 0;
-            throwingAmmoCost = 1f;
+            rogueVelocity = 1f;
+            rogueAmmoCost = 1f;
             accStealthGenBoost = 0f;
-            rogueUseSpeedFactor = 0f;
 
             trueMeleeDamage = 0D;
             warBannerBonus = 0f;
@@ -2265,12 +2255,9 @@ namespace CalamityMod.CalPlayer
             rogueStealthMax = 0f;
             stealthAcceleration = 1f;
 
-            throwingDamage = 1f;
             stealthDamage = 0f;
-            throwingVelocity = 1f;
-            throwingCrit = 0;
-            throwingAmmoCost = 1f;
-            rogueUseSpeedFactor = 0f;
+            rogueVelocity = 1f;
+            rogueAmmoCost = 1f;
             #endregion
 
             #region UI
@@ -3536,7 +3523,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Melee speed does not affect non-true melee weapon projectile rate of fire.
-            if (Player.ActiveItem().DamageType == DamageClass.Melee && Player.ActiveItem().shoot != ProjectileID.None)
+            if (Player.HoldingProjectileMeleeWeapon())
             {
                 // Melee weapons that fire any kind of projectile don't benefit from melee speed anymore, so they get a damage boost from it instead.
                 Player.GetDamage(DamageClass.Melee) += Player.GetAttackSpeed(DamageClass.Melee) - 1f;
@@ -7005,7 +6992,7 @@ namespace CalamityMod.CalPlayer
             // 2.50 second stealth charge = 184% damage ratio
             double stealthGenFactor = Math.Max(Math.Pow(fakeStealthTime, 2D / 3D), 1.5);
 
-            double stealthAddedDamage = rogueStealth * StealthDamageConstant * useTimeFactor * stealthGenFactor;
+            double stealthAddedDamage = rogueStealth * BalancingConstants.UniversalStealthStrikeDamageFactor * useTimeFactor * stealthGenFactor;
             stealthDamage += (float)stealthAddedDamage;
 
             // Show 100% crit chance if your stealth strikes always crit.
@@ -7926,79 +7913,79 @@ namespace CalamityMod.CalPlayer
             if (rogueLevel >= 12500)
             {
                 throwingDamage += 0.06f;
-                throwingVelocity += 0.06f;
+                rogueVelocity += 0.06f;
                 throwingCrit += 3;
             }
             else if (rogueLevel >= 10500)
             {
                 throwingDamage += 0.05f;
-                throwingVelocity += 0.06f;
+                rogueVelocity += 0.06f;
                 throwingCrit += 3;
             }
             else if (rogueLevel >= 9100)
             {
                 throwingDamage += 0.05f;
-                throwingVelocity += 0.05f;
+                rogueVelocity += 0.05f;
                 throwingCrit += 3;
             }
             else if (rogueLevel >= 7800)
             {
                 throwingDamage += 0.04f;
-                throwingVelocity += 0.05f;
+                rogueVelocity += 0.05f;
                 throwingCrit += 3;
             }
             else if (rogueLevel >= 6600)
             {
                 throwingDamage += 0.04f;
-                throwingVelocity += 0.04f;
+                rogueVelocity += 0.04f;
                 throwingCrit += 3;
             }
             else if (rogueLevel >= 5500)
             {
                 throwingDamage += 0.04f;
-                throwingVelocity += 0.04f;
+                rogueVelocity += 0.04f;
                 throwingCrit += 2;
             }
             else if (rogueLevel >= 4500)
             {
                 throwingDamage += 0.03f;
-                throwingVelocity += 0.04f;
+                rogueVelocity += 0.04f;
                 throwingCrit += 2;
             }
             else if (rogueLevel >= 3600)
             {
                 throwingDamage += 0.03f;
-                throwingVelocity += 0.03f;
+                rogueVelocity += 0.03f;
                 throwingCrit += 2;
             }
             else if (rogueLevel >= 2800)
             {
                 throwingDamage += 0.03f;
-                throwingVelocity += 0.03f;
+                rogueVelocity += 0.03f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 2100)
             {
                 throwingDamage += 0.02f;
-                throwingVelocity += 0.03f;
+                rogueVelocity += 0.03f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 1500)
             {
                 throwingDamage += 0.02f;
-                throwingVelocity += 0.02f;
+                rogueVelocity += 0.02f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 1000)
             {
                 throwingDamage += 0.02f;
-                throwingVelocity += 0.01f;
+                rogueVelocity += 0.01f;
                 throwingCrit += 1;
             }
             else if (rogueLevel >= 600)
             {
                 throwingDamage += 0.02f;
-                throwingVelocity += 0.01f;
+                rogueVelocity += 0.01f;
             }
             else if (rogueLevel >= 300)
                 throwingDamage += 0.02f;

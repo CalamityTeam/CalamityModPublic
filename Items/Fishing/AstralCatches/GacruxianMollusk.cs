@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
-    public class GacruxianMollusk : RogueWeapon
+    public class GacruxianMollusk : ModItem
     {
         public static int BaseDamage = 36;
         public static float Knockback = 5f;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             "Stealth strikes release homing snails that create even more sparks");
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.knockBack = Knockback;

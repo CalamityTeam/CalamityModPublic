@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HardenedHoneycomb : RogueWeapon
+    public class HardenedHoneycomb : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ Stealth strikes can bounce off walls and enemies");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 30;
             Item.damage = 25;

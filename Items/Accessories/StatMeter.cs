@@ -80,8 +80,8 @@ namespace CalamityMod.Items.Accessories
             float rogueStealth = modPlayer.rogueStealthMax;
             float standingRegen = player.GetStandingStealthRegen();
             float movingRegen = player.GetMovingStealthRegen();
-            float rogueVelocity = modPlayer.throwingVelocity - 1f;
-            float rogueAmmoConsumption = modPlayer.throwingAmmoCost;
+            float rogueVelocity = modPlayer.rogueVelocity - 1f;
+            float rogueAmmoConsumption = modPlayer.rogueAmmoCost;
 
             // rippers
             float rageDamage = modPlayer.RageDamageBoost;

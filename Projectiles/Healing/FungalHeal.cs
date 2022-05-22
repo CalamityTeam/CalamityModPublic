@@ -26,13 +26,10 @@ namespace CalamityMod.Projectiles.Healing
             if (Projectile.localAI[0] == 0f)
             {
                 Player player = Main.player[Projectile.owner];
-                if ((player.ActiveItem().DamageType == DamageClass.Summon && !player.ActiveItem().Calamity().rogue) ||
-                    player.ActiveItem().hammer > 0 ||
-                    player.ActiveItem().pick > 0 ||
-                    player.ActiveItem().axe > 0)
-                {
+                Item item = player.ActiveItem();
+                bool summonNotWhip = item.CountsAsClass<SummonDamageClass>() && !item.CountsAsClass<SummonMeleeSpeedDamageClass>();
+                if (summonNotWhip || item.hammer > 0 || item.pick > 0 || item.axe > 0)
                     Projectile.timeLeft = 600;
-                }
                 Projectile.localAI[0] += 1f;
             }
 

@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class TrackingDisk : RogueWeapon
+    public class TrackingDisk : ModItem
     {
         public override void SetStaticDefaults()
         {

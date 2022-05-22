@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ToothBall : RogueWeapon
+    public class ToothBall : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 30;
             Item.damage = 26;

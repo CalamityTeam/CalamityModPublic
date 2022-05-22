@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingAmmoCost *= 0.66f;
+            player.Calamity().rogueAmmoCost *= 0.66f;
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 7;
             player.moveSpeed += 0.05f;

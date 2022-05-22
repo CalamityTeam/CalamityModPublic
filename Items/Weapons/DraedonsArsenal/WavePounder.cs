@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class WavePounder : RogueWeapon
+    public class WavePounder : ModItem
     {
         public override void SetStaticDefaults()
         {

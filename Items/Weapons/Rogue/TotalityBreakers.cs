@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TotalityBreakers : RogueWeapon
+    public class TotalityBreakers : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ Stealth strikes leak tar as they fly");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 32;
             Item.damage = 55;

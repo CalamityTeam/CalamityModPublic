@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().titanHeartMantle = true;
-            player.Calamity().throwingAmmoCost *= 0.55f;
+            player.Calamity().rogueAmmoCost *= 0.55f;
             player.Calamity().rogueUseSpeedFactor -= 0.15f;
         }
 

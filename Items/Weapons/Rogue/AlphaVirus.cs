@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AlphaVirus : RogueWeapon
+    public class AlphaVirus : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 333;
             Item.width = 44;

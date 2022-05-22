@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FantasyTalisman : RogueWeapon
+    public class FantasyTalisman : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.damage = 93;

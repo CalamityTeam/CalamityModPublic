@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Shroomerang : RogueWeapon
+    public class Shroomerang : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 18;

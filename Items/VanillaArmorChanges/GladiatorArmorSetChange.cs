@@ -41,7 +41,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyLegPieceEffect(Player player)
         {
-            player.Calamity().throwingVelocity += LeggingRogueVelocityBoostPercent * 0.01f;
+            player.Calamity().rogueVelocity += LeggingRogueVelocityBoostPercent * 0.01f;
         }
 
         public override void ApplyArmorSetBonus(Player player)
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
             player.Calamity().rogueStealthMax += 0.7f;
             player.Calamity().wearingRogueArmor = true;
             player.Calamity().throwingDamage += 0.05f;
-            player.Calamity().throwingVelocity += 0.1f;
+            player.Calamity().rogueVelocity += 0.1f;
             player.statDefense += 3;
         }
     }

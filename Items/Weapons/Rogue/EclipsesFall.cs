@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EclipsesFall : RogueWeapon
+    public class EclipsesFall : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 564;
             Item.knockBack = 3.5f;

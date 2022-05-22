@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NastyCholla : RogueWeapon
+    public class NastyCholla : ModItem
     {
         public static int BaseDamage = 9;
 
@@ -22,7 +22,7 @@ Stealth strikes throw five at once");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 20;
             Item.damage = BaseDamage;

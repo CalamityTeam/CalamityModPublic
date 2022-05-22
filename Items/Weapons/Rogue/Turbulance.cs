@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Turbulance : RogueWeapon
+    public class Turbulance : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ Stealth strikes are trailed by homing wind slashes");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 18;

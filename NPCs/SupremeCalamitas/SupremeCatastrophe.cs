@@ -151,8 +151,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             float acceleration = 1.5f;
 
             // Reduce acceleration if target is holding a true melee weapon
-            Item targetSelectedItem = Main.player[NPC.target].inventory[Main.player[NPC.target].selectedItem];
-            if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+            if (player.HoldingTrueMeleeWeapon())
                 acceleration *= 0.5f;
 
             int verticalSpeed = (int)Math.Round(MathHelper.Lerp(2f, 6.5f, 1f - totalLifeRatio));

@@ -11,7 +11,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GodsParanoia : RogueWeapon
+    public class GodsParanoia : ModItem
     {
         private static int damage = 98;
         private static int knockBack = 5;
@@ -26,7 +26,7 @@ Right click to delete all existing spiky balls");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = damage;
             Item.Calamity().rogue = true;

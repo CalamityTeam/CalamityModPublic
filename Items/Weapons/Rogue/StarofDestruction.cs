@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class StarofDestruction : RogueWeapon
+    public class StarofDestruction : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = Item.height = 94;
             Item.damage = 150;

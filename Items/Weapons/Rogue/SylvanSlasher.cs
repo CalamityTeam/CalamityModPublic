@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SylvanSlasher : RogueWeapon
+    public class SylvanSlasher : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ Does not consume stealth and cannot stealth strike");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 72;
             Item.damage = 52;

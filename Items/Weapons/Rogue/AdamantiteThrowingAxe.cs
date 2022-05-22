@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AdamantiteThrowingAxe : RogueWeapon
+    public class AdamantiteThrowingAxe : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 44;

@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using System.IO;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -24,15 +25,13 @@ using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Items
 {
@@ -40,8 +39,9 @@ namespace CalamityMod.Items
     {
         public override bool InstancePerEntity => true;
 
-        public bool rogue = false;
-        public float StealthGenBonus;
+        // TODO -- split out a separate GlobalItem for rogue behavior?
+        internal float StealthGenBonus;
+        internal float StealthStrikePrefixBonus;
 
         #region Chargeable Item Variables
         public bool UsesCharge = false;
@@ -89,11 +89,17 @@ namespace CalamityMod.Items
 
         public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
-        // See RogueWeapon.cs for rogue modifier shit
-        #region Modifiers
         public CalamityGlobalItem()
         {
             StealthGenBonus = 1f;
+            StealthStrikePrefixBonus = 0f;
+        }
+
+        public override bool PreReforge(Item item)
+        {
+            StealthGenBonus = 1f;
+            StealthStrikePrefixBonus = 0f;
+            return true;
         }
 
         // Ozzatron 21MAY2022: This function is required by TML 1.4's new clone behavior.
@@ -108,8 +114,8 @@ namespace CalamityMod.Items
             CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 
             // Rogue
-            myClone.rogue = rogue;
             myClone.StealthGenBonus = StealthGenBonus;
+            myClone.StealthStrikePrefixBonus = StealthStrikePrefixBonus;
 
             // Charge (Draedon's Arsenal)
             myClone.UsesCharge = UsesCharge;
@@ -134,13 +140,6 @@ namespace CalamityMod.Items
 
             return myClone;
         }
-
-        public override bool PreReforge(Item item)
-        {
-            StealthGenBonus = 1f;
-            return true;
-        }
-        #endregion
 
         #region SetDefaults
         public override void SetDefaults(Item item)
@@ -239,9 +238,9 @@ namespace CalamityMod.Items
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
             }
 
-            if (rogue)
+            if (item.CountsAsClass<RogueDamageClass>())
             {
-                velocity *= modPlayer.throwingVelocity;
+                velocity *= modPlayer.rogueVelocity;
                 if (modPlayer.gloveOfRecklessness && item.useTime == item.useAnimation)
                     velocity = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
             }

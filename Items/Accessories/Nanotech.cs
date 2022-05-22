@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.filthyGlove = true;
             modPlayer.bloodyGlove = true;
             player.Calamity().throwingDamage += 0.15f;
-            player.Calamity().throwingVelocity += 0.15f;
+            player.Calamity().rogueVelocity += 0.15f;
         }
 
         public override void AddRecipes()

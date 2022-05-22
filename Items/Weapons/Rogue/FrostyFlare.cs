@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FrostyFlare : RogueWeapon
+    public class FrostyFlare : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 32;
             Item.noUseGraphic = true;

@@ -10,7 +10,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HellsSun : RogueWeapon
+    public class HellsSun : ModItem
     {
         private static int damage = 85;
         private static int knockBack = 5;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = damage;
             Item.Calamity().rogue = true;

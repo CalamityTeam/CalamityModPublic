@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BlastBarrel : RogueWeapon
+    public class BlastBarrel : ModItem
     {
         public const int BaseDamage = 32;
         public override void SetStaticDefaults()
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 48;
             Item.height = 48;

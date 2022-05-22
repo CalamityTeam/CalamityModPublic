@@ -34,7 +34,7 @@ namespace CalamityMod.Items
                 ApplyRarityColor(item, nameLine);
 
             // If the item is true melee, add a true melee damage number adjacent to the standard damage number.
-            if (item.DamageType == DamageClass.Melee && (item.shoot == ProjectileID.None || trueMelee) && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
+            if (item.IsTrueMelee() && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
                 TrueMeleeDamageTooltip(item, tooltips);
 
             // Modify all vanilla tooltips before appending mod mechanics (if any).

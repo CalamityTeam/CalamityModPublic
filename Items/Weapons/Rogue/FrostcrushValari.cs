@@ -12,7 +12,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FrostcrushValari : RogueWeapon
+    public class FrostcrushValari : ModItem
     {
         public static float Speed = 15f;
         public override void SetStaticDefaults()
@@ -23,7 +23,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 100;
             Item.knockBack = 12;

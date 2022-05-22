@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Cinquedea : RogueWeapon
+    public class Cinquedea : ModItem
     {
         public static int BaseDamage = 36;
         public static float Knockback = 5f;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.rare = ItemRarityID.Orange;

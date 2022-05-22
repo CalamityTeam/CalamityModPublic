@@ -1,12 +1,13 @@
 ﻿using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FinalDawn : RogueWeapon
+    public class FinalDawn : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 1500;
             Item.Calamity().rogue = true;

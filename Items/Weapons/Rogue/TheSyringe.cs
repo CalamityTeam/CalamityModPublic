@@ -8,7 +8,7 @@ using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheSyringe : RogueWeapon
+    public class TheSyringe : ModItem
     {
         public static int BaseDamage = 60;
         public static float Knockback = 5f;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.knockBack = Knockback;

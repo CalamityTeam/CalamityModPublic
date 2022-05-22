@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LatcherMine : RogueWeapon
+    public class LatcherMine : ModItem
     {
         public const int BaseDamage = 80;
         public override void SetStaticDefaults()
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.height = 32;
             Item.width = 26;

@@ -9,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PoisonPack : RogueWeapon
+    public class PoisonPack : ModItem
     {
         private static int baseDamage = 20;
         private static float baseKnockback = 1.8f;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = baseDamage;
             Item.Calamity().rogue = true;

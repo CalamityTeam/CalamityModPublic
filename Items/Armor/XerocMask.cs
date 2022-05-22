@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Rage, 2);
             }
             modPlayer.throwingDamage += 0.09f;
-            modPlayer.throwingVelocity += 0.09f;
+            modPlayer.rogueVelocity += 0.09f;
             modPlayer.wearingRogueArmor = true;
         }
 

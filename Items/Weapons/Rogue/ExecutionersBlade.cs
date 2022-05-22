@@ -11,7 +11,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ExecutionersBlade : RogueWeapon
+    public class ExecutionersBlade : ModItem
     {
         private int counter = 0;
 
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 64;
             Item.damage = 200;

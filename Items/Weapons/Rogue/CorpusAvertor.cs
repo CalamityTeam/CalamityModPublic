@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CorpusAvertor : RogueWeapon
+    public class CorpusAvertor : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 18;
             Item.height = 32;

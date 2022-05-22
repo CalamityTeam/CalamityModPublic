@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class FrequencyManipulator : RogueWeapon
+    public class FrequencyManipulator : ModItem
     {
         public override void SetStaticDefaults()
         {

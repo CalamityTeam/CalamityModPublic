@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TarragonThrowingDart : RogueWeapon
+    public class TarragonThrowingDart : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ Stealth strikes erupt into thorns on enemy hits");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.damage = 380;

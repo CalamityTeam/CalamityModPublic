@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PhantasmalRuin : RogueWeapon
+    public class PhantasmalRuin : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ Stealth strikes continuously leave spectral clones in their wake");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 955;
             Item.knockBack = 8f;

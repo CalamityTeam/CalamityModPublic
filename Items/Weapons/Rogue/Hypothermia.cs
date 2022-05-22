@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Hypothermia : RogueWeapon
+    public class Hypothermia : ModItem
     {
         // For more consistent DPS, always alternates between throwing 1 and 2 instead of picking randomly
         private bool throwTwo = true;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 32;

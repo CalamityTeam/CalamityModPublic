@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class UrchinStinger : RogueWeapon
+    public class UrchinStinger : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 10;
             Item.damage = 17;

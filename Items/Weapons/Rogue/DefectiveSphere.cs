@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DefectiveSphere : RogueWeapon
+    public class DefectiveSphere : ModItem
     {
         public static int BaseDamage = 130;
         public static float Speed = 15f;
@@ -22,7 +22,7 @@ Stealth strikes launch all 4 sphere types at once");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 42;
             Item.height = 44;

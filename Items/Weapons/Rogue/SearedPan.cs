@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SearedPan : RogueWeapon
+    public class SearedPan : ModItem
     {
         // Attacks must be within 40 frames of each other to count as "consecutive" hits
         // This is a little less than double the use time
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 60;
             Item.height = 36;

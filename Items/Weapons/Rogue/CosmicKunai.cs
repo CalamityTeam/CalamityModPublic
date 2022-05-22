@@ -9,7 +9,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CosmicKunai : RogueWeapon
+    public class CosmicKunai : ModItem
     {
         private int counter = 0;
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 92;

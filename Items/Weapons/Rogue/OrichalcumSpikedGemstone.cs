@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class OrichalcumSpikedGemstone : RogueWeapon
+    public class OrichalcumSpikedGemstone : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 37;

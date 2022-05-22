@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PlasmaGrenade : RogueWeapon
+    public class PlasmaGrenade : ModItem
     {
         public override void SetStaticDefaults()
         {

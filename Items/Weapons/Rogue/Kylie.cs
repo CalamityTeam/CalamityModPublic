@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Kylie : RogueWeapon
+    public class Kylie : ModItem
     {
         public static float Speed = 11f;
         public override void SetStaticDefaults()
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 63;
             Item.knockBack = 12;

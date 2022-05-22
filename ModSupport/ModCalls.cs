@@ -530,7 +530,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="p">The player whose rogue velocity is being queried.</param>
         /// <returns>Current rogue projectile velocity multiplier. 1f is no bonus, 2f doubles projectile speed.</returns>
-        public static float GetRogueVelocity(Player p) => p?.Calamity()?.throwingVelocity ?? 1f;
+        public static float GetRogueVelocity(Player p) => p?.Calamity()?.rogueVelocity ?? 1f;
 
         /// <summary>
         /// Adds a flat amount of rogue velocity stat to a player. This amount can be negative.
@@ -538,7 +538,7 @@ namespace CalamityMod
         /// <param name="p">The player whose rogue velocity is being modified.</param>
         /// <param name="add">The amount of rogue velocity to add or subtract (if negative).</param>
         /// <returns>The player's new rogue velocity stat.</returns>
-        public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().throwingVelocity += add);
+        public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().rogueVelocity += add);
 
         public static float GetCurrentStealth(Player p) => p?.Calamity()?.rogueStealth ?? 0f;
 

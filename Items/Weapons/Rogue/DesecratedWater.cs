@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DesecratedWater : RogueWeapon
+    public class DesecratedWater : ModItem
     {
         public const int BaseDamage = 55;
         public override void SetStaticDefaults()
@@ -19,7 +19,7 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.width = 22;

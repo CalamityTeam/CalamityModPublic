@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else if (rogue)
                         {
-                            modPlayer.throwingVelocity += 0.1f;
+                            modPlayer.rogueVelocity += 0.1f;
                         }
                         else if (melee)
                         {

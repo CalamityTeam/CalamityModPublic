@@ -2588,7 +2588,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetArmorPenetration(DamageClass.Generic) += 5;
 
             if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
-                throwingVelocity += 0.1f;
+                rogueVelocity += 0.1f;
 
             if (CalamityLists.spikyBallList.Contains(Player.ActiveItem().type) && Player.invis)
                 throwingCrit += 10;
@@ -3009,7 +3009,7 @@ namespace CalamityMod.CalPlayer
                 {
                     throwingCrit += 10;
                     throwingDamage += 0.1f;
-                    throwingVelocity += 0.1f;
+                    rogueVelocity += 0.1f;
                 }
             }
 

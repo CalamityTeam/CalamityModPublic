@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ThrowingBrick : RogueWeapon
+    public class ThrowingBrick : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Throwing Brick");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 14;
             Item.shootSpeed = 12f;

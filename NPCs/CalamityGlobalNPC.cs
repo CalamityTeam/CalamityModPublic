@@ -4162,24 +4162,16 @@ namespace CalamityMod.NPCs
             var cgp = projectile.Calamity();
             if (cgp.canSupercrit)
             {
-                int critOver100 = 0;
-                if (projectile.DamageType == DamageClass.Melee)
-                    critOver100 = (int)player.GetCritChance(DamageClass.Melee) - 100;
-                else if (projectile.DamageType == DamageClass.Ranged)
-                    critOver100 = (int)player.GetCritChance(DamageClass.Ranged) - 100;
-                else if (projectile.DamageType == DamageClass.Magic)
-                    critOver100 = (int)player.GetCritChance(DamageClass.Magic) - 100;
-                else if (projectile.DamageType == DamageClass.Throwing) // Also covers rogue
-                    critOver100 = (int)player.GetCritChance(DamageClass.Throwing) - 100;
+                float critOver100 = player.GetCritChance(projectile.DamageType) - 100f;
 
                 // Supercrits can "supercrit" over and over for each extra 100% critical strike chance.
                 // For example if you have 716% critical strike chance, you are guaranteed +700% damage and then have a 16% chance for +800% damage instead.
-                if (critOver100 > 0)
+                if (critOver100 > 0f)
                 {
-                    int supercritLayers = critOver100 / 100;
-                    int lastLayerCritChance = critOver100 - supercritLayers;
+                    int supercritLayers = (int)(critOver100 / 100f);
+                    float lastLayerCritChance = critOver100 % 100f;
                     // Roll for the remaining crit chance
-                    if (Main.rand.Next(100) <= lastLayerCritChance)
+                    if (Main.rand.NextFloat(100f) <= lastLayerCritChance)
                         ++supercritLayers;
 
                     // Apply supercrit damage. This projectile is already guaranteed to be a crit, which will double its damage at the end.
@@ -4208,7 +4200,7 @@ namespace CalamityMod.NPCs
             bool hitBullseye = false;
             bool acceptableVelocity = projectile.velocity != Vector2.Zero;
             bool acceptableHitbox = (projectile.width < 36) || (projectile.height < 36);
-            if (bullseye != null && projectile.DamageType == DamageClass.Ranged && acceptableVelocity && acceptableHitbox)
+            if (bullseye != null && projectile.CountsAsClass<RangedDamageClass>() && acceptableVelocity && acceptableHitbox)
             {
                 if (bullseye != null)
                 {
@@ -4261,12 +4253,12 @@ namespace CalamityMod.NPCs
 
             if (!projectile.npcProj && !projectile.trap)
             {
-                if (projectile.DamageType == DamageClass.Ranged && modPlayer.plagueReaper && pFlames > 0)
+                if (projectile.CountsAsClass<RangedDamageClass>() && modPlayer.plagueReaper && pFlames > 0)
                     damage = (int)(damage * 1.1);
             }
 
             // Any weapons that shoot projectiles from anywhere other than the player's center aren't affected by point-blank shot damage boost.
-            if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.DamageType == DamageClass.Ranged)
+            if (!Main.player[projectile.owner].ActiveItem().IsAir && Main.player[projectile.owner].ActiveItem().Calamity().canFirePointBlankShots && projectile.CountsAsClass<RangedDamageClass>())
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {

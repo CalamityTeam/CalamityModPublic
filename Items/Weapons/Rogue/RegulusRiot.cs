@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RegulusRiot : RogueWeapon
+    public class RegulusRiot : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ Stealth strikes explode into energy stars");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 116;
             Item.knockBack = 4.5f;

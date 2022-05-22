@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ScourgeoftheDesert : RogueWeapon
+    public class ScourgeoftheDesert : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ Stealth strikes gain damage as they damage enemies");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 44;
             Item.damage = 16;

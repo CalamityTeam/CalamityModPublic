@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class UtensilPoker : RogueWeapon
+    public class UtensilPoker : ModItem
     {
         private int counter = 0;
         public override void SetStaticDefaults()
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 44;
             Item.height = 66;

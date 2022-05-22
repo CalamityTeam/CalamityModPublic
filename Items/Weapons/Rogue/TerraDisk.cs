@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TerraDisk : RogueWeapon
+    public class TerraDisk : ModItem
     {
         public static int BaseDamage = 100;
         public static float Speed = 12f;
@@ -23,7 +23,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 46;

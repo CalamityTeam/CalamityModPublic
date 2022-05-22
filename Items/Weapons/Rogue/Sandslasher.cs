@@ -9,7 +9,7 @@ using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Sandslasher : RogueWeapon
+    public class Sandslasher : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 40;
             Item.height = 40;

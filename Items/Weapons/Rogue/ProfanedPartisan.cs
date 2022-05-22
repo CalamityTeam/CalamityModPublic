@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ProfanedPartisan : RogueWeapon
+    public class ProfanedPartisan : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ Stealth strikes spawn smaller spears to fly along side it");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 322;
             Item.knockBack = 8f;

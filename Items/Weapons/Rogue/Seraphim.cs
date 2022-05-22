@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Seraphim : RogueWeapon
+    public class Seraphim : ModItem
     {
         public const int SplitDaggerCount = 6;
         public const int StealthStrikeLightCount = 7;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 82;
             Item.height = 82;

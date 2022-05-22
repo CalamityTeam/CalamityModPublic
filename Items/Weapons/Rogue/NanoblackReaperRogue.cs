@@ -10,7 +10,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NanoblackReaperRogue : RogueWeapon
+    public class NanoblackReaperRogue : ModItem
     {
         public static int BaseDamage = 130;
         public static float Knockback = 9f;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 78;
             Item.height = 64;

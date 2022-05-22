@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Supernova : RogueWeapon
+    public class Supernova : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ Stealth strikes release energy as they fly");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.damage = 675;

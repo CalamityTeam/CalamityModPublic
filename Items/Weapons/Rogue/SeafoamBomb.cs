@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SeafoamBomb : RogueWeapon
+    public class SeafoamBomb : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.height = 44;

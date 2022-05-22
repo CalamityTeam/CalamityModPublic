@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeificThunderbolt : RogueWeapon
+    public class DeificThunderbolt : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ Stealth strikes summon more lightning and travel faster");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 466;
             Item.knockBack = 10f;

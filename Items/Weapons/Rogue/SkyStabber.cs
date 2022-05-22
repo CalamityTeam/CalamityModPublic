@@ -10,7 +10,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyStabber : RogueWeapon
+    public class SkyStabber : ModItem
     {
         private static int damage = 50;
         private static int knockBack = 2;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 4;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = damage;
             Item.Calamity().rogue = true;

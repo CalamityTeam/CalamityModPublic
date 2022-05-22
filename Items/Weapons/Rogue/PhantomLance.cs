@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PhantomLance : RogueWeapon
+    public class PhantomLance : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ Stealth strikes don't slow down and souls always deal full damage");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 70;
             Item.knockBack = 5f;

@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.throwingVelocity += 0.15f;
+            modPlayer.rogueVelocity += 0.15f;
             modPlayer.featherCrown = true;
             if (!hideVisual)
                 modPlayer.featherCrownDraw = true; //this bool is just used for drawing

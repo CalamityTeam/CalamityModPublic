@@ -11,7 +11,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DuneHopper : RogueWeapon
+    public class DuneHopper : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ Stealth strikes throw three high speed spears");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 44;
             Item.damage = 50;

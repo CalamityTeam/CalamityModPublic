@@ -9,7 +9,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FeatherKnife : RogueWeapon
+    public class FeatherKnife : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,7 +19,7 @@ Stealth strike throws a volley of knives");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 18;
             Item.damage = 25;

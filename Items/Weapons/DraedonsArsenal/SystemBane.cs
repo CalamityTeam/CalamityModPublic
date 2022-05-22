@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class SystemBane : RogueWeapon
+    public class SystemBane : ModItem
     {
         public const int MaxDeployedProjectiles = 5;
 

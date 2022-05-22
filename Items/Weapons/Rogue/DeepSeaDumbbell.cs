@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeepSeaDumbbell : RogueWeapon
+    public class DeepSeaDumbbell : ModItem
     {
         private const float FlexMultMax = 5f;
         private float flexMult = 1f;
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 38;
             Item.height = 24;

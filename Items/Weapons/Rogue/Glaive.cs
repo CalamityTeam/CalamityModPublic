@@ -8,7 +8,7 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Glaive : RogueWeapon
+    public class Glaive : ModItem
     {
         public static int BaseDamage = 45;
         public static float Knockback = 3f;
@@ -23,7 +23,7 @@ Stealth strikes are super fast and pierce infinitely");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.Calamity().rogue = true;

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         {
             player.Calamity().hasJetpack = true;
             player.Calamity().throwingDamage += 0.12f;
-            player.Calamity().throwingVelocity += 0.15f;
+            player.Calamity().rogueVelocity += 0.15f;
             player.Calamity().blunderBooster = true;
             player.Calamity().stealthGenStandstill += 0.1f;
             player.Calamity().stealthGenMoving += 0.1f;
