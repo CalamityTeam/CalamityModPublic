@@ -144,7 +144,8 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
 
             Item heldItem = Owner.ActiveItem();
-            int BoltDamage = (int)(heldItem.damage * Owner.RangedDamage() * (LoadedBolts + 1) / (float)(ClockworkBow.MaxBolts + 1));
+            float individualBoltDamage = Owner.GetDamage<RangedDamageClass>().ApplyTo(heldItem.damage);
+            int BoltDamage = (int)(individualBoltDamage * (LoadedBolts + 1) / (float)(ClockworkBow.MaxBolts + 1));
             float shootSpeed = heldItem.shootSpeed * 1f;
             float knockback = heldItem.knockBack;
             bool uselessFuckYou = OwnerCanShoot; //Not a very nice thing to say :/

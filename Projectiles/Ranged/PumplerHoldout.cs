@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             Item heldItem = Owner.ActiveItem();
             int projectileType = ModContent.ProjectileType<PumplerGrenade>();
-            int PumpkinDamage = (int)(heldItem.damage * Owner.RangedDamage());
+            int PumpkinDamage = (int)Owner.GetDamage<RangedDamageClass>().ApplyTo(heldItem.damage);
             float shootSpeed = heldItem.shootSpeed * 1.5f;
             float knockback = Owner.GetWeaponKnockback(heldItem, heldItem.knockBack);
             Vector2 shootVelocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(projectileRotation) * shootSpeed;

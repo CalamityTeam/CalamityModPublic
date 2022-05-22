@@ -60,7 +60,9 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)(140 * player.MinionDamage()), 0f, player.whoAmI);
+                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(140);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), damage, 0f, player.whoAmI);
+                    // TODO -- doesn't set originalDamage
                 }
             }
             player.Calamity().wearingRogueArmor = true;

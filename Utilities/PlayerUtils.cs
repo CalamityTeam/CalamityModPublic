@@ -16,11 +16,6 @@ namespace CalamityMod
     {
         #region Stat Retrieval
         // TODO -- AAAAAA NO NEED FOR HELPER FUNCTIONS
-        // I lost my mind after doing just MeleeDamage, which had 25 references. Please replace with player.GetDamage<Class1>().ApplyTo(TheBaseDamage)
-        public static float RangedDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Ranged).Additive - 1f;
-        public static float MagicDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Magic).Additive - 1f;
-        public static float MinionDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon).Additive - 1f;
-        public static float ThrownDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive - 1f;
         public static float RogueDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive + player.Calamity().throwingDamage - 2f;
         public static float AverageDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive + player.GetDamage(DamageClass.Magic).Additive + player.GetDamage(DamageClass.Summon).Additive + player.Calamity().throwingDamage - 5f) / 5f;
 

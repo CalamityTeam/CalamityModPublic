@@ -55,7 +55,8 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DaedalusCrystal>()] < 1)
                 {
-                    var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DaedalusCrystal>(), (int)(95f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
+                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(95);
+                    var p = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DaedalusCrystal>(), damage, 0f, Main.myPlayer, 50f, 0f);
                     p.originalDamage = 95;
                 }
             }

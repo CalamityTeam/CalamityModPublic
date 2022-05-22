@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Magic
                 calPlayer.danceOfLightCharge = 0;
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    int flashDamage = (int)(Judgement.FlashBaseDamage * player.MagicDamage());
+                    int flashDamage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(Judgement.FlashBaseDamage);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, Projectile.owner);
                 }
             }

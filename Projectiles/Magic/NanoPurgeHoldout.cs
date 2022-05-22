@@ -48,11 +48,11 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
-            Item nanoPurge = Owner.ActiveItem();
-            Projectile.damage = (int)((nanoPurge?.damage ?? 0) * Owner.MagicDamage());
+            Item weaponItem = Owner.ActiveItem();
+            Projectile.damage = (int)Owner.GetDamage<MagicDamageClass>().ApplyTo(weaponItem?.damage ?? 0);
 
             // Get the original weapon's use time.
-            int itemUseTime = nanoPurge?.useAnimation ?? Purge.UseTime;
+            int itemUseTime = weaponItem?.useAnimation ?? Purge.UseTime;
 
             // Update time.
             DeployedFrames += 1f;
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
                     SoundEngine.PlaySound(SoundID.Item91, Projectile.Center);
 
                     int projID = ModContent.ProjectileType<NanoPurgeLaser>();
-                    float shootSpeed = nanoPurge.shootSpeed;
+                    float shootSpeed = weaponItem.shootSpeed;
                     float inaccuracyRatio = 0.045f;
                     Vector2 shootDirection = Projectile.velocity.SafeNormalize(Vector2.UnitY);
                     Vector2 perp = shootDirection.RotatedBy(MathHelper.PiOver2);

@@ -2781,7 +2781,8 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int damage = (int)(300 * Player.RangedDamage());
+
+                    int damage = (int)(Player.GetDamage<RangedDamageClass>().ApplyTo(300f));
                     if (Player.whoAmI == Main.myPlayer)
                     {
                         var source = Player.GetSource_Misc("1");
@@ -2954,7 +2955,7 @@ namespace CalamityMod.CalPlayer
                     var source = new ProjectileSource_GaelsGreatswordRage(Player);
                     float rageRatio = rage / rageMax;
                     float baseDamage = rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage;
-                    int damage = Player.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
+                    int damage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                     float skullCount = 20f;
                     float skullSpeed = 12f;
                     for (float i = 0; i < skullCount; i += 1f)
@@ -3358,7 +3359,8 @@ namespace CalamityMod.CalPlayer
                         }
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<HowlsHeartHowl>()] < 1)
                         {
-                            int p = Projectile.NewProjectile(source, Player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartHowl>(), (int)(HowlsHeart.HowlDamage * Player.MinionDamage()), 1f, Player.whoAmI, 0f, 1f);
+                            int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(HowlsHeart.HowlDamage);
+                            int p = Projectile.NewProjectile(source, Player.Center, -Vector2.UnitY, ModContent.ProjectileType<HowlsHeartHowl>(), damage, 1f, Player.whoAmI, 0f, 1f);
                             if (Main.projectile.IndexInRange(p))
                                 Main.projectile[p].originalDamage = HowlsHeart.HowlDamage;
                         }
@@ -6582,7 +6584,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (daedalusShard)
+                else if (daedalusShard) // Daedalus Ranged helm
                 {
                     var source = Player.GetSource_Misc("22");
                     if (damage > 0)
@@ -6592,7 +6594,7 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int sDamage = (int)(27 * Player.RangedDamage()); //daedalus ranged helm
+                        int sDamage = (int)Player.GetDamage<RangedDamageClass>().ApplyTo(27);
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 8; i++)

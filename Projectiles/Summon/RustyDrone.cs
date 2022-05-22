@@ -129,8 +129,9 @@ namespace CalamityMod.Projectiles.Summon
                 Utils.PoofOfSmoke(Projectile.Center);
                 for (int i = 0; i < 4; i++)
                 {
+                    int shrapnelDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(ExplosionShrapnelBaseDamage);
                     int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
-                        (int)(ExplosionShrapnelBaseDamage * player.MinionDamage()), 2f, Projectile.owner);
+                        shrapnelDamage, 2f, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }

@@ -156,7 +156,9 @@ namespace CalamityMod.Items.Accessories
                             {
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
-                                Projectile.NewProjectile(source, player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 175 : 350) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                int spearBaseDamage = shouldNerf ? 175 : 350;
+                                int spearDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                                Projectile.NewProjectile(source, player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 SoundEngine.PlaySound(SoundID.Item20, player.Center);
                             }
@@ -164,7 +166,9 @@ namespace CalamityMod.Items.Accessories
                         }
                         else
                         {
-                            Projectile.NewProjectile(source, player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 125 : 250) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            int spearBaseDamage = shouldNerf ? 125 : 250;
+                            int spearDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                            Projectile.NewProjectile(source, player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
 
@@ -181,17 +185,18 @@ namespace CalamityMod.Items.Accessories
                         bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
-                        int dam = (int)((shouldNerf ? 100 : 200) * player.MinionDamage());
+                        int boomBaseDamage = shouldNerf ? 100 : 200;
+                        int boomDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
                         switch (projType)
                         {
                             case 1: //big boomer
                             case 2: //boomer
-                                int proj = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), dam, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
+                                int proj = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), boomDamage, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
                                 if (proj.WithinBounds(Main.maxProjectiles))
                                     Main.projectile[proj].Calamity().forceMinion = true;
                                 break;
                             case 3: //bab boomer
-                                int proj2 = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), dam, 0f, player.whoAmI, 0f);
+                                int proj2 = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), boomDamage, 0f, player.whoAmI, 0f);
                                 if (proj2.WithinBounds(Main.maxProjectiles))
                                     Main.projectile[proj2].Calamity().forceMinion = true;
                                 break;
@@ -222,13 +227,14 @@ namespace CalamityMod.Items.Accessories
                         player.statMana -= manaCost;
                         correctedVelocity *= 25f;
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
-                        int dam = (int)((shouldNerf ? 450 : 900) * player.MinionDamage());
+                        int magefireBaseDamage = shouldNerf ? 450 : 900;
+                        int magefireDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
-                            int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
-                            dam -= sickPenalty;
+                            int sickPenalty = (int)(magefireDamage * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
+                            magefireDamage -= sickPenalty;
                         }
-                        int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), dam, 1f, player.whoAmI, enrage ? 1f : 0f);
+                        int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), magefireDamage, 1f, player.whoAmI, enrage ? 1f : 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                             Main.projectile[proj].Calamity().forceMinion = true;
                         player.Calamity().profanedSoulWeaponUsage = enrage ? 20 : 25;
@@ -248,7 +254,9 @@ namespace CalamityMod.Items.Accessories
                         for (float i = 0; i < crystalCount; i++)
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
-                            int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 88 : 176) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
+                            int shardBaseDamage = shouldNerf ? 88 : 176;
+                            int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                            int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[proj].Calamity().forceMinion = true;
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
@@ -258,7 +266,9 @@ namespace CalamityMod.Items.Accessories
                     else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
-                        int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 110 : 220) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
+                        int shardBaseDamage = shouldNerf ? 110 : 220;
+                        int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                        int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 1f, 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                             Main.projectile[proj].Calamity().forceMinion = true;
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);

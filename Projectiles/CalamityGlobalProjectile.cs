@@ -513,7 +513,7 @@ namespace CalamityMod.Projectiles
 
                 if (ExplosiveEnchantCountdown % 40 == 39 && Main.rand.NextBool(12))
                 {
-                    int damage = (int)(Main.player[projectile.owner].MinionDamage() * 2000);
+                    int damage = (int)Main.player[projectile.owner].GetDamage<SummonDamageClass>().ApplyTo(2000);
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
                 }
 
@@ -524,7 +524,7 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.minionSlots > 0f)
                         {
-                            int damage = (int)(Main.player[projectile.owner].MinionDamage() * 6000);
+                            int damage = (int)Main.player[projectile.owner].GetDamage<SummonDamageClass>().ApplyTo(6000);
                             Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
                         }
                         projectile.Kill();

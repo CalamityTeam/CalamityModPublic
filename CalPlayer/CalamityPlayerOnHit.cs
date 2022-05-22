@@ -922,7 +922,7 @@ namespace CalamityMod.CalPlayer
                     {
                         if (Player.ownedProjectileCounts[ProjectileType<PhantomicDagger>()] < 3 && Main.rand.NextBool(10))
                         {
-                            int damage = (int)(75 * Player.MinionDamage());
+                            int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(75);
                             int dagger = Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI, 0f);
                             if (dagger.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[dagger].Calamity().forceTypeless = true;
@@ -980,28 +980,32 @@ namespace CalamityMod.CalPlayer
                 {
                     if (nucleogenesis)
                     {
-                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), (int)(60 * Player.MinionDamage()), 4f, proj.owner);
+                        int apparatusDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(60);
+                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
                         jellyDmg = 100f;
                     }
                     else if (starbusterCore)
                     {
-                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), (int)(40 * Player.MinionDamage()), 3.5f, proj.owner);
+                        int starburstDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(40);
+                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
                         jellyDmg = 60f;
                     }
                     else if (nuclearRod)
                     {
-                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), (int)(20 * Player.MinionDamage()), 0f, proj.owner);
+                        int nuclearDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(20);
+                        int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
                         jellyDmg = 60f;
                     }
                     else if (jellyChargedBattery)
                     {
-                        CalamityGlobalProjectile.SpawnOrb(proj, (int)(15 * Player.MinionDamage()), ProjectileType<EnergyOrb>(), 800f, 15f);
+                        int batteryDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(15);
+                        CalamityGlobalProjectile.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
                         jellyDmg = 60f;
                     }
                 }
@@ -1013,7 +1017,8 @@ namespace CalamityMod.CalPlayer
                         hallowedRuneCooldown = 180;
                         Vector2 spawnPosition = position - new Vector2(0f, 920f).RotatedByRandom(0.3f);
                         float speed = Main.rand.NextFloat(17f, 23f);
-                        int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), (int)(30 * Player.MinionDamage()), 3f, proj.owner);
+                        int hallowedDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(30);
+                        int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceTypeless = true;
                     }

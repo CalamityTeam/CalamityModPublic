@@ -127,7 +127,8 @@ namespace CalamityMod.Projectiles.Magic
         public void ExplosionEffect(NPC target, Player player)
         {
             // Apply damage to the target and register it to the owner's DPS meter.
-            int damage = (int)(Eternity.ExplosionDamage * player.MagicDamage() * Main.rand.NextFloat(0.9f, 1.1f));
+            // TODO -- why does Eternity directly StrikeNPC with its own damage variance instead of using a DirectStrike
+            int damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(Eternity.ExplosionDamage * Main.rand.NextFloat(0.9f, 1.1f));
             player.addDPS(damage);
             target.StrikeNPC(damage, 0f, 0, false);
 

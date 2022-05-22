@@ -2964,8 +2964,9 @@ namespace CalamityMod.CalPlayer
                     for (int I = 0; I < 3; I++)
                     {
                         float ai1 = I * 120;
+                        int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(3750);
                         int projectile = Projectile.NewProjectile(source, Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-                            ModContent.ProjectileType<GhostlyMine>(), (int)(3750 * Player.MinionDamage()), 1f, Player.whoAmI, ai1, 0f);
+                            ModContent.ProjectileType<GhostlyMine>(), damage, 1f, Player.whoAmI, ai1, 0f);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[projectile].originalDamage = 3750;
@@ -3025,7 +3026,7 @@ namespace CalamityMod.CalPlayer
                 if (tarraLifeAuraTimer == 0 && Player.whoAmI == Main.myPlayer)
                 {
                     const int BaseDamage = 120;
-                    int damage = (int)(BaseDamage * Player.MinionDamage());
+                    int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(BaseDamage);
                     var source = new ProjectileSource_TarragonSummonAura(Player);
                     float range = 300f;
 
@@ -3269,7 +3270,7 @@ namespace CalamityMod.CalPlayer
                             ++beeCount;
                         if (Player.strongBees && Main.rand.NextBool(3))
                             ++beeCount;
-                        int damage = (int)(30 * Player.MinionDamage());
+                        int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(30);
                         var source = new ProjectileSource_PlaguebringerSetBoost(Player);
                         for (int index = 0; index < beeCount; ++index)
                         {
@@ -3400,7 +3401,7 @@ namespace CalamityMod.CalPlayer
             if (prismaticLasers > 1800 && Player.whoAmI == Main.myPlayer)
             {
                 float shootSpeed = 18f;
-                int dmg = (int)(30 * Player.MagicDamage());
+                int dmg = (int)Player.GetDamage<MagicDamageClass>().ApplyTo(30);
                 Vector2 startPos = Player.RotatedRelativePoint(Player.MountedCenter, true);
                 Vector2 velocity = Main.MouseWorld - startPos;
                 if (Player.gravDir == -1f)

@@ -1,9 +1,8 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using System.IO;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (75f +
                         (modPlayer.profanedCrystalBuffs ? 420f : 0f));
-            Projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
+            Projectile.damage = baseDamage == 0 ? 0 : (int)player.GetDamage<SummonDamageClass>().ApplyTo(baseDamage);
             ai = type;
             if (baseDamage >= 420f)
             {
