@@ -526,7 +526,6 @@ namespace CalamityMod.CalPlayer
         public bool manaOverloader = false;
         public bool royalGel = false;
         public bool handWarmer = false;
-        public bool oldDie = false;
         public bool ursaSergeant = false;
         public bool scuttlersJewel = false;
         public bool thiefsDime = false;
@@ -1682,7 +1681,6 @@ namespace CalamityMod.CalPlayer
             sTracers = false;
             eTracers = false;
             cTracers = false;
-            oldDie = false;
             ursaSergeant = false;
             scuttlersJewel = false;
             thiefsDime = false;
@@ -4384,6 +4382,7 @@ namespace CalamityMod.CalPlayer
 
         public override void ModifyWeaponKnockback(Item item, ref StatModifier knockback)
         {
+            bool rogue = item.CountsAsClass<RogueDamageClass>();
             if (auricBoost)
                 knockback.Flat += item.knockBack * ((1f - modStealth) * 0.5f);
 
@@ -4399,19 +4398,19 @@ namespace CalamityMod.CalPlayer
             if (moscowMule)
                 knockback += item.knockBack * 0.09f;
 
-            if (titanHeartMask && item.Calamity().rogue)
+            if (titanHeartMask && rogue)
                 knockback += item.knockBack * 0.05f;
 
-            if (titanHeartMantle && item.Calamity().rogue)
+            if (titanHeartMantle && rogue)
                 knockback += item.knockBack * 0.05f;
 
-            if (titanHeartBoots && item.Calamity().rogue)
+            if (titanHeartBoots && rogue)
                 knockback += item.knockBack * 0.05f;
 
-            if (titanHeartSet && item.Calamity().rogue)
+            if (titanHeartSet && rogue)
                 knockback += item.knockBack * 0.2f;
 
-            if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
+            if (titanHeartSet && StealthStrikeAvailable() && rogue)
                 knockback += item.knockBack;
         }
         #endregion
@@ -4585,17 +4584,6 @@ namespace CalamityMod.CalPlayer
                 CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             damage = (int)(damage * damageMult);
-
-            if (oldDie)
-            {
-                float diceMult = Main.rand.NextFloat(0.9215f, 1.1205f);
-                if (item.Calamity().rogue || wearingRogueArmor)
-                {
-                    float roll2 = Main.rand.NextFloat(0.9215f, 1.1205f);
-                    diceMult = roll2 > diceMult ? roll2 : diceMult;
-                }
-                damage = (int)(damage * diceMult);
-            }
             #endregion
 
             #region AdditiveBoosts
@@ -4716,18 +4704,6 @@ namespace CalamityMod.CalPlayer
 
             // Adjust damage based on the damage multiplier
             damage = (int)(damage * damageMult);
-
-            // Old Die damage multiplier, rolls again and takes the higher roll if it's a rogue projectile or the player is wearing rogue armor
-            if (oldDie)
-            {
-                float diceMult = Main.rand.NextFloat(0.9215f, 1.1205f);
-                if (proj.Calamity().rogue || wearingRogueArmor)
-                {
-                    float roll2 = Main.rand.NextFloat(0.9215f, 1.1205f);
-                    diceMult = roll2 > diceMult ? roll2 : diceMult;
-                }
-                damage = (int)(damage * diceMult);
-            }
             #endregion
 
             #region AdditiveBoosts
@@ -6998,7 +6974,7 @@ namespace CalamityMod.CalPlayer
             // Show 100% crit chance if your stealth strikes always crit.
             // In practice, this is only for visuals because Terraria determines crit status on hit.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
-                throwingCrit = 100;
+                Player.GetCritChance<RogueDamageClass>() = 100f;
 
             // Stealth slightly decreases aggro.
             Player.aggro -= (int)(rogueStealth * 300f);
