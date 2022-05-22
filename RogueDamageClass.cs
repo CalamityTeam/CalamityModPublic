@@ -14,5 +14,7 @@ namespace CalamityMod.Items
 
         public override bool GetEffectInheritance(DamageClass damageClass) =>
             damageClass == Throwing;
+
+        // SetDefaultStats not included, because the player gets 4% Throwing crit by default, which carries over to this
     }
 }

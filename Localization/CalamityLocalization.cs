@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Localization
 {
-    // TODO -- At some point change this to use proper localization files.
+    // TODO -- this all has to be moved to enUS.hjson, along with every other string in Calamity
     public class CalamityLocalization
     {
         private static string[][] _localizations;
