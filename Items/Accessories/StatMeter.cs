@@ -141,7 +141,7 @@ namespace CalamityMod.Items.Accessories
                 float normalDamage = currentStats.Additive - 1f; // 1f = +0%, 2f = +100%
                 float multDamage = currentStats.Multiplicative; // direct multiplier. 1f = 1x, 2f = 2x, applies after standard boosts
                 float flatDamage = currentStats.Flat; // direct flat addition, applies after multiplication
-                float totalCrit = player.GetCritChance(dc); // exact crit, meaning with no gear it's 0.04f = 4% UNLESS summoner
+                float totalCrit = player.GetCritChance(dc); // exact crit, stored as a float. meaning with no gear it's 4f = 4% UNLESS summoner
                 float attackSpeed = player.GetAttackSpeed(dc); // starts at 1f, 2f = +100% = DOUBLE attack speed, HALF animation time
                 float armorPen = player.GetArmorPenetration(dc); // starts at 0f = +0 armor pen
 
@@ -176,7 +176,7 @@ namespace CalamityMod.Items.Accessories
 
                 // Newline between damage and crit
                 sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
-                sb.Append((totalCrit * 100f).ToString("n2")).Append('%');
+                sb.Append(totalCrit.ToString("n2")).Append('%');
 
                 // Newline between crit and attack speed
                 sb.Append('\n').Append(damageClassName).Append(" Attack Speed: ");
