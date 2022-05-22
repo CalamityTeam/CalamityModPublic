@@ -34,7 +34,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.ApplyTileCollision += AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
-            IL.Terraria.Player.Hurt += RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement += BuffSolarFlareShieldSlam;
             IL.Terraria.Player.DashMovement += FixModdedDashesResettingDashCountdown;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
@@ -122,7 +122,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.ApplyTileCollision -= AllowTriggeredFallthrough;
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
-            IL.Terraria.Player.Hurt -= RemoveRNGFromBlackBelt;
+            IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;
             IL.Terraria.Player.DashMovement -= BuffSolarFlareShieldSlam;
             IL.Terraria.Player.DashMovement -= FixModdedDashesResettingDashCountdown;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack -= MakeShieldSlamIFramesConsistent;
