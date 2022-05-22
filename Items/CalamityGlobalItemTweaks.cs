@@ -538,7 +538,7 @@ namespace CalamityMod.Items
 
         internal static void UnloadTweaks()
         {
-            currentTweaks.Clear();
+            currentTweaks?.Clear();
             currentTweaks = null;
         }
         #endregion
