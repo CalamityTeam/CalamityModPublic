@@ -11,11 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class BrainOfCthulhuAI
     {
-        // Master Mode changes
-        /* 1 - Afterimages are fully visible at all times in phase 2; below 60%, they begin moving on their own, deal contact damage, but the player will be able to knock them back
-           2 - No longer spins before charging in final phase
-           3 - Creepers spread out from each other
-           4 - Creepers are immune to debuffs*/
         public static bool BuffedBrainofCthulhuAI(NPC npc, Mod mod)
         {
             // whoAmI variable

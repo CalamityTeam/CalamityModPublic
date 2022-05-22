@@ -14,8 +14,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class DestroyerAI
     {
-        // Master Mode changes
-        // 1 - Splits like the Eater of Worlds
         public static bool BuffedDestroyerAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

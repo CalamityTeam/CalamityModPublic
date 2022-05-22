@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.Ravager
                         }
                         else
                         {
-                            NPC.velocity.X *= 0.9f;
+                            NPC.velocity.X *= 0.8f;
 
                             if (NPC.Bottom.Y < player.position.Y)
                             {

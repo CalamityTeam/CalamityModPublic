@@ -12,11 +12,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class KingSlimeAI
     {
-        // Master Mode changes
-        /* 1 - Rainbow colored
-           2 - Spawns a rainbow slime every 5% HP
-           3 - Teleports ahead of his target
-           4 - Can use a jump and slam like a Big Mimic*/
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
             // Variables

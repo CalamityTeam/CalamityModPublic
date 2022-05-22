@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,11 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class WallOfFleshAI
     {
-        // Master Mode changes
-        // 1 - Hungries spawn detached and have more health,
-        // 2 - Moves quicker overall,
-        // 3 - Mouth vomits a tight spread of 3 demon scythes at the same time as its leech vomit,
-        // 4 - Eyes become immune to damage and stop firing when the wall drops below 15% health
         public static bool BuffedWallofFleshAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

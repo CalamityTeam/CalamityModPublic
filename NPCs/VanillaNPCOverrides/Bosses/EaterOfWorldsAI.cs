@@ -11,11 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class EaterOfWorldsAI
     {
-        // Master Mode changes
-        /* 1 - First head that spawns will spawn 4 other heads, creating 5 worms in total
-           2 - Each worm is 30 segments long and is immune to debuffs
-           3 - Worm heads push away from each other
-           4 - Vile Spits home in on the target slightly and no longer die when hit*/
         public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

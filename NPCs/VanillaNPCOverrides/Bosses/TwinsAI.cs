@@ -323,10 +323,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         }
         #endregion
 
-        // Master Mode changes
-        // 1 - Retinazer fires spreads of death lasers, moves and charges more often and faster, cycles attacks faster,
-        // 2 - Spazmatism moves and charges more often and faster, cycles attacks faster,
-        // 3 - Retinazer is slightly smaller and Spazmatism is slightly larger
         #region Twins AI
         public static bool BuffedRetinazerAI(NPC npc, Mod mod)
         {

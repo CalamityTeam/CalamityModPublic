@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -13,9 +13,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class CultistAI
     {
-        // Master Mode changes
-        // 1 - Use more dangerous attacks more often,
-        // 2 - Cycles between attacks faster
         public static bool BuffedCultistAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
@@ -76,7 +73,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.TargetClosest(false);
 
             // Center and target
-            Vector2 center = npc.Center;
             Player player = Main.player[npc.target];
             if (npc.target < 0 || npc.target == Main.maxPlayers || player.dead || !player.active)
             {
@@ -86,7 +82,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(player.Center, center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+            if (Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest(false);
 
             // Enrage
@@ -139,7 +135,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Despawn
-            if (player.dead || Vector2.Distance(player.Center, center) > CalamityGlobalNPC.CatchUpDistance350Tiles)
+            if (player.dead || Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
@@ -224,7 +220,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 npc.localAI[2] = 10f;
 
-                int num14 = Math.Sign(player.Center.X - center.X);
+                int num14 = Math.Sign(player.Center.X - npc.Center.X);
                 if (num14 != 0)
                     npc.direction = npc.spriteDirection = num14;
 
@@ -299,7 +295,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         // Movement
                         case 0:
                             // Set a location to move to
-                            float num16 = (float)Math.Ceiling((player.Center + new Vector2(0f, -100f) - center).Length() / 50f);
+                            float num16 = (float)Math.Ceiling((player.Center + new Vector2(0f, -100f) - npc.Center).Length() / 50f);
                             if (num16 == 0f)
                                 num16 = 1f;
 
@@ -412,7 +408,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.localAI[2] = 11f;
 
-                Vector2 vec = Vector2.Normalize(player.Center - center);
+                Vector2 vec = Vector2.Normalize(player.Center - npc.Center);
                 if (vec.HasNaNs())
                     vec = new Vector2(npc.direction, 0f);
 
@@ -449,7 +445,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec = Vector2.Normalize(player.Center - center + player.velocity * 20f);
+                        vec = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
                         if (vec.HasNaNs())
                             vec = new Vector2(npc.direction, 0f);
 
@@ -475,7 +471,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.localAI[2] = 11f;
 
-                Vector2 vec2 = Vector2.Normalize(player.Center - center);
+                Vector2 vec2 = Vector2.Normalize(player.Center - npc.Center);
                 if (vec2.HasNaNs())
                     vec2 = new Vector2(npc.direction, 0f);
 
@@ -513,13 +509,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                     }
 
-                    int num23 = Math.Sign(player.Center.X - center.X);
+                    int num23 = Math.Sign(player.Center.X - npc.Center.X);
                     if (num23 != 0)
                         npc.direction = npc.spriteDirection = num23;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec2 = Vector2.Normalize(player.Center - center + player.velocity * 20f);
+                        vec2 = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
                         if (vec2.HasNaNs())
                             vec2 = new Vector2(npc.direction, 0f);
 
@@ -596,7 +592,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.localAI[2] = 10f;
 
-                if (Vector2.Normalize(player.Center - center).HasNaNs())
+                if (Vector2.Normalize(player.Center - npc.Center).HasNaNs())
                     new Vector2(npc.direction, 0f);
 
                 if (npc.ai[1] >= 0f && npc.ai[1] < 30f)
@@ -797,7 +793,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.localAI[2] = 11f;
 
-                Vector2 vec4 = Vector2.Normalize(player.Center - center);
+                Vector2 vec4 = Vector2.Normalize(player.Center - npc.Center);
                 if (vec4.HasNaNs())
                     vec4 = new Vector2(npc.direction, 0f);
 
@@ -823,13 +819,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                     }
 
-                    int num47 = Math.Sign(player.Center.X - center.X);
+                    int num47 = Math.Sign(player.Center.X - npc.Center.X);
                     if (num47 != 0)
                         npc.direction = npc.spriteDirection = num47;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        vec4 = Vector2.Normalize(player.Center - center + player.velocity * 20f);
+                        vec4 = Vector2.Normalize(player.Center - npc.Center + player.velocity * 20f);
                         if (vec4.HasNaNs())
                             vec4 = new Vector2(npc.direction, 0f);
 
@@ -879,7 +875,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (num52 > 2)
                         num52 = 2;
 
-                    int num53 = Math.Sign(player.Center.X - center.X);
+                    int num53 = Math.Sign(player.Center.X - npc.Center.X);
                     if (num53 != 0)
                         npc.direction = npc.spriteDirection = num53;
 

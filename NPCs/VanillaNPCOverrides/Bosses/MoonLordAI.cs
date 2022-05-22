@@ -12,8 +12,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class MoonLordAI
     {
-        // Master Mode changes
-        // 1 - Moon Lord is at maximum aggression at all times
         public static bool BuffedMoonLordAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

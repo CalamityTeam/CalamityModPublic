@@ -11,10 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class GolemAI
     {
-        // Master Mode changes
-        // 1 - Allow fists to travel further and faster,
-        // 2 - More projectiles,
-        // 3 - Fists can no longer be broken
         public static bool BuffedGolemAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
