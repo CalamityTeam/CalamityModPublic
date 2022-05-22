@@ -1,11 +1,12 @@
-﻿using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
-using CalamityMod.Items.Weapons.Melee;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.DataStructures
 {
@@ -547,7 +548,8 @@ namespace CalamityMod.DataStructures
             if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                Projectile beamSword = Projectile.NewProjectileDirect(source, player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), (int)(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
+                int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage);
+                Projectile beamSword = Projectile.NewProjectileDirect(source, player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), damage, 10f, player.whoAmI, 1f);
                 beamSword.timeLeft = 50;
                 UseTimer++;
             }
@@ -660,7 +662,8 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 120 == 119)
             {
-                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage * player.MeleeDamage()), 10f, player.whoAmI, 1f);
+                int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage);
+                Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), damage, 10f, player.whoAmI, 1f);
                 UseTimer++;
             }
         }

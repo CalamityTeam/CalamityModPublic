@@ -2953,7 +2953,8 @@ namespace CalamityMod.CalPlayer
 
                     var source = new ProjectileSource_GaelsGreatswordRage(Player);
                     float rageRatio = rage / rageMax;
-                    int damage = (int)(rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage * Player.MeleeDamage());
+                    float baseDamage = rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage;
+                    int damage = Player.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                     float skullCount = 20f;
                     float skullSpeed = 12f;
                     for (float i = 0; i < skullCount; i += 1f)
@@ -4532,7 +4533,8 @@ namespace CalamityMod.CalPlayer
                         xVel *= 1.5f;
                         xOffset *= (float)Player.direction;
                         yOffset *= Player.gravDir;
-                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, (int)(item.damage * 0.15 * Player.MeleeDamage()), 0f, Player.whoAmI, 0f, 0f);
+                        int damage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(item.damage * 0.15f);
+                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, damage, 0f, Player.whoAmI, 0f, 0f);
                     }
                 }
                 if (aWeapon)
@@ -6623,13 +6625,15 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
+                        int baseDamage = 675;
+                        int shrapnelFinalDamage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 4; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * Player.MeleeDamage()), 5f, Player.whoAmI, 0f, 0f);
-                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * Player.MeleeDamage()), 5f, Player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelFinalDamage, 5f, Player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelFinalDamage, 5f, Player.whoAmI, 0f, 0f);
                             }
                         }
                     }

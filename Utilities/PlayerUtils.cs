@@ -16,7 +16,7 @@ namespace CalamityMod
     {
         #region Stat Retrieval
         // TODO -- AAAAAA NO NEED FOR HELPER FUNCTIONS
-        public static float MeleeDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 1f;
+        // I lost my mind after doing just MeleeDamage, which had 25 references. Please replace with player.GetDamage<Class1>().ApplyTo(TheBaseDamage)
         public static float RangedDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Ranged).Additive - 1f;
         public static float MagicDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Magic).Additive - 1f;
         public static float MinionDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon).Additive - 1f;

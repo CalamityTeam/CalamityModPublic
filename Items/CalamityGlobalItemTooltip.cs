@@ -994,7 +994,7 @@ namespace CalamityMod.Items
             sb.Append(line.Text).Append(" : ");
 
             Player p = Main.LocalPlayer;
-            float itemCurrentDamage = item.damage * p.MeleeDamage();
+            float itemCurrentDamage = p.GetDamage<MeleeDamageClass>().ApplyTo(item.damage);
             double trueMeleeBoost = 1D + p.Calamity().trueMeleeDamage;
             double imprecisionRoundingCorrection = 5E-06D;
             int damageToDisplay = (int)(itemCurrentDamage * trueMeleeBoost + imprecisionRoundingCorrection);

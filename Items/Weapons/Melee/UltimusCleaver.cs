@@ -146,8 +146,9 @@ namespace CalamityMod.Items.Weapons.Melee
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
                     var source = player.GetSource_ItemUse(Item);
+                    int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.1f);
                     Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341,
-                        (float)player.direction * num340, num339 * player.gravDir, ModContent.ProjectileType<UltimusCleaverDust>(), (int)(Item.damage * player.MeleeDamage() * 0.1), 0f, player.whoAmI, 0f, 0f);
+                        (float)player.direction * num340, num339 * player.gravDir, ModContent.ProjectileType<UltimusCleaverDust>(), damage, 0f, player.whoAmI, 0f, 0f);
                 }
             }
         }

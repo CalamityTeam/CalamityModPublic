@@ -43,7 +43,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), knockback, Main.myPlayer);
+            int sporeDamage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.5f);
+            int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), sporeDamage, knockback, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
         }
@@ -51,7 +52,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), (int)(Item.damage * 0.5f * player.MeleeDamage()), Item.knockBack, Main.myPlayer);
+            int sporeDamage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.5f);
+            int proj = Projectile.NewProjectile(source, target.Center, Vector2.Zero, Main.rand.Next(569, 572), sporeDamage, Item.knockBack, Main.myPlayer);
             if (proj.WithinBounds(Main.maxProjectiles))
                 Main.projectile[proj].Calamity().forceMelee = true;
         }
