@@ -315,7 +315,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
                 if (secondaryAttunement.id == AttunementID.FlailBlade && MeatHook == null)
                 {
-                    MeatHook = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), (int)(FlailBladeAttunement_PassiveBaseDamage * player.MeleeDamage()), 0f, player.whoAmI);
+                    int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(FlailBladeAttunement_PassiveBaseDamage);
+                    MeatHook = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ProjectileType<ChainedMeatHook>(), damage, 0f, player.whoAmI);
                 }
 
                 secondaryAttunement.PassiveEffect(player, source, ref UseTimer, ref OnHitProc, MeatHook);

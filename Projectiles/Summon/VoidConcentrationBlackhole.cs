@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.IO;
+using CalamityMod.NPCs;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -167,7 +168,7 @@ namespace CalamityMod.Projectiles.Summon
 
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
-                    if (Main.npc[i].active && !Main.npc[i].friendly /*&& CalamityGlobalNPC.ShouldAffectNPC(Main.npc[i])*/) //TODO - REMOVE COMMENT BEFORE MERGE
+                    if (Main.npc[i].active && !Main.npc[i].friendly && CalamityGlobalNPC.ShouldAffectNPC(Main.npc[i]))
                     {
                         if (Vector2.Distance(Projectile.Center, Main.npc[i].Center) <= radius)
                             ApplySucc(Main.npc[i]);

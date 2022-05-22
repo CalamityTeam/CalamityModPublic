@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        //Todo : Check if the slot contains the other rogue jetpack, in which case, let the player swap accs
+        // TODO -- Check if the slot contains the other rogue jetpack, in which case, let the player swap accs
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().hasJetpack;
 
         public override void UpdateAccessory(Player player, bool hideVisual)

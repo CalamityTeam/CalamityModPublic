@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Potions
 {
     public class YharimsStimulants : ModItem
     {
+        internal static readonly int CritBoost = 2;
+        
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;

@@ -96,12 +96,42 @@ namespace CalamityMod.Items
             StealthGenBonus = 1f;
         }
 
+        // Ozzatron 21MAY2022: This function is required by TML 1.4's new clone behavior.
+        // This behavior is sadly mandatory because there are a few places in vanilla Terraria which use cloning.
+        // Most notably: reforging and item tooltips.
+        //
+        // It manually copies everything because I don't trust the base clone behavior after seeing the insane bugs.
+        //
+        // ANY TIME YOU ADD A VARIABLE TO CalamityGlobalItem, IT MUST BE COPIED IN THIS FUNCTION.
         public override GlobalItem Clone(Item item, Item itemClone)
         {
             CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
+
+            // Rogue
+            myClone.rogue = rogue;
             myClone.StealthGenBonus = StealthGenBonus;
-            myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
+
+            // Charge (Draedon's Arsenal)
+            myClone.UsesCharge = UsesCharge;
             myClone.Charge = Charge;
+            myClone.MaxCharge = MaxCharge;
+            myClone.ChargePerUse = ChargePerUse;
+            myClone.ChargePerAltUse = ChargePerAltUse;
+
+            // Enchantments
+            myClone.CannotBeEnchanted = CannotBeEnchanted;
+            myClone.AppliedEnchantment = AppliedEnchantment.HasValue ? AppliedEnchantment.Value : null;
+            myClone.DischargeEnchantExhaustion = DischargeEnchantExhaustion;
+
+            // Miscellaneous
+            myClone.customRarity = customRarity;
+            myClone.timesUsed = timesUsed;
+            myClone.reforgeTier = reforgeTier;
+            myClone.donorItem = donorItem;
+            myClone.devItem = devItem;
+            myClone.canFirePointBlankShots = canFirePointBlankShots;
+            myClone.trueMelee = trueMelee;
+
             return myClone;
         }
 
@@ -476,7 +506,7 @@ namespace CalamityMod.Items
             tag.Add("canFirePointBlankShots", canFirePointBlankShots);
             tag.Add("trueMelee", trueMelee);
         }
-		
+        
         public override void LoadData(Item item, TagCompound tag)
         {
             rogue = tag.GetBool("rogue");
@@ -1024,8 +1054,8 @@ namespace CalamityMod.Items
             }
             else if (set == "SolarFlare")
             {
-				if (player.solarShields > 0)
-					modPlayer.DashID = string.Empty;
+                if (player.solarShields > 0)
+                    modPlayer.DashID = string.Empty;
             }
         }
         #endregion
@@ -1172,7 +1202,7 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.DemonWings) // Boost to all damage and crit
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.GetCritChance<GenericDamageClass>() += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
@@ -1210,7 +1240,7 @@ namespace CalamityMod.Items
                 if (!Main.dayTime || Main.eclipse)
                 {
                     player.GetDamage<GenericDamageClass>() += 0.07f;
-                    modPlayer.AllCritBoost(3);
+                    player.GetCritChance<GenericDamageClass>() += 3;
                 }
             }
             else if (item.type == ItemID.HarpyWings)
@@ -1352,14 +1382,14 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.TatteredFairyWings)
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.GetCritChance<GenericDamageClass>() += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.SteampunkWings)
             {
                 player.statDefense += 8;
                 player.GetDamage<GenericDamageClass>() += 0.04f;
-                modPlayer.AllCritBoost(2);
+                player.GetCritChance<GenericDamageClass>() += 2;
                 player.moveSpeed += 0.1f;
                 player.noFallDmg = true;
             }

@@ -18,6 +18,7 @@
         // Dodge cooldowns (in frames)
         // TODO -- Some of these could be moved to the respective item files
         internal static readonly int BeltDodgeCooldown = 5400;
+        internal static readonly int BrainDodgeCooldown = 7200;
         internal static readonly int MirrorDodgeCooldown = 5400;
         internal static readonly int DaedalusReflectCooldown = 5400;
         internal static readonly int EvolutionReflectCooldown = 7200;
@@ -30,6 +31,14 @@
         internal static readonly float DurendalTagDamageMultiplier = 1.09f;
         internal static readonly float MorningStarTagDamageMultiplier = 1.11f;
         internal static readonly float KaleidoscopeTagDamageMultiplier = 1.12f;
+
+        // Rogue stealth
+        internal static readonly float BaseStealthGenTime = 9f; // 9 seconds
+        internal static readonly float MovingStealthGenRatio = 0.333333f;
+
+        // Rippers
+        internal static readonly float FullAdrenalineDR = 0.5f; // 50%
+        internal static readonly float AdrenalineDRPerBooster = 0.05f; // +5% per booster
 
         // TODO -- Add all balance related constants here that don't belong in other files.
         // These constants were just the ones sitting in CalamityPlayer.

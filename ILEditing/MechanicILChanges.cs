@@ -3,6 +3,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.FluidSimulation;
+using CalamityMod.Items.Dyes;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.Crabulon;
@@ -17,6 +18,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using ReLogic.Content;
 using System;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
@@ -49,6 +51,12 @@ namespace CalamityMod.ILEditing
         // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
         private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
         {
+            if (self.active && self.type == ModContent.NPCType<FusionFeeder>())
+            {
+                self.velocity = Collision.AdvancedTileCollision(TileID.Sets.ForAdvancedCollision.ForSandshark, cPosition, self.velocity, cWidth, cHeight, fall, fall, 1);
+                return;
+            }
+
             if (self.active && self.Calamity().ShouldFallThroughPlatforms)
                 fall = true;
             orig(self, fall, cPosition, cWidth, cHeight);
@@ -87,9 +95,24 @@ namespace CalamityMod.ILEditing
         }
         #endregion Town NPC Spawning Improvements
 
-        #region Removal of Black Belt Dodge RNG
-        private static void RemoveRNGFromBlackBelt(ILContext il)
+        #region Removal of Dodge RNG
+        private static readonly Func<Player, int> CalamityDodgeAvailable = (Player p) =>
         {
+            CalamityPlayer mp = p.Calamity();
+            // If your dodges are universally disabled, then they simply "never come off cooldown" and always have 1 frame left.
+            if (mp.disableAllDodges)
+                return 1;
+
+            bool dodgeCooldownActive = p.HasCooldown(GlobalDodge.ID);
+            return dodgeCooldownActive ? 1 : 0;
+        };
+
+        private static void RemoveRNGFromDodges(ILContext il)
+        {
+            //
+            // BLACK BELT
+            //
+
             // Change the random chance of the Black Belt to 100%, but don't let it work if Calamity's cooldown is active.
             var cursor = new ILCursor(il);
             if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(10))) // 1 in 10 Main.rand call for Black Belt activation.
@@ -112,16 +135,7 @@ namespace CalamityMod.ILEditing
 
             // Emit a delegate which places the player's dodge availability onto the stack.
             // This is typically the Calamity dodge cooldown -- zero lets you dodge, anything else doesn't.
-            cursor.EmitDelegate<Func<Player, int>>((Player p) =>
-            {
-                CalamityPlayer mp = p.Calamity();
-                // If your dodges are universally disabled, then they simply "never come off cooldown" and always have 1 frame left.
-                if (mp.disableAllDodges)
-                    return 1;
-
-                bool dodgeCooldownActive = p.HasCooldown(GlobalDodge.ID);
-                return dodgeCooldownActive ? 1 : 0;
-            });
+            cursor.EmitDelegate<Func<Player, int>>(CalamityDodgeAvailable);
 
             // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.
             // The code path which calls NinjaDodge can ONLY occur if the result of this operation is zero,
@@ -140,8 +154,53 @@ namespace CalamityMod.ILEditing
 
             // Emit a delegate which sets the player's Calamity dodge cooldown and sends a sync packet appropriately.
             cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, BalancingConstants.BeltDodgeCooldown));
+
+            //
+            // BRAIN OF CONFUSION
+            //
+
+            // Change the random chance of the Brain of Confusion to 100%, but don't let it work if Calamity's cooldown is active.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(6))) // 1 in 6 Main.rand call for Brain of Confusion activation.
+            {
+                LogFailure("No RNG Brain of Confusion", "Could not locate the dodge chance.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4_1); // Replace with Main.rand.Next(1), aka 100% chance.
+
+            // Move forwards past the Main.rand.Next call now that it has been edited.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCallvirt<UnifiedRandom>("Next")))
+            {
+                LogFailure("No RNG Brain of Confusion", "Could not locate the Random.Next call.");
+                return;
+            }
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+
+            // Emit a delegate which places the player's dodge availability onto the stack.
+            // This is typically the Calamity dodge cooldown -- zero lets you dodge, anything else doesn't.
+            cursor.EmitDelegate<Func<Player, int>>(CalamityDodgeAvailable);
+
+            // Bitwise OR the "RNG result" (always zero) with the dodge cooldown. This will only return zero if both values were zero.
+            // The code path which calls BrainOfConfusionDodge can ONLY occur if the result of this operation is zero,
+            // because it is now the value checked by the immediately following branch-if-true.
+            cursor.Emit(OpCodes.Or);
+
+            // Move forwards past the BrainOfConfusionDodge call. We need to set the dodge cooldown here.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchCall<Player>("BrainOfConfusionDodge")))
+            {
+                LogFailure("No RNG Brain of Confusion", "Could not locate the Player.BrainOfConfusionDodge call.");
+                return;
+            }
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+
+            // Emit a delegate which sets the player's Calamity dodge cooldown and sends a sync packet appropriately.
+            cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, BalancingConstants.BrainDodgeCooldown));
         }
-        #endregion Removal of Black Belt Dodge RNG
+        #endregion Removal of Dodge RNG
 
         #region Vanilla Dash / Shield Slam Improvements
         private static void MakeShieldSlamIFramesConsistent(ILContext il)
@@ -499,6 +558,9 @@ namespace CalamityMod.ILEditing
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             DeathAshParticle.DrawAll();
+
+            if (Main.LocalPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>()) > 0)
+                Main.LocalPlayer.Calamity().ProfanedMoonlightAuroraDrawer?.Draw(Main.LocalPlayer.Center - Main.screenPosition, false, Main.GameViewMatrix.TransformationMatrix, Matrix.Identity);
 
             orig(self, gameTime);
         }

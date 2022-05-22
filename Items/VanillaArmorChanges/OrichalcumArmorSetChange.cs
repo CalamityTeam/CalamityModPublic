@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
@@ -17,9 +17,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public const int ChestplateCritChanceBoost = 4;
 
-        public override void ApplyBodyPieceEffect(Player player)
-        {
-            player.Calamity().AllCritBoost(ChestplateCritChanceBoost);
-        }
+        public override void ApplyBodyPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += ChestplateCritChanceBoost;
     }
 }

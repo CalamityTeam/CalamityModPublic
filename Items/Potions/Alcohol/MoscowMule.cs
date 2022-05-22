@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Potions.Alcohol
 {
     public class MoscowMule : ModItem
     {
+        internal static readonly int CritBoost = 3;
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;

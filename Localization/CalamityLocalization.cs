@@ -2,7 +2,7 @@
 
 namespace CalamityMod.Localization
 {
-    // TODO - At some point change this to use proper localization files.
+    // TODO -- At some point change this to use proper localization files.
     public class CalamityLocalization
     {
         private static string[][] _localizations;

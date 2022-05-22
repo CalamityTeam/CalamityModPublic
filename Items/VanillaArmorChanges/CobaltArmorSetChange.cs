@@ -45,7 +45,8 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             float movementSpeedInterpolant = CalculateMovementSpeedInterpolant(player);
             player.GetDamage<GenericDamageClass>() += MovementSpeedBoostPercentageMax * movementSpeedInterpolant * 0.01f;
-            player.Calamity().AllCritBoost((int)(MovementSpeedBoostPercentageMax * movementSpeedInterpolant));
+            float critBonus = MovementSpeedBoostPercentageMax * movementSpeedInterpolant;
+            player.GetCritChance<GenericDamageClass>() += critBonus;
         }
 
         public override void ApplyArmorSetBonus(Player player)

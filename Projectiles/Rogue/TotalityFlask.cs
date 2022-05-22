@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Projectile.Calamity().stealthStrike)
             {
-                if (Projectile.timeLeft % 10 == 0)
+                if (Projectile.timeLeft % 20 == 0)
                 {
                     if (Projectile.owner == Main.myPlayer)
                     {

@@ -73,6 +73,7 @@ namespace CalamityMod.CalPlayer
         public static bool areThereAnyDamnBosses = false;
         public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
+        public float stealthUIAlpha = 1f;
         public bool shouldDrawSmallText = true;
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
@@ -173,37 +174,6 @@ namespace CalamityMod.CalPlayer
         public bool newAmidiasInventory = false;
         public bool newBanditInventory = false;
         public bool newCalamitasInventory = false;
-        #endregion
-
-        #region Stat Meter
-        public int[] damageStats = new int[6];
-        public int[] critStats = new int[4];
-        public int defenseStat = 0;
-        public int DRStat = 0;
-        public int meleeSpeedStat = 0;
-        public int manaCostStat = 0;
-        public int rogueVelocityStat = 0;
-        public int minionSlotStat = 0;
-        public int lifeRegenStat = 0;
-        public int manaRegenStat = 0;
-        public int ammoReductionRanged = 0;
-        public int ammoReductionRogue = 0;
-        public int armorPenetrationStat = 0;
-        public float wingFlightTimeStat = 0f;
-        public float jumpSpeedStat = 0f;
-        public int rageDamageStat = 0;
-        public int adrenalineDamageStat = 0;
-        public int adrenalineDRStat = 0;
-        public int moveSpeedStat = 0;
-        public int abyssLightLevelStat = 0;
-        public int abyssBreathLossStat = 0;
-        public int abyssBreathLossRateStat = 0;
-        public int abyssLifeLostAtZeroBreathStat = 0;
-        public int abyssDefenseLossStat = 0;
-        public int stealthStat = 0;
-        public float standingRegenStat = 0f;
-        public float movingRegenStat = 0f;
-        public float stealthUIAlpha = 1f;
         #endregion
 
         #region Timer and Counter
@@ -368,8 +338,8 @@ namespace CalamityMod.CalPlayer
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly double DefaultRageDamageBoost = 0.35D; // +35%
-        public double RageDamageBoost = DefaultRageDamageBoost;
+        public static readonly float DefaultRageDamageBoost = 0.35f; // +35%
+        public float RageDamageBoost = DefaultRageDamageBoost;
         #endregion
 
         #region Adrenaline
@@ -379,8 +349,8 @@ namespace CalamityMod.CalPlayer
         public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
         public int AdrenalineChargeTime = CalamityUtils.SecondsToFrames(30);
         public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
-        public static readonly double AdrenalineDamageBoost = 2.0D; // +200%
-        public static readonly double AdrenalineDamagePerBooster = 0.15D; // +15%
+        public static readonly float AdrenalineDamageBoost = 2f; // +200%
+        public static readonly float AdrenalineDamagePerBooster = 0.15f; // +15%
         #endregion
 
         #region Defense Damage
@@ -403,6 +373,13 @@ namespace CalamityMod.CalPlayer
         internal const int DefenseDamageRecoveryDelay = 10;
         // The current timer for how long the player must wait before defense damage begins recovering.
         internal int defenseDamageDelayFrames = 0;
+        #endregion
+
+        #region Abyss
+        public float abyssBreathLossStat = 0;
+        public float abyssBreathLossRateStat = 0;
+        public int abyssLifeLostAtZeroBreathStat = 0;
+        public int abyssDefenseLossStat = 0;
         #endregion
 
         #region Permanent Buff
@@ -1113,6 +1090,8 @@ namespace CalamityMod.CalPlayer
 
         public FluidField CalamityFireDrawer;
 
+        public FluidField ProfanedMoonlightAuroraDrawer;
+
         public Vector2 FireDrawerPosition;
         #endregion Draw Effects
 
@@ -1291,7 +1270,6 @@ namespace CalamityMod.CalPlayer
             tag["exactRogueLevel"] = exactRogueLevel;
             tag["itemTypeLastReforged"] = itemTypeLastReforged;
             tag["reforgeTierSafety"] = reforgeTierSafety;
-            tag["moveSpeedStat"] = moveSpeedStat;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
             tag["totalSpeedrunTicks"] = totalTicks;
@@ -1393,7 +1371,6 @@ namespace CalamityMod.CalPlayer
             exactSummonLevel = tag.GetInt("exactSummonLevel");
             exactRogueLevel = tag.GetInt("exactRogueLevel");
 
-            moveSpeedStat = tag.GetInt("moveSpeedStat");
             totalDefenseDamage = tag.GetInt("defenseDamage");
             defenseDamageRecoveryFrames = tag.GetInt("defenseDamageRecoveryFrames");
             if (defenseDamageRecoveryFrames < 0)
@@ -2733,7 +2710,7 @@ namespace CalamityMod.CalPlayer
                 SoundEngine.PlaySound(SoundID.Item34, Player.Center);
             }
 
-            //TODO : It would be nice if triggerable set bonuses used interfaces instead of having to go through this large if chain.
+            // TODO -- It would be nice if triggerable set bonuses used interfaces instead of having to go through this large if chain.
             if (CalamityKeybinds.SetBonusHotKey.JustPressed)
             {
                 if (brimflameSet && !Player.HasCooldown(BrimflameFrenzy.ID))
@@ -2945,12 +2922,12 @@ namespace CalamityMod.CalPlayer
 
             // Trigger for pressing the God Slayer dash key
             if (CalamityKeybinds.GodSlayerDashHotKey.JustPressed)
-			{
-				if (godSlayer && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
-				{
-					godSlayerDashHotKeyPressed = true;
-				}
-			}
+            {
+                if (godSlayer && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
+                {
+                    godSlayerDashHotKeyPressed = true;
+                }
+            }
 
             // Trigger for pressing the Rage hotkey.
             if (CalamityKeybinds.RageHotKey.JustPressed)
@@ -2976,7 +2953,8 @@ namespace CalamityMod.CalPlayer
 
                     var source = new ProjectileSource_GaelsGreatswordRage(Player);
                     float rageRatio = rage / rageMax;
-                    int damage = (int)(rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage * Player.MeleeDamage());
+                    float baseDamage = rageRatio * GaelsGreatsword.SkullsplosionDamageMultiplier * GaelsGreatsword.BaseDamage;
+                    int damage = Player.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                     float skullCount = 20f;
                     float skullSpeed = 12f;
                     for (float i = 0; i < skullCount; i += 1f)
@@ -3647,7 +3625,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
                 {
-                    GameShaders.Armor.GetSecondaryShader(Player.dye[i].dye, Player)?.UseColor(ProfanedMoonlightDyeLayer.GetCurrentMoonlightDyeColor());
+                    GameShaders.Armor.GetSecondaryShader(Player.dye[i].dye, Player)?.UseColor(GetCurrentMoonlightDyeColor());
                 }
             }
 
@@ -4555,7 +4533,8 @@ namespace CalamityMod.CalPlayer
                         xVel *= 1.5f;
                         xOffset *= (float)Player.direction;
                         yOffset *= Player.gravDir;
-                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, (int)(item.damage * 0.15 * Player.MeleeDamage()), 0f, Player.whoAmI, 0f, 0f);
+                        int damage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(item.damage * 0.15f);
+                        Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)Player.direction * xVel, yVel * Player.gravDir, ProjectileID.Mushroom, damage, 0f, Player.whoAmI, 0f, 0f);
                     }
                 }
                 if (aWeapon)
@@ -5889,6 +5868,46 @@ namespace CalamityMod.CalPlayer
 
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 Player.yoraiz0rEye = 0;
+
+            int totalMoonlightDyes = Player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
+            if (totalMoonlightDyes > 0)
+            {
+                // Initialize the aurora drawer.
+                int size = 520;
+                int sourceArea = 3;
+                float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
+                if (ProfanedMoonlightAuroraDrawer is null || ProfanedMoonlightAuroraDrawer.Size != size)
+                    ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
+
+                ProfanedMoonlightAuroraDrawer.ShouldUpdate = true;
+                ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
+                {
+                    int auroraCount = totalMoonlightDyes / 2 + 3;
+                    for (int i = 0; i < auroraCount; i++)
+                    {
+                        float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
+                        float offsetAngle = MathHelper.TwoPi * i / auroraCount + Main.GlobalTimeWrappedHourly * 0.56f;
+                        Color auroraColor = GetCurrentMoonlightDyeColor(offsetAngle) * 0.8f;
+                        auroraColor.A = 0;
+
+                        Vector2 auroraVelocity = (offsetAngle / 3f + Main.GlobalTimeWrappedHourly * 0.32f).ToRotationVector2();
+                        auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
+                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.04f;
+
+                        Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
+                        Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
+                        auroraSpawnPosition.X += (float)Math.Cos(offsetAngle + Main.GlobalTimeWrappedHourly * 0.91f) * 75f;
+
+                        int x = (int)((auroraSpawnPosition.X - drawPosition.X) / ProfanedMoonlightAuroraDrawer.Scale);
+                        int y = (int)((auroraSpawnPosition.Y - drawPosition.Y) / ProfanedMoonlightAuroraDrawer.Scale);
+                        for (int j = -sourceArea; j <= sourceArea; j++)
+                        {
+                            for (int k = -sourceArea; k <= sourceArea; k++)
+                                ProfanedMoonlightAuroraDrawer.CreateSource(x + size / 2 + j, y + size / 2 + k, auroraPower, auroraColor, auroraVelocity);
+                        }
+                    }
+                };
+            }
         }
 
         private void DisableDashes()
@@ -6606,13 +6625,15 @@ namespace CalamityMod.CalPlayer
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
+                        int baseDamage = 675;
+                        int shrapnelFinalDamage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
                         if (Player.whoAmI == Main.myPlayer)
                         {
                             for (int i = 0; i < 4; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * Player.MeleeDamage()), 5f, Player.whoAmI, 0f, 0f);
-                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(675 * Player.MeleeDamage()), 5f, Player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelFinalDamage, 5f, Player.whoAmI, 0f, 0f);
+                                Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), shrapnelFinalDamage, 5f, Player.whoAmI, 0f, 0f);
                             }
                         }
                     }
@@ -6852,18 +6873,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region All-Class Crit Boost
-        public void AllCritBoost(int boost)
-        {
-            Player.GetCritChance(DamageClass.Melee) += boost;
-            Player.GetCritChance(DamageClass.Ranged) += boost;
-            Player.GetCritChance(DamageClass.Magic) += boost;
-            Player.GetCritChance(DamageClass.Throwing) += boost;
-            // Rogue weapons benefit from throwing crit AND rogue crit, so don't add both.
-            // throwingCrit += boost;
-        }
-        #endregion
-
         #region Rogue Stealth
         private void ResetRogueStealth()
         {
@@ -6967,7 +6976,7 @@ namespace CalamityMod.CalPlayer
             // Lower stealth generation rate (especially while moving) enables higher maximum stealth damage.
             // This enables stealth to be conditionally useful -- even powerful -- even without a dedicated stealth build.
             double averagedStealthGen = 0.8 * stealthGenMoving + 0.2 * stealthGenStandstill;
-            double fakeStealthTime = 9D / averagedStealthGen;
+            double fakeStealthTime = BalancingConstants.BaseStealthGenTime / averagedStealthGen;
 
             // Use time  3 = 162% damage ratio
             // Use time  8 = 200% damage ratio
@@ -7075,7 +7084,7 @@ namespace CalamityMod.CalPlayer
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.
             bool standstill = Player.StandingStill(0.1f) && !Player.mount.Active;
-            return standstill ? stealthGenStandstill : stealthGenMoving * 0.333333f * stealthAcceleration;
+            return standstill ? stealthGenStandstill : stealthGenMoving * BalancingConstants.MovingStealthGenRatio * stealthAcceleration;
         }
 
         public bool StealthStrikeAvailable()
@@ -8175,78 +8184,6 @@ namespace CalamityMod.CalPlayer
             range *= reaverExplore ? 0.9f : 1f;
             return range;
         }
-
-        /// <summary>
-        /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
-        /// The Stat Meter also reports this stat.
-        /// </summary>
-        /// <returns>The player's total light strength.</returns>
-        public int GetTotalLightStrength()
-        {
-            int light = externalAbyssLight;
-            bool underwater = Player.IsUnderwater();
-            bool miningHelmet = Player.head == ArmorIDs.Head.MiningHelmet;
-
-            // The campfire bonus does not apply while in the Abyss.
-            if (!ZoneAbyss && (Player.HasBuff(BuffID.Campfire) || Main.SceneMetrics.HasCampfire))
-                light += 1;
-            if (camper) //inherits Campfire so really +2
-                light += 1;
-            if (miningHelmet)
-                light += 1;
-            if (Player.lightOrb)
-                light += 1;
-            if (Player.crimsonHeart)
-                light += 1;
-            if (Player.magicLantern)
-                light += 1;
-            if (giantPearl)
-                light += 1;
-            if (radiator)
-                light += 1;
-            if (bendyPet)
-                light += 1;
-            if (sparks)
-                light += 1;
-            if (fathomSwarmerVisage)
-                light += 1;
-            if (aquaticHeart)
-                light += 1;
-            if (aAmpoule)
-                light += 1;
-            else if (rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
-                light += 1;
-            if (aquaticEmblem && underwater)
-                light += 1;
-            if (Player.arcticDivingGear && underwater) //inherited by abyssal diving gear/suit, also gives jellyfish necklace so really +2
-                light += 1;
-            if (jellyfishNecklace && underwater) //inherited by deific amulet+, jellyfish diving gear+
-                light += 1;
-            if (lumenousAmulet && underwater)
-                light += 2;
-            if (shine)
-                light += 2;
-            if (blazingCore)
-                light += 2;
-            if (Player.redFairy || Player.greenFairy || Player.blueFairy)
-                light += 2;
-            if (babyGhostBell)
-                light += underwater ? 2 : 1;
-            if (Player.petFlagDD2Ghost)
-                light += 2;
-            if (sirenPet)
-                light += underwater ? 3 : 1;
-            if (Player.wisp)
-                light += 3;
-            if (Player.suspiciouslookingTentacle)
-                light += 3;
-            if (littleLightPet)
-                light += 3;
-            if (profanedCrystalBuffs && !ZoneAbyss)
-                light += Main.dayTime || Player.lavaWet ? 2 : 1;
-            return light;
-        }
-
         #endregion
 
         #region Mana Consumption Effects

@@ -302,12 +302,17 @@ namespace CalamityMod.NPCs
         #region Instance Per Entity and TML 1.4 Cloning
         public override bool InstancePerEntity => true;
 
+        // Ozzatron 25APR2022: This function was required by TML 1.4's new clone behavior,
+        // which broke every custom NPC in the game simultaneously when it was introduced.
+        // It manually copies everything because I don't trust the base clone behavior after seeing the insane bugs.
+        // Considering the continuing revisions to Entity cloning, it's possible that this is no longer needed.
+        // Don't risk it and don't remove this code unless it's clear that it is causing problems.
+        //
+        // ANY TIME YOU ADD A VARIABLE TO CalamityGlobalNPC, IT MUST BE COPIED IN THIS FUNCTION.
         public override GlobalNPC Clone(NPC npc, NPC npcClone)
         {
             CalamityGlobalNPC myClone = (CalamityGlobalNPC)base.Clone(npc, npcClone);
 
-            // Manually copy everything because I don't trust the base clone behavior after seeing the bugs
-            // Ozzatron 25APR2022
             myClone.DR = DR;
             myClone.unbreakableDR = unbreakableDR;
             myClone.flatDRReductions = new Dictionary<int, float>();

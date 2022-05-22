@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Balancing;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
@@ -13,15 +14,122 @@ namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
-        #region Damage
-        // These functions factor in TML 0.11 allDamage to get the player's total damage boost which affects the specified class.
-        public static float MeleeDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 1f;
+        #region Stat Retrieval
+        // TODO -- AAAAAA NO NEED FOR HELPER FUNCTIONS
+        // I lost my mind after doing just MeleeDamage, which had 25 references. Please replace with player.GetDamage<Class1>().ApplyTo(TheBaseDamage)
         public static float RangedDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Ranged).Additive - 1f;
         public static float MagicDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Magic).Additive - 1f;
         public static float MinionDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Summon).Additive - 1f;
         public static float ThrownDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive - 1f;
         public static float RogueDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive + player.Calamity().throwingDamage - 2f;
         public static float AverageDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive + player.GetDamage(DamageClass.Magic).Additive + player.GetDamage(DamageClass.Summon).Additive + player.Calamity().throwingDamage - 5f) / 5f;
+
+        public static int GetCurrentDefense(this Player player, bool accountForDefenseDamage = false)
+        {
+            CalamityPlayer mp = player.Calamity();
+            return player.statDefense + (accountForDefenseDamage ? 0 : mp.CurrentDefenseDamage);
+        }
+
+        public static float GetRangedAmmoCostReduction(this Player player)
+        {
+            // Tally up all possible vanilla effects.
+            float vanillaCost = player.ammoBox ? 0.8f : 1f;
+            if (player.ammoPotion)
+                vanillaCost *= 0.8f;
+            if (player.ammoCost80)
+                vanillaCost *= 0.8f;
+            if (player.ammoCost75)
+                vanillaCost *= 0.75f;
+
+            // Account for Calamity effects.
+            return vanillaCost * player.Calamity().rangedAmmoCost;
+        }
+
+        public static float GetStandingStealthRegen(this Player player)
+        {
+            CalamityPlayer mp = player.Calamity();
+            return (mp.rogueStealthMax / BalancingConstants.BaseStealthGenTime) * mp.stealthGenStandstill;
+        }
+
+        public static float GetMovingStealthRegen(this Player player)
+        {
+            CalamityPlayer mp = player.Calamity();
+            return (mp.rogueStealthMax / BalancingConstants.BaseStealthGenTime) * BalancingConstants.MovingStealthGenRatio * mp.stealthGenMoving * mp.stealthAcceleration;
+        }
+
+        public static float GetJumpBoost(this Player player) => player.jumpSpeedBoost + (player.wereWolf ? 0.2f : 0f) + (player.jumpBoost ? BalancingConstants.BalloonJumpSpeedBoost : 0f);
+
+        /// <summary>
+        /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
+        /// The Stat Meter also reports this stat.
+        /// </summary>
+        /// <returns>The player's total light strength.</returns>
+        public static int GetCurrentAbyssLightLevel(this Player player)
+        {
+            CalamityPlayer mp = player.Calamity();
+            int light = mp.externalAbyssLight;
+            bool underwater = player.IsUnderwater();
+            bool miningHelmet = player.head == ArmorIDs.Head.MiningHelmet;
+
+            // The campfire bonus does not apply while in the Abyss.
+            if (!mp.ZoneAbyss && (player.HasBuff(BuffID.Campfire) || Main.SceneMetrics.HasCampfire))
+                light += 1;
+            if (mp.camper) // inherits Campfire so it is +2 in practice
+                light += 1;
+            if (miningHelmet)
+                light += 1;
+            if (player.lightOrb)
+                light += 1;
+            if (player.crimsonHeart)
+                light += 1;
+            if (player.magicLantern)
+                light += 1;
+            if (mp.giantPearl)
+                light += 1;
+            if (mp.radiator)
+                light += 1;
+            if (mp.bendyPet)
+                light += 1;
+            if (mp.sparks)
+                light += 1;
+            if (mp.fathomSwarmerVisage)
+                light += 1;
+            if (mp.aquaticHeart)
+                light += 1;
+            if (mp.aAmpoule)
+                light += 1;
+            else if (mp.rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
+                light += 1;
+            if (mp.aquaticEmblem && underwater)
+                light += 1;
+            if (player.arcticDivingGear && underwater) // inherited by abyssal diving gear/suit. jellyfish necklace is inherited so arctic diving gear is really +2
+                light += 1;
+            if (mp.jellyfishNecklace && underwater) // inherited by jellyfish diving gear and higher
+                light += 1;
+            if (mp.lumenousAmulet && underwater)
+                light += 2;
+            if (mp.shine)
+                light += 2;
+            if (mp.blazingCore)
+                light += 2;
+            if (player.redFairy || player.greenFairy || player.blueFairy)
+                light += 2;
+            if (mp.babyGhostBell)
+                light += underwater ? 2 : 1;
+            if (player.petFlagDD2Ghost)
+                light += 2;
+            if (mp.sirenPet)
+                light += underwater ? 3 : 1;
+            if (player.wisp)
+                light += 3;
+            if (player.suspiciouslookingTentacle)
+                light += 3;
+            if (mp.littleLightPet)
+                light += 3;
+            if (mp.profanedCrystalBuffs && !mp.ZoneAbyss)
+                light += Main.dayTime || player.lavaWet ? 2 : 1; // not sure how you'd be in lava in the abyss but go ham I guess
+            return light;
+        }
         #endregion
 
         #region Movement and Controls
@@ -190,9 +298,9 @@ namespace CalamityMod
         /// </summary>
         /// <param name="mp">The player whose Adrenaline damage should be calculated.</param>
         /// <returns>Adrenaline damage multiplier. 1.0 would be no change.</returns>
-        public static double GetAdrenalineDamage(this CalamityPlayer mp)
+        public static float GetAdrenalineDamage(this CalamityPlayer mp)
         {
-            double adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;
+            float adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;
             if (mp.adrenalineBoostOne)
                 adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
             if (mp.adrenalineBoostTwo)

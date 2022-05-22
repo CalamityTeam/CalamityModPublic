@@ -124,9 +124,6 @@ namespace CalamityMod.CalPlayer
             // Limits
             Limits();
 
-            // Stat Meter
-            UpdateStatMeter();
-
             // Double Jumps
             DoubleJumps();
 
@@ -892,7 +889,7 @@ namespace CalamityMod.CalPlayer
                     critUp *= 2;
                 }
                 Player.GetDamage<GenericDamageClass>() += damageUp;
-                AllCritBoost(critUp);
+                Player.GetCritChance<GenericDamageClass>() += critUp;
             }
 
             bool canProvideBuffs = profanedCrystalBuffs || (!profanedCrystal && pArtifact) || (profanedCrystal && DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs);
@@ -1701,8 +1698,7 @@ namespace CalamityMod.CalPlayer
         #region Abyss Effects
         private void AbyssEffects()
         {
-            int lightStrength = GetTotalLightStrength();
-            abyssLightLevelStat = lightStrength;
+            int lightStrength = Player.GetCurrentAbyssLightLevel();
 
             if (ZoneAbyss)
             {
@@ -1754,10 +1750,6 @@ namespace CalamityMod.CalPlayer
                             break;
                     }
 
-                    // Increased darkness in Death Mode
-                    if (CalamityWorld.death)
-                        multiplier += (1f - multiplier) * 0.1f;
-
                     // Modify darkness variable
                     caveDarkness = darknessStrength * multiplier;
 
@@ -1790,8 +1782,8 @@ namespace CalamityMod.CalPlayer
                     // Reduce breath lost while at zero breath, depending on gear
                     breathLoss *= breathLossMult;
 
-                    // Stat Meter stat
-                    abyssBreathLossStat = (int)breathLoss;
+                    // Record the final breath loss for the stat meter
+                    abyssBreathLossStat = (float)breathLoss;
 
                     // Defense loss
                     int defenseLoss = (int)(120D * depthRatio);
@@ -1809,7 +1801,7 @@ namespace CalamityMod.CalPlayer
                     // Reduce defense
                     Player.statDefense -= defenseLoss;
 
-                    // Stat Meter stat
+                    // Record the final defense reduction for the stat meter
                     abyssDefenseLossStat = defenseLoss;
 
                     // Bleed effect based on abyss layer
@@ -1854,8 +1846,8 @@ namespace CalamityMod.CalPlayer
                     // Increase ticks (frames) until breath is deducted, depending on gear
                     tick *= tickMult;
 
-                    // Stat Meter stat
-                    abyssBreathLossRateStat = (int)tick;
+                    // Record the final breath loss rate for the stat meter
+                    abyssBreathLossRateStat = (float)tick;
 
                     // Reduce breath over ticks (frames)
                     abyssBreathCD++;
@@ -1891,7 +1883,7 @@ namespace CalamityMod.CalPlayer
                     if (lifeLossAtZeroBreath < 0)
                         lifeLossAtZeroBreath = 0;
 
-                    // Stat Meter stat
+                    // Record the final life loss at zero breath for the stat meter
                     abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath;
 
                     // Check breath value
@@ -2098,7 +2090,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<GenericDamageClass>() += damageBoost;
 
                 int critBoost = (int)((1f - modStealth) * 10f);
-                AllCritBoost(critBoost);
+                Player.GetCritChance<GenericDamageClass>() += critBoost;
 
                 if (modStealthTimer > 0)
                     modStealthTimer--;
@@ -2245,7 +2237,7 @@ namespace CalamityMod.CalPlayer
                     Player.GetDamage<GenericDamageClass>() += damageBoost;
 
                     int critBoost = (int)((5f - shieldInvinc) * 2f);
-                    AllCritBoost(critBoost);
+                    Player.GetCritChance<GenericDamageClass>() += critBoost;
 
                     Player.aggro += (int)((5f - shieldInvinc) * 220f);
                     Player.statDefense += (int)((5f - shieldInvinc) * 8f);
@@ -2374,7 +2366,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.FindBuffIndex(BuffID.Rage) > -1)
                     Player.ClearBuff(BuffID.Rage);
-                AllCritBoost(12);
+                Player.GetCritChance<GenericDamageClass>() += ProfanedRagePotion.CritBoost;
             }
 
             if (shadow)
@@ -2422,7 +2414,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 8;
                 Player.pickSpeed -= 0.05f;
                 Player.GetDamage<GenericDamageClass>() += 0.06f;
-                AllCritBoost(2);
+                Player.GetCritChance<GenericDamageClass>() += YharimsStimulants.CritBoost;
                 Player.GetKnockback<SummonDamageClass>().Base += 1f;
                 Player.moveSpeed += 0.06f;
             }
@@ -2480,7 +2472,7 @@ namespace CalamityMod.CalPlayer
             if (vodka)
             {
                 Player.GetDamage<GenericDamageClass>() += 0.06f;
-                AllCritBoost(2);
+                Player.GetCritChance<GenericDamageClass>() += Vodka.CritBoost;
             }
 
             if (grapeBeer)
@@ -2498,7 +2490,7 @@ namespace CalamityMod.CalPlayer
             if (whiskey)
             {
                 Player.GetDamage<GenericDamageClass>() += 0.04f;
-                AllCritBoost(2);
+                Player.GetCritChance<GenericDamageClass>() += Whiskey.CritBoost;
             }
 
             if (everclear)
@@ -2509,7 +2501,7 @@ namespace CalamityMod.CalPlayer
                 if (Main.bloodMoon)
                 {
                     Player.GetDamage<GenericDamageClass>() += 0.15f;
-                    AllCritBoost(7);
+                    Player.GetCritChance<GenericDamageClass>() += BloodyMary.CritBoost;
                     Player.moveSpeed += 0.1f;
                 }
             }
@@ -2520,7 +2512,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.statDefense += 5;
                     Player.GetDamage<GenericDamageClass>() += 0.03f;
-                    AllCritBoost(2);
+                    Player.GetCritChance<GenericDamageClass>() += Tequila.CritBoost;
                     Player.endurance += 0.03f;
                 }
             }
@@ -2531,7 +2523,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.statDefense += 10;
                     Player.GetDamage<GenericDamageClass>() += 0.07f;
-                    AllCritBoost(3);
+                    Player.GetCritChance<GenericDamageClass>() += TequilaSunrise.CritBoost;
                     Player.endurance += 0.03f;
                 }
             }
@@ -2554,12 +2546,13 @@ namespace CalamityMod.CalPlayer
             if (moscowMule)
             {
                 Player.GetDamage<GenericDamageClass>() += 0.09f;
-                AllCritBoost(3);
+                Player.GetCritChance<GenericDamageClass>() += MoscowMule.CritBoost;
             }
 
             if (whiteWine)
                 Player.GetDamage(DamageClass.Magic) += 0.1f;
 
+            // Adjustment to the Tipsy debuff
             if (Player.tipsy)
             {
                 Player.statDefense += 4;
@@ -2686,7 +2679,7 @@ namespace CalamityMod.CalPlayer
                 Player.endurance += floatTypeBoost * 0.25f;
                 Player.statDefense += integerTypeBoost;
                 Player.GetDamage<GenericDamageClass>() += damageBoost;
-                AllCritBoost(critBoost);
+                Player.GetCritChance<GenericDamageClass>() += critBoost;
                 Player.GetKnockback<SummonDamageClass>().Base += floatTypeBoost;
                 Player.moveSpeed += floatTypeBoost * 0.5f;
                 flightTimeMult += floatTypeBoost;
@@ -2880,7 +2873,7 @@ namespace CalamityMod.CalPlayer
             if (corrEffigy)
             {
                 Player.moveSpeed += 0.1f;
-                AllCritBoost(10);
+                Player.GetCritChance<GenericDamageClass>() += 10;
             }
 
             if (crimEffigy)
@@ -3146,22 +3139,22 @@ namespace CalamityMod.CalPlayer
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.75))
                 {
                     Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    AllCritBoost(3);
+                    Player.GetCritChance<GenericDamageClass>() += 3;
                 }
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                 {
                     Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    AllCritBoost(3);
+                    Player.GetCritChance<GenericDamageClass>() += 3;
                 }
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.25))
                 {
                     Player.GetDamage<GenericDamageClass>() += 0.06f;
-                    AllCritBoost(3);
+                    Player.GetCritChance<GenericDamageClass>() += 3;
                 }
                 if (Player.lifeRegen < 0)
                 {
                     Player.GetDamage<GenericDamageClass>() += 0.1f;
-                    AllCritBoost(5);
+                    Player.GetCritChance<GenericDamageClass>() += 5;
                 }
             }
 
@@ -3622,7 +3615,7 @@ namespace CalamityMod.CalPlayer
                                 Player.headcovered = false;
                                 Player.statDefense += 50;
                                 Player.GetDamage<GenericDamageClass>() += 0.5f;
-                                AllCritBoost(25);
+                                Player.GetCritChance<GenericDamageClass>() += 25;
                                 break;
                             case BuffID.Ichor:
                                 Player.statDefense += 40;
@@ -3648,19 +3641,19 @@ namespace CalamityMod.CalPlayer
                                 Player.confused = false;
                                 Player.statDefense += 30;
                                 Player.GetDamage<GenericDamageClass>() += 0.25f;
-                                AllCritBoost(10);
+                                Player.GetCritChance<GenericDamageClass>() += 10;
                                 break;
                             case BuffID.Blackout:
                                 Player.blackout = false;
                                 Player.statDefense += 30;
                                 Player.GetDamage<GenericDamageClass>() += 0.25f;
-                                AllCritBoost(10);
+                                Player.GetCritChance<GenericDamageClass>() += 10;
                                 break;
                             case BuffID.Darkness:
                                 Player.blind = false;
                                 Player.statDefense += 15;
                                 Player.GetDamage<GenericDamageClass>() += 0.1f;
-                                AllCritBoost(5);
+                                Player.GetCritChance<GenericDamageClass>() += 5;
                                 break;
                         }
                     }
@@ -3929,61 +3922,6 @@ namespace CalamityMod.CalPlayer
 
             if (corrEffigy)
                 Player.endurance -= 0.05f;
-        }
-        #endregion
-
-        #region Stat Meter
-        private void UpdateStatMeter()
-        {
-            float allDamageStat = Player.GetDamage<GenericDamageClass>().Base - 1f;
-            damageStats[0] = (int)((Player.GetDamage(DamageClass.Melee).Base + allDamageStat - 1f) * 100f);
-            damageStats[1] = (int)((Player.GetDamage(DamageClass.Ranged).Base + allDamageStat - 1f) * 100f);
-            damageStats[2] = (int)((Player.GetDamage(DamageClass.Magic).Base + allDamageStat - 1f) * 100f);
-            damageStats[3] = (int)((Player.GetDamage(DamageClass.Summon).Base + allDamageStat - 1f) * 100f);
-            damageStats[4] = (int)((throwingDamage + allDamageStat - 1f) * 100f);
-            damageStats[5] = (int)(trueMeleeDamage * 100D);
-            critStats[0] = (int)Player.GetCritChance(DamageClass.Melee);
-            critStats[1] = (int)Player.GetCritChance(DamageClass.Ranged);
-            critStats[2] = (int)Player.GetCritChance(DamageClass.Magic);
-            critStats[3] = (int)Player.GetCritChance(DamageClass.Throwing) + throwingCrit;
-            ammoReductionRanged = (int)(100f *
-                (Player.ammoBox ? 0.8f : 1f) *
-                (Player.ammoPotion ? 0.8f : 1f) *
-                (Player.ammoCost80 ? 0.8f : 1f) *
-                (Player.ammoCost75 ? 0.75f : 1f) *
-                rangedAmmoCost);
-            ammoReductionRogue = (int)(throwingAmmoCost * 100);
-            // Cancel out defense damage for the purposes of the stat meter.
-            defenseStat = Player.statDefense + CurrentDefenseDamage;
-            DRStat = (int)(Player.endurance * 100f);
-            meleeSpeedStat = (int)((1f - Player.GetAttackSpeed(DamageClass.Melee)) * (100f / Player.GetAttackSpeed(DamageClass.Melee)));
-            manaCostStat = (int)(Player.manaCost * 100f);
-            rogueVelocityStat = (int)((throwingVelocity - 1f) * 100f);
-
-            // Max stealth 1f is actually "100 stealth", so multiply by 100 to get visual stealth number.
-            stealthStat = (int)(rogueStealthMax * 100f);
-            // Then divide by 3, because it takes 3 seconds to regen full stealth.
-            // Divide by 3 again for moving, because it recharges at 1/3 speed (so divide by 9 overall).
-            // Then multiply by stealthGen variables, which start at 1f and increase proportionally to your boosts.
-            standingRegenStat = (rogueStealthMax * 100f / 3f) * stealthGenStandstill;
-            movingRegenStat = (rogueStealthMax * 100f / 9f) * stealthGenMoving * stealthAcceleration;
-
-            minionSlotStat = Player.maxMinions;
-            manaRegenStat = Player.manaRegen;
-            armorPenetrationStat = (int)Player.GetArmorPenetration(DamageClass.Generic);
-            moveSpeedStat = (int)((Player.moveSpeed - 1f) * 100f);
-            wingFlightTimeStat = Player.wingTimeMax / 60f;
-            float trueJumpSpeedBoost = Player.jumpSpeedBoost +
-                (Player.wereWolf ? 0.2f : 0f) +
-                (Player.jumpBoost ? 0.75f : 0f);
-            jumpSpeedStat = trueJumpSpeedBoost * 20f;
-            rageDamageStat = (int)(100D * RageDamageBoost);
-            adrenalineDamageStat = (int)(100D * Player.Calamity().GetAdrenalineDamage());
-            int extraAdrenalineDR = 0 +
-                (adrenalineBoostOne ? 5 : 0) +
-                (adrenalineBoostTwo ? 5 : 0) +
-                (adrenalineBoostThree ? 5 : 0);
-            adrenalineDRStat = 50 + extraAdrenalineDR;
         }
         #endregion
 
