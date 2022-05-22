@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.pAmulet = true;
             player.shroomiteStealth = true;
-            modPlayer.throwingDamage += 0.05f;
-            modPlayer.throwingCrit += 5;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
+            player.GetCritChance<ThrowingDamageClass>() += 5;
             player.GetDamage(DamageClass.Ranged) += 0.05f;
             player.GetCritChance(DamageClass.Ranged) += 5;
         }

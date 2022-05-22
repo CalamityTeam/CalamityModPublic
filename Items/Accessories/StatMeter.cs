@@ -133,8 +133,10 @@ namespace CalamityMod.Items.Accessories
                     damageClassName = "Minion";
                 else if (dc == DamageClass.SummonMeleeSpeed)
                     damageClassName = "Whip";
+                else if (dc == RogueDamageClass.Instance)
+                    damageClassName = "Rogue";
                 else if (dc == DamageClass.Throwing)
-                    damageClassName = (heldItem?.Calamity().rogue ?? false) ? "Rogue" : "Throwing";
+                    damageClassName = "Throwing";
 
                 var currentStats = player.GetDamage(dc);
                 float baseFlatDamage = currentStats.Flat;

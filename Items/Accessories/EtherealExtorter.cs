@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.etherealExtorter = true;
-            modPlayer.throwingDamage += 0.1f;
+            player.GetDamage<ThrowingDamageClass>() += 0.1f;
             player.lifeRegen -= 1;
             modPlayer.rogueStealthMax += 0.1f;
         }

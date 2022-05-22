@@ -62,8 +62,8 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.Calamity().throwingDamage += 0.1f;
-            player.Calamity().throwingCrit += 10;
+            player.GetDamage<ThrowingDamageClass>() += 0.1f;
+            player.GetCritChance<ThrowingDamageClass>() += 10;
             player.moveSpeed += 0.05f;
         }
 

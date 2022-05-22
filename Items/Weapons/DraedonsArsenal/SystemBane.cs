@@ -1,10 +1,9 @@
-﻿using CalamityMod.CustomRecipes;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -24,12 +23,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                                "Stealth strikes make the device emit a large, damaging EMP field");
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
             Item.damage = 45;
-            modItem.rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 42;
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             return false;
         }
 
-        public override void SafeModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 3);
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 3);
 
         public override void AddRecipes()
         {

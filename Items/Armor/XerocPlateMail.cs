@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.Calamity().throwingCrit += 7;
-            player.Calamity().throwingDamage += 0.07f;
+            player.GetCritChance<ThrowingDamageClass>() += 7;
+            player.GetDamage<ThrowingDamageClass>() += 0.07f;
         }
 
         public override void AddRecipes()

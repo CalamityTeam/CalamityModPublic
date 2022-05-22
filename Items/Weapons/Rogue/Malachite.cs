@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float SafeSetUseTimeMultiplier(Player player)
+        public override float UseTimeMultiplier(Player player)
         {
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse == 2)
                 return 1f;

@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gloveOfRecklessness = true;
-            modPlayer.throwingDamage -= 0.1f;
-            modPlayer.rogueUseSpeedFactor += 0.12f;
+            player.GetDamage<RogueDamageClass>() -= 0.1f;
+            player.GetAttackSpeed<RogueDamageClass>() += 0.12f;
         }
     }
 }

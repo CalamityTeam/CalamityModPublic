@@ -21,6 +21,9 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
+            // TODO -- "scales with all stats at once"
+            Item.DamageType = DamageClass.Generic;
+
             Item.width = 80;
             Item.damage = 9;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
@@ -40,18 +43,6 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-15, 0);
-        }
-
-        // Lunic Eye scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            float formula = 5f * (player.GetDamage(DamageClass.Generic).Additive - 1f);
-            formula += player.GetDamage(DamageClass.Melee).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Ranged).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Magic).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Summon).Additive - 1f;
-            formula += player.Calamity().throwingDamage - 1f;
-            damage += formula;
         }
 
         public override void AddRecipes()

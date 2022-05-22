@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.04f;
-            player.Calamity().throwingCrit += 2;
+            player.GetDamage<ThrowingDamageClass>() += 0.04f;
+            player.GetCritChance<ThrowingDamageClass>() += 2;
             player.gills = true;
         }
 

@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Typeless
                     Main.projectile[k].type == ModContent.ProjectileType<MalachiteProj>() ||
                     Main.projectile[k].type == ModContent.ProjectileType<DuneHopperProjectile>())
                     continue;
-                if (Main.projectile[k].owner == Projectile.owner && Main.projectile[k].Calamity().rogue &&
+                if (Main.projectile[k].owner == Projectile.owner && Main.projectile[k].CountsAsClass<ThrowingDamageClass>() &&
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly &&
                     Vector2.Distance(Main.projectile[k].Center, Projectile.Center) < Radius)
                 {

@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor
                     "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.titanHeartSet = true;
-            modPlayer.throwingDamage += 0.15f;
+            player.GetDamage<ThrowingDamageClass>() += 0.15f;
             modPlayer.rogueStealthMax += 1f;
             modPlayer.wearingRogueArmor = true;
             player.noKnockback = true;
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.titanHeartMask = true;
-            modPlayer.throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

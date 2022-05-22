@@ -25,13 +25,7 @@ namespace CalamityMod.Items.Armor
             Item.defense = 7;
         }
 
-        public override void UpdateEquip(Player player)
-        {
-            player.GetCritChance(DamageClass.Melee) += 3;
-            player.GetCritChance(DamageClass.Ranged) += 3;
-            player.GetCritChance(DamageClass.Magic) += 3;
-            player.Calamity().throwingCrit += 3;
-        }
+        public override void UpdateEquip(Player player) => player.GetCritChance<GenericDamageClass>() += 3;
 
         public override void AddRecipes()
         {

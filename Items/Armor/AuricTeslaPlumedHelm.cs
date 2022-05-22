@@ -70,8 +70,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.Calamity().throwingDamage += 0.2f;
-            player.Calamity().throwingCrit += 20;
+            player.GetDamage<ThrowingDamageClass>() += 0.2f;
+            player.GetCritChance<ThrowingDamageClass>() += 20;
             player.moveSpeed += 0.05f;
         }
 

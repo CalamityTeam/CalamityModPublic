@@ -391,7 +391,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             deathLaser.Calamity().forceMinion = true;
                         }
-                        else if (player.HeldItem.Calamity().rogue)
+                        else if (player.HeldItem.CountsAsClass<ThrowingDamageClass>())
                         {
                             deathLaser.Calamity().forceRogue = true;
                         }

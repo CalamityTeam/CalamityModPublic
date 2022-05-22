@@ -1,11 +1,10 @@
-﻿using CalamityMod.CustomRecipes;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -22,12 +21,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                                "Releases a flying disk that fires lasers at nearby enemies\n" +
                                "Stealth strikes allow the disk to fire multiple larger lasers at different targets");
         }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
             Item.damage = 25;
-            modItem.rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.width = 30;
             Item.height = 34;
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             return false;
         }
 
-        public override void SafeModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 1);
 
         public override void AddRecipes()
         {

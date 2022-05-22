@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.vampiricTalisman = true;
-            player.Calamity().throwingDamage += 0.12f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
         }
 
         public override void AddRecipes()

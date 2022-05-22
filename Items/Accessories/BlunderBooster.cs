@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().hasJetpack = true;
-            player.Calamity().throwingDamage += 0.12f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
             player.Calamity().rogueVelocity += 0.15f;
             player.Calamity().blunderBooster = true;
             player.Calamity().stealthGenStandstill += 0.1f;

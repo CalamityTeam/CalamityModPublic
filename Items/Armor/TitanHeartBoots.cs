@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().titanHeartBoots = true;
             player.Calamity().rogueVelocity += 0.1f;
-            player.Calamity().throwingDamage += 0.04f;
+            player.GetDamage<ThrowingDamageClass>() += 0.04f;
         }
 
         public override void AddRecipes()

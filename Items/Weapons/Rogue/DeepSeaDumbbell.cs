@@ -68,9 +68,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float SafeSetUseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
+        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
 
-        public override void SafeModifyWeaponDamage(Player player, ref StatModifier damage)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             damage *= flexMult;
         }

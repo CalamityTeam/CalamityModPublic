@@ -74,7 +74,7 @@ namespace CalamityMod.DataStructures
                     GemThatShouldBeLost = GemTechArmorGemType.Magic;
                 if (Owner.ActiveItem().CountsAsClass<SummonDamageClass>())
                     GemThatShouldBeLost = GemTechArmorGemType.Summoner;
-                if (Owner.ActiveItem().Calamity().rogue)
+                if (Owner.ActiveItem().CountsAsClass<ThrowingDamageClass>())
                     GemThatShouldBeLost = GemTechArmorGemType.Rogue;
             }
 
@@ -188,7 +188,7 @@ namespace CalamityMod.DataStructures
                 usedGemType = GemTechArmorGemType.Magic;
             if (item.CountsAsClass<SummonDamageClass>())
                 usedGemType = GemTechArmorGemType.Summoner;
-            if (item.Calamity().rogue)
+            if (item.CountsAsClass<ThrowingDamageClass>())
                 usedGemType = GemTechArmorGemType.Rogue;
 
             // The previously used gem has been defined and is different than the currently used one, set the
@@ -293,8 +293,8 @@ namespace CalamityMod.DataStructures
             // The rogue stealth max is present in the Gem Tech Headgear file.
             if (IsRedGemActive)
             {
-                Owner.Calamity().throwingCrit += (int)(GemTechHeadgear.RogueCritBoost * 100f);
-                Owner.Calamity().throwingDamage += GemTechHeadgear.RogueDamageBoost;
+                Owner.GetCritChance<ThrowingDamageClass>() += (int)(GemTechHeadgear.RogueCritBoost * 100f);
+                Owner.GetDamage<ThrowingDamageClass>() += GemTechHeadgear.RogueDamageBoost;
             }
 
             // The melee speed boost code is present in the Player Misc Effects file.

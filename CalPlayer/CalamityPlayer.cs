@@ -4697,7 +4697,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
                 CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
-            if (filthyGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
+            if (filthyGlove && proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {
                 if (nanotech)
                     damageMult += 0.05;
@@ -4745,7 +4745,7 @@ namespace CalamityMod.CalPlayer
             }
 
             int penetrateAmt = 0;
-            if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
+            if (proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {
                 // Nanotech is a total of 20 as it has all three bools
                 if (nanotech)
@@ -4904,7 +4904,7 @@ namespace CalamityMod.CalPlayer
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                             SyncLevel(false, (int)ClassType.Summon);
                     }
-                    else if (proj.Calamity().rogue && rogueLevel <= 12500)
+                    else if (proj.CountsAsClass<RogueDamageClass>() && rogueLevel <= 12500)
                     {
                         if (!ReduceCooldown((int)ClassType.Rogue))
                         {

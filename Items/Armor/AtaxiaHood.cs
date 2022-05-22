@@ -53,15 +53,15 @@ namespace CalamityMod.Items.Armor
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;
             modPlayer.rogueStealthMax += 1.1f;
-            modPlayer.throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
             modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.Calamity().rogueAmmoCost *= 0.5f;
-            player.Calamity().throwingDamage += 0.12f;
-            player.Calamity().throwingCrit += 10;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
+            player.GetCritChance<ThrowingDamageClass>() += 10;
             player.moveSpeed += 0.05f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;

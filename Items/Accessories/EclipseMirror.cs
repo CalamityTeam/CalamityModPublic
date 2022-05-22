@@ -45,8 +45,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.eclipseMirror = true;
             modPlayer.stealthStrikeAlwaysCrits = true;
             modPlayer.stealthStrikeHalfCost = true;
-            modPlayer.throwingCrit += 6;
-            modPlayer.throwingDamage += 0.06f;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
+            player.GetDamage<ThrowingDamageClass>() += 0.06f;
             player.aggro -= 700;
         }
 

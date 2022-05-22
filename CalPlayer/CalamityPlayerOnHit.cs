@@ -174,7 +174,7 @@ namespace CalamityMod.CalPlayer
 
             ItemLifesteal(target, item, damage);
             ItemOnHit(item, damage, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.Calamity().rogue, false);
+            NPCDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), false);
 
             // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
             if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -380,7 +380,7 @@ namespace CalamityMod.CalPlayer
 
                 ProjLifesteal(target, proj, damage, crit);
                 ProjOnHit(proj, target.Center, crit, (target.damage > 5 || target.boss) && !target.SpawnedFromStatue);
-                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), cgp.rogue, true);
+                NPCDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.CountsAsClass<ThrowingDamageClass>(), true);
 
                 // Shattered Community tracks all damage dealt with Rage Mode (ignoring dummies).
                 if (target.type == NPCID.TargetDummy || target.type == NPCType<SuperDummyNPC>())
@@ -467,7 +467,7 @@ namespace CalamityMod.CalPlayer
                     break;
             }
             ItemOnHit(item, damage, target.Center, crit, true);
-            PvpDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.Calamity().rogue, false);
+            PvpDebuffs(target, item.CountsAsClass<MeleeDamageClass>(), item.CountsAsClass<RangedDamageClass>(), item.CountsAsClass<MagicDamageClass>(), item.CountsAsClass<SummonDamageClass>(), item.CountsAsClass<ThrowingDamageClass>(), false);
         }
 
         public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
@@ -602,7 +602,7 @@ namespace CalamityMod.CalPlayer
                     target.AddBuff(BuffType<Plague>(), 300);
                 }
                 ProjOnHit(proj, target.Center, crit, true);
-                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.Calamity().rogue, true);
+                PvpDebuffs(target, proj.CountsAsClass<MeleeDamageClass>(), proj.CountsAsClass<RangedDamageClass>(), proj.CountsAsClass<MagicDamageClass>(), proj.IsSummon(), proj.CountsAsClass<ThrowingDamageClass>(), true);
             }
         }
         #endregion
@@ -757,7 +757,7 @@ namespace CalamityMod.CalPlayer
                 MagicOnHit(proj, modProj, position, crit, npcCheck);
             if (proj.IsSummon())
                 SummonOnHit(proj, modProj, position, crit, npcCheck);
-            if (modProj.rogue)
+            if (proj.CountsAsClass<ThrowingDamageClass>())
                 RogueOnHit(proj, modProj, position, crit, npcCheck);
         }
 
@@ -1670,14 +1670,14 @@ namespace CalamityMod.CalPlayer
                     Main.player[Main.myPlayer].lifeSteal -= cooldown;
                 }
 
-                if (vampiricTalisman && modProj.rogue && crit)
+                if (vampiricTalisman && proj.CountsAsClass<ThrowingDamageClass>() && crit)
                 {
                     float heal = MathHelper.Clamp(damage * 0.011f, 0f, 5f);
                     if ((int)heal > 0)
                         CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileID.VampireHeal, 1200f, 3f);
                 }
 
-                if (bloodyGlove && modProj.rogue && modProj.stealthStrike)
+                if (bloodyGlove && proj.CountsAsClass<RogueDamageClass>() && modProj.stealthStrike)
                 {
                     Player.statLife += 1;
                     Player.HealEffect(1);
@@ -1685,7 +1685,7 @@ namespace CalamityMod.CalPlayer
 
                 if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
                 {
-                    if (bloodflareThrowing && modProj.rogue && crit && Main.rand.NextBool(2))
+                    if (bloodflareThrowing && proj.CountsAsClass<ThrowingDamageClass>() && crit && Main.rand.NextBool(2))
                     {
                         float projHitMult = 0.03f;
                         projHitMult -= proj.numHits * 0.015f;
@@ -1839,7 +1839,7 @@ namespace CalamityMod.CalPlayer
                     CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ReaverHealOrb>(), 1200f, 3f);
                 }
 
-                if (modProj.rogue)
+                if (proj.CountsAsClass<ThrowingDamageClass>())
                 {
                     if (xerocSet && xerocDmg <= 0 && Player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && Player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
                     {

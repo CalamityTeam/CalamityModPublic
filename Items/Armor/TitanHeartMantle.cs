@@ -31,7 +31,8 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().titanHeartMantle = true;
             player.Calamity().rogueAmmoCost *= 0.55f;
-            player.Calamity().rogueUseSpeedFactor -= 0.15f;
+            // 15% attack speed penalty
+            player.GetAttackSpeed<ThrowingDamageClass>() -= 0.15f;
         }
 
         public override void AddRecipes()

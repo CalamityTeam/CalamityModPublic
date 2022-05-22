@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Projectile.Calamity().stealthStrike)
                     {
                         int star = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0.25f, Projectile.velocity.Y * 0.25f, ModContent.ProjectileType<XerocStar>(), (int)(Projectile.damage * 0.5), Projectile.knockBack, Projectile.owner, 0f, 0f);
-                        Main.projectile[star].Calamity().rogue = true;
+                        Main.projectile[star].Calamity().forceRogue = true;
                     }
                 }
             }

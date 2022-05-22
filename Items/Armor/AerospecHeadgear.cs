@@ -53,13 +53,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.rogueStealthMax += 1f;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.Calamity().throwingCrit += 5;
+            player.GetCritChance<ThrowingDamageClass>() += 5;
             player.Calamity().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.08f;
+            player.GetDamage<ThrowingDamageClass>() += 0.08f;
             player.moveSpeed += 0.05f;
         }
 

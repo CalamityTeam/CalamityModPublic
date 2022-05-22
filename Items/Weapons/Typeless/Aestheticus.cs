@@ -23,6 +23,8 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
+            // TODO -- "scales with all stats at once"
+            Item.DamageType = DamageClass.Generic;
             Item.width = 58;
             Item.damage = 8;
             Item.useAnimation = 25;
@@ -39,18 +41,6 @@ namespace CalamityMod.Items.Weapons.Typeless
 
             Item.shoot = ModContent.ProjectileType<CursorProj>();
             Item.shootSpeed = 5f;
-        }
-
-        // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            float formula = 5f * (player.GetDamage(DamageClass.Generic).Additive - 1f);
-            formula += player.GetDamage(DamageClass.Melee).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Ranged).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Magic).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Summon).Additive - 1f;
-            formula += player.Calamity().throwingDamage - 1f;
-            damage += formula;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

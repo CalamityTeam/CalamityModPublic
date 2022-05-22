@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.stealthStrikeHalfCost = true;
             modPlayer.rogueStealthMax += 0.2f;
             modPlayer.darkGodSheath = true;
-            modPlayer.throwingCrit += 6;
-            modPlayer.throwingDamage += 0.06f;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
+            player.GetDamage<ThrowingDamageClass>() += 0.06f;
         }
 
         public override void AddRecipes()

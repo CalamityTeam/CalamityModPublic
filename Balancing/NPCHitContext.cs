@@ -26,7 +26,7 @@ namespace CalamityMod.Balancing
                     classType = ClassType.Magic;
                 if (proj.minion)
                     classType = ClassType.Summon;
-                if (proj.Calamity().rogue)
+                if (proj.CountsAsClass<RogueDamageClass>())
                     classType = ClassType.Rogue;
             }
 

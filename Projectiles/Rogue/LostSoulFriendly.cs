@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
         // Reduce damage of projectiles if more than the cap are active
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (!Projectile.Calamity().rogue)
+            if (!Projectile.CountsAsClass<ThrowingDamageClass>())
             {
                 int projectileCount = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
                 int cap = 5;

@@ -82,15 +82,15 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
             }
-            modPlayer.throwingDamage += 0.09f;
+            player.GetDamage<ThrowingDamageClass>() += 0.09f;
             modPlayer.rogueVelocity += 0.09f;
             modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.11f;
-            player.Calamity().throwingCrit += 11;
+            player.GetDamage<ThrowingDamageClass>() += 0.11f;
+            player.GetCritChance<ThrowingDamageClass>() += 11;
             player.moveSpeed += 0.05f;
             player.lavaMax += 240;
         }

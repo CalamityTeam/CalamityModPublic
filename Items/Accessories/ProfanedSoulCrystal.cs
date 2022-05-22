@@ -129,8 +129,8 @@ namespace CalamityMod.Items.Accessories
             var source = player.GetSource_ItemUse(item);
             int weaponType = item.CountsAsClass<MeleeDamageClass>() ? 1 : 
                 item.CountsAsClass<RangedDamageClass>() ? 2 : 
-                item.CountsAsClass<MagicDamageClass>() ? 3 : 
-                item.Calamity().rogue ? 4 : -1;
+                item.CountsAsClass<MagicDamageClass>() ? 3 :
+                item.CountsAsClass<ThrowingDamageClass>() ? 4 : -1;
             if (weaponType > 0)
             {
                 if (player.Calamity().profanedSoulWeaponType != weaponType || player.Calamity().profanedSoulWeaponUsage >= 300)
@@ -242,7 +242,7 @@ namespace CalamityMod.Items.Accessories
                     if (player.Calamity().profanedSoulWeaponUsage > 0)
                         player.Calamity().profanedSoulWeaponUsage--;
                 }
-                else if (item.Calamity().rogue)
+                else if (item.CountsAsClass<ThrowingDamageClass>())
                 {
                     if (player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalRogueShard>()] == 0)
                     {

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingCrit += 3;
+            player.GetCritChance<ThrowingDamageClass>() += 3;
         }
 
         public override void AddRecipes()
