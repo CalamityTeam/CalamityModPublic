@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.Calamity().minionSlotStat - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce)
+            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce)
             {
                 player.Calamity().profanedCrystalBuffs = true;
             }

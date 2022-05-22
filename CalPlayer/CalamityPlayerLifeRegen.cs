@@ -992,9 +992,6 @@ namespace CalamityMod.CalPlayer
                         Player.lifeRegenCount = 0;
                 }
             }
-
-            // For the stat meter
-            lifeRegenStat = Player.lifeRegen;
         }
         #endregion
     }

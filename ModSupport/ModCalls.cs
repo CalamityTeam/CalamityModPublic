@@ -1442,7 +1442,7 @@ namespace CalamityMod
         #endregion
 
         #region Other Player Stats
-        public static int GetLightStrength(Player p) => p?.Calamity()?.GetTotalLightStrength() ?? 0;
+        public static int GetLightStrength(Player p) => p?.GetCurrentAbyssLightLevel() ?? 0;
 
         public static void AddAbyssLightStrength(Player p, int add)
         {

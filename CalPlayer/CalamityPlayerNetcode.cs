@@ -16,7 +16,6 @@ namespace CalamityMod.CalPlayer
         {
             SyncRage(false);
             SyncAdrenaline(false);
-            SyncMoveSpeed(false);
             SyncDefenseDamage(false);
         }
 
@@ -108,15 +107,6 @@ namespace CalamityMod.CalPlayer
                     packet.Write(rogueLevel);
                     break;
             }
-            Player.SendPacket(packet, server);
-        }
-
-        public void SyncMoveSpeed(bool server)
-        {
-            ModPacket packet = Mod.GetPacket(256);
-            packet.Write((byte)CalamityModMessageType.MoveSpeedStatSync);
-            packet.Write(Player.whoAmI);
-            packet.Write(moveSpeedStat);
             Player.SendPacket(packet, server);
         }
 
@@ -385,13 +375,6 @@ namespace CalamityMod.CalPlayer
             reforgeTierSafety = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 SyncReforgeTierSafety(true);
-        }
-
-        internal void HandleMoveSpeedStat(BinaryReader reader)
-        {
-            moveSpeedStat = reader.ReadInt32();
-            if (Main.netMode == NetmodeID.Server)
-                SyncMoveSpeed(true);
         }
 
         internal void HandleDefenseDamage(BinaryReader reader)

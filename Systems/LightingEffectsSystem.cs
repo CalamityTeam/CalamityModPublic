@@ -34,7 +34,7 @@ namespace CalamityMod.Systems
 
                             // Reduce the power of Signus darkness based on your light level.
                             float multiplier = 1f;
-                            switch (modPlayer.GetTotalLightStrength())
+                            switch (Main.LocalPlayer.GetCurrentAbyssLightLevel())
                             {
                                 case 0:
                                     break;
@@ -54,10 +54,6 @@ namespace CalamityMod.Systems
                                     multiplier = 0f;
                                     break;
                             }
-
-                            // Increased darkness in Death Mode
-                            if (CalamityWorld.death)
-                                multiplier += (1f - multiplier) * 0.1f;
 
                             // Total darkness
                             float signusDarkness = signusLifeRatio * multiplier;
