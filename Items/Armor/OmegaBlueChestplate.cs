@@ -34,7 +34,7 @@ No positive life regen");
         {
             CalamityPlayer modPlayer = player.Calamity();
             player.GetDamage<GenericDamageClass>() += 0.12f;
-            modPlayer.AllCritBoost(8);
+            player.GetCritChance<GenericDamageClass>() += 8;
             modPlayer.omegaBlueChestplate = true;
             modPlayer.noLifeRegen = true;
         }

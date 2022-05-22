@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 player.armor[1].type == ModContent.ItemType<DaedalusBreastplate>() && player.armor[2].type == ModContent.ItemType<DaedalusLeggings>())
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
-                player.Calamity().AllCritBoost(5);
+                player.GetCritChance<GenericDamageClass>() += 5;
             }
 
             if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)

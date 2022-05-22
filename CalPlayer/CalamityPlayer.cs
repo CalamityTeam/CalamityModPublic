@@ -6869,11 +6869,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region All-Class Crit Boost
-        // TODO -- AAAAAA NO NEED FOR HELPER FUNCTION
-        public void AllCritBoost(int boost) => Player.GetCritChance<GenericDamageClass>() += boost;
-        #endregion
-
         #region Rogue Stealth
         private void ResetRogueStealth()
         {

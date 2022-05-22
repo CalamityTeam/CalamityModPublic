@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Potions
 {
     public class ProfanedRagePotion : ModItem
     {
+        internal static readonly int CritBoost = 12;
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;

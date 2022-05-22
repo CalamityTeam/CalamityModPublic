@@ -41,10 +41,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
             player.GetDamage<GenericDamageClass>() += ChestplateDamagePercentageBoost * 0.01f;
         }
 
-        public override void ApplyLegPieceEffect(Player player)
-        {
-            player.Calamity().AllCritBoost(LeggingsCritChanceBoost);
-        }
+        public override void ApplyLegPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += LeggingsCritChanceBoost;
 
         public override void ApplyArmorSetBonus(Player player)
         {

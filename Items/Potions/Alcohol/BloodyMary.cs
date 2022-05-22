@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Potions.Alcohol
 {
     public class BloodyMary : ModItem
     {
+        internal static readonly int CritBoost = 7;
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;

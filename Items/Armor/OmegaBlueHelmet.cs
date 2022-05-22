@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
 
             player.GetDamage<GenericDamageClass>() += 0.12f;
-            player.Calamity().AllCritBoost(8);
+            player.GetCritChance<GenericDamageClass>() += 8;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

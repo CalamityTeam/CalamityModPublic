@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 40;
             player.GetDamage<GenericDamageClass>() += 0.1f;
-            player.Calamity().AllCritBoost(5);
+            player.GetCritChance<GenericDamageClass>() += 5;
         }
 
         public override void AddRecipes()

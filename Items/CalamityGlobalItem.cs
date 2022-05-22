@@ -1202,7 +1202,7 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.DemonWings) // Boost to all damage and crit
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.GetCritChance<GenericDamageClass>() += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
@@ -1240,7 +1240,7 @@ namespace CalamityMod.Items
                 if (!Main.dayTime || Main.eclipse)
                 {
                     player.GetDamage<GenericDamageClass>() += 0.07f;
-                    modPlayer.AllCritBoost(3);
+                    player.GetCritChance<GenericDamageClass>() += 3;
                 }
             }
             else if (item.type == ItemID.HarpyWings)
@@ -1382,14 +1382,14 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.TatteredFairyWings)
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.GetCritChance<GenericDamageClass>() += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.SteampunkWings)
             {
                 player.statDefense += 8;
                 player.GetDamage<GenericDamageClass>() += 0.04f;
-                modPlayer.AllCritBoost(2);
+                player.GetCritChance<GenericDamageClass>() += 2;
                 player.moveSpeed += 0.1f;
                 player.noFallDmg = true;
             }
