@@ -922,7 +922,7 @@ namespace CalamityMod.Items
                 AddGrappleStats(25f, 13f, 11f, 11f);
             if (item.type == ItemID.IvyWhip)
                 AddGrappleStats(25f, 13f, 15f, 11f);
-            if (item.type == ItemID.BatHook) // TODO -- This item should be dropped by Vampires in the Eclipse. It is very overpowered.
+            if (item.type == ItemID.BatHook)
                 AddGrappleStats(31.25f, 13.5f, 20f, 13f);
             if (item.type == ItemID.CandyCaneHook)
                 AddGrappleStats(25f, 11.5f, 11f, 11f);

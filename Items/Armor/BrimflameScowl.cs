@@ -57,7 +57,6 @@ namespace CalamityMod.Items.Armor
             player.GetDamage(DamageClass.Magic) += 0.05f;
             player.GetCritChance(DamageClass.Magic) += 5;
             player.statManaMax2 += 70;
-            // TODO -- oh god. player.manaCost -= 0.1f;
             player.manaCost *= 0.9f;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[BuffID.OnFire] = true;

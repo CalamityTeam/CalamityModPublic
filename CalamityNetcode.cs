@@ -390,7 +390,7 @@ namespace CalamityMod
         EncounteredOldDukeSync,
 
         // Reforge syncs
-        ItemTypeLastReforgedSync, // TODO -- there has to be a better way to do this, but I don't know what it is
+        ItemTypeLastReforgedSync, // TODO -- reforge netcode is no longer needed thanks to 1.4 clone fixes
         ReforgeTierSafetySync,
 
         // Mouse Controls syncs

@@ -2710,7 +2710,7 @@ namespace CalamityMod.CalPlayer
                 SoundEngine.PlaySound(SoundID.Item34, Player.Center);
             }
 
-            //TODO : It would be nice if triggerable set bonuses used interfaces instead of having to go through this large if chain.
+            // TODO -- It would be nice if triggerable set bonuses used interfaces instead of having to go through this large if chain.
             if (CalamityKeybinds.SetBonusHotKey.JustPressed)
             {
                 if (brimflameSet && !Player.HasCooldown(BrimflameFrenzy.ID))

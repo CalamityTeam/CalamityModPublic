@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Pets
                     {
                         if (Projectile.owner == Main.myPlayer && (player.ActiveItem().type != ItemID.None || player.itemAnimation <= 0))
                         {
-                            // TODO, fix this maybe?
+                            // TODO -- fix this maybe? (what is it?)
                             if (!ItemLoader.OnPickup(item, player))
                             {
                                 Main.item[itemIndex] = new Item();
