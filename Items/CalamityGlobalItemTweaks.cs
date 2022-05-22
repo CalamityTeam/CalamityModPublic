@@ -544,7 +544,7 @@ namespace CalamityMod.Items
         #endregion
 
         #region SetDefaults (Item Tweaks Applied Here)
-        internal void SetDefaults_ApplyTweaks(Item item)
+        internal static void SetDefaults_ApplyTweaks(Item item)
         {
             // Do nothing if the tweaks database is not defined.
             if (currentTweaks is null)
