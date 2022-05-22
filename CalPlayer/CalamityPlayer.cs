@@ -1113,6 +1113,8 @@ namespace CalamityMod.CalPlayer
 
         public FluidField CalamityFireDrawer;
 
+        public FluidField ProfanedMoonlightAuroraDrawer;
+
         public Vector2 FireDrawerPosition;
         #endregion Draw Effects
 
@@ -2945,12 +2947,12 @@ namespace CalamityMod.CalPlayer
 
             // Trigger for pressing the God Slayer dash key
             if (CalamityKeybinds.GodSlayerDashHotKey.JustPressed)
-			{
-				if (godSlayer && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
-				{
-					godSlayerDashHotKeyPressed = true;
-				}
-			}
+            {
+                if (godSlayer && (Player.controlUp || Player.controlDown || Player.controlLeft || Player.controlRight) && !Player.pulley && Player.grappling[0] == -1 && !Player.tongued && !Player.mount.Active && !Player.HasCooldown(GodSlayerDash.ID) && Player.dashDelay == 0)
+                {
+                    godSlayerDashHotKeyPressed = true;
+                }
+            }
 
             // Trigger for pressing the Rage hotkey.
             if (CalamityKeybinds.RageHotKey.JustPressed)
@@ -3647,7 +3649,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
                 {
-                    GameShaders.Armor.GetSecondaryShader(Player.dye[i].dye, Player)?.UseColor(ProfanedMoonlightDyeLayer.GetCurrentMoonlightDyeColor());
+                    GameShaders.Armor.GetSecondaryShader(Player.dye[i].dye, Player)?.UseColor(GetCurrentMoonlightDyeColor());
                 }
             }
 
@@ -5889,6 +5891,46 @@ namespace CalamityMod.CalPlayer
 
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 Player.yoraiz0rEye = 0;
+
+            int totalMoonlightDyes = Player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
+            if (totalMoonlightDyes > 0)
+            {
+                // Initialize the aurora drawer.
+                int size = 520;
+                int sourceArea = 3;
+                float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
+                if (ProfanedMoonlightAuroraDrawer is null || ProfanedMoonlightAuroraDrawer.Size != size)
+                    ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
+
+                ProfanedMoonlightAuroraDrawer.ShouldUpdate = true;
+                ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
+                {
+                    int auroraCount = totalMoonlightDyes / 2 + 3;
+                    for (int i = 0; i < auroraCount; i++)
+                    {
+                        float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
+                        float offsetAngle = MathHelper.TwoPi * i / auroraCount + Main.GlobalTimeWrappedHourly * 0.56f;
+                        Color auroraColor = GetCurrentMoonlightDyeColor(offsetAngle) * 0.8f;
+                        auroraColor.A = 0;
+
+                        Vector2 auroraVelocity = (offsetAngle / 3f + Main.GlobalTimeWrappedHourly * 0.32f).ToRotationVector2();
+                        auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
+                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.04f;
+
+                        Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
+                        Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
+                        auroraSpawnPosition.X += (float)Math.Cos(offsetAngle + Main.GlobalTimeWrappedHourly * 0.91f) * 75f;
+
+                        int x = (int)((auroraSpawnPosition.X - drawPosition.X) / ProfanedMoonlightAuroraDrawer.Scale);
+                        int y = (int)((auroraSpawnPosition.Y - drawPosition.Y) / ProfanedMoonlightAuroraDrawer.Scale);
+                        for (int j = -sourceArea; j <= sourceArea; j++)
+                        {
+                            for (int k = -sourceArea; k <= sourceArea; k++)
+                                ProfanedMoonlightAuroraDrawer.CreateSource(x + size / 2 + j, y + size / 2 + k, auroraPower, auroraColor, auroraVelocity);
+                        }
+                    }
+                };
+            }
         }
 
         private void DisableDashes()
