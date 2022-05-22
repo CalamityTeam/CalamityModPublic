@@ -11,11 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class EyeOfCthulhuAI
     {
-        // Master Mode changes
-        /* 1 - Spawns a clone of itself that copies every movement of the main eye but inverted (if main is on top and to the left, the mirror is on bottom and to the right)
-           2 - Damaging either eye causes damage to both
-           3 - Horizontal dashes are far more common
-           4 - The delay between dashes and horizontal dashes is reduced*/
         public static bool BuffedEyeofCthulhuAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

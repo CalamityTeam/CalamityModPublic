@@ -11,10 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class DukeFishronAI
     {
-        // Master Mode changes
-        // 1 - Cycles between attacks faster,
-        // 2 - Moves faster,
-        // 3 - Bigger tornadoes
         public static bool BuffedDukeFishronAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
@@ -104,7 +100,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             int spawnEffectPhaseTimer = 75;
 
-            Vector2 vector = npc.Center;
             Player player = Main.player[npc.target];
 
             // Get target
@@ -116,11 +111,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+            if (Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
             // Despawn
-            if (player.dead || Vector2.Distance(player.Center, vector) > CalamityGlobalNPC.CatchUpDistance350Tiles)
+            if (player.dead || Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles)
             {
                 npc.TargetClosest();
 
@@ -180,7 +175,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     calamityGlobalNPC.newAI[0] = 0f;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), vector, Vector2.Zero, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
 
                     npc.netUpdate = true;
                 }
@@ -206,14 +201,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
                 rateOfRotation = 0.01f;
 
-            Vector2 rotationVector = player.Center - vector;
+            Vector2 rotationVector = player.Center - npc.Center;
             if (!player.dead && malice && phase4)
             {
                 // Rotate to show direction of predictive charge
                 if (npc.ai[0] == 10f)
                 {
                     rateOfRotation = 0.1f;
-                    rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - vector) * chargeVelocity;
+                    rotationVector = Vector2.Normalize(player.Center + player.velocity * 20f - npc.Center) * chargeVelocity;
                 }
             }
 
@@ -251,7 +246,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.velocity *= 0.98f;
 
                 // Direction
-                int num19 = Math.Sign(player.Center.X - vector.X);
+                int num19 = Math.Sign(player.Center.X - npc.Center.X);
                 if (num19 != 0)
                 {
                     npc.direction = num19;
@@ -278,15 +273,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int num20 = 36;
                     for (int i = 0; i < num20; i++)
                     {
-                        Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2(npc.width / 2f, npc.height) * 0.75f * 0.5f).RotatedBy((i - (num20 / 2 - 1)) * MathHelper.TwoPi / num20) + vector;
-                        Vector2 vector2 = dust - vector;
+                        Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2(npc.width / 2f, npc.height) * 0.75f * 0.5f).RotatedBy((i - (num20 / 2 - 1)) * MathHelper.TwoPi / num20) + npc.Center;
+                        Vector2 vector2 = dust - npc.Center;
                         int num21 = Dust.NewDust(dust + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
                         Main.dust[num21].noGravity = true;
                         Main.dust[num21].noLight = true;
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                     }
 
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
                 }
 
                 npc.ai[2] += 1f;
@@ -304,13 +299,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Velocity
                 if (npc.ai[1] == 0f)
-                    npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
+                    npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * idlePhaseVelocity;
+                Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
                 npc.SimpleFlyMovement(vector3, idlePhaseAcceleration);
 
                 // Rotation and direction
-                int num22 = Math.Sign(player.Center.X - vector.X);
+                int num22 = Math.Sign(player.Center.X - npc.Center.X);
                 if (num22 != 0)
                 {
                     if (npc.ai[2] == 0f && num22 != npc.direction)
@@ -364,7 +359,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = 0f;
 
                         // Velocity
-                        npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+                        npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
@@ -417,7 +412,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num24 = 7;
                 for (int j = 0; j < num24; j++)
                 {
-                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((j - (num24 / 2 - 1)) * MathHelper.Pi / num24) + vector;
+                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((j - (num24 / 2 - 1)) * MathHelper.Pi / num24) + npc.Center;
                     Vector2 vector4 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                     int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
                     Main.dust[num25].noGravity = true;
@@ -443,28 +438,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Velocity
                 if (npc.ai[1] == 0f)
-                    npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
+                    npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * bubbleBelchPhaseVelocity;
+                Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * bubbleBelchPhaseVelocity;
                 npc.SimpleFlyMovement(vector5, bubbleBelchPhaseAcceleration);
 
                 // Play sounds and spawn bubbles
                 if (npc.ai[2] == 0f)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
 
                 if (npc.ai[2] % bubbleBelchPhaseDivisor == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)vector.X, (int)vector.Y, 19, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (npc.width + 20) / 2f + vector;
+                        Vector2 vector6 = Vector2.Normalize(player.Center - npc.Center) * (npc.width + 20) / 2f + npc.Center;
                         NPC.NewNPC(npc.GetSource_FromAI(), (int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble);
                     }
                 }
 
                 // Direction
-                int num26 = Math.Sign(player.Center.X - vector.X);
+                int num26 = Math.Sign(player.Center.X - npc.Center.X);
                 if (num26 != 0)
                 {
                     npc.direction = num26;
@@ -493,11 +488,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound and spawn sharknadoes
                 if (npc.ai[2] == (sharknadoPhaseTimer - 30))
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 9, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == sharknadoPhaseTimer - 30)
                 {
-                    Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + vector;
+                    Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + npc.Center;
                     bool normal = Main.rand.NextBool();
                     float velocityY = normal ? 8f : -4f;
                     float ai1 = normal ? 0f : -1f;
@@ -530,7 +525,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Sound
                 if (npc.ai[2] == phaseTransitionTimer - 60)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= phaseTransitionTimer)
@@ -549,13 +544,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Velocity
                 if (npc.ai[1] == 0f)
-                    npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
+                    npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * idlePhaseVelocity;
+                Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
                 npc.SimpleFlyMovement(vector8, idlePhaseAcceleration);
 
                 // Direction and rotation
-                int num27 = Math.Sign(player.Center.X - vector.X);
+                int num27 = Math.Sign(player.Center.X - npc.Center.X);
                 if (num27 != 0)
                 {
                     if (npc.ai[2] == 0f && num27 != npc.direction)
@@ -605,7 +600,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = 0f;
 
                         // Velocity and rotation
-                        npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+                        npc.velocity = Vector2.Normalize(player.Center - npc.Center) * chargeVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
@@ -624,7 +619,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (num28 == 2)
                     {
                         // Velocity and rotation
-                        npc.velocity = Vector2.Normalize(player.Center - vector) * bubbleSpinPhaseVelocity;
+                        npc.velocity = Vector2.Normalize(player.Center - npc.Center) * bubbleSpinPhaseVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
@@ -673,7 +668,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num29 = 7;
                 for (int k = 0; k < num29; k++)
                 {
-                    Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((k - (num29 / 2 - 1)) * MathHelper.Pi / num29) + vector;
+                    Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((k - (num29 / 2 - 1)) * MathHelper.Pi / num29) + npc.Center;
                     Vector2 vector9 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                     int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default, 1.4f);
                     Main.dust[num30].noGravity = true;
@@ -699,15 +694,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Play sounds and spawn bubbles
                 if (npc.ai[2] == 0f)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
 
                 if (npc.ai[2] % bubbleSpinPhaseDivisor == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)vector.X, (int)vector.Y, 19, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
+                        Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + npc.Center;
                         int num31 = NPC.NewNPC(npc.GetSource_FromAI(), (int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble);
                         Main.npc[num31].target = npc.target;
                         Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * bubbleSpinBubbleVelocity;
@@ -746,10 +741,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound and spawn cthulhunado
                 if (npc.ai[2] == sharknadoPhaseTimer - 30)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == sharknadoPhaseTimer - 30)
-                    Projectile.NewProjectile(npc.GetSource_FromAI(), vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
+                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, Vector2.Zero, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, npc.target + 1);
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= sharknadoPhaseTimer)
@@ -791,7 +786,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound
                 if (npc.ai[2] == phaseTransitionTimer - 60)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
 
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= phaseTransitionTimer)
@@ -821,13 +816,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Teleport location
                 if (npc.ai[1] == 0f)
-                    npc.ai[1] = 360 * Math.Sign((vector - player.Center).X);
+                    npc.ai[1] = 360 * Math.Sign((npc.Center - player.Center).X);
 
-                Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * idlePhaseVelocity;
+                Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - npc.Center - npc.velocity) * idlePhaseVelocity;
                 npc.SimpleFlyMovement(desiredVelocity, idlePhaseAcceleration);
 
                 // Rotation and direction
-                int num32 = Math.Sign(player.Center.X - vector.X);
+                int num32 = Math.Sign(player.Center.X - npc.Center.X);
                 if (num32 != 0)
                 {
                     if (npc.ai[2] == 0f && num32 != npc.direction)
@@ -900,7 +895,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = 0f;
 
                         // Velocity and rotation
-                        npc.velocity = Vector2.Normalize(player.Center + (malice && phase4 ? player.velocity * 20f : Vector2.Zero) - vector) * chargeVelocity;
+                        npc.velocity = Vector2.Normalize(player.Center + (malice && phase4 ? player.velocity * 20f : Vector2.Zero) - npc.Center) * chargeVelocity;
                         npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         // Direction
@@ -942,7 +937,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 int num34 = 7;
                 for (int m = 0; m < num34; m++)
                 {
-                    Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((m - (num34 / 2 - 1)) * MathHelper.Pi / num34) + vector;
+                    Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((m - (num34 / 2 - 1)) * MathHelper.Pi / num34) + npc.Center;
                     Vector2 vector11 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                     int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default, 1.4f);
                     Main.dust[num35].noGravity = true;
@@ -986,18 +981,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Play sound
                 if (npc.ai[2] == teleportPhaseTimer / 2)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 20, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == teleportPhaseTimer / 2)
                 {
                     // Teleport location
                     if (npc.ai[1] == 0f)
-                        npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
+                        npc.ai[1] = 300 * Math.Sign((npc.Center - player.Center).X);
 
                     // Rotation and direction
                     Vector2 center = player.Center + new Vector2(-npc.ai[1], -200f);
-                    vector = npc.Center = center;
-                    int num36 = Math.Sign(player.Center.X - vector.X);
+                    npc.Center = center;
+                    int num36 = Math.Sign(player.Center.X - npc.Center.X);
                     if (num36 != 0)
                     {
                         if (npc.ai[2] == 0f && num36 != npc.direction)

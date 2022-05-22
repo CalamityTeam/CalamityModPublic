@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.fBarrier = true;
             player.statLifeMax2 += 100;
             player.GetDamage<GenericDamageClass>() += 0.08f;
-            modPlayer.AllCritBoost(5);
+            player.GetCritChance<GenericDamageClass>() += 5;
         }
 
         public override void AddRecipes()

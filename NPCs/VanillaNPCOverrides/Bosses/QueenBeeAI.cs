@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.World;
@@ -13,11 +13,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class QueenBeeAI
     {
-        // Master Mode changes
-        /* 1 - Fires beehives in bee spawn phase instead of bees, beehives spawn bees even if they hit water
-           2 - Charges start off slow but accelerate to insane speed after several frames, this delay becomes shorter for the second and third dashes
-           3 - Fires stingers in a triple spread and they accelerate over time
-           4 - All attacks inflict Venom*/
         public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

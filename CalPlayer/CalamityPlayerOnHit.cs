@@ -351,10 +351,6 @@ namespace CalamityMod.CalPlayer
                     break;
             }
 
-            // TODO -- This should be removed, why is this here?
-            if (ProjectileID.Sets.StardustDragon[proj.type])
-                target.immune[proj.owner] = 10;
-
             if ((proj.arrow && Player.hasMoltenQuiver) || hellfireTreads)
             {
                 if (Main.rand.Next(4) == 0)

@@ -106,14 +106,12 @@ namespace CalamityMod.NPCs.SlimeGod
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            Vector2 vectorCenter = NPC.Center;
-
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
                 NPC.TargetClosest();
 
             // Despawn safety, make sure to target another player if the current player target is too far away
-            if (Vector2.Distance(Main.player[NPC.target].Center, vectorCenter) > CalamityGlobalNPC.CatchUpDistance200Tiles)
+            if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 NPC.TargetClosest();
 
             Player player = Main.player[NPC.target];
@@ -121,8 +119,8 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
             {
                 slimesSpawned = true;
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGod>());
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGodRun>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlimeGod>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlimeGodRun>());
             }
 
             // Emit dust
@@ -179,11 +177,11 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             // Despawn
-            if (!player.active || player.dead)
+            if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
             {
                 NPC.TargetClosest(false);
                 player = Main.player[NPC.target];
-                if (!player.active || player.dead)
+                if (!player.active || player.dead || Vector2.Distance(player.Center, NPC.Center) > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
                 {
                     if (NPC.velocity.Y < -3f)
                         NPC.velocity.Y = -3f;
@@ -265,7 +263,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     Vector2 redSlimeVector = new Vector2(NPC.localAI[2], NPC.localAI[3]);
                     Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
 
-                    Vector2 goToPosition = goToVector - vectorCenter;
+                    Vector2 goToPosition = goToVector - NPC.Center;
                     NPC.velocity = Vector2.Normalize(goToPosition) * 24f;
 
                     // Reduce velocity to 0 to avoid spastic movement when inside big slime.
@@ -382,7 +380,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             if (NPC.Opacity >= 0.8f)
                             {
                                 NPC.Opacity = 0.8f;
-                                NPC.localAI[0] = vectorCenter.X - player.Center.X < 0 ? 1f : -1f;
+                                NPC.localAI[0] = NPC.Center.X - player.Center.X < 0 ? 1f : -1f;
                                 NPC.localAI[1] = 2f;
                             }
                             NPC.netUpdate = true;
@@ -415,7 +413,7 @@ namespace CalamityMod.NPCs.SlimeGod
                                 NPC.localAI[0] = 0f;
                                 NPC.localAI[1] = 0f;
                                 float chargeVelocity = death ? 12f : 9f;
-                                NPC.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - vectorCenter) * chargeVelocity;
+                                NPC.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - NPC.Center) * chargeVelocity;
                                 NPC.TargetClosest();
                                 return;
                             }
@@ -423,7 +421,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 float divisor = malice ? 10f : 15f;
-                                if (NPC.ai[1] % divisor == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+                                if (NPC.ai[1] % divisor == 0f && Vector2.Distance(player.Center, NPC.Center) > 160f)
                                 {
                                     float num179 = expertMode ? 9f : 7.5f;
                                     Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
@@ -453,7 +451,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 else
                 {
-                    if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, NPC.Center) > 160f)
                     {
                         if (NPC.ai[1] % 40f == 0f)
                         {
@@ -499,7 +497,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 flySpeed *= 1.25f;
             }
 
-            Vector2 vector167 = new Vector2(vectorCenter.X + (NPC.direction * 20), vectorCenter.Y + 6f);
+            Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
             Vector2 flyDestination = GetFlyDestination(player);
             Vector2 idealVelocity = (flyDestination - vector167).SafeNormalize(Vector2.UnitY) * flySpeed;
 

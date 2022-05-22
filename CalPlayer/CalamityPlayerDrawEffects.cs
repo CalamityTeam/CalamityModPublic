@@ -1,11 +1,6 @@
 ﻿using CalamityMod.CalPlayer.DrawLayers;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Dyes;
-using CalamityMod.Items.VanillaArmorChanges;
-using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -29,14 +24,11 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.Yharon;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -49,7 +41,6 @@ namespace CalamityMod.CalPlayer
     {
         #region Draw Hooks
         
-
         public override void HideDrawLayers(PlayerDrawSet drawInfo)
         {
             if (Player is null)
@@ -787,6 +778,52 @@ namespace CalamityMod.CalPlayer
             }
         }
         #endregion
+
+        #region Profaned Moonlight Dye Colors
+
+        public static readonly List<Color> MoonlightDyeDayColors = new()
+        {
+            new Color(255, 163, 56),
+            new Color(235, 30, 19),
+            new Color(242, 48, 187),
+        };
+
+        public static readonly List<Color> MoonlightDyeNightColors = new()
+        {
+            new Color(24, 134, 198),
+            new Color(130, 40, 150),
+            new Color(40, 64, 150),
+        };
+
+        public static void DetermineMoonlightDyeColors(out Color drawColor, Color dayColor, Color nightColor)
+        {
+            int totalTime = Main.dayTime ? (int)Main.dayLength : (int)Main.nightLength;
+            float transitionTime = 5400;
+            float interval = Utils.GetLerpValue(0f, transitionTime, (float)Main.time, true) + Utils.GetLerpValue(totalTime - transitionTime, totalTime, (float)Main.time, true);
+            if (Main.dayTime)
+            {
+                // Dusk.
+                if (Main.time >= totalTime - transitionTime)
+                    drawColor = Color.Lerp(dayColor, nightColor, Utils.GetLerpValue(totalTime - transitionTime, totalTime, (float)Main.time, true));
+                // Dawn.
+                else if (Main.time <= transitionTime)
+                    drawColor = Color.Lerp(nightColor, dayColor, interval);
+                else
+                    drawColor = dayColor;
+            }
+            else drawColor = nightColor;
+        }
+
+        public static Color GetCurrentMoonlightDyeColor(float angleOffset = 0f)
+        {
+            float interval = (float)Math.Cos(Main.GlobalTimeWrappedHourly * 0.6f + angleOffset) * 0.5f + 0.5f;
+            interval = MathHelper.Clamp(interval, 0f, 0.995f);
+            Color dayColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeDayColors.ToArray());
+            Color nightColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeNightColors.ToArray());
+            DetermineMoonlightDyeColors(out Color drawColor, dayColorToUse, nightColorToUse);
+            return drawColor;
+        }
+        #endregion Profaned Moonlight Dye Colors
 
         #region Tanks/Backpacks
         public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)

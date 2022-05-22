@@ -8,7 +8,6 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
-    // TODO -- This does not properly utilize OOP. Destroy this file and convert everything here into a base entity at some point.
     public static partial class CalamityUtils
     {
         public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, Vector2 returnOffset, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)

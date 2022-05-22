@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Accessories
             // Shattered Community gives (mostly) the same boosts as normal Community
             // It does not give melee speed or minion knockback, but always gives life regen (instead of only conditionally)
             player.GetDamage<GenericDamageClass>() += 0.1f;
-            modPlayer.AllCritBoost(5);
+            player.GetCritChance<GenericDamageClass>() += 5;
             player.statDefense += 10;
             player.endurance += 0.05f;
             player.lifeRegen += 2;

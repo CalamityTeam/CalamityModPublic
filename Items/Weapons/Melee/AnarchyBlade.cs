@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            damage.Flat += lifeAmount * 0.1f * player.MeleeDamage();
+            damage.Base += player.GetDamage<MeleeDamageClass>().ApplyTo(lifeAmount * 0.1f);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

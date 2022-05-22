@@ -922,7 +922,7 @@ namespace CalamityMod.Items
                 AddGrappleStats(25f, 13f, 11f, 11f);
             if (item.type == ItemID.IvyWhip)
                 AddGrappleStats(25f, 13f, 15f, 11f);
-            if (item.type == ItemID.BatHook) // TODO -- This item should be dropped by Vampires in the Eclipse. It is very overpowered.
+            if (item.type == ItemID.BatHook)
                 AddGrappleStats(31.25f, 13.5f, 20f, 13f);
             if (item.type == ItemID.CandyCaneHook)
                 AddGrappleStats(25f, 11.5f, 11f, 11f);
@@ -994,7 +994,7 @@ namespace CalamityMod.Items
             sb.Append(line.Text).Append(" : ");
 
             Player p = Main.LocalPlayer;
-            float itemCurrentDamage = item.damage * p.MeleeDamage();
+            float itemCurrentDamage = p.GetDamage<MeleeDamageClass>().ApplyTo(item.damage);
             double trueMeleeBoost = 1D + p.Calamity().trueMeleeDamage;
             double imprecisionRoundingCorrection = 5E-06D;
             int damageToDisplay = (int)(itemCurrentDamage * trueMeleeBoost + imprecisionRoundingCorrection);

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        //Todo - Check if its trying to replace the other rogue jetpack. If its the case, return true.
+        // TODO -- Check if its trying to replace the other rogue jetpack. If its the case, return true.
         public override bool CanEquipAccessory(Player player, int slot, bool modded) => !player.Calamity().hasJetpack;
 
         public override void UpdateAccessory(Player player, bool hideVisual)

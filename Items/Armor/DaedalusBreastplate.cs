@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetDamage<GenericDamageClass>() += 0.03f;
-            player.Calamity().AllCritBoost(3);
+            player.GetCritChance<GenericDamageClass>() += 3;
         }
 
         public override void AddRecipes()

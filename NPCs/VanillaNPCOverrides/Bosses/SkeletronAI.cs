@@ -1,4 +1,4 @@
-using CalamityMod.Events;
+﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,9 +11,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class SkeletronAI
     {
-        // Master Mode changes
-        // 1 - Arms are immune to damage and Skeletron no longer has increased defense while the arms are alive,
-        // 2 - Moves far more aggressively
         public static bool BuffedSkeletronAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
@@ -21,8 +18,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
-
-            Vector2 vectorCenter = npc.Center;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -104,10 +99,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float distance = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
 
             // Despawn
-            if (Main.player[npc.target].dead || distance > (BossRushEvent.BossRushActive ? 6000f : 4000f))
+            if (Main.player[npc.target].dead || distance > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
             {
                 npc.TargetClosest();
-                if (Main.player[npc.target].dead || distance > (BossRushEvent.BossRushActive ? 6000f : 4000f))
+                if (Main.player[npc.target].dead || distance > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
                     npc.ai[1] = 3f;
             }
 
@@ -154,15 +149,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         int damage = npc.GetProjectileDamage(type);
                         int numProj = death ? 5 : 3;
 
-                        float num743 = Main.player[npc.target].Center.X - vectorCenter.X;
-                        float num744 = Main.player[npc.target].Center.Y - vectorCenter.Y;
+                        float num743 = Main.player[npc.target].Center.X - npc.Center.X;
+                        float num744 = Main.player[npc.target].Center.Y - npc.Center.Y;
                         float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
                         num745 = num151 / num745;
                         num743 *= num745;
                         num744 *= num745;
-                        vectorCenter.X += num743 * 3f;
-                        vectorCenter.Y += num744 * 3f;
+                        Vector2 center = npc.Center;
+                        center.X += num743 * 3f;
+                        center.Y += num744 * 3f;
 
                         float rotation = MathHelper.ToRadians(60);
                         float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
@@ -173,7 +169,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (int i = 0; i < numProj; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * i;
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), center.X, center.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 1f);
                             Main.projectile[proj].timeLeft = 600;
                         }
                         npc.netUpdate = true;

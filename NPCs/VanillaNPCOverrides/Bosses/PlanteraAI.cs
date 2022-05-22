@@ -12,11 +12,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
     public static class PlanteraAI
     {
-        // Master Mode changes
-        // 1 - Spawns multiple tentacle rings that now rotate,
-        // 2 - Spawns far more tentacles to protect herself in phase 2 and they resist piercing,
-        // 3 - Spore gas spreads out far more,
-        // 4 - Plantera is larger
         public static bool BuffedPlanteraAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();

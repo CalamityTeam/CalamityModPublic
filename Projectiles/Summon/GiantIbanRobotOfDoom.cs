@@ -339,23 +339,24 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         if (player.HeldItem.CountsAsClass<MagicDamageClass>())
                         {
-                            damage = (int)(damage * player.MagicDamage());
+                            damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(damage);
                         }
                         else if (player.HeldItem.CountsAsClass<MeleeDamageClass>())
                         {
-                            damage = (int)(damage * player.MeleeDamage());
+                            damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(damage);
                         }
                         else if (player.HeldItem.CountsAsClass<RangedDamageClass>())
                         {
-                            damage = (int)(damage * player.RangedDamage());
+                            damage = (int)player.GetDamage<RangedDamageClass>().ApplyTo(damage);
                         }
                         else if (player.HeldItem.CountsAsClass<SummonDamageClass>())
                         {
-                            damage = (int)(damage * player.MinionDamage());
+                            damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(damage);
                         }
+                        // TODO -- also allow other mod throwing
                         else if (player.HeldItem.Calamity().rogue)
                         {
-                            damage = (int)(damage * player.RogueDamage());
+                            damage = (int)player.GetDamage<ThrowingDamageClass>().ApplyTo(damage);
                         }
                         else
                         {

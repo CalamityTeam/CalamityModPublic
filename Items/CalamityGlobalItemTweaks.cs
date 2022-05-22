@@ -135,7 +135,8 @@ namespace CalamityMod.Items
                 { ItemID.DarkLance, Do(AutoReuse, TrueMelee, DamageExact(68)) },
                 { ItemID.DartPistol, pointBlank },
                 { ItemID.DartRifle, pointBlank },
-                { ItemID.DayBreak, Do(DamageRatio(1.5f)) }, // TODO -- replace with 1.4 behavior of Daybreak spears exploding on death for 100% damage
+                // if Daybreak still needs a buff after the 1.4 explosion change, apply it here
+                // { ItemID.DayBreak, Do(DamageRatio(1.0f)) }
                 { ItemID.DD2BallistraTowerT1Popper, Do(UseExact(30)) },
                 { ItemID.DD2BallistraTowerT2Popper, Do(UseExact(25)) },
                 { ItemID.DD2BallistraTowerT3Popper, Do(UseExact(20)) },

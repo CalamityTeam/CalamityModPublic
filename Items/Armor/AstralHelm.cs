@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
             player.moveSpeed += 0.05f;
             player.GetDamage<GenericDamageClass>() += 0.35f;
             player.maxMinions += 3;
-            modPlayer.AllCritBoost(25);
+            player.GetCritChance<GenericDamageClass>() += 25;
             player.Calamity().wearingRogueArmor = true;
         }
 

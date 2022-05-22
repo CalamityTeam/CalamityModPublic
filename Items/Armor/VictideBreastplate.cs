@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.endurance += 0.05f;
-            player.Calamity().AllCritBoost(5);
+            player.GetCritChance<GenericDamageClass>() += 5;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.statDefense += 5;

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
         }
         public override void Kill(int timeLeft)
         {
-            int damage = (int)(GaelsGreatsword.BaseDamage * Main.player[Projectile.owner].MeleeDamage());
+            int damage = (int)Main.player[Projectile.owner].GetDamage<MeleeDamageClass>().ApplyTo(GaelsGreatsword.BaseDamage);
             for (int i = 0; i < 3; i++)
             {
                 int idx = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + new Vector2(Main.rand.NextFloat(-35f, 35f), -1600f), Vector2.UnitY * 12f,

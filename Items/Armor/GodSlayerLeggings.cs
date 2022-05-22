@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
         {
             player.moveSpeed += 0.05f;
             player.GetDamage<GenericDamageClass>() += 0.1f;
-            player.Calamity().AllCritBoost(10);
+            player.GetCritChance<GenericDamageClass>() += 10;
         }
 
         public override void AddRecipes()

@@ -2725,7 +2725,7 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == -1f)
                     {
                         // Set jump velocity, reset and set AI to next phase (Stomp)
-                        float velocityX = 9f;
+                        float velocityX = 12f;
                         velocityX += 6f * enrageScale;
                         if (expertMode)
                             velocityX += death ? 4.5f * (1f - lifeRatio) : 3f * (1f - lifeRatio);
@@ -2868,7 +2868,7 @@ namespace CalamityMod.NPCs
 
                     if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
-                        npc.velocity.X *= 0.9f;
+                        npc.velocity.X *= 0.8f;
 
                         if (npc.Bottom.Y < player.position.Y)
                         {
