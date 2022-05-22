@@ -234,7 +234,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact || (modPlayer.minionSlotStat < 10 && !modPlayer.profanedCrystal))
+            if (!modPlayer.pArtifact || (player.maxMinions < 10 && !modPlayer.profanedCrystal))
             {
                 modPlayer.gDefense = false;
                 Projectile.active = false;

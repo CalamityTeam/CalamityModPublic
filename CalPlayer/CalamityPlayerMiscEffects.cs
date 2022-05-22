@@ -3190,7 +3190,7 @@ namespace CalamityMod.CalPlayer
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < guardianAmt)
                         Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
-                    if (crystal || minionSlotStat >= 10)
+                    if (crystal || Player.maxMinions >= 10)
                     {
                         gDefense = true;
 

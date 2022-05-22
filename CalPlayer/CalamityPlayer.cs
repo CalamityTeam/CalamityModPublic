@@ -5187,9 +5187,10 @@ namespace CalamityMod.CalPlayer
                     contactDamageReduction *= 0.75;
 
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
-                if (totalDefenseDamage > 0 && defenseStat > 0)
+                int currentDefense = Player.GetCurrentDefense(false);
+                if (totalDefenseDamage > 0 && currentDefense > 0)
                 {
-                    double drDamageRatio = CurrentDefenseDamage / (double)defenseStat;
+                    double drDamageRatio = CurrentDefenseDamage / (double)currentDefense;
                     if (drDamageRatio > 1D)
                         drDamageRatio = 1D;
 
@@ -5199,8 +5200,8 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Scale with base damage reduction
-                if (DRStat > 0)
-                    contactDamageReduction *= 1f - (DRStat * 0.01f);
+                if (Player.endurance > 0)
+                    contactDamageReduction *= 1f - (Player.endurance * 0.01f);
 
                 contactDamageReduction = 1D / (1D + contactDamageReduction);
                 damage = (int)(damage * contactDamageReduction);
@@ -5430,9 +5431,10 @@ namespace CalamityMod.CalPlayer
                     projectileDamageReduction *= 0.75;
 
                 // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
-                if (totalDefenseDamage > 0 && defenseStat > 0)
+                int currentDefense = Player.GetCurrentDefense(false);
+                if (totalDefenseDamage > 0 && currentDefense > 0)
                 {
-                    double drDamageRatio = CurrentDefenseDamage / (double)defenseStat;
+                    double drDamageRatio = CurrentDefenseDamage / (double)currentDefense;
                     if (drDamageRatio > 1D)
                         drDamageRatio = 1D;
 
@@ -5443,8 +5445,8 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Scale with base damage reduction
-                if (DRStat > 0)
-                    projectileDamageReduction *= 1f - (DRStat * 0.01f);
+                if (Player.endurance > 0)
+                    projectileDamageReduction *= 1f - (Player.endurance * 0.01f);
 
                 projectileDamageReduction = 1D / (1D + projectileDamageReduction);
                 damage = (int)(damage * projectileDamageReduction);
