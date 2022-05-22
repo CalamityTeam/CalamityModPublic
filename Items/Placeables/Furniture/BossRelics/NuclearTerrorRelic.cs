@@ -5,19 +5,19 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 {
-	public class DesertScourgeRelic : ModItem
+	public class NuclearTerrorRelic : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Desert Scourge Relic");
+			DisplayName.SetDefault("Nuclear Terror Relic");
 
-			CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
 		}
 
 		public override void SetDefaults()
 		{
 			// Vanilla has many useful methods like these, use them! This substitutes setting Item.createTile and Item.placeStyle aswell as setting a few values that are common across all placeable items
-			Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Furniture.BossRelics.DesertScourgeRelic>(), 0);
+			Item.DefaultToPlaceableTile(ModContent.TileType<Tiles.Furniture.BossRelics.NuclearTerrorRelic>(), 0);
 
 			Item.width = 30;
 			Item.height = 40;
