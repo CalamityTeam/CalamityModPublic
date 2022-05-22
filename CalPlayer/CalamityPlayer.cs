@@ -73,6 +73,7 @@ namespace CalamityMod.CalPlayer
         public static bool areThereAnyDamnBosses = false;
         public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
+        public float stealthUIAlpha = 1f;
         public bool shouldDrawSmallText = true;
         public int projTypeJustHitBy;
         public int sCalDeathCount = 0;
@@ -173,37 +174,6 @@ namespace CalamityMod.CalPlayer
         public bool newAmidiasInventory = false;
         public bool newBanditInventory = false;
         public bool newCalamitasInventory = false;
-        #endregion
-
-        #region Stat Meter
-        public int[] damageStats = new int[6];
-        public int[] critStats = new int[4];
-        public int defenseStat = 0;
-        public int DRStat = 0;
-        public int meleeSpeedStat = 0;
-        public int manaCostStat = 0;
-        public int rogueVelocityStat = 0;
-        public int minionSlotStat = 0;
-        public int lifeRegenStat = 0;
-        public int manaRegenStat = 0;
-        public int ammoReductionRanged = 0;
-        public int ammoReductionRogue = 0;
-        public int armorPenetrationStat = 0;
-        public float wingFlightTimeStat = 0f;
-        public float jumpSpeedStat = 0f;
-        public int rageDamageStat = 0;
-        public int adrenalineDamageStat = 0;
-        public int adrenalineDRStat = 0;
-        public int moveSpeedStat = 0;
-        public int abyssLightLevelStat = 0;
-        public int abyssBreathLossStat = 0;
-        public int abyssBreathLossRateStat = 0;
-        public int abyssLifeLostAtZeroBreathStat = 0;
-        public int abyssDefenseLossStat = 0;
-        public int stealthStat = 0;
-        public float standingRegenStat = 0f;
-        public float movingRegenStat = 0f;
-        public float stealthUIAlpha = 1f;
         #endregion
 
         #region Timer and Counter
@@ -368,8 +338,8 @@ namespace CalamityMod.CalPlayer
         public int rageCombatFrames = 0;
         public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly double DefaultRageDamageBoost = 0.35D; // +35%
-        public double RageDamageBoost = DefaultRageDamageBoost;
+        public static readonly float DefaultRageDamageBoost = 0.35f; // +35%
+        public float RageDamageBoost = DefaultRageDamageBoost;
         #endregion
 
         #region Adrenaline
@@ -379,8 +349,8 @@ namespace CalamityMod.CalPlayer
         public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
         public int AdrenalineChargeTime = CalamityUtils.SecondsToFrames(30);
         public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
-        public static readonly double AdrenalineDamageBoost = 2.0D; // +200%
-        public static readonly double AdrenalineDamagePerBooster = 0.15D; // +15%
+        public static readonly float AdrenalineDamageBoost = 2f; // +200%
+        public static readonly float AdrenalineDamagePerBooster = 0.15f; // +15%
         #endregion
 
         #region Defense Damage
@@ -403,6 +373,13 @@ namespace CalamityMod.CalPlayer
         internal const int DefenseDamageRecoveryDelay = 10;
         // The current timer for how long the player must wait before defense damage begins recovering.
         internal int defenseDamageDelayFrames = 0;
+        #endregion
+
+        #region Abyss
+        public float abyssBreathLossStat = 0;
+        public float abyssBreathLossRateStat = 0;
+        public int abyssLifeLostAtZeroBreathStat = 0;
+        public int abyssDefenseLossStat = 0;
         #endregion
 
         #region Permanent Buff
@@ -1293,7 +1270,6 @@ namespace CalamityMod.CalPlayer
             tag["exactRogueLevel"] = exactRogueLevel;
             tag["itemTypeLastReforged"] = itemTypeLastReforged;
             tag["reforgeTierSafety"] = reforgeTierSafety;
-            tag["moveSpeedStat"] = moveSpeedStat;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
             tag["totalSpeedrunTicks"] = totalTicks;
@@ -1395,7 +1371,6 @@ namespace CalamityMod.CalPlayer
             exactSummonLevel = tag.GetInt("exactSummonLevel");
             exactRogueLevel = tag.GetInt("exactRogueLevel");
 
-            moveSpeedStat = tag.GetInt("moveSpeedStat");
             totalDefenseDamage = tag.GetInt("defenseDamage");
             defenseDamageRecoveryFrames = tag.GetInt("defenseDamageRecoveryFrames");
             if (defenseDamageRecoveryFrames < 0)
@@ -6895,15 +6870,8 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region All-Class Crit Boost
-        public void AllCritBoost(int boost)
-        {
-            Player.GetCritChance(DamageClass.Melee) += boost;
-            Player.GetCritChance(DamageClass.Ranged) += boost;
-            Player.GetCritChance(DamageClass.Magic) += boost;
-            Player.GetCritChance(DamageClass.Throwing) += boost;
-            // Rogue weapons benefit from throwing crit AND rogue crit, so don't add both.
-            // throwingCrit += boost;
-        }
+        // TODO -- AAAAAA NO NEED FOR HELPER FUNCTION
+        public void AllCritBoost(int boost) => Player.GetCritChance<GenericDamageClass>() += boost;
         #endregion
 
         #region Rogue Stealth
@@ -7009,7 +6977,7 @@ namespace CalamityMod.CalPlayer
             // Lower stealth generation rate (especially while moving) enables higher maximum stealth damage.
             // This enables stealth to be conditionally useful -- even powerful -- even without a dedicated stealth build.
             double averagedStealthGen = 0.8 * stealthGenMoving + 0.2 * stealthGenStandstill;
-            double fakeStealthTime = 9D / averagedStealthGen;
+            double fakeStealthTime = BalancingConstants.BaseStealthGenTime / averagedStealthGen;
 
             // Use time  3 = 162% damage ratio
             // Use time  8 = 200% damage ratio
@@ -7117,7 +7085,7 @@ namespace CalamityMod.CalPlayer
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.
             bool standstill = Player.StandingStill(0.1f) && !Player.mount.Active;
-            return standstill ? stealthGenStandstill : stealthGenMoving * 0.333333f * stealthAcceleration;
+            return standstill ? stealthGenStandstill : stealthGenMoving * BalancingConstants.MovingStealthGenRatio * stealthAcceleration;
         }
 
         public bool StealthStrikeAvailable()
@@ -8217,78 +8185,6 @@ namespace CalamityMod.CalPlayer
             range *= reaverExplore ? 0.9f : 1f;
             return range;
         }
-
-        /// <summary>
-        /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
-        /// The Stat Meter also reports this stat.
-        /// </summary>
-        /// <returns>The player's total light strength.</returns>
-        public int GetTotalLightStrength()
-        {
-            int light = externalAbyssLight;
-            bool underwater = Player.IsUnderwater();
-            bool miningHelmet = Player.head == ArmorIDs.Head.MiningHelmet;
-
-            // The campfire bonus does not apply while in the Abyss.
-            if (!ZoneAbyss && (Player.HasBuff(BuffID.Campfire) || Main.SceneMetrics.HasCampfire))
-                light += 1;
-            if (camper) //inherits Campfire so really +2
-                light += 1;
-            if (miningHelmet)
-                light += 1;
-            if (Player.lightOrb)
-                light += 1;
-            if (Player.crimsonHeart)
-                light += 1;
-            if (Player.magicLantern)
-                light += 1;
-            if (giantPearl)
-                light += 1;
-            if (radiator)
-                light += 1;
-            if (bendyPet)
-                light += 1;
-            if (sparks)
-                light += 1;
-            if (fathomSwarmerVisage)
-                light += 1;
-            if (aquaticHeart)
-                light += 1;
-            if (aAmpoule)
-                light += 1;
-            else if (rOoze && !Main.dayTime) // radiant ooze and ampoule/higher don't stack
-                light += 1;
-            if (aquaticEmblem && underwater)
-                light += 1;
-            if (Player.arcticDivingGear && underwater) //inherited by abyssal diving gear/suit, also gives jellyfish necklace so really +2
-                light += 1;
-            if (jellyfishNecklace && underwater) //inherited by deific amulet+, jellyfish diving gear+
-                light += 1;
-            if (lumenousAmulet && underwater)
-                light += 2;
-            if (shine)
-                light += 2;
-            if (blazingCore)
-                light += 2;
-            if (Player.redFairy || Player.greenFairy || Player.blueFairy)
-                light += 2;
-            if (babyGhostBell)
-                light += underwater ? 2 : 1;
-            if (Player.petFlagDD2Ghost)
-                light += 2;
-            if (sirenPet)
-                light += underwater ? 3 : 1;
-            if (Player.wisp)
-                light += 3;
-            if (Player.suspiciouslookingTentacle)
-                light += 3;
-            if (littleLightPet)
-                light += 3;
-            if (profanedCrystalBuffs && !ZoneAbyss)
-                light += Main.dayTime || Player.lavaWet ? 2 : 1;
-            return light;
-        }
-
         #endregion
 
         #region Mana Consumption Effects

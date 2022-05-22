@@ -124,9 +124,6 @@ namespace CalamityMod.CalPlayer
             // Limits
             Limits();
 
-            // Stat Meter
-            UpdateStatMeter();
-
             // Double Jumps
             DoubleJumps();
 
@@ -1701,8 +1698,7 @@ namespace CalamityMod.CalPlayer
         #region Abyss Effects
         private void AbyssEffects()
         {
-            int lightStrength = GetTotalLightStrength();
-            abyssLightLevelStat = lightStrength;
+            int lightStrength = Player.GetCurrentAbyssLightLevel();
 
             if (ZoneAbyss)
             {
@@ -1754,10 +1750,6 @@ namespace CalamityMod.CalPlayer
                             break;
                     }
 
-                    // Increased darkness in Death Mode
-                    if (CalamityWorld.death)
-                        multiplier += (1f - multiplier) * 0.1f;
-
                     // Modify darkness variable
                     caveDarkness = darknessStrength * multiplier;
 
@@ -1790,8 +1782,8 @@ namespace CalamityMod.CalPlayer
                     // Reduce breath lost while at zero breath, depending on gear
                     breathLoss *= breathLossMult;
 
-                    // Stat Meter stat
-                    abyssBreathLossStat = (int)breathLoss;
+                    // Record the final breath loss for the stat meter
+                    abyssBreathLossStat = (float)breathLoss;
 
                     // Defense loss
                     int defenseLoss = (int)(120D * depthRatio);
@@ -1809,7 +1801,7 @@ namespace CalamityMod.CalPlayer
                     // Reduce defense
                     Player.statDefense -= defenseLoss;
 
-                    // Stat Meter stat
+                    // Record the final defense reduction for the stat meter
                     abyssDefenseLossStat = defenseLoss;
 
                     // Bleed effect based on abyss layer
@@ -1854,8 +1846,8 @@ namespace CalamityMod.CalPlayer
                     // Increase ticks (frames) until breath is deducted, depending on gear
                     tick *= tickMult;
 
-                    // Stat Meter stat
-                    abyssBreathLossRateStat = (int)tick;
+                    // Record the final breath loss rate for the stat meter
+                    abyssBreathLossRateStat = (float)tick;
 
                     // Reduce breath over ticks (frames)
                     abyssBreathCD++;
@@ -1891,7 +1883,7 @@ namespace CalamityMod.CalPlayer
                     if (lifeLossAtZeroBreath < 0)
                         lifeLossAtZeroBreath = 0;
 
-                    // Stat Meter stat
+                    // Record the final life loss at zero breath for the stat meter
                     abyssLifeLostAtZeroBreathStat = lifeLossAtZeroBreath;
 
                     // Check breath value
@@ -3929,61 +3921,6 @@ namespace CalamityMod.CalPlayer
 
             if (corrEffigy)
                 Player.endurance -= 0.05f;
-        }
-        #endregion
-
-        #region Stat Meter
-        private void UpdateStatMeter()
-        {
-            float allDamageStat = Player.GetDamage<GenericDamageClass>().Base - 1f;
-            damageStats[0] = (int)((Player.GetDamage(DamageClass.Melee).Base + allDamageStat - 1f) * 100f);
-            damageStats[1] = (int)((Player.GetDamage(DamageClass.Ranged).Base + allDamageStat - 1f) * 100f);
-            damageStats[2] = (int)((Player.GetDamage(DamageClass.Magic).Base + allDamageStat - 1f) * 100f);
-            damageStats[3] = (int)((Player.GetDamage(DamageClass.Summon).Base + allDamageStat - 1f) * 100f);
-            damageStats[4] = (int)((throwingDamage + allDamageStat - 1f) * 100f);
-            damageStats[5] = (int)(trueMeleeDamage * 100D);
-            critStats[0] = (int)Player.GetCritChance(DamageClass.Melee);
-            critStats[1] = (int)Player.GetCritChance(DamageClass.Ranged);
-            critStats[2] = (int)Player.GetCritChance(DamageClass.Magic);
-            critStats[3] = (int)Player.GetCritChance(DamageClass.Throwing) + throwingCrit;
-            ammoReductionRanged = (int)(100f *
-                (Player.ammoBox ? 0.8f : 1f) *
-                (Player.ammoPotion ? 0.8f : 1f) *
-                (Player.ammoCost80 ? 0.8f : 1f) *
-                (Player.ammoCost75 ? 0.75f : 1f) *
-                rangedAmmoCost);
-            ammoReductionRogue = (int)(throwingAmmoCost * 100);
-            // Cancel out defense damage for the purposes of the stat meter.
-            defenseStat = Player.statDefense + CurrentDefenseDamage;
-            DRStat = (int)(Player.endurance * 100f);
-            meleeSpeedStat = (int)((1f - Player.GetAttackSpeed(DamageClass.Melee)) * (100f / Player.GetAttackSpeed(DamageClass.Melee)));
-            manaCostStat = (int)(Player.manaCost * 100f);
-            rogueVelocityStat = (int)((throwingVelocity - 1f) * 100f);
-
-            // Max stealth 1f is actually "100 stealth", so multiply by 100 to get visual stealth number.
-            stealthStat = (int)(rogueStealthMax * 100f);
-            // Then divide by 3, because it takes 3 seconds to regen full stealth.
-            // Divide by 3 again for moving, because it recharges at 1/3 speed (so divide by 9 overall).
-            // Then multiply by stealthGen variables, which start at 1f and increase proportionally to your boosts.
-            standingRegenStat = (rogueStealthMax * 100f / 3f) * stealthGenStandstill;
-            movingRegenStat = (rogueStealthMax * 100f / 9f) * stealthGenMoving * stealthAcceleration;
-
-            minionSlotStat = Player.maxMinions;
-            manaRegenStat = Player.manaRegen;
-            armorPenetrationStat = (int)Player.GetArmorPenetration(DamageClass.Generic);
-            moveSpeedStat = (int)((Player.moveSpeed - 1f) * 100f);
-            wingFlightTimeStat = Player.wingTimeMax / 60f;
-            float trueJumpSpeedBoost = Player.jumpSpeedBoost +
-                (Player.wereWolf ? 0.2f : 0f) +
-                (Player.jumpBoost ? 0.75f : 0f);
-            jumpSpeedStat = trueJumpSpeedBoost * 20f;
-            rageDamageStat = (int)(100D * RageDamageBoost);
-            adrenalineDamageStat = (int)(100D * Player.Calamity().GetAdrenalineDamage());
-            int extraAdrenalineDR = 0 +
-                (adrenalineBoostOne ? 5 : 0) +
-                (adrenalineBoostTwo ? 5 : 0) +
-                (adrenalineBoostThree ? 5 : 0);
-            adrenalineDRStat = 50 + extraAdrenalineDR;
         }
         #endregion
 
