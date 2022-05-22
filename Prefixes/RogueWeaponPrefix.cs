@@ -24,97 +24,97 @@ namespace CalamityMod.Prefixes
         Atrocious
     }
 
-    public class PointyWeaponPrefix : ModItemPrefix
+    public class PointyWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Pointy";
         public PointyWeaponPrefix() : base(1.1f, 1f, 0, 1f, 1f) { }
     }
 
-    public class SharpWeaponPrefix : ModItemPrefix
+    public class SharpWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Sharp";
         public SharpWeaponPrefix() : base(1.15f, 1f, 0, 1f, 1f) { }
     }
 
-    public class FeatheredWeaponPrefix : ModItemPrefix
+    public class FeatheredWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Feathered";
         public FeatheredWeaponPrefix() : base(1f, 0.85f, 0, 1.1f, 1f) { }
     }
 
-    public class SleekWeaponPrefix : ModItemPrefix
+    public class SleekWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Sleek";
         public SleekWeaponPrefix() : base(1f, 0.9f, 0, 1.15f, 1f) { }
     }
 
-    public class HeftyWeaponPrefix : ModItemPrefix
+    public class HeftyWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Hefty";
         public HeftyWeaponPrefix() : base(1.1f, 1f, 0, 1f, 1.15f) { }
     }
 
-    public class MightyWeaponPrefix : ModItemPrefix
+    public class MightyWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Mighty";
         public MightyWeaponPrefix() : base(1.15f, 1f, 0, 1f, 1.05f) { }
     }
 
-    public class GloriousWeaponPrefix : ModItemPrefix
+    public class GloriousWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Glorious";
         public GloriousWeaponPrefix() : base(1.1f, 0.95f, 0, 1f, 1f) { }
     }
 
-    public class SerratedWeaponPrefix : ModItemPrefix
+    public class SerratedWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Serrated";
         public SerratedWeaponPrefix() : base(1.1f, 0.9f, 0, 1.05f, 1f) { }
     }
 
-    public class ViciousWeaponPrefix : ModItemPrefix
+    public class ViciousWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Vicious";
         public ViciousWeaponPrefix() : base(1.1f, 0.95f, 0, 1.15f, 1f) { }
     }
 
-    public class LethalWeaponPrefix : ModItemPrefix
+    public class LethalWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Lethal";
         public LethalWeaponPrefix() : base(1.1f, 0.95f, 2, 1.05f, 1.05f) { }
     }
 
-    public class FlawlessWeaponPrefix : ModItemPrefix
+    public class FlawlessWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Flawless";
         public FlawlessWeaponPrefix() : base(1.15f, 0.9f, 5, 1.1f, 1.15f) { }
     }
 
-    public class RadicalWeaponPrefix : ModItemPrefix
+    public class RadicalWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Radical";
         public RadicalWeaponPrefix() : base(1.05f, 0.95f, 0, 1.05f, 0.9f) { }
     }
 
-    public class BluntWeaponPrefix : ModItemPrefix
+    public class BluntWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Blunt";
         public BluntWeaponPrefix() : base(0.85f, 1f, 0, 1f, 1f) { }
     }
 
-    public class FlimsyWeaponPrefix : ModItemPrefix
+    public class FlimsyWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Flimsy";
         public FlimsyWeaponPrefix() : base(0.9f, 1f, 0, 1f, 0.9f) { }
     }
 
-    public class UnbalancedWeaponPrefix : ModItemPrefix
+    public class UnbalancedWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Unbalanced";
         public UnbalancedWeaponPrefix() : base(1f, 1.15f, 0, 0.95f, 1f) { }
     }
 
-    public class AtrociousWeaponPrefix : ModItemPrefix
+    public class AtrociousWeaponPrefix : RogueWeaponPrefix
     {
         public override string Name => "Atrocious";
         public AtrociousWeaponPrefix() : base(0.85f, 1f, 0, 0.9f, 0.9f) { }
@@ -153,7 +153,7 @@ namespace CalamityMod.Prefixes
             valueMult *= extraValue;
         }
 
-        public override bool CanRoll(Item item) => item.Calamity().rogue && item.maxStack == 1 && GetType() != typeof(RogueWeaponPrefix);
+        public override bool CanRoll(Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1 && GetType() != typeof(RogueWeaponPrefix);
 
         public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
         {
