@@ -9,6 +9,15 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Body)]
     public class XerocPlateMail : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/XerocPlateMail_Neck", EquipType.Neck, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/XerocPlateMail_Back", EquipType.Back, this);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
@@ -16,6 +25,13 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault("Armor of the cosmos\n" +
                 "+20 max life\n" +
                 "7% increased rogue damage and critical strike chance");
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            }
         }
 
         public override void SetDefaults()

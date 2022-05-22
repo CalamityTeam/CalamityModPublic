@@ -5808,6 +5808,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Body);
+                Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Neck);
                 Player.head = EquipLoader.GetEquipSlot(Mod, "MeldTransformation", EquipType.Head);
                 Player.face = -1;
             }
@@ -5857,6 +5858,12 @@ namespace CalamityMod.CalPlayer
             if (Player.body == EquipLoader.GetEquipSlot(Mod, "AuricTeslaBodyArmor", EquipType.Body))
             {
                 Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "AuricTeslaBodyArmor", EquipType.Back);
+            }
+
+            if (Player.body == EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Body) && !meldTransformationPower && !meldTransformationForce)
+            {
+                Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Back);
+                Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Neck);
             }
         }
         #endregion

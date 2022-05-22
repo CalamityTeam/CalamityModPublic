@@ -49,11 +49,28 @@ namespace CalamityMod.Tiles.AstralDesert
             num = fail ? 1 : 3;
         }
 
+
         public override void RandomUpdate(int i, int j)
         {
-            if (WorldGen.genRand.Next(20) == 0 || true)
+            if (WorldGen.genRand.Next(20) == 0)
             {
                 bool isPlayerNear = WorldGen.PlayerLOS(i, j);
+
+                //This is debug code ripped from tml source. I'll remove it when they fix modpalmtrees
+
+                //int num = j;
+
+                //while (Main.tile[i, num].TileType == 20)
+                //{
+                //    num++;
+                //    if (Main.tile[i, num] == null)
+                //        return;
+                //}
+
+                //Tile tile = Main.tile[i, num];
+
+                //if (tile.TileType != 53 && tile.TileType != 234 && tile.TileType != 116 && tile.TileType != 112 && !TileLoader.CanGrowModPalmTree(tile.TileType))
+                //    return;
 
                 bool success = WorldGen.GrowPalmTree(i, j);
 

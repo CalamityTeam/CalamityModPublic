@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Armor
             {
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Head", EquipType.Head, name : "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Body", EquipType.Body, name: "MeldTransformation");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Neck", EquipType.Neck, name: "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Legs", EquipType.Legs, name : "MeldTransformation");
             }
         }
