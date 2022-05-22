@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.width = 30;
             Item.height = 28;
             Item.damage = 26;
-            Item.DamageType = DamageClass.Throwing;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useTime = 15;
@@ -38,7 +38,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<SandDollarProj>();
             Item.shootSpeed = 14f;
-            Item.Calamity().rogue = true;
         }
 
         public override bool CanUseItem(Player player)

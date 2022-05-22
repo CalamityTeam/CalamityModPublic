@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 280;
             Item.knockBack = 6f;
             Item.useAnimation = Item.useTime = 22;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 25f;
             Item.shoot = ModContent.ProjectileType<CelestusBoomerang>();

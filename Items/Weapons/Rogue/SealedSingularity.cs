@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 5f;
             Item.useAnimation = Item.useTime = 25;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SealedSingularityProj>();
             Item.shootSpeed = 14f;

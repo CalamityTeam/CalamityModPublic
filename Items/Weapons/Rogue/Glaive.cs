@@ -26,7 +26,7 @@ Stealth strikes are super fast and pierce infinitely");
         public override void SetDefaults()
         {
             Item.damage = BaseDamage;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 1;

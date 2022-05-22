@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.width = 60;
             Item.height = 36;
             Item.damage = 2222;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.knockBack = 10f;
             Item.noMelee = true;
             Item.noUseGraphic = true;

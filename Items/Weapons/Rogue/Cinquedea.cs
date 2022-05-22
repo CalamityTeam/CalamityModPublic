@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<CinquedeaProj>();
             Item.shootSpeed = Speed;
             Item.value = Item.buyPrice(0, 4, 0, 0);
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

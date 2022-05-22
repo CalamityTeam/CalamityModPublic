@@ -38,7 +38,7 @@ Stealth strikes provide a bigger boost after richocheting");
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<BouncyBol>();
             Item.shootSpeed = 8f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

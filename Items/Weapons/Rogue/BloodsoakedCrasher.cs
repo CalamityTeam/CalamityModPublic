@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 245;
             Item.knockBack = 3f;
             Item.autoReuse = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.useAnimation = Item.useTime = 24;
             Item.shootSpeed = 9f;
             Item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();

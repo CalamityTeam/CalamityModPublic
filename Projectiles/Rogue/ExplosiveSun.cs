@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.scale = 1.2f;
             Projectile.timeLeft = 60;
             Projectile.tileCollide = false;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

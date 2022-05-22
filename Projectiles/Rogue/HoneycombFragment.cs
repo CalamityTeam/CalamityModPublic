@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.width = 14;
             Projectile.height = 14;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool PreDraw(ref Color lightColor)

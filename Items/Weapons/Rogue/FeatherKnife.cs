@@ -36,7 +36,7 @@ Stealth strike throws a volley of knives");
             Item.maxStack = 999;
             Item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
             Item.shootSpeed = 25f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = Item.sellPrice(copper: 60);
             Item.rare = ItemRarityID.Orange;

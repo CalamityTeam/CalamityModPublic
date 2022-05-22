@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.timeLeft = 180;
             Projectile.penetrate = 4;
             Projectile.extraUpdates = 1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
         }
 

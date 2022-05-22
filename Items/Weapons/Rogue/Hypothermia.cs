@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 8f;
 
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

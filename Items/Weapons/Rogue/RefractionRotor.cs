@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 616;
             Item.knockBack = 8.5f;
             Item.useAnimation = Item.useTime = 17;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 18f;
             Item.shoot = ModContent.ProjectileType<RefractionRotorProjectile>();

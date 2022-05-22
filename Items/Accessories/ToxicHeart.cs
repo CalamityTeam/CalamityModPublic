@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             int num = ModContent.BuffType<Plague>();
             float num2 = 300f;
             bool flag = plagueCounter % 60 == 0;
-            int num3 = (int)(50 * player.AverageDamage());
+            int auraDamage = (int)player.GetBestClassDamage().ApplyTo(50);
             int random = Main.rand.Next(10);
             var source = player.GetSource_Accessory(Item);
             if (player.whoAmI == Main.myPlayer)
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Accessories
                             {
                                 if (player.whoAmI == Main.myPlayer)
                                 {
-                                    Projectile p = Projectile.NewProjectileDirect(source, nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    Projectile p = Projectile.NewProjectileDirect(source, nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), auraDamage, 0f, player.whoAmI, l);
                                 }
                             }
                         }

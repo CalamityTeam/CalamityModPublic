@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 104;
             Item.shoot = ModContent.ProjectileType<ReaperProjectile>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

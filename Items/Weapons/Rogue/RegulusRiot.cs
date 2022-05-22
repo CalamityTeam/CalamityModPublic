@@ -34,7 +34,7 @@ Stealth strikes explode into energy stars");
             Item.useAnimation = 26;
             Item.UseSound = SoundID.Item1;
             Item.rare = ItemRarityID.Cyan;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.autoReuse = true;
             Item.shootSpeed = 8f;

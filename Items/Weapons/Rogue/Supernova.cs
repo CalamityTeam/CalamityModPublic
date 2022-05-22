@@ -38,7 +38,7 @@ Stealth strikes release energy as they fly");
             Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 

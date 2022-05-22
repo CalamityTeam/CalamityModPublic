@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.damage = 320;
             Item.knockBack = 7f;
             Item.useAnimation = Item.useTime = 25;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 24f;
             Item.shoot = ModContent.ProjectileType<TheAtomSplitterProjectile>();

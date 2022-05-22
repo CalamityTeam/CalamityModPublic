@@ -40,7 +40,6 @@ namespace CalamityMod.Projectiles
         }
 
         // Class Types
-        public bool rogue = false;
         public bool trueMelee = false;
 
         // Force Class Types
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles
         public bool forceMagic = false;
         public bool forceMinion = false;
         public bool forceRogue = false;
-        public bool forceTypeless = false;
+        public bool forceClassless = false;
         public bool forceHostile = false;
 
         // Damage Adjusters
@@ -91,7 +90,7 @@ namespace CalamityMod.Projectiles
         public bool canBreakPlayerDefense = false;
 
         // Rogue Stuff
-        public bool stealthStrike = false; // Update all existing rogue weapons with this
+        public bool stealthStrike = false;
         public bool momentumCapacitatorBoost = false; // Constant acceleration
 
         // Counters and Timers
@@ -2102,92 +2101,55 @@ namespace CalamityMod.Projectiles
                     projectile.damage = defDamage + 15;
             }
 
-            if (projectile.ModProjectile != null && projectile.ModProjectile.Mod.Name.Equals("CalamityMod"))
-                goto SKIP_CALAMITY;
-
-            SKIP_CALAMITY:
-
-            // If rogue projectiles are not internally throwing while in-flight, they can never critically strike.
-            if (rogue)
-                projectile.DamageType = DamageClass.Throwing;
-
+            #region Type Forcing
             if (forceMelee)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
                 projectile.DamageType = DamageClass.Melee;
-                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                rogue = false;
             }
             else if (forceRanged)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.DamageType = DamageClass.Ranged;
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                rogue = false;
             }
             else if (forceMagic)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.DamageType = DamageClass.Magic;
                 projectile.minion = false;
-                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                rogue = false;
             }
             else if (forceMinion)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = true;
-                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                rogue = false;
             }
             else if (forceRogue)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                projectile.DamageType = RogueDamageClass.Instance;
                 projectile.minion = false;
-                projectile.DamageType = DamageClass.Throwing;
-                rogue = true;
             }
-            else if (forceTypeless)
+            else if (forceClassless)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
-                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
+                projectile.DamageType = DamageClass.Generic;
                 projectile.minion = false;
-                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                rogue = false;
             }
             else if (forceHostile)
             {
                 projectile.hostile = true;
                 projectile.friendly = false;
-                // projectile.melee = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.ranged = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
                 projectile.minion = false;
-                // projectile.thrown = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                rogue = false;
             }
+            #endregion
 
             if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
             {
@@ -2266,7 +2228,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
 
-                if (rogue)
+                if (projectile.CountsAsClass<RogueDamageClass>())
                 {
                     if (modPlayer.nanotech)
                     {
@@ -2274,7 +2236,8 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                             {
-                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), (int)(60 * player.RogueDamage()), 0f, projectile.owner);
+                                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(60);
+                                Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
                             }
                         }
                     }
@@ -2284,9 +2247,10 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                             {
-                                int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), (int)(45 * player.RogueDamage()), 0f, projectile.owner);
+                                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(45);
+                                int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[proj].Calamity().forceTypeless = true;
+                                    Main.projectile[proj].Calamity().forceClassless = true;
                             }
                         }
                     }
@@ -2297,10 +2261,11 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
+                                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
                                 int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
-                                    (int)(80 * player.RogueDamage()), 0f, projectile.owner);
+                                    damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[proj].Calamity().forceTypeless = true;
+                                    Main.projectile[proj].Calamity().forceClassless = true;
                             }
                         }
                     }
@@ -2318,7 +2283,7 @@ namespace CalamityMod.Projectiles
                                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                                     int shard = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileID.CrystalShard, crystalDamage, 0f, projectile.owner);
                                     if (shard.WithinBounds(Main.maxProjectiles))
-                                        Main.projectile[shard].Calamity().forceTypeless = true;
+                                        Main.projectile[shard].Calamity().forceClassless = true;
                                 }
                             }
                         }
@@ -2547,7 +2512,7 @@ namespace CalamityMod.Projectiles
                 damage = (int)Math.Ceiling(damage * proximityDamageFactor);
             }
 
-            if (!projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+            if (!projectile.npcProj && !projectile.trap && projectile.CountsAsClass<RogueDamageClass>() && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
                 crit = true;
 
             // Aerial Bane does 50% damage to "airborne" enemies. This is just simple math to revert that as it is a very unbalanced mechanic.
@@ -2695,26 +2660,28 @@ namespace CalamityMod.Projectiles
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
             {
-                if (rogue)
+                if (projectile.CountsAsClass<RogueDamageClass>())
                 {
                     if (modPlayer.etherealExtorter && Main.player[projectile.owner].ownedProjectileCounts[ProjectileType<LostSoulFriendly>()] < 5)
                     {
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), (int)(25 * player.RogueDamage()), 0f, projectile.owner);
+                            int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(25);
+                            int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[soul].Calamity().forceTypeless = true;
+                                Main.projectile[soul].Calamity().forceClassless = true;
                         }
                     }
 
                     if (modPlayer.scuttlersJewel && stealthStrike)
                     {
-                        int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), (int)(15 * player.RogueDamage()), projectile.knockBack, projectile.owner);
+                        int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(15);
+                        int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[spike].Calamity().forceTypeless = true;
+                            Main.projectile[spike].Calamity().forceClassless = true;
                     }
                 }
 

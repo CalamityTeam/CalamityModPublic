@@ -47,8 +47,9 @@ namespace CalamityMod.Items.Accessories
                             ModContent.ProjectileType<Corrocloud3>()
                         });
                         float speed = Main.rand.NextFloat(3f, 11f);
+                        int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(100);
                         Projectile.NewProjectile(source, player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-                            type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
+                            type, damage, 0f, player.whoAmI);
                     }
                 }
             }

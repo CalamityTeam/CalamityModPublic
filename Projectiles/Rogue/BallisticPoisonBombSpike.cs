@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.extraUpdates = 2;
             Projectile.aiStyle = 93;
             AIType = ProjectileID.NailFriendly;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

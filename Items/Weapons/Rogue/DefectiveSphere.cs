@@ -41,7 +41,7 @@ Stealth strikes launch all 4 sphere types at once");
             Item.value = Item.buyPrice(0, 16, 0, 0);
             Item.rare = ItemRarityID.Yellow;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shoot = ProjectileType<SphereSpiked>();
             Item.shootSpeed = Speed;
         }

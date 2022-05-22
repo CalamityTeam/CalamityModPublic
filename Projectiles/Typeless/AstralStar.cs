@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Projectile.ai[0] == 2f)
             {
-                Projectile.Calamity().rogue = true;
+                Projectile.DamageType = RogueDamageClass.Instance;
             }
             int randomToSubtract = Main.rand.Next(1, 3);
             noTileHitCounter -= randomToSubtract;

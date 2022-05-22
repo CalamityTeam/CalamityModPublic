@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.penetrate = 1;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 180;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

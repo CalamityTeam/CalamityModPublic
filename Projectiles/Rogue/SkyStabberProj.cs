@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 15;
             Projectile.height = 15;
             Projectile.friendly = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = true;
             Projectile.penetrate = 20;
             Projectile.timeLeft = Lifetime;

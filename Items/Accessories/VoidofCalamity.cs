@@ -40,7 +40,8 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.miscCounter % 10 == 0)
                     {
-                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(30);
+                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), damage, 5f, player.whoAmI);
                     }
                 }
             }

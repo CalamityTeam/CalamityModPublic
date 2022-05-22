@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 480;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
         public bool CollideX => Projectile.oldPosition.X == Projectile.position.X;
         public override void AI()

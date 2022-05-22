@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.localNPCHitCooldown = 16;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 480;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

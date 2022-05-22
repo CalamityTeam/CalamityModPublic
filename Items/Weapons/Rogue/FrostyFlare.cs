@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 22f;
             Item.maxStack = 999;
             Item.consumable = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

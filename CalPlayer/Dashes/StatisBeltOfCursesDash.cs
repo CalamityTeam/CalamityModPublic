@@ -49,10 +49,11 @@ namespace CalamityMod.CalPlayer.Dashes
             player.Calamity().statisTimer++;
             if (Main.myPlayer == player.whoAmI && player.Calamity().statisTimer % 5 == 0)
             {
-                int scythe = Projectile.NewProjectile(player.GetSource_FromAI(), player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(250 * player.AverageDamage()), 5f, player.whoAmI);
+                int scytheDamage = (int)player.GetBestClassDamage().ApplyTo(250);
+                int scythe = Projectile.NewProjectile(player.GetSource_FromAI(), player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), scytheDamage, 5f, player.whoAmI);
                 if (scythe.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[scythe].Calamity().forceTypeless = true;
+                    Main.projectile[scythe].Calamity().forceClassless = true;
                     Main.projectile[scythe].usesIDStaticNPCImmunity = true;
                     Main.projectile[scythe].idStaticNPCHitCooldown = 10;
                 }

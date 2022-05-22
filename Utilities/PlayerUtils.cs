@@ -15,14 +15,43 @@ namespace CalamityMod
     public static partial class CalamityUtils
     {
         #region Stat Retrieval
-        // TODO -- AAAAAA NO NEED FOR HELPER FUNCTIONS
-        public static float RogueDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Throwing).Additive + player.Calamity().throwingDamage - 2f;
-        public static float AverageDamage(this Player player) => player.GetDamage<GenericDamageClass>().Additive + (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive + player.GetDamage(DamageClass.Magic).Additive + player.GetDamage(DamageClass.Summon).Additive + player.Calamity().throwingDamage - 5f) / 5f;
-
         public static int GetCurrentDefense(this Player player, bool accountForDefenseDamage = false)
         {
             CalamityPlayer mp = player.Calamity();
             return player.statDefense + (accountForDefenseDamage ? 0 : mp.CurrentDefenseDamage);
+        }
+
+        public static StatModifier GetBestClassDamage(this Player player)
+        {
+            StatModifier ret = new();
+            StatModifier classless = player.GetDamage<GenericDamageClass>();
+
+            // Atypical damage stats are copied from "classless", like Avenger Emblem. This prevents stacking flat damage effects repeatedly.
+            ret.Base = classless.Base;
+            ret *= classless.Multiplicative;
+            ret.Flat = classless.Flat;
+
+            // Check the five Calamity classes to see what the strongest one is, and use that for the typical damage stat.
+            float best = 0f;
+
+            float melee = player.GetDamage<MeleeDamageClass>().Additive;
+            if (melee > best) best = melee;
+            float ranged = player.GetDamage<RangedDamageClass>().Additive;
+            if (ranged > best) best = ranged;
+            float magic = player.GetDamage<MagicDamageClass>().Additive;
+            if (magic > best) best = magic;
+
+            // Summoner intentionally has a reduction. As the only class with no crit, it tends to have higher raw damage than other classes.
+            float summon = player.GetDamage<SummonDamageClass>().Additive * BalancingConstants.SummonAllClassScalingFactor;
+            if (summon > best) best = summon;
+            // We intentionally don't check whip class, because it inherits 100% from Summon
+
+            float rogue = player.GetDamage<RogueDamageClass>().Additive;
+            if (rogue > best) best = rogue;
+
+            // Add the best typical damage stat, then return the full modifier.
+            ret += best;
+            return ret;
         }
 
         public static float GetRangedAmmoCostReduction(this Player player)

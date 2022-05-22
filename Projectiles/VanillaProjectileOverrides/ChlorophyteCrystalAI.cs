@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
                 SoundEngine.PlaySound(SoundID.Item45, projectile.Center);
                 if (Main.myPlayer == projectile.owner)
                 {
-                    int pulseDamage = (int)(owner.AverageDamage() * 300f);
+                    int pulseDamage = (int)Main.player[projectile.owner].GetBestClassDamage().ApplyTo(300f);
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ModContent.ProjectileType<ChlorophyteLifePulse>(), pulseDamage, 0f, projectile.owner);
                 }
             }

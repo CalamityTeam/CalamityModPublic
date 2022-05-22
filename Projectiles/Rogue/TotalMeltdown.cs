@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 120;
             Projectile.height = 122;
             Projectile.friendly = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.penetrate = -1;
             Projectile.timeLeft = Main.projFrames[Projectile.type] * 5;
             Projectile.usesLocalNPCImmunity = true;

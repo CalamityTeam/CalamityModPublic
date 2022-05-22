@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 13;
             Projectile.timeLeft = Projectile.MaxUpdates * 420;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public Color GemColor => GemTechArmorState.GetColorFromGemType((GemTechArmorGemType)Variant);

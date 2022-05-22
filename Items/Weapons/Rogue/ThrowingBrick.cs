@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.consumable = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

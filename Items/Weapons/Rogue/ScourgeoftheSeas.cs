@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 3.5f;
             Item.useAnimation = Item.useTime = 20;
             Item.autoReuse = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<ScourgeoftheSeasProjectile>();
 

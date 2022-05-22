@@ -73,7 +73,8 @@ namespace CalamityMod.Items.Accessories
                                     damage = 30;
                                     break;
                             }
-                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, (int)(damage * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            int finalDamage = (int)player.GetBestClassDamage().ApplyTo(damage);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, finalDamage, 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

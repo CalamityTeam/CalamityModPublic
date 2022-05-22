@@ -39,7 +39,7 @@ Stealth strikes don't slow down and souls always deal full damage");
             Item.maxStack = 999;
             Item.UseSound = SoundID.Item1;
             Item.consumable = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.autoReuse = true;
             Item.shootSpeed = 10f;

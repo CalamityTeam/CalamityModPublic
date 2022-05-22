@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 113;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.BoneJavelin;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.localNPCHitCooldown = 10;
         }
 

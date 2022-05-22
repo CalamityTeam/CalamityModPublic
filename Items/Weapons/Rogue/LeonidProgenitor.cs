@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.damage = 64;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.knockBack = 3f;
             Item.useTime = Item.useAnimation = 15;
             Item.autoReuse = true;

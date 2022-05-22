@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.width = 2;
             Projectile.height = 2;
             Projectile.friendly = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.extraUpdates = 100;

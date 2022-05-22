@@ -1,14 +1,14 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
+    // TODO -- This is a rogue weapon. It should be in Items/Weapons/Rogue. I do not care if it comes from fishing.
     public class GacruxianMollusk : ModItem
     {
         public static int BaseDamage = 36;
@@ -25,6 +25,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetDefaults()
         {
+            Item.DamageType = RogueDamageClass.Instance;
             Item.damage = BaseDamage;
             Item.knockBack = Knockback;
             Item.autoReuse = true;
@@ -40,7 +41,6 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.shootSpeed = Speed;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
-            Item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

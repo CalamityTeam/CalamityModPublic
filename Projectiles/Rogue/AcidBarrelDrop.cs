@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = true;
             Projectile.ignoreWater = false;
             Projectile.timeLeft = 420;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
         public override void AI()
         {

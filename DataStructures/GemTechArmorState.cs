@@ -255,7 +255,7 @@ namespace CalamityMod.DataStructures
                 if (GemIsActive(GemTechArmorGemType.Base) && GemThatShouldBeLost == GemTechArmorGemType.Base)
                 {
                     PinkGemRegenerationCountdown = GemTechHeadgear.GemRegenTime;
-                    gemDamage = (int)(GemTechHeadgear.GemDamage * Owner.AverageDamage());
+                    gemDamage = (int)Owner.GetDamage<GenericDamageClass>().ApplyTo(GemTechHeadgear.GemDamage);
                     gemWasLost = true;
                 }
             }

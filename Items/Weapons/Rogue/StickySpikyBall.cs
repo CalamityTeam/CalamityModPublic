@@ -36,7 +36,7 @@ Stealth strikes throw seven at once and last a lot longer");
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<StickyBol>();
             Item.shootSpeed = 8f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

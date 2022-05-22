@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 58;
             Item.shoot = ModContent.ProjectileType<MalachiteProj>();
             Item.shootSpeed = 10f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;

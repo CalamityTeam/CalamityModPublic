@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
                     segment.Calamity().forceRanged = Projectile.Calamity().forceRanged;
                     segment.Calamity().forceMinion = Projectile.Calamity().forceMinion;
                     segment.Calamity().forceRogue = Projectile.Calamity().forceRogue;
-                    segment.Calamity().forceTypeless = Projectile.Calamity().forceTypeless;
+                    segment.Calamity().forceClassless = Projectile.Calamity().forceClassless;
                     segment.Calamity().forceHostile = Projectile.Calamity().forceHostile;
                 }
             }

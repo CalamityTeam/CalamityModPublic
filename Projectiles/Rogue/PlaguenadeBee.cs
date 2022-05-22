@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = 2;
             Projectile.timeLeft = 240;
             Projectile.ignoreWater = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

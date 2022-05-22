@@ -43,6 +43,9 @@
         internal static readonly float FullAdrenalineDR = 0.5f; // 50%
         internal static readonly float AdrenalineDRPerBooster = 0.05f; // +5% per booster
 
+        // Summon damage bonuses counting less towards "scales with your best class"
+        internal static readonly float SummonAllClassScalingFactor = 0.75f;
+
         // TODO -- Add all balance related constants here that don't belong in other files.
         // These constants were just the ones sitting in CalamityPlayer.
         // Review all constants and static readonlys in the entire mod to find things to add.

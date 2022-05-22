@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 3.5f;
             Item.rare = ItemRarityID.Green;
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.shoot = ModContent.ProjectileType<BouncingEyeballProjectile>();

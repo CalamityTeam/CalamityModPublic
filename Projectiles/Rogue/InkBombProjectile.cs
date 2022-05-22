@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 50;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
@@ -71,7 +71,8 @@ namespace CalamityMod.Projectiles.Rogue
                         inkType = ModContent.ProjectileType<InkCloud3>();
                         break;
                 }
-                int inkID = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, (int)(22 * player.RogueDamage()), 7, Projectile.owner);
+                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(22);
+                int inkID = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, damage, 7, Projectile.owner);
                 Main.projectile[inkID].timeLeft += Main.rand.Next(-20, 25);
             }
             Projectile.Kill();

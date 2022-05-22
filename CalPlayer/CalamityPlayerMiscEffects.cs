@@ -445,7 +445,7 @@ namespace CalamityMod.CalPlayer
                 return;
 
             Rectangle sigilHitbox = Utils.CenteredRectangle(Main.MouseWorld, new Vector2(35f, 62f));
-            int sigilDamage = (int)(Player.AverageDamage() * Calamity.BaseDamage);
+            int sigilDamage = (int)Player.GetBestClassDamage().ApplyTo(Calamity.BaseDamage);
             bool brightenedSigil = false;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
@@ -873,7 +873,7 @@ namespace CalamityMod.CalPlayer
                     {
                         if (!tentaclesPresent[i])
                         {
-                            int damage = (int)(390 * Player.AverageDamage());
+                            int damage = (int)Player.GetBestClassDamage().ApplyTo(390);
                             var source = new ProjectileSource_OmegaBlueTentacles(Player);
                             Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
                             Projectile.NewProjectile(source, Player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
@@ -1571,10 +1571,11 @@ namespace CalamityMod.CalPlayer
                         Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         lightningVel.Normalize();
                         lightningVel *= Main.rand.NextFloat(1f, 2f);
-                        int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * Player.RogueDamage()), 0, Player.whoAmI, Main.rand.Next(2), 0f);
+                        int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(30);
+                        int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), damage, 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
 
                     for (int i = 0; i < 3; i++)
@@ -1594,10 +1595,11 @@ namespace CalamityMod.CalPlayer
                         Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         cloudVelocity.Normalize();
                         cloudVelocity *= Main.rand.NextFloat(0f, 1f);
-                        int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * Player.RogueDamage()), 0, Player.whoAmI, 0, 0);
+                        int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(20);
+                        int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), damage, 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
 
                     for (int i = 0; i < 3; i++)
@@ -2970,7 +2972,7 @@ namespace CalamityMod.CalPlayer
                         if (projectile.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[projectile].originalDamage = 3750;
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                         }
                     }
                 }
@@ -3054,7 +3056,7 @@ namespace CalamityMod.CalPlayer
                 if (navyRodAuraTimer == 0 && Player.whoAmI == Main.myPlayer)
                 {
                     const int BaseDamage = 10;
-                    int damage = (int)(BaseDamage * Player.AverageDamage());
+                    int damage = (int)Player.GetBestClassDamage().ApplyTo(BaseDamage);
                     var source = Player.GetSource_ItemUse(Player.ActiveItem());
                     float range = 200f;
 
@@ -3074,7 +3076,7 @@ namespace CalamityMod.CalPlayer
                             int spark = Projectile.NewProjectile(source, npc.Center, velocity, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, Player.whoAmI);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[spark].Calamity().forceTypeless = true;
+                                Main.projectile[spark].Calamity().forceClassless = true;
                                 Main.projectile[spark].localNPCHitCooldown = -2;
                                 Main.projectile[spark].penetrate = 5;
                             }
@@ -3096,7 +3098,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     const int BaseDamage = 50;
-                    int damage = (int)(BaseDamage * Player.AverageDamage());
+                    int damage = (int)Player.GetBestClassDamage().ApplyTo(BaseDamage);
                     var source = new ProjectileSource_InfernoPotionBoost(Player);
                     float range = 300f;
 
@@ -3279,7 +3281,7 @@ namespace CalamityMod.CalPlayer
                             Main.projectile[bee].localNPCHitCooldown = 10;
                             Main.projectile[bee].penetrate = 2;
                             if (bee.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[bee].Calamity().forceTypeless = true;
+                                Main.projectile[bee].Calamity().forceClassless = true;
                         }
                     }
                 }
@@ -3324,8 +3326,9 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
+                    int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(30);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
-                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * Player.RogueDamage()), 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
                 }
             }
             else if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] != 0)
@@ -3359,8 +3362,9 @@ namespace CalamityMod.CalPlayer
 
                     //Summon the aura
                     var source = new ProjectileSource_TeslaPotion(Player);
+                    int damage = (int)Player.GetBestClassDamage().ApplyTo(10);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), (int)(10 * Player.AverageDamage()), 0f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
                 }
             }
             else if (Player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
@@ -3382,8 +3386,9 @@ namespace CalamityMod.CalPlayer
             if (CryoStone)
             {
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<CryoStone>()));
+                int damage = (int)Player.GetBestClassDamage().ApplyTo(70);
                 if (Player.whoAmI == Main.myPlayer && Player.ownedProjectileCounts[ModContent.ProjectileType<CryonicShield>()] == 0)
-                    Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), (int)(Player.AverageDamage() * 70), 0f, Player.whoAmI);
+                    Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<CryonicShield>(), damage, 0f, Player.whoAmI);
             }
             else if (Player.whoAmI == Main.myPlayer)
             {
@@ -3446,7 +3451,7 @@ namespace CalamityMod.CalPlayer
                     int laser = Projectile.NewProjectile(source, startPos, velocity, ModContent.ProjectileType<DeathhailBeam>(), dmg, 4f, Player.whoAmI, 0f, 0f);
                     Main.projectile[laser].localNPCHitCooldown = 5;
                     if (laser.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[laser].Calamity().forceTypeless = true;
+                        Main.projectile[laser].Calamity().forceClassless = true;
                 }
                 SoundEngine.PlaySound(SoundID.Item12, Player.Center);
             }

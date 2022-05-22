@@ -36,7 +36,7 @@ Stealth strikes continuously leave spectral clones in their wake");
             Item.shootSpeed = 14.5f;
             Item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
             Item.UseSound = SoundID.Item1;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

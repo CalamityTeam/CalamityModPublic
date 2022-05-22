@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shoot = ModContent.ProjectileType<NanoblackMain>();
             Item.shootSpeed = Speed;
         }

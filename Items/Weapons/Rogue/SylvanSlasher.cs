@@ -22,7 +22,7 @@ Does not consume stealth and cannot stealth strike");
         {
             Item.width = 72;
             Item.damage = 52;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;

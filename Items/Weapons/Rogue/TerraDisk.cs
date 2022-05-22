@@ -41,7 +41,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.value = Item.buyPrice(gold: 80);
             Item.rare = ItemRarityID.Yellow;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
             Item.shootSpeed = Speed;
         }

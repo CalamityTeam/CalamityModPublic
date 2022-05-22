@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.timeLeft = 200;
             Projectile.tileCollide = false;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()
@@ -89,7 +89,8 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int n = 0; n < needleAmt; n++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                    int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NastyChollaNeedle>(), (int)((NastyCholla.BaseDamage/4) * player.RogueDamage()), 0f, Projectile.owner, 0f, 0f);
+                    int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(0.25f * NastyCholla.BaseDamage);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<NastyChollaNeedle>(), damage, 0f, Projectile.owner, 0f, 0f);
                 }
             }
         }

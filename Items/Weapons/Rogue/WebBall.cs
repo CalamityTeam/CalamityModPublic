@@ -36,7 +36,7 @@ Stealth strikes slow enemies down longer");
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<WebBallBol>();
             Item.shootSpeed = 6.5f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Projectile.friendly = true;
             Projectile.width = Projectile.height = 25;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.timeLeft = 300;
         }
 

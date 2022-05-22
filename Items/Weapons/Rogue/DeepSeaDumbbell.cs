@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTurn = false;
             Item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

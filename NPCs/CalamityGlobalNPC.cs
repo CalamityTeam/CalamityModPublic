@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs
                     if (heldItem.type > ItemID.None)
                     {
                         if (!heldItem.CountsAsClass<SummonDamageClass>() &&
-                            (heldItem.CountsAsClass<MeleeDamageClass>() || heldItem.CountsAsClass<RangedDamageClass>() || heldItem.CountsAsClass<MagicDamageClass>() || heldItem.Calamity().rogue) &&
+                            (heldItem.CountsAsClass<MeleeDamageClass>() || heldItem.CountsAsClass<RangedDamageClass>() || heldItem.CountsAsClass<MagicDamageClass>() || heldItem.CountsAsClass<ThrowingDamageClass>()) &&
                             heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 &&
                             !heldItem.accessory && heldItem.ammo == AmmoID.None)
                         {

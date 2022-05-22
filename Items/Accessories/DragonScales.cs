@@ -9,6 +9,8 @@ namespace CalamityMod.Items.Accessories
 {
     public class DragonScales : ModItem
     {
+        internal static int ShitBaseDamage = 50;
+        
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
