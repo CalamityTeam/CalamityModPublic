@@ -21,6 +21,7 @@ using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
+using CalamityMod.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -137,8 +138,8 @@ namespace CalamityMod.NPCs.DevourerofGods
         public int DestroyedSegmentCount;
 
         //Sounds
+        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/DevourerSpawn");
         public static readonly SoundStyle AttackSound = new("Sounds/Custom/DevourerAttack");
-        public static readonly SoundStyle HitSound = new("Sounds/NPCHit/OtherworldlyHit");
 
         public override void SetStaticDefaults()
         {
@@ -2448,7 +2449,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(HitSound, NPC.Center);
+                SoundEngine.PlaySound(CommonNPCSounds.OtherwordlyHitSound, NPC.Center);
             }
             if (NPC.life <= 0)
             {

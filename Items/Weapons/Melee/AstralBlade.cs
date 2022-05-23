@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (multiplier > 1.5f)
             {
-                SoundEngine.PlaySound(SoundID.Item105, Main.player[Main.myPlayer].position);
+                SoundEngine.PlaySound(SoundID.Item105, player.position);
                 bool blue = Main.rand.NextBool();
                 float angleStart = Main.rand.NextFloat(0f, MathHelper.TwoPi);
                 float var = 0.05f + (2f - multiplier);

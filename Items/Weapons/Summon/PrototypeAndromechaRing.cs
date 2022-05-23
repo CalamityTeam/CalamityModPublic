@@ -15,6 +15,10 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class PrototypeAndromechaRing : ModItem
     {
+        //Note: In the future i may just do some changes to this item, and the cripple effect will probably be gone. But in the meanwhile
+        //- Iban
+        public static readonly SoundStyle CrippleSound = new("Sounds/Custom/AndromedaCripple");
+
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
@@ -87,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     player.Calamity().andromedaCripple = CrippleTime;
                     player.AddBuff(ModContent.BuffType<AndromedaCripple>(), player.Calamity().andromedaCripple);
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AndromedaCripple"), position);
+                    SoundEngine.PlaySound(CrippleSound, position);
                 }
                 return false;
             }

@@ -293,7 +293,7 @@ namespace CalamityMod.Events
                                 player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
                         }
                     }
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
+                    SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, Main.player[ClosestPlayerToWorldCenter].Center);
                     CalamityUtils.SpawnBossBetter(Main.player[ClosestPlayerToWorldCenter].Top - new Vector2(42f, 84f), type);
                 }, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SCalWormArm>(), ModContent.NPCType<SCalWormHead>(), ModContent.NPCType<SCalWormBody>(), ModContent.NPCType<SCalWormBodyWeak>(), ModContent.NPCType<SCalWormTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
@@ -304,7 +304,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/DevourerSpawn"), player.Center);
+                    SoundEngine.PlaySound(DevourerofGodsHead.SpawnSound, player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBody>(), ModContent.NPCType<DevourerofGodsTail>() })
             };
@@ -461,7 +461,7 @@ namespace CalamityMod.Events
 
                     // Play the typical boss roar sound.
                     if (!Bosses[BossRushStage].UsesSpecialSound)
-                        SoundEngine.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position, 0);
+                        SoundEngine.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position);
 
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);

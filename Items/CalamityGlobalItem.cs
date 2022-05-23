@@ -471,7 +471,7 @@ namespace CalamityMod.Items
                     position += muzzleOffset;
                 }
                 Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
-                SoundEngine.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), position);
+                SoundEngine.PlaySound(SoundID.Item11 with { PitchVariance = 0.05f }, position);
                 return false;
             }
             if (item.type == ItemID.PearlwoodBow)
