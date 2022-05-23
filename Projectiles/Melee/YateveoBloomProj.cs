@@ -70,8 +70,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                float num211 = 14f / Main.player[Projectile.owner].GetAttackSpeed(DamageClass.Melee) * 1.25f;
-                float num212 = 0.9f / Main.player[Projectile.owner].GetAttackSpeed(DamageClass.Melee) * 1.25f;
+                float num211 = 14f / Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>() * 1.25f;
+                float num212 = 0.9f / Main.player[Projectile.owner].GetAttackSpeed<MeleeDamageClass>() * 1.25f;
 
                 if (Projectile.ai[1] == 1f)
                     Projectile.tileCollide = false;

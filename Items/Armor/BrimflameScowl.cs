@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Brimflame Cowl");
             Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
                 "Increases maximum mana by 70 and reduces mana usage by 10%\n" +
@@ -54,8 +53,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Magic) += 0.05f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
+            player.GetCritChance<MagicDamageClass>() += 5;
             player.statManaMax2 += 70;
             player.manaCost *= 0.9f;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
@@ -78,8 +77,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.brimflameSet = true;
-            player.GetDamage(DamageClass.Magic) += 0.15f;
-            player.GetCritChance(DamageClass.Magic) += 15;
+            player.GetDamage<MagicDamageClass>() += 0.15f;
+            player.GetCritChance<MagicDamageClass>() += 15;
             string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "Grants an additional 15% increased magic damage and crit\n" +
                 "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +

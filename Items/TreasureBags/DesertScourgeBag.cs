@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Desert Scourge)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

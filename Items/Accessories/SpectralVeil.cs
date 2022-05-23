@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public const float TeleportRange = 845f;
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Spectral Veil");
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "TOOLTIP LINE HERE\n" +

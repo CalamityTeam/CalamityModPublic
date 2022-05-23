@@ -2,7 +2,6 @@
 using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Seeking Scorcher");
             Tooltip.SetDefault("May your enemies burn in hell for the sins they have committed\n" +
             "Throws a holy boomerang that seeks out up to three enemies before returning to the player");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

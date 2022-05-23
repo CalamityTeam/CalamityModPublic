@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Right click to instead swing the sword and fire rainbow colored waves\n" +
                 "The sword is boosted by both melee and ranged damage");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -68,8 +67,7 @@ namespace CalamityMod.Items.Weapons.Melee
         //all damage boosts should still apply
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            float damageMult = (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive - 2f) / 2f;
-            damage += damageMult - player.GetDamage(DamageClass.Melee).Base + 1f;
+            damage = player.GetDamage<MeleeDamageClass>().CombineWith(player.GetDamage<RangedDamageClass>()) * 0.5f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

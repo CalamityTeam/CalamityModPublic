@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a beacon at the position of the mouse\n" +
                 "When a target is manually selected via right click it releases torrents of souls from below onto the target\n" +
                 "Only one beacon may exist at a time");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

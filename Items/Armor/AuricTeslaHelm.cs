@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Royal Helm");
             Tooltip.SetDefault("20% increased melee damage and critical strike chance\n" +
                                "Not moving boosts all damage and critical strike chance");
@@ -66,8 +65,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.GetDamage(DamageClass.Melee) += 0.2f;
-            player.GetCritChance(DamageClass.Melee) += 20;
+            player.GetDamage<MeleeDamageClass>() += 0.2f;
+            player.GetCritChance<MeleeDamageClass>() += 20;
         }
 
         public override void AddRecipes()

@@ -2,7 +2,6 @@ using CalamityMod.Items.Placeables.FurnitureExo;
 using CalamityMod.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Walls
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 400;
+            SacrificeTotal = 400;
             DisplayName.SetDefault("Exo Prism Panel Wall");
         }
 

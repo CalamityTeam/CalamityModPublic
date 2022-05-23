@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Psychotic Amulet");
             Tooltip.SetDefault("Boosts rogue and ranged damage and critical strike chance by 5%\n" +
                                "Grants a massive boost to these stats if you aren't moving");
@@ -32,8 +31,8 @@ namespace CalamityMod.Items.Accessories
             player.shroomiteStealth = true;
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.GetCritChance<ThrowingDamageClass>() += 5;
-            player.GetDamage(DamageClass.Ranged) += 0.05f;
-            player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
+            player.GetCritChance<RangedDamageClass>() += 5;
         }
     }
 }

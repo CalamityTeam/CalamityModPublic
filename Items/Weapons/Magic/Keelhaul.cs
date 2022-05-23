@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Magic;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Keelhaul");
             Tooltip.SetDefault("Summons a geyser upon hitting an enemy\n" +
                 "Crumple 'em like paper");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

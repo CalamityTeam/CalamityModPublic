@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Casts intense bolts of hellish power that explode into skulls\n" +
                 "Direct hits inflict Demon Flames for an extended period of time");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

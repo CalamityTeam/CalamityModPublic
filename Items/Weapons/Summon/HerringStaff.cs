@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Herring Staff");
             Tooltip.SetDefault("Summons a herring to fight for you\n" +
             "Each herring takes only half of a minion slot");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class OrichalcumSpikedGemstone : ModItem
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Orichalcum Spiked Gemstone");
             Tooltip.SetDefault("Stealth strikes last longer and summon petals on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
         public override void SetDefaults()

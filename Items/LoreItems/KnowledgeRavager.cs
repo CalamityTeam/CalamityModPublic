@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Ravager");
             Tooltip.SetDefault("The flesh golem constructed using twisted necromancy during the time of my conquest to counter my unstoppable forces.\n" +
                 "Its creators were slaughtered by it moments after its conception. It is for the best that it has been destroyed.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

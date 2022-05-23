@@ -6,14 +6,13 @@ using CalamityMod.Tiles.Furniture;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AuricToilet : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Toilet");
             Tooltip.SetDefault("This was used by the gods \n" +
                 "Sitting on such a throne would be a disgrace to all");

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Mounts
             DisplayName.SetDefault("Princess Spirit in a Bottle");
             Tooltip.SetDefault("Summons the spirit of Cirrus, the Drunk Princess, in her alicorn form\n" +
                 "Mounting will transform Cirrus, dismounting transforms her back");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

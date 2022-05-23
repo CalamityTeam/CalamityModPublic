@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Yharim's Gift");
             Tooltip.SetDefault("The power of a god pulses from within this artifact\n" +
                                "Flaming meteors rain down after getting hit\n" +

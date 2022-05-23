@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -16,14 +15,12 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Lunic Eye");
             Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
                 "This weapon scales with all your damage stats at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            // TODO -- "scales with all stats at once"
-            Item.DamageType = DamageClass.Generic;
-
+            Item.DamageType = AverageDamageClass.Instance;
             Item.width = 80;
             Item.damage = 9;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;

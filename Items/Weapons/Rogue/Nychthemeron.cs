@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Stacks up to 10\n" +
                 "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
                 "Right click to recall all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

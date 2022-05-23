@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("BOOM\n" +
                 "Right click to fire a nuke\n" +
                 "Rockets will destroy tiles with tile-destroying ammo");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

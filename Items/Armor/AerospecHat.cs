@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aerospec Hat");
             Tooltip.SetDefault("8% increased magic damage and +20 max mana");
         }
@@ -45,12 +44,12 @@ namespace CalamityMod.Items.Armor
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetCritChance<MagicDamageClass>() += 5;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Magic) += 0.08f;
+            player.GetDamage<MagicDamageClass>() += 0.08f;
             player.statManaMax2 += 20;
         }
 

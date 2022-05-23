@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
             DisplayName.SetDefault("God Slayer Slug");
             Tooltip.SetDefault("Heavy ammunition with unlimited piercing that tears through spacetime\n" +
                 "After a slug lands a hit, if it strikes a wall or runs out of targets to pierce,\n" +

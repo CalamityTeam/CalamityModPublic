@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires a volley of 10 high-speed arrows\n" +
                 "Arrows start off small and grow in size with continuous fire\n" +
                 "Arrow damage, spread and knockback scale with arrow size");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

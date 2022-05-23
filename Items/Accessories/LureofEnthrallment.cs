@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Pearl of Enthrallment");
             Tooltip.SetDefault("Summons a water elemental to fight for you\n" +
                 "The elemental stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");

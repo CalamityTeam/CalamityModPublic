@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Ancient Shiv");
             Tooltip.SetDefault("Enemies release a blue aura cloud on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -44,13 +43,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(Item.damage * 0.5f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(Item.damage * 0.5f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(Item.damage * 0.5f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), Item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BlueAura>(), (int)(Item.damage * 0.5f * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, Main.myPlayer);
         }
     }
 }

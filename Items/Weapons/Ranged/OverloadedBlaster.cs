@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Overloaded Blaster");
             Tooltip.SetDefault("33% chance to not consume gel\n" +
                 "Fires a large spread of bouncing slime");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

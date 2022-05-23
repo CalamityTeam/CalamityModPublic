@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Elemental Lance");
             Tooltip.SetDefault("Rend the cosmos asunder!\n" +
                 "Fires a lance beam that splits multiple times as it travels");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

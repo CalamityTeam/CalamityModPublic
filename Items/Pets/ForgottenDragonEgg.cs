@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Forgotten Dragon Egg");
             Tooltip.SetDefault("Calls Akato, son of Yharon, to your side");
         }

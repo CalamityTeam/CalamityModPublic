@@ -2,6 +2,8 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class SparkInfernal : ModProjectile
@@ -31,7 +33,9 @@ namespace CalamityMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoMarkFriendly>(), (int)(TheWand.BaseDamage * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Magic).Base - 1f)), Projectile.knockBack, Projectile.owner, 0f, 0f);
+
+            int infernadoDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<MagicDamageClass>()).ApplyTo(TheWand.BaseDamage);
+            Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernadoMarkFriendly>(), infernadoDamage, Projectile.knockBack, Projectile.owner);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -2,7 +2,6 @@
 using CalamityMod.Items.Critters;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Baby Flak Crab Cage");
         }
 

@@ -5,7 +5,6 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "Temporary immunity to lava and immunity to fire damage");
@@ -64,13 +63,13 @@ namespace CalamityMod.Items.Armor
                         Main.projectile[p].originalDamage = 190;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.4f;
+            player.GetDamage<SummonDamageClass>() += 0.4f;
             player.maxMinions += 2;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
             player.GetKnockback<SummonDamageClass>() += 1.5f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;

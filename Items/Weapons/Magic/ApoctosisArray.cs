@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
                 "Damage scales with how full your mana is\n" +
                 "Using Astral Injection reduces the effectiveness of the mana boost");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

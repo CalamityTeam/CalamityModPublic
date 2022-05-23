@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Prove its resistance by throwing it upwards and catching it with your face\n" +
                 "Throws a brick that shatters if stealth is full.");
             DisplayName.SetDefault("Throwing Brick");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
         public override void SetDefaults()
         {

@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Wulfrum Staff");
             Tooltip.SetDefault("Casts a wulfrum bolt");
             //Item.staff[item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

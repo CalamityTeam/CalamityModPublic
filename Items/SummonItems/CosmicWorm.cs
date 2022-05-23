@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using Terraria.GameContent.Creative;
 using System.Linq;
 
 namespace CalamityMod.Items.SummonItems
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Cosmic Worm");
             Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "SENTINEL WARNING TOOLTIP LINE HERE\n" +

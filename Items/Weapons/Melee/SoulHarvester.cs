@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Soul Harvester");
             Tooltip.SetDefault("Shoots a soul scythe\n" +
                 "Enemies explode when on low health, spreading the plague");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -54,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 SoundEngine.PlaySound(SoundID.Item14, target.position);
-                player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), 0f, 0, false);
+                player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), 0f, 0, false);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 89, 0f, 0f, 100, default, 2f);

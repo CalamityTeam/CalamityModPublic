@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class UrchinStinger : ModItem
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Urchin Stinger");
             Tooltip.SetDefault("Stealth strikes stick to enemies while releasing sulfuric bubbles");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
         public override void SetDefaults()

@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Charred Idol");
             Tooltip.SetDefault("Use at your own risk\n" +
                "Summons the Brimstone Elemental when used in the brimstone crags\n" +

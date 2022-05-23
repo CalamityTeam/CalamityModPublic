@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 $"Once dissipation has ended, {SplitDaggerCount} fast, splitting blades that aim at and slice nearby targets are released, along\n" +
                 "with a large laserbeam\n" +
                 $"Stealth strikes release a volley of {StealthStrikeLightCount} lights which explode into smaller laser beams along with the dagger");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

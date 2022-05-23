@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
     public class PlagueInfuser : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             Tooltip.SetDefault("Used for special crafting");
         }
 

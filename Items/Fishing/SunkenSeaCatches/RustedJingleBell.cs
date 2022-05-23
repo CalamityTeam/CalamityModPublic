@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             DisplayName.SetDefault("Rusted Jingle Bell");
             Tooltip.SetDefault("Summons a baby ghost bell light pet\n" +
                 "Provides a moderate amount of light while underwater");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Terra-cotta");
             Tooltip.SetDefault("Causes enemies to erupt into healing projectiles on death\n" +
                 "Enemies explode on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -49,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
-            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), knockback, player.whoAmI);
+            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -63,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
-            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), Item.knockBack, player.whoAmI);
+            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, player.whoAmI);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

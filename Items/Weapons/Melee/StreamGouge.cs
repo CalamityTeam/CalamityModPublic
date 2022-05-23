@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Summons a portal that the spear crosses through\n" +
                 "Shortly after going through the portal, portals appear near the mouse that release copies of the spear's cutting edge\n" +
                 "Enemies hit by the copies create lacerations in space, revealing a cosmic background");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

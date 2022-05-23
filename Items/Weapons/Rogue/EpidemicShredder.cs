@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Contrary to its name, it will probably cause an epidemic if used incorrectly\n" +
                                "Throws a plagued boomerang that releases plague seekers when it hits tiles or enemies\n" +
                                "Stealth strikes cause the boomerang to release plague seekers constantly as it travels");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

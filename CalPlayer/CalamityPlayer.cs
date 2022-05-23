@@ -3511,25 +3511,25 @@ namespace CalamityMod.CalPlayer
             if (GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
 
-            Player.GetAttackSpeed(DamageClass.Melee) += meleeSpeedMult;
+            Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
 
             // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade and Blade of Enmity.
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
                 Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
             {
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * 0.25f);
-                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * 0.25f);
+                Player.GetAttackSpeed<MeleeDamageClass>() = newMeleeSpeed;
             }
 
             // Melee speed does not affect non-true melee weapon projectile rate of fire.
             if (Player.HoldingProjectileMeleeWeapon())
             {
                 // Melee weapons that fire any kind of projectile don't benefit from melee speed anymore, so they get a damage boost from it instead.
-                Player.GetDamage(DamageClass.Melee) += Player.GetAttackSpeed(DamageClass.Melee) - 1f;
+                Player.GetDamage<MeleeDamageClass>() += Player.GetAttackSpeed<MeleeDamageClass>() - 1f;
 
                 // Set melee speed to 1f.
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
-                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
+                Player.GetAttackSpeed<MeleeDamageClass>() = newMeleeSpeed;
             }
             #endregion
 
@@ -4612,7 +4612,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
             {
-                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0);
+                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0);
                 int penetratedDefense = Math.Min(penetratableDefense, 5);
                 damage += (int)(0.5f * penetratedDefense);
             }
@@ -4757,7 +4757,7 @@ namespace CalamityMod.CalPlayer
             {
                 penetrateAmt += 5;
             }
-            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0); //if find how much defense we can penetrate
+            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0); //if find how much defense we can penetrate
             int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
             damage += (int)(0.5f * penetratedDefense);
             #endregion
@@ -7586,312 +7586,312 @@ namespace CalamityMod.CalPlayer
             #region MeleeLevelBoosts
             if (meleeLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.06f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.06f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.06f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.06f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.06f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.06f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 5500) //hm limit
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 2;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 2;
             }
             else if (meleeLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 2;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 2;
             }
             else if (meleeLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.04f;
-                Player.GetCritChance(DamageClass.Melee) += 2;
+                Player.GetDamage<MeleeDamageClass>() += 0.04f;
+                Player.GetCritChance<MeleeDamageClass>() += 2;
             }
             else if (meleeLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.04f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.04f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.04f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.04f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 1500) //prehm limit
             {
-                Player.GetDamage(DamageClass.Melee) += 0.03f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.03f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.02f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.02f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.02f;
+                Player.GetDamage<MeleeDamageClass>() += 0.02f;
             }
             else if (meleeLevel >= 300)
-                Player.GetDamage(DamageClass.Melee) += 0.02f;
+                Player.GetDamage<MeleeDamageClass>() += 0.02f;
             else if (meleeLevel >= 100)
-                Player.GetDamage(DamageClass.Melee) += 0.01f;
+                Player.GetDamage<MeleeDamageClass>() += 0.01f;
             #endregion
 
             #region RangedLevelBoosts
             if (rangedLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.06f;
+                Player.GetDamage<RangedDamageClass>() += 0.06f;
                 Player.moveSpeed += 0.06f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.05f;
+                Player.GetDamage<RangedDamageClass>() += 0.05f;
                 Player.moveSpeed += 0.06f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.05f;
+                Player.GetDamage<RangedDamageClass>() += 0.05f;
                 Player.moveSpeed += 0.05f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.04f;
+                Player.GetDamage<RangedDamageClass>() += 0.04f;
                 Player.moveSpeed += 0.05f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.04f;
+                Player.GetDamage<RangedDamageClass>() += 0.04f;
                 Player.moveSpeed += 0.04f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 5500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.04f;
+                Player.GetDamage<RangedDamageClass>() += 0.04f;
                 Player.moveSpeed += 0.04f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.03f;
+                Player.GetDamage<RangedDamageClass>() += 0.03f;
                 Player.moveSpeed += 0.04f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.03f;
+                Player.GetDamage<RangedDamageClass>() += 0.03f;
                 Player.moveSpeed += 0.03f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.03f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.03f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 1500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.02f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.01f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 300)
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
             else if (rangedLevel >= 100)
-                Player.GetDamage(DamageClass.Ranged) += 0.01f;
+                Player.GetDamage<RangedDamageClass>() += 0.01f;
             #endregion
 
             #region MagicLevelBoosts
             if (magicLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.06f;
+                Player.GetDamage<MagicDamageClass>() += 0.06f;
                 Player.manaCost *= 0.94f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.05f;
+                Player.GetDamage<MagicDamageClass>() += 0.05f;
                 Player.manaCost *= 0.94f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.05f;
+                Player.GetDamage<MagicDamageClass>() += 0.05f;
                 Player.manaCost *= 0.95f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.95f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.96f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 5500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.96f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.97f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.03f;
+                Player.GetDamage<MagicDamageClass>() += 0.03f;
                 Player.manaCost *= 0.97f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.03f;
+                Player.GetDamage<MagicDamageClass>() += 0.03f;
                 Player.manaCost *= 0.98f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.03f;
+                Player.GetDamage<MagicDamageClass>() += 0.03f;
                 Player.manaCost *= 0.98f;
-                Player.GetCritChance(DamageClass.Magic) += 1;
+                Player.GetCritChance<MagicDamageClass>() += 1;
             }
             else if (magicLevel >= 1500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
                 Player.manaCost *= 0.98f;
-                Player.GetCritChance(DamageClass.Magic) += 1;
+                Player.GetCritChance<MagicDamageClass>() += 1;
             }
             else if (magicLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
                 Player.manaCost *= 0.99f;
-                Player.GetCritChance(DamageClass.Magic) += 1;
+                Player.GetCritChance<MagicDamageClass>() += 1;
             }
             else if (magicLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
                 Player.manaCost *= 0.99f;
             }
             else if (magicLevel >= 300)
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
             else if (magicLevel >= 100)
-                Player.GetDamage(DamageClass.Magic) += 0.01f;
+                Player.GetDamage<MagicDamageClass>() += 0.01f;
             #endregion
 
             #region SummonLevelBoosts
             if (summonLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.12f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetDamage<SummonDamageClass>() += 0.12f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
             }
             else if (summonLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.1f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetDamage<SummonDamageClass>() += 0.1f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
             }
             else if (summonLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.09f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.7f;
+                Player.GetDamage<SummonDamageClass>() += 0.09f;
+                Player.GetKnockback(DamageClass.Summon) += 2.7f;
             }
             else if (summonLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.08f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.4f;
+                Player.GetDamage<SummonDamageClass>() += 0.08f;
+                Player.GetKnockback(DamageClass.Summon) += 2.4f;
             }
             else if (summonLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.1f;
+                Player.GetDamage<SummonDamageClass>() += 0.07f;
+                Player.GetKnockback(DamageClass.Summon) += 2.1f;
             }
             else if (summonLevel >= 5500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetDamage<SummonDamageClass>() += 0.07f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
             }
             else if (summonLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.06f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetDamage<SummonDamageClass>() += 0.06f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
             }
             else if (summonLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.05f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.5f;
+                Player.GetDamage<SummonDamageClass>() += 0.05f;
+                Player.GetKnockback(DamageClass.Summon) += 1.5f;
             }
             else if (summonLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.2f;
+                Player.GetDamage<SummonDamageClass>() += 0.04f;
+                Player.GetKnockback(DamageClass.Summon) += 1.2f;
             }
             else if (summonLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.9f;
+                Player.GetDamage<SummonDamageClass>() += 0.04f;
+                Player.GetKnockback(DamageClass.Summon) += 0.9f;
             }
             else if (summonLevel >= 1500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.6f;
+                Player.GetDamage<SummonDamageClass>() += 0.03f;
+                Player.GetKnockback(DamageClass.Summon) += 0.6f;
             }
             else if (summonLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetDamage<SummonDamageClass>() += 0.03f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.02f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetDamage<SummonDamageClass>() += 0.02f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 300)
-                Player.GetDamage(DamageClass.Summon) += 0.02f;
+                Player.GetDamage<SummonDamageClass>() += 0.02f;
             else if (summonLevel >= 100)
-                Player.GetDamage(DamageClass.Summon) += 0.01f;
+                Player.GetDamage<SummonDamageClass>() += 0.01f;
             #endregion
 
             #region RogueLevelBoosts

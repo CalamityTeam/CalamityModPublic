@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Wooden arrows are set alight with fire\n" +
                 "Fires 3 arrows at once\n" +
                 "Fires 2 additional cursed, hellfire, or ichor arrows");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

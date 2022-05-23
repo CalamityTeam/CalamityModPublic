@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Cosmic Kunai");
             Tooltip.SetDefault("Fires a stream of short-range kunai\n" +
                 "Stealth strikes spawn 5 Cosmic Scythes which home and explode");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statis' Void Sash");
             Tooltip.SetDefault("12% increased jump speed and allows constant jumping\n" +
                 "Grants immunity to fall damage\n" +

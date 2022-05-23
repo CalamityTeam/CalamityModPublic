@@ -7,7 +7,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Ice meteors freeze enemies\n" +
                 "Flame meteors explode\n" +
                 "Green meteors spawn healing orbs");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -91,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
 
-                int projDamage = (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f));
+                int projDamage = (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f));
                 Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), projDamage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
@@ -151,7 +150,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78;
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
 
             if (player.moonLeech)

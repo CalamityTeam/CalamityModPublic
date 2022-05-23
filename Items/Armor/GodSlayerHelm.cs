@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("God Slayer Horned Greathelm");
             Tooltip.SetDefault("14% increased melee damage and critical strike chance");
         }
@@ -64,8 +63,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.14f;
-            player.GetCritChance(DamageClass.Melee) += 14;
+            player.GetDamage<MeleeDamageClass>() += 0.14f;
+            player.GetCritChance<MeleeDamageClass>() += 14;
         }
 
         public override void AddRecipes()

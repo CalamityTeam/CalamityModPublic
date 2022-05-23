@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Old Duke");
             Tooltip.SetDefault("Strange, to find out that the mutant terror of the seas was not alone in its unique biology.\n" +
                 "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Golem");
             Tooltip.SetDefault("A primitive construct.\n" +
                 "I admire the lihzahrd race for their ingenuity, though finding faith in such a flawed idol would invariably lead to their downfall.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

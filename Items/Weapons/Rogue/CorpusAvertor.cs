@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Stealth strikes throw a single rainbow outlined dagger\n" +
                 "On enemy hits, this dagger boosts the damage and life regen of all members of your team\n" +
                 "However, there is a small chance it will cut your health in half instead");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

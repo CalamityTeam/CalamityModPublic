@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
             Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage\n" +
                                "Not moving boosts all damage and critical strike chance");
@@ -62,8 +61,8 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
             player.manaCost *= 0.8f;
-            player.GetDamage(DamageClass.Magic) += 0.3f;
-            player.GetCritChance(DamageClass.Magic) += 20;
+            player.GetDamage<MagicDamageClass>() += 0.3f;
+            player.GetCritChance<MagicDamageClass>() += 20;
             player.statManaMax2 += 100;
         }
 

@@ -22,27 +22,27 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyHeadPieceEffect(Player player)
         {
-            player.GetAttackSpeed(DamageClass.Melee) -= 0.1f;
+            player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
         }
 
         public override void ApplyBodyPieceEffect(Player player)
         {
-            player.GetDamage(DamageClass.Summon) -= 0.1f;
-            player.GetDamage(DamageClass.Melee) -= 0.1f;
+            player.GetDamage<SummonDamageClass>() -= 0.1f;
+            player.GetDamage<MeleeDamageClass>() -= 0.1f;
         }
 
         public override void ApplyLegPieceEffect(Player player)
         {
-            player.GetDamage(DamageClass.Summon) -= 0.05f;
-            player.GetCritChance(DamageClass.Melee) -= 10;
+            player.GetDamage<SummonDamageClass>() -= 0.05f;
+            player.GetCritChance<MeleeDamageClass>() -= 10;
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.15f;
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
-            player.GetCritChance(DamageClass.Melee) += 10;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
         }
     }
 }

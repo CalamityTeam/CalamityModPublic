@@ -79,7 +79,7 @@ namespace CalamityMod.CalPlayer.Dashes
             }
 
             float kbFactor = 15f;
-            bool crit = Main.rand.Next(100) < player.GetCritChance(DamageClass.Melee);
+            bool crit = Main.rand.Next(100) < player.GetCritChance<MeleeDamageClass>();
             if (player.kbGlove)
                 kbFactor *= 2f;
             if (player.kbBuff)

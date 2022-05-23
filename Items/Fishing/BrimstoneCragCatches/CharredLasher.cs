@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         {
             DisplayName.SetDefault("Charred Lasher");
             Tooltip.SetDefault("This elusive fish is a prized commodity");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()

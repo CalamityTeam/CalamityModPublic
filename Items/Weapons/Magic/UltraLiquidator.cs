@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
                                "The blades inflict ichor, cursed inferno and brimstone flames");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

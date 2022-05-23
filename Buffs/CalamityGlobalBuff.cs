@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.MagicPower)
             {
-                player.GetDamage(DamageClass.Magic) -= 0.1f;
+                player.GetDamage<MagicDamageClass>() -= 0.1f;
             }
             else if (type == BuffID.Panic)
             {
@@ -57,7 +57,7 @@ namespace CalamityMod.Buffs
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
                 float nebulaDamage = 0.075f * player.nebulaLevelDamage; // 15% to 45% changed to 7.5% to 22.5%
-                player.GetDamage(DamageClass.Generic) -= nebulaDamage;
+                player.GetDamage<GenericDamageClass>() -= nebulaDamage;
             }
             else if (type == BuffID.Warmth)
             {

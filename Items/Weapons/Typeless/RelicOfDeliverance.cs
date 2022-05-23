@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                                "The spear requires a charge-up. The longer the charge, the stronger the lunge\n" +
                                "The spear disappears immediately if you are not holding this item while charging\n" +
                                "If enough time has passed or the spear collides into a wall, the spear dies and the lunge ends");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

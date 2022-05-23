@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statigel Cap");
             Tooltip.SetDefault("10% increased magic damage and 10% decreased mana cost\n" +
                 "7% increased magic critical strike chance and +30 max mana");
@@ -47,8 +46,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Magic) += 0.1f;
-            player.GetCritChance(DamageClass.Magic) += 7;
+            player.GetDamage<MagicDamageClass>() += 0.1f;
+            player.GetCritChance<MagicDamageClass>() += 7;
             player.manaCost *= 0.9f;
             player.statManaMax2 += 30;
         }

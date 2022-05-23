@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.FurnitureExo
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 200;
+            SacrificeTotal = 200;
         }
 
         public override void SetDefaults()

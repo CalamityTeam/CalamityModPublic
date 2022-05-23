@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gacruxian Mollusk");
             Tooltip.SetDefault("Releases homing sparks while traveling\n" +
             "Stealth strikes release homing snails that create even more sparks");

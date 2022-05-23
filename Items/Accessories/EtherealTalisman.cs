@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ethereal Talisman");
             Tooltip.SetDefault("15% increased magic damage, 5% increased magic critical strike chance and 10% decreased mana usage\n" +
                 "+150 max mana\n" +
@@ -39,9 +38,9 @@ namespace CalamityMod.Items.Accessories
                 player.manaFlower = true;
 
             player.statManaMax2 += 150;
-            player.GetDamage(DamageClass.Magic) += 0.15f;
+            player.GetDamage<MagicDamageClass>() += 0.15f;
             player.manaCost *= 0.9f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetCritChance<MagicDamageClass>() += 5;
         }
 
         public override void AddRecipes()

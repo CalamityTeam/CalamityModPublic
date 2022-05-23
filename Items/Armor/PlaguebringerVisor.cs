@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plaguebringer Visor");
             Tooltip.SetDefault("15% increased minion damage\n" +
             "+20 max life");
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
             player.statLifeMax2 += 20;
         }
 

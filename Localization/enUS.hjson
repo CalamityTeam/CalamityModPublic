@@ -1,3 +1,11 @@
-﻿{
-    "CalamityMod.DamageClassName.RogueDamageClass": "rogue damage"
+﻿Mods:
+{
+    CalamityMod:
+    {
+    	DamageClassName:
+    	{
+             "RogueDamageClass": "rogue damage",
+             "AverageDamageClass": "average damage",
+    	}
+    }
 }

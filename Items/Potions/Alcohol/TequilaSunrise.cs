@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         internal static readonly int CritBoost = 3;
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Tequila Sunrise");
             Tooltip.SetDefault(@"The greatest daytime drink I've ever had
 Boosts damage and knockback by 7%, crit chance and damage reduction by 3%, and defense by 10 during daytime

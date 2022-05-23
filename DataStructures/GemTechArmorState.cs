@@ -300,27 +300,27 @@ namespace CalamityMod.DataStructures
             // The melee speed boost code is present in the Player Misc Effects file.
             if (IsYellowGemActive)
             {
-                Owner.GetCritChance(DamageClass.Melee) += (int)(GemTechHeadgear.MeleeCritBoost * 100f);
-                Owner.GetDamage(DamageClass.Melee) += GemTechHeadgear.MeleeDamageBoost;
+                Owner.GetCritChance<MeleeDamageClass>() += (int)(GemTechHeadgear.MeleeCritBoost * 100f);
+                Owner.GetDamage<MeleeDamageClass>() += GemTechHeadgear.MeleeDamageBoost;
             }
 
             if (IsGreenGemActive)
             {
-                Owner.GetCritChance(DamageClass.Ranged) += (int)(GemTechHeadgear.RangedCritBoost * 100f);
-                Owner.GetDamage(DamageClass.Ranged) += GemTechHeadgear.RangedDamageBoost;
+                Owner.GetCritChance<RangedDamageClass>() += (int)(GemTechHeadgear.RangedCritBoost * 100f);
+                Owner.GetDamage<RangedDamageClass>() += GemTechHeadgear.RangedDamageBoost;
             }
 
             if (IsBlueGemActive)
             {
                 Owner.maxMinions += GemTechHeadgear.SummonMinionCountBoost;
-                Owner.GetDamage(DamageClass.Summon) += GemTechHeadgear.SummonDamageBoost;
+                Owner.GetDamage<SummonDamageClass>() += GemTechHeadgear.SummonDamageBoost;
             }
 
             if (IsPurpleGemActive)
             {
                 Owner.statManaMax2 += GemTechHeadgear.MagicManaBoost;
-                Owner.GetCritChance(DamageClass.Magic) += (int)(GemTechHeadgear.MagicCritBoost * 100f);
-                Owner.GetDamage(DamageClass.Magic) += GemTechHeadgear.MagicDamageBoost;
+                Owner.GetCritChance<MagicDamageClass>() += (int)(GemTechHeadgear.MagicCritBoost * 100f);
+                Owner.GetDamage<MagicDamageClass>() += GemTechHeadgear.MagicDamageBoost;
             }
 
             if (IsPinkGemActive)

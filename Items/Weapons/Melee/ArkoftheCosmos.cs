@@ -11,7 +11,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -59,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "The physical culmination of your journey, capable of rending gods asunder");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

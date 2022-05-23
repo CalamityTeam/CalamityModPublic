@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Fishing
             DisplayName.SetDefault("Spadefish");
             Tooltip.SetDefault("How can a fish be used to dig through the ground?\n" +
                 "Some questions are best left unanswered.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

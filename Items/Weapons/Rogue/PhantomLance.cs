@@ -4,7 +4,6 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 Fades away and slows down over time
 Lost souls released later deal less damage
 Stealth strikes don't slow down and souls always deal full damage");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
         public override void SetDefaults()

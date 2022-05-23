@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Demonshade Breastplate");
             Tooltip.SetDefault("20% increased melee speed, 15% increased damage and critical strike chance\n" +
                 "Enemies take ungodly damage when they touch you\n" +
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Armor
             player.statManaMax2 += 200;
             player.GetDamage<GenericDamageClass>() += 0.15f;
             player.GetCritChance<GenericDamageClass>() += 15;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.2f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.2f;
         }
 
         public override void AddRecipes()

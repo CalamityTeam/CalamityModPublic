@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Exo Mechanical Trio");
             Tooltip.SetDefault("The fruits of masterful craftsmanship and optimization, created only with the objective to destroy.\n" +
                 "Yet in the end, they achieved little more than the original designs they were derived from.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Fires short-range tridents\n" +
                 "Hitting enemies will inflict the crush depth debuff\n" +
                 "The lower the enemies' defense, the more damage they take from this debuff");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(255, 166, 94)).UseSecondaryColor(new Color(238, 93, 82));
         public override void SafeSetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Astral Orange Dye");
         }
 

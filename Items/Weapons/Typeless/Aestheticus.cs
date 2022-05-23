@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -18,13 +17,12 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Aestheticus");
             Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
                 "This weapon scales with all your damage stats at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            // TODO -- "scales with all stats at once"
-            Item.DamageType = DamageClass.Generic;
+            Item.DamageType = AverageDamageClass.Instance;
             Item.width = 58;
             Item.damage = 8;
             Item.useAnimation = 25;

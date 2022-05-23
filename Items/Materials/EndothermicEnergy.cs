@@ -5,7 +5,6 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.GameContent;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Endothermic Energy");
             Tooltip.SetDefault("Its deathly chill sucks the life from its surroundings");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));

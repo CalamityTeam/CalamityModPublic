@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Providence, the Profaned Goddess");
             Tooltip.SetDefault("A core surrounded by stone and flame, a simple origin and a simple goal.\n" +
                 "What would have become of us had she not been defeated is a frightening concept to consider.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

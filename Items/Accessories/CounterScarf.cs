@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Counter Scarf");
             Tooltip.SetDefault("True melee strikes deal 10% more damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +

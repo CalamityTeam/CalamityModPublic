@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statis' Curse");
             Tooltip.SetDefault("Increases max minions by 3, does not stack with downgrades\n" +
                 "10% increased minion damage\n" +
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.shadowMinions = true;
             modPlayer.holyMinions = true;
             player.GetKnockback<SummonDamageClass>() += 2.75f;
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
             player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
         }
 

@@ -7,7 +7,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Silva Horned Hood");
             Tooltip.SetDefault("10% increased minion damage");
         }
@@ -68,11 +67,11 @@ namespace CalamityMod.Items.Armor
                         Main.projectile[p].originalDamage = 600;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.65f;
+            player.GetDamage<SummonDamageClass>() += 0.65f;
             player.maxMinions += 5;
         }
 
-        public override void UpdateEquip(Player player) => player.GetDamage(DamageClass.Summon) += 0.1f;
+        public override void UpdateEquip(Player player) => player.GetDamage<SummonDamageClass>() += 0.1f;
 
         public override void AddRecipes()
         {

@@ -990,62 +990,62 @@ namespace CalamityMod.Items
 
             if (set == "CrystalAssassin")
             {
-                player.GetDamage(DamageClass.Generic) -= 0.1f;
-                player.GetCritChance(DamageClass.Generic) -= 10;
+                player.GetDamage<GenericDamageClass>() -= 0.1f;
+                player.GetCritChance<GenericDamageClass>() -= 10;
                 player.setBonus = "Allows the ability to dash";
             }
             else if (set == "SquireTier2")
             {
                 player.lifeRegen += 3;
-                player.GetDamage(DamageClass.Summon) += 0.15f;
-                player.GetCritChance(DamageClass.Melee) += 10;
+                player.GetDamage<SummonDamageClass>() += 0.15f;
+                player.GetCritChance<MeleeDamageClass>() += 10;
                 player.setBonus += "\nIncreases your life regeneration\n" +
                             "15% increased minion damage and 10% increased melee critical strike chance";
             }
             else if (set == "HuntressTier2")
             {
-                player.GetDamage(DamageClass.Summon) += 0.1f;
-                player.GetDamage(DamageClass.Ranged) += 0.1f;
+                player.GetDamage<SummonDamageClass>() += 0.1f;
+                player.GetDamage<RangedDamageClass>() += 0.1f;
                 player.setBonus += "\n10% increased minion and ranged damage";
             }
             else if (set == "ApprenticeTier2")
             {
-                player.GetDamage(DamageClass.Summon) += 0.05f;
-                player.GetCritChance(DamageClass.Magic) += 15;
+                player.GetDamage<SummonDamageClass>() += 0.05f;
+                player.GetCritChance<MagicDamageClass>() += 15;
                 player.setBonus += "\n5% increased minion damage and 15% increased magic critical strike chance";
             }
             else if (set == "MonkTier3")
             {
-                player.GetDamage(DamageClass.Summon) += 0.3f;
-                player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
-                player.GetDamage(DamageClass.Melee) += 0.1f;
-                player.GetCritChance(DamageClass.Melee) += 10;
+                player.GetDamage<SummonDamageClass>() += 0.3f;
+                player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
+                player.GetDamage<MeleeDamageClass>() += 0.1f;
+                player.GetCritChance<MeleeDamageClass>() += 10;
                 player.setBonus += "\n10% increased melee damage, melee critical strike chance and melee speed\n" +
                             "30% increased minion damage";
             }
             else if (set == "SquireTier3")
             {
                 player.lifeRegen += 6;
-                player.GetDamage(DamageClass.Summon) += 0.1f;
-                player.GetCritChance(DamageClass.Melee) += 10;
+                player.GetDamage<SummonDamageClass>() += 0.1f;
+                player.GetCritChance<MeleeDamageClass>() += 10;
                 player.setBonus += "\nMassively increased life regeneration\n" +
                             "10% increased minion damage and melee critical strike chance";
             }
             else if (set == "HuntressTier3")
             {
-                player.GetDamage(DamageClass.Summon) += 0.1f;
-                player.GetDamage(DamageClass.Ranged) += 0.1f;
+                player.GetDamage<SummonDamageClass>() += 0.1f;
+                player.GetDamage<RangedDamageClass>() += 0.1f;
                 player.setBonus += "\n10% increased minion and ranged damage";
             }
             else if (set == "ApprenticeTier3")
             {
-                player.GetDamage(DamageClass.Summon) += 0.1f;
-                player.GetCritChance(DamageClass.Magic) += 15;
+                player.GetDamage<SummonDamageClass>() += 0.1f;
+                player.GetCritChance<MagicDamageClass>() += 15;
                 player.setBonus += "\n10% increased minion damage and 15% increased magic critical strike chance";
             }
             else if (set == "SpectreHealing")
             {
-                player.GetDamage(DamageClass.Magic) += 0.2f;
+                player.GetDamage<MagicDamageClass>() += 0.2f;
                 player.setBonus = "Reduces Magic damage by 20% and converts it to healing force\n" +
                     "Magic damage done to enemies heals the player with lowest health";
             }
@@ -1063,61 +1063,61 @@ namespace CalamityMod.Items
             switch (item.type)
             {
                 case ItemID.MagicHat:
-                    player.GetDamage(DamageClass.Magic) -= 0.01f;
-                    player.GetCritChance(DamageClass.Magic) -= 1;
+                    player.GetDamage<MagicDamageClass>() -= 0.01f;
+                    player.GetCritChance<MagicDamageClass>() -= 1;
                     break;
 
                 case ItemID.SquireGreatHelm:
                     player.lifeRegen -= 3;
                     break;
                 case ItemID.SquirePlating:
-                    player.GetDamage(DamageClass.Summon) -= 0.05f;
-                    player.GetDamage(DamageClass.Melee) -= 0.05f;
+                    player.GetDamage<SummonDamageClass>() -= 0.05f;
+                    player.GetDamage<MeleeDamageClass>() -= 0.05f;
                     break;
                 case ItemID.SquireGreaves:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetCritChance(DamageClass.Melee) -= 10;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetCritChance<MeleeDamageClass>() -= 10;
                     break;
 
                 case ItemID.HuntressJerkin:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetDamage(DamageClass.Ranged) -= 0.1f;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetDamage<RangedDamageClass>() -= 0.1f;
                     break;
 
                 case ItemID.ApprenticeTrousers:
-                    player.GetDamage(DamageClass.Summon) -= 0.05f;
-                    player.GetCritChance(DamageClass.Magic) -= 15;
+                    player.GetDamage<SummonDamageClass>() -= 0.05f;
+                    player.GetCritChance<MagicDamageClass>() -= 15;
                     break;
 
                 case ItemID.SquireAltShirt:
                     player.lifeRegen -= 6;
                     break;
                 case ItemID.SquireAltPants:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetCritChance(DamageClass.Melee) -= 10;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetCritChance<MeleeDamageClass>() -= 10;
                     break;
 
                 case ItemID.MonkAltHead:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetDamage(DamageClass.Melee) -= 0.1f;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetDamage<MeleeDamageClass>() -= 0.1f;
                     break;
                 case ItemID.MonkAltShirt:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetAttackSpeed(DamageClass.Melee) -= 0.1f;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetAttackSpeed<MeleeDamageClass>() -= 0.1f;
                     break;
                 case ItemID.MonkAltPants:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetCritChance(DamageClass.Melee) -= 10;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetCritChance<MeleeDamageClass>() -= 10;
                     break;
 
                 case ItemID.HuntressAltShirt:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetDamage(DamageClass.Ranged) -= 0.1f;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetDamage<RangedDamageClass>() -= 0.1f;
                     break;
 
                 case ItemID.ApprenticeAltPants:
-                    player.GetDamage(DamageClass.Summon) -= 0.1f;
-                    player.GetCritChance(DamageClass.Magic) -= 15;
+                    player.GetDamage<SummonDamageClass>() -= 0.1f;
+                    player.GetCritChance<MagicDamageClass>() -= 15;
                     break;
             }
         }
@@ -1173,8 +1173,8 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.SniperScope)
             {
-                player.GetDamage(DamageClass.Ranged) -= 0.03f;
-                player.GetCritChance(DamageClass.Ranged) -= 0.03f;
+                player.GetDamage<RangedDamageClass>() -= 0.03f;
+                player.GetCritChance<RangedDamageClass>() -= 0.03f;
             }
 
             if (item.type == ItemID.MagicQuiver)
@@ -1185,8 +1185,8 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.FireGauntlet)
             {
-                player.GetDamage(DamageClass.Melee) += 0.02f;
-                player.GetAttackSpeed(DamageClass.Melee) += 0.02f;
+                player.GetDamage<MeleeDamageClass>() += 0.02f;
+                player.GetAttackSpeed<MeleeDamageClass>() += 0.02f;
             }
 
             if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
@@ -1221,9 +1221,9 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.ButterflyWings) // Boost to magic stats
             {
                 player.statManaMax2 += 20;
-                player.GetDamage(DamageClass.Magic) += 0.05f;
+                player.GetDamage<MagicDamageClass>() += 0.05f;
                 player.manaCost *= 0.95f;
-                player.GetCritChance(DamageClass.Magic) += 5;
+                player.GetCritChance<MagicDamageClass>() += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.FairyWings) // Boost to max life
@@ -1253,8 +1253,8 @@ namespace CalamityMod.Items
                     player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
                 {
                     player.moveSpeed += 0.1f;
-                    player.GetDamage(DamageClass.Ranged) += 0.1f;
-                    player.GetCritChance(DamageClass.Ranged) += 10;
+                    player.GetDamage<RangedDamageClass>() += 0.1f;
+                    player.GetCritChance<RangedDamageClass>() += 10;
                     player.statDefense += 30;
                 }
             }
@@ -1269,16 +1269,16 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.FrostHelmet && player.body == ArmorIDs.Body.FrostBreastplate && player.legs == ArmorIDs.Legs.FrostLeggings)
                 {
-                    player.GetDamage(DamageClass.Melee) += 0.02f;
-                    player.GetDamage(DamageClass.Ranged) += 0.02f;
-                    player.GetCritChance(DamageClass.Melee) += 1;
-                    player.GetCritChance(DamageClass.Ranged) += 1;
+                    player.GetDamage<MeleeDamageClass>() += 0.02f;
+                    player.GetDamage<RangedDamageClass>() += 0.02f;
+                    player.GetCritChance<MeleeDamageClass>() += 1;
+                    player.GetCritChance<RangedDamageClass>() += 1;
                 }
             }
             else if (item.type == ItemID.FlameWings) // Bonus to melee stats
             {
-                player.GetDamage(DamageClass.Melee) += 0.05f;
-                player.GetCritChance(DamageClass.Melee) += 5;
+                player.GetDamage<MeleeDamageClass>() += 0.05f;
+                player.GetCritChance<MeleeDamageClass>() += 5;
                 player.noFallDmg = true;
             }
             else if (item.type == ItemID.GhostWings) // Bonus to mage stats while wearing spectre armor
@@ -1293,8 +1293,8 @@ namespace CalamityMod.Items
                     }
                     else if (player.head == ArmorIDs.Head.SpectreMask)
                     {
-                        player.GetDamage(DamageClass.Magic) += 0.05f;
-                        player.GetCritChance(DamageClass.Magic) += 5;
+                        player.GetDamage<MagicDamageClass>() += 0.05f;
+                        player.GetCritChance<MagicDamageClass>() += 5;
                     }
                 }
             }
@@ -1310,8 +1310,8 @@ namespace CalamityMod.Items
                     }
                     else if (player.body == ArmorIDs.Body.BeetleScaleMail)
                     {
-                        player.GetDamage(DamageClass.Melee) += 0.05f;
-                        player.GetCritChance(DamageClass.Melee) += 5;
+                        player.GetDamage<MeleeDamageClass>() += 0.05f;
+                        player.GetCritChance<MeleeDamageClass>() += 5;
                     }
                 }
             }
@@ -1373,8 +1373,8 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.GetKnockback(DamageClass.Summon).Base += 2f;
-                    player.GetDamage(DamageClass.Summon) += 0.05f;
+                    player.GetKnockback(DamageClass.Summon) += 2f;
+                    player.GetDamage<SummonDamageClass>() += 0.05f;
                 }
             }
             else if (item.type == ItemID.TatteredFairyWings)
@@ -1396,8 +1396,8 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SolarFlareHelmet && player.body == ArmorIDs.Body.SolarFlareBreastplate && player.legs == ArmorIDs.Legs.SolarFlareLeggings)
                 {
-                    player.GetDamage(DamageClass.Melee) += 0.07f;
-                    player.GetCritChance(DamageClass.Melee) += 3;
+                    player.GetDamage<MeleeDamageClass>() += 0.07f;
+                    player.GetCritChance<MeleeDamageClass>() += 3;
                 }
             }
             else if (item.type == ItemID.WingsVortex) // Bonus to ranged stats while wearing vortex armor
@@ -1405,8 +1405,8 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.VortexHelmet && player.body == ArmorIDs.Body.VortexBreastplate && player.legs == ArmorIDs.Legs.VortexLeggings)
                 {
-                    player.GetDamage(DamageClass.Ranged) += 0.03f;
-                    player.GetCritChance(DamageClass.Ranged) += 7;
+                    player.GetDamage<RangedDamageClass>() += 0.03f;
+                    player.GetCritChance<RangedDamageClass>() += 7;
                 }
             }
             else if (item.type == ItemID.WingsNebula) // Bonus to magic stats while wearing nebula armor
@@ -1414,8 +1414,8 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.NebulaHelmet && player.body == ArmorIDs.Body.NebulaBreastplate && player.legs == ArmorIDs.Legs.NebulaLeggings)
                 {
-                    player.GetDamage(DamageClass.Magic) += 0.05f;
-                    player.GetCritChance(DamageClass.Magic) += 5;
+                    player.GetDamage<MagicDamageClass>() += 0.05f;
+                    player.GetCritChance<MagicDamageClass>() += 5;
                     player.statManaMax2 += 20;
                     player.manaCost *= 0.95f;
                 }
@@ -1426,7 +1426,7 @@ namespace CalamityMod.Items
                 if (player.head == ArmorIDs.Head.StardustHelmet && player.body == ArmorIDs.Body.StardustPlate && player.legs == ArmorIDs.Legs.StardustLeggings)
                 {
                     player.maxMinions++;
-                    player.GetDamage(DamageClass.Summon) += 0.05f;
+                    player.GetDamage<SummonDamageClass>() += 0.05f;
                 }
             }
             else if (item.type == ItemID.FishronWings || item.type == ItemID.BetsyWings || item.type == ItemID.Yoraiz0rWings ||

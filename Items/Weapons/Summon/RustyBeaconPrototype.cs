@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a long-abandoned drone to support you\n" +
                                "Clicking on an enemy gives them a tiny prick, causing them to become aggravated\n" +
                                "The drone hovers above nearby enemies and inflicts irradiated");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

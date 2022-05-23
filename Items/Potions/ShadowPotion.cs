@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Shadow Potion");
             Tooltip.SetDefault("Causes the player to disappear while not attacking\n" +
             "Holding different types of rogue weapons give the player boosts\n" +

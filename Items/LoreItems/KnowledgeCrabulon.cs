@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Crabulon");
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
                 "It's interesting how creatures can adapt given certain circumstances.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

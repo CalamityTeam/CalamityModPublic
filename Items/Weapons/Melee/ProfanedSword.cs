@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Brimstone Sword");
             Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
                 "Right click to throw like a javelin that explodes on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -5,7 +5,6 @@ using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Stat Meter");
             // TODO -- On April 1st, rename this item to "Pasta Strainer"
             Tooltip.SetDefault("Displays almost all player stats");

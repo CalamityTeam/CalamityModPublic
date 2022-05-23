@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Tools
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Grax");
             Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
                 "Right click to use without hammering down walls or chopping down trees");

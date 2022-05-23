@@ -2,14 +2,13 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class SmoothBrimstoneSlag : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()

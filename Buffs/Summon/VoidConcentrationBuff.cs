@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.Summon
         {
             CalamityPlayer mp = player.Calamity();
             int count = player.ownedProjectileCounts[ModContent.ProjectileType<VoidConcentrationAura>()];
-            player.GetDamage(DamageClass.Summon) += 0.05f; //5%
+            player.GetDamage<SummonDamageClass>() += 0.05f; //5%
             mp.voidConcentrationAura = true;
             if (!mp.voidAuraDamage && count == 0)
             {

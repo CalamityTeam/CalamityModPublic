@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Heart");
             Tooltip.SetDefault("Reduces the amount of defense damage you take by 50%\n" +
                 "Standing still regenerates your life quickly, reduces your damage by 50% and boosts your defense by 75%\n" +

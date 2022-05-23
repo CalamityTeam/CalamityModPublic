@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Striking an enemy with the blade causes several comets to fire\n" +
                                "All attacks briefly freeze enemies hit\n" +
                                "Enemies hit at very low HP explode into frost energy and freeze nearby enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Golden pans cause all fireballs to aggressively home in on their target\n" +
                 "Stealth strikes act similar to golden pans but also explode into golden sparks\n" +
                 "Stealth strikes also summon additional fireballs on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

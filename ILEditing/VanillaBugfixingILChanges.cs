@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.ILEditing
 {
@@ -133,6 +134,19 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Brfalse, ret);
         }
         #endregion Fixing Splitting Worm Banner Spam in Deathmode
+
+        #region Let Rogue Items Be Reforgeable
+        private static bool LetRogueItemsBeReforgeable(On.Terraria.Item.orig_Prefix orig, Item self, int pre)
+        {
+            if (self.CountsAsClass<RogueDamageClass>() && self.maxStack == 1 && pre == -3)
+            {
+                PrefixLoader.Roll(self, ref pre, 40, WorldGen.gen ? WorldGen.genRand : Main.rand, PrefixCategory.AnyWeapon);
+                return true;
+            }
+
+            return orig(self, pre);
+        }
+        #endregion Let Rogue Items Be Reforgeable
 
         #region Fix Projectile Update Priority Problems
 

@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Spiteful Candle");
             Tooltip.SetDefault("When placed, nearby enemies take 5% more damage.\n" +
                 "This extra damage bypasses enemy damage reduction and defense\n" +

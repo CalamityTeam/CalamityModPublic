@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Avalanche");
             Tooltip.SetDefault("Spawns ice bombs that explode after 3 seconds into ice shards on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -50,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), knockback, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, Main.myPlayer);
             }
         }
 
@@ -68,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int k = 0; k < totalProjectiles; k++)
             {
                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), 0f, Main.myPlayer);
+                Projectile.NewProjectile(source, target.Center, vector255, type, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), 0f, Main.myPlayer);
             }
         }
 

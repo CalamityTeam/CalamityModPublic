@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statigel Helm");
             Tooltip.SetDefault("10% increased melee damage and melee speed\n" +
                 "7% increased melee critical strike chance");
@@ -49,9 +48,9 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetCritChance(DamageClass.Melee) += 7;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 7;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

@@ -3,7 +3,6 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Fathom Swarmer Breastplate");
             Tooltip.SetDefault("6% increased damage reduction\n" +
                 "6% increased minion damage\n" +
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.06f;
+            player.GetDamage<SummonDamageClass>() += 0.06f;
             player.endurance += 0.06f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {

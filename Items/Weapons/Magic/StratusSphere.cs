@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Stratus Sphere");
             Tooltip.SetDefault("Fires an energy orb containing the essence of our stratosphere\n" +
                 "Up to six of these can be active at a time");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
         public override void SetDefaults()
         {

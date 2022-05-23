@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Mariana");
             Tooltip.SetDefault("Tropical and deadly\n" +
                 "Enemies explode into water orbs on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -51,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {
@@ -86,7 +85,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 value15.Normalize();
                 value15 *= Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), Item.knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MarianaProjectile>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, player.whoAmI, 0f, 0f);
             }
             for (int num621 = 0; num621 < 30; num621++)
             {

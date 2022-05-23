@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Twins");
             Tooltip.SetDefault("The bio-mechanical watchers of the night, originally created as security using the souls extracted from human eyes.\n" +
                 "These creatures did not belong in this world, it's best to be rid of them.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

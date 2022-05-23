@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Red Moon");
             Tooltip.SetDefault("We long ago feared the light of the red moon.\n" +
                 "Many went mad, others died, but a scant few became blessed with a wealth of cosmic understanding.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

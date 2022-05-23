@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Tools
 {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Tools
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Crystyl Crusher");
             Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
                 "Right click to swing normally");

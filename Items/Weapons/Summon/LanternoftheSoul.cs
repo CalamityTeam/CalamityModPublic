@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Guidelight of Oblivion");
             Tooltip.SetDefault("Shadows dream of endless fire, flames devour and embers swoop\n" +
             "Summons a lantern turret to fight for you");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

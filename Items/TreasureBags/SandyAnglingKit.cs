@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.TreasureBags
             DisplayName.SetDefault("Sandy Angling Kit");
             Tooltip.SetDefault("Has a chance to contain various fishing gear\n" +
             "{$CommonItemTooltip.RightClickToOpen}");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 "Projectiles gain damage as they travel\n" +
                 "Right click to change from magic to ranged damage\n" +
                 "Right click consumes no mana");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
