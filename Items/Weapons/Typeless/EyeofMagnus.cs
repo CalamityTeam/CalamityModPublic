@@ -19,9 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            // TODO -- "scales with all stats at once"
-            Item.DamageType = DamageClass.Generic;
-
+            Item.DamageType = AverageDamageClass.Instance;
             Item.width = 80;
             Item.damage = 32;
             Item.rare = ItemRarityID.Cyan;

@@ -20,9 +20,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            // TODO -- "scales with all stats at once"
-            Item.DamageType = DamageClass.Generic;
-
+            Item.DamageType = AverageDamageClass.Instance;
             Item.width = 80;
             Item.damage = 9;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
