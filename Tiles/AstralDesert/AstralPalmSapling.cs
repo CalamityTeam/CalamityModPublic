@@ -51,17 +51,16 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public static bool EmptyTileCheck(int startX, int endX, int startY, int endY, int ignoreID = -1)
         {
+            //Checks if inworld
             if (startX < 0)
                 return false;
-
             if (endX >= Main.maxTilesX)
                 return false;
-
             if (startY < 0)
                 return false;
-
             if (endY >= Main.maxTilesY)
                 return false;
+
 
             bool flag = false;
             if (ignoreID != -1 && TileID.Sets.CommonSapling[ignoreID])
@@ -71,6 +70,7 @@ namespace CalamityMod.Tiles.AstralDesert
             {
                 for (int j = startY; j < endY + 1; j++)
                 {
+                    //Check for empty tiles
                     if (!Main.tile[i, j].HasTile)
                         continue;
 
@@ -152,11 +152,13 @@ namespace CalamityMod.Tiles.AstralDesert
                 if (tile.TileType != 53 && tile.TileType != 234 && tile.TileType != 116 && tile.TileType != 112 && !TileLoader.CanGrowModPalmTree(tile.TileType))
                     return;
 
+                //Check if the very base of the palm tree is occupied (the 2 tiles above the ground should be sapling tiles)
                 if (!EmptyTileCheck(i, i, num - 2, num - 1, 20))
-                    return false;
+                    return;
 
+                //Check if theres clear space on the upper portion of the palm tree.
                 if (!EmptyTileCheck(i - 1, i + 1, num - 30, num - 3, 20))
-                    return false;
+                    return;
 
                 bool success = WorldGen.GrowPalmTree(i, j);
 
