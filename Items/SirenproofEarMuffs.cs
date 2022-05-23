@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Sirenproof Earmuffs");
             Tooltip.SetDefault("Favorite this item to prevent Anahita from spawning near you");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
         public override void SetDefaults()
         {

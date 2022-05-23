@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("MOAB");
             Tooltip.SetDefault("The mother of all balloons\n" +
                 "Counts as wings\n" +

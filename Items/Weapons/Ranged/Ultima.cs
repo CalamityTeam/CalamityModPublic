@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Over time the bolts are replaced with powerful lasers\n" +
                 "Bolts power up into solid beams as you continue shooting\n" +
                 "90% chance to not consume ammo");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

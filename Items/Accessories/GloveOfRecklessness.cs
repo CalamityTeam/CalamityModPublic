@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Glove of Recklessness");
             Tooltip.SetDefault("Increases rogue attack speed by 12% but decreases damage by 10%\n" +
                                "Adds inaccuracy to rogue weapons");

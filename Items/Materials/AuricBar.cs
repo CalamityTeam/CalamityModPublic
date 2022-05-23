@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Materials
         public int frame = 0;
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Auric Bar");
             Tooltip.SetDefault("Godlike power emanates from the metal");
         }

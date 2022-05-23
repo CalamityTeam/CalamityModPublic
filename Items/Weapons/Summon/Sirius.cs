@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Consumes all of the remaining minion slots on use\n" +
                                "Must be used from the hotbar\n" +
                                "Increased power based on the number of minion slots used");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

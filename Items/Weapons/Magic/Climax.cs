@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Voltaic Climax");
             Tooltip.SetDefault("Conjures an octagon of supercharged magnet spheres around the cursor");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

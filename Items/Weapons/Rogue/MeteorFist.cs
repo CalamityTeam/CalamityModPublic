@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Meteor Fist");
             Tooltip.SetDefault("Fires a fist that explodes \n" +
                                "Stealth strikes make the fist ricochet between enemies up to 4 times");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

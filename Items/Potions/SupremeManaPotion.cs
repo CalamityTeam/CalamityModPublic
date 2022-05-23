@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supreme Mana Potion");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
+            SacrificeTotal = 30;
         }
 
         public override void SetDefaults()

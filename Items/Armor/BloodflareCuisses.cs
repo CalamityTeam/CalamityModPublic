@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodflare Cuisses");
             Tooltip.SetDefault("17% increased movement speed, 10% increased damage and 7% increased critical strike chance");
         }

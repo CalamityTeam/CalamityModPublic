@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 Grants a buff that boosts life regen for 10 seconds
 The life regen boost is stronger if below 75% health
 10 second duration");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
+            SacrificeTotal = 30;
         }
 
         public override void SetDefaults()

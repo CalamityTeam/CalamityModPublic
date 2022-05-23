@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plagued Fuel Pack");
             Tooltip.SetDefault("5% increased rogue damage and 15% increased rogue projectile velocity\n" +
                 "Stealth generates 10% faster\n" +

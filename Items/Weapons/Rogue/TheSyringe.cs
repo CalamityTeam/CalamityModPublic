@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using CalamityMod.Projectiles.Rogue;
 
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Shatters into glass and plague cinders on impact\n" +
                 "Stealth strikes also shatter into plague bees\n" +
                 "'I'm pretty sure this isn't healthy'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Calamitous Hood");
 
             if (Main.netMode != NetmodeID.Server)

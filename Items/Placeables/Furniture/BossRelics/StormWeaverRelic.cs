@@ -1,5 +1,4 @@
 ﻿using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Furniture.BossRelics
 		{
 			DisplayName.SetDefault("Storm Weaver Relic");
             Tooltip.SetDefault("A glimpse into what will be..");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
 		}
 
 		public override void SetDefaults()

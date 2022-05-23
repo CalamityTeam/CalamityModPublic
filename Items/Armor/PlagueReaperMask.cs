@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plague Reaper Mask");
             Tooltip.SetDefault("10% increased ranged damage and 8% increased ranged critical strike chance");
         }

@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Potions
             Tooltip.SetDefault("Only gives 50 seconds of Potion Sickness\n" +
                "Grants Well Fed\n" +
                "60 minute duration");
-               CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 30;
+               SacrificeTotal = 30;
         }
 
         public override void SetDefaults()

@@ -7,7 +7,6 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Casts a deadly and powerful ice spell in the location of the cursor\n" +
                 "This ice spell locks itself to the position of nearby enemies\n" +
                 "Consumes 2 Blood Runes every time it's used");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

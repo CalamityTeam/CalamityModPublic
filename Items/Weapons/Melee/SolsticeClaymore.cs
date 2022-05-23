@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Solstice Claymore");
             Tooltip.SetDefault("Changes projectile color based on the time of year\n" +
                                "Inflicts daybroken during the day and nightwither during the night");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

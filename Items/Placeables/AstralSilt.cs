@@ -2,7 +2,6 @@ using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Placeables

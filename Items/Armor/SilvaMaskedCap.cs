@@ -5,7 +5,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Silva Masked Cap");
             Tooltip.SetDefault("23% increased magic damage and 13% increased magic critical strike chance\n" +
                 "+100 max mana and 19% reduced mana usage");

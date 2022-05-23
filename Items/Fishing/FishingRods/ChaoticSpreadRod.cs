@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Rift Reeler");
             Tooltip.SetDefault("Fires three to five lines at once. Can fish in lava.\n" +
                 "The battlefield is a scene of constant chaos.\n" + //Napoleon Bonaparte quote reference

@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Celestial Jewel");
             Tooltip.SetDefault("Boosts life regen even while under the effects of a damaging debuff\n" +
                 "While under the effects of a damaging debuff you will gain 11 defense\n" +

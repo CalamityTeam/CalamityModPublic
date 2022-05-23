@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Angelic Alliance");
             Tooltip.SetDefault("Call upon the force of heaven to empower your attacks and minions\n" +
             "Courage, Enlightenment, Bliss. United in Judgement\n" +

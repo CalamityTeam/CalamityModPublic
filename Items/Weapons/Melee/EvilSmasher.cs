@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "These bonuses stack until a cap is reached\n" +
                 "The bonus stacks will reset if you select a different item\n" +
                 "The bonus stacks will be reduced by 1 every time you get hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

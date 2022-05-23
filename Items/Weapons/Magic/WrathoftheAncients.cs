@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class WrathoftheAncients : ModItem
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Wrath of the Ancients");
             Tooltip.SetDefault("Summons an energy pulse at the cursor to periodically summon homing spirits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

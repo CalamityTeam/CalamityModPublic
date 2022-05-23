@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Coffer (Supreme Calamitas)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

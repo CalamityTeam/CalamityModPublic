@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The First Shadowflame");
             Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire\n" +
                 "If that were true, then it is surely the demons of hell that would have risen from below to do the same\n" +

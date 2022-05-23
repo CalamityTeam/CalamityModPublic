@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -44,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "HeadlessEquipTexture", EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
             }
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

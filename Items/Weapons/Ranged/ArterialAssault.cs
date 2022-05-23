@@ -6,7 +6,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Arterial Assault");
             Tooltip.SetDefault("Fires a chain of 5 arrows from the sky\n" +
                 "Wooden arrows are converted into homing bloodfire arrows");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

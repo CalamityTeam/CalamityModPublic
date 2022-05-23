@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Titan Heart Mask");
             Tooltip.SetDefault("5% increased rogue damage and knockback\n" +
             "Rogue weapons inflict the Astral Infection debuff");

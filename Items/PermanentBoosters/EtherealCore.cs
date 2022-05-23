@@ -3,7 +3,6 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             DisplayName.SetDefault("Ethereal Core");
             Tooltip.SetDefault("Permanently increases maximum mana by 50");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

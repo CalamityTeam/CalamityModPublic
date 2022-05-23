@@ -6,7 +6,6 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Space Helmet");
             Tooltip.SetDefault("15% increased minion damage\n" +
                     "Not moving boosts all damage and critical strike chance");

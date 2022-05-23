@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
                                "Jets will fire ammo from your inventory, 66% chance to not consume ammo\n" +
                                "Sometimes shoots a missile instead of a bullet");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

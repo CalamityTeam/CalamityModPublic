@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Polaris Parrotfish");
             Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
                 "Projectile hits grant buffs to the weapon\n" +

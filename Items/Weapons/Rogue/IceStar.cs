@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws homing ice stars\n" +
                 "Stealth strikes pierce infinitely and spawn ice shards on hit\n" +
                 "Ice Stars are too brittle to be recovered after being thrown");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
         public override void SetDefaults()

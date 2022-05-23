@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Realm Ravager");
             Tooltip.SetDefault("Shoots a burst of 3 to 4 bullets\n" +
                 "Converts musket balls into explosive bullets");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

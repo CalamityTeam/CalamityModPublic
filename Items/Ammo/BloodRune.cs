@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Blood Rune");
             Tooltip.SetDefault("Used with the Ice Barrage \n" +
                 "Found in some sort of runic landscape");

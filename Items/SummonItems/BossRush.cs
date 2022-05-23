@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Typeless;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Terminus");
             Tooltip.SetDefault("A ritualistic artifact, thought to have brought upon The End many millennia ago\n" +
                                 "Sealed away in the abyss, far from those that would seek to misuse it\n" +

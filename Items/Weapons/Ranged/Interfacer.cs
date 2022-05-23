@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Disseminator");
             Tooltip.SetDefault("@everyone\n" +
                 "50% chance to not consume ammo");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

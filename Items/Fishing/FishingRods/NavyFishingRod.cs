@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Navy Fishing Rod");
             Tooltip.SetDefault("While held, slowly electrifies nearby enemies.\n" +
                 "The sea is a city.\n" + //Life of Pi ref Ch.59

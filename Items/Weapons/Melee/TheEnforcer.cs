@@ -8,7 +8,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("The Enforcer");
             Tooltip.SetDefault("Spawns essence flames on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

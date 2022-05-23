@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -81,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Use RMB to cycle the sword's attunement forward or backwards depending on the position of your cursor\n" +
                                "Active Attunement : None\n" +
                                "Passive Blessing : None\n"); ;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         #region tooltip editing

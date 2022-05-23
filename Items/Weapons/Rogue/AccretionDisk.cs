@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Elemental Disk");
             Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it\n" +
             "Stealth strikes fly slower but travel farther, pierce through enemies, and spawn extra disks more frequently");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

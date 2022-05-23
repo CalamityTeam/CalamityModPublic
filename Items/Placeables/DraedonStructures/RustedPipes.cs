@@ -1,13 +1,12 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.DraedonStructures
 {
     public class RustedPipes : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()

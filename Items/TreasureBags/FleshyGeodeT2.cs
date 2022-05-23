@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             DisplayName.SetDefault("Necromantic Geode");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

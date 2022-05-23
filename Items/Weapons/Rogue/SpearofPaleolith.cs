@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws an ancient spear that shatters enemy armor\n" +
                 "Spears rain fossil shards as they travel\n" +
                 "Stealth strikes travel slower but further, raining more fossil shards");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

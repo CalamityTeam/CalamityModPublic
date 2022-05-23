@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Sealed Singularity");
             Tooltip.SetDefault("Shatters on impact, summoning a black hole that sucks in nearby enemies\n" +
             "Stealth strikes summon a black hole that lasts longer and sucks enemies with stronger force");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

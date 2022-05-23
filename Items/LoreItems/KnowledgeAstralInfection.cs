@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Astral Infection");
             Tooltip.SetDefault("This twisted dreamscape, surrounded by unnatural pillars under a dark and hazy sky.\n" +
                 "Natural law has been upturned. What will you make of it?");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

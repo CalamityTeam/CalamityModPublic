@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.DifficultyItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Revengeance");
             Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in Expert Mode.\n" +
 

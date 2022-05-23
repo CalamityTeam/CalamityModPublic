@@ -13,7 +13,6 @@ using CalamityMod.Tiles.Astral;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
             DisplayName.SetDefault("Astral Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

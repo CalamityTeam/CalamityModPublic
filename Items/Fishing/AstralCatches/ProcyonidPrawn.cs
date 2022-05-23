@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Procyonid Prawn");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()

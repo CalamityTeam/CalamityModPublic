@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
                 "The shuriken shatters moments after impact into homing rockets\n" +
                 "Stealth strikes shatter into many more rockets");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
             "Heals on enemy hits\n" +
             "Stealth strikes spawn homing blood on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

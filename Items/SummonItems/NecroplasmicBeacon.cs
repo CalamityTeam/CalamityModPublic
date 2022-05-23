@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Necroplasmic Beacon");
             Tooltip.SetDefault("It's spooky\n" +
                 "Summons Polterghast when used in the dungeon\n" +

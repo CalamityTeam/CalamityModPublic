@@ -7,7 +7,6 @@ using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Celestial Tracers");
             Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
                 "Counts as wings\n" +

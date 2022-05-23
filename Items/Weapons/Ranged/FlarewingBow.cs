@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Flarewing Bow");
             Tooltip.SetDefault("Shoots a spread of 5 arrows\n" +
                 "Wooden arrows are converted into bouncing obsidian bats");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Kelvin Catalyst");
             Tooltip.SetDefault("Throws an icy blade that splits into multiple ice stars on enemy hits\n" +
             "Stealth strikes will briefly gain sentience and ram nearby enemies before returning to the player");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

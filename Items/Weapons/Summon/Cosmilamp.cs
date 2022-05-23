@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Cosmilamp");
             Tooltip.SetDefault("Summons a cosmic lantern to fight for you\n" +
                 "Takes up 2 minion slots");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items
             Tooltip.SetDefault("Creates a profaned crystal that charges power\n" +
                                "Holding out the crystal slows the player down\n" +
                                "At the end of its life, the crystal heals the player for 70 HP");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

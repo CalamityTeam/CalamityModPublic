@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Deep Wounder");
             Tooltip.SetDefault("Throws an abyssal hatchet that inflicts Armor Crunch and Marked for Death to the enemies it hits\n" +
                 "Stealth strikes cause the hatchet to be thrown faster and trail water, inflicting Crush Depth in addition to the other debuffs");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

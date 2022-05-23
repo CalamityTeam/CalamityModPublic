@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires a massive spread of bouncing bullets\n" +
                                "Consumes five bullets per-use\n" +
                                "Aim? What's that?");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
         public override void SetDefaults()
         {

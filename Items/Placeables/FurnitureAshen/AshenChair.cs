@@ -1,6 +1,5 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             //Tooltip.SetDefault("This is a modded chair.");
         }
 

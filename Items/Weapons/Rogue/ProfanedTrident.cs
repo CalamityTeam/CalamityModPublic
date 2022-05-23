@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Wrathwing");
             Tooltip.SetDefault("Throws an agile, homing winged spear that constantly spits fire\n" +
             "Stealth strikes create an eruption of cinders on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

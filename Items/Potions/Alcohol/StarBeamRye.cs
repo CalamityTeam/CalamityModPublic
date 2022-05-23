@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Potions.Alcohol
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Star Beam Rye");
             Tooltip.SetDefault(@"Made from some stuff I found near the Astral Meteor crash site, don't worry it's safe, trust me
 Boosts max mana by 50, magic damage by 8%,

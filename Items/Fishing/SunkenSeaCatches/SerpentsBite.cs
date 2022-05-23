@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Projectiles.Typeless;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 Launch Velocity: {SerpentsBiteHook.LaunchSpeed}
 Reelback Velocity: {SerpentsBiteHook.ReelbackSpeed}
 Pull Velocity: {SerpentsBiteHook.PullSpeed}");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

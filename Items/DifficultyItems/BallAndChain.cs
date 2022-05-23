@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.DifficultyItems
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.DifficultyItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ball and Chain");
             Tooltip.SetDefault("So heavy...\n" +
                 "Favorite this item to disable any dashes granted by equipment.");

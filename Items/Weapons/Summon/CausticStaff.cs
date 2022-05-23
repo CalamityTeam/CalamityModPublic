@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Caustic Staff");
             Tooltip.SetDefault("Summons a mini dragon to fight for you\n" +
                 "The dragon can inflict several debilitating debuffs if you hold a summon weapon or tool");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

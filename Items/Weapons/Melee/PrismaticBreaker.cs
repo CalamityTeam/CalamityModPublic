@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Right click to instead swing the sword and fire rainbow colored waves\n" +
                 "The sword is boosted by both melee and ranged damage");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

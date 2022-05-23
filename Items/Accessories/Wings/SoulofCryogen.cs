@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Soul of Cryogen");
             Tooltip.SetDefault("The magic of the ancient ice castle is yours\n" +
                 "Counts as wings\n" +

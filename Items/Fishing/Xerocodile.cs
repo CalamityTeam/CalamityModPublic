@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Xerocodile");
             Tooltip.SetDefault("Right click to extract blood orbs");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

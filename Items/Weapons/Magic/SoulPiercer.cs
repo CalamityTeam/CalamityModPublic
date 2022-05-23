@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Soul Piercer");
             Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

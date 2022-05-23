@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The Bee");
             Tooltip.SetDefault("When at full HP, your damage is increased based on your damage reduction\n" +
                             "Damage taken at full HP is halved\n" +

@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Early Bloom Rod");
             Tooltip.SetDefault("Fires six lines at once. Line never snaps.\n" +
                 "The early bird catches the fish.");

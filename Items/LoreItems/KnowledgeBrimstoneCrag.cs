@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Brimstone Crag");
             Tooltip.SetDefault("Ah... this place.\n" +
                 "The scent of broken promises, pain, and eventual death is heavy in the air...");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

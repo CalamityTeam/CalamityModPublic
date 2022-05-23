@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Do not underestimate the power of Exoblade's younger brother\n" +
                 "Striking an enemy with the blade makes you immune for a short time and summons comets from the sky\n" +
                 "Fires a rainbow orb that summons sword beams on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

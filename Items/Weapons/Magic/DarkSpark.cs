@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("And everything under the sun is in tune,\n" +
                 "But the sun is eclipsed by the moon.");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

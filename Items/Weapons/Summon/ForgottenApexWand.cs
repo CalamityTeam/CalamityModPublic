@@ -1,6 +1,5 @@
 ﻿using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria;
 using CalamityMod.Projectiles.Summon;
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Forgotten Apex Wand");
             Tooltip.SetDefault("Summons ancient mineral sharks to take on your foes. \n" +
                                "Seems to have lost its jaw some time in the past");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

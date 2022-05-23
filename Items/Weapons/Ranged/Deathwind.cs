@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Deathwind");
             Tooltip.SetDefault("Fires a spread of 4 arrows\n" +
                 "Wooden arrows are converted into nebula arrows");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Infernal Kris");
             Tooltip.SetDefault("Throws a burning dagger that starts spinning after travelling a short distance, inflicting additional damage while spinning\n" +
                 "Stealth strikes cause the dagger to be engulfed in flames, exploding on contact with walls and enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
         public override void SetDefaults()

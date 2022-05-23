@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Margarita");
             Tooltip.SetDefault(@"One of the best drinks ever created, enjoy it while it lasts
 Reduces the duration of most debuffs

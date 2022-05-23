@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Critical hits tear away enemy defense\n" +
                 "Stealth strikes shatter and briefly stun enemies");
             DisplayName.SetDefault("Apoctolith");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

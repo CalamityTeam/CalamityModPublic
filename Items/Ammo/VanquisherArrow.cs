@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Vanquisher Arrow");
             Tooltip.SetDefault("Pierces through tiles\n" +
                 "Spawns extra homing arrows as it travels");

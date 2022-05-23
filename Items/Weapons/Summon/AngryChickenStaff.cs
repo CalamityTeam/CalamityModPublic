@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Summon
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Yharon's Kindle Staff");
             Tooltip.SetDefault("Summons a fiery draconid to fight for you\n" +
                                "Requires 5 minion slots to use");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

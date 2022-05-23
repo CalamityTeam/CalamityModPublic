@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("I see the deed is done.\n" +
                 "The unholy amalgamation of flesh and hatred has been defeated.\n" +
                 "Prepare to face the terrors that lurk in the light and dark parts of this world.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

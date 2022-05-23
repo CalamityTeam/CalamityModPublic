@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Venusian Trident");
             Tooltip.SetDefault("Casts an infernal trident that erupts into a gigantic explosion of fire and magma shards");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

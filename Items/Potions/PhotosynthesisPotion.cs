@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Photosynthesis Potion");
             Tooltip.SetDefault("You regen life quickly while not moving, this effect is five times as strong during daytime\n" +
                 "Dropped hearts heal more HP");

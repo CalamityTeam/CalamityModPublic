@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Materials
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Cosmilite Bar");
             Tooltip.SetDefault("A chunk of durable and highly resilient cosmic steel");
         }

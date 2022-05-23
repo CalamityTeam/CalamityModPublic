@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Left click to shoot several rock shards\n" +
                 "Right click to dive downwards and bounce off enemies\n" +
                 "Diving into blocks creates a shockwave");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Moscow Mule");
             Tooltip.SetDefault(@"I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'
 Boosts damage and knockback by 9% and critical strike chance by 3%

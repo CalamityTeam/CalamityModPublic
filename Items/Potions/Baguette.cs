@@ -2,7 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Potions
             Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n" +
             "Boosts the effects of Red Wine\n" +
             "[c/FCE391:je suis Monte]");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
         }
 
         public override void SetDefaults()

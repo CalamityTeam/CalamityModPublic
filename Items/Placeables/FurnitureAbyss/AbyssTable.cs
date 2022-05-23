@@ -1,7 +1,6 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
@@ -9,8 +8,8 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

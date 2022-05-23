@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Chance to heal the player on enemy hits\n" +
                 "Inflicts Burning Blood\n" +
                 "Fires a bloody blade");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
