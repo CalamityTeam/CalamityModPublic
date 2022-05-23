@@ -23,6 +23,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "You gain Rage when in proximity of enemies or by using special items.\n" +
                 "ADRENALINE TOOLTIP LINE HERE\n" +
                 "You gain Adrenaline whenever a boss is alive. Getting hit drops Adrenaline back to 0.\n" +
+                "Getting hit while Adrenaline is maxed will reduce damage taken by a massive amount.\n" +
 
                 // General enemy lines
                 "All enemies drop 50% more coins and spawn 15% more frequently.\n" +
