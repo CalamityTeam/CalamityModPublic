@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(5).
+                AddIngredient<SeaRemains>(5).
                 AddIngredient(ItemID.Coral, 5).
                 AddTile(TileID.Anvils).
                 Register();

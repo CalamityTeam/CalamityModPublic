@@ -7,8 +7,9 @@ using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
-    public class VictideBreastplate : ModItem
+    public class VictideBreastplate : ModItem, IBulkyArmor
     {
+        public string BulkTexture => "CalamityMod/Items/Armor/VictideBreastplate_Bulk";
 
         public override void Load()
         {
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(5).
+                AddIngredient<SeaRemains>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }

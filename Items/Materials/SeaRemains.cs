@@ -5,12 +5,12 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
-    public class VictideBar : ModItem
+    public class SeaRemains : ModItem
     {
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
-            DisplayName.SetDefault("Victide Bar");
+            DisplayName.SetDefault("Sea Remains");
         }
 
         public override void SetDefaults()

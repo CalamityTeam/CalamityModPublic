@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
         {
             CreateRecipe().
                 AddIngredient(ItemID.SpiderGreaves).
-                AddIngredient<VictideBar>(9).
+                AddIngredient<SeaRemains>(9).
                 AddIngredient<PlantyMush>(8).
                 AddIngredient<AbyssGravel>(15).
                 AddIngredient<DepthCells>(4).

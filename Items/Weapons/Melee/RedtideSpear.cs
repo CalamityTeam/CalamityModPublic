@@ -7,11 +7,11 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class UrchinSpear : ModItem
+    public class RedtideSpear : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Urchin Spear");
+            DisplayName.SetDefault("Redtide Spear");
             Tooltip.SetDefault("Poisons enemies and fires short-range stingers");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 56;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<UrchinSpearProjectile>();
+            Item.shoot = ModContent.ProjectileType<RedtideSpearProjectile>();
             Item.shootSpeed = 4f;
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(4).
+                AddIngredient<SeaRemains>(4).
                 AddTile(TileID.Anvils).
                 Register();
         }

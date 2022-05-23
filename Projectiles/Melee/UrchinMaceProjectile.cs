@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class RedtideWhirlpool : ModProjectile
+    public class UrchinMaceProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/BrinyTyphoonBubble";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/UrchinMace";
 
         public override void SetStaticDefaults()
         {

@@ -10,11 +10,11 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class RedtideSword : ModItem
+    public class UrchinMace : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Redtide Sword");
+            DisplayName.SetDefault("Urchin Mace");
             Tooltip.SetDefault("Throws short-range whirlpools");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 42;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<RedtideWhirlpool>();
+            Item.shoot = ModContent.ProjectileType<UrchinMaceProjectile>();
             Item.shootSpeed = 9f;
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(3).
+                AddIngredient<SeaRemains>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

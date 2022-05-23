@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(4).
+                AddIngredient<SeaRemains>(4).
                 AddTile(TileID.Anvils).
                 Register();
         }

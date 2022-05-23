@@ -84,7 +84,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SeashellBoomerang>().
+                AddIngredient<FishboneBoomerang>().
                 AddIngredient<Equanimity>().
                 AddIngredient(ItemID.ThornChakram).
                 AddIngredient<LivingShard>(8).

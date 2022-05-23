@@ -9,11 +9,11 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SeashellBoomerang : ModItem
+    public class FishboneBoomerang : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seashell Boomerang");
+            DisplayName.SetDefault("Fishbone Boomerang");
             Tooltip.SetDefault("Stealth strikes fire seashells at nearby enemies");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 34;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.shoot = ModContent.ProjectileType<SeashellBoomerangProjectile>();
+            Item.shoot = ModContent.ProjectileType<FishboneBoomerangProjectile>();
             Item.shootSpeed = 11.5f;
             Item.DamageType = RogueDamageClass.Instance;
         }
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(2).
+                AddIngredient<SeaRemains>(2).
                 AddTile(TileID.Anvils).
                 Register();
         }

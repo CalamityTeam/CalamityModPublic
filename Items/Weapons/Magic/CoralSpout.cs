@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(2).
+                AddIngredient<SeaRemains>(2).
                 AddIngredient(ItemID.Coral, 5).
                 AddTile(TileID.Bookcases).
                 Register();

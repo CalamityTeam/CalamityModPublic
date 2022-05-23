@@ -9,11 +9,11 @@ using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Seabow : ModItem
+    public class ReedBlowgun : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seabow");
+            DisplayName.SetDefault("Reed Blowgun");
             Tooltip.SetDefault("Fires slow-moving water blasts");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(2).
+                AddIngredient<SeaRemains>(2).
                 AddTile(TileID.Anvils).
                 Register();
         }

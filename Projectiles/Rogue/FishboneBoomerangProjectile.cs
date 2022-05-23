@@ -4,13 +4,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SeashellBoomerangProjectile : ModProjectile
+    public class FishboneBoomerangProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/SeashellBoomerang";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/FishboneBoomerang";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seashell Boomerang");
+            DisplayName.SetDefault("Fishbone Boomerang");
         }
 
         public override void SetDefaults()

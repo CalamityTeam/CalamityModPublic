@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<AerialiteBar>(2).
                 AddIngredient<SeaPrism>(10).
                 AddIngredient<PrismShard>(15).
-                AddIngredient<VictideBar>(5).
+                AddIngredient<SeaRemains>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }

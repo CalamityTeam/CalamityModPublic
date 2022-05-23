@@ -2909,7 +2909,7 @@ namespace CalamityMod.Projectiles
                             if (projectile2.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[projectile2].Calamity().forceMelee = true;
 
-                        if (projectile.type == ProjectileType<SeashellBoomerangProjectile>())
+                        if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[projectile2].Calamity().forceRogue = true;
                     }

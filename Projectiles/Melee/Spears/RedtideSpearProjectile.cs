@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class UrchinSpearProjectile : BaseSpearProjectile
+    public class RedtideSpearProjectile : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spear");
+            DisplayName.SetDefault("Redtide Spear");
         }
 
         public override void SetDefaults()
