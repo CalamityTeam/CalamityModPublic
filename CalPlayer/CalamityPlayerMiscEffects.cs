@@ -380,7 +380,7 @@ namespace CalamityMod.CalPlayer
                 if (playFullRageSound)
                 {
                     playFullRageSound = false;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/FullRage"), (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(RageFilledSound, Player.position);
                 }
             }
             else
@@ -426,7 +426,7 @@ namespace CalamityMod.CalPlayer
                 if (playFullAdrenalineSound)
                 {
                     playFullAdrenalineSound = false;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/FullAdrenaline"), (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(AdrenalineFilledSound, Player.position);
                 }
             }
             else
@@ -1183,7 +1183,7 @@ namespace CalamityMod.CalPlayer
                 silvaCountdown -= 1;
                 if (silvaCountdown <= 0)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaDispel"), Player.Center);
+                    SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
                     Player.AddCooldown(SilvaRevive.ID, CalamityUtils.SecondsToFrames(5 * 60));
                 }
 

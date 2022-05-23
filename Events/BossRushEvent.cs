@@ -221,7 +221,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundID.Roar, player.position, 2);
+                    SoundEngine.PlaySound(SoundID.ScaryScream, player.position);
                     int ravager = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
                     Main.npc[ravager].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(ravager);
@@ -246,7 +246,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/AstrumDeusSpawn"), player.Center);
+                    SoundEngine.PlaySound(AstrumDeusHeadSpectral.SpawnSound, player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.NPCType<AstrumDeusTailSpectral>() }),
 
@@ -275,7 +275,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/ProvidenceSpawn"), player.Center);
+                    SoundEngine.PlaySound(Providence.SpawnSound, player.Center);
                     int prov = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), type, 1);
                     Main.npc[prov].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(prov);

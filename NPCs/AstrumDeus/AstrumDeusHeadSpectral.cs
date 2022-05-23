@@ -22,12 +22,17 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
     [AutoloadBossHead]
     public class AstrumDeusHeadSpectral : ModNPC
     {
+        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/AstrumDeusSpawn");
+        public static readonly SoundStyle SplitSound = new("Sounds/Custom/AstrumDeusSplit");
+        public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/AstrumDeusDeath");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astrum Deus");
@@ -66,7 +71,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstrumDeusDeath");
+            NPC.DeathSound = DeathSound;
             NPC.netAlways = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = true;

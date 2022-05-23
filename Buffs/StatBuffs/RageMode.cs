@@ -1,4 +1,4 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -33,7 +33,7 @@ namespace CalamityMod.Buffs.StatBuffs
             // Otherwise, Rage Mode ends instantly.
             else
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/RageEnd"), player.position);
+                SoundEngine.PlaySound(CalamityPlayer.RageEndSound, player.position);
                 player.DelBuff(buffIndex--); // TML documentation requires you to decrement buffIndex if deleting the buff during Update.
                 mp.rageModeActive = false;
                 mp.rage = 0f;

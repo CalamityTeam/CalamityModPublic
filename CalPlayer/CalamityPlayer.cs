@@ -232,10 +232,16 @@ namespace CalamityMod.CalPlayer
         public bool playFullRageSound = true;
         public bool playFullAdrenalineSound = true;
 
-        public static readonly SoundStyle RageActivationSound = new("Sounds/Custom/AbilitySounds/RageActivate")
-        public static readonly SoundStyle AdrenalineActivationSound = new("Sounds/Custom/AbilitySounds/AdrenalineActivate")
-        public static readonly SoundStyle RogueStealthSound = new("Sounds/Custom/RogueStealth")
-        public static readonly SoundStyle DefenseDamageSound = new("Sounds/Custom/DefenseDamage")
+        public static readonly SoundStyle RageFilledSound = new("Sounds/Custom/AbilitySounds/FullRage");
+        public static readonly SoundStyle RageActivationSound = new("Sounds/Custom/AbilitySounds/RageActivate");
+        public static readonly SoundStyle RageEndSound = new("Sounds/Custom/AbilitySounds/RageEnd");
+        
+        public static readonly SoundStyle AdrenalineFilledSound = new("Sounds/Custom/AbilitySounds/FullAdrenaline");
+        public static readonly SoundStyle AdrenalineActivationSound = new("Sounds/Custom/AbilitySounds/AdrenalineActivate");
+
+        public static readonly SoundStyle RogueStealthSound = new("Sounds/Custom/RogueStealth");
+        public static readonly SoundStyle DefenseDamageSound = new("Sounds/Custom/DefenseDamage");
+
         #endregion
 
         #region Proficiency

@@ -3188,7 +3188,7 @@ namespace CalamityMod.NPCs
                 {
                     if (calamityGlobalNPC.newAI[0] != 3f)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+                        SoundEngine.PlaySound(AstrumDeusHeadSpectral.SplitSound, player.Center);
                         calamityGlobalNPC.newAI[0] = 3f;
                         npc.defense = 12;
                         calamityGlobalNPC.DR = 0.075f;
@@ -3305,7 +3305,7 @@ namespace CalamityMod.NPCs
                                 netMessage.Send();
                             }
 
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(mod, "Sounds/Custom/AstrumDeusSplit"), player.Center);
+                            SoundEngine.PlaySound(AstrumDeusHeadSpectral.SplitSound, player.Center);
                         }
                         return;
                     }

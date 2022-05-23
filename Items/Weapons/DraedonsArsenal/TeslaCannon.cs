@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -16,6 +17,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
     {
         private int BaseDamage = 1050;
 
+        public static readonly SoundStyle FireSound = new("Sounds/Item/TeslaCannonFire");
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tesla Cannon");
@@ -38,7 +41,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.mana = 30;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire");
+            Item.UseSound = FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
