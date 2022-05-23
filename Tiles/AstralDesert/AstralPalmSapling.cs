@@ -61,7 +61,7 @@ namespace CalamityMod.Tiles.AstralDesert
             if (endY >= Main.maxTilesY)
                 return false;
 
-
+            //If we're ignoring a common sapling
             bool flag = false;
             if (ignoreID != -1 && TileID.Sets.CommonSapling[ignoreID])
                 flag = true;
@@ -76,49 +76,30 @@ namespace CalamityMod.Tiles.AstralDesert
 
                     switch (ignoreID)
                     {
+                        //if no tile is ignored and the tile isn't empty, say the space is not empty.
                         case -1:
                             return false;
+                        
+                        //If its a door, ignore the door.
                         case 11:
                             if (Main.tile[i, j].TileType == 11)
                                 continue;
                             return false;
+                        //If its glowing mushrooms, also ignore them.
                         case 71:
                             if (Main.tile[i, j].TileType == 71)
                                 continue;
                             return false;
                     }
 
+                    //If we're ignoring the common sapling
                     if (flag)
                     {
+                        //If the tile we're stuck on is a sapling, just ignrore it
                         if (TileID.Sets.CommonSapling[Main.tile[i, j].TileType])
                             break;
 
-                        /*
-						switch (Main.tile[i, j].type) {
-							case 3:
-							case 24:
-							case 32:
-							case 61:
-							case 62:
-							case 69:
-							case 71:
-							case 73:
-							case 74:
-							case 82:
-							case 83:
-							case 84:
-							case 110:
-							case 113:
-							case 201:
-							case 233:
-							case 352:
-							case 485:
-							case 529:
-							case 530:
-								continue;
-						}
-						*/
-
+                        //If not, check if the tile isnt a tile that growing saplings ignore
                         if (TileID.Sets.IgnoredByGrowingSaplings[Main.tile[i, j].TileType])
                             continue;
 
