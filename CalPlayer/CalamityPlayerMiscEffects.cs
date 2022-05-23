@@ -2382,7 +2382,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense -= 10;
                 Player.moveSpeed -= 0.1f;
                 Player.GetDamage<GenericDamageClass>() += 0.05f;
-                Player.GetKnockback<SummonDamageClass>().Base += 0.5f;
+                Player.GetKnockback<SummonDamageClass>() += 0.5f;
             }
 
             if (rRage)
@@ -2417,7 +2417,7 @@ namespace CalamityMod.CalPlayer
                 Player.pickSpeed -= 0.05f;
                 Player.GetDamage<GenericDamageClass>() += 0.06f;
                 Player.GetCritChance<GenericDamageClass>() += YharimsStimulants.CritBoost;
-                Player.GetKnockback<SummonDamageClass>().Base += 1f;
+                Player.GetKnockback<SummonDamageClass>() += 1f;
                 Player.moveSpeed += 0.06f;
             }
 
@@ -2439,7 +2439,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.maxMinions += 2;
                 Player.GetDamage<GenericDamageClass>() += 0.12f;
-                Player.GetKnockback<SummonDamageClass>().Base += 1.2f;
+                Player.GetKnockback<SummonDamageClass>() += 1.2f;
                 Player.pickSpeed -= 0.15f;
                 if (Main.eclipse || !Main.dayTime)
                     Player.statDefense += 15;
@@ -2682,7 +2682,7 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += integerTypeBoost;
                 Player.GetDamage<GenericDamageClass>() += damageBoost;
                 Player.GetCritChance<GenericDamageClass>() += critBoost;
-                Player.GetKnockback<SummonDamageClass>().Base += floatTypeBoost;
+                Player.GetKnockback<SummonDamageClass>() += floatTypeBoost;
                 Player.moveSpeed += floatTypeBoost * 0.5f;
                 flightTimeMult += floatTypeBoost;
             }
@@ -3228,7 +3228,7 @@ namespace CalamityMod.CalPlayer
                     if (offenseBuffs)
                     {
                         Player.GetDamage(DamageClass.Summon) += 0.15f;
-                        Player.GetKnockback<SummonDamageClass>().Base += 0.15f;
+                        Player.GetKnockback<SummonDamageClass>() += 0.15f;
                         Player.moveSpeed += 0.1f;
                         Player.statDefense -= 15;
                         Player.ignoreWater = true;

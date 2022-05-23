@@ -1373,7 +1373,7 @@ namespace CalamityMod.Items
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.GetKnockback(DamageClass.Summon).Base += 2f;
+                    player.GetKnockback(DamageClass.Summon) += 2f;
                     player.GetDamage(DamageClass.Summon) += 0.05f;
                 }
             }

@@ -7826,67 +7826,67 @@ namespace CalamityMod.CalPlayer
             if (summonLevel >= 12500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.12f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
             }
             else if (summonLevel >= 10500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.1f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
             }
             else if (summonLevel >= 9100)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.09f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.7f;
+                Player.GetKnockback(DamageClass.Summon) += 2.7f;
             }
             else if (summonLevel >= 7800)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.08f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.4f;
+                Player.GetKnockback(DamageClass.Summon) += 2.4f;
             }
             else if (summonLevel >= 6600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.1f;
+                Player.GetKnockback(DamageClass.Summon) += 2.1f;
             }
             else if (summonLevel >= 5500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
             }
             else if (summonLevel >= 4500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.06f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
             }
             else if (summonLevel >= 3600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.05f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.5f;
+                Player.GetKnockback(DamageClass.Summon) += 1.5f;
             }
             else if (summonLevel >= 2800)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.2f;
+                Player.GetKnockback(DamageClass.Summon) += 1.2f;
             }
             else if (summonLevel >= 2100)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.9f;
+                Player.GetKnockback(DamageClass.Summon) += 0.9f;
             }
             else if (summonLevel >= 1500)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.6f;
+                Player.GetKnockback(DamageClass.Summon) += 0.6f;
             }
             else if (summonLevel >= 1000)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 600)
             {
                 Player.GetDamage(DamageClass.Summon) += 0.02f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 300)
                 Player.GetDamage(DamageClass.Summon) += 0.02f;

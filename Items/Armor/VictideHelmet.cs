@@ -2,6 +2,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,9 +54,11 @@ namespace CalamityMod.Items.Armor
                 var source = player.GetSource_ItemUse(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
                 {
-                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Urchin>(), (int)(7f * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Summon).Base - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    int baseDamage = 7;
+                    int minionDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<SummonDamageClass>()).ApplyTo(baseDamage);
+                    int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Urchin>(), minionDamage, 0f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
-                        Main.projectile[p].originalDamage = 7;
+                        Main.projectile[p].originalDamage = baseDamage;
                 }
             }
             player.ignoreWater = true;
