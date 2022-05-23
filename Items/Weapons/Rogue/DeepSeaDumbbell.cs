@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeepSeaDumbbell : RogueWeapon
+    public class DeepSeaDumbbell : ModItem
     {
         private const float FlexMultMax = 5f;
         private float flexMult = 1f;
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a dumbbell that bounces and flings weights with each bounce\n" +
                 "Right click to flex, increasing the damage of your next attack up to 5 times damage\n" +
                 "Flexes can hit enemies directly");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 38;
             Item.height = 24;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useTurn = false;
             Item.shoot = ModContent.ProjectileType<DeepSeaDumbbell1>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
@@ -68,9 +67,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float SafeSetUseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
+        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? 5f / 9f : 1f;
 
-        public override void SafeModifyWeaponDamage(Player player, ref StatModifier damage)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             damage *= flexMult;
         }

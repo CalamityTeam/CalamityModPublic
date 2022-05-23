@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TimeBolt : RogueWeapon
+    public class TimeBolt : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Time Bolt");
             Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
             "Stealth strikes can hit more enemies and create a larger time field");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 24;
             Item.height = 46;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<TimeBoltKnife>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

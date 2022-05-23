@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Blunder Booster");
             Tooltip.SetDefault("12% increased rogue damage and 15% increased rogue projectile velocity\n" +
                 "Stealth generates 10% faster\n" +
@@ -36,8 +35,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().hasJetpack = true;
-            player.Calamity().throwingDamage += 0.12f;
-            player.Calamity().throwingVelocity += 0.15f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
+            player.Calamity().rogueVelocity += 0.15f;
             player.Calamity().blunderBooster = true;
             player.Calamity().stealthGenStandstill += 0.1f;
             player.Calamity().stealthGenMoving += 0.1f;

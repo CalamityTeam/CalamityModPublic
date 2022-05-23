@@ -2,7 +2,6 @@
 using CalamityMod.Items.Placeables;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             DisplayName.SetDefault("Star Struck Water");
             Tooltip.SetDefault("Spreads the astral infection to some blocks");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
         public override void SetDefaults()

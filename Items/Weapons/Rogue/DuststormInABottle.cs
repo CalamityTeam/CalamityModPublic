@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DuststormInABottle : RogueWeapon
+    public class DuststormInABottle : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Duststorm in a Bottle");
             Tooltip.SetDefault("Explodes into a dust cloud\n" +
             "Stealth strikes form a more intense and longer lasting dust cloud");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 20;
             Item.damage = 47;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<DuststormInABottleProj>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

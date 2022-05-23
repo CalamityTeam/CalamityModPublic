@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 113;
             AIType = ProjectileID.BoneJavelin;
             Projectile.penetrate = 3;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

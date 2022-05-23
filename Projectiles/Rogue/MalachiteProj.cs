@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             AIType = ProjectileID.NailFriendly;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

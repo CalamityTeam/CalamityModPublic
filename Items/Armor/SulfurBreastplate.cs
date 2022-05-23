@@ -4,7 +4,6 @@ using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Sulphurous Breastplate");
             Tooltip.SetDefault("8% increased rogue damage and 5% increased rogue critical strike chance");
         }
@@ -29,8 +28,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.08f;
-            player.Calamity().throwingCrit += 5;
+            player.GetDamage<ThrowingDamageClass>() += 0.08f;
+            player.GetCritChance<ThrowingDamageClass>() += 5;
         }
 
         public override void AddRecipes()

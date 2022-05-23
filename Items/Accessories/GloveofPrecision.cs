@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Glove of Precision");
             Tooltip.SetDefault("Decreases rogue attack speed by 20% but increases damage and crit by 12% and velocity by 25%");
         }
@@ -29,10 +28,10 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.gloveOfPrecision = true;
-            modPlayer.throwingDamage += 0.12f;
-            modPlayer.throwingCrit += 12;
-            modPlayer.throwingVelocity += 0.25f;
-            modPlayer.rogueUseSpeedFactor -= 0.2f;
+            player.GetDamage<RogueDamageClass>() += 0.12f;
+            player.GetCritChance<RogueDamageClass>() += 12;
+            modPlayer.rogueVelocity += 0.25f;
+            player.GetAttackSpeed<RogueDamageClass>() -= 0.2f;
         }
     }
 }

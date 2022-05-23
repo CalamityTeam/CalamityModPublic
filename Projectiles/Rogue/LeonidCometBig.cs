@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 2;
             AIType = ProjectileID.Meteor1;

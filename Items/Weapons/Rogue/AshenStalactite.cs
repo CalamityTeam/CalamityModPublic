@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AshenStalactite : RogueWeapon
+    public class AshenStalactite : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ashen Stalactite");
             Tooltip.SetDefault("Throws a fast, small stalactite that crumbles to dust after travelling a short distance\n" +
                 "Stealth strikes cause a larger, more damaging stalagmite to be thrown which travels slower and further before crumbling to damaging dust");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 36;
             Item.height = 34;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Orange;
             Item.shoot = ModContent.ProjectileType<AshenStalactiteProj>();
             Item.shootSpeed = 15f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

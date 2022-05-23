@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Linked to the essence of Terraria\n" +
                                "Heals the player on true melee hits\n" +
                                "Fires a barrage of 4 homing beams that freeze enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

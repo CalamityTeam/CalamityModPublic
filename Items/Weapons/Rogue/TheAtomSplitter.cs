@@ -4,27 +4,26 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheAtomSplitter : RogueWeapon
+    public class TheAtomSplitter : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Atom Splitter");
             Tooltip.SetDefault("Throws a quantum-superimposed javelin that strikes from numerous timelines at once\n" +
                 "Stealth strikes perform far more simultaneous strikes");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = Item.height = 128;
             Item.damage = 320;
             Item.knockBack = 7f;
             Item.useAnimation = Item.useTime = 25;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 24f;
             Item.shoot = ModContent.ProjectileType<TheAtomSplitterProjectile>();

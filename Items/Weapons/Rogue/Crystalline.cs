@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Crystalline : RogueWeapon
+    public class Crystalline : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystalline");
             Tooltip.SetDefault("Splits into several projectiles as it travels\n" +
                                "Stealth strikes make the blade split more and create crystals when destroyed");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 44;
             Item.damage = 16;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<CrystallineProj>();
             Item.shootSpeed = 10f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

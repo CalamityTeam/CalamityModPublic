@@ -1,6 +1,5 @@
 ﻿using Terraria.ModLoader;
 using CalamityMod.NPCs.AcidRain;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.SummonItems
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodworm");
             Tooltip.SetDefault("Summons The Old Duke if used as bait in the sulphur sea");
         }
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.SummonItems
             Item.consumable = true;
             Item.noUseGraphic = true;
             Item.makeNPC = (short)ModContent.NPCType<BloodwormNormal>();
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
     }
 }

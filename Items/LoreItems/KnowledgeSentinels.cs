@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -12,8 +12,9 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Sentinels of the Devourer");
             Tooltip.SetDefault("Signus. The Void. The Weaver.\n" +
-                "Each represent one of the Devourer�s largest spheres of influence.\n" +
+                "Each represent one of the Devourer’s largest spheres of influence.\n" +
                 "Dispatching them has most likely invoked its anger and marked you as a target for destruction.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

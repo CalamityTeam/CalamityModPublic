@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Banners
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Banners
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Baby Ghost Bell Banner");
             Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Baby Ghost Bell");
         }

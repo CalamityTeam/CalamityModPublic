@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 3;
             Projectile.timeLeft = 300;
             AIType = ProjectileID.WoodenBoomerang;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

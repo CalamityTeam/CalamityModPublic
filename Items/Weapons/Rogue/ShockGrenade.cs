@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ShockGrenade : RogueWeapon
+    public class ShockGrenade : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shock Grenade");
             Tooltip.SetDefault("Throws a grenade that explodes into a burst of lightning\n" +
                 "Stealth strikes cause the grenade to leave an electrifying aura when it explodes");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 90;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<ShockGrenadeProjectile>();
             Item.shootSpeed = 12.5f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

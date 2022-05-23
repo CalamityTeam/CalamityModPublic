@@ -6,11 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NanoblackReaperRogue : RogueWeapon
+    public class NanoblackReaperRogue : ModItem
     {
         public static int BaseDamage = 130;
         public static float Knockback = 9f;
@@ -23,10 +22,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Blades target bosses whenever possible\n" +
                 "Stealth strikes cause the scythe to create a large amount of homing afterimages instead of energy blades\n" +
                 "'She smothered them in Her hatred'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 78;
             Item.height = 64;
@@ -45,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.HotPink;
             Item.Calamity().devItem = true;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shoot = ModContent.ProjectileType<NanoblackMain>();
             Item.shootSpeed = Speed;
         }

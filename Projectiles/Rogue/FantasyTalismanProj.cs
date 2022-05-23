@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 10;
             Projectile.height = 10;
             Projectile.friendly = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
             Projectile.aiStyle = 1;
             AIType = ProjectileID.BulletHighVelocity;

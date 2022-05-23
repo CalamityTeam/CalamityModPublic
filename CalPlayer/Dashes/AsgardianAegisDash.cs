@@ -77,10 +77,12 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.HitDirection = hitDirection;
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
-            hitContext.Damage = (int)(300f * player.AverageDamage());
+            hitContext.Damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(300f);
 
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(135 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
-            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), (int)(90 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+            int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
+            int holyEruptionDamage = (int)player.GetBestClassDamage().ApplyTo(90);
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosionSupreme>(), supremeExplosionDamage, 20f, Main.myPlayer, 0f, 0f);
+            Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyEruption>(), holyEruptionDamage, 5f, Main.myPlayer, 0f, 0f);
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }

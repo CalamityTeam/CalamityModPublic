@@ -5,7 +5,6 @@ using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Sulphurous Helmet");
             Tooltip.SetDefault("4% increased rogue damage\n" +
                 "2% increased rogue critical strike chance\n" +
@@ -54,8 +53,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.04f;
-            player.Calamity().throwingCrit += 2;
+            player.GetDamage<ThrowingDamageClass>() += 0.04f;
+            player.GetCritChance<ThrowingDamageClass>() += 2;
             player.gills = true;
         }
 

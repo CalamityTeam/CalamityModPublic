@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Bladecrest Oathsword");
             Tooltip.SetDefault("Fires bursts of demonic blades that exponentially decelerate and explode\n" +
                 "Sword of an ancient demon lord");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

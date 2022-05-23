@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Plumed Helm");
             Tooltip.SetDefault("20% increased rogue damage, critical strike chance and 5% increased movement speed\n" +
                                "Not moving boosts all damage and critical strike chance");
@@ -70,8 +69,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.Calamity().throwingDamage += 0.2f;
-            player.Calamity().throwingCrit += 20;
+            player.GetDamage<ThrowingDamageClass>() += 0.2f;
+            player.GetCritChance<ThrowingDamageClass>() += 20;
             player.moveSpeed += 0.05f;
         }
 

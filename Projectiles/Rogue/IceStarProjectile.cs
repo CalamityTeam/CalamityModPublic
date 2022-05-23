@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 2;
             Projectile.timeLeft = 280;
             AIType = ProjectileID.ThrowingKnife;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.coldDamage = true;
         }
 

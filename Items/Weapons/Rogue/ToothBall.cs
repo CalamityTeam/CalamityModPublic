@@ -5,20 +5,19 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ToothBall : RogueWeapon
+    public class ToothBall : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tooth Ball");
             Tooltip.SetDefault("Stealth strikes spawn rain clouds on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 30;
             Item.damage = 26;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Orange;
             Item.shoot = ModContent.ProjectileType<ToothBallProjectile>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

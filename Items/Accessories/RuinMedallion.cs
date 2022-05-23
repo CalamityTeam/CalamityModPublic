@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Ruin Medallion");
             Tooltip.SetDefault("Stealth strikes only expend 50% of your max stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance");
@@ -30,8 +29,8 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stealthStrikeHalfCost = true;
-            modPlayer.throwingCrit += 6;
-            modPlayer.throwingDamage += 0.06f;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
+            player.GetDamage<ThrowingDamageClass>() += 0.06f;
         }
 
         public override void AddRecipes()

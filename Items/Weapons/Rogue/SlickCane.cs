@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SlickCane : RogueWeapon
+    public class SlickCane : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Swipes a cane that steals money from enemies.\n" +
                                "Stealth strikes gives a 1 in 15 chance for enemies to drop 1-3 gold coins when hit\n" +
                                "'Economy at its finest'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 42;
             Item.height = 36;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<SlickCaneProjectile>();
             Item.shootSpeed = 22f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

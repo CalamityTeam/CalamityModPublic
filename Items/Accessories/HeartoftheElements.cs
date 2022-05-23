@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 using static Terraria.ModLoader.ModContent;
 
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Heart of the Elements");
             Tooltip.SetDefault("The heart of the world\n" +
                 "Summons all elementals to protect you");
@@ -60,7 +59,7 @@ namespace CalamityMod.Items.Accessories
 
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
-            int elementalDmg = (int)(90 * player.MinionDamage());
+            int elementalDmg = (int)player.GetDamage<SummonDamageClass>().ApplyTo(90);
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||

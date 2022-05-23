@@ -6,21 +6,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Brimblade : RogueWeapon
+    public class Brimblade : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimblade");
             Tooltip.SetDefault("Throws a blade that splits on enemy hits\n" +
             "Stealth strikes split further and cause the player to launch a barrage of brimstone darts");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 28;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<BrimbladeProj>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

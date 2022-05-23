@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 9;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

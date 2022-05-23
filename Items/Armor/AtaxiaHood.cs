@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Hydrothermic Hood");
             Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
                 "50% chance to not consume rogue items and 5% increased movement speed\n" +
@@ -53,15 +52,15 @@ namespace CalamityMod.Items.Armor
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;
             modPlayer.rogueStealthMax += 1.1f;
-            modPlayer.throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
             modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingAmmoCost *= 0.5f;
-            player.Calamity().throwingDamage += 0.12f;
-            player.Calamity().throwingCrit += 10;
+            player.Calamity().rogueAmmoCost *= 0.5f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
+            player.GetCritChance<ThrowingDamageClass>() += 10;
             player.moveSpeed += 0.05f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;

@@ -2,13 +2,12 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DukesDecapitator : RogueWeapon
+    public class DukesDecapitator : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a hydro axe which shreds enemies when it comes into contact with them\n"
                               +"The faster it�s spinning, the more times it hits before disappearing\n"
                               +"Stealth Strikes make it emit short-ranged bubbles.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 60;
             Item.height = 64;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<DukesDecapitatorProj>();
             Item.shootSpeed = 15f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

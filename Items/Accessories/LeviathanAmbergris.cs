@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Leviathan Ambergris");
             Tooltip.SetDefault("You leave behind poisonous seawater as you move\n" +
                                "30% increased movement speed, 10% increase to all damage and plus 10 defense while submerged in liquid\n" +
@@ -51,7 +50,8 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), (int)(50 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+                    int seawaterDamage = (int)player.GetBestClassDamage().ApplyTo(50);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), seawaterDamage, 5f, player.whoAmI, 0f, 0f);
                 }
             }
             int seaCounter = 0;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Accessories
             int num = BuffID.Venom;
             float num2 = 200f;
             bool flag = seaCounter % 60 == 0;
-            int num3 = (int)(15 * player.AverageDamage());
+            int auraDamage = (int)player.GetBestClassDamage().ApplyTo(15);
             int random = Main.rand.Next(5);
             if (player.whoAmI == Main.myPlayer)
             {
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Accessories
                             {
                                 if (player.whoAmI == Main.myPlayer)
                                 {
-                                    Projectile.NewProjectileDirect(source, nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
+                                    Projectile.NewProjectileDirect(source, nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), auraDamage, 0f, player.whoAmI, l);
                                 }
                             }
                         }

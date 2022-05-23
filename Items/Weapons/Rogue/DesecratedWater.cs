@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DesecratedWater : RogueWeapon
+    public class DesecratedWater : ModItem
     {
         public const int BaseDamage = 55;
         public override void SetStaticDefaults()
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Desecrated Water");
             Tooltip.SetDefault(@"Throws an unholy flask of water that explodes into an explosion of bubbles on death
 Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.width = 22;
@@ -36,7 +35,7 @@ Stealth strikes spawn additional bubbles that inflict Ichor and Cursed Inferno")
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<DesecratedWaterProj>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Demonshade Helm");
             Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance");
         }
@@ -67,7 +66,7 @@ namespace CalamityMod.Items.Armor
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
                 {
                     int baseDamage = 10000;
-                    int damage = (int)(10000 * player.AverageDamage());
+                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(10000);
                     var devil = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     devil.originalDamage = baseDamage;
                 }

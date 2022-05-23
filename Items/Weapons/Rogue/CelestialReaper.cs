@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CelestialReaper : RogueWeapon
+    public class CelestialReaper : ModItem
     {
         public const int BaseDamage = 140;
 
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a fast homing scythe\n" +
                                "The scythe will bounce after hitting an enemy up to six times\n" +
                                "Stealth strikes create damaging afterimages");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.width = 66;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = Item.buyPrice(platinum: 1); //sell price of 20 gold
             Item.shoot = ModContent.ProjectileType<CelestialReaperProjectile>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

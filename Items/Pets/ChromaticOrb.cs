@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Chromatic Orb");
             Tooltip.SetDefault("It glows warmly in your hand\n" +
                 "Summons an ancient dragon light pet that highlights nearby enemies and danger sources\n" +

@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AlphaVirus : RogueWeapon
+    public class AlphaVirus : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Alpha Virus");
             Tooltip.SetDefault("Throws a giant plague cell with a lethal aura that splits into 6 plague seekers on death\n" +
                                "Stealth strikes cause the plague cell to move slower, accumulating an aura of swirling plague seekers as it flies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 333;
             Item.width = 44;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 4f;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

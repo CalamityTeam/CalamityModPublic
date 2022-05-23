@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Definitely don't underestimate the power of shivs\n" +
                 "Fires a cosmic beam that homes in on enemies\n" +
                 "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

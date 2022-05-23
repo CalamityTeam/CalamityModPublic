@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CrystalPiercer : RogueWeapon
+    public class CrystalPiercer : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Piercer");
             Tooltip.SetDefault("Throws a crystal javelin that pierces infinitely\n" +
             "Stealth strikes travel through blocks, ignore gravity, and summon crystal shards as they fly");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 62;
             Item.damage = 52;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<CrystalPiercerProjectile>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

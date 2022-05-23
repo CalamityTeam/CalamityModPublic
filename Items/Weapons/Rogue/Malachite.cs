@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Malachite : RogueWeapon
+    public class Malachite : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a stream of kunai that stick to enemies and explode\n" +
                 "Right click to throw a single kunai that pierces, after piercing an enemy it emits a massive explosion on the next enemy hit\n" +
                 "Stealth strikes fire three kunai that home in, stick to enemies, and explode");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 50;
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 58;
             Item.shoot = ModContent.ProjectileType<MalachiteProj>();
             Item.shootSpeed = 10f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;
             Item.rare = ItemRarityID.Yellow;
@@ -61,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float SafeSetUseTimeMultiplier(Player player)
+        public override float UseTimeMultiplier(Player player)
         {
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse == 2)
                 return 1f;

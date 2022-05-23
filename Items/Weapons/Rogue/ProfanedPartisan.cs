@@ -4,22 +4,21 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ProfanedPartisan : RogueWeapon
+    public class ProfanedPartisan : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Partisan");
             Tooltip.SetDefault(@"Fires an unholy spear that explodes on death
 Stealth strikes spawn smaller spears to fly along side it");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 322;
             Item.knockBack = 8f;
@@ -36,7 +35,7 @@ Stealth strikes spawn smaller spears to fly along side it");
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.autoReuse = true;
             Item.shootSpeed = 6f;

@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodflare Imp Mask");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
                 "10% increased rogue damage and critical strike chance, 5% increased movement speed");
@@ -62,8 +61,8 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.Calamity().throwingDamage += 0.1f;
-            player.Calamity().throwingCrit += 10;
+            player.GetDamage<ThrowingDamageClass>() += 0.1f;
+            player.GetCritChance<ThrowingDamageClass>() += 10;
             player.moveSpeed += 0.05f;
         }
 

@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GhoulishGouger : RogueWeapon
+    public class GhoulishGouger : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ghoulish Gouger");
             Tooltip.SetDefault("Throws sets of four ghoulish scythes at ultra high velocity\n" +
                 "Stealth strikes summon a flurry of tormented souls on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 74;
             Item.height = 68;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<GhoulishGougerBoomerang>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

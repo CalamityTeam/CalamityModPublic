@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.timeLeft = 600;
             Projectile.penetrate = 3;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
         }
         private void Explode()

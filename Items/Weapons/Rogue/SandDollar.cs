@@ -5,26 +5,25 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SandDollar : RogueWeapon
+    public class SandDollar : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Dollar");
             Tooltip.SetDefault("Stacks up to 2\n" +
             "Stealth strikes throw 2 long ranged sand dollars that explode into coral shards on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 2;
+            SacrificeTotal = 2;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 30;
             Item.height = 28;
             Item.damage = 26;
-            Item.DamageType = DamageClass.Throwing;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useTime = 15;
@@ -38,7 +37,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<SandDollarProj>();
             Item.shootSpeed = 14f;
-            Item.Calamity().rogue = true;
         }
 
         public override bool CanUseItem(Player player)

@@ -3,15 +3,16 @@ using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
     public class DragonScales : ModItem
     {
+        internal static int ShitBaseDamage = 50;
+        
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Dragon Scales");
             Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
                                "Rogue projectiles create slow fireballs as they travel\n" +

@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Victide Headgear");
             Tooltip.SetDefault("5% increased rogue damage");
         }
@@ -48,14 +47,14 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.Calamity().throwingDamage += 0.1f;
+                player.GetDamage<ThrowingDamageClass>() += 0.1f;
                 player.lifeRegen += 3;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

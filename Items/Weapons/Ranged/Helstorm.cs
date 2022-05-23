@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Helstorm");
             Tooltip.SetDefault("Fires two bullets at once\n" +
                 "The gun also deals damage to enemies that touch it");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

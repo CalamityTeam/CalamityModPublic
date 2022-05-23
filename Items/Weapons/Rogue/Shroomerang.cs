@@ -3,22 +3,21 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Shroomerang : RogueWeapon
+    public class Shroomerang : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomerang");
             Tooltip.SetDefault(@"Fires a slow, long-ranged boomerang
 Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 18;
@@ -34,7 +33,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.shoot = ModContent.ProjectileType<ShroomerangProj>();
             Item.shootSpeed = 15f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

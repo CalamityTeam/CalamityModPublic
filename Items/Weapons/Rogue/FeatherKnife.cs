@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FeatherKnife : RogueWeapon
+    public class FeatherKnife : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feather Knife");
             Tooltip.SetDefault(@"Throws a knife which summons homing feathers
 Stealth strike throws a volley of knives");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 18;
             Item.damage = 25;
@@ -36,7 +35,7 @@ Stealth strike throws a volley of knives");
             Item.maxStack = 999;
             Item.shoot = ModContent.ProjectileType<FeatherKnifeProjectile>();
             Item.shootSpeed = 25f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = Item.sellPrice(copper: 60);
             Item.rare = ItemRarityID.Orange;

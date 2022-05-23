@@ -2,7 +2,6 @@
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Cryo Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "Creates a rotating ice shield around you that damages and slows down enemies on contact");

@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class JawsOfOblivion : RogueWeapon
+    public class JawsOfOblivion : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a tight spread of six venomous reaper fangs that stick in enemies\n" +
                 "Stealth strikes cause the teeth to emit a crushing shockwave on impact\n" +
                 "You're gonna need a bigger boat");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 42;
             Item.height = 40;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<JawsProjectile>();
             Item.shootSpeed = 25f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

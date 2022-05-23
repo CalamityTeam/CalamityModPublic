@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Plaguebringer Goliath");
             Tooltip.SetDefault("A horrific amalgam of steel, flesh, and infection, capable of destroying an entire civilization in just one onslaught.\n" +
                 "Its plague nuke barrage can leave an entire area uninhabitable for months. A shame that it came to this but the plague must be contained.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

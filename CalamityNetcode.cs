@@ -63,9 +63,6 @@ namespace CalamityMod
                     // Player mechanic syncs
                     //
 
-                    case CalamityModMessageType.MoveSpeedStatSync:
-                        Main.player[reader.ReadInt32()].Calamity().HandleMoveSpeedStat(reader);
-                        break;
                     case CalamityModMessageType.DefenseDamageSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleDefenseDamage(reader);
                         break;
@@ -339,7 +336,6 @@ namespace CalamityMod
         ExactRogueLevelSync,
 
         // Player mechanic syncs
-        MoveSpeedStatSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
         DefenseDamageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced when the player gets hit, or every time it heals up
         RageSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is
         AdrenalineSync, // TODO -- this can't be synced every 60 frames, it needs to be synced every time the player is

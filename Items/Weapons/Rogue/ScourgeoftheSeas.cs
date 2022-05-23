@@ -4,27 +4,26 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ScourgeoftheSeas : RogueWeapon
+    public class ScourgeoftheSeas : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scourge of the Seas");
             Tooltip.SetDefault("Snaps apart into a venomous cloud upon striking an enemy\n" +
             "Stealth strikes are coated with vile toxins, afflicting enemies with a powerful debuff");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 45;
             Item.knockBack = 3.5f;
             Item.useAnimation = Item.useTime = 20;
             Item.autoReuse = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<ScourgeoftheSeasProjectile>();
 

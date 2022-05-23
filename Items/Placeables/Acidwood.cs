@@ -2,7 +2,6 @@
 using CalamityMod.Tiles.Abyss;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
+            SacrificeTotal = 100;
             DisplayName.SetDefault("Acidwood");
         }
 

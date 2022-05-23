@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
@@ -10,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HellsSun : RogueWeapon
+    public class HellsSun : ModItem
     {
         private static int damage = 85;
         private static int knockBack = 5;
@@ -24,13 +23,13 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Once stationary, periodically emits small suns that explode on hit\n" +
                 "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
                 "Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = damage;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 1;

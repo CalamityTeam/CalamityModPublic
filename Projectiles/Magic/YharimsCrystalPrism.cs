@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
-            Projectile.damage = (int)((player.ActiveItem()?.damage ?? 0) * player.MagicDamage());
+            Projectile.damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(player.ActiveItem()?.damage ?? 0);
 
             // ai[0] is the overall frame counter.
             Projectile.ai[0] += 1f;

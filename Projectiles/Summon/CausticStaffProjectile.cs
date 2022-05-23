@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
                 !player.ActiveItem().CountsAsClass<MeleeDamageClass>() &&
                 !player.ActiveItem().CountsAsClass<RangedDamageClass>() &&
                 !player.ActiveItem().CountsAsClass<MagicDamageClass>() &&
-                !player.ActiveItem().Calamity().rogue) ||
+                !player.ActiveItem().CountsAsClass<ThrowingDamageClass>()) ||
                 player.ActiveItem().hammer > 0 ||
                 player.ActiveItem().pick > 0 ||
                 player.ActiveItem().axe > 0)

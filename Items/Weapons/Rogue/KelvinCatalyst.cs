@@ -8,21 +8,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class KelvinCatalyst : RogueWeapon
+    public class KelvinCatalyst : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kelvin Catalyst");
             Tooltip.SetDefault("Throws an icy blade that splits into multiple ice stars on enemy hits\n" +
             "Stealth strikes will briefly gain sentience and ram nearby enemies before returning to the player");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 20;
             Item.damage = 60;
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<KelvinCatalystBoomerang>();
             Item.shootSpeed = 8f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

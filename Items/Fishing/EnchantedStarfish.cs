@@ -2,7 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Enchanted Starfish");
             Tooltip.SetDefault("Permanently increases maximum mana by 20");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Gladiator's Locket");
             Tooltip.SetDefault("Summons two spirit swords to protect you");
         }
@@ -45,16 +44,16 @@ namespace CalamityMod.Items.Accessories
                 if (player.FindBuffIndex(ModContent.BuffType<GladiatorSwords>()) == -1)
                     player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
 
-                int damage = 30;
-                int swordDmg = (int)(damage * player.AverageDamage());
+                int baseDamage = 30;
+                int swordDmg = (int)player.GetDamage<SummonDamageClass>().ApplyTo(baseDamage);
                 var source = player.GetSource_Accessory(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
                     var sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 2f, Main.myPlayer);
-                    sword.originalDamage = damage;
+                    sword.originalDamage = baseDamage;
 
                     sword = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 2f, Main.myPlayer);
-                    sword.originalDamage = damage;
+                    sword.originalDamage = baseDamage;
                 }
             }
         }

@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TerraDisk : RogueWeapon
+    public class TerraDisk : ModItem
     {
         public static int BaseDamage = 100;
         public static float Speed = 12f;
@@ -20,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Throws a disk that has a chance to generate several disks if enemies are near it
 A max of three disks can be active at a time
 Stealth strikes travel slower and are rapidly orbited by the smaller disks");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 46;
@@ -41,7 +40,7 @@ Stealth strikes travel slower and are rapidly orbited by the smaller disks");
             Item.value = Item.buyPrice(gold: 80);
             Item.rare = ItemRarityID.Yellow;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shoot = ModContent.ProjectileType<TerraDiskProjectile>();
             Item.shootSpeed = Speed;
         }

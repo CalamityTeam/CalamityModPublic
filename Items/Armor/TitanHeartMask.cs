@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Titan Heart Mask");
             Tooltip.SetDefault("5% increased rogue damage and knockback\n" +
             "Rogue weapons inflict the Astral Infection debuff");
@@ -44,7 +43,7 @@ namespace CalamityMod.Items.Armor
                     "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.titanHeartSet = true;
-            modPlayer.throwingDamage += 0.15f;
+            player.GetDamage<ThrowingDamageClass>() += 0.15f;
             modPlayer.rogueStealthMax += 1f;
             modPlayer.wearingRogueArmor = true;
             player.noKnockback = true;
@@ -54,7 +53,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.titanHeartMask = true;
-            modPlayer.throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

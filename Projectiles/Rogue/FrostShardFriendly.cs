@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.coldDamage = true;
             Projectile.friendly = true;
             Projectile.penetrate = 1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.coldDamage = true;
         }
 

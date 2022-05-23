@@ -6,21 +6,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Prismalline : RogueWeapon
+    public class Prismalline : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismalline");
             Tooltip.SetDefault("Throws daggers that split after a while\n" +
             "Stealth strikes additionally explode into prism shards and briefly stun enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 46;
             Item.damage = 24;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<PrismallineProj>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

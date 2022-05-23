@@ -4,19 +4,18 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CobaltKunai : RogueWeapon
+    public class CobaltKunai : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cobalt Kunai");
             Tooltip.SetDefault("Stealth strikes fire three homing cobalt energy bolts");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 18;
             Item.damage = 50;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<CobaltKunaiProjectile>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

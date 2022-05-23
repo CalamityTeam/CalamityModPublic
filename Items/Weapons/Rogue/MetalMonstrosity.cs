@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class MetalMonstrosity : RogueWeapon
+    public class MetalMonstrosity : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("This has to hurt\n" +
                                "Hurls a heavy metal ball that shatters on impact\n" +
                                "Stealth strikes cause the ball to release spikes as it travels");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 32;
             Item.height = 32;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<MetalChunk>();
             Item.shootSpeed = 7f;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

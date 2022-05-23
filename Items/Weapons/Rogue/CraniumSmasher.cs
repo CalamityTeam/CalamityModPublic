@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CraniumSmasher : RogueWeapon
+    public class CraniumSmasher : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cranium Smasher");
             Tooltip.SetDefault("Throws disks that roll on the ground, occasionally launches an explosive disk\n" +
             "Stealth strikes launch an explosive disk that can pierce several enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 50;
             Item.height = 50;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<CraniumSmasherProj>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Mycoroot : RogueWeapon
+    public class Mycoroot : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mycoroot");
             Tooltip.SetDefault("Fires a stream of short-range fungal roots\n" +
                 "Stealth strikes spawn an explosion of fungi spores");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 32;
             Item.damage = 10;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.shoot = ModContent.ProjectileType<MycorootProj>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

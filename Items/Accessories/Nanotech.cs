@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Nanotech");
             Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
                 "Stealth strikes summon nanobeams and sparks on enemy hits\n" +
@@ -52,8 +51,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.electricianGlove = true;
             modPlayer.filthyGlove = true;
             modPlayer.bloodyGlove = true;
-            player.Calamity().throwingDamage += 0.15f;
-            player.Calamity().throwingVelocity += 0.15f;
+            player.GetDamage<ThrowingDamageClass>() += 0.15f;
+            player.Calamity().rogueVelocity += 0.15f;
         }
 
         public override void AddRecipes()

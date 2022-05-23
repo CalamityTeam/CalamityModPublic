@@ -2,13 +2,12 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheSyringe : RogueWeapon
+    public class TheSyringe : ModItem
     {
         public static int BaseDamage = 60;
         public static float Knockback = 5f;
@@ -21,10 +20,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Shatters into glass and plague cinders on impact\n" +
                 "Stealth strikes also shatter into plague bees\n" +
                 "'I'm pretty sure this isn't healthy'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.knockBack = Knockback;
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = Speed;
             Item.value = Item.buyPrice(0, 80, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

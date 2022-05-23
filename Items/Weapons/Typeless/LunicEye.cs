@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -16,11 +15,14 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Lunic Eye");
             Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
                 "This weapon scales with all your damage stats at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
+            // TODO -- "scales with all stats at once"
+            Item.DamageType = DamageClass.Generic;
+
             Item.width = 80;
             Item.damage = 9;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
@@ -40,18 +42,6 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-15, 0);
-        }
-
-        // Lunic Eye scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            float formula = 5f * (player.GetDamage(DamageClass.Generic).Additive - 1f);
-            formula += player.GetDamage(DamageClass.Melee).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Ranged).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Magic).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Summon).Additive - 1f;
-            formula += player.Calamity().throwingDamage - 1f;
-            damage += formula;
         }
 
         public override void AddRecipes()

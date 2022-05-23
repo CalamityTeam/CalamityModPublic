@@ -5,12 +5,11 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Supernova : RogueWeapon
+    public class Supernova : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Creates a massive explosion on impact
 Explodes into spikes and homing energy
 Stealth strikes release energy as they fly");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.damage = 675;
@@ -38,7 +37,7 @@ Stealth strikes release energy as they fly");
             Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 

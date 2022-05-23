@@ -286,11 +286,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 // Reduce acceleration if target is holding a true melee weapon
-                Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-                if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
-                {
+                if (Main.player[npc.target].HoldingTrueMeleeWeapon())
                     acceleration *= 0.5f;
-                }
 
                 if (npc.position.Y > Main.player[npc.target].position.Y - 400f)
                 {

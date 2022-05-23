@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.height = 70;
             Projectile.friendly = true;
             Projectile.tileCollide = false;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.timeLeft = 180;
             Projectile.alpha = 255;
         }

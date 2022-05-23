@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Well done, you killed a plant.\n" +
                 "It was used as a vessel to house the spirits of those unfortunate enough to find their way down here.\n" +
                 "I wish you luck in dealing with the fallout.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class StellarKnife : RogueWeapon
+    public class StellarKnife : ModItem
     {
         int knifeCount = 10;
         int knifeLimit = 20;
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws knives that stop middair and then home into enemies\n" +
                                "Stealth strikes throw a volley of " + knifeCount + " knives in a spread\n" +
                                "Za Warudo");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 32;
             Item.height = 34;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<StellarKnifeProj>();
             Item.shootSpeed = 10f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

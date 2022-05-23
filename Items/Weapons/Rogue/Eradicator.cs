@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Eradicator : RogueWeapon
+    public class Eradicator : ModItem
     {
         public static float Speed = 10.5f;
 
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Eradicator");
             Tooltip.SetDefault("Throws a disk that fires lasers at nearby enemies\n" +
             "Stealth strikes stick to enemies and unleash a barrage of lasers in all directions");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 38;
             Item.damage = 563;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
             Item.shoot = ModContent.ProjectileType<EradicatorProjectile>();
             Item.shootSpeed = Speed;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class UtensilPoker : RogueWeapon
+    public class UtensilPoker : ModItem
     {
         private int counter = 0;
         public override void SetStaticDefaults()
@@ -19,15 +18,15 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Fires random utensils in bursts of three\n" +
                 "Grants Well Fed on enemy hits\n" +
                 "Stealth strikes replace any utensil with a powerful butcher knife");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 44;
             Item.height = 66;
             Item.damage = 333;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.knockBack = 8f;
             Item.noMelee = true;
             Item.noUseGraphic = true;

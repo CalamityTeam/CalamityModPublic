@@ -2,14 +2,13 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EpidemicShredder : RogueWeapon
+    public class EpidemicShredder : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Contrary to its name, it will probably cause an epidemic if used incorrectly\n" +
                                "Throws a plagued boomerang that releases plague seekers when it hits tiles or enemies\n" +
                                "Stealth strikes cause the boomerang to release plague seekers constantly as it travels");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.height = 34;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Yellow;
             Item.shoot = ModContent.ProjectileType<EpidemicShredderProjectile>();
             Item.shootSpeed = 18f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

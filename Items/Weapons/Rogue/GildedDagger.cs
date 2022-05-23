@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GildedDagger : RogueWeapon
+    public class GildedDagger : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a shiny blade that ricochets towards another enemy on hit\n" +
                 "Stealth strikes cause the blade to home in after ricocheting, with each ricochet dealing 20% more damage\n" +
                 "Stealth strikes also have increased piercing");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 32;
             Item.damage = 14;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<GildedDaggerProj>();
             Item.shootSpeed = 15f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Corrosive Spine");
             Tooltip.SetDefault("10% increased movement speed\n" +
                                "All rogue weapons inflict venom and spawn clouds on enemy hits\n" +
@@ -47,8 +46,9 @@ namespace CalamityMod.Items.Accessories
                             ModContent.ProjectileType<Corrocloud3>()
                         });
                         float speed = Main.rand.NextFloat(3f, 11f);
+                        int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(100);
                         Projectile.NewProjectile(source, player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-                            type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
+                            type, damage, 0f, player.whoAmI);
                     }
                 }
             }

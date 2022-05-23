@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plague Reaper Mask");
             Tooltip.SetDefault("10% increased ranged damage and 8% increased ranged critical strike chance");
         }
@@ -69,9 +68,10 @@ namespace CalamityMod.Items.Armor
                 {
                     if (player.miscCounter % 10 == 0)
                     {
-                        Projectile cinder = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), (int)(40 * player.RangedDamage()), 4f, player.whoAmI);
+                        int damage = (int)player.GetDamage<RangedDamageClass>().ApplyTo(40);
+                        Projectile cinder = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<TheSyringeCinder>(), damage, 4f, player.whoAmI);
                         if (cinder.whoAmI.WithinBounds(Main.maxProjectiles))
-                            cinder.Calamity().forceTypeless = true;
+                            cinder.Calamity().forceClassless = true;
                     }
                 }
             }

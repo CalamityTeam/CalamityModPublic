@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Exodus Wings");
             Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
                 "Horizontal speed: 9.00\n" +
@@ -39,8 +38,8 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             if (player.armor[0].type == ModContent.ItemType<XerocMask>() && player.armor[1].type == ModContent.ItemType<XerocPlateMail>() && player.armor[2].type == ModContent.ItemType<XerocCuisses>())
             {
-                player.Calamity().throwingDamage += 0.05f;
-                player.Calamity().throwingCrit += 5;
+                player.GetDamage<ThrowingDamageClass>() += 0.05f;
+                player.GetCritChance<ThrowingDamageClass>() += 5;
             }
 
             if (player.controlJump && player.wingTime > 0f && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)

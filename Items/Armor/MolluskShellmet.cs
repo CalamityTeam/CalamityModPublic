@@ -6,7 +6,6 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Mollusk Shellmet");
             Tooltip.SetDefault("5% increased damage and 4% increased critical strike chance\n" +
                                "You can move freely through liquids");
@@ -60,7 +59,9 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)(140 * player.MinionDamage()), 0f, player.whoAmI);
+                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(140);
+                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), damage, 0f, player.whoAmI);
+                    // TODO -- doesn't set originalDamage
                 }
             }
             player.Calamity().wearingRogueArmor = true;

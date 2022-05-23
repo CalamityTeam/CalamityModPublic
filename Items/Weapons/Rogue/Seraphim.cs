@@ -6,11 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Seraphim : RogueWeapon
+    public class Seraphim : ModItem
     {
         public const int SplitDaggerCount = 6;
         public const int StealthStrikeLightCount = 7;
@@ -21,10 +20,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 $"Once dissipation has ended, {SplitDaggerCount} fast, splitting blades that aim at and slice nearby targets are released, along\n" +
                 "with a large laserbeam\n" +
                 $"Stealth strikes release a volley of {StealthStrikeLightCount} lights which explode into smaller laser beams along with the dagger");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 82;
             Item.height = 82;
@@ -42,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.shoot = ModContent.ProjectileType<SeraphimProjectile>();
             Item.shootSpeed = SeraphimProjectile.InitialSpeed;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

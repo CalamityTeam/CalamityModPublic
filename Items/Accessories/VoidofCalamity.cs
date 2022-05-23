@@ -3,7 +3,6 @@ using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Void of Calamity");
             Tooltip.SetDefault("12% increase to all damage\n" +
             "Brimstone fire rains down after getting hit");
@@ -40,7 +39,8 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.miscCounter % 10 == 0)
                     {
-                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI);
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(30);
+                        CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), damage, 5f, player.whoAmI);
                     }
                 }
             }

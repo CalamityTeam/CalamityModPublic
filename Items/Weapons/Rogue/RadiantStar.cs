@@ -6,21 +6,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RadiantStar : RogueWeapon
+    public class RadiantStar : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Radiant Star");
             Tooltip.SetDefault("Throws daggers that explode and split after a while\n" +
                 "Stealth strike splits more with a devastating explosion and sucks enemies in");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 52;
             Item.damage = 55; //33
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<RadiantStarKnife>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

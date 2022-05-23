@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne abomination\n" +
                 "Summons the Plaguebringer Goliath when used in the jungle\n" +

@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "'No matter where you may be you are never alone\n" +
                                "I shall always be at your side, my lord'\n" +
                                "Fires a white orb that emits white rain on death for a time");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

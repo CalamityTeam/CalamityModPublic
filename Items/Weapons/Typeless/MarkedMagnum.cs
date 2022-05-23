@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -15,11 +14,14 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Marked Magnum");
             Tooltip.SetDefault("Shots reduce enemy protection\n" +
                 "This weapon scales with all your damage stats at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
+            // TODO -- "scales with all stats at once"
+            Item.DamageType = DamageClass.Generic;
+
             Item.damage = 4;
             Item.width = 54;
             Item.height = 20;
@@ -39,18 +41,6 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
-        }
-
-        // Marked Magnum scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
-        {
-            float formula = 5f * (player.GetDamage(DamageClass.Generic).Additive - 1f);
-            formula += player.GetDamage(DamageClass.Melee).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Ranged).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Magic).Additive - 1f;
-            formula += player.GetDamage(DamageClass.Summon).Additive - 1f;
-            formula += player.Calamity().throwingDamage - 1f;
-            damage += formula;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

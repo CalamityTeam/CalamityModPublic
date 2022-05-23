@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aerospec Breastplate");
             Tooltip.SetDefault("3% increased critical strike chance");
         }
@@ -25,13 +24,7 @@ namespace CalamityMod.Items.Armor
             Item.defense = 7;
         }
 
-        public override void UpdateEquip(Player player)
-        {
-            player.GetCritChance(DamageClass.Melee) += 3;
-            player.GetCritChance(DamageClass.Ranged) += 3;
-            player.GetCritChance(DamageClass.Magic) += 3;
-            player.Calamity().throwingCrit += 3;
-        }
+        public override void UpdateEquip(Player player) => player.GetCritChance<GenericDamageClass>() += 3;
 
         public override void AddRecipes()
         {

@@ -7,11 +7,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GodsParanoia : RogueWeapon
+    public class GodsParanoia : ModItem
     {
         private static int damage = 98;
         private static int knockBack = 5;
@@ -23,13 +22,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 Attaches to enemies and summons a localized storm of god slayer kunai
 Stealth strikes home in faster and summon kunai at a faster rate
 Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = damage;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 1;

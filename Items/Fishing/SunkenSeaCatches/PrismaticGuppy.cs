@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         {
             DisplayName.SetDefault("Prismatic Guppy"); //Bass substitute
             Tooltip.SetDefault("Throwing these in an aquarium would be insanity");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()

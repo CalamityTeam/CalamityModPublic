@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Umbraphile Boots");
             Tooltip.SetDefault("9% increased rogue damage and 6% increased rogue crit\n" +
                                "20% increased movement speed");
@@ -29,8 +28,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.2f;
-            player.Calamity().throwingDamage += 0.09f;
-            player.Calamity().throwingCrit += 6;
+            player.GetDamage<ThrowingDamageClass>() += 0.09f;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
         }
 
         public override void AddRecipes()

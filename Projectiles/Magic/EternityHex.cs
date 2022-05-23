@@ -129,7 +129,8 @@ namespace CalamityMod.Projectiles.Magic
                         damage += (int)(target.lifeMax * (target.boss ? BossLifeMaxDamageMult : NormalEnemyLifeMaxDamageMult));
                         damage += target.damage * 5;
                         damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
-                        damage = (int)MathHelper.Clamp(damage, 1f, Eternity.BaseDamage * player.MagicDamage() * 3);
+                        float cap = player.GetDamage<MagicDamageClass>().ApplyTo(Eternity.BaseDamage * 3f);
+                        damage = (int)MathHelper.Clamp(damage, 1f, cap);
                         target.StrikeNPC(damage, 0f, 0, false);
                         RegisterDPS(damage);
                     }
@@ -138,8 +139,7 @@ namespace CalamityMod.Projectiles.Magic
                 if ((int)Time % 30 == 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<EternityHoming>()) < Eternity.MaxHomers)
                 {
                     int homerCount = 6;
-                    int damage = (int)(Eternity.BaseDamage * player.MagicDamage() * 0.8f);
-
+                    int damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(0.8f * Eternity.BaseDamage);
                     for (int i = 0; i < homerCount; i++)
                     {
                         Vector2 velocity = Vector2.UnitY.RotatedBy(MathHelper.TwoPi / homerCount * i).RotatedByRandom(0.3f) * 10f;

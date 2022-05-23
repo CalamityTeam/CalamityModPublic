@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statigel Mask");
             Tooltip.SetDefault("10% increased rogue damage and 34% chance to not consume rogue items\n" +
                 "7% increased rogue critical strike chance and 5% increased movement speed");
@@ -53,9 +52,9 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingAmmoCost *= 0.66f;
-            player.Calamity().throwingDamage += 0.1f;
-            player.Calamity().throwingCrit += 7;
+            player.Calamity().rogueAmmoCost *= 0.66f;
+            player.GetDamage<ThrowingDamageClass>() += 0.1f;
+            player.GetCritChance<ThrowingDamageClass>() += 7;
             player.moveSpeed += 0.05f;
         }
 

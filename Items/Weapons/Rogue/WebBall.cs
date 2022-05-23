@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class WebBall : RogueWeapon
+    public class WebBall : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Web Ball");
             Tooltip.SetDefault(@"Throws a web-covered ball that covers enemies in cobwebs to slow them down
 Stealth strikes slow enemies down longer");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 20;
             Item.damage = 8;
@@ -36,7 +35,7 @@ Stealth strikes slow enemies down longer");
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<WebBallBol>();
             Item.shootSpeed = 6.5f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

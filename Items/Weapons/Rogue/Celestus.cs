@@ -6,26 +6,25 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Celestus : RogueWeapon
+    public class Celestus : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
             Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits\n" +
             "Stealth strikes reverse direction and home in on enemies after returning to the player");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 280;
             Item.knockBack = 6f;
             Item.useAnimation = Item.useTime = 22;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 25f;
             Item.shoot = ModContent.ProjectileType<CelestusBoomerang>();

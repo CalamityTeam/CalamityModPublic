@@ -1,5 +1,6 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
@@ -31,25 +32,25 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyHeadPieceEffect(Player player)
         {
-            player.Calamity().throwingDamage += HelmetRogueDamageBoostPercent * 0.01f;
+            player.GetDamage<ThrowingDamageClass>() += HelmetRogueDamageBoostPercent * 0.01f;
         }
 
         public override void ApplyBodyPieceEffect(Player player)
         {
-            player.Calamity().throwingCrit += ChestplateRogueCritBoostPercent;
+            player.GetCritChance<ThrowingDamageClass>() += ChestplateRogueCritBoostPercent;
         }
 
         public override void ApplyLegPieceEffect(Player player)
         {
-            player.Calamity().throwingVelocity += LeggingRogueVelocityBoostPercent * 0.01f;
+            player.Calamity().rogueVelocity += LeggingRogueVelocityBoostPercent * 0.01f;
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
             player.Calamity().rogueStealthMax += 0.7f;
             player.Calamity().wearingRogueArmor = true;
-            player.Calamity().throwingDamage += 0.05f;
-            player.Calamity().throwingVelocity += 0.1f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
+            player.Calamity().rogueVelocity += 0.1f;
             player.statDefense += 3;
         }
     }

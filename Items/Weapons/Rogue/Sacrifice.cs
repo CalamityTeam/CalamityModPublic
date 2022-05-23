@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Sacrifice : RogueWeapon
+    public class Sacrifice : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Right click causes all stuck daggers to fly back at you and give you life\n" +
                 "Daggers stuck to enemies release bloodsplosions over time\n" +
                 "Stealth strikes provide much more life when returning to you");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 290;
             Item.width = Item.height = 68;
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SacrificeProjectile>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;

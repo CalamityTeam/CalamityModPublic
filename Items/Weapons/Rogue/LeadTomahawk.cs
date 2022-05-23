@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LeadTomahawk : RogueWeapon
+    public class LeadTomahawk : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lead Tomahawk");
             Tooltip.SetDefault("The tomahawks have more damage for a short time when initially thrown\n" +
                                "Stealth strikes pierce infinitely");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 40;
             Item.damage = 7;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<LeadTomahawkProj>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

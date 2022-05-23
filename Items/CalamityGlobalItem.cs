@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using System.IO;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
@@ -24,15 +25,13 @@ using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Items
 {
@@ -40,8 +39,9 @@ namespace CalamityMod.Items
     {
         public override bool InstancePerEntity => true;
 
-        public bool rogue = false;
-        public float StealthGenBonus;
+        // TODO -- split out a separate GlobalItem for rogue behavior?
+        internal float StealthGenBonus;
+        internal float StealthStrikePrefixBonus;
 
         #region Chargeable Item Variables
         public bool UsesCharge = false;
@@ -89,11 +89,17 @@ namespace CalamityMod.Items
 
         public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
-        // See RogueWeapon.cs for rogue modifier shit
-        #region Modifiers
         public CalamityGlobalItem()
         {
             StealthGenBonus = 1f;
+            StealthStrikePrefixBonus = 0f;
+        }
+
+        public override bool PreReforge(Item item)
+        {
+            StealthGenBonus = 1f;
+            StealthStrikePrefixBonus = 0f;
+            return true;
         }
 
         // Ozzatron 21MAY2022: This function is required by TML 1.4's new clone behavior.
@@ -108,8 +114,8 @@ namespace CalamityMod.Items
             CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
 
             // Rogue
-            myClone.rogue = rogue;
             myClone.StealthGenBonus = StealthGenBonus;
+            myClone.StealthStrikePrefixBonus = StealthStrikePrefixBonus;
 
             // Charge (Draedon's Arsenal)
             myClone.UsesCharge = UsesCharge;
@@ -134,13 +140,6 @@ namespace CalamityMod.Items
 
             return myClone;
         }
-
-        public override bool PreReforge(Item item)
-        {
-            StealthGenBonus = 1f;
-            return true;
-        }
-        #endregion
 
         #region SetDefaults
         public override void SetDefaults(Item item)
@@ -233,14 +232,15 @@ namespace CalamityMod.Items
             bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
             if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
             {
-                int monsterDamage = (int)(165000 * player.MagicDamage());
+                // TODO -- 165,000 base damage? seriously? what is this thing
+                int monsterDamage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(165000);
                 Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
             }
 
-            if (rogue)
+            if (item.CountsAsClass<RogueDamageClass>())
             {
-                velocity *= modPlayer.throwingVelocity;
+                velocity *= modPlayer.rogueVelocity;
                 if (modPlayer.gloveOfRecklessness && item.useTime == item.useAnimation)
                     velocity = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
             }
@@ -262,32 +262,32 @@ namespace CalamityMod.Items
                     {
                         int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
-                    else if (rogue)
+                    else if (item.CountsAsClass<ThrowingDamageClass>())
                     {
                         int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
                     else if (item.CountsAsClass<RangedDamageClass>())
                     {
                         int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
                     else if (item.CountsAsClass<MagicDamageClass>())
                     {
                         int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
                     else if (item.CountsAsClass<SummonDamageClass>() && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                     {
                         int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                             Main.projectile[projectile].originalDamage = item.damage;
                         }
                     }
@@ -340,7 +340,7 @@ namespace CalamityMod.Items
                         yDiff *= speed;
                         int projectile = Projectile.NewProjectile(source, position, new Vector2(xDiff, yDiff), ProjectileID.Leaf, leafDamage, knockBack, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
                 }
             }
@@ -371,7 +371,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaVolley && modPlayer.canFireAtaxiaRogueProjectile)
             {
-                if (rogue)
+                if (item.CountsAsClass<ThrowingDamageClass>())
                 {
                     modPlayer.canFireAtaxiaRogueProjectile = false;
                     int flareID = ModContent.ProjectileType<ChaosFlare2>();
@@ -397,7 +397,7 @@ namespace CalamityMod.Items
             if (modPlayer.victideSet)
             {
                 if ((item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<MagicDamageClass>() || 
-                    item.CountsAsClass<ThrowingDamageClass>() || rogue || item.CountsAsClass<SummonDamageClass>()) && 
+                    item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<SummonDamageClass>()) && 
                     Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
@@ -422,7 +422,7 @@ namespace CalamityMod.Items
                     {
                         int projectile = Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceTypeless = true;
+                            Main.projectile[projectile].Calamity().forceClassless = true;
                     }
                 }
             }
@@ -439,7 +439,7 @@ namespace CalamityMod.Items
                                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
                                 int rocket = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.25), 2f, player.whoAmI);
                                 if (rocket.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[rocket].Calamity().forceTypeless = true;
+                                    Main.projectile[rocket].Calamity().forceClassless = true;
                             }
                         }
                     }
@@ -458,7 +458,7 @@ namespace CalamityMod.Items
                         {
                             Main.projectile[feather].usesLocalNPCImmunity = true;
                             Main.projectile[feather].localNPCHitCooldown = 10;
-                            Main.projectile[feather].Calamity().forceTypeless = true;
+                            Main.projectile[feather].Calamity().forceClassless = true;
                         }
                     }
                 }
@@ -496,7 +496,6 @@ namespace CalamityMod.Items
         #region Saving And Loading
         public override void SaveData(Item item, TagCompound tag)
         {
-            tag.Add("rogue", rogue);
             tag.Add("timesUsed", timesUsed);
             tag.Add("rarity", (int)customRarity);
             tag.Add("charge", Charge);
@@ -509,7 +508,6 @@ namespace CalamityMod.Items
         
         public override void LoadData(Item item, TagCompound tag)
         {
-            rogue = tag.GetBool("rogue");
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
             trueMelee = tag.GetBool("trueMelee");
             timesUsed = tag.GetInt("timesUsed");
@@ -535,9 +533,8 @@ namespace CalamityMod.Items
         public override void NetSend(Item item, BinaryWriter writer)
         {
             BitsByte flags = new BitsByte();
-            flags[0] = rogue;
-            flags[1] = canFirePointBlankShots;
-            flags[2] = trueMelee;
+            flags[0] = canFirePointBlankShots;
+            flags[1] = trueMelee;
 
             writer.Write(flags);
             writer.Write((int)customRarity);
@@ -551,9 +548,8 @@ namespace CalamityMod.Items
         public override void NetReceive(Item item, BinaryReader reader)
         {
             BitsByte flags = reader.ReadByte();
-            rogue = flags[0];
-            canFirePointBlankShots = flags[1];
-            trueMelee = flags[2];
+            canFirePointBlankShots = flags[0];
+            trueMelee = flags[1];
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
@@ -629,7 +625,7 @@ namespace CalamityMod.Items
 
         public override bool AltFunctionUse(Item item, Player player)
         {
-            if (player.Calamity().profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
+            if (player.Calamity().profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
             {
                 NPC closest = Main.MouseWorld.ClosestNPCAt(1000f, true);
                 if (closest != null)
@@ -756,7 +752,8 @@ namespace CalamityMod.Items
                         {
                             if (Main.projectile.Length == Main.maxProjectiles)
                                 break;
-                            int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)(80 * player.MinionDamage()), 1f, player.whoAmI, angle, 2f);
+                            int coldDivinityDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(80);
+                            int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), coldDivinityDamage, 1f, player.whoAmI, angle, 2f);
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {
@@ -795,12 +792,12 @@ namespace CalamityMod.Items
                 if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.fishingPole > 0)
                     return false;
                 // compiler optimization: && short-circuits, so if altFunctionUse != 0, Andromeda code is never called.
-                if (item.Calamity().rogue || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>())
+                if (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>())
                     return player.altFunctionUse == 0 && PrototypeAndromechaRing.TransformItemUsage(item, player);
             }
 
             // Conversion for Profaned Soul Crystal
-            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (modItem.rogue || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
+            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
                 return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 
             if (!item.IsAir)
@@ -1360,10 +1357,11 @@ namespace CalamityMod.Items
                     var source = player.GetSource_Accessory(item);
                     if (player.controlJump && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
                     {
-                        int p = Projectile.NewProjectile(source, player.Center, Vector2.UnitY * 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.AverageDamage()), 5f, player.whoAmI);
+                        int ornamentDamage = (int)player.GetBestClassDamage().ApplyTo(100);
+                        int p = Projectile.NewProjectile(source, player.Center, Vector2.UnitY * 2f, ProjectileID.OrnamentFriendly, ornamentDamage, 5f, player.whoAmI);
                         if (p.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[p].Calamity().forceTypeless = true;
+                            Main.projectile[p].Calamity().forceClassless = true;
                             Main.projectile[p].Calamity().lineColor = 1;
                             modPlayer.icicleCooldown = 10;
                         }
@@ -2334,7 +2332,7 @@ namespace CalamityMod.Items
                         break;
                 }
             }
-            else if (item.Calamity().rogue)
+            else if (item.CountsAsClass<RogueDamageClass>())
             {
                 switch (reforgeTier)
                 {

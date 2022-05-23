@@ -8,11 +8,10 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FrostcrushValari : RogueWeapon
+    public class FrostcrushValari : ModItem
     {
         public static float Speed = 15f;
         public override void SetStaticDefaults()
@@ -20,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Frostcrush Valari");
             Tooltip.SetDefault(@"Fires a long ranged boomerang that explodes into icicles on hit
 Stealth strikes throw three short ranged boomerangs along with a spread of icicles");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 100;
             Item.knockBack = 12;
@@ -41,7 +40,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             Item.shoot = ModContent.ProjectileType<ValariBoomerang>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

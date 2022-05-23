@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 19;
             Projectile.height = 19;
             Projectile.friendly = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

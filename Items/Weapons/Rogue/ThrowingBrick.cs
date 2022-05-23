@@ -4,20 +4,19 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ThrowingBrick : RogueWeapon
+    public class ThrowingBrick : ModItem
     {
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Prove its resistance by throwing it upwards and catching it with your face\n" +
                 "Throws a brick that shatters if stealth is full.");
             DisplayName.SetDefault("Throwing Brick");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 14;
             Item.shootSpeed = 12f;
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.consumable = true;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

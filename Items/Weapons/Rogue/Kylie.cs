@@ -6,21 +6,20 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Kylie : RogueWeapon
+    public class Kylie : ModItem
     {
         public static float Speed = 11f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kylie");
             Tooltip.SetDefault("Stealth strikes throws three short ranged kylies instead of a single long range one\n" + "'Also known as Dowak'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 63;
             Item.knockBack = 12;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<KylieBoomerang>();
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

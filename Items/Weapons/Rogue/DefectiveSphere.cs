@@ -1,14 +1,14 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DefectiveSphere : RogueWeapon
+    public class DefectiveSphere : ModItem
     {
         public static int BaseDamage = 130;
         public static float Speed = 15f;
@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
 Stacks up to 5
 Stealth strikes launch all 4 sphere types at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 42;
             Item.height = 44;
@@ -41,7 +41,7 @@ Stealth strikes launch all 4 sphere types at once");
             Item.value = Item.buyPrice(0, 16, 0, 0);
             Item.rare = ItemRarityID.Yellow;
 
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shoot = ProjectileType<SphereSpiked>();
             Item.shootSpeed = Speed;
         }

@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.timeLeft = Lifetime;
             Projectile.extraUpdates = 1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Vampiric Talisman");
             Tooltip.SetDefault(@"Rogue projectiles give lifesteal on crits
 12% increased rogue damage");
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.vampiricTalisman = true;
-            player.Calamity().throwingDamage += 0.12f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
         }
 
         public override void AddRecipes()

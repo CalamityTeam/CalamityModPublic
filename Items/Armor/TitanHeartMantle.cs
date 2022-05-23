@@ -3,7 +3,6 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Titan Heart Mantle");
             Tooltip.SetDefault("45% chance to not consume rogue items\n" +
             "5% boosted rogue knockback but 15% lowered rogue attack speed");
@@ -30,8 +29,9 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().titanHeartMantle = true;
-            player.Calamity().throwingAmmoCost *= 0.55f;
-            player.Calamity().rogueUseSpeedFactor -= 0.15f;
+            player.Calamity().rogueAmmoCost *= 0.55f;
+            // 15% attack speed penalty
+            player.GetAttackSpeed<ThrowingDamageClass>() -= 0.15f;
         }
 
         public override void AddRecipes()

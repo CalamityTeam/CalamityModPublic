@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BlazingStar : RogueWeapon
+    public class BlazingStar : ModItem
     {
         public const float Speed = 13f;
         public override void SetStaticDefaults()
@@ -17,13 +16,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Blazing Star");
             Tooltip.SetDefault("Stacks up to 4\n" +
                                "Stealth strikes release all stars at once with infinite piercing");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 4;
+            SacrificeTotal = 4;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 129;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 1;

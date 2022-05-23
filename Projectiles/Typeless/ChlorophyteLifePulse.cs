@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Typeless
                     if (player.Calamity().ChlorophyteHealDelay > 0)
                         continue;
 
-                    int healQuantity = (int)(ChlorophyteCrystalAI.AmountToHealPerPulse * owner.AverageDamage());
+                    int healQuantity = (int)owner.GetBestClassDamage().ApplyTo(ChlorophyteCrystalAI.AmountToHealPerPulse);
                     player.statLife += healQuantity;
                     player.HealEffect(healQuantity);
                     player.Calamity().ChlorophyteHealDelay = ChlorophyteCrystalAI.DelayBetweenHeals;

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The ever-rejuvenating guardians of the profaned flame.\n" +
                 "Much like a phoenix from the ashes their deaths are simply a part of their life cycle.\n" +
                 "Many times my forces have had to destroy these beings in search of the Profaned Goddess.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

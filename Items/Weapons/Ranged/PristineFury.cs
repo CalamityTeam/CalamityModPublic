@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Pristine Fury");
             Tooltip.SetDefault("Fires an intense helix of flames that explode into a column of fire\n" +
                 "Right click to fire a short ranged cloud of lingering flames");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

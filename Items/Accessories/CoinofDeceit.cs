@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Coin of Deceit");
             Tooltip.SetDefault("Stealth strikes only expend 75% of your max stealth\n" +
             "6% increased rogue crit chance");
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().throwingCrit += 6;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
             player.Calamity().stealthStrike75Cost = true;
         }
 

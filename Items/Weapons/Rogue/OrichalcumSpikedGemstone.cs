@@ -4,19 +4,18 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class OrichalcumSpikedGemstone : RogueWeapon
+    public class OrichalcumSpikedGemstone : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orichalcum Spiked Gemstone");
             Tooltip.SetDefault("Stealth strikes last longer and summon petals on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 37;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.LightRed;
             Item.shoot = ModContent.ProjectileType<OrichalcumSpikedGemstoneProjectile>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

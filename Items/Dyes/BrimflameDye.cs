@@ -6,7 +6,6 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Placeables;
 using ReLogic.Content;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(252, 147, 34)).UseSecondaryColor(new Color(216, 41, 26)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Brimflame Dye");
         }
 

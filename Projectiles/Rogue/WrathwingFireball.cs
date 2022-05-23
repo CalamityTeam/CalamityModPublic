@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = 180;
             Projectile.aiStyle = 1;
             AIType = ProjectileID.DD2BetsyFireball;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

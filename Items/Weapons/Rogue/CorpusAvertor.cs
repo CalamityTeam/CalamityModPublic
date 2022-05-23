@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CorpusAvertor : RogueWeapon
+    public class CorpusAvertor : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Stealth strikes throw a single rainbow outlined dagger\n" +
                 "On enemy hits, this dagger boosts the damage and life regen of all members of your team\n" +
                 "However, there is a small chance it will cut your health in half instead");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 18;
             Item.height = 32;
@@ -40,14 +39,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().donorItem = true;
             Item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();
             Item.shootSpeed = 8.5f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Gains 10% of missing health as base damage.
-        public override void SafeModifyWeaponDamage(Player player, ref StatModifier damage)
+        public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            damage.Flat += lifeAmount * 0.1f * player.RogueDamage();
+            damage.Base += lifeAmount * 0.1f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

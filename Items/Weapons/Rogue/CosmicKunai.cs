@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class CosmicKunai : RogueWeapon
+    public class CosmicKunai : ModItem
     {
         private int counter = 0;
 
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Cosmic Kunai");
             Tooltip.SetDefault("Fires a stream of short-range kunai\n" +
                 "Stealth strikes spawn 5 Cosmic Scythes which home and explode");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.damage = 92;
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
             Item.shootSpeed = 28f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

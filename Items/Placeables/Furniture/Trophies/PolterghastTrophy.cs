@@ -1,14 +1,13 @@
 using CalamityMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
     public class PolterghastTrophy : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Polterghast Trophy");
         }
 

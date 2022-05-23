@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Nebulous Core");
             Tooltip.SetDefault("10% increased damage\n" +
                                "Summons floating nebula stars to protect you\n" +
@@ -42,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nCore = true;
             player.GetDamage<GenericDamageClass>() += 0.1f;
-            int damage = (int)(250 * player.AverageDamage());
+            int damage = (int)player.GetBestClassDamage().ApplyTo(250);
             float knockBack = 3f;
             if (Main.rand.NextBool(15))
             {

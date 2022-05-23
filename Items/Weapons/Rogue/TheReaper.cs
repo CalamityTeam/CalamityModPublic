@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheReaper : RogueWeapon
+    public class TheReaper : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Reaper");
             Tooltip.SetDefault("Slice 'n dice\n" +
                 "Stealth strikes throw four at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 106;
             Item.damage = 122;
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 104;
             Item.shoot = ModContent.ProjectileType<ReaperProjectile>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

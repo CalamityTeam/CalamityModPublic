@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                 "The ball flies toward nearby enemies and explodes into slime on enemy hits\n" +
                                 "Does not consume minion slots"); // In other words, bootleg mage :TaxEvasion:
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

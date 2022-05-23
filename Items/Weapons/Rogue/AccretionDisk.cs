@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AccretionDisk : RogueWeapon
+    public class AccretionDisk : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Disk");
             Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it\n" +
             "Stealth strikes fly slower but travel farther, pierce through enemies, and spawn extra disks more frequently");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 38;
             Item.damage = 100;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
             Item.shootSpeed = 13f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

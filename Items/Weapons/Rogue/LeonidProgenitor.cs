@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LeonidProgenitor : RogueWeapon
+    public class LeonidProgenitor : ModItem
     {
         public static readonly Color blueColor = new Color(48, 208, 255);
         public static readonly Color purpleColor = new Color(208, 125, 218);
@@ -20,13 +19,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a bombshell that explodes, summoning a meteor to impact the site\n" +
                 "Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
                 "Stealth strikes lob a bombshell that additionally splits into comets on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 64;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.knockBack = 3f;
             Item.useTime = Item.useAnimation = 15;
             Item.autoReuse = true;
@@ -61,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float SafeSetUseTimeMultiplier(Player player)
+        public override float UseTimeMultiplier(Player player)
         {
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
                 return 1f;

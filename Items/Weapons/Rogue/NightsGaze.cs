@@ -7,11 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NightsGaze : RogueWeapon
+    public class NightsGaze : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
                 "Throws a spear that shatters when it hits an enemy\n" +
                 "Stealth strikes cause the spear to summon homing stars as it flies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 82;
             Item.damage = 531;
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 30f;
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

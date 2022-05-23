@@ -4,12 +4,11 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DeificThunderbolt : RogueWeapon
+    public class DeificThunderbolt : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 The lightning bolt travels faster while it is raining
 Summons lightning from the sky on impact
 Stealth strikes summon more lightning and travel faster");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 466;
             Item.knockBack = 10f;
@@ -37,7 +36,7 @@ Stealth strikes summon more lightning and travel faster");
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.autoReuse = true;
             Item.shootSpeed = 13.69f;

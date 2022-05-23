@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -123,7 +122,6 @@ namespace CalamityMod.Prefixes
 
     public class RogueWeaponPrefix : ModPrefix
     {
-        //Thank you Thomas for helping me set this up =D
         internal float damageMult = 1f;
         internal float useTimeMult = 1f;
         internal int critBonus = 0;
@@ -132,10 +130,7 @@ namespace CalamityMod.Prefixes
 
         public override PrefixCategory Category => PrefixCategory.Custom;
 
-        public RogueWeaponPrefix()
-        {
-
-        }
+        public RogueWeaponPrefix() { }
 
         public RogueWeaponPrefix(float damageMult = 1f, float useTimeMult = 1f, int critBonus = 0, float shootSpeedMult = 1f, float stealthDmgMult = 1f)
         {
@@ -148,11 +143,8 @@ namespace CalamityMod.Prefixes
 
         public override void Apply(Item item)
         {
-            ModItem moddedItem = item.ModItem;
-            if (moddedItem != null && moddedItem is RogueWeapon rogueWep)
-            {
-                rogueWep.StealthStrikePrefixBonus = stealthDmgMult;
-            }
+            if (item.CountsAsClass<RogueDamageClass>())
+                item.Calamity().StealthStrikePrefixBonus = stealthDmgMult;
         }
 
         public override void ModifyValue(ref float valueMult)
@@ -161,7 +153,7 @@ namespace CalamityMod.Prefixes
             valueMult *= extraValue;
         }
 
-        public override bool CanRoll(Item item) => item.Calamity().rogue && item.maxStack == 1 && GetType() != typeof(RogueWeaponPrefix);
+        public override bool CanRoll(Item item) => item.CountsAsClass<RogueDamageClass>() && item.maxStack == 1 && GetType() != typeof(RogueWeaponPrefix);
 
         public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
         {

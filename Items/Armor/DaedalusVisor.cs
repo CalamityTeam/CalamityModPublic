@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Daedalus Facemask");
             Tooltip.SetDefault("13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%\n" +
                 "5% increased movement speed");
@@ -49,15 +48,15 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusSplit = true;
             modPlayer.rogueStealthMax += 1.05f;
-            modPlayer.throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
             modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingVelocity += 0.15f;
-            player.Calamity().throwingDamage += 0.13f;
-            player.Calamity().throwingCrit += 7;
+            player.Calamity().rogueVelocity += 0.15f;
+            player.GetDamage<ThrowingDamageClass>() += 0.13f;
+            player.GetCritChance<ThrowingDamageClass>() += 7;
             player.moveSpeed += 0.05f;
         }
 

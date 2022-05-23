@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 113;
             Projectile.timeLeft = 60;
             AIType = ProjectileID.BoneJavelin;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

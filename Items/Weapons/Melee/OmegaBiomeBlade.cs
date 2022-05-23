@@ -14,7 +14,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 
@@ -104,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Melee
                                "Using RMB for a shorter period of time switches your active and passive attunements around\n" +
                                "Active Attunement : None\n" +
                                "Passive Attunement: None\n");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         #region tooltip editing

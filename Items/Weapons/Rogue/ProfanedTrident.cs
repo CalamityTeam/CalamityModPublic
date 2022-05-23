@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ProfanedTrident : RogueWeapon
+    public class ProfanedTrident : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrathwing");
             Tooltip.SetDefault("Throws an agile, homing winged spear that constantly spits fire\n" +
             "Stealth strikes create an eruption of cinders on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 152;
             Item.height = 148;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.shoot = ModContent.ProjectileType<WrathwingSpear>();
             Item.shootSpeed = 28f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

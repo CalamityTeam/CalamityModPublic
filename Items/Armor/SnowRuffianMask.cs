@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Snow Ruffian Mask");
             Tooltip.SetDefault("2% increased rogue damage");
         }
@@ -51,7 +50,7 @@ namespace CalamityMod.Items.Armor
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-            player.Calamity().throwingDamage += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.Calamity().wearingRogueArmor = true;
             if (player.controlJump)
             {
@@ -72,7 +71,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.02f;
+            player.GetDamage<ThrowingDamageClass>() += 0.02f;
         }
 
         public override void AddRecipes()

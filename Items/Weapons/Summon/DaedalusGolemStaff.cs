@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Daedalus Golem Staff");
             Tooltip.SetDefault("Summons a Daedalus Golem soldier that fires pellets and electricity\n" +
                                "Shining god of greed"); // Funny Hollow Knight reference.
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

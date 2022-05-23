@@ -4,12 +4,11 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PhantasmalRuin : RogueWeapon
+    public class PhantasmalRuin : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires an enormous ghost lance that emits lost souls as it flies
 Explodes into tormented souls on enemy hits
 Stealth strikes continuously leave spectral clones in their wake");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 955;
             Item.knockBack = 8f;
@@ -36,7 +35,7 @@ Stealth strikes continuously leave spectral clones in their wake");
             Item.shootSpeed = 14.5f;
             Item.shoot = ModContent.ProjectileType<PhantasmalRuinProj>();
             Item.UseSound = SoundID.Item1;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity13BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;

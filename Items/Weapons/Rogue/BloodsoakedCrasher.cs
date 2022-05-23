@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BloodsoakedCrasher : RogueWeapon //This weapon has been coded by Ben || Termi
+    public class BloodsoakedCrasher : ModItem //This weapon has been coded by Ben || Termi
     {
         public override void SetStaticDefaults()
         {
@@ -17,15 +16,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Slows down when hitting an enemy. Speeds up otherwise\n" +
             "Heals on enemy hits\n" +
             "Stealth strikes spawn homing blood on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 245;
             Item.knockBack = 3f;
             Item.autoReuse = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.useAnimation = Item.useTime = 24;
             Item.shootSpeed = 9f;
             Item.shoot = ModContent.ProjectileType<BloodsoakedCrashax>();

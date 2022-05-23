@@ -5,7 +5,6 @@ using CalamityMod.Balancing;
 using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Stat Meter");
             // TODO -- On April 1st, rename this item to "Pasta Strainer"
             Tooltip.SetDefault("Displays almost all player stats");
@@ -80,8 +79,8 @@ namespace CalamityMod.Items.Accessories
             float rogueStealth = modPlayer.rogueStealthMax;
             float standingRegen = player.GetStandingStealthRegen();
             float movingRegen = player.GetMovingStealthRegen();
-            float rogueVelocity = modPlayer.throwingVelocity - 1f;
-            float rogueAmmoConsumption = modPlayer.throwingAmmoCost;
+            float rogueVelocity = modPlayer.rogueVelocity - 1f;
+            float rogueAmmoConsumption = modPlayer.rogueAmmoCost;
 
             // rippers
             float rageDamage = modPlayer.RageDamageBoost;
@@ -133,8 +132,10 @@ namespace CalamityMod.Items.Accessories
                     damageClassName = "Minion";
                 else if (dc == DamageClass.SummonMeleeSpeed)
                     damageClassName = "Whip";
+                else if (dc == RogueDamageClass.Instance)
+                    damageClassName = "Rogue";
                 else if (dc == DamageClass.Throwing)
-                    damageClassName = (heldItem?.Calamity().rogue ?? false) ? "Rogue" : "Throwing";
+                    damageClassName = "Throwing";
 
                 var currentStats = player.GetDamage(dc);
                 float baseFlatDamage = currentStats.Flat;

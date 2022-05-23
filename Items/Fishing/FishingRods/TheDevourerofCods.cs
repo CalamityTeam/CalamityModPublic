@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria.GameContent.Creative;
 
 using Terraria.DataStructures;
 
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The Devourer of Cods");
             Tooltip.SetDefault("Fires ten lines at once. Line never snaps and can fish from lava.\n" +
                 "The devourer was once just an Eater of Shoals.");

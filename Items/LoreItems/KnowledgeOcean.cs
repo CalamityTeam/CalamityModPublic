@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Ocean");
             Tooltip.SetDefault("Take care to not disturb the deep waters of this world.\n" +
                 "You may awaken something more terrifying than death itself.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

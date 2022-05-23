@@ -1479,8 +1479,7 @@ namespace CalamityMod.NPCs
             }
 
             // Reduce acceleration if target is holding a true melee weapon
-            Item targetSelectedItem = player.inventory[player.selectedItem];
-            if (targetSelectedItem.DamageType == DamageClass.Melee && (targetSelectedItem.shoot == ProjectileID.None || targetSelectedItem.Calamity().trueMelee))
+            if (player.HoldingTrueMeleeWeapon())
                 baseAcceleration *= 0.5f;
 
             // What side Cal Clone should be on, relative to the target

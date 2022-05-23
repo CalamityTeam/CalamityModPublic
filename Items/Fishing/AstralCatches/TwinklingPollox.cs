@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
         {
             DisplayName.SetDefault("Twinkling Pollox"); //Bass substitute
             Tooltip.SetDefault("The scales gleam like crystals");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()

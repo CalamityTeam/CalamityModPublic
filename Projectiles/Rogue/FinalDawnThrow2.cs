@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.width = 200;
             Projectile.height = 200;
             Projectile.friendly = true;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.light = 0.0f;

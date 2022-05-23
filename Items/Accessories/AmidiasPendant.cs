@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Amidias' Pendant");
             Tooltip.SetDefault("Periodically rains down prism shards that can briefly stun enemies");
         }
@@ -73,7 +72,8 @@ namespace CalamityMod.Items.Accessories
                                     damage = 30;
                                     break;
                             }
-                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, (int)(damage * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            int finalDamage = (int)player.GetBestClassDamage().ApplyTo(damage);
+                            Projectile.NewProjectile(source, spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, finalDamage, 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

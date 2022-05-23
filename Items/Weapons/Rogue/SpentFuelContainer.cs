@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SpentFuelContainer : RogueWeapon
+    public class SpentFuelContainer : ModItem
     {
 
         public override void SetStaticDefaults()
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Throws a fuel container with trace amounts of plutonium that causes a nuclear explosion\n" +
                                "The explosion does not occur if there are no tiles below it\n" +
                                "Stealth strikes leave a lingering irradiated zone after the explosion dissipates");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 50;
             Item.width = 22;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SpentFuelContainerProjectile>();
             Item.shootSpeed = 15f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

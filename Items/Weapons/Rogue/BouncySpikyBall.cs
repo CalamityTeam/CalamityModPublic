@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BouncySpikyBall : RogueWeapon
+    public class BouncySpikyBall : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,10 +15,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Throws a very bouncy ball that richochets off walls and enemies
 Receives a small boost in damage and velocity after bouncing off an enemy
 Stealth strikes provide a bigger boost after richocheting");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 14;
             Item.damage = 10;
@@ -38,7 +37,7 @@ Stealth strikes provide a bigger boost after richocheting");
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<BouncyBol>();
             Item.shootSpeed = 8f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

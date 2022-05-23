@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Fishing
         {
             DisplayName.SetDefault("Fish of Night");
             Tooltip.SetDefault("Right click to extract souls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

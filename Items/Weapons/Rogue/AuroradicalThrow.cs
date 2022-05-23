@@ -5,12 +5,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.GameContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AuroradicalThrow : RogueWeapon
+    public class AuroradicalThrow : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Launches a star that splits after a short period of time\n" +
                             "Split stars home in on nearby enemies after a few seconds\n" +
                             "Stealth strikes summon a meteor upon enemy impact");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.height = 58;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Lime;
             Item.shoot = ModContent.ProjectileType<AuroradicalSplitter>();
             Item.shootSpeed = 10f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

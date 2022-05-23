@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 2;
             Projectile.timeLeft = 600;
             AIType = ProjectileID.Shuriken;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.localNPCHitCooldown = 10;
         }
 

@@ -5,20 +5,19 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class XerocPitchfork : RogueWeapon
+    public class XerocPitchfork : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shard of Antumbra");
             Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 48;
             Item.damage = 280;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
             Item.shootSpeed = 24f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

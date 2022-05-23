@@ -6,11 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Hypothermia : RogueWeapon
+    public class Hypothermia : ModItem
     {
         // For more consistent DPS, always alternates between throwing 1 and 2 instead of picking randomly
         private bool throwTwo = true;
@@ -20,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Hypothermia");
             Tooltip.SetDefault("Throws a constant barrage of black ice shards\n" +
                                "Stealth strikes hurl a set of razor sharp ice chunks that shatter on impact");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 32;
@@ -44,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 8f;
 
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

@@ -6,11 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ScarletDevil : RogueWeapon
+    public class ScarletDevil : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "The spear creates a Scarlet Blast upon hitting an enemy\n" +
                 "Stealth strikes grant you lifesteal and summon a star of projectiles upon hitting an enemy\n" +
                 "'Divine Spear \"Spear the Gungnir\"'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 108;
             Item.height = 108;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
             Item.shootSpeed = 30f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.HotPink;

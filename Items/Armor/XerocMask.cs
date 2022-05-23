@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -17,13 +16,14 @@ namespace CalamityMod.Items.Armor
             {
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Head", EquipType.Head, name : "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Body", EquipType.Body, name: "MeldTransformation");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Neck", EquipType.Neck, name: "MeldTransformation");
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/MeldTransformation_Legs", EquipType.Legs, name : "MeldTransformation");
             }
         }
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Empyrean Mask");
             Tooltip.SetDefault("Wrath of the cosmos\n" +
                 "11% increased rogue damage and critical strike chance, 5% increased movement speed\n" +
@@ -81,15 +81,15 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
             }
-            modPlayer.throwingDamage += 0.09f;
-            modPlayer.throwingVelocity += 0.09f;
+            player.GetDamage<ThrowingDamageClass>() += 0.09f;
+            modPlayer.rogueVelocity += 0.09f;
             modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.11f;
-            player.Calamity().throwingCrit += 11;
+            player.GetDamage<ThrowingDamageClass>() += 0.11f;
+            player.GetCritChance<ThrowingDamageClass>() += 11;
             player.moveSpeed += 0.05f;
             player.lavaMax += 240;
         }

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.aiStyle = 1;
             Projectile.timeLeft = 90;
             AIType = ProjectileID.WoodenArrowFriendly;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

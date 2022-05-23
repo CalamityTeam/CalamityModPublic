@@ -3,22 +3,21 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RegulusRiot : RogueWeapon
+    public class RegulusRiot : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regulus Riot");
             Tooltip.SetDefault(@"Fires a swift homing disk
 Stealth strikes explode into energy stars");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 116;
             Item.knockBack = 4.5f;
@@ -34,7 +33,7 @@ Stealth strikes explode into energy stars");
             Item.useAnimation = 26;
             Item.UseSound = SoundID.Item1;
             Item.rare = ItemRarityID.Cyan;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.autoReuse = true;
             Item.shootSpeed = 8f;

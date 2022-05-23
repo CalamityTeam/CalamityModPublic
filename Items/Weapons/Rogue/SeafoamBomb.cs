@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SeafoamBomb : RogueWeapon
+    public class SeafoamBomb : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seafoam Bomb");
             Tooltip.SetDefault(@"Throws a bomb that explodes into a bubble which deals extra damage to enemies
 Stealth strikes are faster and explode into 5 bubbles");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 26;
             Item.height = 44;
@@ -36,7 +35,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<SeafoamBombProj>();
             Item.shootSpeed = 8f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

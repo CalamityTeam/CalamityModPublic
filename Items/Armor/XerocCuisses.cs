@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Empyrean Cuisses");
             Tooltip.SetDefault("Speed of the cosmos\n" +
                     "5% increased rogue damage and critical strike chance\n" +
@@ -29,8 +28,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingCrit += 5;
-            player.Calamity().throwingDamage += 0.05f;
+            player.GetCritChance<ThrowingDamageClass>() += 5;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.moveSpeed += 0.15f;
         }
 

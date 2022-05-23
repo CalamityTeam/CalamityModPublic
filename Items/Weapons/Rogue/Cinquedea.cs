@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Cinquedea : RogueWeapon
+    public class Cinquedea : ModItem
     {
         public static int BaseDamage = 36;
         public static float Knockback = 5f;
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Cinquedea");
             Tooltip.SetDefault("Stealth strikes home in after hitting an enemy");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.rare = ItemRarityID.Orange;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<CinquedeaProj>();
             Item.shootSpeed = Speed;
             Item.value = Item.buyPrice(0, 4, 0, 0);
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

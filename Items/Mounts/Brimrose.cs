@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Brimrose");
             Tooltip.SetDefault("Summons a brimrose mount");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -2,7 +2,6 @@
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             DisplayName.SetDefault("Chaotic Fish");
             Tooltip.SetDefault("The horns lay a curse on those who touch it\n" +
             "Right click to extract essence");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

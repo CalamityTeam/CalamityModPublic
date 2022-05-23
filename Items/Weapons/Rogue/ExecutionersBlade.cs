@@ -7,11 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ExecutionersBlade : RogueWeapon
+    public class ExecutionersBlade : ModItem
     {
         private int counter = 0;
 
@@ -20,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Executioner's Blade");
             Tooltip.SetDefault("Throws a stream of homing blades\n" +
                 "Stealth strikes summon a guillotine of blades on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 64;
             Item.damage = 200;
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Red;
             Item.shoot = ModContent.ProjectileType<ExecutionersBladeProj>();
             Item.shootSpeed = 26f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }
 

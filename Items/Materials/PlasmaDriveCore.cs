@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using System;
 using Terraria.GameContent;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Prototype Plasma Drive Core");
             Tooltip.SetDefault("Despite all the time it spent in storage, its furnace still burns strong");
         }

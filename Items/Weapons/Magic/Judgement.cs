@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("The Dance of Light");
             Tooltip.SetDefault("Barrages enemies with a hailstorm of Light Blades\n'And in a flash of light, nothing remains'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

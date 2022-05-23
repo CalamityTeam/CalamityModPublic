@@ -38,7 +38,8 @@ namespace CalamityMod.Projectiles.Typeless
             //Spawns the shockwave
             if (Main.myPlayer == Projectile.owner)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + 25, Projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), (int)(300 * player.AverageDamage()), 12, Projectile.owner);
+                int sabatonDamage = (int)player.GetBestClassDamage().ApplyTo(300);
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.position.X + 25, Projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), sabatonDamage, 12, Projectile.owner);
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                 player.Calamity().gSabatonFall = 0;
                 Projectile.Kill();

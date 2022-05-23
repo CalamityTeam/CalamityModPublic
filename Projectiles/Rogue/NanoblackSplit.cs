@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = Lifetime;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 8;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         // ai[0] = Index of current NPC target. If 0 or negative, the projectile has no target

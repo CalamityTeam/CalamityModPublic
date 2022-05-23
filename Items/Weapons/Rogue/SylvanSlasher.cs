@@ -4,10 +4,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SylvanSlasher : RogueWeapon
+    public class SylvanSlasher : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,14 +14,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Summons a slash attack at the cursor's position
 Enemy hits build stealth and cause sword waves to fire from the player in the opposite direction
 Does not consume stealth and cannot stealth strike");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 72;
             Item.damage = 52;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.channel = true;

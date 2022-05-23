@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Skeletron");
             Tooltip.SetDefault("The curse is said to only affect the elderly.\n" +
                 "After they are afflicted they become an immortal vessel for an ancient demon of the underworld.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -4,10 +4,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BouncingBetty : RogueWeapon
+    public class BouncingBetty : ModItem
     {
         public const int BaseDamage = 52;
         public override void SetStaticDefaults()
@@ -15,10 +14,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Bouncing Betty");
             Tooltip.SetDefault("Throws a grenade which bounces after exploding\n" +
                                "Stealth strikes explode into a violent blast of fire and shrapnel when it bounces");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.noMelee = true;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<BouncingBettyProjectile>();
             Item.shootSpeed = 16f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

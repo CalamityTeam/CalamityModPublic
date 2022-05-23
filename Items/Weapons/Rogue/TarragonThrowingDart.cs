@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TarragonThrowingDart : RogueWeapon
+    public class TarragonThrowingDart : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Throwing Dart");
             Tooltip.SetDefault(@"Fires a piercing dart with reduced immunity frames
 Stealth strikes erupt into thorns on enemy hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 34;
             Item.damage = 380;
@@ -38,7 +37,7 @@ Stealth strikes erupt into thorns on enemy hits");
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<TarragonThrowingDartProjectile>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 

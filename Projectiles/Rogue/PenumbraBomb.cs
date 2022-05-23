@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.tileCollide = false;
             Projectile.timeLeft = 150;
             Projectile.extraUpdates = 2;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.ignoreWater = true;
             Projectile.alpha = 255;
         }

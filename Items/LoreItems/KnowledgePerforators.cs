@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Perforators and their Hive");
             Tooltip.SetDefault("An abomination of comingled flesh, bone, and organ, infested primarily by blood-slurping worms.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

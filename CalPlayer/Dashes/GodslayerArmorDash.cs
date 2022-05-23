@@ -97,7 +97,7 @@ namespace CalamityMod.CalPlayer.Dashes
             // God Slayer Dash intentionally does not use the vanilla function for collision attack iframes.
             // This is because its immunity is meant to be completely consistent and not subject to vanilla anticheese.
             hitContext.PlayerImmunityFrames = GodSlayerChestplate.DashIFrames;
-            hitContext.Damage = (int)(3000f * player.AverageDamage());
+            hitContext.Damage = (int)player.GetBestClassDamage().ApplyTo(3000f);
 
             npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }

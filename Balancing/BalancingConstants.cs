@@ -33,12 +33,18 @@
         internal static readonly float KaleidoscopeTagDamageMultiplier = 1.12f;
 
         // Rogue stealth
+        // If stealth is too weak, increase this number. If stealth is too strong, decrease this number.
+        // This value is intentionally not readonly.
+        public static double UniversalStealthStrikeDamageFactor = 0.5;
         internal static readonly float BaseStealthGenTime = 9f; // 9 seconds
         internal static readonly float MovingStealthGenRatio = 0.333333f;
 
         // Rippers
         internal static readonly float FullAdrenalineDR = 0.5f; // 50%
         internal static readonly float AdrenalineDRPerBooster = 0.05f; // +5% per booster
+
+        // Summon damage bonuses counting less towards "scales with your best class"
+        internal static readonly float SummonAllClassScalingFactor = 0.75f;
 
         // TODO -- Add all balance related constants here that don't belong in other files.
         // These constants were just the ones sitting in CalamityPlayer.

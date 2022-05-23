@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 "A knife from an unknown world\n" +
                 "An owner whose heart is pure and free of taint\n" +
                 "A heart of iron and valor");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

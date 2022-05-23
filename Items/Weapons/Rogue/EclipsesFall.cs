@@ -6,11 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EclipsesFall : RogueWeapon
+    public class EclipsesFall : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,16 +17,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
             "Summons spears from the sky on hit\n" +
             "Stealth strikes impale enemies and summon a constant barrage of spears over time");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 564;
             Item.knockBack = 3.5f;
             Item.useAnimation = Item.useTime = 21;
             Item.autoReuse = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.shootSpeed = 15f;
             Item.shoot = ModContent.ProjectileType<EclipsesFallMain>();
 

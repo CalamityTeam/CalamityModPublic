@@ -8,11 +8,18 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items;
 
 namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
+        public static bool IsTrueMelee(this Item item)
+        {
+            CalamityGlobalItem modItem = item.Calamity();
+            return item.CountsAsClass<MeleeDamageClass>() && (item.shoot == ProjectileID.None || modItem.trueMelee);
+        }
+        
         #region Item Rarity Utilities
         internal const int TurquoiseRarityValue = 12;
         internal static readonly Color TurquoiseRarityColor = new Color(0, 255, 200);

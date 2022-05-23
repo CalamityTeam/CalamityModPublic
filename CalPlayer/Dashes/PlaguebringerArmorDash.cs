@@ -69,7 +69,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.HitDirection = hitDirection;
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardsValor.ShieldSlamIFrames;
-            hitContext.Damage = (int)(50f * player.AverageDamage());
+            hitContext.Damage = (int)player.GetBestClassDamage().ApplyTo(50f);
         }
     }
 }

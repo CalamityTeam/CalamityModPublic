@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LatcherMine : RogueWeapon
+    public class LatcherMine : ModItem
     {
         public const int BaseDamage = 80;
         public override void SetStaticDefaults()
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Breaks upon hitting blocks\n" +
                                "Stealth Strike Effect: On explosion, fire and shrapnel are released\n" +
                                "Stealth strike mines can stick to the ground and last much longer when doing so");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.height = 32;
             Item.width = 26;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<LatcherMineProjectile>();
             Item.shootSpeed = 10f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

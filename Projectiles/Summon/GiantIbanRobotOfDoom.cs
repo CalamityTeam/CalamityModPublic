@@ -354,13 +354,13 @@ namespace CalamityMod.Projectiles.Summon
                             damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(damage);
                         }
                         // TODO -- also allow other mod throwing
-                        else if (player.HeldItem.Calamity().rogue)
+                        else if (player.HeldItem.CountsAsClass<ThrowingDamageClass>())
                         {
                             damage = (int)player.GetDamage<ThrowingDamageClass>().ApplyTo(damage);
                         }
                         else
                         {
-                            damage = (int)(damage * player.AverageDamage());
+                            damage = (int)player.GetBestClassDamage().ApplyTo(damage);
                         }
                     }
                     Vector2 laserVelocity = (Main.MouseWorld - (Main.player[Projectile.owner].Center + new Vector2(Projectile.spriteDirection == 1 ? 48f : 22f, -28f))).SafeNormalize(Vector2.UnitX * Projectile.spriteDirection);
@@ -391,13 +391,13 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             deathLaser.Calamity().forceMinion = true;
                         }
-                        else if (player.HeldItem.Calamity().rogue)
+                        else if (player.HeldItem.CountsAsClass<ThrowingDamageClass>())
                         {
                             deathLaser.Calamity().forceRogue = true;
                         }
                         else
                         {
-                            deathLaser.Calamity().forceTypeless = true;
+                            deathLaser.Calamity().forceClassless = true;
                         }
                     }
                 }

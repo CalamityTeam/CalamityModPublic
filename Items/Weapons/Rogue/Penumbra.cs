@@ -6,11 +6,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Penumbra : RogueWeapon
+    public class Penumbra : ModItem
     {
         public static float ShootSpeed = 8f;
         public override void SetStaticDefaults()
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Penumbra");
             Tooltip.SetDefault("Throws a shadow bomb that explodes into homing souls\n" +
                                "Stealth strikes make the bomb manifest on the cursor and explode into more souls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 46;
             Item.height = 32;
@@ -41,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = ShootSpeed;
 
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

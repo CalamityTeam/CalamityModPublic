@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Skeletron Prime");
             Tooltip.SetDefault("What a silly and pointless contraption for something created with the essence of pure terror.\n" +
                 "Draedon obviously took several liberties with its design... I am not impressed.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

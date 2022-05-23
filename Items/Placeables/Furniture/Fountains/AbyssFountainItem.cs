@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Tiles.Furniture.Fountains;
 using Terraria.ID;
 
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Abyss Water Fountain");
         }
 

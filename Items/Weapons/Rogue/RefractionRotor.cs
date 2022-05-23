@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RefractionRotor : RogueWeapon
+    public class RefractionRotor : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,16 +15,16 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Fires a huge prismatic disk shuriken\n" +
                 "The shuriken shatters moments after impact into homing rockets\n" +
                 "Stealth strikes shatter into many more rockets");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = Item.height = 120;
             Item.damage = 616;
             Item.knockBack = 8.5f;
             Item.useAnimation = Item.useTime = 17;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
             Item.shootSpeed = 18f;
             Item.shoot = ModContent.ProjectileType<RefractionRotorProjectile>();

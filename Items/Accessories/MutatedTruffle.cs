@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Mutated Truffle");
             Tooltip.SetDefault("Summons a small Old Duke to fight for you\n" +
                                "When below 50% life, it moves much faster");
@@ -40,15 +39,16 @@ namespace CalamityMod.Items.Accessories
                 {
                     player.AddBuff(ModContent.BuffType<MutatedTruffleBuff>(), 3600, true);
                 }
-                const int damage = 1200;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
+                    const int baseDamage = 1200;
+                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var duke = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero,
                         ModContent.ProjectileType<YoungDuke>(),
-                        (int)(damage * player.MinionDamage()),
+                        damage,
                         6.5f, Main.myPlayer, 0f, 0f);
 
-                    duke.originalDamage = damage;
+                    duke.originalDamage = baseDamage;
                 }
             }
         }

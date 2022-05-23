@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("In rest may we find victory.\n" +
                 "You deal 90% less damage unless stationary\n" +
@@ -60,7 +59,8 @@ namespace CalamityMod.Items.Accessories
                             NPC npc = Main.npc[i];
                             if (npc.active && !npc.friendly && npc.damage > -1 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= range)
                             {
-                                Projectile p = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), (int)(Main.rand.Next(20, 41) * player.AverageDamage()), 0f, player.whoAmI, i);
+                                int campingFireDamage = (int)player.GetBestClassDamage().ApplyTo(Main.rand.Next(20, 41));
+                                Projectile p = Projectile.NewProjectileDirect(source, npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), campingFireDamage, 0f, player.whoAmI, i);
                                 if (!npc.buffImmune[BuffID.OnFire])
                                 {
                                     npc.AddBuff(BuffID.OnFire, 120);
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Accessories
                     if (player.ActiveItem() != null && !player.ActiveItem().IsAir && player.ActiveItem().stack > 0)
                     {
                         bool summon = player.ActiveItem().CountsAsClass<SummonDamageClass>();
-                        bool rogue = player.ActiveItem().Calamity().rogue;
+                        bool rogue = player.ActiveItem().CountsAsClass<ThrowingDamageClass>();
                         bool melee = player.ActiveItem().CountsAsClass<MeleeDamageClass>();
                         bool ranged = player.ActiveItem().CountsAsClass<RangedDamageClass>();
                         bool magic = player.ActiveItem().CountsAsClass<MagicDamageClass>();
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else if (rogue)
                         {
-                            modPlayer.throwingVelocity += 0.1f;
+                            modPlayer.rogueVelocity += 0.1f;
                         }
                         else if (melee)
                         {

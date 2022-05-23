@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class EnchantedAxe : RogueWeapon
+    public class EnchantedAxe : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,10 +16,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a high velocity axe that returns to you after travelling a short distance or hitting a wall\n" +
                                "At the furthest point from the player, a magical axe that travels through walls will be cast towards the nearest enemy\n" +
                                "Stealth strikes make the axe fly further, throwing out many other magical axes in all directions");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 40;
             Item.damage = 20;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.value = Item.buyPrice(0, 4, 0, 0);
             Item.shoot = ModContent.ProjectileType<EnchantedAxeProj>();
             Item.shootSpeed = 30f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

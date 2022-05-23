@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 420;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.extraUpdates = 2;
         }
 
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 // Keep the loop as short as possible
-                if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
+                if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].CountsAsClass<ThrowingDamageClass>() || targetIndex != (int)Main.projectile[i].ai[1])
                     continue;
                 if (Main.projectile[i].ModProjectile is NiceCock)
                 {
@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Rogue
             float angle = 0f;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
-                if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].Calamity().rogue || targetIndex != (int)Main.projectile[i].ai[1])
+                if (!Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner || !Main.projectile[i].CountsAsClass<ThrowingDamageClass>() || targetIndex != (int)Main.projectile[i].ai[1])
                     continue;
                 if (Main.projectile[i].ModProjectile is NiceCock)
                 {

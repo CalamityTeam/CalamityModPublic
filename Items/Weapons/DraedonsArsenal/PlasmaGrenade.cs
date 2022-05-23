@@ -1,11 +1,10 @@
-﻿using CalamityMod.CustomRecipes;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PlasmaGrenade : RogueWeapon
+    public class PlasmaGrenade : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
                                "Stealth strikes explode violently on collision into a vaporizing blast");
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             CalamityGlobalItem modItem = Item.Calamity();
 
@@ -46,7 +45,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             Item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
             Item.shootSpeed = 14f;
-            modItem.rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -60,7 +59,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             return false;
         }
 
-        public override void SafeModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5);
+        public override void ModifyTooltips(List<TooltipLine> tooltips) => CalamityGlobalItem.InsertKnowledgeTooltip(tooltips, 5);
 
         public override void AddRecipes()
         {

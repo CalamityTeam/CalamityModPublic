@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NastyCholla : RogueWeapon
+    public class NastyCholla : ModItem
     {
         public static int BaseDamage = 9;
 
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 Explodes into cactus spikes after roughly 3 seconds
 Can hurt town NPCs
 Stealth strikes throw five at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 20;
             Item.damage = BaseDamage;
@@ -40,7 +39,7 @@ Stealth strikes throw five at once");
             Item.rare = ItemRarityID.White;
             Item.shoot = ModContent.ProjectileType<NastyChollaBol>();
             Item.shootSpeed = 8f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

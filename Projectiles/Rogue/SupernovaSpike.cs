@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.extraUpdates = 2;
             Projectile.aiStyle = 93;
             AIType = ProjectileID.NailFriendly;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
         }

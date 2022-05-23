@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Cryogen");
             Tooltip.SetDefault("The archmage's prison.\n" +
                 "I am unsure if it has grown weaker over the decades of imprisonment.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Forbidden Circlet");
             Tooltip.SetDefault("10% increased summon damage and 15% increased rogue velocity");
         }
@@ -64,7 +63,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.GetDamage(DamageClass.Summon) += 0.1f;
-            player.Calamity().throwingVelocity += 0.15f;
+            player.Calamity().rogueVelocity += 0.15f;
         }
 
         public override void AddRecipes()

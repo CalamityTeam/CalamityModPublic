@@ -10,7 +10,6 @@ using CalamityMod.NPCs.Providence;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Providence, the Profaned Goddess)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

@@ -4,12 +4,11 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class PhantomLance : RogueWeapon
+    public class PhantomLance : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 Fades away and slows down over time
 Lost souls released later deal less damage
 Stealth strikes don't slow down and souls always deal full damage");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 70;
             Item.knockBack = 5f;
@@ -39,7 +38,7 @@ Stealth strikes don't slow down and souls always deal full damage");
             Item.maxStack = 999;
             Item.UseSound = SoundID.Item1;
             Item.consumable = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
 
             Item.autoReuse = true;
             Item.shootSpeed = 10f;

@@ -2,7 +2,6 @@
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Calamity");
             Tooltip.SetDefault("Lights your cursor ablaze with the Witch's flames, engulfing it in a blazing aura\n" +
                 "Enemies touching the blaze take immense damage and are inflicted with Vulnerability Hex\n" +

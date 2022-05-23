@@ -5,20 +5,19 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class MonkeyDarts : RogueWeapon
+    public class MonkeyDarts : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Monkey Darts");
             Tooltip.SetDefault("Stealth strikes throw 3 bouncing darts at high speed\n" + "'Perfect for popping'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 150;
             Item.knockBack = 4;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<MonkeyDart>();
             Item.autoReuse = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

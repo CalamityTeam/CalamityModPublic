@@ -4,21 +4,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ShinobiBlade : RogueWeapon
+    public class ShinobiBlade : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shinobi Blade");
             Tooltip.SetDefault("Throws a fast blade that spawns healing orbs when it kills an enemy\n" +
                 "Stealth strikes cause 3 blades to be thrown at once");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 16;
             Item.height = 42;
@@ -36,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.Orange;
             Item.shoot = ModContent.ProjectileType<ShinobiBladeProjectile>();
             Item.shootSpeed = 20f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

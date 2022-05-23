@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Underworld");
             Tooltip.SetDefault("These obsidian and hellstone towers were once home to thousands of... 'people'.\n" +
                 "Unfortunately for them, they were twisted by their inner demons until they were beyond saving.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

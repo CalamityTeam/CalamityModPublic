@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("God Slayer Mask");
             Tooltip.SetDefault("14% increased rogue damage and critical strike chance, 5% increased movement speed");
         }
@@ -66,8 +65,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().throwingDamage += 0.14f;
-            player.Calamity().throwingCrit += 14;
+            player.GetDamage<ThrowingDamageClass>() += 0.14f;
+            player.GetCritChance<ThrowingDamageClass>() += 14;
             player.moveSpeed += 0.05f;
         }
 

@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Soul of Cryogen");
             Tooltip.SetDefault("The magic of the ancient ice castle is yours\n" +
                 "Counts as wings\n" +
@@ -64,10 +63,11 @@ namespace CalamityMod.Items.Accessories.Wings
                 if (player.controlJump && !player.canJumpAgain_Cloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), (int)(25 * player.AverageDamage()), 3f, player.whoAmI, 1f);
+                    int damage = (int)player.GetBestClassDamage().ApplyTo(25);
+                    int p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), damage, 3f, player.whoAmI, 1f);
                     if (p.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[p].Calamity().forceTypeless = true;
+                        Main.projectile[p].Calamity().forceClassless = true;
                         Main.projectile[p].frame = Main.rand.Next(5);
                     }
                     modPlayer.icicleCooldown = 10;

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.timeLeft = Projectile.MaxUpdates * 90;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 32; // can't hit too fast, but can hit many many times
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

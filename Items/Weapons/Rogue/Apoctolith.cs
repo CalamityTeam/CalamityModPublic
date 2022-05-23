@@ -7,11 +7,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Apoctolith : RogueWeapon
+    public class Apoctolith : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Critical hits tear away enemy defense\n" +
                 "Stealth strikes shatter and briefly stun enemies");
             DisplayName.SetDefault("Apoctolith");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = 120;
             Item.shootSpeed = 15f;
@@ -38,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.autoReuse = true;
         }
 

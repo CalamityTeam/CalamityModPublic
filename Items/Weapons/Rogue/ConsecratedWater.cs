@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ConsecratedWater : RogueWeapon
+    public class ConsecratedWater : ModItem
     {
         public const int BaseDamage = 48;
 
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                                "Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
                                "The pillar is destroyed if there's no tiles below it\n" +
                                "Stealth strikes create three flame pillars instead of one on impact");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.width = 22;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ConsecratedWaterProjectile>();
             Item.shootSpeed = 15f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.Dashes
 {
@@ -65,7 +66,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.HitDirection = hitDirection;
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = OrnateShield.ShieldSlamIFrames;
-            hitContext.Damage = (int)(50f * player.AverageDamage());
+            hitContext.Damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(50f);
 
             npc.AddBuff(BuffID.Frostburn, 300);
         }

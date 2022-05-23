@@ -5,21 +5,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ShatteredSun : RogueWeapon
+    public class ShatteredSun : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shattered Sun");
             Tooltip.SetDefault("Throws daggers that split into scorching homing daggers\n" +
                 "Stealth strikes fire volleys of homing daggers from the player on dagger hits that suck enemies in");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 56;
             Item.height = 56;
@@ -37,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.shoot = ModContent.ProjectileType<ShatteredSunKnife>();
             Item.shootSpeed = 25f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

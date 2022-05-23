@@ -3,15 +3,15 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
+    // TODO -- this item includes a dodge accessory, Brain of Cthulhu
     public class AmalgamatedBrain : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Amalgamated Brain");
             Tooltip.SetDefault("10% increased damage\n" +
                                "Shade rains down when you are hit\n" +
@@ -38,10 +38,11 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), (int)(60 * player.AverageDamage()), 2f, player.whoAmI);
+                        int damage = (int)player.GetBestClassDamage().ApplyTo(60);
+                        Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            rain.Calamity().forceTypeless = true;
+                            rain.Calamity().forceClassless = true;
                             rain.tileCollide = false;
                             rain.penetrate = 1;
                         }

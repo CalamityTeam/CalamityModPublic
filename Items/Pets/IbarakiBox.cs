@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
             Tooltip.SetDefault("As the ice melts in the springs\n" +
                 "And waves wash the old moss’ hair...\n" +

@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class BouncingEyeball : RogueWeapon
+    public class BouncingEyeball : ModItem
     {
         public const int BaseDamage = 15;
         public override void SetStaticDefaults()
@@ -17,9 +16,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws an eyeball that bounces off of surfaces.\n" +
                                "Knockback is much stronger during a blood moon\n" +
                                "Stealth strikes cause the eyeballs to move much faster and bounce more energetically");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = BaseDamage;
             Item.width = 26;
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 3.5f;
             Item.rare = ItemRarityID.Green;
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
             Item.shoot = ModContent.ProjectileType<BouncingEyeballProjectile>();

@@ -1,5 +1,4 @@
 ﻿using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using TerrariaAudio = Terraria.Audio;
 using CalamityMod.Projectiles.Summon;
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Flesh of Infidelity");
             Tooltip.SetDefault("Summons a tentacled ball of flesh that splashes blood onto enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

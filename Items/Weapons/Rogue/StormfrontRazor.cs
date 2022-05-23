@@ -7,11 +7,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class StormfrontRazor : RogueWeapon
+    public class StormfrontRazor : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
                                "Stealth strikes cause the knife to be faster and leave a huge shower of sparks as it travels");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 38;
             Item.height = 38;
@@ -39,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.knockBack = 7f;
             Item.shoot = ModContent.ProjectileType<StormfrontRazorProjectile>();
             Item.shootSpeed = 7f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

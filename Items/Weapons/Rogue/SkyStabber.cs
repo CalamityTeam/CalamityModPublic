@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
@@ -10,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyStabber : RogueWeapon
+    public class SkyStabber : ModItem
     {
         private static int damage = 50;
         private static int knockBack = 2;
@@ -21,13 +20,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
                 "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
                 "Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 4;
+            SacrificeTotal = 4;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.damage = damage;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.width = 1;

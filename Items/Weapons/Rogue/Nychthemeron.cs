@@ -5,11 +5,10 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Nychthemeron : RogueWeapon
+    public class Nychthemeron : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Stacks up to 10\n" +
                 "Stealth strikes cause all spiky balls and orbs to be thrown at once\n" +
                 "Right click to recall all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 18;
             Item.damage = 60;
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.rare = ItemRarityID.LightPurple;
             Item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
             Item.shootSpeed = 6f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool AltFunctionUse(Player player)

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.ignoreWater = true;
             Projectile.friendly = true;
             Projectile.extraUpdates = 1;
-            Projectile.Calamity().rogue = true;
+            Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 40;
         }
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
-                Main.projectile[proj].Calamity().rogue = true;
+                Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
 
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
-                Main.projectile[proj].Calamity().rogue = true;
+                Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
 
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
                 proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
             Main.projectile[proj].Center = Projectile.Center;
-            Main.projectile[proj].Calamity().rogue = true;
+            Main.projectile[proj].Calamity().forceRogue = true;
         }
     }
 }

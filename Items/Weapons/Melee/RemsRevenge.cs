@@ -2,7 +2,6 @@
 using CalamityMod.Projectiles.Melee;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Rem's Revenge");
             Tooltip.SetDefault("Wielded by the most powerful fighter.\n" +
             "Summons blood explosions and lowers enemy defense on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

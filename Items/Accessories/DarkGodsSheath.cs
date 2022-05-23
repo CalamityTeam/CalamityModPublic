@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Dark God's Sheath");
             Tooltip.SetDefault("+20 maximum stealth\n" +
                 "Mobile stealth generation accelerates while not attacking\n" +
@@ -36,8 +35,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.stealthStrikeHalfCost = true;
             modPlayer.rogueStealthMax += 0.2f;
             modPlayer.darkGodSheath = true;
-            modPlayer.throwingCrit += 6;
-            modPlayer.throwingDamage += 0.06f;
+            player.GetCritChance<ThrowingDamageClass>() += 6;
+            player.GetDamage<ThrowingDamageClass>() += 0.06f;
         }
 
         public override void AddRecipes()

@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Moonstone Crown");
             Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
                 "Stealth strikes summon lunar flares on enemy hits\n" +
@@ -48,7 +47,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.throwingVelocity += 0.15f;
+            modPlayer.rogueVelocity += 0.15f;
             modPlayer.moonCrown = true;
             if (!hideVisual)
                 modPlayer.moonCrownDraw = true; //this bool is just used for drawing

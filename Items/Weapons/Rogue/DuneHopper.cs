@@ -7,21 +7,20 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DuneHopper : RogueWeapon
+    public class DuneHopper : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave Skipper"); // This will drop from the Sunken Sea Scourge miniboss once it's implemented.
             Tooltip.SetDefault(@"Throws a spear that bounces a lot
 Stealth strikes throw three high speed spears");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
             Item.width = 44;
             Item.damage = 50;
@@ -38,7 +37,7 @@ Stealth strikes throw three high speed spears");
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<DuneHopperProjectile>();
             Item.shootSpeed = 12f;
-            Item.Calamity().rogue = true;
+            Item.DamageType = RogueDamageClass.Instance;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

@@ -1,16 +1,15 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles;
-using CalamityMod.Systems;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -496,41 +495,11 @@ namespace CalamityMod
 
         #region Rogue Class
         /// <summary>
-        /// Gets a player's current rogue damage stat.
-        /// </summary>
-        /// <param name="p">The player whose rogue damage is being queried.</param>
-        /// <returns>Current rogue damage boost. 1f is no bonus, 2f is +100%.</returns>
-        public static float GetRogueDamage(Player p) => p?.Calamity()?.throwingDamage ?? 1f;
-
-        /// <summary>
-        /// Adds a flat amount of rogue damage stat to a player. This amount can be negative.
-        /// </summary>
-        /// <param name="p">The player whose rogue damage is being modified.</param>
-        /// <param name="add">The amount of rogue damage to add or subtract (if negative).</param>
-        /// <returns>The player's new rogue damage stat.</returns>
-        public static float AddRogueDamage(Player p, float add) => p is null ? 1f : (p.Calamity().throwingDamage += add);
-
-        /// <summary>
-        /// Gets a player's current rogue critical strike chance.
-        /// </summary>
-        /// <param name="p">The player whose rogue crit is being queried.</param>
-        /// <returns>Current rogue critical strike chance. 0 is no additional crit, 8 is +8% crit chance.</returns>
-        public static int GetRogueCrit(Player p) => p?.Calamity()?.throwingCrit ?? 0;
-
-        /// <summary>
-        /// Adds a flat amount of rogue crit to a player. This amount can be negative.
-        /// </summary>
-        /// <param name="p">The player whose rogue crit is being modified.</param>
-        /// <param name="add">The amount of rogue crit to add or subtract (if negative).</param>
-        /// <returns>The player's new rogue crit stat.</returns>
-        public static int AddRogueCrit(Player p, int add) => p is null ? 0 : (p.Calamity().throwingCrit += add);
-
-        /// <summary>
         /// Gets a player's current rogue projectile velocity multiplier.
         /// </summary>
         /// <param name="p">The player whose rogue velocity is being queried.</param>
         /// <returns>Current rogue projectile velocity multiplier. 1f is no bonus, 2f doubles projectile speed.</returns>
-        public static float GetRogueVelocity(Player p) => p?.Calamity()?.throwingVelocity ?? 1f;
+        public static float GetRogueVelocity(Player p) => p?.Calamity()?.rogueVelocity ?? 1f;
 
         /// <summary>
         /// Adds a flat amount of rogue velocity stat to a player. This amount can be negative.
@@ -538,69 +507,13 @@ namespace CalamityMod
         /// <param name="p">The player whose rogue velocity is being modified.</param>
         /// <param name="add">The amount of rogue velocity to add or subtract (if negative).</param>
         /// <returns>The player's new rogue velocity stat.</returns>
-        public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().throwingVelocity += add);
+        public static float AddRogueVelocity(Player p, float add) => p is null ? 1f : (p.Calamity().rogueVelocity += add);
 
         public static float GetCurrentStealth(Player p) => p?.Calamity()?.rogueStealth ?? 0f;
 
         public static float GetMaxStealth(Player p) => p?.Calamity()?.rogueStealthMax ?? 0f;
 
         public static float AddMaxStealth(Player p, float add) => p is null ? 0f : (p.Calamity().rogueStealthMax += add);
-
-        /// <summary>
-        /// Gets whether the given item is classified as a rogue weapon.
-        /// </summary>
-        /// <param name="p">The item which is being checked.</param>
-        /// <returns>Whether the item is a rogue weapon.</returns>
-        public static bool IsRogue(Item it)
-        {
-            if (it is null || it.Calamity() is null)
-                return false;
-            CalamityGlobalItem cgi = it.Calamity();
-            return cgi.rogue;
-        }
-
-        /// <summary>
-        /// Sets whether the given item is classified as a rogue weapon.
-        /// </summary>
-        /// <param name="p">The item whose rogue classification is being toggled.</param>
-        /// <param name="isRogue">The value to apply.</param>
-        /// <returns>Whether the item is now a rogue weapon.</returns>
-        public static bool SetRogue(Item it, bool isRogue)
-        {
-            if (it is null || it.Calamity() is null)
-                return false;
-            CalamityGlobalItem cgi = it.Calamity();
-            cgi.rogue = isRogue;
-            return cgi.rogue;
-        }
-
-        /// <summary>
-        /// Gets whether the given projectile is classified as rogue.
-        /// </summary>
-        /// <param name="p">The projectile which is being checked.</param>
-        /// <returns>Whether the projectile is rogue.</returns>
-        public static bool IsRogue(Projectile p)
-        {
-            if (p is null || p.Calamity() is null)
-                return false;
-            CalamityGlobalProjectile cgp = p.Calamity();
-            return cgp.rogue | cgp.forceRogue;
-        }
-
-        /// <summary>
-        /// Sets whether the given projectile is classified as rogue. If set to true, also forces the projectile to be rogue every single frame.
-        /// </summary>
-        /// <param name="p">The projectile whose rogue classification is being toggled.</param>
-        /// <param name="isRogue">The value to apply.</param>
-        /// <returns>Whether the projectile is now rogue.</returns>
-        public static bool SetRogue(Projectile p, bool isRogue)
-        {
-            if (p is null || p.Calamity() is null)
-                return false;
-            CalamityGlobalProjectile cgp = p.Calamity();
-            cgp.forceRogue = cgp.rogue = isRogue;
-            return cgp.rogue;
-        }
         #endregion
 
         #region Player Armor Set Bonuses
@@ -1442,7 +1355,7 @@ namespace CalamityMod
         #endregion
 
         #region Other Player Stats
-        public static int GetLightStrength(Player p) => p?.Calamity()?.GetTotalLightStrength() ?? 0;
+        public static int GetLightStrength(Player p) => p?.GetCurrentAbyssLightLevel() ?? 0;
 
         public static void AddAbyssLightStrength(Player p, int add)
         {
@@ -1630,56 +1543,12 @@ namespace CalamityMod
                     AddAbyssLightStrength(castPlayer(args[1]), light);
                     return null;
 
-                case "GetRogueDamage":
-                case "GetRogueDmg":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if (!isValidPlayerArg(args[1]))
-                        return new ArgumentException("ERROR: The argument to \"GetRogueDamage\" must be a Player or an int.");
-                    return GetRogueDamage(castPlayer(args[1]));
-
-                case "GetRogueCrit":
-                case "GetRogueCritChance":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
-                    if (!isValidPlayerArg(args[1]))
-                        return new ArgumentException("ERROR: The argument to \"GetRogueCrit\" must be a Player or an int.");
-                    return GetRogueCrit(castPlayer(args[1]));
-
                 case "GetRogueVelocity":
                     if (args.Length < 2)
                         return new ArgumentNullException("ERROR: Must specify a Player object (or int index of a Player).");
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The argument to \"GetRogueVelocity\" must be a Player or an int.");
                     return GetRogueVelocity(castPlayer(args[1]));
-
-                case "AddRogueDamage":
-                case "AddRogueDmg":
-                case "ModifyRogueDamage":
-                case "ModifyRogueDmg":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue damage change as a float.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify rogue damage change as a float.");
-                    if (!(args[2] is float damage))
-                        return new ArgumentException("ERROR: The second argument to \"AddRogueDamage\" must be a float.");
-                    if (!isValidPlayerArg(args[1]))
-                        return new ArgumentException("ERROR: The first argument to \"AddRogueDamage\" must be a Player or an int.");
-                    return AddRogueDamage(castPlayer(args[1]), damage);
-
-                case "AddRogueCrit":
-                case "AddRogueCritChance":
-                case "ModifyRogueCrit":
-                case "ModifyRogueCritChance":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both a Player object (or int index of a Player) and rogue crit change as an int.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify rogue crit change as a float.");
-                    if (!(args[2] is int crit))
-                        return new ArgumentException("ERROR: The second argument to \"AddRogueCrit\" must be an int.");
-                    if (!isValidPlayerArg(args[1]))
-                        return new ArgumentException("ERROR: The first argument to \"AddRogueCrit\" must be a Player or an int.");
-                    return AddRogueCrit(castPlayer(args[1]), crit);
 
                 case "AddRogueVelocity":
                 case "ModifyRogueVelocity":
@@ -1721,46 +1590,6 @@ namespace CalamityMod
                     if (!isValidPlayerArg(args[1]))
                         return new ArgumentException("ERROR: The first argument to \"AddMaxStealth\" must be a Player or an int.");
                     return AddMaxStealth(castPlayer(args[1]), maxStealth);
-
-                case "IsItemRogue":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify an Item object (or int index of an Item in the Main.item array).");
-                    if (!isValidItemArg(args[1]))
-                        return new ArgumentException("ERROR: The first argument to \"IsItemRogue\" must be an Item or an int.");
-                    return IsRogue(castItem(args[1]));
-
-                case "SetItemRogue":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both an Item object (or int index of an Item in the Main.item array) and a bool.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify rogue status as a bool.");
-                    if (!(args[2] is bool isItemRogue))
-                        return new ArgumentException("ERROR: The second argument to \"SetItemRogue\" must be a bool.");
-                    if (!isValidItemArg(args[1]))
-                        return new ArgumentException("ERROR: The first argument to \"SetItemRogue\" must be an Item or an int.");
-                    return SetRogue(castItem(args[1]), isItemRogue);
-
-                case "IsRogue":
-                case "IsProjRogue":
-                case "IsProjectileRogue":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify a Projectile object (or int index of a Projectile).");
-                    if (!isValidProjectileArg(args[1]))
-                        return new ArgumentException("ERROR: The first argument to \"IsRogue\" must be a Projectile or an int.");
-                    return IsRogue(castProjectile(args[1]));
-
-                case "SetRogue":
-                case "SetProjRogue":
-                case "SetProjectileRogue":
-                    if (args.Length < 2)
-                        return new ArgumentNullException("ERROR: Must specify both a Projectile object (or int index of a Projectile) and a bool.");
-                    if (args.Length < 3)
-                        return new ArgumentNullException("ERROR: Must specify rogue status as a bool.");
-                    if (!(args[2] is bool isRogue))
-                        return new ArgumentException("ERROR: The second argument to \"SetRogue\" must be a bool.");
-                    if (!isValidProjectileArg(args[1]))
-                        return new ArgumentException("ERROR: The first argument to \"SetRogue\" must be a Projectile or an int.");
-                    return SetRogue(castProjectile(args[1]), isRogue);
 
                 case "DR":
                 case "DamageReduction":
