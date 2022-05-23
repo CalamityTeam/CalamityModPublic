@@ -5814,6 +5814,32 @@ namespace CalamityMod.CalPlayer
                 Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Back);
                 Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Neck);
             }
+
+            bool victideBreastplateVisible = Player.body == EquipLoader.GetEquipSlot(Mod, "VictideBreastplate", EquipType.Body);
+            //Give the player faulds if either the body armor or the leggings are equipped
+            if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideLeggings", EquipType.Legs))
+            {
+                Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "VictideFaulds", EquipType.Waist);
+
+                string[] victideHelmetNames = new string[5] { "VictideHeadgear" , "VictideHelm", "VictideHelmet", "VictideMask", "VictideVisage" };
+                bool anyVictideHelmetVisible = false;
+                int victideHelmetIndex = 0;
+
+                for (int i = 0; i < 5; i++)
+                    if (Player.head == EquipLoader.GetEquipSlot(Mod, victideHelmetNames[i], EquipType.Head))
+                    {
+                        victideHelmetIndex = i;
+                        anyVictideHelmetVisible = true;
+                        break;
+                    }
+                
+                //Crop out the face of the victide mask if the chestplate is worn (so the little seastar crest can peek through)
+                if (victideBreastplateVisible && anyVictideHelmetVisible)
+                {
+                    Player.head = EquipLoader.GetEquipSlot(Mod, victideHelmetNames[victideHelmetIndex] + "Cropped", EquipType.Head);
+                }
+                    
+            }
         }
         #endregion
 

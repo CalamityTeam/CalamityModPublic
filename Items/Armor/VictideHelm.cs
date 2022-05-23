@@ -10,11 +10,25 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class VictideHelm : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/VictideHelm_CroppedHead", EquipType.Head, name: Name + "Cropped");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
             DisplayName.SetDefault("Victide Helm");
             Tooltip.SetDefault("5% increased melee damage");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name + "Cropped", EquipType.Head);
+            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }
 
         public override void SetDefaults()
