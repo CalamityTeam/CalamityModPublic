@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.ai[0] == 1f)
             {
-                LegacySoundStyle saxSound = Utils.SelectRandom(Main.rand, new LegacySoundStyle[]
+                SoundStyle saxSound = Utils.SelectRandom(Main.rand, new LegacySoundStyle[]
                 {
                     SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax1"),
                     SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax2"),

@@ -1178,7 +1178,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             NPC.ai[2] = 0f;
 
-                            SoundEngine.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, fireFrom);
+                            SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, fireFrom);
 
                             int projectileType = ModContent.ProjectileType<HolySpear>();
 

@@ -49,97 +49,12 @@ namespace CalamityMod.Tiles.AstralDesert
             num = fail ? 1 : 3;
         }
 
-        public static bool EmptyTileCheck(int startX, int endX, int startY, int endY, int ignoreID = -1)
-        {
-            //Checks if inworld
-            if (startX < 0)
-                return false;
-            if (endX >= Main.maxTilesX)
-                return false;
-            if (startY < 0)
-                return false;
-            if (endY >= Main.maxTilesY)
-                return false;
-
-            //If we're ignoring a common sapling
-            bool flag = false;
-            if (ignoreID != -1 && TileID.Sets.CommonSapling[ignoreID])
-                flag = true;
-
-            for (int i = startX; i < endX + 1; i++)
-            {
-                for (int j = startY; j < endY + 1; j++)
-                {
-                    //Check for empty tiles
-                    if (!Main.tile[i, j].HasTile)
-                        continue;
-
-                    switch (ignoreID)
-                    {
-                        //if no tile is ignored and the tile isn't empty, say the space is not empty.
-                        case -1:
-                            return false;
-                        
-                        //If its a door, ignore the door.
-                        case 11:
-                            if (Main.tile[i, j].TileType == 11)
-                                continue;
-                            return false;
-                        //If its glowing mushrooms, also ignore them.
-                        case 71:
-                            if (Main.tile[i, j].TileType == 71)
-                                continue;
-                            return false;
-                    }
-
-                    //If we're ignoring the common sapling
-                    if (flag)
-                    {
-                        //If the tile we're stuck on is a sapling, just ignrore it
-                        if (TileID.Sets.CommonSapling[Main.tile[i, j].TileType])
-                            break;
-
-                        //If not, check if the tile isnt a tile that growing saplings ignore
-                        if (TileID.Sets.IgnoredByGrowingSaplings[Main.tile[i, j].TileType])
-                            continue;
-
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
+        
         public override void RandomUpdate(int i, int j)
         {
             if (WorldGen.genRand.Next(20) == 0 || true)
             {
                 bool isPlayerNear = WorldGen.PlayerLOS(i, j);
-
-                //This is debug code ripped from tml source. I'll remove it when they fix modpalmtrees
-
-                int num = j;
-
-                while (TileID.Sets.TreeSapling[Main.tile[i, num].TileType])
-                {
-                    num++;
-                    if (Main.tile[i, num] == null)
-                        return;
-                }
-
-                Tile tile = Main.tile[i, num];
-
-                if (tile.TileType != 53 && tile.TileType != 234 && tile.TileType != 116 && tile.TileType != 112 && !TileLoader.CanGrowModPalmTree(tile.TileType))
-                    return;
-
-                //Check if the very base of the palm tree is occupied (the 2 tiles above the ground should be sapling tiles)
-                if (!EmptyTileCheck(i, i, num - 2, num - 1, 20))
-                    return;
-
-                //Check if theres clear space on the upper portion of the palm tree.
-                if (!EmptyTileCheck(i - 1, i + 1, num - 30, num - 3, 20))
-                    return;
 
                 bool success = WorldGen.GrowPalmTree(i, j);
 

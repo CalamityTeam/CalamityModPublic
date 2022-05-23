@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.rare = ItemRarityID.Orange;
 
             // SoundID has no Zombie24 sound instance, so we must create one ourselves.
-            Item.UseSound = new TerrariaAudio.LegacySoundStyle(SoundID.Zombie, 24, TerrariaAudio.SoundType.Sound);
+            Item.UseSound = new SoundStyle(SoundID.Zombie, 24, TerrariaAudio.SoundType.Sound);
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<FleshBallMinion>();
             Item.shootSpeed = 10f;

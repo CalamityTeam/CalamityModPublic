@@ -9664,12 +9664,12 @@ namespace CalamityMod.NPCs
                 // Play the portal opening sound at the moment of the portal's creation.
                 if (fadeInTimer == 0f)
                 {
-                    SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalOpen, npc.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, npc.Center);
                     idlePlaySoundId = SlotId.Invalid.ToFloat();
                 }
 
                 if (fadeInTimer > 150f && SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
-                    idlePlaySoundId = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+                    idlePlaySoundId = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
                 if (!DD2Event.EnemySpawningIsOnHold)
                     enemySpawnTimer++;
@@ -9711,7 +9711,7 @@ namespace CalamityMod.NPCs
 
                 // Reset the idle play sound if it didn't get activated before for some reason.
                 if (SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
-                    idlePlaySoundId = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+                    idlePlaySoundId = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
                 ActiveSound activeSound = SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId));
                 if (activeSound != null)

@@ -6,12 +6,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class PlagueReaperMask : ModItem
     {
+        public static readonly SoundStyle ActivationSound = new("Sounds/Custom/AbilitySounds/PlagueReaperAbility");
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;

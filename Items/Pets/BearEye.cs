@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Pets
 
             Item.shoot = ModContent.ProjectileType<Bear>();
             Item.buffType = ModContent.BuffType<BearBuff>();
-            Item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
+            Item.UseSound = new SoundStyle(SoundID.Meowmere, 5);
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

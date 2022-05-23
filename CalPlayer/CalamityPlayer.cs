@@ -231,6 +231,11 @@ namespace CalamityMod.CalPlayer
         public bool playRogueStealthSound = false;
         public bool playFullRageSound = true;
         public bool playFullAdrenalineSound = true;
+
+        public static readonly SoundStyle RageActivationSound = new("Sounds/Custom/AbilitySounds/RageActivate")
+        public static readonly SoundStyle AdrenalineActivationSound = new("Sounds/Custom/AbilitySounds/AdrenalineActivate")
+        public static readonly SoundStyle RogueStealthSound = new("Sounds/Custom/RogueStealth")
+        public static readonly SoundStyle DefenseDamageSound = new("Sounds/Custom/DefenseDamage")
         #endregion
 
         #region Proficiency
@@ -2603,7 +2608,7 @@ namespace CalamityMod.CalPlayer
             {
                 int seconds = CalamityUtils.SecondsToFrames(15f);
                 Player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>(), seconds, false);
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/AngelicAllianceActivation"), Player.Center);
+                SoundEngine.PlaySound(AngelicAlliance.ActivationSound, Player.Center);
 
                 // Spawn an archangel for every minion you have
                 float angelAmt = 0f;
@@ -2636,7 +2641,7 @@ namespace CalamityMod.CalPlayer
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
                 rogueStealth -= rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
-                SoundEngine.PlaySound(SoundID.Item, Player.position, 45);
+                SoundEngine.PlaySound(SoundID.Item45, Player.position);
             }
             if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0)
@@ -2711,7 +2716,7 @@ namespace CalamityMod.CalPlayer
                         {
                             brimflameFrenzy = true;
                             Player.AddBuff(ModContent.BuffType<BrimflameFrenzyBuff>(), 10 * 60, true);
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/AbilitySounds/BrimflameAbility"), Player.Center);
+                            SoundEngine.PlaySound(BrimflameScowl.ActivationSound, Player.Center);
                             for (int num502 = 0; num502 < 36; num502++)
                             {
                                 int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -2744,7 +2749,7 @@ namespace CalamityMod.CalPlayer
                     if (Player.whoAmI == Main.myPlayer)
                         Player.AddCooldown(BloodflareRangedSet.ID, 1800);
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/BloodflareRangerActivation"), Player.Center);
+                    SoundEngine.PlaySound(BloodflareHornedHelm.ActivationSound, Player.Center);
                     for (int d = 0; d < 64; d++)
                     {
                         int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
@@ -2793,7 +2798,7 @@ namespace CalamityMod.CalPlayer
                         Player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
                     }
                     Player.AddCooldown(OmegaBlue.ID, 1800);
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/OmegaBlueAbility"), Player.Center);
+                    SoundEngine.PlaySound(OmegaBlueHelmet.ActivationSound, Player.Center);
                     for (int i = 0; i < 66; i++)
                     {
                         int d = Dust.NewDust(Player.position, Player.width, Player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
@@ -2805,7 +2810,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (dsSetBonus)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/DemonshadeEnrage"), Player.Center);
+                    SoundEngine.PlaySound(DemonshadeHelm.ActivationSound, Player.Center);
                     for (int num502 = 0; num502 < 36; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -2841,7 +2846,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (plagueReaper && !Player.HasCooldown(PlagueBlackout.ID))
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/PlagueReaperAbility"), Player.Center);
+                    SoundEngine.PlaySound(PlagueReaperMask.ActivationSound, Player.Center);
                     Player.AddCooldown(PlagueBlackout.ID, 1800);
                 }
                 if (forbiddenCirclet && forbiddenCooldown <= 0)
@@ -2890,7 +2895,7 @@ namespace CalamityMod.CalPlayer
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Player.TeleportationPotion();
-                        SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 6);
+                        SoundEngine.PlaySound(SoundID.Item6, Player.position);
                     }
                     else if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
                     {
@@ -2921,7 +2926,7 @@ namespace CalamityMod.CalPlayer
                 // Gael's Greatsword replaces Rage Mode with an uber skull attack
                 if (gaelRageAttackCooldown == 0 && Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaDispel"), Player.Center);
+                    SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
 
                     for (int i = 0; i < 3; i++)
                         Dust.NewDust(Player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
@@ -2967,7 +2972,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/RageActivate"), Player.position);
+                    SoundEngine.PlaySound( RageActivationSound, Player.position);
 
                     // TODO -- improve Rage activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -2998,7 +3003,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
                     // Play Adrenaline Activation sound
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/AdrenalineActivate"), Player.position);
+                    SoundEngine.PlaySound(AdrenalineActivationSound, Player.position);
 
                     // TODO -- improve Adrenaline activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -3040,7 +3045,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.25);
                     for (int d = 0; d < 30; ++d)
@@ -3062,7 +3067,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.5);
                     for (int d = 0; d < 30; ++d)
@@ -3261,7 +3266,7 @@ namespace CalamityMod.CalPlayer
             }
             Main.TeleportEffect(player.getRect(), 1);
             Main.TeleportEffect(player.getRect(), 3);
-            SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 6);
+            SoundEngine.PlaySound(SoundID.Item6, player.position);
             if (Main.netMode != NetmodeID.Server)
             {
                 return;
@@ -5979,7 +5984,7 @@ namespace CalamityMod.CalPlayer
                 else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.NPCHit, (int)Player.position.X, (int)Player.position.Y, 4, 1f, 0f); //metal hit noise
+                    SoundEngine.PlaySound(SoundID.NPCHit1, (int)Player.position.X, (int)Player.position.Y, 4, 1f, 0f); //metal hit noise
                     hurtSoundTimer = 10;
                 }
                 else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
@@ -5991,7 +5996,7 @@ namespace CalamityMod.CalPlayer
                 else if (titanHeartSet)
                 {
                     playSound = false;
-                    Terraria.Audio.LegacySoundStyle atlasHurt = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
+                    SoundStyle atlasHurt = Utils.SelectRandom(Main.rand, new SoundStyle[]
                     {
                         SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt0"),
                         SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt1"),

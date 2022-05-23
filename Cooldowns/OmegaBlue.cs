@@ -20,7 +20,7 @@ namespace CalamityMod.Cooldowns
         public override Color OutlineColor => instance.timeLeft > 1500 ? new Color(231, 164, 1) : new Color(72, 135, 205);
         public override Color CooldownStartColor => instance.timeLeft > 1500 ? Color.Lerp(new Color(98, 110, 179), new Color(216, 176, 80), (instance.timeLeft - 1500) / 300f) : new Color(98, 110, 179);
         public override Color CooldownEndColor => instance.timeLeft > 1500 ? Color.Lerp(new Color(179, 132, 98), new Color(216, 176, 80), (instance.timeLeft - 1500) / 300f) : new Color(179, 132, 98);
-        public override LegacySoundStyle EndSound => SoundLoader.GetLegacySoundSlot(GetInstance<CalamityMod>(), "Sounds/Custom/AbilitySounds/OmegaBlueRecharge");
+        public override SoundStyle EndSound => SoundLoader.GetLegacySoundSlot(GetInstance<CalamityMod>(), "Sounds/Custom/AbilitySounds/OmegaBlueRecharge");
 
         public override void OnCompleted()
         {

@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class BrimflameScowl : ModItem
     {
+        public static readonly SoundStyle ActivationSound = new("Sounds/Custom/AbilitySounds/AngelicAllianceActivation");
+
         private bool frenzy = false;
         public static int CooldownLength = 1800;
 

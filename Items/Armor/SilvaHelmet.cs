@@ -7,12 +7,16 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class SilvaHelmet : ModItem
     {
+        public static readonly SoundStyle ActivationSound = new("Sounds/Custom/AbilitySounds/SilvaActivation");
+        public static readonly SoundStyle DispelSound = new("Sounds/Custom/AbilitySounds/SilvaDispel");
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;

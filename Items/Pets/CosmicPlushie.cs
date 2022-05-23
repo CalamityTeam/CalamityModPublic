@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Pets
             Item.height = 36;
             Item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
             Item.buffType = ModContent.BuffType<ChibiiBuff>();
-            Item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
+            Item.UseSound = new SoundStyle(SoundID.Meowmere, 5);
 
             Item.value = Item.sellPrice(gold: 7);
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;

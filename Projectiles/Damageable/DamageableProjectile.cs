@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Damageable
         /// <summary>
         /// The sound the projectile makes on hit.
         /// </summary>
-        public abstract LegacySoundStyle HitSound
+        public abstract SoundStyle HitSound
         {
             get;
         }
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Damageable
         /// <summary>
         /// The sound the projectile makes on death.
         /// </summary>
-        public abstract LegacySoundStyle DeathSound
+        public abstract SoundStyle DeathSound
         {
             get;
         }

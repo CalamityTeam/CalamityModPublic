@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class SoulEdge : ModItem
     {
-        static internal LegacySoundStyle ProjectileDeathSound = null;
+        static internal SoundStyle? ProjectileDeathSound = null;
 
         public override void SetStaticDefaults()
         {

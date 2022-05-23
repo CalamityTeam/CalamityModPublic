@@ -8,12 +8,15 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.DataStructures;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class DemonshadeHelm : ModItem, IExtendedHat
     {
+        public static readonly SoundStyle ActivationSound = new("Sounds/Custom/AbilitySounds/DemonshadeEnrage");
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
