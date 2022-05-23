@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
             else
             {
                 // Play some demonic noises prior to a target being selected.
-                SoundEngine.PlaySound(SoundID.Zombie with { Variants = stackalloc int[] { 93 }, player.Center);
+                SoundEngine.PlaySound(SoundID.Zombie with { Variants = stackalloc int[] { 93 } }, player.Center);
                 SoundEngine.PlaySound(SoundID.Item119, player.Center);
             }
             return false;

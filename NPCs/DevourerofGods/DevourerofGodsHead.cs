@@ -2206,7 +2206,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                     for (int i = 0; i < 3; i++)
                     {
-                        SoundEngine.PlaySound(TeslaCannon.FireSound with { Volume = TeslaCannon.FireSound.Volume * 1.4f, Pitch = -MathHelper.Lerp(0.1f, 0.4f, i / 3f) }, NPC.Center);
+                        SoundEngine.PlaySound(TeslaCannon.FireSound with { Volume = TeslaCannon.FireSound.Volume * 1.4f, Pitch = TeslaCannon.FireSound.Pitch -MathHelper.Lerp(0.1f, 0.4f, i / 3f) }, NPC.Center);
                     }
                 }
             }

@@ -84,7 +84,7 @@ namespace CalamityMod.Tiles.DraedonStructures
                 mp.CurrentlyViewedHologramID = projector?.ID ?? -1;
                 if (mp.CurrentlyViewedHologramID != -1)
                 {
-                    SoundEngine.PlaySound(SoundID.Chat, -1, -1, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Chat);
                     player.SetTalkNPC(-1);
                 }
             }

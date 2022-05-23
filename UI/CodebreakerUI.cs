@@ -29,6 +29,9 @@ namespace CalamityMod.UI
         public static float GeneralScale => MathHelper.Lerp(1f, 0.7f, Utils.GetLerpValue(1325f, 750f, Main.screenWidth, true)) * Main.UIScale;
 
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
+
+        public static readonly SoundStyle SummonSound = new("Sounds/Custom/CodebreakerBeam");
+
         public static void Draw(SpriteBatch spriteBatch)
         {
             // If not viewing the specific tile entity's interface anymore, if the ID is for some reason invalid, or if the player is not equipped to continue viewing the UI
@@ -303,7 +306,7 @@ namespace CalamityMod.UI
                 // Also play a cool sound.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, Main.LocalPlayer.Center, 67);
+                    SoundEngine.PlaySound(SoundID.Zombie with { Variants = stackalloc int[] { 67 } }, Main.LocalPlayer.Center);
                     AwaitingDecryptionTextClose = true;
                     codebreakerTileEntity.InitialCellCountBeforeDecrypting = codebreakerTileEntity.InputtedCellCount;
                     codebreakerTileEntity.DecryptionCountdown = codebreakerTileEntity.DecryptionTotalTime;
@@ -450,7 +453,7 @@ namespace CalamityMod.UI
                 {
                     CalamityWorld.DraedonSummonCountdown = CalamityWorld.DraedonSummonCountdownMax;
                     CalamityWorld.DraedonSummonPosition = codebreakerTileEntity.Center + new Vector2(-8f, -100f);
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/CodebreakerBeam"), CalamityWorld.DraedonSummonPosition);
+                    SoundEngine.PlaySound(SummonSound, CalamityWorld.DraedonSummonPosition);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
                     {
