@@ -75,6 +75,8 @@ namespace CalamityMod.NPCs.Providence
         public bool Dying = false;
         public int DeathAnimationTimer;
 
+        public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/ProvidenceDeath");
+
         public static float normalDR = 0.3f;
         public static float cocoonDR = 0.9f;
 
@@ -114,7 +116,7 @@ namespace CalamityMod.NPCs.Providence
             NPC.noTileCollide = true;
             NPC.netAlways = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Providence") ?? MusicID.LunarBoss;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/ProvidenceDeath");
+            NPC.DeathSound = DeathSound;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;

@@ -48,6 +48,13 @@ namespace CalamityMod.NPCs.Astral
         private byte swing_counter;
         private short swing_untilNext;
 
+        public static readonly SoundStyle HurtSound = new("Sounds/NPCHit/AtlasHurt", 3);
+        public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/AtlasDeath");
+        public static readonly SoundStyle AggroSound = new("Sounds/Custom/AtlasSad0");
+        public static readonly SoundStyle UnaggroSound = new("Sounds/Custom/AtlasSad1");
+        public static readonly SoundStyle SwingSound = new("Sounds/Custom/AtlasSwing");
+        public static readonly SoundStyle IdleSound = new("Sounds/Custom/AtlasIdle", 2);
+
         private float idle_counter
         {
             get
@@ -117,7 +124,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.knockBackResist = 0.08f;
             NPC.value = Item.buyPrice(0, 1, 0, 0);
             NPC.aiStyle = -1;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AtlasDeath");
+            NPC.DeathSound = DeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AtlasBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -195,7 +202,7 @@ namespace CalamityMod.NPCs.Astral
                 else
                 {
                     //PLAY SOUND (SAD) *but this time it has a target. more like an indicator. he sad because he has to kill you now :c
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AtlasSad0"), NPC.Center);
+                    SoundEngine.PlaySound(AggroSound, NPC.Center);
                 }
             }
 
@@ -238,7 +245,7 @@ namespace CalamityMod.NPCs.Astral
 
             if (swing_counter == swing_playSoundOnFrame)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AtlasSwing"), NPC.Center);
+                SoundEngine.PlaySound(SwingSound, NPC.Center);
             }
 
             if (swing_counter >= swing_minCounterHit && swing_counter <= swing_maxCounterHit)
@@ -336,7 +343,7 @@ namespace CalamityMod.NPCs.Astral
                     NPC.frameCounter = 0; // reset framecounter to start walk.
 
                     //PLAY SOUND (IDLE)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AtlasIdle" + Main.rand.Next(2)), NPC.Center);
+                    SoundEngine.PlaySound(IdleSound, NPC.Center);
                 }
                 else
                 {
@@ -389,7 +396,7 @@ namespace CalamityMod.NPCs.Astral
                 target_counter = 0;
 
                 //PLAY SOUND (SAD)        he sad cos he lost his target :C
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AtlasSad1"), NPC.Center);
+                SoundEngine.PlaySound(UnaggroSound, NPC.Center);
             }
             else if (target_counter == 0 && NPC.velocity.Y == 0)
             {
@@ -438,18 +445,7 @@ namespace CalamityMod.NPCs.Astral
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 15;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt0"), NPC.Center);
-                        break;
-                    case 1:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt1"), NPC.Center);
-                        break;
-                    case 2:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt2"), NPC.Center);
-                        break;
-                }
+                SoundEngine.PlaySound(HurtSound, NPC.Center);
             }
 
             CalamityGlobalNPC.DoHitDust(NPC, hitDirection, (Main.rand.Next(0, Math.Max(0, NPC.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 3, 30);
