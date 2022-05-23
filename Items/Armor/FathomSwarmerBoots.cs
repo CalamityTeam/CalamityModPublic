@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.04f;
+            player.GetDamage<SummonDamageClass>() += 0.04f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.moveSpeed += 0.4f;

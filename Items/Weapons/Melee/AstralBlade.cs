@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Melee
             knockback *= multiplier;
 
             if (!crit)
-                crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance(DamageClass.Melee)) * multiplier, 0f, 99f), 100);
+                crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance<MeleeDamageClass>()) * multiplier, 0f, 99f), 100);
 
             if (multiplier > 1.5f)
             {

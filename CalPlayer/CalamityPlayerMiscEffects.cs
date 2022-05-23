@@ -167,8 +167,8 @@ namespace CalamityMod.CalPlayer
             {
                 // player.rangedCrit already contains the crit stat of the held item, no need to grab it separately.
                 // Don't store the base 4% because you're not removing it.
-                spiritOriginConvertedCrit = (int)(Player.GetCritChance(DamageClass.Ranged) - 4);
-                Player.GetCritChance(DamageClass.Ranged) = 4;
+                spiritOriginConvertedCrit = (int)(Player.GetCritChance<RangedDamageClass>() - 4);
+                Player.GetCritChance<RangedDamageClass>() = 4;
             }
 
             if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
@@ -933,7 +933,7 @@ namespace CalamityMod.CalPlayer
 
                 if (attack)
                 {
-                    Player.GetDamage(DamageClass.Summon) += 0.1f +
+                    Player.GetDamage<SummonDamageClass>() += 0.1f +
                         (defend ? 0.05f : 0f);
                 }
             }
@@ -1283,8 +1283,8 @@ namespace CalamityMod.CalPlayer
                             Player.AddCooldown(BloodflareFrenzy.ID, CalamityUtils.SecondsToFrames(30));
                     }
 
-                    Player.GetCritChance(DamageClass.Melee) += 25;
-                    Player.GetDamage(DamageClass.Melee) += 0.25f;
+                    Player.GetCritChance<MeleeDamageClass>() += 25;
+                    Player.GetDamage<MeleeDamageClass>() += 0.25f;
 
                     for (int j = 0; j < 2; j++)
                     {
@@ -1470,8 +1470,8 @@ namespace CalamityMod.CalPlayer
             // Vortex Armor nerf
             if (Player.vortexStealthActive)
             {
-                Player.GetDamage(DamageClass.Ranged) -= (1f - Player.stealth) * 0.4f; // Change 80 to 40
-                Player.GetCritChance(DamageClass.Ranged) -= (int)((1f - Player.stealth) * 5f); // Change 20 to 15
+                Player.GetDamage<RangedDamageClass>() -= (1f - Player.stealth) * 0.4f; // Change 80 to 40
+                Player.GetCritChance<RangedDamageClass>() -= (int)((1f - Player.stealth) * 5f); // Change 20 to 15
             }
 
             // Polaris fish stuff
@@ -2344,7 +2344,7 @@ namespace CalamityMod.CalPlayer
             if (armorCrumbling)
             {
                 Player.GetCritChance<RogueDamageClass>() += 5;
-                Player.GetCritChance(DamageClass.Melee) += 5;
+                Player.GetCritChance<MeleeDamageClass>() += 5;
             }
 
             if (armorShattering)
@@ -2352,9 +2352,9 @@ namespace CalamityMod.CalPlayer
                 if (Player.FindBuffIndex(ModContent.BuffType<ArmorCrumbling>()) > -1)
                     Player.ClearBuff(ModContent.BuffType<ArmorCrumbling>());
                 Player.GetDamage<ThrowingDamageClass>() += 0.08f;
-                Player.GetDamage(DamageClass.Melee) += 0.08f;
+                Player.GetDamage<MeleeDamageClass>() += 0.08f;
                 Player.GetCritChance<RogueDamageClass>() += 8;
-                Player.GetCritChance(DamageClass.Melee) += 8;
+                Player.GetCritChance<MeleeDamageClass>() += 8;
             }
 
             if (holyWrath)
@@ -2401,13 +2401,13 @@ namespace CalamityMod.CalPlayer
             {
                 Player.statDefense += 30;
                 Player.endurance += 0.1f;
-                Player.GetDamage(DamageClass.Melee) += 0.2f;
+                Player.GetDamage<MeleeDamageClass>() += 0.2f;
             }
 
             if (tFury)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.3f;
-                Player.GetCritChance(DamageClass.Melee) += 10;
+                Player.GetDamage<MeleeDamageClass>() += 0.3f;
+                Player.GetCritChance<MeleeDamageClass>() += 10;
             }
 
             if (yPower)
@@ -2449,8 +2449,8 @@ namespace CalamityMod.CalPlayer
             {
                 Player.kbGlove = true;
                 Player.magmaStone = true;
-                Player.GetDamage(DamageClass.Melee) += 0.15f;
-                Player.GetCritChance(DamageClass.Melee) += 5;
+                Player.GetDamage<MeleeDamageClass>() += 0.15f;
+                Player.GetCritChance<MeleeDamageClass>() += 5;
                 Player.lavaMax += 240;
             }
 
@@ -2541,7 +2541,7 @@ namespace CalamityMod.CalPlayer
 
             if (starBeamRye)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.08f;
+                Player.GetDamage<MagicDamageClass>() += 0.08f;
                 Player.manaCost *= 0.9f;
             }
 
@@ -2552,13 +2552,13 @@ namespace CalamityMod.CalPlayer
             }
 
             if (whiteWine)
-                Player.GetDamage(DamageClass.Magic) += 0.1f;
+                Player.GetDamage<MagicDamageClass>() += 0.1f;
 
             // Adjustment to the Tipsy debuff
             if (Player.tipsy)
             {
                 Player.statDefense += 4;
-                Player.GetCritChance(DamageClass.Melee) -= 2;
+                Player.GetCritChance<MeleeDamageClass>() -= 2;
             }
 
             if (giantPearl)
@@ -2587,7 +2587,7 @@ namespace CalamityMod.CalPlayer
                 Player.GetDamage<ThrowingDamageClass>() += 0.1f;
 
             if (CalamityLists.javelinList.Contains(Player.ActiveItem().type) && Player.invis)
-                Player.GetArmorPenetration(DamageClass.Generic) += 5;
+                Player.GetArmorPenetration<GenericDamageClass>() += 5;
 
             if (CalamityLists.flaskBombList.Contains(Player.ActiveItem().type) && Player.invis)
                 rogueVelocity += 0.1f;
@@ -2819,9 +2819,9 @@ namespace CalamityMod.CalPlayer
                 Player.blind = true;
                 Player.statDefense -= 3;
                 Player.moveSpeed += 0.1f;
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetDamage(DamageClass.Ranged) -= 0.1f;
-                Player.GetDamage(DamageClass.Magic) -= 0.1f;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetDamage<RangedDamageClass>() -= 0.1f;
+                Player.GetDamage<MagicDamageClass>() -= 0.1f;
             }
 
             if (aCrunch && !laudanum)
@@ -2885,7 +2885,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (warbannerOfTheSun)
-                Player.GetDamage(DamageClass.Melee) += warBannerBonus;
+                Player.GetDamage<MeleeDamageClass>() += warBannerBonus;
 
             // The player's true max life value with Calamity adjustments
             actualMaxLife = Player.statLifeMax2;
@@ -2897,7 +2897,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (manaOverloader)
-                Player.GetDamage(DamageClass.Magic) += 0.06f;
+                Player.GetDamage<MagicDamageClass>() += 0.06f;
 
             if (rBrain)
             {
@@ -2908,7 +2908,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (bloodyWormTooth)
-                Player.GetDamage(DamageClass.Melee) += 0.07f;
+                Player.GetDamage<MeleeDamageClass>() += 0.07f;
 
             if (dAmulet)
                 Player.pStone = true;
@@ -2952,7 +2952,7 @@ namespace CalamityMod.CalPlayer
             if (bloodflareSummon)
             {
                 if (Player.statLife >= (int)(Player.statLifeMax2 * 0.9))
-                    Player.GetDamage(DamageClass.Summon) += 0.1f;
+                    Player.GetDamage<SummonDamageClass>() += 0.1f;
                 else if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.statDefense += 20;
 
@@ -2980,7 +2980,7 @@ namespace CalamityMod.CalPlayer
 
             if (yInsignia)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.1f;
+                Player.GetDamage<MeleeDamageClass>() += 0.1f;
                 Player.lavaMax += 240;
                 if (Player.statLife <= (int)(Player.statLifeMax2 * 0.5))
                     Player.GetDamage<GenericDamageClass>() += 0.1f;
@@ -3227,7 +3227,7 @@ namespace CalamityMod.CalPlayer
                     bool offenseBuffs = (Main.dayTime && !Player.wet) || Player.lavaWet;
                     if (offenseBuffs)
                     {
-                        Player.GetDamage(DamageClass.Summon) += 0.15f;
+                        Player.GetDamage<SummonDamageClass>() += 0.15f;
                         Player.GetKnockback<SummonDamageClass>() += 0.15f;
                         Player.moveSpeed += 0.1f;
                         Player.statDefense -= 15;
@@ -3520,8 +3520,8 @@ namespace CalamityMod.CalPlayer
 
             if (badgeOfBravery)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 5;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 5;
             }
 
             if (CalamityConfig.Instance.Proficiency)
@@ -3635,7 +3635,7 @@ namespace CalamityMod.CalPlayer
                                 Player.statDefense += (int)(Player.statDefense * 0.25);
                                 break;
                             case BuffID.Weak:
-                                Player.GetDamage(DamageClass.Melee) += 0.151f;
+                                Player.GetDamage<MeleeDamageClass>() += 0.151f;
                                 Player.statDefense += 14;
                                 Player.moveSpeed += 0.3f;
                                 break;

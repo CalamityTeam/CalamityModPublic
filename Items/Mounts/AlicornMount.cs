@@ -114,7 +114,7 @@ namespace CalamityMod.Items.Mounts
         {
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fabsolVodka)
-                player.GetDamage(DamageClass.Generic) += 0.1f;
+                player.GetDamage<GenericDamageClass>() += 0.1f;
 
             if (player.velocity.Length() > 9f)
             {

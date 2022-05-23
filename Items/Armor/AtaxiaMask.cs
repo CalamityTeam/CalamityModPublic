@@ -46,15 +46,15 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaMage = true;
-            player.GetDamage(DamageClass.Magic) += 0.05f;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
             player.manaCost *= 0.85f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 100;
-            player.GetDamage(DamageClass.Magic) += 0.12f;
-            player.GetCritChance(DamageClass.Magic) += 10;
+            player.GetDamage<MagicDamageClass>() += 0.12f;
+            player.GetCritChance<MagicDamageClass>() += 10;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }

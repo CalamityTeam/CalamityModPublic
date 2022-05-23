@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.statigelJump = true;
             Player.jumpHeight += 5;
             player.jumpSpeedBoost += 0.6f;
-            player.GetDamage(DamageClass.Summon) += 0.18f;
+            player.GetDamage<SummonDamageClass>() += 0.18f;
             player.maxMinions++;
             if (player.whoAmI == Main.myPlayer)
             {

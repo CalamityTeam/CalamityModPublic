@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else if (melee)
                         {
-                            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
+                            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)

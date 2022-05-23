@@ -42,13 +42,13 @@ namespace CalamityMod.Items.VanillaArmorChanges
             switch (player.armor[0].type)
             {
                 case ItemID.AdamantiteHeadgear:
-                    player.GetCritChance(DamageClass.Magic) += critBoost;
+                    player.GetCritChance<MagicDamageClass>() += critBoost;
                     break;
                 case ItemID.AdamantiteHelmet:
-                    player.GetCritChance(DamageClass.Melee) += critBoost;
+                    player.GetCritChance<MeleeDamageClass>() += critBoost;
                     break;
                 case ItemID.AdamantiteMask:
-                    player.GetCritChance(DamageClass.Ranged) += critBoost;
+                    player.GetCritChance<RangedDamageClass>() += critBoost;
                     break;
             }
             player.Calamity().AdamantiteSet = true;

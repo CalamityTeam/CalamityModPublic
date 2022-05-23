@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 "At 90% life and above you gain 10% increased minion damage\n" +
                 "At 50% life and below you gain 20 defense and 2 life regen";
             player.crimsonRegen = true;
-            player.GetDamage(DamageClass.Summon) += 0.5f;
+            player.GetDamage<SummonDamageClass>() += 0.5f;
             player.maxMinions += 3;
         }
 
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

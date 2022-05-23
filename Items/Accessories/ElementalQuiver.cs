@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.15f;
-            player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetDamage<RangedDamageClass>() += 0.15f;
+            player.GetCritChance<RangedDamageClass>() += 5;
             player.magicQuiver = true;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.artemisEmblem = true;

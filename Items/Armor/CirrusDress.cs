@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().cirrusDress = true;
-            player.GetDamage(DamageClass.Magic) += 0.05f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
+            player.GetCritChance<MagicDamageClass>() += 5;
         }
 
         public override void SetMatch(bool male, ref int equipSlot, ref bool robes)

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCritChance(DamageClass.Ranged) += 4;
+            player.GetCritChance<RangedDamageClass>() += 4;
             player.ammoCost80 = true;
         }
 

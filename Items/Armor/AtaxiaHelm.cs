@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
-            player.GetDamage(DamageClass.Melee) += 0.05f;
+            player.GetDamage<MeleeDamageClass>() += 0.05f;
             player.aggro += 700;
         }
 
@@ -57,9 +57,9 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.18f;
-            player.GetDamage(DamageClass.Melee) += 0.12f;
-            player.GetCritChance(DamageClass.Melee) += 10;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.18f;
+            player.GetDamage<MeleeDamageClass>() += 0.12f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }

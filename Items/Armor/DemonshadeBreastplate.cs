@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
             player.statManaMax2 += 200;
             player.GetDamage<GenericDamageClass>() += 0.15f;
             player.GetCritChance<GenericDamageClass>() += 15;
-            player.GetAttackSpeed(DamageClass.Melee) += 0.2f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.2f;
         }
 
         public override void AddRecipes()

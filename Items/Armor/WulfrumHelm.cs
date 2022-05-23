@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.1f;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

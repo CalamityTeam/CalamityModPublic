@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.14f;
-            player.GetCritChance(DamageClass.Ranged) += 14;
+            player.GetDamage<RangedDamageClass>() += 0.14f;
+            player.GetCritChance<RangedDamageClass>() += 14;
         }
 
         public override void AddRecipes()

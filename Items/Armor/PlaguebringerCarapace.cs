@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().plaguebringerCarapace = true;
-            player.GetDamage(DamageClass.Summon) += 0.12f;
+            player.GetDamage<SummonDamageClass>() += 0.12f;
             player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 

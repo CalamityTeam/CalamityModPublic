@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             player.Calamity().voltaicJelly = true;
             player.Calamity().jellyChargedBattery = true;
-            player.GetDamage(DamageClass.Summon) += 0.07f;
+            player.GetDamage<SummonDamageClass>() += 0.07f;
         }
 
         public override void AddRecipes()

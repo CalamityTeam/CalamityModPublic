@@ -64,14 +64,14 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.GetDamage(DamageClass.Summon) += 0.1f;
+                player.GetDamage<SummonDamageClass>() += 0.1f;
                 player.lifeRegen += 3;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

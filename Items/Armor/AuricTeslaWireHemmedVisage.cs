@@ -61,8 +61,8 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
             player.manaCost *= 0.8f;
-            player.GetDamage(DamageClass.Magic) += 0.3f;
-            player.GetCritChance(DamageClass.Magic) += 20;
+            player.GetDamage<MagicDamageClass>() += 0.3f;
+            player.GetCritChance<MagicDamageClass>() += 20;
             player.statManaMax2 += 100;
         }
 

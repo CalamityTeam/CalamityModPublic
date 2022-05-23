@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Armor
             player.lavaMax += 240;
             player.ignoreWater = true;
             player.crimsonRegen = true;
-            player.GetDamage(DamageClass.Summon) += 0.75f;
+            player.GetDamage<SummonDamageClass>() += 0.75f;
             player.maxMinions += 6;
             if (player.whoAmI == Main.myPlayer)
             {
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
         }
 
         public override void AddRecipes()

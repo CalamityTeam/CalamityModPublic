@@ -49,14 +49,14 @@ namespace CalamityMod.Items.Armor
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "Summons a life aura around you that damages nearby enemies";
-            player.GetDamage(DamageClass.Summon) += 0.5f;
+            player.GetDamage<SummonDamageClass>() += 0.5f;
             player.maxMinions += 3;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.endurance += 0.05f;
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
             player.lavaMax += 240;
             player.ignoreWater = true;
         }

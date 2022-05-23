@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Armor
                     devil.originalDamage = baseDamage;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 1f;
+            player.GetDamage<SummonDamageClass>() += 1f;
             player.maxMinions += 10;
         }
 

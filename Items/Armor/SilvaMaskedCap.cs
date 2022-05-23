@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.manaCost *= 0.81f;
-            player.GetDamage(DamageClass.Magic) += 0.23f;
-            player.GetCritChance(DamageClass.Magic) += 13;
+            player.GetDamage<MagicDamageClass>() += 0.23f;
+            player.GetCritChance<MagicDamageClass>() += 13;
             player.statManaMax2 += 100;
         }
 

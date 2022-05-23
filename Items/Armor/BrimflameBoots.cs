@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.05f;
-            player.GetDamage(DamageClass.Magic) += 0.05f;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
             player.fireWalk = true;
         }
 

@@ -65,8 +65,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.GetDamage(DamageClass.Melee) += 0.2f;
-            player.GetCritChance(DamageClass.Melee) += 20;
+            player.GetDamage<MeleeDamageClass>() += 0.2f;
+            player.GetCritChance<MeleeDamageClass>() += 20;
         }
 
         public override void AddRecipes()

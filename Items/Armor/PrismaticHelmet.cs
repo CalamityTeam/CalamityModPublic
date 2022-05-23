@@ -59,9 +59,9 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().prismaticHelmet = true;
             player.GetDamage<GenericDamageClass>() -= 0.2f;
-            player.GetDamage(DamageClass.Magic) += 0.2f;
-            player.GetDamage(DamageClass.Magic) += 0.18f;
-            player.GetCritChance(DamageClass.Magic) += 12;
+            player.GetDamage<MagicDamageClass>() += 0.2f;
+            player.GetDamage<MagicDamageClass>() += 0.18f;
+            player.GetCritChance<MagicDamageClass>() += 12;
         }
 
         public override void AddRecipes()

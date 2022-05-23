@@ -46,14 +46,14 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaBolt = true;
-            player.GetDamage(DamageClass.Ranged) += 0.05f;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ammoCost75 = true;
-            player.GetDamage(DamageClass.Ranged) += 0.12f;
-            player.GetCritChance(DamageClass.Ranged) += 10;
+            player.GetDamage<RangedDamageClass>() += 0.12f;
+            player.GetCritChance<RangedDamageClass>() += 10;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }

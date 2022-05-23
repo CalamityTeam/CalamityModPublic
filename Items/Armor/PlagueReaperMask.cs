@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Armor
                 player.blind = true;
                 player.headcovered = true;
                 player.blackout = true;
-                player.GetDamage(DamageClass.Ranged) += 0.6f; //60% ranged dmg and 20% crit
-                player.GetCritChance(DamageClass.Ranged) += 20;
+                player.GetDamage<RangedDamageClass>() += 0.6f; //60% ranged dmg and 20% crit
+                player.GetCritChance<RangedDamageClass>() += 20;
             }
 
             if (player.whoAmI == Main.myPlayer)
@@ -79,8 +79,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.1f;
-            player.GetCritChance(DamageClass.Ranged) += 8;
+            player.GetDamage<RangedDamageClass>() += 0.1f;
+            player.GetCritChance<RangedDamageClass>() += 8;
         }
 
         public override void AddRecipes()

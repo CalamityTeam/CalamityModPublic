@@ -43,14 +43,14 @@ namespace CalamityMod.Items.Armor
                 "Getting hit causes you to emit a blast of crystal shards";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusShard = true;
-            player.GetDamage(DamageClass.Ranged) += 0.05f;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ammoCost80 = true;
-            player.GetDamage(DamageClass.Ranged) += 0.13f;
-            player.GetCritChance(DamageClass.Ranged) += 7;
+            player.GetDamage<RangedDamageClass>() += 0.13f;
+            player.GetCritChance<RangedDamageClass>() += 7;
         }
 
         public override void AddRecipes()

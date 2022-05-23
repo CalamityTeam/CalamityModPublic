@@ -35,10 +35,10 @@ namespace CalamityMod.Items.Armor
             player.Calamity().prismaticRegalia = true;
             player.statLifeMax2 += 20;
             player.statManaMax2 += 40;
-            player.GetDamage(DamageClass.Magic) += 0.12f;
-            player.GetCritChance(DamageClass.Magic) += 15;
+            player.GetDamage<MagicDamageClass>() += 0.12f;
+            player.GetCritChance<MagicDamageClass>() += 15;
             player.GetDamage<GenericDamageClass>() -= 0.2f;
-            player.GetDamage(DamageClass.Magic) += 0.2f;
+            player.GetDamage<MagicDamageClass>() += 0.2f;
         }
 
         public override void AddRecipes()
