@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
 
-            SoundStyle sound = Main.rand.NextBool(2) ? SoundID.Item93 : SoundID.Item92
+            SoundStyle sound = Main.rand.NextBool(2) ? SoundID.Item93 : SoundID.Item92;
             SoundEngine.PlaySound(sound with { Volume = sound.Volume * 0.5f}, Projectile.position);
 
             for (int i = 0; i < 5; i++)
