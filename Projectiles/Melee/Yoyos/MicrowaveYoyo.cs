@@ -53,12 +53,14 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             // Sound is done manually, so that it can loop correctly.
             ActiveSound MMMMMMMMMMMMMMM;
 
-            if (!SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
+            bool mmmIsThere = SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM);
+
+            if (!mmmIsThere)
             {
                 mmmmmm = SoundEngine.PlaySound(TheMicrowave.MMMSound, Projectile.Center);
             }
 
-            else if (MMMMMMMMMMMMMMM != null)
+            else if (mmmIsThere)
                 MMMMMMMMMMMMMMM.Position = Projectile.Center;
 
             // Spawn invisible but damaging aura projectile
@@ -100,7 +102,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void Kill(int timeLeft)
         {
             ActiveSound MMMMMMMMMMMMMMM;
-            if (!SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
+            if (SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
             {
                 MMMMMMMMMMMMMMM.Stop();
                 //No more dispose function?
