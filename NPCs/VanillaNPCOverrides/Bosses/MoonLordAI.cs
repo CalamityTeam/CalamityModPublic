@@ -7,6 +7,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 {
@@ -49,7 +50,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Play a random Moon Lord sound
                 if (npc.ai[0] != -1f && npc.ai[0] != 2f && Main.rand.NextBool(200))
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(93, 100), 1f, 0f);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(Main.rand.Next(93, 100)), npc.Center);
 
                 // Start the AI
                 if (npc.localAI[3] == 0f)
@@ -65,7 +66,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] == 30f)
-                        SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 92, 1f, 0f);
+                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(92), npc.Center);
 
                     if (npc.ai[1] < 60f)
                         MoonlordDeathDrama.RequestLight(npc.ai[1] / 30f, npc.Center);
@@ -90,7 +91,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] == 30f)
-                        SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 92, 1f, 0f);
+                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(92), npc.Center);
 
                     if (npc.ai[1] < 60f)
                         MoonlordDeathDrama.RequestLight(npc.ai[1] / 30f, npc.Center);
@@ -1608,7 +1609,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 if (Main.rand.Next(420) == 0)
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(100, 101), 1f, 0f);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(Main.rand.Next(100, 101)), npc.Center);
 
                 Vector2 value22 = new Vector2(30f);
 
@@ -1903,7 +1904,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (num1245 < 120f)
                         {
-                            SoundEngine.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, 102, 1f, 0f);
+                            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(102), npc.Center);
 
                             if (num1245 == 105f)
                                 npc.netUpdate = true;

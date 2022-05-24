@@ -12,6 +12,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -103,7 +104,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Make a frog croak sound from time to time.
             if (Main.rand.NextBool(480))
-                SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 13);
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(13), NPC.Center);
 
             float explodeDistance = DownedBossSystem.downedAquaticScourge ? 295f : 195f;
             if (DownedBossSystem.downedPolterghast)

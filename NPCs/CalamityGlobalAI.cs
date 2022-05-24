@@ -13,6 +13,7 @@ using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs
 {
@@ -1284,11 +1285,11 @@ namespace CalamityMod.NPCs
             {
                 if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position);
                 }
                 if (npcType == NPCID.BloodZombie && Main.rand.Next(800) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, npcType, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position); //There was a npcType thing afterwards but its not really useable now. Hilarious, frankly
                 }
                 if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.Next(500) == 0)
                 {
@@ -1296,19 +1297,19 @@ namespace CalamityMod.NPCs
                 }
                 if (npcType == NPCID.Vampire && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(7), npc.position);
                 }
                 if (npcType == NPCID.Frankenstein && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(6), npc.position);
                 }
                 if (npcType == NPCID.FaceMonster && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(8), npc.position);
                 }
                 if (npcType >= 269 && npcType <= 280 && Main.rand.Next(1000) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position);
                 }
                 npc.TargetClosest(true);
             }

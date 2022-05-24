@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -403,7 +404,7 @@ namespace CalamityMod.NPCs.AcidRain
                     if (AttackTimer == digReapperTime + chargeupTelegraphTime)
                     {
                         // Play a sound and create dust.
-                        SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 104);
+                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), NPC.Center);
                         for (int i = 0; i < 40; i++)
                         {
                             Dust burstDust = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(75f, 75f), 267);

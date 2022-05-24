@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -128,7 +129,7 @@ namespace CalamityMod.NPCs.Astral
                     {
                         if (SearchSoundCreationDelay == 0f)
                         {
-                            SoundEngine.PlaySound(SoundID.ZombieMoan, NPC.Center, NPCID.SandShark);
+                            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(7), NPC.Center);
                             SearchSoundCreationDelay = -1f;
                         }
 

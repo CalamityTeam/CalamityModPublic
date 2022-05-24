@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -85,7 +86,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Play a slither sound from time to time.
             if (Main.rand.NextBool(480))
-                SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, 32);
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(32), NPC.Center);
 
             if (NPC.wet)
             {

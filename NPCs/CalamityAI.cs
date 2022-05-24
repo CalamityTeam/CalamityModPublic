@@ -26,6 +26,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs
 {
@@ -6989,7 +6990,7 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.ai[1] == 180f)
                         {
-                            SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
+                            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), npc.position);
                             Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
                             laserVelocity2.Normalize();
 

@@ -14,6 +14,7 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -164,7 +165,7 @@ namespace CalamityMod.NPCs.AcidRain
                     CurrentFrame = 4;
             }
             if (AttackTimer == roarDelay)
-                SoundEngine.PlaySound(SoundID.Zombie, Target.Center, 97);
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(97), Target.Center);
 
             // Rotate towards the target.
             int previousSpriteDirection = NPC.spriteDirection;

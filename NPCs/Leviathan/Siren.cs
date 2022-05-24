@@ -21,6 +21,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -318,7 +319,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Play sound
             if (Main.rand.NextBool(300))
-                SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 35);
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(35), NPC.position);
 
             // Time left
             if (NPC.timeLeft < 1800)

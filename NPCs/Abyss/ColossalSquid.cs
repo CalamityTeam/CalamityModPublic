@@ -16,6 +16,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -105,7 +106,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.rand.NextBool(300))
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 34);
+                    SoundEngine.PlaySoundCommonNPCSounds.GetZombieSound(34), NPC.position);
                 }
                 NPC.noTileCollide = false;
                 if (NPC.ai[0] == 0f)
@@ -352,7 +353,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 34);
+                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(34), NPC.position);
                     }
                     if (NPC.ai[3] > 0f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                     {
@@ -432,7 +433,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 35);
+                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(35), NPC.position);
                     }
                     NPC.localAI[2] = 0f;
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.02f;
