@@ -303,7 +303,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
-                        SoundEngine.PlaySound(RoarSound, NPC.position;
+                        SoundEngine.PlaySound(RoarSound, NPC.position);
                     }
                 }
 

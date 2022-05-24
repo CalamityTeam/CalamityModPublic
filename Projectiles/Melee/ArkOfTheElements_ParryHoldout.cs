@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
-
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
                 sword.Combo = 0f;
             }
             SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            var chunder = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ScissorGuillotineSnap"), Projectile.Center);
+            var chunder = SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound, Projectile.Center);
             SafeVolumeChange(ref chunder, 1.3f);
 
             CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);

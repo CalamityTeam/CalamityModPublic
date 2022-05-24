@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -41,9 +42,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (Projectile.localAI[0] == 0f)
             {
                 // play a sound frame 1. changed this from space gun sound because that sound was way too annoying
-                var sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
-                if (sound != null)
-                    sound.Volume *= 0.35f;
+                var sound = SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = CommonCalamitySounds.LaserCannonSound.Volume * 0.35f}, Projectile.Center);
 
                 Projectile.localAI[0] = 1f;
             }

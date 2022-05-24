@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
     public class OmegaBlueHelmet : ModItem
     {
 
-        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility);
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility");
 
         public override void Load()
         {

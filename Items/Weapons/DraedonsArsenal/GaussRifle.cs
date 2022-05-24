@@ -9,11 +9,14 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Sounds;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GaussRifle : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/LargeMechGaussRifle");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Rifle");

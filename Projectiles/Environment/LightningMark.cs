@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Environment
 {
     public class LightningMark : ModProjectile
@@ -43,7 +45,7 @@ namespace CalamityMod.Projectiles.Environment
                             return;
                     }
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), Projectile.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Projectile.Center);
                     Vector2 ai0 = Projectile.Center - fireFrom;
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Pets
 {
     public class KendraPet : ModProjectile
     {
+        public static readonly SoundStyle BarkSound = new("CalamityMod/Sounds/Item/KendraBark");
+
         private int chosenIdle = 0;
         private int idleTimer = 0;
         private int idleBarkTimer = 0;
@@ -199,7 +201,7 @@ namespace CalamityMod.Projectiles.Pets
                         idleBarkTimer++;
                         if (idleBarkTimer > 1080 && Main.rand.NextBool(2))
                         {
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/KendraBark"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                            SoundEngine.PlaySound(BarkSound, Projectile.position);
                             chosenIdle = 3;
                             idleBarkTimer = 0;
                             idleTimer = 0;

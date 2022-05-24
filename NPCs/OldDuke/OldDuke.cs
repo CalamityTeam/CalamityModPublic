@@ -23,6 +23,7 @@ using CalamityMod.Dusts;
 using CalamityMod.World;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Events;
+using Terraria.Audio;
 
 namespace CalamityMod.NPCs.OldDuke
 {

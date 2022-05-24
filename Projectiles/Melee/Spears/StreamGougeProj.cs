@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             // Play a strong slash sound on the first frame to accompany the spin.
             if (Time == 0f)
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
 
             // Define the initial direction.
             if (InitialDirection == 0f)

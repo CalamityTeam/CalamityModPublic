@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -160,7 +161,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 randomCirclePointVector = randomCirclePointVector.RotatedBy(MathHelper.TwoPi / starPoints);
             }
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
+            SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, target.Center);
             Projectile.Kill();
         }
         public override bool PreDraw(ref Color lightColor)

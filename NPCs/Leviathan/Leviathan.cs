@@ -363,7 +363,7 @@ namespace CalamityMod.NPCs.Leviathan
                                 if (soundDelay <= 0)
                                 {
                                     soundDelay = 120;
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LeviathanRoarMeteor"), vector);
+                                    SoundEngine.PlaySound(RoarMeteorSound, vector);
                                 }
                             }
                         }
@@ -512,7 +512,7 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.direction = playerLocation < 0 ? 1 : -1;
                             NPC.spriteDirection = NPC.direction;
 
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LeviathanRoarCharge"), vector);
+                            SoundEngine.PlaySound(RoarChargeSound, vector);
 
                             return;
                         }

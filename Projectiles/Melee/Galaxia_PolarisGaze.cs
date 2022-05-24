@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -167,7 +168,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dashing = false;
                 Owner.velocity *= 0.1f; //Abrupt stop
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {

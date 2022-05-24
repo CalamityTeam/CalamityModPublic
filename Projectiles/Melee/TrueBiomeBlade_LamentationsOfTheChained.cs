@@ -11,6 +11,7 @@ using CalamityMod.Particles;
 using CalamityMod.DataStructures;
 using CalamityMod.Items.Weapons.Melee;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -122,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (crit)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SwiftSlice"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Projectile.Center);
                 excludedTargets[0] = target;
                 for (int i = 0; i < 3; i++)
                 {

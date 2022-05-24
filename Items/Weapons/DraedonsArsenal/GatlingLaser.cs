@@ -8,12 +8,16 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GatlingLaser : ModItem
     {
-        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/GatlingLaserFireStart");
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/GatlingLaserFireStart");
+        public static readonly SoundStyle FireLoopSound = new("CalamityMod/Sounds/Item/GatlingLaserFireLoop");
+        public static readonly SoundStyle FireEndSound = new("CalamityMod/Sounds/Item/GatlingLaserFireEnd");
+
 
         // This is the amount of charge consumed every time the holdout projectile fires a laser.
         public const float HoldoutChargeUse = 0.0075f;
@@ -41,7 +45,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.mana = 6;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = UseSound;
+            Item.UseSound = FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;

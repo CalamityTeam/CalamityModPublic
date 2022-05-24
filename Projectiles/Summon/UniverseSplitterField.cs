@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
                 Timer < TimeLeft - UniverseSplitterHugeBeam.TimeLeft &&
                 Timer % 60f == 0f)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new(Main.rand.NextFloat(-800f, 800f), -1460f);

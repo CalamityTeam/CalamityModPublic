@@ -2,11 +2,15 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class TheMicrowave : ModItem
     {
+        public static readonly SoundStyle BeepSound = new("CalamityMod/Sounds/Custom/MicrowaveBeep");
+        public static readonly SoundStyle MMMSound = new("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Microwave");

@@ -9,6 +9,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using Terraria.GameContent.Events;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -97,7 +98,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.localAI[0] <= 35f)
             {
                 if (Projectile.localAI[0] == 30f)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
+                    SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
                 for (int i = 0; i < 75; i++)
                 {
                     Dust dust = Dust.NewDustPerfect(beamEndPosition, 269);

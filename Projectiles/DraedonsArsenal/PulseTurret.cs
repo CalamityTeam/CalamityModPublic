@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class PulseTurret : ModProjectile
@@ -66,7 +68,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     bool aimingAtTarget = Math.Abs(Vector2.Normalize(potentialTarget.Center - shootPosition).ToRotation() - Projectile.rotation) < MathHelper.ToRadians(32f) + (Projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
                     if (aimingAtTarget || Projectile.Distance(potentialTarget.Center) < 45f)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PulseRifleFire"), shootPosition);
+                        SoundEngine.PlaySound(PulseRifle.FireSound, shootPosition);
                         int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootPosition,
                                                  Vector2.Normalize(potentialTarget.Center - shootPosition) * 12f,
                                                  ModContent.ProjectileType<PulseTurretShot>(),

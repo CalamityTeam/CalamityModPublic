@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -184,7 +185,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Chunger
-            var Sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ThunderStrike"), Projectile.Center);
+            var Sound = SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Projectile.Center);
             CalamityUtils.SafeVolumeChange(ref Sound, 0.4f);
             if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 5)
                 Main.LocalPlayer.Calamity().GeneralScreenShakePower = 5;

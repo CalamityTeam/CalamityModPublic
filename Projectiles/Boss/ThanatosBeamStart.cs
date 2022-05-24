@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -141,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Main.npc[OwnerIndex].Calamity().newAI[2] % laserFireRate == 0f)
             {
                 // Play a laser sound to go with the beams.
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Main.npc[OwnerIndex].Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, Main.npc[OwnerIndex].Center);
 
                 if (Projectile.owner == Main.myPlayer)
                 {

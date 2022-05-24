@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     {
                         fireLasers = true;
                         Projectile.soundDelay *= 6;
-                        gatlingLaserLoop = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/GatlingLaserFireLoop"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                        gatlingLaserLoop = SoundEngine.PlaySound(GatlingLaser.FireLoopSound, Projectile.position);
                     }
                 }
                 if (shootThisFrame && Main.myPlayer == Projectile.owner && fireLasers)
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         if (gatlingLaserLoop != null)
                             gatlingLaserLoop.Stop();
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/GatlingLaserFireEnd"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                        SoundEngine.PlaySound(GatlingLaser.FireEndSound, Projectile.position);
                         Projectile.Kill();
                     }
                 }

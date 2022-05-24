@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -115,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
                 {
-                    var chargeSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
+                    var chargeSound = SoundEngine.PlaySound(DeusRitualDrama.PulseSound, Projectile.Center);
                     if (chargeSound != null)
                         chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
                     CurrentIndicator++;
@@ -128,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(AstralBeacon.UseSound, Projectile.Center);
                         CurrentIndicator++;
                     }
                 }

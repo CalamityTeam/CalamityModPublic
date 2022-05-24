@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs.SlimeGod
+using CalamityMod.NPCs.SlimeGod;
 
 namespace CalamityMod.Items.Weapons.Summon
 {

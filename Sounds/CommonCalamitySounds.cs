@@ -38,5 +38,11 @@ namespace CalamityMod.Sounds
         public static readonly SoundStyle PlasmaBoltSound = new("CalamityMod/Sounds/Item/PlasmaBolt") { Volume = 0.8f };
 
         public static readonly SoundStyle PlasmaBlastSound = new("CalamityMod/Sounds/Item/PlasmaBlast");
+
+        public static readonly SoundStyle MeatySlashSound = new("CalamityMod/Sounds/Custom/MeatySlash");
+
+        public static readonly SoundStyle SwiftSliceSound = new("CalamityMod/Sounds/Custom/SwiftSlice");
+
+        public static readonly SoundStyle ScissorGuillotineSnapSound = new("CalamityMod/Sounds/Custom/ScissorGuillotineSnap");
     }
 }

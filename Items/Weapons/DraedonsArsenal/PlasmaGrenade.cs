@@ -9,11 +9,14 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PlasmaGrenade : ModItem
     {
+        public static readonly SoundStyle ExplosionSound = new("CalamityMod/Sounds/Item/PlasmaGrenadeExplosion");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Grenade");

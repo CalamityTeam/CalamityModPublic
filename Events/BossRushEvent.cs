@@ -103,6 +103,8 @@ namespace CalamityMod.Events
         public static int CurrentlyFoughtBoss => Bosses[BossRushStage].EntityID;
         public static int NextBossToFight => Bosses[BossRushStage + 1].EntityID;
 
+        public static readonly SoundStyle EndSound = new("CalamityMod/Sounds/Custom/BossRushEnd");
+
         #region Loading and Unloading
         public static void Load()
         {

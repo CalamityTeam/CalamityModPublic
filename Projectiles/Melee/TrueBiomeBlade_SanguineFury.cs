@@ -10,6 +10,7 @@ using static Terraria.ModLoader.ModContent;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -155,7 +156,7 @@ namespace CalamityMod.Projectiles.Melee
                 Dashing = false;
                 Owner.velocity *= 0.1f; //Abrupt stop
 
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
                 if (Owner.whoAmI == Main.myPlayer)
                 {
                     Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center - DashStart / 2f, Vector2.Zero, ProjectileType<SanguineFuryDash>(), (int)(Projectile.damage * OmegaBiomeBlade.SuperPogoAttunement_SlashDamageBoost), 0, Owner.whoAmI);

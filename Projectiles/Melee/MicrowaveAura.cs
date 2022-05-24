@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Melee;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
             if (target.life <= 0 && (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(TheMicrowave.BeepSound, Projectile.Center);
                 (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown = 60;
             }
         }
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
             if (target.statLife <= 0 && (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(TheMicrowave.BeepSound, Projectile.Center);
                 (FindParent().ModProjectile as MicrowaveYoyo).soundCooldown = 60;
             }
         }

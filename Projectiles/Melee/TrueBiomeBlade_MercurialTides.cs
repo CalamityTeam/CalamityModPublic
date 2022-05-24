@@ -11,6 +11,8 @@ using static CalamityMod.CalamityUtils;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Particles;
 using Terraria.Audio;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -115,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f) && Owner.whoAmI == Main.myPlayer)
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
-                    var chargeSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
+                    var chargeSound = SoundEngine.PlaySound(DeusRitualDrama.PulseSound, Projectile.Center);
                     if (chargeSound != null)
                         chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
                     CurrentIndicator++;
@@ -129,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
                     {
                         Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), (int)(Projectile.damage * OmegaBiomeBlade.ShockwaveAttunement_BlastDamageReduction), 10f, Owner.whoAmI, 1f + CurrentIndicator * 0.15f);
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(AstralBeacon.UseSound, Projectile.Center);
                         CurrentIndicator++;
                     }
                 }

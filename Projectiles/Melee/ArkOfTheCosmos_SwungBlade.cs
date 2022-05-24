@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
-
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -432,7 +432,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Combo == 3f)
             {
-                var snapSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ScissorGuillotineSnap"), Projectile.Center);
+                var snapSound = SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound, Projectile.Center);
                 SafeVolumeChange(ref snapSound, 1.3f);
 
                 if (Charge <= 1)

@@ -1684,8 +1684,7 @@ namespace CalamityMod.NPCs
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     {
-                        SoundEngine.PlaySound(Mauler.RoarSound),
-                            (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                        SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].position);
                     }
 
                     int lastPlayer = npc.lastInteraction;

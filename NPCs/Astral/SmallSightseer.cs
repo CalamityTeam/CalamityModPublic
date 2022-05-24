@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
-using CalamityMod.Sounds
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {

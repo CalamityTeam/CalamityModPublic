@@ -11,6 +11,9 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Sounds;
+
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -172,7 +175,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         private void OnShrinkEffects()
         {
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/MechGaussRifle"), Projectile.Center);
+            SoundEngine.PlaySound(Karasawa.FireSound, Projectile.Center);
             if (Main.dedServ)
                 return;
 
@@ -254,7 +257,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
                 // The sound delay doubles as the sword beam's cooldown.
                 Projectile.soundDelay = SwordBeamCooldown;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ELRFire"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, Projectile.Center);
             }
         }
 

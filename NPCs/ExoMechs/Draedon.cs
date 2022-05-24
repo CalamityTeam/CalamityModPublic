@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
                     if (TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine * 2f)
                     {
-                        SoundEngine.PlaySound(LaughSound), PlayerToFollow.Center);
+                        SoundEngine.PlaySound(LaughSound, PlayerToFollow.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text3", TextColor);

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.Providence;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 if (target != null)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyRay"));
+                    SoundEngine.PlaySound(Providence.HolyRaySound);
                     SummonProjectilesOnTarget(target, player);
                 }
             }

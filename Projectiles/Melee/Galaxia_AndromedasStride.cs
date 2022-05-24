@@ -12,6 +12,7 @@ using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -159,7 +160,7 @@ namespace CalamityMod.Projectiles.Melee
                         }
 
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(AstralBeacon.UseSound, Projectile.Center);
                         CurrentIndicator++;
                     }
                 }

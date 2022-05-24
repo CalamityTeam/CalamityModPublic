@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.rand.NextBool(300))
                 {
-                    SoundEngine.PlaySoundCommonCalamitySounds.GetZombieSound(34), NPC.position);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(34), NPC.position);
                 }
                 NPC.noTileCollide = false;
                 if (NPC.ai[0] == 0f)

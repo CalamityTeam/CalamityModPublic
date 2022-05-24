@@ -6,11 +6,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SearedPan : ModItem
     {
+        public static readonly SoundStyle SmashSound = new("CalamityMod/Sounds/Item/SearedPanSmash");
+
         // Attacks must be within 40 frames of each other to count as "consecutive" hits
         // This is a little less than double the use time
         public static int ConsecutiveHitOpening = 40;

@@ -12,6 +12,10 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneFireblast : ModProjectile
     {
+
+        //Yes, GigablastImpact. Do not ask why.
+        public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneGigablastImpact");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Gigablast");
@@ -90,7 +94,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneGigablastImpact"), Projectile.Center);
+            SoundEngine.PlaySound(ImpactSound, Projectile.Center);
 
             if (Projectile.ai[1] == 0f)
             {
