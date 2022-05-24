@@ -5,11 +5,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class HandheldTank : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/TankCannon") { PitchVariance = 0.5f };
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Handheld Tank");
@@ -28,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TankCannon");
+            Item.UseSound = UseSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;

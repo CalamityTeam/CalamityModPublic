@@ -17,13 +17,15 @@ namespace CalamityMod.Sounds
 
         public static readonly SoundStyle AstralNPCHitSound = new("CalamityMod/Sounds/NPCHit/AstralEnemyHit", 3);
 
+        public static readonly SoundStyle AstralNPCDeathSound = new("CalamityMod/Sounds/NPCKilled/AstralEnemyDeath") { Volume = 0.7f };
+
         public static readonly SoundStyle PlagueBoomSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PlagueBoom", 4);
 
         public static readonly SoundStyle WyrmScreamSound = new("CalamityMod/Sounds/Custom/WyrmScream");
 
-        public static readonly SoundStyle LightningSound = new("CalamityMod/Sounds/Custom/LightningStrike"); //This is just the regular SoundID.Thunder sound, except its only the first variant
+        public static readonly SoundStyle LightningSound = new("CalamityMod/Sounds/Custom/LightningStrike") { Volume = 1.5f };; //This is just the regular SoundID.Thunder sound, except its only the first variant
 
-        public static readonly SoundStyle LaserCannonSound = new("CalamityMod/Sounds/Item/LaserCannon");
+        public static readonly SoundStyle LaserCannonSound = new("CalamityMod/Sounds/Item/LaserCannon") { Volume = 0.85f };
 
         public static readonly SoundStyle ELRFireSound = new("CalamityMod/Sounds/Item/ELRFire"); //What does ELR stand for
 

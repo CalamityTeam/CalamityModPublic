@@ -76,8 +76,8 @@ namespace CalamityMod.NPCs.Providence
         public int DeathAnimationTimer;
 
         //Sounds
-        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/ProvidenceSpawn");
-        public static readonly SoundStyle HolyRaySound = new("Sounds/Custom/ProvidenceHolyRay");
+        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/ProvidenceSpawn") { Volume = 1.2f };
+        public static readonly SoundStyle HolyRaySound = new("Sounds/Custom/ProvidenceHolyRay") { Volume = 1.25f }; //note : Volume gets clamped between 0 and 1. I don't think this does anything, but it was in the original ModSound so im keeping it just in case
         public static readonly SoundStyle HurtSound = new("Sounds/NPCHit/ProvidenceHurt");
         public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/ProvidenceDeath");
         public static readonly SoundStyle DeathAnimationSound = new("Sounds/Custom/ProvidenceDeathAnimation");

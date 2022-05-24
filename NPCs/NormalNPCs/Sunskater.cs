@@ -12,6 +12,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Sunskater : ModNPC
     {
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/Sunskater") { Volume = 0.9f};
+
         private bool hasBeenHit = false;
 
         public override void SetStaticDefaults()
@@ -33,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = SoundID.NPCHit50;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/Sunskater");
+            NPC.DeathSound = DeathSound;
             NPC.knockBackResist = 0.7f;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<SunskaterBanner>();
