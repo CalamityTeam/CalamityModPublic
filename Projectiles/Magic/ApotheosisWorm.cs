@@ -7,6 +7,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -195,7 +196,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
 
                 if (Main.rand.NextBool(10))
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+                    SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
             }
 
             float idealFlyAcceleration = 0.18f;

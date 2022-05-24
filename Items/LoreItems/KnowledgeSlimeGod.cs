@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Slime God");
             Tooltip.SetDefault("It is a travesty, one of the most threatening biological terrors ever created.\n" +
                 "If this creature were allowed to combine every slime on the planet it would become nearly unstoppable.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

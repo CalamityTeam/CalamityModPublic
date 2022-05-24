@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -23,7 +22,7 @@ Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at
 Taking damage while firing the stream will interrupt it and reduce your wing flight time.
 Right click to fire two devastating barrages of five empowered fireballs.
 'Just don't get hit'");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

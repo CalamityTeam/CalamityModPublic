@@ -171,8 +171,8 @@ namespace CalamityMod.NPCs.OldDuke
                 NPC.ai[1] += 1f;
                 if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height) || NPC.ai[1] >= explodeIntoGoreGateValue)
                 {
-                    if (NPC.DeathSound != null)
-                        SoundEngine.PlaySound(NPC.DeathSound, NPC.position);
+                    if (NPC.DeathSound.HasValue)
+                        SoundEngine.PlaySound(NPC.DeathSound.GetValueOrDefault(), NPC.position);
 
                     NPC.life = 0;
                     NPC.HitEffect(0, 10.0);

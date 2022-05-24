@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Tome of Fates");
             Tooltip.SetDefault("Casts cosmic tentacles to spear your enemies\n" +
                 "Can randomly fire a brimstone tentacle for immense damage");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -13,6 +13,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -423,7 +424,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt"), NPC.Center);
+                                SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, NPC.Center);
                                 Vector2 teslaOrbVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                                 int type = ModContent.ProjectileType<AresTeslaOrb>();
                                 int damage = NPC.GetProjectileDamage(type);

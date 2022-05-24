@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Anti-materiel Rifle");
             Tooltip.SetDefault("Converts musket balls into .50 caliber sniper rounds that rip apart enemy defense and DR\n" +
                 "If you crit the target a second swarm of bullets will fire");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 9.5f;
             Item.value = Item.buyPrice(1, 80, 0, 0);
             Item.rare = ItemRarityID.Red;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
+            Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
             Item.autoReuse = true;
             Item.shoot = ProjectileID.Bullet;
             Item.shootSpeed = 12f;

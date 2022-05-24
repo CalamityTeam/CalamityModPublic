@@ -7,6 +7,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), Projectile.Center);
+                SoundEngine.PlaySound(TeslaCannon.FireSound, Projectile.Center);
                 for (int i = 0; i < 36; i++)
                 {
                     Dust exoDust = Dust.NewDustPerfect(Projectile.BottomRight, 267);

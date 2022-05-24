@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Fetid Emesis");
             Tooltip.SetDefault("40% chance to not consume ammo\n" +
             "Has a chance to release rotten chunks instead of bullets");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -60,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 if (player.Calamity().soundCooldown <= 0)
                 {
                     // WoF vomit sound.
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)position.X, (int)position.Y, 13, 0.5f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCDeath13 with { Volume = SoundID.NPCDeath13.Volume * 0.5f }, position);
                     player.Calamity().soundCooldown = 120;
                 }
                 return false;

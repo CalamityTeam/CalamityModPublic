@@ -47,7 +47,7 @@ namespace CalamityMod.Cooldowns
         /// <summary>
         /// When the cooldown instance ends, this sound is played. Leave at <b>null</b> for no sound.
         /// </summary>
-        public virtual LegacySoundStyle EndSound => null;
+        public virtual SoundStyle? EndSound => null;
         #endregion
 
         #region Display & Rendering

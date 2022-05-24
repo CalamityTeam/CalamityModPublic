@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.SunkenSea
             name.SetDefault("Navystone");
             AddMapEntry(new Color(0, 90, 90), name);
             MineResist = 2f;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

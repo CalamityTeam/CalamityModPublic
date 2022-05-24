@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.LivingFire
         public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
-            SoundType = SoundID.Dig;
+            HitSound = SoundID.Dig;
             ItemDrop = ModContent.ItemType<LivingGodSlayerFireBlock>();
             AddMapEntry(new Color(186, 85, 211));
             AnimationFrameHeight = 90;

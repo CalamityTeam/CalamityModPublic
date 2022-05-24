@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Shatter, (int) Projectile.position.X, (int) Projectile.position.Y, 1, 1f, 0.0f);
+            SoundEngine.PlaySound(SoundID.Shatter, Projectile.position);
             Vector2 vector2 = new Vector2(20f, 20f);
             for (int index = 0; index < 10; ++index)
                 Dust.NewDust(Projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f);

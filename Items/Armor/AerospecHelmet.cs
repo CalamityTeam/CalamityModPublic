@@ -5,7 +5,6 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aerospec Helmet");
             Tooltip.SetDefault("5% increased movement speed and minion damage");
         }
@@ -63,14 +62,14 @@ namespace CalamityMod.Items.Armor
                         Main.projectile[p].originalDamage = 20;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.11f;
+            player.GetDamage<SummonDamageClass>() += 0.11f;
             player.maxMinions++;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.05f;
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

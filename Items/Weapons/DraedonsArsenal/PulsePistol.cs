@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.mana = 6;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PulseRifleFire");
+            Item.UseSound = PulseRifle.FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;

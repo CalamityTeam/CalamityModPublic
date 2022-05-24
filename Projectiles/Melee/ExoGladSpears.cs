@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item74, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             int dustType = Utils.SelectRandom(Main.rand, new int[]
             {
                 107,

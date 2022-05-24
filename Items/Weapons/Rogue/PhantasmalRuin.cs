@@ -4,7 +4,6 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault(@"Fires an enormous ghost lance that emits lost souls as it flies
 Explodes into tormented souls on enemy hits
 Stealth strikes continuously leave spectral clones in their wake");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

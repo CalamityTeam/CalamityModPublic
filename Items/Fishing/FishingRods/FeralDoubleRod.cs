@@ -5,7 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Feral Double Rod");
             Tooltip.SetDefault("Fires two lines at once.\n" +
                 "Just as you have tamed the jungle monster, you can now tame the fish in the sea.");

@@ -3,6 +3,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -64,7 +66,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         {
             if (Main.myPlayer == Projectile.owner)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+                SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<GaussRifleExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
         }

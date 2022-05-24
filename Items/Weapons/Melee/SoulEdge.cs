@@ -7,21 +7,18 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class SoulEdge : ModItem
     {
-        static internal LegacySoundStyle ProjectileDeathSound = null;
+        public static readonly SoundStyle ProjectileDeathSound = SoundID.NPCDeath39 with { Volume = 0.5f};
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Edge");
             Tooltip.SetDefault("Fires the ghastly souls of long-deceased abyss dwellers");
-
-            ProjectileDeathSound = SoundID.NPCDeath39.WithVolume(0.5f);
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

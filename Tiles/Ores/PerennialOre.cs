@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(200, 250, 100), name);
             MineResist = 3f;
             MinPick = 200;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

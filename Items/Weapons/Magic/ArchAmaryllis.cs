@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Magic
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Arch Amaryllis");
             Tooltip.SetDefault("Casts a beaming flower that explodes into homing petals");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

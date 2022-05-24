@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("Eidolic Wail");
             Tooltip.SetDefault("Earrape\n" +
                 "Fires a string of bouncing sound waves that become stronger as they travel");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.knockBack = 1f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
             Item.rare = ItemRarityID.Purple;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream");
+            Item.UseSound = CommonCalamitySounds.WyrmScreamSound;
             Item.autoReuse = true;
             Item.shootSpeed = 8f;
             Item.shoot = ModContent.ProjectileType<EidolicWailSoundwave>();

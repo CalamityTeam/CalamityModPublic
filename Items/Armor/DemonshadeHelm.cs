@@ -8,16 +8,18 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Linq;
 using Terraria.DataStructures;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class DemonshadeHelm : ModItem, IExtendedHat
     {
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DemonshadeEnrage");
+
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Demonshade Helm");
             Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance");
         }
@@ -72,7 +74,7 @@ namespace CalamityMod.Items.Armor
                     devil.originalDamage = baseDamage;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 1f;
+            player.GetDamage<SummonDamageClass>() += 1f;
             player.maxMinions += 10;
         }
 

@@ -18,6 +18,8 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         public bool hasBeenHit = false;
 
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/EidolistDeath");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eidolist");
@@ -45,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noGravity = true;
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit13;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/EidolistDeath");
+            NPC.DeathSound = DeathSound;
             NPC.timeLeft = NPC.activeTime * 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<EidolistBanner>();

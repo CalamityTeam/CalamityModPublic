@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -87,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
                     Owner.velocity *= 0.1f; //Abrupt stop
                     Owner.Calamity().LungingDown = false;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SwiftSlice"), Owner.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.SwiftSliceSound, Owner.Center);
 
                     if (Owner.whoAmI == Main.myPlayer)
                     {

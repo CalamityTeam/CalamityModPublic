@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = -1;
-                SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 60);
+                SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
             }
             if (Projectile.localAI[1] < 30f)
             {

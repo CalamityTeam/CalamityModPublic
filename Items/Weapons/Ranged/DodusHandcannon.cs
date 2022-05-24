@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Dodu's Handcannon");
             Tooltip.SetDefault("The power of the nut rests in your hands\n" +
                 "Fires high explosive peanut shells, literally");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -33,8 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 6f;
 
             // Reduce volume to 30% so it stops destroying people's ears.
-            var sound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
-            Item.UseSound = sound?.WithVolume(0.3f);
+            Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound with { Volume = 0.3f };
 
             Item.shoot = ModContent.ProjectileType<HighExplosivePeanutShell>();
             Item.shootSpeed = 13f;

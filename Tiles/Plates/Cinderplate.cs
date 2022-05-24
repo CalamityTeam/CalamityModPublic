@@ -28,7 +28,7 @@ namespace CalamityMod.Tiles.Plates
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             MineResist = 1f;
             ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Cinderplate>();
             AddMapEntry(new Color(242, 216, 131));

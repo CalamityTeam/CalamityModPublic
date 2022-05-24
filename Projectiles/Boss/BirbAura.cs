@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -118,7 +119,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     timer = 15f;
                     Vector2 fireFrom = new Vector2(target.Center.X, target.Center.Y - 900f);
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)target.Center.X, (int)target.Center.Y - 300);
+                    SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, target.Center - Vector2.UnitY * 300f);
                     Vector2 ai0 = target.Center - fireFrom;
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;

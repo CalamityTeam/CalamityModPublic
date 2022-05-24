@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneGigaBlast : ModProjectile
     {
+        //Yes, FireblastImpact. Do not ask why.
+        public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneFireblastImpact");
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Fireblast");
@@ -58,7 +60,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
 
             float inertia = revenge ? 80f : 100f;
@@ -106,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneFireblastImpact"), Projectile.Center);
+            SoundEngine.PlaySound(ImpactSound, Projectile.Center);
 
             if (Projectile.ai[1] == 0f)
             {

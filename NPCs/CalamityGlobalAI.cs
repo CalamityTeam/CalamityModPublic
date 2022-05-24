@@ -13,6 +13,8 @@ using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
+using Terraria.Utilities;
 
 namespace CalamityMod.NPCs
 {
@@ -465,7 +467,7 @@ namespace CalamityMod.NPCs
                         float time = npc.ai[2] + maxTime + turnToStoneTime;
                         if (time == 1f)
                         {
-                            SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 17, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.NPCDeath17, npc.position);
                         }
                         if (time < turnToStoneTime)
                         {
@@ -1284,31 +1286,31 @@ namespace CalamityMod.NPCs
             {
                 if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position);
                 }
                 if (npcType == NPCID.BloodZombie && Main.rand.Next(800) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, npcType, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position); //There was a npcType thing afterwards but its not really useable now. Hilarious, frankly
                 }
                 if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Mummy, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Mummy, npc.position);
                 }
                 if (npcType == NPCID.Vampire && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), npc.position);
                 }
                 if (npcType == NPCID.Frankenstein && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(6), npc.position);
                 }
                 if (npcType == NPCID.FaceMonster && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(8), npc.position);
                 }
                 if (npcType >= 269 && npcType <= 280 && Main.rand.Next(1000) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.ZombieMoan, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position);
                 }
                 npc.TargetClosest(true);
             }
@@ -4442,7 +4444,7 @@ namespace CalamityMod.NPCs
                             num54 = 20f;
                         }
                         npc.soundDelay = (int)num54;
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.WormDig, npc.position);
                     }
 
                     num52 = (float)Math.Sqrt((double)(num39 * num39 + num40 * num40));
@@ -6481,7 +6483,7 @@ namespace CalamityMod.NPCs
 
                 if (Main.rand.Next(40) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Pixie, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Pixie, npc.position);
                 }
             }
             else if (npc.type == NPCID.IceElemental)
@@ -7253,7 +7255,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Tumbleweed && npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
             {
                 npc.velocity.Y -= 6f;
-                SoundEngine.PlaySound(SoundID.NPCHit, npc.Center, 11);
+                SoundEngine.PlaySound(SoundID.NPCHit11, npc.Center);
             }
 
             if (npc.ai[3] < (float)num)
@@ -9664,12 +9666,13 @@ namespace CalamityMod.NPCs
                 // Play the portal opening sound at the moment of the portal's creation.
                 if (fadeInTimer == 0f)
                 {
-                    SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalOpen, npc.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen, npc.Center);
                     idlePlaySoundId = SlotId.Invalid.ToFloat();
                 }
 
-                if (fadeInTimer > 150f && SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
-                    idlePlaySoundId = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+                ActiveSound soundOut;
+                if (fadeInTimer > 150f && !SoundEngine.TryGetActiveSound(SlotId.FromFloat(idlePlaySoundId), out soundOut))
+                    idlePlaySoundId = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
                 if (!DD2Event.EnemySpawningIsOnHold)
                     enemySpawnTimer++;
@@ -9710,11 +9713,12 @@ namespace CalamityMod.NPCs
                 npc.scale = MathHelper.Lerp(1f, 0.05f, Utils.GetLerpValue(500f, 600f, fadeOutTimer, true));
 
                 // Reset the idle play sound if it didn't get activated before for some reason.
-                if (SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
-                    idlePlaySoundId = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
+                ActiveSound result;
+                if (!SoundEngine.TryGetActiveSound(SlotId.FromFloat(idlePlaySoundId), out result))
+                    idlePlaySoundId = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
-                ActiveSound activeSound = SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId));
-                if (activeSound != null)
+                ActiveSound activeSound;
+                if (SoundEngine.TryGetActiveSound(SlotId.FromFloat(idlePlaySoundId), out activeSound))
                     activeSound.Volume = npc.scale;
 
                 // Kill the portal after enough time has passed.

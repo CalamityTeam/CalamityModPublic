@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -97,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostAI()
         {
             if (Projectile.frameCounter == 0)
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, Projectile.Center);
 
             // Determine frames.
             Projectile.frameCounter++;

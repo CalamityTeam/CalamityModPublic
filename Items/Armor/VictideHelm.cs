@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Victide Helm");
             Tooltip.SetDefault("5% increased melee damage");
 
@@ -57,7 +56,7 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.GetDamage(DamageClass.Melee) += 0.1f;
+                player.GetDamage<MeleeDamageClass>() += 0.1f;
                 player.lifeRegen += 3;
             }
             player.aggro += 200;
@@ -65,7 +64,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.05f;
+            player.GetDamage<MeleeDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

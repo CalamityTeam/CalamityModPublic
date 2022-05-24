@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.lifeMax = 340;
             NPC.knockBackResist = 0.2f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MantisBanner>();
             if (DownedBossSystem.downedAstrumAureus)
@@ -207,18 +208,7 @@ namespace CalamityMod.NPCs.Astral
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 15;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit"), NPC.Center);
-                        break;
-                    case 1:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit2"), NPC.Center);
-                        break;
-                    case 2:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit3"), NPC.Center);
-                        break;
-                }
+                SoundEngine.PlaySound(CommonCalamitySounds.AstralNPCHitSound, NPC.Center);
             }
 
             CalamityGlobalNPC.DoHitDust(NPC, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);

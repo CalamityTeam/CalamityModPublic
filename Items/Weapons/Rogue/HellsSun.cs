@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Once stationary, periodically emits small suns that explode on hit\n" +
                 "Stealth strikes emit suns at a faster rate and last for a longer amount of time\n" +
                 "Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

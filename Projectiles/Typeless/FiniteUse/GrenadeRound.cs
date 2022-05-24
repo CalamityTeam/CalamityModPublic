@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
     public class GrenadeRound : ModProjectile
     {
+        public static readonly SoundStyle RocketSound = new("CalamityMod/Sounds/Custom/BazookaRocket");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grenade Round");
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 90;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/BazookaRocket"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(RocketSound, Projectile.position);
             }
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 30f)

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -68,7 +69,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (TargetNPCIndex != potentialTarget.whoAmI)
                 {
                     TargetNPCIndex = potentialTarget.whoAmI;
-                    SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 53); // Ethereal whisper indicating a new target has been spotted.
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(53), Projectile.Center); // Ethereal whisper indicating a new target has been spotted.
                     Projectile.netUpdate = true;
                 }
             }

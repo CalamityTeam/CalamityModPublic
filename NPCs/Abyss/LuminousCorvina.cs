@@ -20,6 +20,8 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class LuminousCorvina : ModNPC
     {
+        public static readonly SoundStyle ScreamSound = new("CalamityMod/Sounds/Custom/CorvinaScream");
+
         private bool hasBeenHit = false;
         private int screamTimer = 0;
 
@@ -105,7 +107,7 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         if (screamTimer == screamLimit)
                         {
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/CorvinaScream"), (int)NPC.position.X, (int)NPC.position.Y);
+                            SoundEngine.PlaySound(ScreamSound, NPC.position);
                             if (Main.netMode != NetmodeID.Server)
                             {
                                 if (!Main.player[NPC.target].dead && Main.player[NPC.target].active)

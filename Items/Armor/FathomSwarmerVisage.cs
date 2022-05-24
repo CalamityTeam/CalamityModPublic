@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Fathom Swarmer Visage");
             Tooltip.SetDefault("5% increased minion damage\n" +
                 "Provides breathing and light underwater");
@@ -43,17 +42,17 @@ namespace CalamityMod.Items.Armor
             modPlayer.fathomSwarmer = true;
             player.spikedBoots = 2;
             player.maxMinions += 2;
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.GetDamage(DamageClass.Summon) += 0.3f;
+                player.GetDamage<SummonDamageClass>() += 0.3f;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
             if (player.breath <= player.breathMax + 2 && !modPlayer.ZoneAbyss)
             {
                 player.breath = player.breathMax + 3;

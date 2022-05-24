@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         internal const float StealthStrikeDamageMultiplier = 0.1f;
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Rotten Dogtooth");
             Tooltip.SetDefault($"Makes Stealth strikes inflict Armor Crunch, deal {(int)(StealthStrikeDamageMultiplier * 100)}% more damage and cost 1 less unit of stealth.");
         }

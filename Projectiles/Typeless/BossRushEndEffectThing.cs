@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             if (Time == 25f)
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/BossRushEnd"), Main.LocalPlayer.Center);
+                SoundEngine.PlaySound(BossRushEvent.EndSound, Main.LocalPlayer.Center);
 
             Projectile.Center = Owner.Center;
             BossRushEvent.SyncEndTimer((int)Time);

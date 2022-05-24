@@ -3,7 +3,7 @@ using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Elemental Blaster");
             Tooltip.SetDefault("Does not consume ammo\n" +
                 "Fires a storm of rainbow blasts");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 1.75f;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<RainbowBlast>();
             Item.shootSpeed = 18f;

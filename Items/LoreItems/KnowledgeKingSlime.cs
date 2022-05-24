@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("King Slime");
             Tooltip.SetDefault("Only a fool could be caught by this pitiful excuse for a hunter.\n" +
                 "Unfortunately, our world has no shortage of those.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

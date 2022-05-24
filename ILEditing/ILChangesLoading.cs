@@ -107,6 +107,7 @@ namespace CalamityMod.ILEditing
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
+            On.Terraria.Item.Prefix += LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
 
@@ -192,6 +193,7 @@ namespace CalamityMod.ILEditing
             // Fix vanilla bugs exposed by Calamity mechanics
             // On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
+            On.Terraria.Item.Prefix -= LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;
         }
     }

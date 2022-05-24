@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.ai[1] == 0f && Projectile.type >= 326 && Projectile.type <= 328)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 13);
+                SoundEngine.PlaySound(SoundID.Item13, Projectile.position);
             }
             int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
             Dust expr_8976_cp_0 = Main.dust[num199];

@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.localAI[0] = 1f;
-                SoundEngine.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, Projectile.Center);
             }
 
             if (Projectile.ai[0] >= 2f)
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 14, 0.5f, 0f);
+            SoundEngine.PlaySound(SoundID.Item14 with { Volume = SoundID.Item14.Volume * 0.5f }, Projectile.position);
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 144);
             for (int d = 0; d < 2; d++)
             {

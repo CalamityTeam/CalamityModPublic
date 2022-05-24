@@ -2,7 +2,6 @@
 using System.Linq;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Mounts
                 "Replaced\n" +
                 "Also replaced\n" +
                 "A comfortable gamer is a dangerous gamer");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

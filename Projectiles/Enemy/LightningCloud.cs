@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Enemy
 {
     public class LightningCloud : ModProjectile
@@ -39,7 +41,7 @@ namespace CalamityMod.Projectiles.Enemy
 
                 if (Projectile.frame == 5 && Main.myPlayer == Projectile.owner)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), Projectile.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Projectile.Center);
                     float ai = Main.rand.Next(100);
                     Vector2 velocity = Vector2.UnitY * 7f;
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Bottom, velocity, ProjectileID.CultistBossLightningOrbArc, Projectile.damage, 0f, Projectile.owner, MathHelper.PiOver2, ai);

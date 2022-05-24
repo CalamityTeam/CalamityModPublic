@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Potions
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Soaring Potion");
             Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
                 "Restores a fraction of your wing flight time after a true melee strike\n" +

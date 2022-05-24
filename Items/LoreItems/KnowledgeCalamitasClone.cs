@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Calamitas Clone");
             Tooltip.SetDefault("You are indeed stronger than I thought.\n" +
                 "Though the bloody inferno still lingers, observing your progress.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

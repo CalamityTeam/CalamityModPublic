@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -7,6 +7,8 @@ using Terraria.GameContent.Achievements;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Tools;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class CrystylCrusherRay : ModProjectile
@@ -118,7 +120,7 @@ namespace CalamityMod.Projectiles.Melee
             Player player = Main.player[Projectile.owner];
 
             if (Projectile.timeLeft == 300)
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge"), player.Center);
+                SoundEngine.PlaySound(CrystylCrusher.ChargeSound, player.Center);
 
             Projectile.position = player.Center + Projectile.velocity * MOVE_DISTANCE;
             Projectile.timeLeft = 2;

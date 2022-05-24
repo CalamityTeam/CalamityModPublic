@@ -92,7 +92,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
                 {
                     if (player.chest < 0)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCKilled, Style: 22, volumeScale: 0.5f);
+                        SoundEngine.PlaySound(SoundID.NPCDeath22 with { Volume = SoundID.NPCDeath22.Volume * 0.5f});
                     }
                 }
             }

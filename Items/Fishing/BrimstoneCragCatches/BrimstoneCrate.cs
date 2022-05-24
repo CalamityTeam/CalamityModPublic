@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Crags;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
             DisplayName.SetDefault("Brimstone Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

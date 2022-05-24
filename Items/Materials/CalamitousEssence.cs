@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Ashes of Annihilation");
             Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));

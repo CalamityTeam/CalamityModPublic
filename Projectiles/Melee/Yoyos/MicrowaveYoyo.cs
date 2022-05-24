@@ -8,13 +8,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Melee;
+using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class MicrowaveYoyo : ModProjectile
     {
         private const float Radius = 100f;
-        private SoundEffectInstance mmmmmm = null;
+        private SlotId mmmmmm;
         private bool spawnedAura = false;
         public int soundCooldown = 0;
 
@@ -49,16 +51,23 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void AI()
         {
             // Sound is done manually, so that it can loop correctly.
-            if (mmmmmm is null)
+            ActiveSound MMMMMMMMMMMMMMM;
+
+            bool mmmIsThere = SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM);
+
+            if (!mmmIsThere)
             {
-                mmmmmm = ModContent.Request<ModSound>("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").Value.Sound.Value.CreateInstance();
-                mmmmmm.IsLooped = true;
-                CalamityUtils.ApplySoundStats(ref mmmmmm, Projectile.Center);
-                mmmmmm.Play();
-                SoundInstanceGarbageCollector.Track(mmmmmm);
+                mmmmmm = SoundEngine.PlaySound(TheMicrowave.MMMSound, Projectile.Center);
             }
-            else if (!mmmmmm.IsDisposed)
-                CalamityUtils.ApplySoundStats(ref mmmmmm, Projectile.Center);
+
+            else if (mmmIsThere)
+            {
+                if (MMMMMMMMMMMMMMM.IsPlaying)
+                    MMMMMMMMMMMMMMM.Position = Projectile.Center;
+
+                else
+                    MMMMMMMMMMMMMMM.Resume();
+            }
 
             // Spawn invisible but damaging aura projectile
             if (Projectile.owner == Main.myPlayer && !spawnedAura)
@@ -98,8 +107,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void Kill(int timeLeft)
         {
-            mmmmmm?.Stop();
-            mmmmmm?.Dispose();
+            ActiveSound MMMMMMMMMMMMMMM;
+            if (SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
+            {
+                MMMMMMMMMMMMMMM.Stop();
+                //No more dispose function?
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -119,7 +132,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (target.life <= 0 && soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(TheMicrowave.BeepSound, Projectile.Center);
                 soundCooldown = 45;
             }
         }
@@ -129,7 +142,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 240);
             if (target.statLife <= 0 && soundCooldown <= 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MicrowaveBeep"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(TheMicrowave.BeepSound, Projectile.Center);
                 soundCooldown = 45;
             }
         }

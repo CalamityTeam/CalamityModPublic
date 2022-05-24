@@ -11,7 +11,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -51,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "This line also gets set in ModifyTooltips\n" +
                 "This line also gets set in ModifyTooltips\n" +
                 "A heavenly pair of blades infused with the essence of Terraria, powerful enough to cut through the fabric of reality");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)

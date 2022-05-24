@@ -6,6 +6,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class HadopelagicEchoSoundwave : ModProjectile
@@ -46,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (!playedSound)
                 {
-                    SoundEngine.PlaySound(Main.rand.NextBool(100) ? SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/Sunskater") : SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                    SoundEngine.PlaySound(Main.rand.NextBool(100) ? Sunskater.DeathSound : CommonCalamitySounds.WyrmScreamSound, Projectile.Center);
                     playedSound = true;
                 }
             }

@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using ReLogic.Content;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(245, 143, 182)).UseSecondaryColor(new Color(119, 238, 255)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Phantoplasm Dye");
         }
 

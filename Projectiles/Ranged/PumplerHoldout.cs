@@ -102,9 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
                         SoundEngine.PlaySound(SoundID.Item69);
                     else
                     {
-                        var loadSound = SoundEngine.PlaySound(SoundID.Item108);
-                        if (loadSound != null)
-                            loadSound.Volume *= 0.3f;
+                        var loadSound = SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume * 0.3f });
                     }
                 }
                 //If the pumpkins have been charging for too long, unload that mf!!!

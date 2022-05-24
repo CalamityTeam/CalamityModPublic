@@ -4,7 +4,6 @@ using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -18,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 The lightning bolt travels faster while it is raining
 Summons lightning from the sky on impact
 Stealth strikes summon more lightning and travel faster");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Potions
         public int frame = 0;
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 20;
+            SacrificeTotal = 20;
             DisplayName.SetDefault("Draconic Elixir");
             Tooltip.SetDefault("Greatly increases wing flight time and speed and increases defense by 16\n" +
                 "Silva invincibility heals you to half HP when triggered\n" +

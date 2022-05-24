@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (!playedSound)
             {
-                SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.position.X, (int)Projectile.position.Y); //electrosphere launcher fire sound
+                SoundEngine.PlaySound(SoundID.Item92, Projectile.position); //electrosphere launcher fire sound
                 playedSound = true;
             }
             if (Main.rand.NextBool(8))
@@ -79,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
                 bool stealthStrike = Projectile.Calamity().stealthStrike;
                 if (stealthStrike)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Projectile.position);
                 }
                 int amt = stealthStrike ? 5 : 1;
                 float damageMult = stealthStrike ? 0.5f : 1f;

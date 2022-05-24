@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Elemental Quiver");
             Tooltip.SetDefault("15% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
                 "Grants a 20% chance to not consume arrows\n" +
@@ -30,8 +29,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.15f;
-            player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetDamage<RangedDamageClass>() += 0.15f;
+            player.GetCritChance<RangedDamageClass>() += 5;
             player.magicQuiver = true;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.artemisEmblem = true;

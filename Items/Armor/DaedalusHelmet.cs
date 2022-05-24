@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Daedalus Headgear");
             Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
                 "Reduces ammo usage by 20%");
@@ -44,14 +43,14 @@ namespace CalamityMod.Items.Armor
                 "Getting hit causes you to emit a blast of crystal shards";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusShard = true;
-            player.GetDamage(DamageClass.Ranged) += 0.05f;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ammoCost80 = true;
-            player.GetDamage(DamageClass.Ranged) += 0.13f;
-            player.GetCritChance(DamageClass.Ranged) += 7;
+            player.GetDamage<RangedDamageClass>() += 0.13f;
+            player.GetCritChance<RangedDamageClass>() += 7;
         }
 
         public override void AddRecipes()

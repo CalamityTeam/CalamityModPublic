@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class MountedScannerSummon : ModProjectile
@@ -107,7 +109,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = Projectile.originalDamage;
                 }
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, Projectile.Center);
             }
         }
         public override bool? CanDamage() => false;

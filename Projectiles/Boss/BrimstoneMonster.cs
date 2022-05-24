@@ -10,10 +10,15 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneMonster : ModProjectile
     {
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneMonsterSpawn");
+        public static readonly SoundStyle DroneSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneMonsterDrone");
+
         private float speedAdd = 0f;
         private float speedLimit = 0f;
 
@@ -64,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.localAI[0] == 0f)
             {
                 Projectile.soundDelay = 1125 - (choice * 225);
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/BrimstoneMonsterSpawn"), Projectile.Center);
+                SoundEngine.PlaySound(SpawnSound, Projectile.Center);
                 Projectile.localAI[0] += 1f;
                 switch (choice)
                 {
@@ -91,7 +96,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.soundDelay <= 0 && (choice == 0 || choice == 2))
             {
                 Projectile.soundDelay = 420;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/BrimstoneMonsterDrone"), Projectile.Center);
+                SoundEngine.PlaySound(DroneSound, Projectile.Center);
             }
 
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;

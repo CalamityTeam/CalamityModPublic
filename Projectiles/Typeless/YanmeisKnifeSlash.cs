@@ -10,6 +10,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Typeless;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -128,7 +129,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Projectile.ai[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/YanmeiKnifeHit"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(YanmeisKnife.HitSound, Projectile.position);
                 Projectile.ai[0] = 1f;
             }
             Main.player[Projectile.owner].AddBuff(ModContent.BuffType<KamiBuff>(), 600);

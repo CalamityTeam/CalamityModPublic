@@ -5,6 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Summon
 {
     public class UniverseSplitterField : ModProjectile
@@ -129,7 +132,7 @@ namespace CalamityMod.Projectiles.Summon
                 Timer < TimeLeft - UniverseSplitterHugeBeam.TimeLeft &&
                 Timer % 60f == 0f)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.PlasmaBoltSound, Projectile.Center);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new(Main.rand.NextFloat(-800f, 800f), -1460f);
@@ -146,7 +149,7 @@ namespace CalamityMod.Projectiles.Summon
             // Summon a giant beam
             if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
-                SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), Projectile.Center);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                          Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,

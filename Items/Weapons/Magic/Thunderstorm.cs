@@ -3,7 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class Thunderstorm : ModItem
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Thunderstorm");
             Tooltip.SetDefault("Make it rain");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBlast");
+            Item.UseSound = CommonCalamitySounds.PlasmaBlastSound;
             Item.autoReuse = true;
             Item.shootSpeed = 6f;
             Item.shoot = ModContent.ProjectileType<ThunderstormShot>();

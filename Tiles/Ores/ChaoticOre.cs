@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(255, 0, 0), name);
             MineResist = 4f;
             MinPick = 210;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

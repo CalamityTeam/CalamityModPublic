@@ -2,7 +2,6 @@
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Materials
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Unholy Essence");
             Tooltip.SetDefault("The essence of profaned creatures");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));

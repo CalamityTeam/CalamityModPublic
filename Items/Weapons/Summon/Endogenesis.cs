@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Requires 10 minion slots to be summoned \n" +
                 "There can only be one \n" +
                 "[c/B0FBFF:Ice puns not included]"); //Icy no problems with that
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("The Camper");
             Tooltip.SetDefault("In rest may we find victory.\n" +
                 "You deal 90% less damage unless stationary\n" +
@@ -87,7 +86,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         else if (melee)
                         {
-                            player.GetAttackSpeed(DamageClass.Melee) += 0.1f;
+                            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
                             player.AddBuff(BuffID.Sharpened, 60, true);
                         }
                         else if (ranged)

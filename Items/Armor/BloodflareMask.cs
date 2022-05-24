@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodflare Ram Mask");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
                 "10% increased melee damage and critical strike chance");
@@ -59,8 +58,8 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetCritChance(DamageClass.Melee) += 10;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
         }
 
         public override void AddRecipes()

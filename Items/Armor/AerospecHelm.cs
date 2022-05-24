@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aerospec Helm");
             Tooltip.SetDefault("8% increased melee damage");
         }
@@ -46,13 +45,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.GetCritChance(DamageClass.Melee) += 5;
+            player.GetCritChance<MeleeDamageClass>() += 5;
             player.aggro += 300;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.08f;
+            player.GetDamage<MeleeDamageClass>() += 0.08f;
         }
 
         public override void AddRecipes()

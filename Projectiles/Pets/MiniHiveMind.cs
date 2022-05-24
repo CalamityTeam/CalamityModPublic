@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.Pets;
+﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Pets
                     playerVec.Normalize();
                     Projectile.velocity = playerVec * 8f;
                     charging = 50;
-                    SoundEngine.PlaySound(SoundID.ForceRoar, (int)Projectile.Center.X, (int)Projectile.Center.Y, -1, 0.5f, 0f);
+                    SoundEngine.PlaySound(SoundID.ForceRoar with { Volume = SoundID.ForceRoar.Volume * 0.5f }, Projectile.Center);
                     Projectile.netUpdate = true;
                 }
             }

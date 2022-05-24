@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
 
             //glass-pot break sound
-            SoundEngine.PlaySound(SoundID.Shatter, (int) Projectile.position.X, (int) Projectile.position.Y, 1, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.Shatter, Projectile.position);
 
             int meltdown = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalMeltdown>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             Main.projectile[meltdown].Center = Projectile.Center; //makes it centered because it's not without this

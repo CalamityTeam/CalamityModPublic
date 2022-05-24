@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.CalPlayer;
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a poisonous spiky ball. Stacks up to 3.\n" +
                 "Stealth strikes cause the balls to release spore clouds\n" +
                 "Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()

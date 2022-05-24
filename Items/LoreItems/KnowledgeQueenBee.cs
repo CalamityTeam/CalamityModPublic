@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +11,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Queen Bee");
             Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations... given the ability to control them.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

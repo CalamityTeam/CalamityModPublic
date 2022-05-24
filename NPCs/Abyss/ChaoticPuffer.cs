@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public void Boom()
         {
-            SoundEngine.PlaySound(SoundID.NPCDeath14, (int)NPC.position.X, (int)NPC.position.Y);
+            SoundEngine.PlaySound(SoundID.NPCDeath14, NPC.position);
             if (Main.netMode != NetmodeID.MultiplayerClient && puffedUp)
             {
                 int damageBoom = 45;

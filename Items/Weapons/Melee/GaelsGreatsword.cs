@@ -6,7 +6,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.WorldBuilding;
 
 namespace CalamityMod.Items.Weapons.Melee
@@ -40,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Constantly generates rage when in use\n" +
                 "Swings leave behind exploding blood trails when below 50% health\n" +
                 "Replaces Rage Mode with an enormous barrage of skulls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
         //NOTE: GetWeaponDamage is in the CalamityPlayer file
         public override void SetDefaults()

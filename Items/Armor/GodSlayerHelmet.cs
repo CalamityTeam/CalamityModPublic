@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("God Slayer Helmet");
             Tooltip.SetDefault("14% increased ranged damage and critical strike chance");
         }
@@ -59,8 +58,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.14f;
-            player.GetCritChance(DamageClass.Ranged) += 14;
+            player.GetDamage<RangedDamageClass>() += 0.14f;
+            player.GetCritChance<RangedDamageClass>() += 14;
         }
 
         public override void AddRecipes()

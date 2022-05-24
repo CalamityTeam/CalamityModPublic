@@ -2,12 +2,11 @@
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables
 {
     public class ChaoticBrick : ModItem
     {
-        public override void SetStaticDefaults() => CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 100;
+        public override void SetStaticDefaults() => SacrificeTotal = 100;
 
         public override void SetDefaults()
         {

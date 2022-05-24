@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Glaive");
             Tooltip.SetDefault(@"Stacks up to 3
 Stealth strikes are super fast and pierce infinitely");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
         }
 
         public override void SetDefaults()

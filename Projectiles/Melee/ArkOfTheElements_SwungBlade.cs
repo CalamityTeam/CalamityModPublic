@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
-
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -136,9 +136,9 @@ namespace CalamityMod.Projectiles.Melee
             if (!initialized) //Initialization
             {
                 Projectile.timeLeft = Thrown ? (int) MaxThrowTime : (int)MaxSwingTime;
-                var sound = SoundEngine.PlaySound((Charge > 0 || Thrown) ? SoundID.DD2_PhantomPhoenixShot : SoundID.Item71, Projectile.Center);
-                if (Charge > 0)
-                    CalamityUtils.SafeVolumeChange(ref sound, 2.5f);
+
+                SoundStyle sound = (Charge > 0 || Thrown) ? SoundID.DD2_PhantomPhoenixShot : SoundID.Item71;
+                SoundEngine.PlaySound(sound with { Volume = sound.Volume * (Charge > 0 ? 2.5f : 1f)}, Projectile.Center);
                 direction = Projectile.velocity;
                 direction.Normalize();
                 Projectile.rotation = direction.ToRotation();
@@ -251,8 +251,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Combo == 3f)
             {
-                var snapSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ScissorGuillotineSnap"), Projectile.Center);
-                SafeVolumeChange(ref snapSound, 1.3f);
+                SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound with { Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f }, Projectile.Center);
 
                 if (Charge <= 1)
                 {

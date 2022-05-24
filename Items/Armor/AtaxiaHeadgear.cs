@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Hydrothermic Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
                 "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage");
@@ -47,14 +46,14 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaBolt = true;
-            player.GetDamage(DamageClass.Ranged) += 0.05f;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ammoCost75 = true;
-            player.GetDamage(DamageClass.Ranged) += 0.12f;
-            player.GetCritChance(DamageClass.Ranged) += 10;
+            player.GetDamage<RangedDamageClass>() += 0.12f;
+            player.GetCritChance<RangedDamageClass>() += 10;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }

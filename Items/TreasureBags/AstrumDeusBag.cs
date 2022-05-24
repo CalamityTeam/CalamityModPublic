@@ -11,7 +11,6 @@ using CalamityMod.NPCs.AstrumDeus;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.TreasureBags
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Treasure Bag (Astrum Deus)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

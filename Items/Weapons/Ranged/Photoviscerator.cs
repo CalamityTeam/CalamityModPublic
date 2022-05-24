@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("90% chance to not consume gel\n" +
                 "Fires a stream of exo flames and light that explodes into homing sparks\n" +
                 "Right click to fire homing flares which stick to enemies and incinerate them");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

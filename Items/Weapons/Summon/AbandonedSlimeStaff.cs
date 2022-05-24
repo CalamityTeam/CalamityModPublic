@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Must be used from the hotbar\n" +
                 "Increased power and size based on the number of minion slots used\n" +
                 "Holding this weapon grants 10% increased jump speed");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

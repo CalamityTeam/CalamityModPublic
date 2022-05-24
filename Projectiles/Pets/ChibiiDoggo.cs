@@ -219,12 +219,11 @@ namespace CalamityMod.Projectiles.Pets
                 {
                     if (Main.rand.NextBool(2))
                     {
-                        int style = 5 + Main.rand.Next(5);
-                        SoundEngine.PlaySound(SoundID.Meowmere, (int)Projectile.position.X, (int)Projectile.position.Y, style, 4f, 0.0f); //nya
+                        SoundEngine.PlaySound(SoundID.Meowmere with { Volume = SoundID.Meowmere.Volume * 4f}, Projectile.position); //nya
                     }
                     else
                     {
-                        SoundEngine.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 2, 2f); //REEEEEEE
+                        SoundEngine.PlaySound(SoundID.ScaryScream with { Volume = SoundID.ScaryScream.Volume * 2f}, player.position); //REEEEEEE
                     }
                     notlocalai1 = -600f;
                 }

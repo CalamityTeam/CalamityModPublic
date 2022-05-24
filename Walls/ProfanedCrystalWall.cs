@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Walls
 {
@@ -11,7 +12,7 @@ namespace CalamityMod.Walls
             Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
 
-            SoundType = 13;
+            HitSound = SoundID.Shatter;
             ItemDrop = ModContent.ItemType<Items.Placeables.Walls.ProfanedCrystalWall>();
             AddMapEntry(new Color(125, 97, 123));
         }

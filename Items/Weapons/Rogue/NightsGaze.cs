@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
                 "Throws a spear that shatters when it hits an enemy\n" +
                 "Stealth strikes cause the spear to summon homing stars as it flies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

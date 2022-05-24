@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Plaguebringer Carapace");
             Tooltip.SetDefault("Grants immunity to the Plague\n" +
                 "12% increased minion damage\n" +
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().plaguebringerCarapace = true;
-            player.GetDamage(DamageClass.Summon) += 0.12f;
+            player.GetDamage<SummonDamageClass>() += 0.12f;
             player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 

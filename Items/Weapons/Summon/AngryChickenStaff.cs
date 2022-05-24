@@ -3,8 +3,8 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Yharon's Kindle Staff");
             Tooltip.SetDefault("Summons a fiery draconid to fight for you\n" +
                                "Requires 5 minion slots to use");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/FlareSound");
+            Item.UseSound = CommonCalamitySounds.FlareSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<SonOfYharon>();
             Item.shootSpeed = 10f;

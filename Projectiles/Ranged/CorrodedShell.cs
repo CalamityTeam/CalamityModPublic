@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
             int count = Main.rand.Next(6, 15);
             for (int i = 0; i < count; i++)
             {

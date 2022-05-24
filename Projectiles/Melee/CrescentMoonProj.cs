@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.soundDelay = 30 + Main.rand.Next(50);
                 if (Main.rand.NextBool(10))
                 {
-                    SoundEngine.PlaySound(SoundID.Item9, (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
 

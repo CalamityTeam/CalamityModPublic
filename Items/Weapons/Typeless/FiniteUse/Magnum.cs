@@ -6,11 +6,14 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 {
     public class Magnum : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/Magnum");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magnum");
@@ -30,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.knockBack = 8f;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Magnum");
+            Item.UseSound = FireSound;
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<MagnumRound>();

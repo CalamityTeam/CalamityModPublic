@@ -9,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.NPCs.DevourerofGods;
 
 namespace CalamityMod.CalPlayer.Dashes
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnDashEffects(Player player)
         {
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/DevourerAttack"), player.Center);
+            SoundEngine.PlaySound(DevourerofGodsHead.AttackSound, player.Center);
 
             for (int d = 0; d < 60; d++)
             {
@@ -65,7 +66,7 @@ namespace CalamityMod.CalPlayer.Dashes
 
         public override void OnHitEffects(Player player, NPC npc, IEntitySource source, ref DashHitContext hitContext)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 67);
+            SoundEngine.PlaySound(SoundID.Item67, player.position);
 
             for (int j = 0; j < 30; j++)
             {
@@ -79,7 +80,7 @@ namespace CalamityMod.CalPlayer.Dashes
             }
 
             float kbFactor = 15f;
-            bool crit = Main.rand.Next(100) < player.GetCritChance(DamageClass.Melee);
+            bool crit = Main.rand.Next(100) < player.GetCritChance<MeleeDamageClass>();
             if (player.kbGlove)
                 kbFactor *= 2f;
             if (player.kbBuff)

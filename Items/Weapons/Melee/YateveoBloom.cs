@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("A synthesis of jungle flora\n" +
                 "Throws a powerful rose flail\n" +
                 "Right click to stab with a flower spear");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Pierce the heart of even the most heavily-armored foe\n" +
                 "Fires a .70 caliber sniper round that bypasses enemy defense and DR\n" +
                 "Rounds mark enemies for death and summon a swarm of additional bullets on crits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 32;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
+            Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Violet;

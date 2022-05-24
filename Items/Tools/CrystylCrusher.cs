@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Tools
 {
@@ -16,9 +16,11 @@ namespace CalamityMod.Items.Tools
         private static int PickPower = 1000;
         private static float LaserSpeed = 14f;
 
+        public static readonly SoundStyle ChargeSound = new("CalamityMod/Sounds/Item/CrystylCharge");
+
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Crystyl Crusher");
             Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
                 "Right click to swing normally");
@@ -41,7 +43,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 70;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = LaserSpeed;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge");
+            Item.UseSound = ChargeSound;
             Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;

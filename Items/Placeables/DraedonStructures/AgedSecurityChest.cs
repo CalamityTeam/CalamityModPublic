@@ -2,7 +2,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.DraedonStructures
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Aged Security Chest");
         }
 

@@ -45,6 +45,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         private bool flyingFrame2 = false;
         private int curTex = 1;
 
+        public static readonly SoundStyle NukeWarningSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PBGNukeWarning");
+        public static readonly SoundStyle AttackSwitchSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PBGAttackSwitch", 2);
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PBGDash");
+        public static readonly SoundStyle BarrageLaunchSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PBGBarrageLaunch");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Plaguebringer Goliath");
@@ -166,7 +171,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGNukeWarning"), NPC.Center);
+                SoundEngine.PlaySound(NukeWarningSound, NPC.Center);
 
                 halfLife = true;
             }
@@ -316,7 +321,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
                 }
             }
 
@@ -348,7 +353,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
 
                     return;
                 }
@@ -405,7 +410,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         NPC.netUpdate = true;
                         NPC.netSpam -= 5;
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/PlagueSounds/PBGDash"), NPC.Center);
+                        SoundEngine.PlaySound(DashSound, NPC.Center);
                         return;
                     }
 
@@ -562,7 +567,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
 
                     return;
                 }
@@ -596,7 +601,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit, (int)NPC.position.X, (int)NPC.position.Y, 8);
+                    SoundEngine.PlaySound(SoundID.NPCHit8, NPC.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -642,7 +647,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
                 }
             }
 
@@ -676,7 +681,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 88);
+                    SoundEngine.PlaySound(SoundID.Item88,NPC.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -724,7 +729,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
                 }
             }
 
@@ -740,7 +745,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (NPC.ai[1] % num650 == (num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 42);
+                    SoundEngine.PlaySound(SoundID.Item42, NPC.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -798,7 +803,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
                 }
             }
 
@@ -822,7 +827,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     // A phase switch sync is a critical operation that must be synced.
                     if (NPC.netSpam >= 10)
                         NPC.netSpam = 9;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, $"Sounds/Custom/PlagueSounds/PBGAttackSwitch{Main.rand.Next(1, 3)}"), NPC.Center);
+                    SoundEngine.PlaySound(AttackSwitchSound, NPC.Center);
                     return;
                 }
 
@@ -838,7 +843,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/PlagueSounds/PBGBarrageLaunch"), NPC.Center);
+                            SoundEngine.PlaySound(BarrageLaunchSound, NPC.Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {

@@ -11,6 +11,11 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class StreamGougePortal : ModProjectile
     {
+        public static readonly SoundStyle SpawnSound = new SoundStyle("CalamityMod/Sounds/Custom/SwiftSlice")
+        {
+            PitchVariance = 0.1f
+        };
+
         public Vector2 SpearCenter => Vector2.Lerp(Projectile.Center + Projectile.velocity + Projectile.velocity.SafeNormalize(Vector2.Zero) * 42f, Projectile.Center, 1f - Projectile.scale);
         public ref float Time => ref Projectile.ai[0];
 
@@ -40,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
             // Play a slice sound when spawning.
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlayTrackedSound(CalamityUtils.GetTrackableSound("CalamityMod/Sounds/Custom/SwiftSlice"), Projectile.Center);
+                SoundEngine.PlaySound(SpawnSound, Projectile.Center);
                 Projectile.localAI[0] = 1f;
             }
 

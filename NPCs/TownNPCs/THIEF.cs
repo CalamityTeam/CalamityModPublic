@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
                 CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
-                SoundEngine.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); // Money dink sound
+                SoundEngine.PlaySound(SoundID.Coins); // Money dink sound
                 switch (Main.rand.Next(2))
                 {
                     case 0:

@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 "Projectiles gain damage as they travel\n" +
                 "Right click to change from magic to ranged damage\n" +
                 "Right click consumes no mana");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.height = 44;
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
+            Item.UseSound = CommonCalamitySounds.LaserCannonSound;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;

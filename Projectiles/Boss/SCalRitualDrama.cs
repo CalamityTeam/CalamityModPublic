@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
                 CalamityUtils.SpawnBossBetter(Projectile.Center - new Vector2(60f), ModContent.NPCType<SupremeCalamitas>());
 
             // Make a laugh sound and create a burst of brimstone dust.
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SupremeCalamitasSpawn"), Projectile.Center);
+            SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, Projectile.Center);
 
             // Make a sudden screen shake.
             Main.LocalPlayer.Calamity().GeneralScreenShakePower = Utils.GetLerpValue(3400f, 1560f, Main.LocalPlayer.Distance(Projectile.Center), true) * 16f;

@@ -5,12 +5,15 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
     public class YanmeisKnife : ModItem
     {
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/YanmeiKnifeHit");
+        public static readonly SoundStyle ExpireSound = new("CalamityMod/Sounds/Custom/YanmeiKnifeExpire");
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yanmei's Knife");
@@ -18,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 "A knife from an unknown world\n" +
                 "An owner whose heart is pure and free of taint\n" +
                 "A heart of iron and valor");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

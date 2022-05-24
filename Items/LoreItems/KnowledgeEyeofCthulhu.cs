@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Eye of Cthulhu");
             Tooltip.SetDefault("That eye... how peculiar.\n" +
                 "I sensed it watching you more intensely as you grew stronger.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

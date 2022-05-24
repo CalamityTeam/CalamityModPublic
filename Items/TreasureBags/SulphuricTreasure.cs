@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.TreasureBags
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             DisplayName.SetDefault("Sulphuric Treasure");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 10;
+            SacrificeTotal = 10;
         }
 
         public override void SetDefaults()

@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Daedalus Mask");
             Tooltip.SetDefault("5% increased minion damage");
         }
@@ -60,13 +59,13 @@ namespace CalamityMod.Items.Armor
                     p.originalDamage = 95;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.2f;
+            player.GetDamage<SummonDamageClass>() += 0.2f;
             player.maxMinions += 2;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

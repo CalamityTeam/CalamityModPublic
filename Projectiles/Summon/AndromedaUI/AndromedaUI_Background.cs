@@ -4,6 +4,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Summon.AndromedaUI
 {
@@ -367,7 +368,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                                 dust.noGravity = true;
                             }
                         }
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+                        SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
                     }
                 }
             }

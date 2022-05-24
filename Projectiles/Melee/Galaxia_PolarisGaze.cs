@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -167,13 +168,13 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dashing = false;
                 Owner.velocity *= 0.1f; //Abrupt stop
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MeatySlash"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.MeatySlashSound, Projectile.Center);
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage(DamageClass.Melee).Base), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage<MeleeDamageClass>().Base), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 100;
                         }
@@ -219,8 +220,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (ChargeSoundCooldown <= 0)
                 {
-                    SoundEffectInstance chargeSound = SoundEngine.PlaySound(SoundID.DD2_BookStaffCast);
-                    CalamityUtils.SafeVolumeChange(ref chargeSound, 2.5f);
+                    SoundEngine.PlaySound(SoundID.DD2_BookStaffCast with { Volume = SoundID.DD2_BookStaffCast.Volume * 2.5f });
                     ChargeSoundCooldown = 20;
                 }
             }

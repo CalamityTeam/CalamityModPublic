@@ -7,6 +7,9 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AcidicReed : ModProjectile
     {
+
+        public static readonly SoundStyle SaxSound = new("CalamityMod/Sounds/Item/Saxophone/Sax", 6);
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reed");
@@ -28,16 +31,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.ai[0] == 1f)
             {
-                LegacySoundStyle saxSound = Utils.SelectRandom(Main.rand, new LegacySoundStyle[]
-                {
-                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax1"),
-                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax2"),
-                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax3"),
-                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax4"),
-                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax5"),
-                    SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Saxophone/Sax6")
-                });
-                SoundEngine.PlaySound(saxSound, Projectile.position);
+                SoundEngine.PlaySound(SaxSound, Projectile.position);
                 Projectile.ai[0] = 0f;
             }
             if (Projectile.velocity.Y < 10f)

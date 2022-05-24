@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -333,7 +334,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (Projectile.owner == Main.myPlayer)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+                    SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
                     int damage = LaserBaseDamage;
                     if (player.HeldItem != null)
                     {
@@ -406,7 +407,7 @@ namespace CalamityMod.Projectiles.Summon
         public void ExitChargeModeEarly(Player player)
         {
             RightIconCooldown = RightIconAttackTime;
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeMechGaussRifle"), Projectile.Center);
+            SoundEngine.PlaySound(GaussRifle.FireSound, Projectile.Center);
             SpecialAttackExplosionDust(player);
         }
         public void SpecialAttackExplosionDust(Player player)

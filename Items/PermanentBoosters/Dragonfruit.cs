@@ -4,7 +4,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Tooltip.SetDefault("Though somewhat bland, what taste can be described is unlike any other experienced\n" +
                                "Permanently increases maximum life by 25\n" +
                                "Can only be used if the max amount of life fruit has been consumed");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

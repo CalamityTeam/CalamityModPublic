@@ -29,9 +29,7 @@ namespace CalamityMod.Tiles.Abyss
         public override Asset<Texture2D> GetTexture() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AcidWoodTree");
 
         //I don't know what this means. Why do palm trees have branches?? Since when. Also acidwood trees arent meant to have oasis alts
-        public override Asset<Texture2D> GetOasisTopTextures() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AcidWoodTreeTops");
-        public override Asset<Texture2D> GetBranchTextures() => null;
-        public override Asset<Texture2D> GetOasisBranchTextures() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AcidWoodTree");
+        public override Asset<Texture2D> GetOasisTopTextures() => ModContent.Request<Texture2D>("CalamityMod/Tiles/Abyss/AcidWoodTreeOasisTops");
 
         public override int DropWood() => ModContent.ItemType<Acidwood>();
         public override int CreateDust() => (int)CalamityDusts.SulfurousSeaAcid;

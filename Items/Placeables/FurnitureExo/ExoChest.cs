@@ -1,7 +1,6 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureExo
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

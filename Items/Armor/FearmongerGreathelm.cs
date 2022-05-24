@@ -5,7 +5,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Fearmonger Greathelm");
             Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
             "+60 max mana and 10% decreased mana usage\n" +
@@ -33,7 +32,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 60;
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
             player.manaCost *= 0.9f;
         }
 
@@ -62,7 +61,7 @@ namespace CalamityMod.Items.Armor
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
             player.Calamity().WearingPostMLSummonerSet = true;
-            player.GetDamage(DamageClass.Summon) += 0.2f;
+            player.GetDamage<SummonDamageClass>() += 0.2f;
             player.maxMinions += 2;
 
             int[] immuneDebuffs = {

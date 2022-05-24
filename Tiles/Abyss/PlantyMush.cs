@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Planty Mush");
             AddMapEntry(new Color(0, 120, 0), name);
             MineResist = 1f;
-            SoundType = SoundID.Dig;
+            HitSound = SoundID.Dig;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

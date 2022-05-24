@@ -18,8 +18,7 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Lumenyl");
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(0, 150, 200), name);
-            SoundType = SoundID.Item;
-            SoundStyle = 27;
+            HitSound = SoundID.Item27;
             DustType = 67;
             ItemDrop = ModContent.ItemType<Lumenite>();
             Main.tileSpelunker[Type] = true;

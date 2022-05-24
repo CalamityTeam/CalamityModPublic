@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 using System.IO;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -266,7 +267,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
             }
 
             for (int k = 0; k < 5; k++)

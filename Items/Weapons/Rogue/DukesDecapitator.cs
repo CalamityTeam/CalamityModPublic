@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a hydro axe which shreds enemies when it comes into contact with them\n"
                               +"The faster it�s spinning, the more times it hits before disappearing\n"
                               +"Stealth Strikes make it emit short-ranged bubbles.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

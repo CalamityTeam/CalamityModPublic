@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(226, 205, 101), name);
 
             DustType = (int)CalamityDusts.SulfurousSeaAcid;
-            SoundType = SoundID.Shatter;
+            HitSound = SoundID.Shatter;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -3,10 +3,10 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Statigel Hood");
             Tooltip.SetDefault("Increased minion knockback");
         }
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.statigelJump = true;
             Player.jumpHeight += 5;
             player.jumpSpeedBoost += 0.6f;
-            player.GetDamage(DamageClass.Summon) += 0.18f;
+            player.GetDamage<SummonDamageClass>() += 0.18f;
             player.maxMinions++;
             if (player.whoAmI == Main.myPlayer)
             {
@@ -56,14 +56,17 @@ namespace CalamityMod.Items.Armor
                 {
                     player.AddBuff(ModContent.BuffType<StatigelSummonSetBuff>(), 3600, true);
                 }
+
+                int minionID = -1;
+                int baseDamage = 33;
+                int minionDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<SummonDamageClass>()).ApplyTo(baseDamage);
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
-                {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Summon).Base - 1f)), 0f, Main.myPlayer, 0f, 0f);
-                }
+                    minionID = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), minionDamage, 0f, Main.myPlayer);
                 else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] < 1)
-                {
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), (int)(33f * (player.GetDamage<GenericDamageClass>().Base + player.GetDamage(DamageClass.Summon).Base - 1f)), 0f, Main.myPlayer, 0f, 0f);
-                }
+                    minionID = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CorruptionSlimeGodMinion>(), minionDamage, 0f, Main.myPlayer);
+
+                if (Main.projectile.IndexInRange(minionID))
+                    Main.projectile[minionID].originalDamage = baseDamage;
             }
         }
 

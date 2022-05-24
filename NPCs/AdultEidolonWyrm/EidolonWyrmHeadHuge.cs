@@ -20,6 +20,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
@@ -77,6 +78,10 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         // How much less time is needed before activating fast charge
         private const float fastChargeGateValue = 120f;
+
+        //Sounds
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/Scare");
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/EidolonWyrmRoarClose");
 
         public override void SetStaticDefaults()
         {
@@ -207,7 +212,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             if (!TailSpawned && NPC.ai[0] == 0f)
             {
                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/Scare"), Main.player[Main.myPlayer].Center);
+                    SoundEngine.PlaySound(SpawnSound, Main.player[Main.myPlayer].Center);
             }
 
             // Spawn segments
@@ -502,7 +507,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                             {
                                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
                                 NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
@@ -569,7 +574,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (calamityGlobalNPC.newAI[2] % 30f == 0f && calamityGlobalNPC.newAI[2] < lightningRainDuration)
                         {
                             if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
+                                SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Main.player[Main.myPlayer].Center);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -681,7 +686,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                             {
                                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
                                 NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
@@ -748,7 +753,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             if (!NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
                             {
                                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), Main.player[Main.myPlayer].Center);
+                                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].Center);
 
                                 NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<EidolonWyrmHead>());
                             }
@@ -789,7 +794,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             if (calamityGlobalNPC.newAI[2] == chargePhaseGateValue + 1f)
                             {
                                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + chargeVectorFlipped + player.velocity * chargePredictionAmt;
                                 NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
@@ -1063,7 +1068,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                             if (calamityGlobalNPC.newAI[2] == lightningChargePhaseGateValue + 1f)
                             {
                                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/EidolonWyrmRoarClose"), Main.player[Main.myPlayer].Center);
+                                    SoundEngine.PlaySound(RoarSound, Main.player[Main.myPlayer].Center);
 
                                 chargeDestination = destination + lightningChargeVectorFlipped + player.velocity * chargePredictionAmt;
                                 NPC.velocity = Vector2.Normalize(chargeDestination - NPC.Center) * baseVelocity;
@@ -1083,7 +1088,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                                 if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[3] == 0f)
                                 {
                                     if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), Main.player[Main.myPlayer].Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, Main.player[Main.myPlayer].Center);
 
                                     NPC.localAI[3] = 1f;
                                     int type = ProjectileID.CultistBossLightningOrbArc;
@@ -1135,7 +1140,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (!NPC.AnyNPCs(ModContent.NPCType<Eidolist>()))
                         {
                             if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/EidolistDeath"), Main.player[Main.myPlayer].Center);
+                                SoundEngine.PlaySound(Eidolist.DeathSound, Main.player[Main.myPlayer].Center);
 
                             // Spawn Eidolists randomly around the target
                             for (int i = 0; i < maxEidolists; i++)

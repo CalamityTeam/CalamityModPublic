@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 "Summons a magic hat to hover above your head\n" +
                 "The hat will release a variety of objects to assault your foes\n" +
                 "Requires 5 minion slots to use and there can only be one hat");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

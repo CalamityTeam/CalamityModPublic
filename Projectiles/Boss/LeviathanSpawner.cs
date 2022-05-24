@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.timeLeft == 45)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LeviathanRoarCharge"), Projectile.Center);
+                SoundEngine.PlaySound(LeviathanNPC.RoarChargeSound, Projectile.Center);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     WaterShaderData ripple = (WaterShaderData)Filters.Scene["WaterDistortion"].GetShader();

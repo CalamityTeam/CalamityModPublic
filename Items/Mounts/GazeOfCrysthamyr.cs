@@ -3,7 +3,6 @@ using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Mounts
         {
             DisplayName.SetDefault("Gaze of Crysthamyr");
             Tooltip.SetDefault("Summons a shadow dragon");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
 
         }
 

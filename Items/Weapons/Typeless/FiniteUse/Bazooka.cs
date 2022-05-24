@@ -6,11 +6,14 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
 {
     public class Bazooka : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/BazookaFull");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bazooka");
@@ -30,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.knockBack = 10f;
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/BazookaFull");
+            Item.UseSound = FireSound;
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<GrenadeRound>();

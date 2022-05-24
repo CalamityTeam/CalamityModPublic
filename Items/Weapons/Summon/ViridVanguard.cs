@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Summon
 {
     public class ViridVanguard : ModItem
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "Each pair of blades take up three minion slots\n" +
                                "Right clicking prompts all blades to fly upward and redirect towards the mouse");
             Item.staff[Item.type] = true;
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

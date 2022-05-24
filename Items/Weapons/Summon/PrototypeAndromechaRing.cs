@@ -9,13 +9,16 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
     public class PrototypeAndromechaRing : ModItem
     {
+        //Note: In the future i may just do some changes to this item, and the cripple effect will probably be gone. But in the meanwhile
+        //- Iban
+        public static readonly SoundStyle CrippleSound = new("CalamityMod/Sounds/Custom/AndromedaCripple");
+
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
@@ -44,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 int equipSlotHead = EquipLoader.GetEquipSlot(Mod, "HeadlessEquipTexture", EquipType.Head);
                 ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
             }
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -88,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     player.Calamity().andromedaCripple = CrippleTime;
                     player.AddBuff(ModContent.BuffType<AndromedaCripple>(), player.Calamity().andromedaCripple);
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AndromedaCripple"), position);
+                    SoundEngine.PlaySound(CrippleSound, position);
                 }
                 return false;
             }

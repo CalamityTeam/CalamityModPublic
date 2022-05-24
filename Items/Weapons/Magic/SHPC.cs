@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
             DisplayName.SetDefault("SHPC");
             Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
                 "Right click to fire powerful energy beams");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
+                Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             }
             else
             {

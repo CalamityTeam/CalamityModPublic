@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
@@ -10,7 +9,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Slurper Pole");
             Tooltip.SetDefault("Can fish in lava.\n" + //Charles Spurgeon quote
                 "It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.");

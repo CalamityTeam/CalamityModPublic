@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Brimflame Robes");
             Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
                 "Reduces damage from touching lava");
@@ -28,8 +27,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Magic) += 0.05f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
+            player.GetCritChance<MagicDamageClass>() += 5;
             player.lavaRose = true;
         }
 

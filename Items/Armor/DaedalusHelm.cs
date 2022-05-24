@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Daedalus Helm");
             Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
                 "15% increased melee speed");
@@ -47,15 +46,15 @@ namespace CalamityMod.Items.Armor
                 "This reflect has a 90 second cooldown which is shared with all other dodges and reflects";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
-            player.GetDamage(DamageClass.Melee) += 0.05f;
+            player.GetDamage<MeleeDamageClass>() += 0.05f;
             player.aggro += 500;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed(DamageClass.Melee) += 0.15f;
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetCritChance(DamageClass.Melee) += 10;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
         }
 
         public override void AddRecipes()

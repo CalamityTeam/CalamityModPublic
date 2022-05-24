@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeDecorativeTiles(Type);
 
             MineResist = 2f;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             ItemDrop = ModContent.ItemType<Items.Placeables.UelibloomBrick>();
             AddMapEntry(new Color(174, 108, 46));
         }

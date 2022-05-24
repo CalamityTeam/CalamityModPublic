@@ -6,12 +6,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class SearedPan : ModItem
     {
+        public static readonly SoundStyle SmashSound = new("CalamityMod/Sounds/Item/SearedPanSmash");
+
         // Attacks must be within 40 frames of each other to count as "consecutive" hits
         // This is a little less than double the use time
         public static int ConsecutiveHitOpening = 40;
@@ -25,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Golden pans cause all fireballs to aggressively home in on their target\n" +
                 "Stealth strikes act similar to golden pans but also explode into golden sparks\n" +
                 "Stealth strikes also summon additional fireballs on hit");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

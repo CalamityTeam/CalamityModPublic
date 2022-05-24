@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     NPC.netUpdate = true;
                 }
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
             }
 
             if (Main.npc.IndexInRange((int)NPC.ai[1]))

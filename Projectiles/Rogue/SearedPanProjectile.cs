@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.Rogue;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class SearedPanProjectile : ModProjectile
@@ -94,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<PanSpark>(), (int)(Projectile.damage * 0.2), 0f, Projectile.owner);
                 }
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SearedPan.SmashSound, Projectile.position);
                 // Stealth strikes also cause any existing fireballs to home in on their targets
                 FireballStuff(true);
 
@@ -111,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
             else if (PanType == SearedPanTypes.Golden)
             {
                 modPlayer.searedPanCounter = 0;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/SearedPanSmash"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SearedPan.SmashSound, Projectile.position);
                 // Golden pans simply cause all fireballs to home in on their targets
                 FireballStuff(true);
             }

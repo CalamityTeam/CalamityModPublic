@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles.Astral;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -91,8 +93,7 @@ namespace CalamityMod.Projectiles.Melee
                     else
                     {
 
-                        var dashSound = SoundEngine.PlaySound(SoundID.Item120, Projectile.Center);
-                        CalamityUtils.SafeVolumeChange(ref dashSound, 0.5f);
+                        SoundEngine.PlaySound(SoundID.Item120 with { Volume = SoundID.Item120.Volume * 0.5f }, Projectile.Center);
                         State = 1f;
                         Projectile.timeLeft = (7 + (int)((Charge / MaxCharge - 0.25f) * 20)) * 2; //Keep that even, if its an odd number itll fuck off and wont reset the players velocity on death
                         dashDuration = Projectile.timeLeft;
@@ -115,9 +116,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 if ((Charge / MaxCharge >= 0.25f && CurrentIndicator == 0f) || (Charge / MaxCharge >= 0.5f && CurrentIndicator == 1f) || (Charge / MaxCharge >= 0.75f && CurrentIndicator == 2f))
                 {
-                    var chargeSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
-                    if (chargeSound != null)
-                        chargeSound.Pitch = -0.2f + 0.1f * CurrentIndicator;
+                    SoundEngine.PlaySound(DeusRitualDrama.PulseSound with { Pitch = DeusRitualDrama.PulseSound.Pitch - 0.2f + 0.1f * CurrentIndicator }, Projectile.Center);
                     CurrentIndicator++;
                     OverCharge = 20f;
                 }
@@ -128,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
                     if (Owner.whoAmI == Main.myPlayer && CurrentIndicator < 4f)
                     {
                         OverCharge = 20f;
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), Projectile.Center);
+                        SoundEngine.PlaySound(AstralBeacon.UseSound, Projectile.Center);
                         CurrentIndicator++;
                     }
                 }
@@ -182,8 +181,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void SlamDown()
         {
-            var slamSound = SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact, Projectile.Center);
-            CalamityUtils.SafeVolumeChange(ref slamSound, 1.5f);
+            var slamSound = SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact with { Volume = SoundID.DD2_MonkStaffGroundImpact.Volume * 1.5f }, Projectile.Center);
 
             if (Owner.whoAmI != Main.myPlayer || Owner.velocity.Y == 0f)
                 return;

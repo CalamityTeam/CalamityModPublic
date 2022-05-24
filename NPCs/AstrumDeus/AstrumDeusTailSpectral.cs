@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstrumDeusDeath");
+            NPC.DeathSound = AstrumDeusHeadSpectral.DeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;

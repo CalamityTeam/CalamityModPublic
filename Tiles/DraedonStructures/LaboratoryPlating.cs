@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             DustType = 30;
             MinPick = 30;
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating> ();

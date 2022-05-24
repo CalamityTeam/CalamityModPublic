@@ -207,7 +207,7 @@ namespace CalamityMod.Projectiles.Summon
                 int projType = ModContent.ProjectileType<MagicBullet>();
                 if (Main.rand.NextBool(6))
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 20, 0.1f);
+                    SoundEngine.PlaySound(SoundID.Item20 with { Volume = SoundID.Item20.Volume * 0.1f}, Projectile.position);
                 }
                 Projectile.ai[1] += 1f;
                 if (Main.myPlayer == Projectile.owner)

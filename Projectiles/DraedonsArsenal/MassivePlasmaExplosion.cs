@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -59,7 +60,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Lighting.AddLight(Projectile.Center, Color.White.ToVector3() * 4f * lightAmt);
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/FlareSound"), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.FlareSound, Projectile.Center);
                 Projectile.localAI[0] = 1f;
             }
             lightAmt = (float)Math.Sin(Time / 37 * MathHelper.Pi) * 2f;

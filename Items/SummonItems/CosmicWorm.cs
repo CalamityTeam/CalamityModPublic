@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using Terraria.GameContent.Creative;
 using System.Linq;
 
 namespace CalamityMod.Items.SummonItems
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Cosmic Worm");
             Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "SENTINEL WARNING TOOLTIP LINE HERE\n" +
@@ -56,7 +55,7 @@ namespace CalamityMod.Items.SummonItems
             Color messageColor = Color.Cyan;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
 
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+            SoundEngine.PlaySound(DevourerofGodsHead.SpawnSound, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
             else

@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Summons a beacon at the position of the mouse\n" +
                 "When a target is manually selected via right click it releases torrents of souls from below onto the target\n" +
                 "Only one beacon may exist at a time");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Summon
             else
             {
                 // Play some demonic noises prior to a target being selected.
-                SoundEngine.PlaySound(SoundID.Zombie, player.Center, 93);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(93), player.Center);
                 SoundEngine.PlaySound(SoundID.Item119, player.Center);
             }
             return false;

@@ -27,6 +27,8 @@ namespace CalamityMod.NPCs.SunkenSea
     [AutoloadBossHead]
     public class GiantClam : ModNPC
     {
+        public static readonly SoundStyle SlamSound = new("CalamityMod/Sounds/Item/ClamImpact");
+
         private int hitAmount = 0;
         private int attack = -1; //-1 doing nothing, 0 = shell hiding, 1 = telestomp, 2 = pearl burst, 3 = pearl rain
         private bool attackAnim = false;
@@ -254,7 +256,7 @@ namespace CalamityMod.NPCs.SunkenSea
                                 NPC.netUpdate = true;
                                 NPC.noGravity = false;
                                 attack = -1;
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)NPC.position.X, (int)NPC.position.Y);
+                                SoundEngine.PlaySound(SlamSound, NPC.position);
                                 if (Main.netMode != NetmodeID.Server)
                                 {
                                     for (int stompDustArea = (int)NPC.position.X - 30; stompDustArea < (int)NPC.position.X + NPC.width + 60; stompDustArea += 30)

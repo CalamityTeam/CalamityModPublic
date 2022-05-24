@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class OldDukeVortex : ModProjectile
     {
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/OldDukeVortex");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Vortex");
@@ -71,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 174;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/OldDukeVortex"), (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SpawnSound, Projectile.Center);
             }
 
             if (Projectile.timeLeft > 85)

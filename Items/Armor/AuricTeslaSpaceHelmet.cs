@@ -6,7 +6,6 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +14,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Space Helmet");
             Tooltip.SetDefault("15% increased minion damage\n" +
                     "Not moving boosts all damage and critical strike chance");
@@ -59,7 +58,7 @@ namespace CalamityMod.Items.Armor
             player.lavaMax += 240;
             player.ignoreWater = true;
             player.crimsonRegen = true;
-            player.GetDamage(DamageClass.Summon) += 0.75f;
+            player.GetDamage<SummonDamageClass>() += 0.75f;
             player.maxMinions += 6;
             if (player.whoAmI == Main.myPlayer)
             {
@@ -82,7 +81,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
         }
 
         public override void AddRecipes()

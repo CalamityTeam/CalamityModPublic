@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -46,9 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    var sound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
-                    sound = sound.WithVolume(sound.Volume * 0.45f);
-                    SoundEngine.PlaySound(sound, Projectile.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound with { Volume = CommonCalamitySounds.LargeWeaponFireSound.Volume * 0.45f}, Projectile.Center);
                 }
             }
         }

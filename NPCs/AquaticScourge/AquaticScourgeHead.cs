@@ -25,6 +25,7 @@ using CalamityMod.Items.Armor.Vanity;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using System;
+using CalamityMod.NPCs.AcidRain;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
@@ -242,7 +243,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (!DownedBossSystem.downedAquaticScourge)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                    SoundEngine.PlaySound(Mauler.RoarSound, Main.player[Main.myPlayer].position);
 
                 string sulfSeaBoostKey = "Mods.CalamityMod.WetWormBossText";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;

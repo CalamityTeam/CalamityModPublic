@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Pets
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Pets
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Cosmic Plushie");
             Tooltip.SetDefault("Summons the devourer of the cosmos...?\nSharp objects possibly included\nSuppresses friendly red devils");
         }
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Pets
             Item.height = 36;
             Item.shoot = ModContent.ProjectileType<ChibiiDoggo>();
             Item.buffType = ModContent.BuffType<ChibiiBuff>();
-            Item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
+            Item.UseSound = SoundID.Meowmere;
 
             Item.value = Item.sellPrice(gold: 7);
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;

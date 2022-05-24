@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Majestic Guard");
             Tooltip.SetDefault("Lowers enemy defense by 1 with every strike\n" +
                 "If enemy defense is 0 or below your attacks will heal you");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

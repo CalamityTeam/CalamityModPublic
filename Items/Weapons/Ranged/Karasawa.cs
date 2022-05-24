@@ -6,17 +6,19 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Karasawa : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/MechGaussRifle");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Karasawa");
             Tooltip.SetDefault("...This is heavy... too heavy.");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/MechGaussRifle");
+            Item.UseSound = FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;

@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);

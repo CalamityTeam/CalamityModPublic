@@ -103,6 +103,8 @@ namespace CalamityMod.Events
         public static int CurrentlyFoughtBoss => Bosses[BossRushStage].EntityID;
         public static int NextBossToFight => Bosses[BossRushStage + 1].EntityID;
 
+        public static readonly SoundStyle EndSound = new("CalamityMod/Sounds/Custom/BossRushEnd");
+
         #region Loading and Unloading
         public static void Load()
         {
@@ -221,7 +223,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundID.Roar, player.position, 2);
+                    SoundEngine.PlaySound(SoundID.ScaryScream, player.position);
                     int ravager = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
                     Main.npc[ravager].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(ravager);
@@ -246,7 +248,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/AstrumDeusSpawn"), player.Center);
+                    SoundEngine.PlaySound(AstrumDeusHeadSpectral.SpawnSound, player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.NPCType<AstrumDeusTailSpectral>() }),
 
@@ -275,7 +277,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/ProvidenceSpawn"), player.Center);
+                    SoundEngine.PlaySound(Providence.SpawnSound, player.Center);
                     int prov = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), type, 1);
                     Main.npc[prov].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(prov);
@@ -293,7 +295,7 @@ namespace CalamityMod.Events
                                 player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
                         }
                     }
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/SupremeCalamitasSpawn"), Main.player[ClosestPlayerToWorldCenter].Center);
+                    SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, Main.player[ClosestPlayerToWorldCenter].Center);
                     CalamityUtils.SpawnBossBetter(Main.player[ClosestPlayerToWorldCenter].Top - new Vector2(42f, 84f), type);
                 }, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<SCalWormArm>(), ModContent.NPCType<SCalWormHead>(), ModContent.NPCType<SCalWormBody>(), ModContent.NPCType<SCalWormBodyWeak>(), ModContent.NPCType<SCalWormTail>(),
                     ModContent.NPCType<SoulSeekerSupreme>(), ModContent.NPCType<BrimstoneHeart>(), ModContent.NPCType<SupremeCataclysm>(), ModContent.NPCType<SupremeCatastrophe>() }),
@@ -304,7 +306,7 @@ namespace CalamityMod.Events
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/DevourerSpawn"), player.Center);
+                    SoundEngine.PlaySound(DevourerofGodsHead.SpawnSound, player.Center);
                     NPC.SpawnOnPlayer(ClosestPlayerToWorldCenter, type);
                 }, usesSpecialSound: true, permittedNPCs: new int[] { ModContent.NPCType<DevourerofGodsBody>(), ModContent.NPCType<DevourerofGodsTail>() })
             };
@@ -461,7 +463,7 @@ namespace CalamityMod.Events
 
                     // Play the typical boss roar sound.
                     if (!Bosses[BossRushStage].UsesSpecialSound)
-                        SoundEngine.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position, 0);
+                        SoundEngine.PlaySound(SoundID.Roar, Main.player[ClosestPlayerToWorldCenter].position);
 
                     // And spawn the boss.
                     Bosses[BossRushStage].SpawnContext.Invoke(CurrentlyFoughtBoss);

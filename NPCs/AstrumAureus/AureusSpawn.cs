@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     NPC.localAI[0] = 0f;
                     if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                     {
-                        SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 109);
+                        SoundEngine.PlaySound(SoundID.Item109, NPC.position);
                         float speed = 5f;
                         Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
                         float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X;
@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool CheckDead()
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
+            SoundEngine.PlaySound(SoundID.Item14, NPC.position);
             NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);
             NPC.damage = (NPC.downedMoonlord && !BossRushEvent.BossRushActive) ? NPC.defDamage * 2 : NPC.defDamage;

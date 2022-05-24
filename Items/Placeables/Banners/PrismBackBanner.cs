@@ -2,14 +2,13 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Placeables.Banners
 {
     public class PrismBackBanner : ModItem
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Prism-Back Banner");
             Tooltip.SetDefault("{$CommonItemTooltip.BannerBonus}Prism-Back");
         }

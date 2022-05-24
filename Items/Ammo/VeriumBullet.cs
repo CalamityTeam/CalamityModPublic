@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Ammo
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Ammo
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 99;
+            SacrificeTotal = 99;
             DisplayName.SetDefault("Verium Bullet");
             Tooltip.SetDefault("There is no escape!\n" +
             "Homes in after striking an enemy");

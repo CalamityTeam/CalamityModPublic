@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
                 "Fires beams that generate tornadoes on death\n" +
                 "Tornadoes suck enemies in");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

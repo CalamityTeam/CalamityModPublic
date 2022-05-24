@@ -3,7 +3,6 @@ using CalamityMod.NPCs.Providence;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class ColdheartIcicle : ModItem
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Coldheart Icicle");
             Tooltip.SetDefault("Drains a percentage of enemy health on hit\nCannot inflict critical hits");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
         public override void SetDefaults()
         {

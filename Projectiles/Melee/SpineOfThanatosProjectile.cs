@@ -143,9 +143,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void CreateBadassPrismExplosion()
         {
-            var sound = SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact, Owner.Center);
-            if (sound != null)
-                sound.Pitch = MathHelper.Clamp(sound.Pitch + 0.15f, 0f, 1f);
+            SoundEngine.PlaySound(SoundID.DD2_DarkMageHealImpact with { Pitch = SoundID.DD2_DarkMageHealImpact.Pitch + 0.15f }, Owner.Center);
 
             if (Main.myPlayer != Projectile.owner)
                 return;

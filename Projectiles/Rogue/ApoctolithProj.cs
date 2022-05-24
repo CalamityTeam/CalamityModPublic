@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Tink, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Tink, Projectile.position);
             //Dust on impact
             int dust_splash = 0;
             while (dust_splash < 9)

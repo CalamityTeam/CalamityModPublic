@@ -14,8 +14,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
             Main.tileMerge[Type][ModContent.TileType<LaboratoryPipePlating>()] = true;
 
-            SoundType = SoundID.Item;
-            SoundStyle = 52;
+            HitSound = SoundID.Item52;
             DustType = 32;
             MinPick = 30;
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.RustedPipes>();
@@ -26,7 +25,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            SoundEngine.PlaySound(SoundID.Item,i * 16, j * 16, 52, 0.75f, -0.5f);
+            SoundEngine.PlaySound(SoundID.Item52 with { Volume = SoundID.Item52.Volume * 0.75f, Pitch = SoundID.Item52.Pitch - 0.5f }, new Vector2( i * 16, j * 16 ));
         }
     }
 }

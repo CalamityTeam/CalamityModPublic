@@ -4,7 +4,6 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.SummonItems.Invasion
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Caustic Tear");
             Tooltip.SetDefault("Causes an acidic downpour in the Sulphurous Sea\n" +
                 "Not consumable");

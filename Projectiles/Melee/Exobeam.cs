@@ -1,10 +1,12 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class Exobeam : ModProjectile
@@ -36,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Projectile.localAI[1] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item60, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item60, Projectile.position);
                 Projectile.localAI[1] += 1f;
             }
             counter++;
@@ -169,7 +171,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.Center.X, (int)Projectile.Center.Y, 103);
+            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(103), Projectile.Center);
             for (int num193 = 0; num193 < 3; num193++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

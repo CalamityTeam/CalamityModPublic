@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item17, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item17, Projectile.position);
             }
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= 5f)

@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                SoundEngine.PlaySound(SoundID.Item38, (int)npc.position.X, (int)npc.position.Y);
+                SoundEngine.PlaySound(SoundID.Item38, npc.position);
                 NPC.NewNPC(npc.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<KingSlimeJewel>());
             }
 

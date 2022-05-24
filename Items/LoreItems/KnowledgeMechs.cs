@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,6 +12,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Mechanical Trio");
             Tooltip.SetDefault("I see you have awakened Draedon's old toys.\n" +
                 "Once useful tools turned into savage beasts when their AIs went rogue, a mistake that Draedon failed to rectify in time.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

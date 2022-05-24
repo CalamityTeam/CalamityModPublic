@@ -7,13 +7,16 @@ using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using System.Linq;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
     {
+
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility");
+
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
@@ -24,7 +27,7 @@ namespace CalamityMod.Items.Armor
 
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Omega Blue Helmet");
             Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance");

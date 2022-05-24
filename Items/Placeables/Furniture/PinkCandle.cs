@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Furniture
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Vigorous Candle");
             Tooltip.SetDefault("When placed, nearby players regenerate 0.4% of their maximum health per second\n" +
                 "This regeneration is at full power even while moving and bypasses Revengeance Mode caps\n" +

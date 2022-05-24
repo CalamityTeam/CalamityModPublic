@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using CalamityMod.Cooldowns;
 
 namespace CalamityMod.Items.Armor
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Hooded Facemask");
             Tooltip.SetDefault("30% increased ranged damage and critical strike chance\n" +
                                "Not moving boosts all damage and critical strike chance");
@@ -64,8 +63,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.GetDamage(DamageClass.Ranged) += 0.3f;
-            player.GetCritChance(DamageClass.Ranged) += 30;
+            player.GetDamage<RangedDamageClass>() += 0.3f;
+            player.GetCritChance<RangedDamageClass>() += 30;
         }
 
         public override void AddRecipes()

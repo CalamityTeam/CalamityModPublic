@@ -7,13 +7,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ScorchedEarth : ModItem
     {
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/ScorchedEarthShot", 3);
+
         private int counter = 0;
         public override void SetStaticDefaults()
         {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires a burst of four fuel-air rockets which explode into cluster bombs\n" +
             "Each burst consumes two rockets each\n" +
             "Burns your targets to a fine crisp");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             if (counter == 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ScorchedEarthShot" + Main.rand.Next(1,4)), position);
+                SoundEngine.PlaySound(ShootSound, position);
             }
 
             counter++;

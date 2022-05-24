@@ -607,7 +607,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = 0f;
                     else
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit1, (int)npc.position.X, (int)npc.position.Y);
+                        SoundEngine.PlaySound(SoundID.NPCHit1, npc.position);
 
                         if (Main.netMode != NetmodeID.Server)
                         {
@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
                         }
 
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
                     }
                 }
 
@@ -1340,7 +1340,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.ai[2] = 0f;
                     else
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.NPCHit1, npc.position);
 
                         if (Main.netMode != NetmodeID.Server)
                         {
@@ -1357,7 +1357,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
                         }
 
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
                     }
                 }
 
@@ -1514,7 +1514,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] == 1f)
                     {
                         // Play charge sound
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                         // Set rotation and velocity
                         npc.rotation = num420;
@@ -1633,7 +1633,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     else if (npc.ai[1] == 4f)
                     {
                         if (npc.ai[2] == 0f)
-                            SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                         float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f) - (float)Math.Round(death ? 14f * (0.7f - lifeRatio) : 0f);
 

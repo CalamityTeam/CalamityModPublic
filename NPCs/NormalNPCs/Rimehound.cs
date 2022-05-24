@@ -12,6 +12,9 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
         private bool reset = false;
 
+        public static readonly SoundStyle GrowlSound = new("CalamityMod/Sounds/Custom/RimehoundGrowl");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/RimehoundHit");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rimehound");
@@ -43,7 +46,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             AnimationType = NPCID.Hellhound;
             AIType = -1;
             NPC.value = Item.buyPrice(0, 0, 3, 0);
-            NPC.HitSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/RimehoundHit");
+            NPC.HitSound = HitSound;
             NPC.DeathSound = SoundID.NPCDeath5;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<RimehoundBanner>();
@@ -67,7 +70,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.rand.NextBool(900))
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/RimehoundGrowl"), (int)NPC.position.X, (int)NPC.position.Y);
+                SoundEngine.PlaySound(GrowlSound, NPC.position);
             }
             bool phase2 = (double)NPC.life <= (double)NPC.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
             if (phase2)

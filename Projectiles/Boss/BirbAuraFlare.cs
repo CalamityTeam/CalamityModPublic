@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.DD2_BetsyFireballImpact, Projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

@@ -1,11 +1,11 @@
 ﻿using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using TerrariaAudio = Terraria.Audio;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Flesh of Infidelity");
             Tooltip.SetDefault("Summons a tentacled ball of flesh that splashes blood onto enemies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -29,9 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 1f;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
-
-            // SoundID has no Zombie24 sound instance, so we must create one ourselves.
-            Item.UseSound = new TerrariaAudio.LegacySoundStyle(SoundID.Zombie, 24, TerrariaAudio.SoundType.Sound);
+            Item.UseSound = CommonCalamitySounds.GetZombieSound(24);
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<FleshBallMinion>();
             Item.shootSpeed = 10f;

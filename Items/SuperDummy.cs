@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items
 {
@@ -16,7 +15,7 @@ namespace CalamityMod.Items
                 "Regenerates 1 million life per second\n" +
                 "Will not die when taking damage over time from debuffs\n" +
                 "Right click to kill all super dummies");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

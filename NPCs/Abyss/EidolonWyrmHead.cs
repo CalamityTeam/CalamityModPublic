@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
 using CalamityMod.NPCs.AdultEidolonWyrm;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -113,14 +114,14 @@ namespace CalamityMod.NPCs.Abyss
                 if (NPC.soundDelay <= 0)
                 {
                     NPC.soundDelay = 420;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, NPC.position);
                 }
             }
             else
             {
                 if (Main.rand.NextBool(900))
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, NPC.position);
                 }
             }
             if (NPC.ai[2] > 0f)

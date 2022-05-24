@@ -5,17 +5,19 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class OpalStriker : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/OpalStrike");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Opal Striker");
             Tooltip.SetDefault("Fires a string of opal strikes");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.knockBack = 0f;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/OpalStrike");
+            Item.UseSound = FireSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<OpalStrike>();
             Item.shootSpeed = 6f;

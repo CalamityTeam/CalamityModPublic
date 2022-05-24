@@ -20,6 +20,9 @@ namespace CalamityMod.Tiles.Astral
         public const int Width = 5;
         public const int Height = 4;
         public static readonly Color FailColor = new Color(237, 93, 83);
+
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Custom/AstralBeaconUse");
+
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -75,7 +78,7 @@ namespace CalamityMod.Tiles.Astral
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(0f, -24f);
 
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconUse"), ritualSpawnPosition);
+            SoundEngine.PlaySound(UseSound, ritualSpawnPosition);
             Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<DeusRitualDrama>(), 0, 0f, Main.myPlayer, 0f, usingStarcore.ToInt());
 
             if (!usingStarcore)

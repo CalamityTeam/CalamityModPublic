@@ -18,8 +18,7 @@ namespace CalamityMod.Tiles.Astral
 
             DustType = ModContent.DustType<AstralBasic>();
 
-            SoundType = SoundID.Grass;
-            SoundStyle = 1;
+            HitSound = SoundID.Grass;
 
             AddMapEntry(new Color(65, 56, 83));
         }

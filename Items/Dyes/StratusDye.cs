@@ -7,7 +7,6 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Placeables.Ores;
 using ReLogic.Content;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Dyes
 {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Dyes
             UseColor(new Color(36, 86, 163)).UseSecondaryColor(new Color(124, 204, 223)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+            SacrificeTotal = 3;
             DisplayName.SetDefault("Stratus Dye");
         }
 

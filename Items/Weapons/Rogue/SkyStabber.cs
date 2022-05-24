@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 using Microsoft.Xna.Framework;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
                 "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
                 "Right click to delete all existing spiky balls");
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 4;
+            SacrificeTotal = 4;
         }
 
         public override void SetDefaults()

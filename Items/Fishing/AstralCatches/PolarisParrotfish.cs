@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
 {
@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Polaris Parrotfish");
             Tooltip.SetDefault("It carries the mark of the Northern Star\n" +
                 "Projectile hits grant buffs to the weapon\n" +
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             Item.knockBack = 2.25f;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"); //pew pew
+            Item.UseSound = CommonCalamitySounds.LaserCannonSound; //pew pew
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<PolarStar>();
             Item.shootSpeed = 15f;

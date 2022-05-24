@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Potions.Alcohol
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 5;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Whiskey");
             Tooltip.SetDefault(@"The burning sensation makes it tastier
 Boosts damage and knockback by 4% and critical strike chance by 2%

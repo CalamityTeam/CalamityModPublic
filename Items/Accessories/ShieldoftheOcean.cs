@@ -3,7 +3,6 @@ using CalamityMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +10,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Shield of the Ocean");
             Tooltip.SetDefault("Increased defense by 5 when submerged in liquid\n" +
             "Increases movement speed and life regen while wearing the Victide armor");

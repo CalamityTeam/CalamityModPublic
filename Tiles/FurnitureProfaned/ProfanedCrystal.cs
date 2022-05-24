@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            SoundType = SoundID.Shatter;
+            HitSound = SoundID.Shatter;
             MineResist = 1f;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();
             AddMapEntry(new Color(181, 136, 177));

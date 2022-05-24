@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Shatter, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+            SoundEngine.PlaySound(SoundID.Shatter, Projectile.Center);
             if (Projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 3; ++index)

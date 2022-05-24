@@ -3,7 +3,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodflare Hydra Hood");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
                 "20% increased magic damage, 10% increased magic critical strike chance, +100 max mana and 17% reduced mana usage");
@@ -56,8 +55,8 @@ namespace CalamityMod.Items.Armor
             player.manaCost *= 0.83f;
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.GetDamage(DamageClass.Magic) += 0.2f;
-            player.GetCritChance(DamageClass.Magic) += 10;
+            player.GetDamage<MagicDamageClass>() += 0.2f;
+            player.GetCritChance<MagicDamageClass>() += 10;
             player.statManaMax2 += 100;
         }
 

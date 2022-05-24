@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(0, 100, 100), name);
             MineResist = 3f;
             MinPick = 200;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j)

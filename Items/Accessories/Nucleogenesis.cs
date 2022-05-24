@@ -6,7 +6,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Creative;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,7 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            SacrificeTotal = 1;
             DisplayName.SetDefault("Nucleogenesis");
             Tooltip.SetDefault("Increases max minions by 4, does not stack with downgrades\n" +
                 "Grants immunity to Shadowflame and Irradiated\n" +
@@ -42,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
             player.GetKnockback<SummonDamageClass>() += 3f;
-            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
             player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
             player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }

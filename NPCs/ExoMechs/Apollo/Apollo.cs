@@ -18,6 +18,8 @@ using Terraria.Graphics.Shaders;
 using System.Collections.Generic;
 using CalamityMod.Skies;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Apollo
 {
@@ -1003,7 +1005,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                 {
                                     int type = ModContent.ProjectileType<ApolloFireball>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaCasterFire"), NPC.Center);
+                                    SoundEngine.PlaySound(PlasmaCaster.FireSound, NPC.Center);
                                     Vector2 plasmaVelocity = Vector2.Normalize(aimedVector) * projectileVelocity;
                                     Vector2 offset = Vector2.Normalize(plasmaVelocity) * 70f;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, plasmaVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
@@ -1129,7 +1131,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                                     }
 
                                     // Play a charge sound
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                 }
                             }
                         }
@@ -1157,7 +1159,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Set charge velocity and fire halos of plasma bolts
                     if (NPC.localAI[2] == 0f)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ELRFire"), NPC.Center);
+                        SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, NPC.Center);
                         NPC.velocity = Vector2.Normalize(chargeLocations[(int)calamityGlobalNPC.newAI[2] + 1] - chargeLocations[(int)calamityGlobalNPC.newAI[2]]) * chargeVelocity;
                         NPC.localAI[2] = 1f;
                         NPC.netUpdate = true;
@@ -1286,7 +1288,7 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire"), NPC.Center);
+                        SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 

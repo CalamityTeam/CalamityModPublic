@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -93,7 +94,7 @@ namespace CalamityMod.Projectiles.Magic
                     dust.noGravity = true;
                 }
 
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire").WithVolume(0.45f), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound with { Volume = 0.45f }, Projectile.Center);
             }
         }
     }

@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.value = Item.buyPrice(0, 0, 20, 0);
             NPC.knockBackResist = 0.8f;
             NPC.behindTiles = true;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             AnimationType = NPCID.SandShark;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<FusionFeederBanner>();
@@ -98,7 +99,7 @@ namespace CalamityMod.NPCs.Astral
                 if (NPC.soundDelay == 0)
                 {
                     NPC.soundDelay = (int)MathHelper.Clamp(distanceFromTarget / 40f, 10f, 20f);
-                    SoundEngine.PlaySound(SoundID.Roar, NPC.Center, 4);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
 
                 tileCheckPoint = (NPC.Center + Vector2.UnitY * 24f).ToTileCoordinates();
@@ -128,7 +129,7 @@ namespace CalamityMod.NPCs.Astral
                     {
                         if (SearchSoundCreationDelay == 0f)
                         {
-                            SoundEngine.PlaySound(SoundID.ZombieMoan, NPC.Center, NPCID.SandShark);
+                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), NPC.Center);
                             SearchSoundCreationDelay = -1f;
                         }
 
@@ -243,18 +244,7 @@ namespace CalamityMod.NPCs.Astral
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 15;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit"), NPC.Center);
-                        break;
-                    case 1:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit2"), NPC.Center);
-                        break;
-                    case 2:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit3"), NPC.Center);
-                        break;
-                }
+                SoundEngine.PlaySound(CommonCalamitySounds.AstralNPCHitSound, NPC.Center);
             }
 
             CalamityGlobalNPC.DoHitDust(NPC, hitDirection, (Main.rand.Next(0, Math.Max(0, NPC.life)) == 0) ? 5 : ModContent.DustType<AstralEnemy>(), 1f, 4, 25);

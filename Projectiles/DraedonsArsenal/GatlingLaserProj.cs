@@ -6,12 +6,13 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class GatlingLaserProj : ModProjectile
     {
-        private SoundEffectInstance gatlingLaserLoop;
+        private SlotId gatlingLaserLoopID;
         private bool fireLasers = false;
 
         public override void SetStaticDefaults()
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     {
                         fireLasers = true;
                         Projectile.soundDelay *= 6;
-                        gatlingLaserLoop = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/GatlingLaserFireLoop"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                        gatlingLaserLoopID = SoundEngine.PlaySound(GatlingLaser.FireLoopSound, Projectile.position);
                     }
                 }
                 if (shootThisFrame && Main.myPlayer == Projectile.owner && fireLasers)
@@ -128,10 +129,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     }
                     else
                     {
-                        if (gatlingLaserLoop != null)
-                            gatlingLaserLoop.Stop();
+                        ActiveSound result;
+                        if (SoundEngine.TryGetActiveSound(gatlingLaserLoopID, out result))
+                            result.Stop();
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/GatlingLaserFireEnd"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                        SoundEngine.PlaySound(GatlingLaser.FireEndSound, Projectile.position);
                         Projectile.Kill();
                     }
                 }

@@ -5,6 +5,8 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.NPCs.SunkenSea;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class ClamCrusherFlail : ModProjectile
@@ -125,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
                 Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
                 Projectile.ai[0] = 1f;
                 Projectile.netUpdate = true;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(GiantClam.SlamSound, Projectile.position);
                 for (int num105 = 0; num105 < 50; num105++)
                 {
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
@@ -183,7 +185,7 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.ai[0] = 1f;
             Projectile.netUpdate = true;
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ClamImpact"), (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(GiantClam.SlamSound, Projectile.position);
         }
     }
 }
