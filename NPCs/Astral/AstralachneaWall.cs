@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 20;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 500;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.value = Item.buyPrice(0, 0, 20, 0);

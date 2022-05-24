@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.defense = 16;
             NPC.DR_NERD(0.15f);
             NPC.lifeMax = 310;
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             NPC.noGravity = true;
             NPC.knockBackResist = 0.58f;
             NPC.value = Item.buyPrice(0, 0, 10, 0);

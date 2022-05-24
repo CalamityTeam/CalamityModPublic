@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.lifeMax = 300;
             NPC.knockBackResist = 0.6f;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<AriesBanner>();
             if (DownedBossSystem.downedAstrumAureus)

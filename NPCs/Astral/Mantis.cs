@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.lifeMax = 340;
             NPC.knockBackResist = 0.2f;
             NPC.value = Item.buyPrice(0, 0, 15, 0);
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MantisBanner>();
             if (DownedBossSystem.downedAstrumAureus)

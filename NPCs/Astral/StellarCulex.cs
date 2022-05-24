@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -40,7 +41,7 @@ namespace CalamityMod.NPCs.Astral
             NPC.knockBackResist = 0.65f;
             NPC.lifeMax = 210;
             NPC.value = Item.buyPrice(0, 0, 10, 0);
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/AstralEnemyDeath");
+            NPC.DeathSound = CommonCalamitySounds.AstralNPCDeathSound;
             AnimationType = NPCID.GiantFlyingFox;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<StellarCulexBanner>();
