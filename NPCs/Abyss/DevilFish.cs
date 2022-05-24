@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class DevilFish : ModNPC
     {
-        public static readonly SoundStyle MaskBreakSound = new("Sounds/Item/DevilMaskBreak");
+        public static readonly SoundStyle MaskBreakSound = new("CalamityMod/Sounds/Item/DevilMaskBreak");
 
         public bool brokenMask = false;
         public int hitCounter = 0;

@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Astral
         public const int Height = 4;
         public static readonly Color FailColor = new Color(237, 93, 83);
 
-        public static readonly SoundStyle UseSound = new("Sounds/Custom/AstralBeaconUse");
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Custom/AstralBeaconUse");
 
         public override void SetStaticDefaults()
         {

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noMelee = true;
             Item.knockBack = 2.5f;
             Item.value = Item.buyPrice(0, 36, 0, 0);
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
             Item.autoReuse = true;
             Item.rare = ItemRarityID.Pink;
             Item.shoot = ModContent.ProjectileType<ClamorRifleProj>();

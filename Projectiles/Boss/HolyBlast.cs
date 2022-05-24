@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBlast : ModProjectile
     {
-        public static readonly SoundStyle ImpactSound = new("Sounds/Custom/ProvidenceHolyBlastImpact");
+        public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/ProvidenceHolyBlastImpact");
 
         public override void SetStaticDefaults()
         {

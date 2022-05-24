@@ -48,12 +48,12 @@ namespace CalamityMod.NPCs.Astral
         private byte swing_counter;
         private short swing_untilNext;
 
-        public static readonly SoundStyle HurtSound = new("Sounds/NPCHit/AtlasHurt", 3);
-        public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/AtlasDeath") { Volume = 0.65f };
-        public static readonly SoundStyle AggroSound = new("Sounds/Custom/AtlasSadAggro") { Volume = 0.5f };
-        public static readonly SoundStyle UnaggroSound = new("Sounds/Custom/AtlasSadUnaggro") { Volume = 0.5f };
-        public static readonly SoundStyle SwingSound = new("Sounds/Custom/AtlasSwing") { Volume = 0.65f };
-        public static readonly SoundStyle IdleSound = new("Sounds/Custom/AtlasIdle", 2) { Volume = 0.6f };
+        public static readonly SoundStyle HurtSound = new("CalamityMod/Sounds/NPCHit/AtlasHurt", 3);
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/AtlasDeath") { Volume = 0.65f };
+        public static readonly SoundStyle AggroSound = new("CalamityMod/Sounds/Custom/AtlasSadAggro") { Volume = 0.5f };
+        public static readonly SoundStyle UnaggroSound = new("CalamityMod/Sounds/Custom/AtlasSadUnaggro") { Volume = 0.5f };
+        public static readonly SoundStyle SwingSound = new("CalamityMod/Sounds/Custom/AtlasSwing") { Volume = 0.65f };
+        public static readonly SoundStyle IdleSound = new("CalamityMod/Sounds/Custom/AtlasIdle", 2) { Volume = 0.6f };
 
         private float idle_counter
         {

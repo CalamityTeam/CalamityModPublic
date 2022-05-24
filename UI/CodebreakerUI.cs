@@ -31,7 +31,7 @@ namespace CalamityMod.UI
 
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
 
-        public static readonly SoundStyle SummonSound = new("Sounds/Custom/CodebreakerBeam");
+        public static readonly SoundStyle SummonSound = new("CalamityMod/Sounds/Custom/CodebreakerBeam");
 
         public static void Draw(SpriteBatch spriteBatch)
         {

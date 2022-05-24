@@ -23,7 +23,7 @@ namespace CalamityMod.Sounds
 
         public static readonly SoundStyle WyrmScreamSound = new("CalamityMod/Sounds/Custom/WyrmScream");
 
-        public static readonly SoundStyle LightningSound = new("CalamityMod/Sounds/Custom/LightningStrike") { Volume = 1.5f };; //This is just the regular SoundID.Thunder sound, except its only the first variant
+        public static readonly SoundStyle LightningSound = new("CalamityMod/Sounds/Custom/LightningStrike") { Volume = 1.5f }; //This is just the regular SoundID.Thunder sound, except its only the first variant
 
         public static readonly SoundStyle LaserCannonSound = new("CalamityMod/Sounds/Item/LaserCannon") { Volume = 0.85f };
 
@@ -31,8 +31,12 @@ namespace CalamityMod.Sounds
 
         public static readonly SoundStyle LargeWeaponFireSound = new("CalamityMod/Sounds/Item/LargeWeaponFire");
 
+        public static readonly SoundStyle GaussWeaponFire = new("CalamityMod/Sounds/Item/GaussWeaponFire");
+
         public static readonly SoundStyle FlareSound = new("CalamityMod/Sounds/Item/FlareSound");
 
         public static readonly SoundStyle PlasmaBoltSound = new("CalamityMod/Sounds/Item/PlasmaBolt") { Volume = 0.8f };
+
+        public static readonly SoundStyle PlasmaBlastSound = new("CalamityMod/Sounds/Item/PlasmaBlast");
     }
 }

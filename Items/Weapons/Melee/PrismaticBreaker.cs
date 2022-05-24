@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -103,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge");
+                Item.UseSound = CrystylCrusher.ChargeSound;
                 Item.useStyle = ItemUseStyleID.Shoot;
                 Item.useTurn = false;
                 Item.autoReuse = false;

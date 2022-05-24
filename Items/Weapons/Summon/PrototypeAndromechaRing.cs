@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         //Note: In the future i may just do some changes to this item, and the cripple effect will probably be gone. But in the meanwhile
         //- Iban
-        public static readonly SoundStyle CrippleSound = new("Sounds/Custom/AndromedaCripple");
+        public static readonly SoundStyle CrippleSound = new("CalamityMod/Sounds/Custom/AndromedaCripple");
 
         public override void Load()
         {

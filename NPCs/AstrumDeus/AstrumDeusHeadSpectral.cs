@@ -29,9 +29,9 @@ namespace CalamityMod.NPCs.AstrumDeus
     [AutoloadBossHead]
     public class AstrumDeusHeadSpectral : ModNPC
     {
-        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/AstrumDeusSpawn");
-        public static readonly SoundStyle SplitSound = new("Sounds/Custom/AstrumDeusSplit");
-        public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/AstrumDeusDeath");
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/AstrumDeusSpawn");
+        public static readonly SoundStyle SplitSound = new("CalamityMod/Sounds/Custom/AstrumDeusSplit");
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/AstrumDeusDeath");
 
         public override void SetStaticDefaults()
         {

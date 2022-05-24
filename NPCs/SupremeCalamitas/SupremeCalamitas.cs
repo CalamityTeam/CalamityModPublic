@@ -153,12 +153,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private const int brothersSpawnCastTime = 150;
 
         //Sounds
-        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/SupremeCalamitasSpawn") { Volume = 1.2f }; 
-        public static readonly SoundStyle SepulcherSummonSound = new("Sounds/Custom/SCalSounds/SepulcherSpawn");
-        public static readonly SoundStyle BrimstoneShotSound = new("Sounds/Custom/SCalSounds/BrimstoneShoot");
-        public static readonly SoundStyle BrimstoneBigShotSound = new("Sounds/Custom/SCalSounds/BrimstoneBigShoot"); //DON'T YOU WANNA BE A [BIG SHOT]
-        public static readonly SoundStyle DashSound = new("Sounds/Custom/SCalSounds/SCalDash");
-        public static readonly SoundStyle HellblastSound = new("Sounds/Custom/SCalSounds/BrimstoneHellblastSound");
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SupremeCalamitasSpawn") { Volume = 1.2f }; 
+        public static readonly SoundStyle SepulcherSummonSound = new("CalamityMod/Sounds/Custom/SCalSounds/SepulcherSpawn");
+        public static readonly SoundStyle BrimstoneShotSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneShoot");
+        public static readonly SoundStyle BrimstoneBigShotSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneBigShoot"); //DON'T YOU WANNA BE A [BIG SHOT]
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/SCalSounds/SCalDash");
+        public static readonly SoundStyle HellblastSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneHellblastSound");
 
          
 

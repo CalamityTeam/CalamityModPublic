@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 5f;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
+            Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.height = 50;

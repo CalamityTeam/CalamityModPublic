@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ScorchedEarth : ModItem
     {
-        public static readonly SoundStyle ShootSound = new("Sounds/Item/ScorchedEarthShot", 3);
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/ScorchedEarthShot", 3);
 
         private int counter = 0;
         public override void SetStaticDefaults()

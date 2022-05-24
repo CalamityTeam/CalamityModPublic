@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class DemonshadeHelm : ModItem, IExtendedHat
     {
-        public static readonly SoundStyle ActivationSound = new("Sounds/Custom/AbilitySounds/DemonshadeEnrage");
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/DemonshadeEnrage");
 
         public override void SetStaticDefaults()
         {

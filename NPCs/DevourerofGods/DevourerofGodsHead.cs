@@ -138,8 +138,8 @@ namespace CalamityMod.NPCs.DevourerofGods
         public int DestroyedSegmentCount;
 
         //Sounds
-        public static readonly SoundStyle SpawnSound = new("Sounds/Custom/DevourerSpawn");
-        public static readonly SoundStyle AttackSound = new("Sounds/Custom/DevourerAttack");
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/DevourerSpawn");
+        public static readonly SoundStyle AttackSound = new("CalamityMod/Sounds/Custom/DevourerAttack");
 
         public override void SetStaticDefaults()
         {

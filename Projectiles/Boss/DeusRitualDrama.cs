@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DeusRitualDrama : ModProjectile
     {
-        public static readonly SoundStyle PulseSound = new("Sounds/Custom/AstralBeaconOrbPulse");
+        public static readonly SoundStyle PulseSound = new("CalamityMod/Sounds/Custom/AstralBeaconOrbPulse");
 
         public float Time
         {

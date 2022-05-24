@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
