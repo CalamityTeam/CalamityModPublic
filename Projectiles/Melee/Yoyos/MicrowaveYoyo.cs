@@ -61,7 +61,13 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             }
 
             else if (mmmIsThere)
-                MMMMMMMMMMMMMMM.Position = Projectile.Center;
+            {
+                if (MMMMMMMMMMMMMMM.IsPlaying)
+                    MMMMMMMMMMMMMMM.Position = Projectile.Center;
+
+                else
+                    MMMMMMMMMMMMMMM.Resume();
+            }
 
             // Spawn invisible but damaging aura projectile
             if (Projectile.owner == Main.myPlayer && !spawnedAura)

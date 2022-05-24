@@ -83,8 +83,8 @@ namespace CalamityMod.Projectiles.Magic
                 HandleChargeEffects();
 
             // Create an idle ominous sound once the laser has appeared.
-            else if (!SoundEngine.TryGetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot), out soundOut))
-                PulseLoopSoundSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, Projectile.Center).ToFloat();
+            else if (!SoundEngine.TryGetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot), out soundOut) || !soundOut.IsPlaying)
+                PulseLoopSoundSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop with { IsLooped = true }, Projectile.Center).ToFloat();
 
             // Make a cast sound effect soon after the circle appears.
             if (Time == 15f)
