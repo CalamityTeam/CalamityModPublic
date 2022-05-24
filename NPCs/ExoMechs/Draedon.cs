@@ -68,7 +68,6 @@ namespace CalamityMod.NPCs.ExoMechs
         public const int ExoMechPhaseDialogueTime = ExoMechChooseDelay + ExoMechShakeTime;
         public const int DelayBeforeDefeatStandup = 30;
 
-        public static readonly SoundStyle AmbienceMusic = new("CalamityMod/Sounds/Music/DraedonAmbience");
         public static readonly SoundStyle LaughSound = new("CalamityMod/Sounds/Custom/DraedonLaugh");
         public static readonly SoundStyle TeleportSound = new("CalamityMod/Sounds/Custom/DraedonTeleport");
 
@@ -384,7 +383,7 @@ namespace CalamityMod.NPCs.ExoMechs
             }
 
             if (!ExoMechIsPresent && DefeatTimer <= 0f)
-                Music = AmbienceMusic;
+                Music = MusicLoader.GetMusicSlot(Mod, "Sounds/Music/DraedonAmbience");
             if (ExoMechIsPresent)
                 Music = CalamityMod.Instance.GetMusicFromMusicMod("ExoMechs") ?? MusicID.Boss3;
 

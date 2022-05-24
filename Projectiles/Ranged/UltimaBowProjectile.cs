@@ -61,7 +61,8 @@ namespace CalamityMod.Projectiles.Ranged
 
                 player.PickAmmo(player.ActiveItem(), out type, out shotSpeed, out damage, out knockBack, out _); // Pick ammo and consume it (this incorporates the bow's chance to not consume ammo).
 
-                SoundEngine.PlaySound(player.ActiveItem().UseSound, Projectile.Center);
+                if (player.ActiveItem().UseSound.HasValue)
+                    SoundEngine.PlaySound(player.ActiveItem().UseSound.GetValueOrDefault(), Projectile.Center);
 
                 type = ModContent.ProjectileType<UltimaBolt>();
                 float shootLaserChance = Utils.GetLerpValue(Ultima.FullChargeTime * 0.35f, Ultima.FullChargeTime, Time, true);

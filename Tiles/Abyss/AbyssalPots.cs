@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             name.SetDefault("Pot");
             AddMapEntry(new Color(47, 79, 79), name); //dark slate gray
             DustType = 29;
-            SoundType = SoundID.Shatter;
+            HitSound = SoundID.Shatter;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

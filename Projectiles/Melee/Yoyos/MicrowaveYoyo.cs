@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     public class MicrowaveYoyo : ModProjectile
     {
         private const float Radius = 100f;
-        private SlotId mmmmmm = null;
+        private SlotId mmmmmm;
         private bool spawnedAura = false;
         public int soundCooldown = 0;
 
@@ -99,8 +99,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void Kill(int timeLeft)
         {
-            mmmmmm?.Stop();
-            mmmmmm?.Dispose();
+            ActiveSound MMMMMMMMMMMMMMM;
+            if (!SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
+            {
+                MMMMMMMMMMMMMMM.Stop();
+                //No more dispose function?
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
