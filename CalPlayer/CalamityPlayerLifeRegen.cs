@@ -961,7 +961,7 @@ namespace CalamityMod.CalPlayer
             // Life regen soft cap.
             if (Player.statLife < actualMaxLife)
             {
-                // The soft cap doesn't apply if the player is not moving and not using a weapon while having any off the following:
+                // The soft cap doesn't apply if the player is not moving and not using a weapon while having any of the following:
                 // Shiny Stone, Draedon's Heart, Cosmic Freeze buff from the Cosmic Discharge, Demonshade Armor, Photosynthesis Potion buff or The Camper.
                 bool noLifeRegenCap = (Player.shinyStone || draedonsHeart || cFreeze || shadeRegen || photosynthesis || camper) &&
                     Player.StandingStill() && Player.itemAnimation == 0;
