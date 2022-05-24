@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Pets
                     playerVec.Normalize();
                     Projectile.velocity = playerVec * 8f;
                     charging = 50;
-                    SoundEngine.PlaySound(SoundID.ForceRoar, Projectile.Center, 0.5f, 0f);
+                    SoundEngine.PlaySound(SoundID.ForceRoar with { Volume = SoundID.ForceRoar.Volume * 0.5f}, Projectile.Center, 0f);
                     Projectile.netUpdate = true;
                 }
             }

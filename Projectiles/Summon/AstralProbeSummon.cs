@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
             int projType = ModContent.ProjectileType<AstralProbeRound>();
             if (target != null && Projectile.ai[1] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item12, Projectile.position, 0.5f, 0f);
+                SoundEngine.PlaySound(SoundID.Item12 with { Volume = SoundID.Item12.Volume * 0.5f}, Projectile.position, 0f);
                 Projectile.ai[1] += 1f;
                 if (Main.myPlayer == Projectile.owner)
                 {

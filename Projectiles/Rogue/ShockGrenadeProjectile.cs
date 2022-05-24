@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item94, Projectile.position, 0.75f, 0f);
+            SoundEngine.PlaySound(SoundID.Item94 with { Volume = SoundID.Item94.Volume * 0.75f}, Projectile.position, 0f);
 
             int boltCount = Main.rand.Next(5, 11);
             for (int i = 0; i < boltCount; i++)
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int auraDamage = Projectile.damage / 4;
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockTeslaAura>(), auraDamage, 1, Projectile.owner, 0, 0);
 
-                SoundEngine.PlaySound(SoundID.Item93, Projectile.position, 0.5f, 0f);
+                SoundEngine.PlaySound(SoundID.Item93 with { Volume = SoundID.Item93.Volume * 0.5f}, Projectile.position, 0f);
             }
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockGrenadeExplosion>(), Projectile.damage, 3, Projectile.owner, 0, 0);
         }

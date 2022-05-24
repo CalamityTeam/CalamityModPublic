@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
 
             //glass-pot break sound
-            SoundEngine.PlaySound(SoundID.Shatter1, Projectile.position, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.Shatter1 with { Volume = SoundID.Shatter1.Volume * 1f}, Projectile.position, 0f);
 
             int blackhole = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<SealedSingularityBlackhole>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.Calamity().stealthStrike ? -180f : 0f, 0f);
             if (blackhole.WithinBounds(Main.maxProjectiles))

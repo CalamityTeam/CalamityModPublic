@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.NPCDeath39, Projectile.position, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath39 with { Volume = SoundID.NPCDeath39.Volume * 1f}, Projectile.position, 0f);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 110;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
