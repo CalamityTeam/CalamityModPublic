@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetCritChance(DamageClass.Melee) += 10;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
         }
 
         public override void AddRecipes()

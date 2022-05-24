@@ -22,7 +22,7 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using static Terraria.ModLoader.ModContent;
-
+using CalamityMod.Sounds;
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -1171,7 +1171,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.localAI[1] == 0f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item33, projectile.position);
                         projectile.localAI[1] = 1f;
                     }
 
@@ -1276,7 +1276,7 @@ namespace CalamityMod.Projectiles
 
                     if (projectile.localAI[1] == 0f)
                     {
-                        SoundEngine.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item33, projectile.position);
                         projectile.localAI[1] = 1f;
                     }
 
@@ -1929,7 +1929,7 @@ namespace CalamityMod.Projectiles
                             projectile.velocity = -Vector2.UnitY;
 
                         if (projectile.localAI[0] == 0f)
-                            SoundEngine.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 104, 1f, 0f);
+                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), projectile.position);
 
                         float num801 = 1f;
                         projectile.localAI[0] += 1f;

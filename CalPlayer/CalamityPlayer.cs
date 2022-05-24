@@ -231,6 +231,17 @@ namespace CalamityMod.CalPlayer
         public bool playRogueStealthSound = false;
         public bool playFullRageSound = true;
         public bool playFullAdrenalineSound = true;
+
+        public static readonly SoundStyle RageFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullRage");
+        public static readonly SoundStyle RageActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/RageActivate");
+        public static readonly SoundStyle RageEndSound = new("CalamityMod/Sounds/Custom/AbilitySounds/RageEnd");
+        
+        public static readonly SoundStyle AdrenalineFilledSound = new("CalamityMod/Sounds/Custom/AbilitySounds/FullAdrenaline");
+        public static readonly SoundStyle AdrenalineActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AdrenalineActivate");
+
+        public static readonly SoundStyle RogueStealthSound = new("CalamityMod/Sounds/Custom/RogueStealth");
+        public static readonly SoundStyle DefenseDamageSound = new("CalamityMod/Sounds/Custom/DefenseDamage");
+
         #endregion
 
         #region Proficiency
@@ -2603,7 +2614,7 @@ namespace CalamityMod.CalPlayer
             {
                 int seconds = CalamityUtils.SecondsToFrames(15f);
                 Player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.DivineBless>(), seconds, false);
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/AngelicAllianceActivation"), Player.Center);
+                SoundEngine.PlaySound(AngelicAlliance.ActivationSound, Player.Center);
 
                 // Spawn an archangel for every minion you have
                 float angelAmt = 0f;
@@ -2636,7 +2647,7 @@ namespace CalamityMod.CalPlayer
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<Items.Accessories.SandCloak>()));
                 rogueStealth -= rogueStealthMax * 0.25f;
                 Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<SandCloakVeil>(), 7, 8, Player.whoAmI);
-                SoundEngine.PlaySound(SoundID.Item, Player.position, 45);
+                SoundEngine.PlaySound(SoundID.Item45, Player.position);
             }
             if (CalamityKeybinds.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0)
@@ -2711,7 +2722,7 @@ namespace CalamityMod.CalPlayer
                         {
                             brimflameFrenzy = true;
                             Player.AddBuff(ModContent.BuffType<BrimflameFrenzyBuff>(), 10 * 60, true);
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/AbilitySounds/BrimflameAbility"), Player.Center);
+                            SoundEngine.PlaySound(BrimflameScowl.ActivationSound, Player.Center);
                             for (int num502 = 0; num502 < 36; num502++)
                             {
                                 int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -2744,7 +2755,7 @@ namespace CalamityMod.CalPlayer
                     if (Player.whoAmI == Main.myPlayer)
                         Player.AddCooldown(BloodflareRangedSet.ID, 1800);
 
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/BloodflareRangerActivation"), Player.Center);
+                    SoundEngine.PlaySound(BloodflareHornedHelm.ActivationSound, Player.Center);
                     for (int d = 0; d < 64; d++)
                     {
                         int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
@@ -2793,7 +2804,7 @@ namespace CalamityMod.CalPlayer
                         Player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
                     }
                     Player.AddCooldown(OmegaBlue.ID, 1800);
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/OmegaBlueAbility"), Player.Center);
+                    SoundEngine.PlaySound(OmegaBlueHelmet.ActivationSound, Player.Center);
                     for (int i = 0; i < 66; i++)
                     {
                         int d = Dust.NewDust(Player.position, Player.width, Player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
@@ -2805,7 +2816,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (dsSetBonus)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/DemonshadeEnrage"), Player.Center);
+                    SoundEngine.PlaySound(DemonshadeHelm.ActivationSound, Player.Center);
                     for (int num502 = 0; num502 < 36; num502++)
                     {
                         int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -2841,7 +2852,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (plagueReaper && !Player.HasCooldown(PlagueBlackout.ID))
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/PlagueReaperAbility"), Player.Center);
+                    SoundEngine.PlaySound(PlagueReaperMask.ActivationSound, Player.Center);
                     Player.AddCooldown(PlagueBlackout.ID, 1800);
                 }
                 if (forbiddenCirclet && forbiddenCooldown <= 0)
@@ -2890,7 +2901,7 @@ namespace CalamityMod.CalPlayer
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Player.TeleportationPotion();
-                        SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 6);
+                        SoundEngine.PlaySound(SoundID.Item6, Player.position);
                     }
                     else if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
                     {
@@ -2921,7 +2932,7 @@ namespace CalamityMod.CalPlayer
                 // Gael's Greatsword replaces Rage Mode with an uber skull attack
                 if (gaelRageAttackCooldown == 0 && Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaDispel"), Player.Center);
+                    SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
 
                     for (int i = 0; i < 3; i++)
                         Dust.NewDust(Player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
@@ -2967,7 +2978,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/RageActivate"), Player.position);
+                    SoundEngine.PlaySound( RageActivationSound, Player.position);
 
                     // TODO -- improve Rage activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -2998,7 +3009,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
                     // Play Adrenaline Activation sound
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/AdrenalineActivate"), Player.position);
+                    SoundEngine.PlaySound(AdrenalineActivationSound, Player.position);
 
                     // TODO -- improve Adrenaline activation visuals
                     for (int num502 = 0; num502 < 64; num502++)
@@ -3040,7 +3051,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.25);
                     for (int d = 0; d < 30; ++d)
@@ -3062,7 +3073,7 @@ namespace CalamityMod.CalPlayer
                     int offset = Player.height;
                     if (Player.gravDir == -1f)
                         offset = 0;
-                    SoundEngine.PlaySound(SoundID.DoubleJump, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.DoubleJump, Player.position);
                     Player.velocity.Y = -Player.jumpSpeed * Player.gravDir;
                     Player.jump = (int)(Player.jumpHeight * 1.5);
                     for (int d = 0; d < 30; ++d)
@@ -3261,7 +3272,7 @@ namespace CalamityMod.CalPlayer
             }
             Main.TeleportEffect(player.getRect(), 1);
             Main.TeleportEffect(player.getRect(), 3);
-            SoundEngine.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 6);
+            SoundEngine.PlaySound(SoundID.Item6, player.position);
             if (Main.netMode != NetmodeID.Server)
             {
                 return;
@@ -3511,25 +3522,25 @@ namespace CalamityMod.CalPlayer
             if (GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
 
-            Player.GetAttackSpeed(DamageClass.Melee) += meleeSpeedMult;
+            Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
 
             // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade and Blade of Enmity.
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
                 Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
             {
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * 0.25f);
-                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * 0.25f);
+                Player.GetAttackSpeed<MeleeDamageClass>() = newMeleeSpeed;
             }
 
             // Melee speed does not affect non-true melee weapon projectile rate of fire.
             if (Player.HoldingProjectileMeleeWeapon())
             {
                 // Melee weapons that fire any kind of projectile don't benefit from melee speed anymore, so they get a damage boost from it instead.
-                Player.GetDamage(DamageClass.Melee) += Player.GetAttackSpeed(DamageClass.Melee) - 1f;
+                Player.GetDamage<MeleeDamageClass>() += Player.GetAttackSpeed<MeleeDamageClass>() - 1f;
 
                 // Set melee speed to 1f.
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed(DamageClass.Melee) - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
-                Player.GetAttackSpeed(DamageClass.Melee) = newMeleeSpeed;
+                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * projectileMeleeWeaponMeleeSpeedMultiplier);
+                Player.GetAttackSpeed<MeleeDamageClass>() = newMeleeSpeed;
             }
             #endregion
 
@@ -3878,7 +3889,7 @@ namespace CalamityMod.CalPlayer
                 Main.dust[sVeilDustIndex2].noLight = false;
             }
 
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaDispel"), Player.Center);
+            SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
 
             NetMessage.SendData(MessageID.Dodge, -1, -1, null, Player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
@@ -3886,7 +3897,7 @@ namespace CalamityMod.CalPlayer
         private void GodSlayerDodge()
         {
             Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
-            SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 67);
+            SoundEngine.PlaySound(SoundID.Item67, Player.position);
 
             for (int j = 0; j < 30; j++)
             {
@@ -3952,7 +3963,7 @@ namespace CalamityMod.CalPlayer
 
                 Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
                 rogueStealth += 0.5f;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaActivation"), Player.Center);
+                SoundEngine.PlaySound(SilvaHelmet.ActivationSound, Player.Center);
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 for (int i = 0; i < 10; i++)
@@ -4094,7 +4105,7 @@ namespace CalamityMod.CalPlayer
 
             if (nCore && !Player.HasCooldown(Cooldowns.NebulousCore.ID))
             {
-                SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 67);
+                SoundEngine.PlaySound(SoundID.Item67, Player.position);
 
                 for (int j = 0; j < 50; j++)
                 {
@@ -4131,7 +4142,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (silvaCountdown == silvaReviveDuration && !hasSilvaEffect)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AbilitySounds/SilvaActivation"), (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(SilvaHelmet.ActivationSound, Player.position);
 
                     Player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 
@@ -4612,7 +4623,7 @@ namespace CalamityMod.CalPlayer
             }
             if (item.CountsAsClass<MeleeDamageClass>() && badgeOfBravery)
             {
-                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0);
+                int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0);
                 int penetratedDefense = Math.Min(penetratableDefense, 5);
                 damage += (int)(0.5f * penetratedDefense);
             }
@@ -4757,7 +4768,7 @@ namespace CalamityMod.CalPlayer
             {
                 penetrateAmt += 5;
             }
-            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration(DamageClass.Generic), 0); //if find how much defense we can penetrate
+            int penetratableDefense = (int)Math.Max(target.defense - Player.GetArmorPenetration<GenericDamageClass>(), 0); //if find how much defense we can penetrate
             int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
             damage += (int)(0.5f * penetratedDefense);
             #endregion
@@ -5973,31 +5984,25 @@ namespace CalamityMod.CalPlayer
                 if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/ProvidenceHurt"), (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(Providence.DeathSound, Player.position);
                     hurtSoundTimer = 20;
                 }
                 else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.NPCHit, (int)Player.position.X, (int)Player.position.Y, 4, 1f, 0f); //metal hit noise
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position); //metal hit noise
                     hurtSoundTimer = 10;
                 }
                 else if ((aquaticHeartPower || aquaticHeartForce) && !aquaticHeartHide)
                 {
                     playSound = false;
-                    SoundEngine.PlaySound(SoundID.FemaleHit, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f); //female hit noise
+                    SoundEngine.PlaySound(SoundID.FemaleHit, Player.position); //female hit noise
                     hurtSoundTimer = 10;
                 }
                 else if (titanHeartSet)
                 {
                     playSound = false;
-                    Terraria.Audio.LegacySoundStyle atlasHurt = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
-                    {
-                        SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt0"),
-                        SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt1"),
-                        SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AtlasHurt2")
-                    });
-                    SoundEngine.PlaySound(atlasHurt, (int)Player.position.X, (int)Player.position.Y);
+                    SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
                     hurtSoundTimer = 10;
                 }
             }
@@ -6141,7 +6146,7 @@ namespace CalamityMod.CalPlayer
                 if (amidiasBlessing)
                 {
                     Player.ClearBuff(ModContent.BuffType<AmidiasBlessing>());
-                    SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 96);
+                    SoundEngine.PlaySound(SoundID.Item96, Player.position);
                 }
 
                 if ((gShell || flameLickedShell) && !Player.panic)
@@ -6158,7 +6163,7 @@ namespace CalamityMod.CalPlayer
 
                     if (abyssalDivingSuitPlateHits >= 3)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCKilled, (int)Player.position.X, (int)Player.position.Y, 14);
+                        SoundEngine.PlaySound(SoundID.NPCDeath14, Player.position);
                         if (plateCDExists)
                             cooldowns.Remove(DivingPlatesBreaking.ID);
                         Player.AddCooldown(DivingPlatesBroken.ID, 10830);
@@ -6185,7 +6190,7 @@ namespace CalamityMod.CalPlayer
 
                 if (aquaticHeartIce)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)Player.Center.X, (int)Player.Center.Y, 7);
+                    SoundEngine.PlaySound(SoundID.NPCDeath7, Player.Center);
                     Player.AddCooldown(AquaticHeartIceShield.ID, CalamityUtils.SecondsToFrames(30));
 
                     for (int d = 0; d < 10; d++)
@@ -6226,7 +6231,7 @@ namespace CalamityMod.CalPlayer
 
                 if ((fBarrier || (aquaticHeart && NPC.downedBoss3)) && !areThereAnyDamnBosses)
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 27);
+                    SoundEngine.PlaySound(SoundID.Item27, Player.position);
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         NPC npc = Main.npc[m];
@@ -6426,7 +6431,7 @@ namespace CalamityMod.CalPlayer
                 if (aBulwarkRare)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
-                    SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 74);
+                    SoundEngine.PlaySound(SoundID.Item74, Player.position);
                     int blazeDamage = (int)Player.GetBestClassDamage().ApplyTo(25);
                     int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(320);
                     Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), blazeDamage, 5f, Player.whoAmI, 0f, 1f);
@@ -6455,7 +6460,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<FungalCarapace>()));
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.NPCHit, (int)Player.position.X, (int)Player.position.Y, 45);
+                        SoundEngine.PlaySound(SoundID.NPCHit45, Player.position);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6481,7 +6486,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<HideofAstrumDeus>()));
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 93);
+                        SoundEngine.PlaySound(SoundID.Item93, Player.position);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6522,7 +6527,7 @@ namespace CalamityMod.CalPlayer
                         rogueStealth += 0.5f;
                         for (int i = 0; i < 5; i++)
                         {
-                            SoundEngine.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
+                            SoundEngine.PlaySound(SoundID.Item61, Player.position);
                             int ink = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, Player.whoAmI);
                             if (ink.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[ink].Calamity().forceClassless = true;
@@ -6552,7 +6557,7 @@ namespace CalamityMod.CalPlayer
                     var fuckYouBitch = Player.GetSource_Misc("21");
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 74);
+                        SoundEngine.PlaySound(SoundID.Item74, Player.position);
                         int eDamage = (int)Player.GetBestClassDamage().ApplyTo(100);
                         if (Player.whoAmI == Main.myPlayer)
                             Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
@@ -6563,7 +6568,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("22");
                     if (damage > 0)
                     {
-                        SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 27);
+                        SoundEngine.PlaySound(SoundID.Item27, Player.position);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6601,7 +6606,7 @@ namespace CalamityMod.CalPlayer
                     var source = Player.GetSource_Misc("24");
                     if (damage > 80)
                     {
-                        SoundEngine.PlaySound(SoundID.Item, (int)Player.position.X, (int)Player.position.Y, 73);
+                        SoundEngine.PlaySound(SoundID.Item73, Player.position);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(Player.velocity.X, Player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -6710,7 +6715,7 @@ namespace CalamityMod.CalPlayer
                     Player.KillMeForGood();
                 }
             }
-            SoundEngine.PlaySound(SoundID.PlayerKilled, (int)Player.position.X, (int)Player.position.Y, 1, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.PlayerKilled, Player.position);
             Player.headVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             Player.bodyVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
             Player.legVelocity.Y = (float)Main.rand.Next(-40, -10) * 0.1f;
@@ -6890,7 +6895,7 @@ namespace CalamityMod.CalPlayer
             if (playRogueStealthSound && rogueStealth >= rogueStealthMax)
             {
                 playRogueStealthSound = false;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/RogueStealth"), (int)Player.position.X, (int)Player.position.Y);
+                SoundEngine.PlaySound(RogueStealthSound, Player.position);
             }
 
             // If the player isn't at full stealth, reset the sound so it'll play again when they hit full stealth.
@@ -7586,312 +7591,312 @@ namespace CalamityMod.CalPlayer
             #region MeleeLevelBoosts
             if (meleeLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.06f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.06f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.06f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.06f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.06f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.06f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 3;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 3;
             }
             else if (meleeLevel >= 5500) //hm limit
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 2;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 2;
             }
             else if (meleeLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.05f;
-                Player.GetCritChance(DamageClass.Melee) += 2;
+                Player.GetDamage<MeleeDamageClass>() += 0.05f;
+                Player.GetCritChance<MeleeDamageClass>() += 2;
             }
             else if (meleeLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.04f;
-                Player.GetCritChance(DamageClass.Melee) += 2;
+                Player.GetDamage<MeleeDamageClass>() += 0.04f;
+                Player.GetCritChance<MeleeDamageClass>() += 2;
             }
             else if (meleeLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.04f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.04f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.04f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.04f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 1500) //prehm limit
             {
-                Player.GetDamage(DamageClass.Melee) += 0.03f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.03f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.02f;
-                Player.GetCritChance(DamageClass.Melee) += 1;
+                Player.GetDamage<MeleeDamageClass>() += 0.02f;
+                Player.GetCritChance<MeleeDamageClass>() += 1;
             }
             else if (meleeLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Melee) += 0.02f;
+                Player.GetDamage<MeleeDamageClass>() += 0.02f;
             }
             else if (meleeLevel >= 300)
-                Player.GetDamage(DamageClass.Melee) += 0.02f;
+                Player.GetDamage<MeleeDamageClass>() += 0.02f;
             else if (meleeLevel >= 100)
-                Player.GetDamage(DamageClass.Melee) += 0.01f;
+                Player.GetDamage<MeleeDamageClass>() += 0.01f;
             #endregion
 
             #region RangedLevelBoosts
             if (rangedLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.06f;
+                Player.GetDamage<RangedDamageClass>() += 0.06f;
                 Player.moveSpeed += 0.06f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.05f;
+                Player.GetDamage<RangedDamageClass>() += 0.05f;
                 Player.moveSpeed += 0.06f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.05f;
+                Player.GetDamage<RangedDamageClass>() += 0.05f;
                 Player.moveSpeed += 0.05f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.04f;
+                Player.GetDamage<RangedDamageClass>() += 0.04f;
                 Player.moveSpeed += 0.05f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.04f;
+                Player.GetDamage<RangedDamageClass>() += 0.04f;
                 Player.moveSpeed += 0.04f;
-                Player.GetCritChance(DamageClass.Ranged) += 3;
+                Player.GetCritChance<RangedDamageClass>() += 3;
             }
             else if (rangedLevel >= 5500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.04f;
+                Player.GetDamage<RangedDamageClass>() += 0.04f;
                 Player.moveSpeed += 0.04f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.03f;
+                Player.GetDamage<RangedDamageClass>() += 0.03f;
                 Player.moveSpeed += 0.04f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.03f;
+                Player.GetDamage<RangedDamageClass>() += 0.03f;
                 Player.moveSpeed += 0.03f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.03f;
-                Player.GetCritChance(DamageClass.Ranged) += 2;
+                Player.GetCritChance<RangedDamageClass>() += 2;
             }
             else if (rangedLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.03f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 1500)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.02f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
                 Player.moveSpeed += 0.01f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
-                Player.GetCritChance(DamageClass.Ranged) += 1;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
+                Player.GetCritChance<RangedDamageClass>() += 1;
             }
             else if (rangedLevel >= 300)
-                Player.GetDamage(DamageClass.Ranged) += 0.02f;
+                Player.GetDamage<RangedDamageClass>() += 0.02f;
             else if (rangedLevel >= 100)
-                Player.GetDamage(DamageClass.Ranged) += 0.01f;
+                Player.GetDamage<RangedDamageClass>() += 0.01f;
             #endregion
 
             #region MagicLevelBoosts
             if (magicLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.06f;
+                Player.GetDamage<MagicDamageClass>() += 0.06f;
                 Player.manaCost *= 0.94f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.05f;
+                Player.GetDamage<MagicDamageClass>() += 0.05f;
                 Player.manaCost *= 0.94f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.05f;
+                Player.GetDamage<MagicDamageClass>() += 0.05f;
                 Player.manaCost *= 0.95f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.95f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.96f;
-                Player.GetCritChance(DamageClass.Magic) += 3;
+                Player.GetCritChance<MagicDamageClass>() += 3;
             }
             else if (magicLevel >= 5500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.96f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.04f;
+                Player.GetDamage<MagicDamageClass>() += 0.04f;
                 Player.manaCost *= 0.97f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.03f;
+                Player.GetDamage<MagicDamageClass>() += 0.03f;
                 Player.manaCost *= 0.97f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.03f;
+                Player.GetDamage<MagicDamageClass>() += 0.03f;
                 Player.manaCost *= 0.98f;
-                Player.GetCritChance(DamageClass.Magic) += 2;
+                Player.GetCritChance<MagicDamageClass>() += 2;
             }
             else if (magicLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.03f;
+                Player.GetDamage<MagicDamageClass>() += 0.03f;
                 Player.manaCost *= 0.98f;
-                Player.GetCritChance(DamageClass.Magic) += 1;
+                Player.GetCritChance<MagicDamageClass>() += 1;
             }
             else if (magicLevel >= 1500)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
                 Player.manaCost *= 0.98f;
-                Player.GetCritChance(DamageClass.Magic) += 1;
+                Player.GetCritChance<MagicDamageClass>() += 1;
             }
             else if (magicLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
                 Player.manaCost *= 0.99f;
-                Player.GetCritChance(DamageClass.Magic) += 1;
+                Player.GetCritChance<MagicDamageClass>() += 1;
             }
             else if (magicLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
                 Player.manaCost *= 0.99f;
             }
             else if (magicLevel >= 300)
-                Player.GetDamage(DamageClass.Magic) += 0.02f;
+                Player.GetDamage<MagicDamageClass>() += 0.02f;
             else if (magicLevel >= 100)
-                Player.GetDamage(DamageClass.Magic) += 0.01f;
+                Player.GetDamage<MagicDamageClass>() += 0.01f;
             #endregion
 
             #region SummonLevelBoosts
             if (summonLevel >= 12500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.12f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetDamage<SummonDamageClass>() += 0.12f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
             }
             else if (summonLevel >= 10500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.1f;
-                Player.GetKnockback(DamageClass.Summon).Base += 3.0f;
+                Player.GetDamage<SummonDamageClass>() += 0.1f;
+                Player.GetKnockback(DamageClass.Summon) += 3.0f;
             }
             else if (summonLevel >= 9100)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.09f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.7f;
+                Player.GetDamage<SummonDamageClass>() += 0.09f;
+                Player.GetKnockback(DamageClass.Summon) += 2.7f;
             }
             else if (summonLevel >= 7800)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.08f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.4f;
+                Player.GetDamage<SummonDamageClass>() += 0.08f;
+                Player.GetKnockback(DamageClass.Summon) += 2.4f;
             }
             else if (summonLevel >= 6600)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 2.1f;
+                Player.GetDamage<SummonDamageClass>() += 0.07f;
+                Player.GetKnockback(DamageClass.Summon) += 2.1f;
             }
             else if (summonLevel >= 5500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.07f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetDamage<SummonDamageClass>() += 0.07f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
             }
             else if (summonLevel >= 4500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.06f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.8f;
+                Player.GetDamage<SummonDamageClass>() += 0.06f;
+                Player.GetKnockback(DamageClass.Summon) += 1.8f;
             }
             else if (summonLevel >= 3600)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.05f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.5f;
+                Player.GetDamage<SummonDamageClass>() += 0.05f;
+                Player.GetKnockback(DamageClass.Summon) += 1.5f;
             }
             else if (summonLevel >= 2800)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 1.2f;
+                Player.GetDamage<SummonDamageClass>() += 0.04f;
+                Player.GetKnockback(DamageClass.Summon) += 1.2f;
             }
             else if (summonLevel >= 2100)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.04f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.9f;
+                Player.GetDamage<SummonDamageClass>() += 0.04f;
+                Player.GetKnockback(DamageClass.Summon) += 0.9f;
             }
             else if (summonLevel >= 1500)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.6f;
+                Player.GetDamage<SummonDamageClass>() += 0.03f;
+                Player.GetKnockback(DamageClass.Summon) += 0.6f;
             }
             else if (summonLevel >= 1000)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.03f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetDamage<SummonDamageClass>() += 0.03f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 600)
             {
-                Player.GetDamage(DamageClass.Summon) += 0.02f;
-                Player.GetKnockback(DamageClass.Summon).Base += 0.3f;
+                Player.GetDamage<SummonDamageClass>() += 0.02f;
+                Player.GetKnockback(DamageClass.Summon) += 0.3f;
             }
             else if (summonLevel >= 300)
-                Player.GetDamage(DamageClass.Summon) += 0.02f;
+                Player.GetDamage<SummonDamageClass>() += 0.02f;
             else if (summonLevel >= 100)
-                Player.GetDamage(DamageClass.Summon) += 0.01f;
+                Player.GetDamage<SummonDamageClass>() += 0.01f;
             #endregion
 
             #region RogueLevelBoosts
@@ -8247,7 +8252,7 @@ namespace CalamityMod.CalPlayer
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DefenseDamage"), (int)Player.position.X, (int)Player.position.Y);
+                SoundEngine.PlaySound(DefenseDamageSound, Player.position);
                 hurtSoundTimer = 30;
             }
 

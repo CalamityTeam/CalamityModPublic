@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.height = 44;
             Item.noMelee = true;
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
+            Item.UseSound = CommonCalamitySounds.LaserCannonSound;
 
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;

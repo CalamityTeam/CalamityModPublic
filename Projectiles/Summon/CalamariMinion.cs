@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -86,14 +87,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.rand.NextBool(600))
             {
-                SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 35);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(35), Projectile.position);
             }
             if (Projectile.ai[0] == 2f)
             {
                 Projectile.ai[1] -= 1f;
                 if (Projectile.ai[1] > 3f)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 34);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(34), Projectile.position);
                     int num = Dust.NewDust(Projectile.Center, 0, 0, 109, Projectile.velocity.X, Projectile.velocity.Y, 100, default, 1.4f);
                     Main.dust[num].scale = 0.5f + (float)Main.rand.NextDouble() * 0.3f;
                     Main.dust[num].velocity /= 2.5f;

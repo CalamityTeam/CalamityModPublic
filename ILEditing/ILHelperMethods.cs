@@ -56,7 +56,7 @@ namespace CalamityMod.ILEditing
                 WorldGen.TileFrame(doorX, y);
 
             // Play the door closing sound (lab doors do not use the door opening sound)
-            SoundEngine.PlaySound(SoundID.DoorClosed, doorX * 16, doorY * 16);
+            SoundEngine.PlaySound(SoundID.DoorClosed, new Vector2(doorX * 16, doorY * 16));
             return true;
         }
 

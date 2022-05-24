@@ -58,8 +58,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.1f;
-            player.GetCritChance(DamageClass.Melee) += 10;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
             player.endurance += 0.05f;
             player.lavaMax += 240;
             player.ignoreWater = true;

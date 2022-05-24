@@ -141,7 +141,7 @@ namespace CalamityMod.Items.Accessories
             fx.MaxUpdates = 2; // Make the animation play at double speed.
 
             // Play a weird dimensional lightning sound simultaneously.
-            var extraSound = SoundID.DD2_EtherianPortalDryadTouch.WithVolume(1.4f);
+            var extraSound = SoundID.DD2_EtherianPortalDryadTouch with { Volume = SoundID.DD2_EtherianPortalDryadTouch.Volume * 1.4f };
             SoundEngine.PlaySound(extraSound, player.Center);
 
             // Display a level up text notification.

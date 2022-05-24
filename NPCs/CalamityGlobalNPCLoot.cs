@@ -23,6 +23,7 @@ using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.NPCs.AcidRain;
 
 namespace CalamityMod.NPCs
 {
@@ -1683,7 +1684,7 @@ namespace CalamityMod.NPCs
                 {
                     if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MaulerRoar"),
+                        SoundEngine.PlaySound(Mauler.RoarSound),
                             (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
                     }
 

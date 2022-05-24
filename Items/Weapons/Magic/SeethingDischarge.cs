@@ -5,6 +5,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class SeethingDischarge : ModItem
@@ -28,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 6.75f;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/FlareSound");
+            Item.UseSound = CommonCalamitySounds.FlareSound;
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;

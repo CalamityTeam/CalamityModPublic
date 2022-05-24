@@ -55,7 +55,7 @@ namespace CalamityMod.Items.SummonItems
             Color messageColor = Color.Cyan;
             CalamityUtils.DisplayLocalizedText(key, messageColor);
 
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+            SoundEngine.PlaySound(DevourerofGodsHead.SpawnSound, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
                 NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
             else

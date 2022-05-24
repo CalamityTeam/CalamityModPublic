@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             Item.knockBack = 8f;
             Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/Magnum");
+            Item.UseSound = Magnum.FireSound;
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<MagnumRound>();

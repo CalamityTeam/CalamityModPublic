@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBlast");
+            Item.UseSound = CommonCalamitySounds.PlasmaBlastSound;
             Item.autoReuse = true;
             Item.shootSpeed = 12f;
             Item.shoot = ModContent.ProjectileType<PlasmaShot>();
@@ -46,11 +47,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
+                Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
             }
             else
             {
-                Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBlast");
+                Item.UseSound = CommonCalamitySounds.PlasmaBlastSound;
             }
             return base.CanUseItem(player);
         }

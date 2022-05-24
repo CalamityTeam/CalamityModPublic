@@ -13,6 +13,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
     public class ScornEater : ModNPC
     {
+
+        public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/ScornJump");
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/ScornHit"); 
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/ScornDeath");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scorn Eater");
@@ -34,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             AIType = -1;
             NPC.lavaImmune = true;
             NPC.value = Item.buyPrice(0, 0, 50, 0);
-            NPC.DeathSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/ScornDeath");
+            NPC.DeathSound = DeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<ScornEaterBanner>();
             NPC.Calamity().VulnerableToHeat = false;
@@ -100,7 +105,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         else
                             NPC.velocity.Y = 12f;
                     }
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ScornJump"), (int)NPC.Center.X, (int)NPC.Center.Y);
+                    SoundEngine.PlaySound(JumpSound, NPC.Center);
                 }
                 NPC.netUpdate = true;
             }
@@ -174,7 +179,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 7;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/ScornHurt"), NPC.Center);
+                SoundEngine.PlaySound(HitSound, NPC.Center);
             }
             for (int k = 0; k < 5; k++)
             {

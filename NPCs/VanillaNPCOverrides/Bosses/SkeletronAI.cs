@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (respawnHands && calamityGlobalNPC.newAI[0] == 0f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
                 {
                     calamityGlobalNPC.newAI[0] = 1f;
-                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, -0.25f);
+                    SoundEngine.PlaySound(SoundID.Roar with { Pitch = SoundID.Roar.Pitch - 0.25f }, npc.position);
                     SpawnHands();
 
                     npc.netUpdate = true;
@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Main.dayTime && !BossRushEvent.BossRushActive && npc.ai[1] != 3f && npc.ai[1] != 2f)
             {
                 npc.ai[1] = 2f;
-                SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                SoundEngine.PlaySound(SoundID.Roar, npc.position);
             }
 
             // Hand immunity
@@ -392,7 +392,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 calamityGlobalNPC.newAI[1] += 1f;
                 if (calamityGlobalNPC.newAI[1] == 2f)
-                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                 if (npc.ai[2] >= 300f)
                 {

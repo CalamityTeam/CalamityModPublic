@@ -10,6 +10,7 @@ using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 using ApolloBoss = CalamityMod.NPCs.ExoMechs.Apollo.Apollo;
 using ArtemisBoss = CalamityMod.NPCs.ExoMechs.Artemis.Artemis;
@@ -66,6 +67,10 @@ namespace CalamityMod.NPCs.ExoMechs
         public const int ExoMechShakeTime = 100;
         public const int ExoMechPhaseDialogueTime = ExoMechChooseDelay + ExoMechShakeTime;
         public const int DelayBeforeDefeatStandup = 30;
+
+        public static readonly SoundStyle LaughSound = new("CalamityMod/Sounds/Custom/DraedonLaugh");
+        public static readonly SoundStyle TeleportSound = new("CalamityMod/Sounds/Custom/DraedonTeleport");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon");
@@ -127,7 +132,7 @@ namespace CalamityMod.NPCs.ExoMechs
             if (TalkTimer == 0f)
             {
                 NPC.TargetClosest(false);
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DraedonTeleport"), PlayerToFollow.Center);
+                SoundEngine.PlaySound(TeleportSound, PlayerToFollow.Center);
             }
 
             // Pick someone else to pay attention to if the old target is gone.
@@ -249,8 +254,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    var sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/FlareSound"), PlayerToFollow.Center);
-                    CalamityUtils.SafeVolumeChange(ref sound, 1.55f);
+                    SoundEngine.PlaySound(CommonCalamitySounds.FlareSound with { Volume = CommonCalamitySounds.FlareSound.Volume * 1.55f}, PlayerToFollow.Center);
                 }
             }
 
@@ -277,7 +281,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
                     if (TalkTimer == ExoMechPhaseDialogueTime)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DraedonLaugh"), PlayerToFollow.Center);
+                        SoundEngine.PlaySound(LaughSound, PlayerToFollow.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase2Text1", TextColor);
@@ -303,7 +307,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
                     if (TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DraedonLaugh"), PlayerToFollow.Center);
+                        SoundEngine.PlaySound(LaughSound, PlayerToFollow.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase3Text2", TextColor);
@@ -361,7 +365,7 @@ namespace CalamityMod.NPCs.ExoMechs
 
                     if (TalkTimer == ExoMechPhaseDialogueTime + DelayPerDialogLine * 2f)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DraedonLaugh"), PlayerToFollow.Center);
+                        SoundEngine.PlaySound(LaughSound), PlayerToFollow.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             CalamityUtils.DisplayLocalizedText("Mods.CalamityMod.DraedonExoPhase6Text3", TextColor);

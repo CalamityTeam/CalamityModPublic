@@ -8,12 +8,15 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     // still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
     public class PlasmaCaster : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/PlasmaCasterFire");
+
         public const int BaseDamage = 705;
         public override void SetStaticDefaults()
         {
@@ -37,7 +40,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.mana = 24;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaCasterFire");
+            Item.UseSound = FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;

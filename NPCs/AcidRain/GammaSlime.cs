@@ -11,6 +11,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -146,7 +147,7 @@ namespace CalamityMod.NPCs.AcidRain
                 DustAngleMultiplier2 = Main.rand.NextFloat(4f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)NPC.position.X, (int)NPC.position.Y, 104);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), NPC.position);
                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), Main.expertMode ? 96 : 120, 4f, Main.myPlayer, 0f, NPC.whoAmI);
                 }
                 NPC.netUpdate = true;

@@ -1,6 +1,7 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Typeless;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Buffs.StatBuffs
         {
             player.Calamity().kamiBoost = true;
             if (player.buffTime[buffIndex] == 1)
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/YanmeiKnifeExpire"), player.Center);
+                SoundEngine.PlaySound(YanmeisKnife.ExpireSound, player.Center);
         }
     }
 }

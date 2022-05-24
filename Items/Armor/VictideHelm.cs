@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.GetDamage(DamageClass.Melee) += 0.1f;
+                player.GetDamage<MeleeDamageClass>() += 0.1f;
                 player.lifeRegen += 3;
             }
             player.aggro += 200;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.05f;
+            player.GetDamage<MeleeDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

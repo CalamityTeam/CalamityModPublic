@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Magic) += 0.05f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
+            player.GetCritChance<MagicDamageClass>() += 5;
             player.lavaRose = true;
         }
 

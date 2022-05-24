@@ -13,6 +13,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -427,7 +428,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             NPC.ai[3] += 1f;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaCasterFire"), NPC.Center);
+                                SoundEngine.PlaySound(PlasmaCaster.FireSound, NPC.Center);
                                 Vector2 plasmaBoltVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                                 int type = ModContent.ProjectileType<AresPlasmaFireball>();
                                 int damage = NPC.GetProjectileDamage(type);

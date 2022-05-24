@@ -9,11 +9,14 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PulseRifle : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/PulseRifleFire");
+
         private int BaseDamage = 1420;
 
         public override void SetStaticDefaults()
@@ -37,7 +40,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PulseRifleFire");
+            Item.UseSound = FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;

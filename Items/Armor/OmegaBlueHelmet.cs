@@ -7,12 +7,16 @@ using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
 using System.Linq;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
     {
+
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/OmegaBlueAbility);
+
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)

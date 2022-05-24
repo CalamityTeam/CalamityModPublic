@@ -399,7 +399,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             num54 = 20f;
 
                         npc.soundDelay = (int)num54;
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.WormDig, npc.position);
                     }
 
                     num52 = (float)Math.Sqrt(num39 * num39 + num40 * num40);

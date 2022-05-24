@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 60;
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
             player.manaCost *= 0.9f;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
             // All-class armors count as rogue sets, but don't grant stealth bonuses
             player.Calamity().wearingRogueArmor = true;
             player.Calamity().WearingPostMLSummonerSet = true;
-            player.GetDamage(DamageClass.Summon) += 0.2f;
+            player.GetDamage<SummonDamageClass>() += 0.2f;
             player.maxMinions += 2;
 
             int[] immuneDebuffs = {

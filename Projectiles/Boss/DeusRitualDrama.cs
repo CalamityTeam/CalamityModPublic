@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class DeusRitualDrama : ModProjectile
     {
+        public static readonly SoundStyle PulseSound = new("CalamityMod/Sounds/Custom/AstralBeaconOrbPulse");
+
         public float Time
         {
             get => Projectile.ai[0];
@@ -47,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
                 int idx = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
                 if (idx != -1)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstrumDeusSpawn"), Projectile.Center);
+                    SoundEngine.PlaySound(AstrumDeusHeadSpectral.SpawnSound, Projectile.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         CalamityUtils.BossAwakenMessage(idx);
@@ -110,7 +112,7 @@ namespace CalamityMod.Projectiles.Boss
                     dust.velocity = angle.ToRotationVector2() * 7f;
                     dust.noGravity = true;
                 }
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AstralBeaconOrbPulse"), Projectile.Center);
+                SoundEngine.PlaySound(PulseSound, Projectile.Center);
             }
 
             DrawStars(Main.spriteBatch, offset);

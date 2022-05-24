@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
@@ -19,9 +20,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-            // TODO -- "scales with all stats at once"
-            Item.DamageType = DamageClass.Generic;
-
+            Item.DamageType = AverageDamageClass.Instance;
             Item.width = 80;
             Item.damage = 32;
             Item.rare = ItemRarityID.Cyan;
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.useTime = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.knockBack = 5f;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon");
+            Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             Item.autoReuse = true;
             Item.noMelee = true;
             Item.height = 50;

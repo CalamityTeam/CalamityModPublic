@@ -21,27 +21,18 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Terraria;
+using Terraria.Audio;
 using Terraria.Chat;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-using TerrariaAudio = Terraria.Audio;
 
 namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
-        /// <summary>
-        /// Gets an instance of a sound that is trackable when used in conjunction with <see cref="Main.PlayTrackedSound(TerrariaAudio.SoundStyle, Vector2)"/>.
-        /// </summary>
-        /// <param name="path">The path to the sound file.</param>
-        public static TerrariaAudio.CustomSoundStyle GetTrackableSound(string path)
-        {
-            return new TerrariaAudio.CustomSoundStyle(ModContent.Request<SoundEffect>(path, AssetRequestMode.ImmediateLoad).Value, TerrariaAudio.SoundType.Sound);
-        }
-
         public static void DisplayLocalizedText(string key, Color? textColor = null)
         {
             // An attempt to bypass the need for a separate method and runtime/compile-time parameter

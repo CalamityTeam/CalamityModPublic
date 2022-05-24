@@ -15,6 +15,6 @@ namespace CalamityMod.Cooldowns
         public override Color CooldownStartColor => new Color(216, 60, 90);
         public override Color CooldownEndColor => new Color(251, 106, 150);
 
-        public override LegacySoundStyle EndSound => SoundLoader.GetLegacySoundSlot(GetInstance<CalamityMod>(), "Sounds/Custom/AbilitySounds/BloodflareRangerRecharge");
+        public override SoundStyle EndSound => SoundLoader.GetLegacySoundSlot(GetInstance<CalamityMod>(), "Sounds/Custom/AbilitySounds/BloodflareRangerRecharge");
     }
 }

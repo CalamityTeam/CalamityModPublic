@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.holyMinions = true;
             player.GetKnockback<SummonDamageClass>() += 2.5f;
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

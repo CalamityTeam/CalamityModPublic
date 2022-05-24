@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolyBlast : ModProjectile
     {
+        public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/ProvidenceHolyBlastImpact");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Blast");
@@ -112,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ProvidenceHolyBlastImpact"), Projectile.Center);
+            SoundEngine.PlaySound(ImpactSound, Projectile.Center);
             int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int num193 = 0; num193 < 4; num193++)
             {

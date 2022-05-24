@@ -25,6 +25,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
 using CalamityMod.EntitySources;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.CalPlayer
 {
@@ -678,7 +679,7 @@ namespace CalamityMod.CalPlayer
                     {
                         double useTimeMultiplier = 0.85 + (item.useTime * item.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                         double wingTimeFraction = Player.wingTimeMax / 20D;
-                        double meleeStatMultiplier = (double)(Player.GetDamage(DamageClass.Melee).Base * (float)(Player.GetCritChance(DamageClass.Melee) / 10D));
+                        double meleeStatMultiplier = (double)(Player.GetDamage<MeleeDamageClass>().Additive * (float)(Player.GetCritChance<MeleeDamageClass>() / 10D));
 
                         if (Player.wingTime < Player.wingTimeMax)
                             Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -774,7 +775,7 @@ namespace CalamityMod.CalPlayer
                 {
                     double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                     double wingTimeFraction = Player.wingTimeMax / 20D;
-                    double meleeStatMultiplier = Player.GetDamage(DamageClass.Melee).Base * (float)(Player.GetCritChance(DamageClass.Melee) / 10D);
+                    double meleeStatMultiplier = Player.GetDamage<MeleeDamageClass>().Additive * (float)(Player.GetCritChance<MeleeDamageClass>() / 10D);
 
                     if (Player.wingTime < Player.wingTimeMax)
                         Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -889,7 +890,7 @@ namespace CalamityMod.CalPlayer
             if (silvaMage && silvaMageCooldown <= 0 && (proj.penetrate == 1 || proj.timeLeft <= 5))
             {
                 silvaMageCooldown = 300;
-                SoundEngine.PlaySound(SoundID.Zombie, (int)proj.position.X, (int)proj.position.Y, 103);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(103) , proj.position); //So scuffed, just because zombie sounds werent ported normally
                 // Silva Mage Blasts: 800 + 60%, softcap on the whole combined thing starts at 1400
                 int silvaBurstDamage = CalamityUtils.DamageSoftCap(800.0 + 0.6 * proj.damage, 1400);
                 Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SilvaBurst>(), silvaBurstDamage, 8f, Player.whoAmI);

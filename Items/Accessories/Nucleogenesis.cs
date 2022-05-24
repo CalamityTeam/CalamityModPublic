@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
             player.GetKnockback<SummonDamageClass>() += 3f;
-            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
             player.buffImmune[ModContent.BuffType<Shadowflame>()] = true;
             player.buffImmune[ModContent.BuffType<Irradiated>()] = true;
         }

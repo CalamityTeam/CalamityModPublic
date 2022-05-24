@@ -1,8 +1,9 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Pets
 {
@@ -58,7 +59,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (Projectile.frame == 4 && Projectile.ai[1] >= 45)
             {
-                SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 32);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(32), Projectile.Center);
             }
             else if (Projectile.frame > 6)
             {

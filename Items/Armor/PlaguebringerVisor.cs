@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.15f;
+            player.GetDamage<SummonDamageClass>() += 0.15f;
             player.statLifeMax2 += 20;
         }
 

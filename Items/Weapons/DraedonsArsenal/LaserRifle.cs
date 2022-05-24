@@ -8,11 +8,14 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using System;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class LaserRifle : ModItem
     {
+        public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/LaserRifleFire");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heavy Laser Rifle");
@@ -33,7 +36,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserRifleFire");
+            Item.UseSound = FireSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;

@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
-            SoundEngine.PlaySound(SoundID.Item,i * 16, j * 16, 52, 0.75f, -0.5f);
+            SoundEngine.PlaySound(SoundID.Item52 with { Volume = SoundID.Item52.Volume * 0.75f, Pitch = SoundID.Item52.Pitch - 0.5f }, new Vector2( i * 16, j * 16 ));
         }
     }
 }

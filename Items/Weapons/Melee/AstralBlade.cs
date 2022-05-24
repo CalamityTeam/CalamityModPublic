@@ -72,11 +72,11 @@ namespace CalamityMod.Items.Weapons.Melee
             knockback *= multiplier;
 
             if (!crit)
-                crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance(DamageClass.Melee)) * multiplier, 0f, 99f), 100);
+                crit = Main.rand.NextBool((int)MathHelper.Clamp((Item.crit + player.GetCritChance<MeleeDamageClass>()) * multiplier, 0f, 99f), 100);
 
             if (multiplier > 1.5f)
             {
-                SoundEngine.PlaySound(SoundID.Item105, Main.player[Main.myPlayer].position);
+                SoundEngine.PlaySound(SoundID.Item105, player.position);
                 bool blue = Main.rand.NextBool();
                 float angleStart = Main.rand.NextFloat(0f, MathHelper.TwoPi);
                 float var = 0.05f + (2f - multiplier);

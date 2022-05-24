@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.1f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
             player.Calamity().rogueVelocity += 0.15f;
         }
 

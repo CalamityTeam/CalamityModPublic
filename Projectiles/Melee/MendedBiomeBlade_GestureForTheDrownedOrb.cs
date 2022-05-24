@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            var splash = new LegacySoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
+            var splash = new SoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
             SoundEngine.PlaySound(splash, Projectile.Center);
 
             for (int i = 0; i < 4; i++)

@@ -25,6 +25,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
 using ReLogic.Content;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -36,6 +37,9 @@ namespace CalamityMod.NPCs.Leviathan
         private bool initialised = false;
         private int soundDelay = 0;
         public static Texture2D AttackTexture = null;
+
+        public static readonly SoundStyle RoarMeteorSound = new("CalamityMod/Sounds/Custom/LeviathanRoarMeteor");
+        public static readonly SoundStyle RoarChargeSound = new("CalamityMod/Sounds/Custom/LeviathanRoarCharge");
 
         public override void SetStaticDefaults()
         {
@@ -145,7 +149,7 @@ namespace CalamityMod.NPCs.Leviathan
                 soundDelay--;
 
             if (Main.rand.NextBool(600) && !spawnAnimation)
-                SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound((sirenAlive && !death) ? soundChoice : soundChoiceRage), vector);
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -242,7 +246,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.velocity = new Vector2(0f, -velocityY);
 
                     if (calamityGlobalNPC.newAI[3] == 10f)
-                        SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoiceRage);
+                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(soundChoiceRage), vector);
 
                     NPC.Opacity = MathHelper.Clamp(calamityGlobalNPC.newAI[3] / spawnAnimationTime, 0f, 1f);
 
@@ -394,7 +398,7 @@ namespace CalamityMod.NPCs.Leviathan
                     int spawnLimit = (sirenAlive && !phase4) ? 2 : (death ? 3 : 4);
                     if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
-                        SoundEngine.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, soundChoice);
+                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(soundChoice), vector);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }

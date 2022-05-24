@@ -16,13 +16,19 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Skies;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
     public class ThanatosHead : ModNPC
     {
+
+
         public static int normalIconIndex;
         public static int vulnerableIconIndex;
+
+        public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ThanatosVent");
+        public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/THanosLaser");
 
         internal static void LoadHeadIcons()
         {
@@ -844,8 +850,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                             {
                                 if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
                                 {
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/THanosLaser"),
-                                        (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                                    SoundEngine.PlaySound(LaserSound, Main.player[Main.myPlayer].position);
                                 }
 
                                 // Create a bunch of lightning bolts in the sky
@@ -928,7 +933,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                 // Noise
                 if (NPC.localAI[1] == 0f)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ThanatosVent"), NPC.Center);
+                    SoundEngine.PlaySound(VentSound, NPC.Center);
 
                 // Steam
                 NPC.localAI[1] += 1f;
@@ -1201,7 +1206,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 NPC.soundDelay = 8;
 
                 if (vulnerable)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
                 else
                     SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
             }

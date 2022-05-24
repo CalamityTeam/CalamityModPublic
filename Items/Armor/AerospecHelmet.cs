@@ -62,14 +62,14 @@ namespace CalamityMod.Items.Armor
                         Main.projectile[p].originalDamage = 20;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.11f;
+            player.GetDamage<SummonDamageClass>() += 0.11f;
             player.maxMinions++;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.05f;
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

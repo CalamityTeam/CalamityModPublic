@@ -63,8 +63,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
-            player.GetDamage(DamageClass.Ranged) += 0.3f;
-            player.GetCritChance(DamageClass.Ranged) += 30;
+            player.GetDamage<RangedDamageClass>() += 0.3f;
+            player.GetCritChance<RangedDamageClass>() += 30;
         }
 
         public override void AddRecipes()

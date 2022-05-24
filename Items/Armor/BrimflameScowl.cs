@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class BrimflameScowl : ModItem
     {
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AngelicAllianceActivation");
+
         private bool frenzy = false;
         public static int CooldownLength = 1800;
 
@@ -53,8 +55,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Magic) += 0.05f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
+            player.GetCritChance<MagicDamageClass>() += 5;
             player.statManaMax2 += 70;
             player.manaCost *= 0.9f;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
@@ -77,8 +79,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.brimflameSet = true;
-            player.GetDamage(DamageClass.Magic) += 0.15f;
-            player.GetCritChance(DamageClass.Magic) += 15;
+            player.GetDamage<MagicDamageClass>() += 0.15f;
+            player.GetCritChance<MagicDamageClass>() += 15;
             string hotkey = CalamityKeybinds.SetBonusHotKey.TooltipHotkeyString();
             player.setBonus = "Grants an additional 15% increased magic damage and crit\n" +
                 "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +

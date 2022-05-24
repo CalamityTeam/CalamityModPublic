@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Math.Abs(HalfTimer / 20f) == 0.5f)
             {
-                var splash = new LegacySoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
+                var splash = new SoundStyle(SoundID.Splash, 0).WithPitchVariance(Main.rand.NextFloat());
                 SoundEngine.PlaySound(splash, Projectile.Center);
 
                 if (Owner.whoAmI == Main.myPlayer)

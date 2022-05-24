@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
-            Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
-            Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage(DamageClass.Melee).Additive - 2f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+            Projectile.NewProjectile(source, vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<AftershockRock>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

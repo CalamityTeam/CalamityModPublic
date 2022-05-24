@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -67,8 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
         //all damage boosts should still apply
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            float damageMult = (player.GetDamage(DamageClass.Melee).Additive + player.GetDamage(DamageClass.Ranged).Additive - 2f) / 2f;
-            damage += damageMult - player.GetDamage(DamageClass.Melee).Base + 1f;
+            damage = player.GetDamage<MeleeDamageClass>().CombineWith(player.GetDamage<RangedDamageClass>()) * 0.5f;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -104,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             else
             {
-                Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge");
+                Item.UseSound = CrystylCrusher.ChargeSound;
                 Item.useStyle = ItemUseStyleID.Shoot;
                 Item.useTurn = false;
                 Item.autoReuse = false;

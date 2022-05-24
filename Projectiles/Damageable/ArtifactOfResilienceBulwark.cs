@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Damageable
         public override int LifeMax => 1;
         public override int MaxDamageImmunityFrames => 5;
         public override DamageSourceType DamageSources => DamageSourceType.FriendlyProjectiles | DamageSourceType.HostileProjectiles | DamageSourceType.HostileNPCs;
-        public override LegacySoundStyle HitSound => SoundID.NPCHit3;
-        public override LegacySoundStyle DeathSound => SoundID.NPCDeath14;
+        public override SoundStyle HitSound => SoundID.NPCHit3;
+        public override SoundStyle DeathSound => SoundID.NPCDeath14;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Artifact of Resilience");

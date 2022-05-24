@@ -13,6 +13,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -402,7 +403,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire"), NPC.Center);
+                                SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
                                 Vector2 gaussNukeVelocity = Vector2.Normalize(rotationVector) * projectileVelocity;
                                 int type = ModContent.ProjectileType<AresGaussNukeProjectile>();
                                 int damage = NPC.GetProjectileDamage(type);

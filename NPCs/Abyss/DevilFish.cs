@@ -18,6 +18,8 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class DevilFish : ModNPC
     {
+        public static readonly SoundStyle MaskBreakSound = new("CalamityMod/Sounds/Item/DevilMaskBreak");
+
         public bool brokenMask = false;
         public int hitCounter = 0;
 
@@ -100,7 +102,7 @@ namespace CalamityMod.NPCs.Abyss
                         Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DevilFishMask" + i).Type, 1f);
                     }
                 }
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/DevilMaskBreak"), (int)NPC.position.X, (int)NPC.position.Y);
+                SoundEngine.PlaySound(MaskBreakSound, NPC.position);
             }
 
             if (NPC.wet)

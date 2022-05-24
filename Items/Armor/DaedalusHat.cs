@@ -44,14 +44,14 @@ namespace CalamityMod.Items.Armor
                 "If you absorb an attack you are healed for 1/2 of that attack's damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusAbsorb = true;
-            player.GetDamage(DamageClass.Magic) += 0.05f;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.manaCost *= 0.9f;
-            player.GetDamage(DamageClass.Magic) += 0.13f;
-            player.GetCritChance(DamageClass.Magic) += 7;
+            player.GetDamage<MagicDamageClass>() += 0.13f;
+            player.GetCritChance<MagicDamageClass>() += 7;
             player.statManaMax2 += 60;
         }
 

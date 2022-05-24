@@ -5,11 +5,14 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
     public class YanmeisKnife : ModItem
     {
+        public static readonly SoundStyle ExpireSound = new("CalamityMod/Sounds/Custom/YanmeiKnifeExpire");
+        
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yanmei's Knife");

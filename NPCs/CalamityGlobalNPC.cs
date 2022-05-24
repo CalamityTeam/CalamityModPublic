@@ -594,7 +594,7 @@ namespace CalamityMod.NPCs
                 }
 
                 Item heldItem = Main.player[owner].ActiveItem();
-                int totalDamage = (int)(150 * Main.player[owner].GetDamage(DamageClass.Summon).Base);
+                int totalDamage = (int)(150 * Main.player[owner].GetDamage<SummonDamageClass>().Base);
                 bool forbidden = Main.player[owner].head == ArmorIDs.Head.AncientBattleArmor && Main.player[owner].body == ArmorIDs.Body.AncientBattleArmor && Main.player[owner].legs == ArmorIDs.Legs.AncientBattleArmor;
                 bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>());
 

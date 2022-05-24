@@ -55,8 +55,8 @@ namespace CalamityMod.Items.Armor
             player.manaCost *= 0.83f;
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.GetDamage(DamageClass.Magic) += 0.2f;
-            player.GetCritChance(DamageClass.Magic) += 10;
+            player.GetDamage<MagicDamageClass>() += 0.2f;
+            player.GetCritChance<MagicDamageClass>() += 10;
             player.statManaMax2 += 100;
         }
 

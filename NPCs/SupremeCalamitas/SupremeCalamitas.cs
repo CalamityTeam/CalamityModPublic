@@ -152,6 +152,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private const int sepulcherSpawnCastTime = 75;
         private const int brothersSpawnCastTime = 150;
 
+        //Sounds
+        public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SupremeCalamitasSpawn") { Volume = 1.2f }; 
+        public static readonly SoundStyle SepulcherSummonSound = new("CalamityMod/Sounds/Custom/SCalSounds/SepulcherSpawn");
+        public static readonly SoundStyle BrimstoneShotSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneShoot");
+        public static readonly SoundStyle BrimstoneBigShotSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneBigShoot"); //DON'T YOU WANNA BE A [BIG SHOT]
+        public static readonly SoundStyle DashSound = new("CalamityMod/Sounds/Custom/SCalSounds/SCalDash");
+        public static readonly SoundStyle HellblastSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneHellblastSound");
+
+         
+
         // TODO -- This is cumbersome. Change it to be better in 1.4.
         internal static void LoadHeadIcons()
         {
@@ -1422,7 +1432,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
 
                                 for (int i = 0; i < 15; i++)
                                 {
@@ -1445,7 +1455,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneShotSound, NPC.Center);
 
                                 for (int i = 0; i < 20; i++)
                                 {
@@ -1468,7 +1478,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 canFireSplitingFireball = true;
                                 randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
                                 float rotation = MathHelper.ToRadians(20);
                                 int numProj = 8;
                                 for (int j = 0; j < numProj; j++)
@@ -1511,7 +1521,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             shieldRotation = NPC.velocity.ToRotation();
                             NPC.netUpdate = true;
 
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/SCalDash"), NPC.Center);
+                            SoundEngine.PlaySound(DashSound, NPC.Center);
                         }
 
                         NPC.ai[1] = 2f;
@@ -1603,7 +1613,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (NPC.ai[3] >= 20f)
                             {
                                 NPC.ai[3] = 0f;
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
+                                SoundEngine.PlaySound(HellblastSound, NPC.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
                                 for (int i = 0; i < 25; i++)
@@ -1691,7 +1701,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
                                 Vector2 projectileVelocity = player.Center - NPC.Center;
                                 projectileVelocity.Normalize();
                                 Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
@@ -1755,7 +1765,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int num388 = 0; num388 < 50; num388++)
                             Dust.NewDust(NPC.position, NPC.width, NPC.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SupremeCalamitasSpawn"), NPC.Center);
+                        SoundEngine.PlaySound(SpawnSound, NPC.Center);
                     }
                 }
 
@@ -1941,7 +1951,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             int randomShot = Main.rand.Next(6);
                             if (randomShot == 0 && canFireSplitingFireball)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
 
@@ -1964,7 +1974,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                             else if (randomShot == 1 && canFireSplitingFireball)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneShotSound, NPC.Center);
                                 canFireSplitingFireball = false;
                                 randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
 
@@ -1987,7 +1997,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             }
                             else
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
                                 canFireSplitingFireball = true;
                                 randomShot = ModContent.ProjectileType<BrimstoneBarrage>();
                                 float rotation = MathHelper.ToRadians(20);
@@ -2030,7 +2040,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             shieldRotation = NPC.velocity.ToRotation();
                             NPC.netUpdate = true;
 
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/SCalDash"), NPC.Center);
+                            SoundEngine.PlaySound(DashSound, NPC.Center);
                         }
 
                         NPC.ai[1] = 2f;
@@ -2119,7 +2129,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (NPC.ai[3] >= 24f)
                             {
                                 NPC.ai[3] = 0f;
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
+                                SoundEngine.PlaySound(HellblastSound, NPC.Center);
 
                                 // Release a burst of magic dust along with a brimstone hellblast skull.
                                 for (int i = 0; i < 25; i++)
@@ -2211,7 +2221,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneBigShoot"), NPC.Center);
+                                SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
                                 Vector2 projectileVelocity = player.Center - NPC.Center;
                                 projectileVelocity.Normalize();
                                 Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
@@ -2322,7 +2332,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     NPC.netUpdate = true;
                 }
 
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/SepulcherSpawn"), target.Center);
+                SoundEngine.PlaySound(SepulcherSummonSound, target.Center);
             }
         }
 

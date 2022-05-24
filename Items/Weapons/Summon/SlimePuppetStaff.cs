@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.NPCs.SlimeGod
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 3.6f;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SlimeGodPossession");
+            Item.UseSound = SlimeGodCore.PossessionSound;
             Item.shoot = ModContent.ProjectileType<SlimePuppet>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;

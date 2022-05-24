@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.autoReuse = true;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBolt");
+            Item.UseSound = CommonCalamitySounds.PlasmaBoltSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity5BuyPrice;

@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             player.Calamity().hellbornBoost = 600;
             damage *= 10;
-            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage(DamageClass.Generic).Additive + player.GetDamage(DamageClass.Ranged).Additive - 1f)), 0f, 0, false);
+            player.ApplyDamageToNPC(target, (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<RangedDamageClass>().Additive - 1f)), 0f, 0, false);
             float num50 = 3.4f;
             float num51 = 1.6f;
             float num52 = 4f;

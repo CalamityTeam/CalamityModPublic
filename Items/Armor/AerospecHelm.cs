@@ -45,13 +45,13 @@ namespace CalamityMod.Items.Armor
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.GetCritChance(DamageClass.Melee) += 5;
+            player.GetCritChance<MeleeDamageClass>() += 5;
             player.aggro += 300;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Melee) += 0.08f;
+            player.GetDamage<MeleeDamageClass>() += 0.08f;
         }
 
         public override void AddRecipes()

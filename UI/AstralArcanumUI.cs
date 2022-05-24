@@ -137,7 +137,7 @@ namespace CalamityMod.UI
             {
                 LastHovered = selectedCircle;
                 if (LastHovered != -1)
-                    SoundEngine.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.MenuTick);
             }
 
             string text = "Select";
@@ -161,7 +161,7 @@ namespace CalamityMod.UI
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p.TeleportationPotion();
-                    SoundEngine.PlaySound(SoundID.Item, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Item6, p.position);
                 }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {

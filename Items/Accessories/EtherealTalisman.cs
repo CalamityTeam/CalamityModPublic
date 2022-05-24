@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Accessories
                 player.manaFlower = true;
 
             player.statManaMax2 += 150;
-            player.GetDamage(DamageClass.Magic) += 0.15f;
+            player.GetDamage<MagicDamageClass>() += 0.15f;
             player.manaCost *= 0.9f;
-            player.GetCritChance(DamageClass.Magic) += 5;
+            player.GetCritChance<MagicDamageClass>() += 5;
         }
 
         public override void AddRecipes()

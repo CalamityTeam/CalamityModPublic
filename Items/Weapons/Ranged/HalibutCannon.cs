@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            SoundEngine.PlaySound(SoundID.Item38, (int)player.Center.X, (int)player.Center.Y);
+            SoundEngine.PlaySound(SoundID.Item38, player);
 
             int bulletAmt = Main.rand.Next(25, 36);
             for (int index = 0; index < bulletAmt; ++index)

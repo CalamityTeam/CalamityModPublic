@@ -14,6 +14,9 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/PwnagehammerMelee";
 
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/PwnagehammerSound") { Volume = 0.16f, PitchVariance = 0.16f };
+        public static readonly SoundStyle HomingSound = new("CalamityMod/Sounds/Item/PwnagehammerHoming") { Volume = 0.3f };
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pwnagehammer");
@@ -150,12 +153,8 @@ namespace CalamityMod.Projectiles.Melee
                         player.addDPS((int)damage);
                     }
                 }
-                SoundEffectInstance sound1 = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PwnagehammerHoming"), Projectile.Center);
-                if (sound1 != null)
-                    sound1.Volume = 0.3f;
-                SoundEffectInstance sound2 = SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-                if (sound2 != null)
-                    sound2.Volume = 0.22f;
+                SoundEngine.PlaySound(HomingSound, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.22f }, Projectile.Center);
             }
             else
             {
@@ -187,15 +186,9 @@ namespace CalamityMod.Projectiles.Melee
                         player.addDPS((int)damage);
                     }
                 }
-                SoundEffectInstance sound1 = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PwnagehammerSound"), Projectile.Center);
-                if (sound1 != null)
-                {
-                    sound1.Volume = 0.16f;
-                    sound1.Pitch = Main.rand.NextFloat(-0.08f, 0.08f);
-                }
-                SoundEffectInstance sound2 = SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-                if (sound2 != null)
-                    sound2.Volume = 0.11f;
+
+                SoundEngine.PlaySound(UseSound, Projectile.Center);
+                SoundEngine.PlaySound(SoundID.Item14 with { Volume = 0.11f }, Projectile.Center);
             }
         }
 

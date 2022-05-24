@@ -6,12 +6,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories
 {
     //Developer item, dedicatee: Nincity
     public class AngelicAlliance : ModItem
     {
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/AngelicAllianceActivation");
+        
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -53,7 +56,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.angelicAlliance = true;
             player.GetDamage<GenericDamageClass>() += 0.08f;
-            player.GetDamage(DamageClass.Summon) += 0.07f; //7% + 8% = 15%
+            player.GetDamage<SummonDamageClass>() += 0.07f; //7% + 8% = 15%
             player.maxMinions += 2;
             if (player.controlJump)
                 player.lifeRegen += 4;

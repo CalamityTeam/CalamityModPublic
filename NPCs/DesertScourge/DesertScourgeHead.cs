@@ -32,6 +32,8 @@ namespace CalamityMod.NPCs.DesertScourge
         private bool TailSpawned = false;
         public bool playRoarSound = false;
 
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/DesertScourgeRoar");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Scourge");
@@ -329,7 +331,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 NPC.Calamity().newAI[1] = 1f;
                 if (!playRoarSound)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/DesertScourgeRoar"), player.Center);
+                    SoundEngine.PlaySound(RoarSound, player.Center);
                     playRoarSound = true;
                 }
             }
@@ -417,7 +419,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         num24 = 20f;
                     }
                     NPC.soundDelay = (int)num24;
-                    SoundEngine.PlaySound(SoundID.Roar, (int)NPC.position.X, (int)NPC.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.position);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);

@@ -13,6 +13,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GatlingLaser : ModItem
     {
+        public static readonly SoundStyle UseSound = new("CalamityMod/Sounds/Item/GatlingLaserFireStart");
+
         // This is the amount of charge consumed every time the holdout projectile fires a laser.
         public const float HoldoutChargeUse = 0.0075f;
 
@@ -39,7 +41,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.mana = 6;
 
             Item.useStyle = ItemUseStyleID.Shoot;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/GatlingLaserFireStart");
+            Item.UseSound = UseSound;
             Item.noMelee = true;
 
             Item.value = CalamityGlobalItem.Rarity8BuyPrice;

@@ -63,13 +63,13 @@ namespace CalamityMod.Items.Armor
                         Main.projectile[p].originalDamage = 190;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.4f;
+            player.GetDamage<SummonDamageClass>() += 0.4f;
             player.maxMinions += 2;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Summon) += 0.05f;
+            player.GetDamage<SummonDamageClass>() += 0.05f;
             player.GetKnockback<SummonDamageClass>() += 1.5f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;

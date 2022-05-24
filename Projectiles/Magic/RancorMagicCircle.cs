@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Magic
 
             // Create an idle ominous sound once the laser has appeared.
             else if (SoundEngine.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot)) is null)
-                PulseLoopSoundSlot = SoundEngine.PlayTrackedSound(SoundID.DD2_EtherianPortalIdleLoop, Projectile.Center).ToFloat();
+                PulseLoopSoundSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, Projectile.Center).ToFloat();
 
             // Make a cast sound effect soon after the circle appears.
             if (Time == 15f)
@@ -155,7 +156,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Time == ChargeupTime - 1f)
             {
                 // Play a laserbeam deathray sound. Should probably be replaced some day
-                SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), Projectile.Center);
 
                 if (Main.myPlayer == Projectile.owner)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.identity);

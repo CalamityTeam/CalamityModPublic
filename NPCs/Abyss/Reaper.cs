@@ -19,6 +19,9 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class Reaper : ModNPC
     {
+        public static readonly SoundStyle SearchRoarSound = new("CalamityMod/Sounds/Custom/ReaperSearchRoar");
+        public static readonly SoundStyle EnragedRoarSound = new("CalamityMod/Sounds/Custom/ReaperEnragedRoar");
+
         public bool hasBeenHit = false;
         public bool reset = false;
         public bool reset2 = false;
@@ -107,11 +110,11 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.soundDelay = 360;
                 if (hasBeenHit)
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperEnragedRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(EnragedRoarSound, NPC.position);
                 }
                 else
                 {
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperSearchRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                    SoundEngine.PlaySound(SearchRoarSound, NPC.position);
                 }
             }
             if (phase3 || phase1)
@@ -503,7 +506,7 @@ namespace CalamityMod.NPCs.Abyss
                             Main.dust[num21].noLight = true;
                             Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                         }
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ReaperEnragedRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(EnragedRoarSound, NPC.position);
                     }
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= (float)num16)

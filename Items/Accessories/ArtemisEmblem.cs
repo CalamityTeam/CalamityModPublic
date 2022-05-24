@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Accessories
         {
             player.Calamity().artemisEmblem = true;
             player.Calamity().rangedAmmoCost *= 0.8f;
-            player.GetDamage(DamageClass.Ranged) += 0.1f;
-            player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetDamage<RangedDamageClass>() += 0.1f;
+            player.GetCritChance<RangedDamageClass>() += 5;
         }
 
         public override void AddRecipes()

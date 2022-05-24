@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Accessories
             player.shroomiteStealth = true;
             player.GetDamage<ThrowingDamageClass>() += 0.05f;
             player.GetCritChance<ThrowingDamageClass>() += 5;
-            player.GetDamage(DamageClass.Ranged) += 0.05f;
-            player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
+            player.GetCritChance<RangedDamageClass>() += 5;
         }
     }
 }

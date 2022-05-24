@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Armor
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.GetCritChance(DamageClass.Ranged) += 5;
+            player.GetCritChance<RangedDamageClass>() += 5;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage(DamageClass.Ranged) += 0.08f;
+            player.GetDamage<RangedDamageClass>() += 0.08f;
         }
 
         public override void AddRecipes()

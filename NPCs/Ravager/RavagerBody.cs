@@ -425,7 +425,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 if (NPC.velocity.Y == 0f && (NPC.ai[1] == 31f || NPC.ai[0] == 1f))
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14, 1.25f, -0.25f);
+                    SoundEngine.PlaySound(SoundID.Item14 with { Volume = SoundID.Item14.Volume * 1.25f, Pitch = SoundID.Item14.Pitch - 0.25f }, NPC.position);
 
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;

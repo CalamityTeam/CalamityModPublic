@@ -37,7 +37,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool? UseItem(Player player)
         {
-            SoundEngine.PlaySound(SoundID.Roar, player.position, 2);
+            SoundEngine.PlaySound(SoundID.ScaryScream, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<RavagerBody>(), 1);

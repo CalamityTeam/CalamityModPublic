@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 32;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire");
+            Item.UseSound = CommonCalamitySounds.LargeWeaponFireSound;
 
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Violet;

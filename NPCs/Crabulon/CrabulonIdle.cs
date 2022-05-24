@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.Crabulon
                         }
                         float num353 = 10f;
                         int type = ModContent.ProjectileType<MushBomb>();
-                        SoundEngine.PlaySound(SoundID.Item42, (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item42, NPC.position);
                         if (phase2)
                         {
                             num353 += 1f;

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.height = 34;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/PlasmaBlast");
+            Item.UseSound = CommonCalamitySounds.PlasmaBlastSound;
             Item.value = CalamityGlobalItem.Rarity12BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.Calamity().donorItem = true;

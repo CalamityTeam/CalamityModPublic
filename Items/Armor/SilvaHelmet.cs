@@ -7,12 +7,16 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class SilvaHelmet : ModItem
     {
+        public static readonly SoundStyle ActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaActivation");
+        public static readonly SoundStyle DispelSound = new("CalamityMod/Sounds/Custom/AbilitySounds/SilvaDispel");
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -67,11 +71,11 @@ namespace CalamityMod.Items.Armor
                         Main.projectile[p].originalDamage = 600;
                 }
             }
-            player.GetDamage(DamageClass.Summon) += 0.65f;
+            player.GetDamage<SummonDamageClass>() += 0.65f;
             player.maxMinions += 5;
         }
 
-        public override void UpdateEquip(Player player) => player.GetDamage(DamageClass.Summon) += 0.1f;
+        public override void UpdateEquip(Player player) => player.GetDamage<SummonDamageClass>() += 0.1f;
 
         public override void AddRecipes()
         {

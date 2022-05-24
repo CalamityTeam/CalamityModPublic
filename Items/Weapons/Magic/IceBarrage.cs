@@ -12,6 +12,8 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class IceBarrage : ModItem
     {
+        public static readonly SoundStyle CastSound = new("CalamityMod/Sounds/Item/IceBarrageCast");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Barrage");
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.DamageType = DamageClass.Magic;
             Item.mana = 180;
             Item.noMelee = true;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/IceBarrageCast");
+            Item.UseSound = CastSound;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.Calamity().customRarity = CalamityRarity.DarkBlue;

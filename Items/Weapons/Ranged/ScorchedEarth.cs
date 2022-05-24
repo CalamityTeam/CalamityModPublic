@@ -13,6 +13,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ScorchedEarth : ModItem
     {
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/ScorchedEarthShot", 3);
+
         private int counter = 0;
         public override void SetStaticDefaults()
         {
@@ -56,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
             if (counter == 0)
             {
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ScorchedEarthShot" + Main.rand.Next(1,4)), position);
+                SoundEngine.PlaySound(ShootSound, position);
             }
 
             counter++;
