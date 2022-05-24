@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Item11 with { PitchVariance = 0.05f } , Projectile.Center);
             return true;
         }
 

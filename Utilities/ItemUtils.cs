@@ -468,7 +468,7 @@ namespace CalamityMod
 
             if (!showsOver)
             {
-                SoundEngine.PlaySound(item.UseSound, player.Center);
+                SoundEngine.PlaySound(item.UseSound.GetValueOrDefault(), player.Center);
 
                 double healMult = 1D +
                         (player.Calamity().coreOfTheBloodGod ? 0.15 : 0) +

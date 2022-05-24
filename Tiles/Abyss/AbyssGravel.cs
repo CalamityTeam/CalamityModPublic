@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(25, 28, 54));
             MineResist = 10f;
             MinPick = 65;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             DustType = 33;
         }
 

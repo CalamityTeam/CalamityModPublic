@@ -220,8 +220,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (ChargeSoundCooldown <= 0)
                 {
-                    SoundEffectInstance chargeSound = SoundEngine.PlaySound(SoundID.DD2_BookStaffCast);
-                    CalamityUtils.SafeVolumeChange(ref chargeSound, 2.5f);
+                    SoundEngine.PlaySound(SoundID.DD2_BookStaffCast with { Volume = SoundID.DD2_BookStaffCast.Volume * 2.5f });
                     ChargeSoundCooldown = 20;
                 }
             }

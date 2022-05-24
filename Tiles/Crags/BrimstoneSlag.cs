@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<CharredOre>());
 
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             MineResist = 3f;
             MinPick = 100;
             ItemDrop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();

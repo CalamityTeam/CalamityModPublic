@@ -8,6 +8,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using Terraria.Audio;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Sunskater : ModNPC

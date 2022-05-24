@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                SoundEngine.PlaySound(SoundID.Shatter1, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Shatter, Projectile.position);
                 for (int index = 0; index < 5; ++index)
                     Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 13, 0f, 0f, 0, new Color(), 1f);
                 for (int index1 = 0; index1 < 30; ++index1)

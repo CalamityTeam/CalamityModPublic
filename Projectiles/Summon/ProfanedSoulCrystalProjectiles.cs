@@ -486,7 +486,7 @@ namespace CalamityMod.Projectiles.Summon
         private void onHit()
         {
 
-            SoundEngine.PlaySound(new SoundStyle(2, 74, Terraria.Audio.SoundType.Sound), (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.position);
             if (Main.rand.NextBool(2) || Main.rand.NextBool(3)) //so it's not exactly 1 in 2, but it's not more or less consistently either.
             {
                 Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);

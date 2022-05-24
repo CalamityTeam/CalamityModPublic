@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorOpen>());
             CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorClosed>());
 
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             DustType = 19;
             MinPick = 30;
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.HazardChevronPanels> ();

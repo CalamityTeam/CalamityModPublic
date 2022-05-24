@@ -93,9 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
                         SoundEngine.PlaySound(SoundID.Item23);
                     else
                     {
-                        var loadSound = SoundEngine.PlaySound(SoundID.Item108);
-                        if (loadSound != null)
-                            loadSound.Volume *= 0.3f;
+                        SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume * 0.3f });
                     }
                 }
             }

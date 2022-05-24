@@ -54,7 +54,7 @@ namespace CalamityMod.Tiles.DraedonStructures
 
             // Spawn electric sparks when this tile is hit with a pickaxe.
             DustType = 229;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j) => false;

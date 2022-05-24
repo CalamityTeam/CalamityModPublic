@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(0, 255, 255), name);
             MineResist = 2f;
             MinPick = 65;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(255, 200, 0), name);
             MineResist = 10f;
             MinPick = 250;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j)

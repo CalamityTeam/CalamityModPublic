@@ -171,11 +171,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (recharging == 0)
                 {
                     dust(15);
-                    SoundEffectInstance sound = SoundEngine.PlaySound(SoundID.Item30, Projectile.position);
-                    if (sound != null)
-                    {
-                        sound.Pitch = 0.2f;
-                    }
+                    SoundEngine.PlaySound(SoundID.Item30 with { Pitch = 0.2f }, Projectile.position);
                     Projectile.netUpdate = true;
                 }
             }

@@ -81,8 +81,7 @@ namespace CalamityMod.Projectiles.Melee
             if (!initialized) //Initialization
             {
                 Projectile.timeLeft = (int)MaxTime;
-                var sound = SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
-                SafeVolumeChange(ref sound, 0.3f);
+                SoundEngine.PlaySound(SoundID.Item84 with { Volume = SoundID.Item84.Volume * 0.3f }, Projectile.Center);
 
                 Projectile.velocity.Normalize();
                 Projectile.rotation = Projectile.velocity.ToRotation();
@@ -102,8 +101,9 @@ namespace CalamityMod.Projectiles.Melee
                 if (StitchRotations[i] == 0)
                 {
                     StitchRotations[i] = Main.rand.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4) + MathHelper.PiOver2;
-                    var sewSound = SoundEngine.PlaySound(i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65, Owner.Center);
-                    SafeVolumeChange(ref sewSound, 0.5f);
+
+                    SoundStyle sewSound = i % 3 == 0 ? SoundID.Item63 : i % 3 == 1 ? SoundID.Item64 : SoundID.Item65;
+                    SoundEngine.PlaySound(sewSound with { Volume = sewSound.Volume * 0.5f }, Owner.Center);
 
                     float positionAlongLine = (ThrustDisplaceRatio() * 242f / (float)maxStitches * 0.5f) + MathHelper.Lerp(0f, ThrustDisplaceRatio() * 242f, i / (float)maxStitches);
                     Vector2 stitchCenter = Projectile.Center + Projectile.velocity * positionAlongLine + (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2() * 10f;

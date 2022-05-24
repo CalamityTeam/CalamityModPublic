@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (Projectile.ai[0] == 0f)
             {
-                SoundEngine.PlaySound(YanmeisKnife.HitSound, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(YanmeisKnife.HitSound, Projectile.position);
                 Projectile.ai[0] = 1f;
             }
             Main.player[Projectile.owner].AddBuff(ModContent.BuffType<KamiBuff>(), 600);

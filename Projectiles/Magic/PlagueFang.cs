@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Dig27, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             for (int num301 = 0; num301 < 7; num301++)
             {
                 int num302 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 163, 0f, 0f, 100, default, 1f);

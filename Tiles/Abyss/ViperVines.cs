@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Viper Vines");
             AddMapEntry(new Color(0, 50, 0), name);
-            SoundType = SoundID.Grass;
+            HitSound = SoundID.Grass;
             DustType = 2;
         }
 

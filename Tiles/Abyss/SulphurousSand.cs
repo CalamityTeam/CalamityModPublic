@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             ItemDrop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
             AddMapEntry(new Color(150, 100, 50));
             MineResist = 1f;
-            SoundType = SoundID.Dig;
+            HitSound = SoundID.Dig;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             AddMapEntry(new Color(191, 142, 111));
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravelPlatform>();
             TileID.Sets.DisableSmartCursor[Type] = true;

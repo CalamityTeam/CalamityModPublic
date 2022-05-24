@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 {
     public class YanmeisKnife : ModItem
     {
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/YanmeiKnifeHit")
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/YanmeiKnifeHit");
         public static readonly SoundStyle ExpireSound = new("CalamityMod/Sounds/Custom/YanmeiKnifeExpire");
         
         public override void SetStaticDefaults()

@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             DustType = 105;
             ItemDrop = ModContent.ItemType<Items.Placeables.ChaoticBrick>();
             AddMapEntry(new Color(255, 0, 0));
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

@@ -9,13 +9,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.Melee;
+using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
     public class MicrowaveYoyo : ModProjectile
     {
         private const float Radius = 100f;
-        private SoundEffectInstance mmmmmm = null;
+        private SlotId mmmmmm = null;
         private bool spawnedAura = false;
         public int soundCooldown = 0;
 
@@ -50,16 +51,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         public override void AI()
         {
             // Sound is done manually, so that it can loop correctly.
-            if (mmmmmm is null)
+            ActiveSound MMMMMMMMMMMMMMM;
+
+            if (!SoundEngine.TryGetActiveSound(mmmmmm, out MMMMMMMMMMMMMMM))
             {
-                mmmmmm = ModContent.Request<ModSound>("CalamityMod/Sounds/Custom/MMMMMMMMMMMMM").Value.Sound.Value.CreateInstance();
-                mmmmmm.IsLooped = true;
-                CalamityUtils.ApplySoundStats(ref mmmmmm, Projectile.Center);
-                mmmmmm.Play();
-                SoundInstanceGarbageCollector.Track(mmmmmm);
+                mmmmmm = SoundEngine.PlaySound(TheMicrowave.MMMSound, Projectile.Center);
             }
-            else if (!mmmmmm.IsDisposed)
-                CalamityUtils.ApplySoundStats(ref mmmmmm, Projectile.Center);
+
+            else if (MMMMMMMMMMMMMMM != null)
+                MMMMMMMMMMMMMMM.Position = Projectile.Center;
 
             // Spawn invisible but damaging aura projectile
             if (Projectile.owner == Main.myPlayer && !spawnedAura)

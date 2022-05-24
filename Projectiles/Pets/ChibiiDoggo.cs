@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Pets
                     }
                     else
                     {
-                        SoundEngine.PlaySound(SoundID.Roar2 with { Volume = SoundID.Roar2.Volume * 2f}, player.position); //REEEEEEE
+                        SoundEngine.PlaySound(SoundID.ScaryScream with { Volume = SoundID.ScaryScream.Volume * 2f}, player.position); //REEEEEEE
                     }
                     notlocalai1 = -600f;
                 }

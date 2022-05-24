@@ -16,7 +16,16 @@ namespace CalamityMod.Projectiles.Magic
         public Player Owner => Main.player[Projectile.owner];
         public ref float Time => ref Projectile.ai[0];
         public ref float PulseLoopSoundSlot => ref Projectile.localAI[0];
-        public ActiveSound PulseLoopSound => SoundEngine.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot));
+        public ActiveSound PulseLoopSound
+        {
+            get
+            {
+                ActiveSound sound;
+                if (SoundEngine.TryGetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot), out sound))
+                    return sound;
+                return null;
+            }
+        }
         public float ChargeupCompletion => MathHelper.Clamp(Time / ChargeupTime, 0f, 1f);
         public const int ChargeupTime = 240;
 
@@ -67,12 +76,14 @@ namespace CalamityMod.Projectiles.Magic
             // Do animation stuff.
             DoPrettyDustEffects();
 
+
+            ActiveSound soundOut;
             // Handle charge stuff.
             if (Time < ChargeupTime)
                 HandleChargeEffects();
 
             // Create an idle ominous sound once the laser has appeared.
-            else if (SoundEngine.GetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot)) is null)
+            else if (!SoundEngine.TryGetActiveSound(SlotId.FromFloat(PulseLoopSoundSlot), out soundOut))
                 PulseLoopSoundSlot = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, Projectile.Center).ToFloat();
 
             // Make a cast sound effect soon after the circle appears.

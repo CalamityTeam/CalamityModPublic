@@ -5,7 +5,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.NPCs.SunkenSea
+using CalamityMod.NPCs.SunkenSea;
 
 namespace CalamityMod.Projectiles.Melee
 {

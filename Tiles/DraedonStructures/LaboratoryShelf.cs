@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void SetStaticDefaults()
         {
             this.SetUpPlatform(true);
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             DustType = 30;
             AddMapEntry(new Color(97, 87, 86));
             ItemDrop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryShelf>();

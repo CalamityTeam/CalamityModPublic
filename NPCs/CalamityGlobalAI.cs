@@ -14,6 +14,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Sounds;
+using Terraria.Utilities;
 
 namespace CalamityMod.NPCs
 {
@@ -9669,7 +9670,8 @@ namespace CalamityMod.NPCs
                     idlePlaySoundId = SlotId.Invalid.ToFloat();
                 }
 
-                if (fadeInTimer > 150f && SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
+                ActiveSound soundOut;
+                if (fadeInTimer > 150f && !SoundEngine.TryGetActiveSound(SlotId.FromFloat(idlePlaySoundId), out soundOut))
                     idlePlaySoundId = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
                 if (!DD2Event.EnemySpawningIsOnHold)
@@ -9711,11 +9713,12 @@ namespace CalamityMod.NPCs
                 npc.scale = MathHelper.Lerp(1f, 0.05f, Utils.GetLerpValue(500f, 600f, fadeOutTimer, true));
 
                 // Reset the idle play sound if it didn't get activated before for some reason.
-                if (SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId)) == null)
+                ActiveSound result;
+                if (!SoundEngine.TryGetActiveSound(SlotId.FromFloat(idlePlaySoundId), out result))
                     idlePlaySoundId = SoundEngine.PlaySound(SoundID.DD2_EtherianPortalIdleLoop, npc.Center).ToFloat();
 
-                ActiveSound activeSound = SoundEngine.GetActiveSound(SlotId.FromFloat(idlePlaySoundId));
-                if (activeSound != null)
+                ActiveSound activeSound;
+                if (SoundEngine.TryGetActiveSound(SlotId.FromFloat(idlePlaySoundId), out activeSound))
                     activeSound.Volume = npc.scale;
 
                 // Kill the portal after enough time has passed.

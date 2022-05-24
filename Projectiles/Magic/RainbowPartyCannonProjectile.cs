@@ -71,7 +71,9 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
-            SoundEngine.PlaySound(heldItem.UseSound, Projectile.Center);
+            if (heldItem.UseSound.HasValue)
+                SoundEngine.PlaySound(heldItem.UseSound.GetValueOrDefault(), Projectile.Center);
+
             Vector2 spawnPosition = Projectile.Center + Projectile.velocity * 150f;
 
             // Shoot farther back if the cannon is shoved into a bunch of tiles.

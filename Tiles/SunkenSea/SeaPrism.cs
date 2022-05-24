@@ -1,4 +1,4 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.SunkenSea
             name.SetDefault("Sea Prism");
             AddMapEntry(new Color(0, 150, 200), name);
             MineResist = 3f;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

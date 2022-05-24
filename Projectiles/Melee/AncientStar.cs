@@ -121,9 +121,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            var breakSound = SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, Projectile.Center);
-            if (breakSound != null)
-                breakSound.Volume *= 0.5f;
+            var breakSound = SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath with { Volume = SoundID.DD2_WitherBeastDeath.Volume * 0.5f }, Projectile.Center);
 
             for (int i = 0; i < 5; i++)
             {

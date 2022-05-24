@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Dig1, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
             for (int index1 = 0; index1 < 15; ++index1)
             {
                 int ruby = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 88, Projectile.oldVelocity.X, Projectile.oldVelocity.Y, 50, new Color(), 1.2f);

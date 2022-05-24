@@ -996,7 +996,8 @@ namespace CalamityMod.CalPlayer
                 if (instance.timeLeft < 0)
                 {
                     handler.OnCompleted();
-                    SoundEngine.PlaySound(handler.EndSound);
+                    if (handler.EndSound != null)
+                        SoundEngine.PlaySound(handler.EndSound.GetValueOrDefault());
                     expiredCooldowns.Add(id);
                 }
             }

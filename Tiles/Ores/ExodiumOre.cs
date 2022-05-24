@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(51, 48, 68), name);
             MineResist = 5f;
             MinPick = 225;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             Main.tileOreFinderPriority[Type] = 760;
             Main.tileSpelunker[Type] = true;
             ItemDrop = ModContent.ItemType<ExodiumClusterOre>();

@@ -76,9 +76,7 @@ namespace CalamityMod.Projectiles.Ranged
                     --FramesToLoadNextArrow;
 
                     // Play a sound for additional notification that an arrow has been loaded.
-                    var loadSound = SoundEngine.PlaySound(SoundID.Item108);
-                    if (loadSound != null)
-                        loadSound.Volume *= 0.3f;
+                    var loadSound = SoundEngine.PlaySound(SoundID.Item108 with { Volume = SoundID.Item108.Volume * 0.3f });
 
                     if (ArrowsLoaded >= Condemnation.MaxLoadedArrows)
                         SoundEngine.PlaySound(SoundID.MaxMana);

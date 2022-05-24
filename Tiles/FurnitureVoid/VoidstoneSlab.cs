@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            SoundType = SoundID.Tink;
+            HitSound = SoundID.Tink;
             MineResist = 7f;
             MinPick = 180;
             ItemDrop = ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidstoneSlab>();

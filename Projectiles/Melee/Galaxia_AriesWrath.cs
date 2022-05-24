@@ -1,4 +1,4 @@
-using CalamityMod.Particles;
+﻿using CalamityMod.Particles;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -147,8 +147,7 @@ namespace CalamityMod.Projectiles.Melee
             if (ChainSwapTimer == 0f)
             {
                 Projectile.Center = Owner.Center;
-                var scream = SoundEngine.PlaySound(SoundID.Item120, Projectile.Center);
-                SafeVolumeChange(ref scream, 0.5f);
+                SoundEngine.PlaySound(SoundID.Item120 with { Volume = SoundID.Item120.Volume * 0.5f }, Projectile.Center);
 
                 if (Main.LocalPlayer.Calamity().GeneralScreenShakePower < 3)
                     Main.LocalPlayer.Calamity().GeneralScreenShakePower = 3;

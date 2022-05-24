@@ -61,9 +61,7 @@ namespace CalamityMod.Projectiles.Melee
                 sword.Combo = 0f;
             }
             SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact);
-            var chunder = SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound, Projectile.Center);
-            SafeVolumeChange(ref chunder, 1.3f);
-
+            SoundEngine.PlaySound(CommonCalamitySounds.ScissorGuillotineSnapSound with { Volume = CommonCalamitySounds.ScissorGuillotineSnapSound.Volume * 1.3f }, Projectile.Center);
             CombatText.NewText(Projectile.Hitbox, new Color(111, 247, 200), "Parry!", true);
 
             for (int i = 0; i < 5; i ++) //Don't loose your way
@@ -105,8 +103,7 @@ namespace CalamityMod.Projectiles.Melee
             if (!initialized) //Initialization
             {
                 Projectile.timeLeft = (int)MaxTime;
-                var sound = SoundEngine.PlaySound(SoundID.Item84, Projectile.Center);
-                CalamityUtils.SafeVolumeChange(ref sound, 0.3f);
+                SoundEngine.PlaySound(SoundID.Item84 with { Volume = SoundID.Item84.Volume * 0.3f }, Projectile.Center);
 
                 Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
                 Projectile.velocity.Normalize();
@@ -230,8 +227,7 @@ namespace CalamityMod.Projectiles.Melee
             //Play a blip when it dies, to indicate to the player its ready to get used again
             if (Main.myPlayer == Owner.whoAmI)
             {
-                var ding = SoundEngine.PlaySound(SoundID.Item35);
-                CalamityUtils.SafeVolumeChange(ref ding, 2f);
+                SoundEngine.PlaySound(SoundID.Item35 with { Volume = SoundID.Item35.Volume * 2f });
             }
         }
 

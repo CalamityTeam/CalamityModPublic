@@ -52,8 +52,7 @@ namespace CalamityMod.Projectiles.Magic
             // Play a sound frame 1.
             if (DeployedFrames <= 0f)
             {
-                var sound = SoundEngine.PlaySound(SoundID.DD2_DarkMageCastHeal, Projectile.Center);
-                CalamityUtils.SafeVolumeChange(ref sound, 1.5f);
+                SoundEngine.PlaySound(SoundID.DD2_DarkMageCastHeal with { Volume = SoundID.DD2_DarkMageCastHeal.Volume * 1.5f}, Projectile.Center);
             }
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
