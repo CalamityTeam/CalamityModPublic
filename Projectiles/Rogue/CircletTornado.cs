@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = -1;
-                SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 122);
+                SoundEngine.PlaySound(SoundID.Item122, Projectile.Center);
             }
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] >= lifeSpan)

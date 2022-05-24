@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (!playedSound)
             {
-                SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.position.X, (int)Projectile.position.Y); //electrosphere launcher fire sound
+                SoundEngine.PlaySound(SoundID.Item92, Projectile.position); //electrosphere launcher fire sound
                 playedSound = true;
             }
             if (Main.rand.NextBool(8))

@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 20);
+            SoundEngine.PlaySound(SoundID.Item20, Projectile.Center);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

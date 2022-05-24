@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.width = Projectile.height = 48;
             Projectile.position.X = Projectile.position.X - (Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (Projectile.height / 2);
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.Center.X, (int)Projectile.Center.Y, 28);
+            SoundEngine.PlaySound(SoundID.NPCDeath28, Projectile.Center);
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 54, 0f, 0f, 100, default, 1f);

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    SoundEngine.PlaySound(SoundID.Item9, (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
 

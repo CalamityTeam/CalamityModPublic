@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.Center.X, (int)Projectile.Center.Y, 19, 0.7f);
+            SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);
             Bounces--;
             if (Bounces <= 0)
             {
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.Center.X, (int)Projectile.Center.Y, 19, 0.7f);
+            SoundEngine.PlaySound(SoundID.NPCHit19 with { Volume = SoundID.NPCHit19.Volume * 0.7f}, Projectile.Center);
             int dustCount = Main.rand.Next(8, 16);
             for (int index = 0; index < dustCount; index++)
             {

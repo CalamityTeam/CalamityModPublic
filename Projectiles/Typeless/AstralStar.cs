@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 9);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
             Projectile.alpha -= 15;

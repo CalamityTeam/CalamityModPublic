@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f}, Projectile.position, 0f);
 
             if (Projectile.velocity.X != oldVelocity.X)
                 Projectile.velocity.X = -oldVelocity.X;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f}, Projectile.position, 0f);
 
             Projectile.velocity.X = -Projectile.velocity.X;
             Projectile.velocity.Y = -Projectile.velocity.Y;
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f}, Projectile.position, 0f);
 
             Projectile.velocity.X = -Projectile.velocity.X;
             Projectile.velocity.Y = -Projectile.velocity.Y;

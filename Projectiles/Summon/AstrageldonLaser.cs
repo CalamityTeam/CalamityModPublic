@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.ai[0] == 0f)
             {
                 Projectile.ai[0] = 1f;
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 12);
+                SoundEngine.PlaySound(SoundID.Item12, Projectile.position);
             }
             if (Projectile.alpha > 0)
             {

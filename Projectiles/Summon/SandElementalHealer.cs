@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.ai[1] += 1f;
                     if (Main.myPlayer == Projectile.owner && player.statLife < player.statLifeMax2)
                     {
-                        SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 6);
+                        SoundEngine.PlaySound(SoundID.Dig6, Projectile.position);
                         int dustAmt = 36;
                         for (int d = 0; d < dustAmt; d++)
                         {

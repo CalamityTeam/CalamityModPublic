@@ -7254,7 +7254,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Tumbleweed && npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
             {
                 npc.velocity.Y -= 6f;
-                SoundEngine.PlaySound(SoundID.NPCHit, npc.Center, 11);
+                SoundEngine.PlaySound(SoundID.NPCHit11, npc.Center);
             }
 
             if (npc.ai[3] < (float)num)

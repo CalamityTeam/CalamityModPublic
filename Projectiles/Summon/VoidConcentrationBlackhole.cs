@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                 Projectile.Damage();
                 Projectile.friendly = false;
                 Projectile.Damage();
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 14);
+                SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
                 Projectile.Kill();
             }
         }

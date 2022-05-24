@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         void SpawnExplosionDust()
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 14);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
 
             if (Main.netMode != NetmodeID.Server)
             {

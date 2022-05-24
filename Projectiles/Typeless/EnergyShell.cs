@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (!playedSound)
             {
-                SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item92, Projectile.position);
                 playedSound = true;
             }
             Projectile.frameCounter++;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[Projectile.owner];
-            SoundEngine.PlaySound(SoundID.Item94, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item94, Projectile.position);
             player.AddCooldown(LionHeartShield.ID, CalamityUtils.SecondsToFrames(45));
         }
 

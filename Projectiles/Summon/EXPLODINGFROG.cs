@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                         Main.projectile[p2].originalDamage = Projectile.originalDamage;
                 }
                 // WoF vomit sound.
-                SoundEngine.PlaySound(SoundID.NPCKilled, Projectile.Center, 13);
+                SoundEngine.PlaySound(SoundID.NPCDeath13, Projectile.Center);
                 Projectile.Kill();
             }
             Projectile.velocity.Y += 0.5f;

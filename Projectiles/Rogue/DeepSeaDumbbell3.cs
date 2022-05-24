@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f}, Projectile.position, 0f);
 
             if (Projectile.owner == Main.myPlayer)
             {
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
 
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f}, Projectile.position, 0f);
 
             if (Projectile.owner == Main.myPlayer)
             {
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 120);
 
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43 with { Volume = SoundID.NPCDeath43.Volume * 0.35f}, Projectile.position, 0f);
 
             if (Projectile.owner == Main.myPlayer)
             {

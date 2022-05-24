@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<ThrowingBrick>());
             }
 
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 50);
+            SoundEngine.PlaySound(SoundID.Item50, Projectile.position);
             //Dust on impact
             int dust_splash = 0;
             while (dust_splash < 9)

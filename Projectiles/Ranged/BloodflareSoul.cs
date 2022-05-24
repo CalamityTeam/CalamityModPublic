@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 39, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath39 with { Volume = SoundID.NPCDeath39.Volume * 1f}, Projectile.position, 0f);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 110;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);

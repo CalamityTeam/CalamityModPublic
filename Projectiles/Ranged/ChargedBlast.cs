@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item62, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item62, Projectile.position);
             int projectiles = Main.rand.Next(2, 5);
             if (Projectile.owner == Main.myPlayer)
             {
