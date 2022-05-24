@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 9, 2, 0);
+            SoundEngine.PlaySound(SoundID.NPCDeath92, Projectile.position, 0);
             Projectile.Kill();
             return false;
         }
@@ -92,13 +92,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Slow, 120);
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 9, 2, 0);
+            SoundEngine.PlaySound(SoundID.NPCDeath9, Projectile.position, 2, 0);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Slow, 120);
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 9, 2, 0);
+            SoundEngine.PlaySound(SoundID.NPCDeath9, Projectile.position, 2, 0);
         }
 
         public override void Kill(int timeLeft)

@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = 8;
-                SoundEngine.PlaySound(SoundID.Item7, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
             }
 
             // ai[0] stores whether the hammer is returning. If 0, it isn't. If 1, it is.

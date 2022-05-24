@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (Projectile.ai[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item11, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SoundID.Item11, Projectile.Center);
                 Projectile.ai[0] = 1f;
             }
 

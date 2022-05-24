@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.25f / 255f, (255 - Projectile.alpha) * 0.5f / 255f);
             if (Projectile.localAI[0] == 0f && Projectile.ai[0] == 1f)
             {
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 21);
+                SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
             if (Projectile.timeLeft % 2 == 0)

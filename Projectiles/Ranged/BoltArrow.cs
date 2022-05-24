@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.Dig1, Projectile.position, 1f, 0f);
             return true;
         }
 
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.localNPCHitCooldown = 10;
             Projectile.damage = (int)(Projectile.damage * 0.6f);
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 92);
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
             int num212 = Main.rand.Next(10, 20);
             for (int num213 = 0; num213 < num212; num213++)
             {

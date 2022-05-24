@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             });
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 21);
+                SoundEngine.PlaySound(SoundID.Item21, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
             bool flag15 = false;

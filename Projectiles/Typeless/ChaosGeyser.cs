@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item20, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item20, Projectile.position);
             }
             Projectile.rotation += Projectile.velocity.X * 0.1f;
             int num199 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1f);

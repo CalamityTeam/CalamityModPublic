@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 if (Projectile.soundDelay == 0)
                 {
                     Projectile.soundDelay = 22;
-                    SoundEngine.PlaySound(SoundID.Item93, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                    SoundEngine.PlaySound(SoundID.Item93, Projectile.Center);
                 }
 
                 if (AuraFrame % AuraLocalIFrames == 0)
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 }
 
                 // Make extra sound when these arcs happen
-                SoundEngine.PlaySound(SoundID.NPCHit53, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SoundID.NPCHit53, Projectile.Center);
             }
         }
 
@@ -257,7 +257,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         private void FireAuricOrbs()
         {
             // Play a sound when orbs are fired
-            SoundEngine.PlaySound(SoundID.Item92, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+            SoundEngine.PlaySound(SoundID.Item92, Projectile.Center);
 
             int numOrbs = 3;
             int orbID = ModContent.ProjectileType<Orbacle>();

@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.ShadowFlame, 180);
             if (Projectile.Calamity().stealthStrike && Projectile.penetrate != 1)
             {
-                SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
+                SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.ShadowFlame, 180);
             if (Projectile.Calamity().stealthStrike && Projectile.penetrate != 1)
             {
-                SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
+                SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             int proj;
-            SoundEngine.PlaySound(SoundID.Item, Projectile.Center, 103);
+            SoundEngine.PlaySound(SoundID.Item103, Projectile.Center);
             if(Projectile.Calamity().stealthStrike)
                 proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
             else

@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
-            SoundEngine.PlaySound(SoundID.Item74, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
             for (int num193 = 0; num193 < 6; num193++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 244, 0, 0);

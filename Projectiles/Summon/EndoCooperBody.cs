@@ -280,7 +280,7 @@ namespace CalamityMod.Projectiles.Summon
                         switch (AttackMode)
                         {
                             case 0:
-                                    SoundEngine.PlaySound(SoundID.Item15, (int)Projectile.position.X, (int)Projectile.position.Y);
+                                    SoundEngine.PlaySound(SoundID.Item15, Projectile.position);
                                     Vector2 aimlaser = objectivepos - Projectile.Center;
                                     aimlaser.Normalize();
                                     aimlaser = aimlaser.RotatedBy(MathHelper.ToRadians(30 * -laserdirection));

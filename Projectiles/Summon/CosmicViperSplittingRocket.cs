@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Summon
                                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
-                        SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                         Projectile.Kill();
                         return;
                     }
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
                                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, 0f);
                             }
                         }
-                        SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
+                        SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                         Projectile.Kill();
                         return;
                     }
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
                                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, speed, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(Projectile.damage * 0.25f), Projectile.knockBack, Projectile.owner, Main.rand.Next(2), 0f);
                                 }
                             }
-                            SoundEngine.PlaySound(SoundID.Item14, (int)Projectile.position.X, (int)Projectile.position.Y);
+                            SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
                             Projectile.Kill();
                             return;
                         }

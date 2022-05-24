@@ -48,13 +48,13 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * Bounciness;
             }
-            SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.Center.X, (int)Projectile.Center.Y, 19, 0.7f);
+            SoundEngine.PlaySound(SoundID.NPCHit19, Projectile.Center, 0.7f);
             return false;
         }
         public override void Kill(int timeLeft)
         {
             // Explode into a large display of blood.
-            SoundEngine.PlaySound(SoundID.NPCHit, (int)Projectile.Center.X, (int)Projectile.Center.Y, 19, 0.7f);
+            SoundEngine.PlaySound(SoundID.NPCHit19, Projectile.Center, 0.7f);
             int dustCount = Main.rand.Next(15, 26);
             for (int index = 0; index < dustCount; index++)
             {

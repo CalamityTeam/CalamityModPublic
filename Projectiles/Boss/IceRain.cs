@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 27, 0.25f);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.Center, 0.25f);
             for (int num373 = 0; num373 < 3; num373++)
             {
                 int num374 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 76, 0f, 0f, 0, default, 1f);

@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+            SoundEngine.PlaySound(SoundID.Dig27, Projectile.position);
             for (int num621 = 0; num621 < 5; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 5, 0f, 0f, 100, default, 2f);

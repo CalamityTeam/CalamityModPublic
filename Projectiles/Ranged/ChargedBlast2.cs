@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            SoundEngine.PlaySound(SoundID.Item10, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             Projectile.penetrate--;
             if (Projectile.penetrate <= 0)
             {

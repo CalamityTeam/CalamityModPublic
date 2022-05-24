@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (Projectile.soundDelay == 0)
             {
                 Projectile.soundDelay = -1;
-                SoundEngine.PlaySound(SoundID.Item60, (int)Projectile.Center.X, (int)Projectile.Center.Y);
+                SoundEngine.PlaySound(SoundID.Item60, Projectile.Center);
             }
             if (Projectile.localAI[1] < 30f)
             {

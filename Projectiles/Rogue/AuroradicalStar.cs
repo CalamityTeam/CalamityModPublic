@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 9);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
 
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 9, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.Item9, Projectile.position, 1f, 0f);
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 96);
             Projectile.localNPCHitCooldown = 10;
             Projectile.usesLocalNPCImmunity = true;

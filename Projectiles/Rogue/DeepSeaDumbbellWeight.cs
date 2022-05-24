@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 43, 0.35f, 0f);
+            SoundEngine.PlaySound(SoundID.NPCDeath43, Projectile.position, 0.35f, 0f);
 
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 36;

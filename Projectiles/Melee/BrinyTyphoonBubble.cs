@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 96);
+            SoundEngine.PlaySound(SoundID.Item96, Projectile.Center);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

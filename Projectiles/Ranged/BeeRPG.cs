@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.Dig1, Projectile.position, 1f, 0f);
             return true;
         }
 
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 14);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             for (int num621 = 0; num621 < 5; num621++)
             {
                 int num622 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 31, 0f, 0f, 100, default, 2f);

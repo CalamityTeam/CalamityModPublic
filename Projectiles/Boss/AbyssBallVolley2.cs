@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[1] == 0f)
             {
                 Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 33);
+                SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
             }
 
             if (Main.rand.NextBool(2))

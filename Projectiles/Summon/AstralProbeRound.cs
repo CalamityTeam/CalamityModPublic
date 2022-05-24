@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 10);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 int randomDust = Main.rand.Next(2);

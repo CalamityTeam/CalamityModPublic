@@ -5048,7 +5048,7 @@ namespace CalamityMod.NPCs
                 float aiGateValue = 120f;
                 if (npc.ai[1] == aiGateValue - 30f)
                 {
-                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, npc.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

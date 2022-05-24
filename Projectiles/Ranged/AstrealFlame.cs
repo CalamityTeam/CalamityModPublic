@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.width = Projectile.height = 48;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y - (float)(Projectile.height / 2);
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.Center.X, (int)Projectile.Center.Y, 74);
+            SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 2f);

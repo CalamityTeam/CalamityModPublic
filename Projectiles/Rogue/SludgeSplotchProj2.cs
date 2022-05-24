@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.position.X, (int)Projectile.position.Y, 28, 0.3f, 0);
+            SoundEngine.PlaySound(SoundID.NPCDeath28, Projectile.position, 0.3f, 0);
             Projectile.Kill();
             return false;
         }

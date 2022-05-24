@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 14, 0.5f, 0f);
+            SoundEngine.PlaySound(SoundID.Item14, Projectile.position, 0.5f, 0f);
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 144);
             for (int d = 0; d < 2; d++)
             {

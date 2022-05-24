@@ -42,13 +42,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-            SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y, 1, 1f, 0f);
+            SoundEngine.PlaySound(SoundID.Dig1, Projectile.position, 1f, 0f);
             return true;
         }
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 27);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             Projectile.position.X = Projectile.position.X + (float)(Projectile.width / 2);
             Projectile.position.Y = Projectile.position.Y + (float)(Projectile.height / 2);
             Projectile.width = 20;

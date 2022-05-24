@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    SoundEngine.PlaySound(SoundID.Item9, (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
             Projectile.alpha -= 15;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projChoice, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), projChoice, Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
             }
-            SoundEngine.PlaySound(SoundID.Item10, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int k = 0; k < 15; k++)
             {
                 int dustChoice = Main.rand.Next(3);

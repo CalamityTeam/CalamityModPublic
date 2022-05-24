@@ -83,9 +83,9 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity * speed, projID, projectileDamage, kb, Projectile.owner, 0f, moveDuration);
             }
 
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 62, 0.6f);
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 68, 0.2f);
-            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 122, 0.4f);
+            SoundEngine.PlaySound(SoundID.Item62, Projectile.position, 0.6f);
+            SoundEngine.PlaySound(SoundID.Item68, Projectile.position, 0.2f);
+            SoundEngine.PlaySound(SoundID.Item122, Projectile.position, 0.4f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (!playedSound)
             {
-                SoundEngine.PlaySound(SoundID.Item34, (int)Projectile.position.X, (int)Projectile.position.Y);
+                SoundEngine.PlaySound(SoundID.Item34, Projectile.position);
                 playedSound = true;
             }
 

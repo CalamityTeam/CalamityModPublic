@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.4f / 255f, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0f / 255f);
             if (Projectile.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 73);
+                SoundEngine.PlaySound(SoundID.Item73, Projectile.position);
                 Projectile.localAI[0] += 1f;
             }
             for (int num457 = 0; num457 < 3; num457++)

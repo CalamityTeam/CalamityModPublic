@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Summon
                 //Play vomit sound
                 if (modPlayer.soundCooldown <= 0)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCKilled, (int)Projectile.Center.X, (int)Projectile.Center.Y, 13, 0.5f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCDeath13, Projectile.Center, 0.5f, 0f);
                     modPlayer.soundCooldown = Main.rand.Next(120, 180);
                 }
 

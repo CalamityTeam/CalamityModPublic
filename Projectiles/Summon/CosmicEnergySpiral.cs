@@ -201,7 +201,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (flag11)
                 {
-                    SoundEngine.PlaySound(SoundID.Item105, (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item105, Projectile.position);
                     int blastAmt = Main.rand.Next(5, 8);
                     for (int b = 0; b < blastAmt; b++)
                     {

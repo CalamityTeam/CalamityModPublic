@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    SoundEngine.PlaySound(SoundID.Item9, (int)Projectile.position.X, (int)Projectile.position.Y);
+                    SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
                 }
             }
             Projectile.alpha -= 15;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item10, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item10, Projectile.position);
             for (int k = 0; k < 15; k++)
             {
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 74, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            SoundEngine.PlaySound(SoundID.Item4, (int)Projectile.position.X, (int)Projectile.position.Y);
+            SoundEngine.PlaySound(SoundID.Item4, Projectile.position);
 
             float healAmt = damage * 0.075f;
             if ((int)healAmt == 0)

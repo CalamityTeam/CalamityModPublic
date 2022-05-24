@@ -312,7 +312,7 @@ namespace CalamityMod.Projectiles.Summon
                         Projectile.ai[1] += 1f;
                         if (Main.myPlayer == Projectile.owner)
                         {
-                            SoundEngine.PlaySound(SoundID.Item111, (int)Projectile.position.X, (int)Projectile.position.Y);
+                            SoundEngine.PlaySound(SoundID.Item111, Projectile.position);
                             Vector2 inkShootVelocity = Projectile.SafeDirectionTo(shootPosition, Vector2.UnitY) * inkShootSpeed;
                             int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + Vector2.UnitY * 20f, inkShootVelocity, projID, Projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
                             if (Main.projectile.IndexInRange(p))
