@@ -12,6 +12,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
@@ -366,7 +367,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
             }
             if (NPC.life <= 0)
             {

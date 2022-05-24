@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Make a frog croak sound from time to time.
             if (Main.rand.NextBool(480))
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(13), NPC.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(13), NPC.Center);
 
             float explodeDistance = DownedBossSystem.downedAquaticScourge ? 295f : 195f;
             if (DownedBossSystem.downedPolterghast)

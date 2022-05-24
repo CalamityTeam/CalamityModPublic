@@ -14,6 +14,7 @@ using Terraria.Audio;
 using ReLogic.Content;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Sounds;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Astral
 {
@@ -99,7 +100,7 @@ namespace CalamityMod.NPCs.Astral
                 if (NPC.soundDelay == 0)
                 {
                     NPC.soundDelay = (int)MathHelper.Clamp(distanceFromTarget / 40f, 10f, 20f);
-                    SoundEngine.PlaySound(SoundID.Roar, NPC.Center, 4);
+                    SoundEngine.PlaySound(SoundID.WormDig, NPC.Center);
                 }
 
                 tileCheckPoint = (NPC.Center + Vector2.UnitY * 24f).ToTileCoordinates();
@@ -129,7 +130,7 @@ namespace CalamityMod.NPCs.Astral
                     {
                         if (SearchSoundCreationDelay == 0f)
                         {
-                            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(7), NPC.Center);
+                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), NPC.Center);
                             SearchSoundCreationDelay = -1f;
                         }
 

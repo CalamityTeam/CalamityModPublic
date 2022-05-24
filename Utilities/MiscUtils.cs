@@ -33,15 +33,6 @@ namespace CalamityMod
 {
     public static partial class CalamityUtils
     {
-        /// <summary>
-        /// Gets an instance of a sound that is trackable when used in conjunction with <see cref="Main.PlayTrackedSound(TerrariaAudio.SoundStyle, Vector2)"/>.
-        /// </summary>
-        /// <param name="path">The path to the sound file.</param>
-        public static SoundStyle GetTrackableSound(string path)
-        {
-            return new SoundStyle(path);
-        }
-
         public static void DisplayLocalizedText(string key, Color? textColor = null)
         {
             // An attempt to bypass the need for a separate method and runtime/compile-time parameter

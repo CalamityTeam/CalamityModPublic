@@ -207,18 +207,7 @@ namespace CalamityMod.NPCs.Astral
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 15;
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit"), NPC.Center);
-                        break;
-                    case 1:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit2"), NPC.Center);
-                        break;
-                    case 2:
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/AstralEnemyHit3"), NPC.Center);
-                        break;
-                }
+                SoundEngine.PlaySound(CommonCalamitySounds.AstralNPCHitSound, NPC.Center);
             }
 
             CalamityGlobalNPC.DoHitDust(NPC, hitDirection, ModContent.DustType<AstralOrange>(), 1f, 4, 24);

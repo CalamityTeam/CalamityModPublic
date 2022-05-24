@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Time == ChargeupTime - 1f)
             {
                 // Play a laserbeam deathray sound. Should probably be replaced some day
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), Projectile.Center);
 
                 if (Main.myPlayer == Projectile.owner)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.identity);

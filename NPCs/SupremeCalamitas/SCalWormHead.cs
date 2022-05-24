@@ -14,6 +14,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 {
     public class SCalWormHead : ModNPC
     {
+        public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/SepulcherDeath");
+
         private const int minLength = 51;
         private const int maxLength = 52;
         private float passedVar = 0f;
@@ -148,7 +150,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (Main.player[NPC.target].dead || !NPC.AnyNPCs(ModContent.NPCType<BrimstoneHeart>()) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 NPC.TargetClosest(false);
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCKilled/SepulcherDeath"), Main.player[NPC.target].Center);
+                SoundEngine.PlaySound(DeathSound, Main.player[NPC.target].Center);
                 NPC.life = 0;
                 NPC.HitEffect();
                 NPC.active = false;

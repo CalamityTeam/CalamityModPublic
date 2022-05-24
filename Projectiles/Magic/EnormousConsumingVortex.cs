@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public void ExplodeEffect()
         {
-            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), Projectile.Center;
+            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), Projectile.Center;
             if (!Main.dedServ)
             {
                 for (int i = 0; i < 200; i++)

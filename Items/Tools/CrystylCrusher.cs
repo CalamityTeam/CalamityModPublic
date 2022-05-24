@@ -15,6 +15,8 @@ namespace CalamityMod.Items.Tools
         private static int PickPower = 1000;
         private static float LaserSpeed = 14f;
 
+        public static readonly SoundStyle ChargeSound = new("CalamityMod/Sounds/Item/CrystylCharge");
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -40,7 +42,7 @@ namespace CalamityMod.Items.Tools
             Item.height = 70;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = LaserSpeed;
-            Item.UseSound = SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/CrystylCharge");
+            Item.UseSound = ChargeSound;
             Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 
             Item.value = CalamityGlobalItem.Rarity16BuyPrice;

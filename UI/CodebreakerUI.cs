@@ -307,7 +307,7 @@ namespace CalamityMod.UI
                 // Also play a cool sound.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(67), Main.LocalPlayer.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(67), Main.LocalPlayer.Center);
                     AwaitingDecryptionTextClose = true;
                     codebreakerTileEntity.InitialCellCountBeforeDecrypting = codebreakerTileEntity.InputtedCellCount;
                     codebreakerTileEntity.DecryptionCountdown = codebreakerTileEntity.DecryptionTotalTime;

@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Time == NPCAttackTime)
                 {
                     int ambientNoiseID = Main.rand.Next(39, 41 + 1);
-                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(ambientNoiseID), Target.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(ambientNoiseID), Target.Center);
                     SoundEngine.PlaySound(SoundID.DD2_DrakinShot, Target.Center);
                     CreateTransitionBurstDust();
                 }

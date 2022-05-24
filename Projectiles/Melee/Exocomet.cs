@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(103), Projectile.position);
+            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(103), Projectile.position);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 80;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);

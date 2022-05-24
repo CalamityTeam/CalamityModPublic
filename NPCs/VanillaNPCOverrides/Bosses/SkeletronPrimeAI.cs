@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 }
 
                 npc.ai[1] = 2f;
-                SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                SoundEngine.PlaySound(SoundID.Roar, npc.position);
             }
 
             // Adjust slowing debuff immunity
@@ -368,7 +368,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[2] += 1f;
                     if (npc.ai[2] == 2f)
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                     // Spin for 3 seconds then return to floating phase
                     float phaseTimer = 240f;
@@ -488,7 +488,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[2] == 2f)
                     {
                         // Play angry noise
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                         // Set spin direction
                         if (Main.player[npc.target].velocity.X > 0f)

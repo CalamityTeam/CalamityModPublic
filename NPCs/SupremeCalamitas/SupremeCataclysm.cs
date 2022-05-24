@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (PunchCounter >= PunchCounterLimit)
                 {
                     PunchCounter = 0f;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneHellblastSound"), NPC.Center);
+                    SoundEngine.PlaySound(SupremeCalamitas.HellblastSound, NPC.Center);
                     int type = ModContent.ProjectileType<SupremeCataclysmFist>();
                     int damage = NPC.GetProjectileDamage(type);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (DartBurstCounter >= DartBurstCounterLimit)
                 {
                     DartBurstCounter = 0f;
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SCalSounds/BrimstoneShoot"), NPC.Center);
+                    SoundEngine.PlaySound(SupremeCalamitas.BrimstoneShotSound, NPC.Center);
 
                     // TODO -- Consider changing this to use RotatedBy or ToRotationVector2.
                     float speed = 7f;

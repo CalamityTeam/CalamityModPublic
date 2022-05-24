@@ -16,6 +16,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Artemis
 {
@@ -714,7 +715,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 {
                                     int type = ModContent.ProjectileType<ArtemisLaser>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                     Vector2 laserVelocity = Vector2.Normalize(aimedVector);
                                     Vector2 projectileDestination = player.Center + predictionVector;
                                     Vector2 offset = laserVelocity * 70f;
@@ -751,7 +752,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     if (Main.netMode != NetmodeID.MultiplayerClient)
                                     {
                                         int type = ModContent.ProjectileType<ArtemisChargeTelegraph>();
-                                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                         Vector2 laserVelocity = Vector2.Normalize(aimedVector);
                                         Vector2 offset = laserVelocity * 50f;
                                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
@@ -795,7 +796,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                     else
                                     {
                                         // Charge until a certain distance is reached and then return to normal phase
-                                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/ELRFire"), NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.ELRFireSound, NPC.Center);
                                         AIState = (float)Phase.Charge;
 
                                         // Set charge velocity
@@ -849,7 +850,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                         {
                             int type = ModContent.ProjectileType<ArtemisLaser>();
                             int damage = NPC.GetProjectileDamage(type);
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                            SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
 
                             Vector2 laserVelocity = Vector2.Normalize(aimedVector) * 10f;
                             /* Spread:
@@ -932,7 +933,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
                                 int type = ModContent.ProjectileType<ArtemisDeathrayTelegraph>();
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                                SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                 Vector2 laserVelocity = Vector2.Normalize(spinningPoint - NPC.Center);
                                 Vector2 offset = laserVelocity * 70f;
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + offset, laserVelocity, type, 0, 0f, Main.myPlayer, 0f, NPC.whoAmI);
@@ -1000,7 +1001,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
-                                    SoundEngine.PlaySound(29, (int)NPC.Center.X, (int)NPC.Center.Y, 104);
+                                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), NPC.Center);
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(laser))
@@ -1090,7 +1091,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     // Shoot lens gore at the target at the proper time
                     if (calamityGlobalNPC.newAI[2] == lensPopTime)
                     {
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LargeWeaponFire"), NPC.Center);
+                        SoundEngine.PlaySound(CommonCalamitySounds.LargeWeaponFireSound, NPC.Center);
                         Vector2 lensDirection = Vector2.Normalize(aimedVector);
                         Vector2 offset = lensDirection * 70f;
 

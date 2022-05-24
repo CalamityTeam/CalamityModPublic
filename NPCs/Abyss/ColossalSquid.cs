@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.rand.NextBool(300))
                 {
-                    SoundEngine.PlaySoundCommonNPCSounds.GetZombieSound(34), NPC.position);
+                    SoundEngine.PlaySoundCommonCalamitySounds.GetZombieSound(34), NPC.position);
                 }
                 NPC.noTileCollide = false;
                 if (NPC.ai[0] == 0f)
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(34), NPC.position);
+                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(34), NPC.position);
                     }
                     if (NPC.ai[3] > 0f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                     {
@@ -407,7 +407,7 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             damage = 55;
                         }
-                        SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 111);
+                        SoundEngine.PlaySound(SoundID.Item111, NPC.position);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     NPC.rotation = NPC.velocity.X * 0.05f;
@@ -433,7 +433,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(35), NPC.position);
+                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(35), NPC.position);
                     }
                     NPC.localAI[2] = 0f;
                     NPC.velocity.X = NPC.velocity.X + (float)NPC.direction * 0.02f;

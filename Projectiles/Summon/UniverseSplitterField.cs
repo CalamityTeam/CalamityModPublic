@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -148,7 +149,7 @@ namespace CalamityMod.Projectiles.Summon
             // Summon a giant beam
             if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), Projectile.Center);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                          Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,

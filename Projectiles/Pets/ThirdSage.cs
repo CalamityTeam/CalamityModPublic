@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (Projectile.frame == 4 && Projectile.ai[1] >= 45)
             {
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(32), Projectile.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(32), Projectile.Center);
             }
             else if (Projectile.frame > 6)
             {

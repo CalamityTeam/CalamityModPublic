@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.Signus
 
         public override bool CheckDead()
         {
-            SoundEngine.PlaySound(SoundID.Item, (int)NPC.position.X, (int)NPC.position.Y, 14);
+            SoundEngine.PlaySound(SoundID.Item14, NPC.position);
             NPC.position.X = NPC.position.X + (NPC.width / 2);
             NPC.position.Y = NPC.position.Y + (NPC.height / 2);
             NPC.damage = NPC.defDamage;

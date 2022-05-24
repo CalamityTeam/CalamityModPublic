@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spawn gore
                 if (npc.localAI[2] == 0f)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.NPCHit1, npc.position);
 
                     npc.localAI[2] = 1f;
 
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     for (int num794 = 0; num794 < 20; num794++)
                         Dust.NewDust(npc.position, npc.width, npc.height, 5, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                    SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Roar, npc.position);
                 }
 
                 // Percent life remaining
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         else if (npc.ai[1] == 10f)
                         {
                             // Sound
-                            SoundEngine.PlaySound(SoundID.ForceRoar, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.ForceRoar, npc.position);
 
                             // Velocity
                             npc.velocity = Vector2.Normalize(Main.player[npc.target].Center + (malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * ((death ? 20f : 16f) + 4f * enrageScale);
@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     // Charge sound
                     if (npc.ai[2] == 0f)
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
 
                     // Velocity
                     int var = 120;

@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.localAI[3] >= (600 + Main.rand.Next(1000)))
             {
                 npc.localAI[3] = -Main.rand.Next(200);
-                SoundEngine.PlaySound(SoundID.NPCDeath10, (int)npc.position.X, (int)npc.position.Y);
+                SoundEngine.PlaySound(SoundID.NPCDeath10, npc.position);
             }
 
             // Set whoAmI variable
@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         // Play roar sound on players nearby
                         if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 2800f)
-                            SoundEngine.PlaySound(SoundID.NPCKilled, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 10, 1f, -0.25f);
+                            SoundEngine.PlaySound(SoundID.NPCDeath10 with { Pitch = SoundID.NPCDeath10.Pitch - 0.25f}, Main.player[Main.myPlayer].position);
                     }
                 }
                 else if (distanceFromTarget < distanceBeforeSlowingDown)

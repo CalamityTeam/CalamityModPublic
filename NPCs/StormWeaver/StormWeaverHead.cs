@@ -21,6 +21,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -180,7 +181,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     if (Main.netMode != NetmodeID.Server)
                         Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("SWArmorHead1").Type, NPC.scale);
 
-                    SoundEngine.PlaySound(SoundID.NPCDeath14, (int)NPC.Center.X, (int)NPC.Center.Y);
+                    SoundEngine.PlaySound(SoundID.NPCDeath14, NPC.Center);
 
                     CalamityGlobalNPC global = NPC.Calamity();
                     NPC.defense = 15;
@@ -606,7 +607,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             soundCenter = Main.player[Main.myPlayer].Center;
 
-                            SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
+                            SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, soundCenter);
 
                             if (Main.netMode != NetmodeID.Server)
                             {
@@ -619,7 +620,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         }
                     }
                     else
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/LightningStrike"), (int)soundCenter.X, (int)soundCenter.Y);
+                        SoundEngine.PlaySound(CommonCalamitySounds.LightningSound, soundCenter);
 
                     NPC.localAI[1] = 2f;
 

@@ -2449,7 +2449,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.soundDelay == 0)
             {
                 NPC.soundDelay = 8;
-                SoundEngine.PlaySound(CommonNPCSounds.OtherwordlyHitSound, NPC.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
             }
             if (NPC.life <= 0)
             {

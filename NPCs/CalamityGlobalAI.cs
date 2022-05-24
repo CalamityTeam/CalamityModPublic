@@ -466,7 +466,7 @@ namespace CalamityMod.NPCs
                         float time = npc.ai[2] + maxTime + turnToStoneTime;
                         if (time == 1f)
                         {
-                            SoundEngine.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 17, 1f, 0f);
+                            SoundEngine.PlaySound(SoundID.NPCDeath17, npc.position);
                         }
                         if (time < turnToStoneTime)
                         {
@@ -1293,19 +1293,19 @@ namespace CalamityMod.NPCs
                 }
                 if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Mummy, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Mummy, npc.position);
                 }
                 if (npcType == NPCID.Vampire && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(7), npc.position);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), npc.position);
                 }
                 if (npcType == NPCID.Frankenstein && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(6), npc.position);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(6), npc.position);
                 }
                 if (npcType == NPCID.FaceMonster && Main.rand.Next(500) == 0)
                 {
-                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(8), npc.position);
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(8), npc.position);
                 }
                 if (npcType >= 269 && npcType <= 280 && Main.rand.Next(1000) == 0)
                 {
@@ -4443,7 +4443,7 @@ namespace CalamityMod.NPCs
                             num54 = 20f;
                         }
                         npc.soundDelay = (int)num54;
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.WormDig, npc.position);
                     }
 
                     num52 = (float)Math.Sqrt((double)(num39 * num39 + num40 * num40));
@@ -6482,7 +6482,7 @@ namespace CalamityMod.NPCs
 
                 if (Main.rand.Next(40) == 0)
                 {
-                    SoundEngine.PlaySound(SoundID.Pixie, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.Pixie, npc.position);
                 }
             }
             else if (npc.type == NPCID.IceElemental)

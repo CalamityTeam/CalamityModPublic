@@ -50,8 +50,8 @@ namespace CalamityMod.NPCs.Astral
 
         public static readonly SoundStyle HurtSound = new("Sounds/NPCHit/AtlasHurt", 3);
         public static readonly SoundStyle DeathSound = new("Sounds/NPCKilled/AtlasDeath");
-        public static readonly SoundStyle AggroSound = new("Sounds/Custom/AtlasSad0");
-        public static readonly SoundStyle UnaggroSound = new("Sounds/Custom/AtlasSad1");
+        public static readonly SoundStyle AggroSound = new("Sounds/Custom/AtlasSadAggro");
+        public static readonly SoundStyle UnaggroSound = new("Sounds/Custom/AtlasSadUnaggro");
         public static readonly SoundStyle SwingSound = new("Sounds/Custom/AtlasSwing");
         public static readonly SoundStyle IdleSound = new("Sounds/Custom/AtlasIdle", 2);
 

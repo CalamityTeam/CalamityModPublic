@@ -12,6 +12,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
@@ -302,9 +303,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                                             }
                                         }
 
-                                        SoundEffectInstance sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
-                                        if (sound != null)
-                                            sound.Volume *= 0.1f;
+                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound with { Volume = 0.1f * CommonCalamitySounds.LaserCannonSound.Volume}, NPC.Center);
 
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
@@ -374,7 +373,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
                                         int type = ModContent.ProjectileType<ThanatosLaser>();
                                         int damage = NPC.GetProjectileDamage(type);
-                                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                                        SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                         for (int i = 0; i < numProjectiles; i++)
                                         {
                                             // Fire normal lasers if head is in passive state
@@ -464,9 +463,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 float volume = calamityGlobalNPC_Head.newAI[0] == (float)ThanatosHead.Phase.Charge ? 0.1f : 1f;
                 if (NPC.localAI[0] == 0f)
                 {
-                    SoundEffectInstance sound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/ThanatosVent"), NPC.Center);
-                    if (sound != null)
-                        sound.Volume *= volume;
+                    SoundEngine.PlaySound(ThanatosHead.VentSound with { Volume = volume * ThanatosHead.VentSound.Volume }, NPC.Center);
                 }
 
                 // Steam
@@ -622,7 +619,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 NPC.soundDelay = 8;
 
                 if (vulnerable)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/NPCHit/OtherworldlyHit"), NPC.Center);
+                    SoundEngine.PlaySound(CommonCalamitySounds.OtherwordlyHitSound, NPC.Center);
                 else
                     SoundEngine.PlaySound(SoundID.NPCHit4, NPC.Center);
             }

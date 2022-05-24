@@ -34,6 +34,9 @@ namespace CalamityMod.NPCs.SlimeGod
         private bool slimesSpawned = false;
         private int buffedSlime = 0;
 
+        public static readonly SoundStyle PossessionSound = new("CalamityMod/Sounds/Custom/SlimeGodPossession");
+        public static readonly SoundStyle ExitSound = new("CalamityMod/Sounds/Custom/SlimeGodExit");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Slime God");
@@ -236,7 +239,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         calamityGlobalNPC.newAI[2] = NPC.life;
                         calamityGlobalNPC.newAI[3] = 1f;
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SlimeGodPossession"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(PossessionSound, NPC.position);
                     }
                 }
 
@@ -289,7 +292,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         NPC.ai[2] = 0f;
                         calamityGlobalNPC.newAI[3] = 0f;
                         NPC.velocity = Vector2.UnitY * -12f;
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/SlimeGodExit"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(ExitSound, NPC.position);
                         for (int i = 0; i < 20; i++)
                         {
                             int dust = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);

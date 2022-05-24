@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
-            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(103), Projectile.Center);
+            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(103), Projectile.Center);
             for (int num193 = 0; num193 < 3; num193++)
             {
                 int dust = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);

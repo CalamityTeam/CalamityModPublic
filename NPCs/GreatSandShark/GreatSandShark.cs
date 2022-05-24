@@ -11,12 +11,16 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.NPCs.GreatSandShark
 {
     [AutoloadBossHead]
     public class GreatSandShark : ModNPC
     {
         private bool resetAI = false;
+
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/GreatSandSharkRoar");
 
         public override void SetStaticDefaults()
         {
@@ -90,7 +94,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             if (NPC.soundDelay <= 0)
             {
                 NPC.soundDelay = 480;
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                SoundEngine.PlaySound(RoarSound, NPC.position);
             }
 
             if (NPC.localAI[3] >= 1f || Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 1000f)
@@ -299,7 +303,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
-                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/GreatSandSharkRoar"), (int)NPC.position.X, (int)NPC.position.Y);
+                        SoundEngine.PlaySound(RoarSound, NPC.position;
                     }
                 }
 

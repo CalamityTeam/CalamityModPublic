@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (TargetNPCIndex != potentialTarget.whoAmI)
                 {
                     TargetNPCIndex = potentialTarget.whoAmI;
-                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(53), Projectile.Center); // Ethereal whisper indicating a new target has been spotted.
+                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(53), Projectile.Center); // Ethereal whisper indicating a new target has been spotted.
                     Projectile.netUpdate = true;
                 }
             }

@@ -29,6 +29,10 @@ namespace CalamityMod.NPCs.OldDuke
     [AutoloadBossHead]
     public class OldDuke : ModNPC
     {
+        public static readonly SoundStyle HuffSound = new("CalamityMod/Sounds/Custom/OldDukeHuff");
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/OldDukeRoar");
+        public static readonly SoundStyle VomitSound = new("CalamityMod/Sounds/Custom/OldDukeVomit");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Old Duke");

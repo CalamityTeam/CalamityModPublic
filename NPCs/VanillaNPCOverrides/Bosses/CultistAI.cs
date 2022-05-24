@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Chant sound
             if (npc.ai[0] != -1f && Main.rand.NextBool(1000))
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(Main.rand.Next(88, 92)), npc.position);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(Main.rand.Next(88, 92)), npc.position);
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Spawn and play sound
             if (npc.localAI[0] == 0f)
             {
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(89), npc.position);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(89), npc.position);
                 npc.localAI[0] = 1f;
                 npc.alpha = 255;
                 npc.rotation = 0f;
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.velocity *= 0.95f;
 
                     if (npc.localAI[2] != 13f)
-                        SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(105), npc.position);
+                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(105), npc.position);
 
                     npc.localAI[2] = 13f;
                 }

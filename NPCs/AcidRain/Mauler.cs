@@ -42,6 +42,8 @@ namespace CalamityMod.NPCs.AcidRain
             set => NPC.localAI[0] = value;
         }
 
+        public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/MaulerRoar");
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mauler");
@@ -165,7 +167,7 @@ namespace CalamityMod.NPCs.AcidRain
                     CurrentFrame = 4;
             }
             if (AttackTimer == roarDelay)
-                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(97), Target.Center);
+                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(97), Target.Center);
 
             // Rotate towards the target.
             int previousSpriteDirection = NPC.spriteDirection;
@@ -340,7 +342,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Roar as a telegraph. The placement of the sound is offset such that the player and ideally determine the determine where the charge will come from.
             if (AttackTimer == chargeDelay - telegraphTime)
-                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/MaulerRoar"), Target.Center + Target.SafeDirectionTo(NPC.Center) * 300f);
+                SoundEngine.PlaySound(RoarSound, Target.Center + Target.SafeDirectionTo(NPC.Center) * 300f);
 
             // Charge.
             if (AttackTimer == chargeDelay)

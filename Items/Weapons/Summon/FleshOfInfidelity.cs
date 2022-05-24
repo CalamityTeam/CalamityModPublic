@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 1f;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
-            Item.UseSound = CommonNPCSounds.GetZombieSound(24);
+            Item.UseSound = CommonCalamitySounds.GetZombieSound(24);
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<FleshBallMinion>();
             Item.shootSpeed = 10f;

@@ -22,6 +22,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Calamitas
 {
@@ -224,7 +225,7 @@ namespace CalamityMod.NPCs.Calamitas
             if (!DownedBossSystem.downedCalamitas)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                    SoundEngine.PlaySound(CommonCalamitySounds.WyrmScreamSound, Main.player[Main.myPlayer].position);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
 
-                        SoundEngine.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        SoundEngine.PlaySound(SoundID.Roar, npc.position);
                         return false;
                     }
 
@@ -455,7 +455,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Spawn bees or hornets
                 if (Collision.CanHit(vector76, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && spawnBee)
                 {
-                    SoundEngine.PlaySound(SoundID.NPCHit1, (int)npc.position.X, (int)npc.position.Y);
+                    SoundEngine.PlaySound(SoundID.NPCHit1, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int spawnType = Main.rand.Next(210, 212);

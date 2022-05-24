@@ -10,6 +10,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.NPCs.ExoMechs.Thanatos;
 using CalamityMod.Particles;
 using CalamityMod.Projectiles.Boss;
@@ -28,6 +29,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -133,6 +135,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
         // Drawers for arm segments.
         public PrimitiveTrail LightningDrawer;
         public PrimitiveTrail LightningBackgroundDrawer;
+
+        public static readonly SoundStyle EnragedSound = new("CalamityMod/Sounds/Custom/AresEnraged");
 
         public override void SetStaticDefaults()
         {
@@ -723,8 +727,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             // Play enrage sound
                             if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
                             {
-                                SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Custom/AresEnraged"),
-                                    (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+                                SoundEngine.PlaySound(EnragedSound, Main.player[Main.myPlayer].position);
                             }
 
                             // Draedon comments on how foolish it is to run
@@ -798,7 +801,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/LaserCannon"), NPC.Center);
+                                    SoundEngine.PlaySound(CommonCalamitySounds.LaserCannonSound, NPC.Center);
                                     int type = ModContent.ProjectileType<AresDeathBeamTelegraph>();
                                     Vector2 spawnPoint = NPC.Center + new Vector2(-1f, 23f);
                                     for (int k = 0; k < totalProjectiles; k++)
@@ -816,7 +819,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(Mod, "Sounds/Item/TeslaCannonFire"), NPC.Center);
+                                    SoundEngine.PlaySound(TeslaCannon.FireSound, NPC.Center);
                                     int type = ModContent.ProjectileType<AresDeathBeamStart>();
                                     int damage = NPC.GetProjectileDamage(type);
                                     Vector2 spawnPoint = NPC.Center + new Vector2(-1f, 23f);

@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 state = 2;
-                SoundEngine.PlaySound(SoundID.ForceRoar, (int)NPC.Center.X, (int)NPC.Center.Y, -1, 1f, 0f);
+                SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
             }
             else
             {
@@ -353,9 +353,9 @@ namespace CalamityMod.NPCs.HiveMind
                 nextState = 0;
 
                 if (state == 2)
-                    SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0);
+                    SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
                 else
-                    SoundEngine.PlaySound(SoundID.ForceRoar, (int)NPC.Center.X, (int)NPC.Center.Y, -1, 1f, 0f);
+                    SoundEngine.PlaySound(SoundID.ForceRoar, NPC.Center);
             }
         }
 
@@ -420,7 +420,7 @@ namespace CalamityMod.NPCs.HiveMind
                             Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("HiveMindGore" + i).Type, 1f);
                     }
 
-                    SoundEngine.PlaySound(SoundID.NPCDeath1, (int)NPC.Center.X, (int)NPC.Center.Y);
+                    SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.Center);
 
                     NPC.position = NPC.Center;
                     NPC.height = height_Phase2;
@@ -827,7 +827,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 NPC.velocity.Normalize();
                                 NPC.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;
-                                SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0);
+                                SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
                             }
                             else
                             {
@@ -867,7 +867,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (!dashStarted)
                         {
                             dashStarted = true;
-                            SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0);
+                            SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
                             NPC.velocity.X = MathHelper.Pi * teleportRadius / arcTime;
                             NPC.velocity *= rotationDirection;
                             NPC.netUpdate = true;
@@ -924,7 +924,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (!dashStarted)
                         {
                             dashStarted = true;
-                            SoundEngine.PlaySound(SoundID.Roar, (int)NPC.Center.X, (int)NPC.Center.Y, 0);
+                            SoundEngine.PlaySound(SoundID.Roar, NPC.Center);
                             NPC.velocity.X = teleportRadius / arcTime * 3;
                             NPC.velocity *= -rotationDirection;
                             NPC.netUpdate = true;
