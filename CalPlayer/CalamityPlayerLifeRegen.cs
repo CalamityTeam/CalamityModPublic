@@ -958,22 +958,34 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+            // Life regen soft cap.
             if (Player.statLife < actualMaxLife)
             {
+                // The soft cap doesn't apply if the player is not moving and not using a weapon while having any off the following:
+                // Shiny Stone, Draedon's Heart, Cosmic Freeze buff from the Cosmic Discharge, Demonshade Armor, Photosynthesis Potion buff or The Camper.
                 bool noLifeRegenCap = (Player.shinyStone || draedonsHeart || cFreeze || shadeRegen || photosynthesis || camper) &&
                     Player.StandingStill() && Player.itemAnimation == 0;
 
                 if (!noLifeRegenCap)
                 {
-                    // Max HP = 400
-                    // 350 HP = 1 - 0.875 * 10 = 1.25 = 1
-                    // 100 HP = 1 - 0.25 * 10 = 7.5 = 7
-                    // 200 HP = 1 - 0.5 * 10 = 5
-                    int lifeRegenScale = (int)((1f - (Player.statLife / actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
-                    if (Player.lifeRegen > lifeRegenScale)
+                    // Calculate the % of HP the player has left.
+                    float maxLifeRatio = Player.statLife / (float)actualMaxLife;
+
+                    // The soft cap for life regen which ranges from 10 (at less than 5% HP) to 0 (at greater than or equal to 95% HP).
+                    int lifeRegenSoftCap = (int)Math.Round((1f - maxLifeRatio) * 10f);
+
+                    // If life regen is greater than the calculated soft cap, reduce it.
+                    if (Player.lifeRegen > lifeRegenSoftCap)
                     {
-                        float lifeRegenScalar = 1f + (Player.statLife / actualMaxLife); // 1 to 2 (1% HP to 100%)
+                        // The scalar used to calculate how much the life regen stat should be reduced by.
+                        // Ranges from 1 (at 0% HP) to 2 (at 100% HP).
+                        float lifeRegenScalar = 1f + maxLifeRatio;
+
+                        // Calculate the amount of life regen the player should get according to the soft cap and their current % HP remaining.
+                        // The higher the player's % HP remaining the less life regen they get and vice versa.
                         int defLifeRegen = (int)(Player.lifeRegen / lifeRegenScalar);
+
+                        // Set the player's life regen to the scaled amount.
                         Player.lifeRegen = defLifeRegen;
                     }
                 }
