@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -155,7 +156,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Time == ChargeupTime - 1f)
             {
                 // Play a laserbeam deathray sound. Should probably be replaced some day
-                SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), Projectile.Center);
 
                 if (Main.myPlayer == Projectile.owner)
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.velocity, ModContent.ProjectileType<RancorLaserbeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.identity);

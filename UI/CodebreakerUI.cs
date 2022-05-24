@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using Terraria.Audio;
 using Terraria.GameContent;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.UI
 {
@@ -306,7 +307,7 @@ namespace CalamityMod.UI
                 // Also play a cool sound.
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    SoundEngine.PlaySound(SoundID.Zombie with { Variants = stackalloc int[] { 67 } }, Main.LocalPlayer.Center);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(67), Main.LocalPlayer.Center);
                     AwaitingDecryptionTextClose = true;
                     codebreakerTileEntity.InitialCellCountBeforeDecrypting = codebreakerTileEntity.InputtedCellCount;
                     codebreakerTileEntity.DecryptionCountdown = codebreakerTileEntity.DecryptionTotalTime;

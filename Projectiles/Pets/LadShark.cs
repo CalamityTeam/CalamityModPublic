@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
+
 namespace CalamityMod.Projectiles.Pets
 {
     public class LadShark : ModProjectile
@@ -65,7 +67,7 @@ namespace CalamityMod.Projectiles.Pets
                         }
                     }
 
-                    SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 15); //mouse squeak sound
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(15), Projectile.position); //mouse squeak sound
 
                     float radius = 240f; // 15 blocks
                     for (int j = 0; j < Main.maxNPCs; j++)

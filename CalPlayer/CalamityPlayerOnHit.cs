@@ -25,6 +25,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
 using CalamityMod.EntitySources;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.CalPlayer
 {
@@ -889,7 +890,7 @@ namespace CalamityMod.CalPlayer
             if (silvaMage && silvaMageCooldown <= 0 && (proj.penetrate == 1 || proj.timeLeft <= 5))
             {
                 silvaMageCooldown = 300;
-                SoundEngine.PlaySound(SoundID.Zombie with { Variants = stackalloc int[] { 103 } }, proj.position); //So scuffed, just because zombie sounds werent ported normally
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(103) , proj.position); //So scuffed, just because zombie sounds werent ported normally
                 // Silva Mage Blasts: 800 + 60%, softcap on the whole combined thing starts at 1400
                 int silvaBurstDamage = CalamityUtils.DamageSoftCap(800.0 + 0.6 * proj.damage, 1400);
                 Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SilvaBurst>(), silvaBurstDamage, 8f, Player.whoAmI);

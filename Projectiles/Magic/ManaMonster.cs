@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -50,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
                 if (Time == NPCAttackTime)
                 {
                     int ambientNoiseID = Main.rand.Next(39, 41 + 1);
-                    SoundEngine.PlaySound(SoundID.Zombie, Target.Center, ambientNoiseID);
+                    SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(ambientNoiseID), Target.Center);
                     SoundEngine.PlaySound(SoundID.DD2_DrakinShot, Target.Center);
                     CreateTransitionBurstDust();
                 }

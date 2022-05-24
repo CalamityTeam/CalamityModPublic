@@ -86,7 +86,7 @@ namespace CalamityMod.Skies
 
             if (playSound && !Main.gamePaused)
             {
-                var lightningSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                var lightningSound = SoundEngine.PlaySound(SoundID.Thunder, Main.LocalPlayer.Center);
                 if (lightningSound != null)
                     lightningSound.Volume *= 0.5f;
             }
@@ -122,7 +122,7 @@ namespace CalamityMod.Skies
 
                 if (!Main.gamePaused)
                 {
-                    var lightningSound = SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot(CalamityMod.Instance, "Sounds/Custom/LightningStrike"), Main.LocalPlayer.Center);
+                    var lightningSound = SoundEngine.PlaySound(SoundID.Thunder, Main.LocalPlayer.Center);
                     if (lightningSound != null)
                         lightningSound.Volume *= 0.5f;
                 }

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Summon
             else
             {
                 // Play some demonic noises prior to a target being selected.
-                SoundEngine.PlaySound(SoundID.Zombie with { Variants = stackalloc int[] { 93 } }, player.Center);
+                SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(93), player.Center);
                 SoundEngine.PlaySound(SoundID.Item119, player.Center);
             }
             return false;

@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -144,7 +145,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public void ExplodeEffect()
         {
-            SoundEngine.PlaySound(SoundID.Zombie, Projectile.Center, 104);
+            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(104), Projectile.Center;
             if (!Main.dedServ)
             {
                 for (int i = 0; i < 200; i++)

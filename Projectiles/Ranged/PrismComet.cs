@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -90,7 +91,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Zombie, (int)Projectile.position.X, (int)Projectile.position.Y, 103, 1f, 0f);
+            SoundEngine.PlaySound(CommonNPCSounds.GetZombieSound(103), Projectile.position);
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 80);
             Projectile.Damage();
 
