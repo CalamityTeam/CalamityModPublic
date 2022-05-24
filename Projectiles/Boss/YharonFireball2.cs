@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Item14 with { Volume = SoundID.Item14.Volume * 0.5f}, Projectile.position, 0f);
+            SoundEngine.PlaySound(SoundID.Item14 with { Volume = SoundID.Item14.Volume * 0.5f }, Projectile.position);
             CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 144);
             for (int d = 0; d < 2; d++)
             {

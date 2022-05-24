@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.myPlayer != Projectile.owner)
                 return;
-            SoundEngine.PlaySound(SoundID.Item9 with { Volume = SoundID.Item9.Volume * 1f}, Projectile.position, 0f);
+            SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
             for (float i = 0; i < 5; i++)
             {
                 float angle = MathHelper.TwoPi / 5f * i;

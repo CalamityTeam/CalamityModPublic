@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            SoundEngine.PlaySound(SoundID.NPCDeath28 with { Volume = SoundID.NPCDeath28.Volume * 0.3f}, Projectile.position, 0);
+            SoundEngine.PlaySound(SoundID.NPCDeath28 with { Volume = SoundID.NPCDeath28.Volume * 0.3f }, Projectile.position);
             Projectile.Kill();
             return false;
         }

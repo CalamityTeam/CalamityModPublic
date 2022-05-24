@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Melee
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
             Projectile.ai[0] = 1f;
             Projectile.netUpdate = true;
-            SoundEngine.PlaySound(SoundID.Dig1 with { Volume = SoundID.Dig1.Volume * 1f}, Projectile.position, 0f);
+            SoundEngine.PlaySound(SoundID.Dig1, Projectile.position);
             return false;
         }
 
