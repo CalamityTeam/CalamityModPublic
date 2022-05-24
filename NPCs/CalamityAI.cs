@@ -2725,15 +2725,8 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == -1f)
                     {
                         // Set jump velocity, reset and set AI to next phase (Stomp)
-                        float velocityX = 12f;
-                        velocityX += 6f * enrageScale;
-                        if (expertMode)
-                            velocityX += death ? 4.5f * (1f - lifeRatio) : 3f * (1f - lifeRatio);
-
                         float playerLocation = npc.Center.X - player.Center.X;
                         npc.direction = playerLocation < 0 ? 1 : -1;
-
-                        npc.velocity.X = velocityX * npc.direction;
 
                         float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
 
@@ -2748,20 +2741,17 @@ namespace CalamityMod.NPCs
                                 calamityGlobalNPC.newAI[0] = speedMultLimit;
                         }
 
+                        float velocity = 24f;
+                        velocity += 6f * enrageScale;
                         if (expertMode)
-                        {
-                            if (player.position.Y < npc.Bottom.Y)
-                                npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -7f : -14.5f;
-                            else
-                                npc.velocity.Y = 1f;
-
-                            npc.noTileCollide = true;
-                        }
-                        else
-                            npc.velocity.Y = (phase5 && (npc.ai[2] < 2f || npc.ai[2] == 3f)) ? -7f : -14.5f;
+                            velocity += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
                         if (calamityGlobalNPC.newAI[0] > 1f)
-                            npc.velocity.Y *= calamityGlobalNPC.newAI[0];
+                            velocity *= calamityGlobalNPC.newAI[0];
+
+                        npc.velocity = (new Vector2(player.Center.X, player.Center.Y - 500f) - npc.Center).SafeNormalize(Vector2.Zero) * velocity;
+
+                        npc.noTileCollide = expertMode;
 
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
@@ -2770,7 +2760,9 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                CustomGravity();
+                // Don't run custom gravity when starting a jump
+                if (npc.ai[0] != 4f)
+                    CustomGravity();
             }
 
             // Stomp
@@ -2868,6 +2860,10 @@ namespace CalamityMod.NPCs
 
                     if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
+                        // Make sure Aureus falls quickly when directly on top of or below the player
+                        if (npc.ai[3] < 30f)
+                            npc.ai[3] = 30f;
+
                         npc.velocity.X *= 0.8f;
 
                         if (npc.Bottom.Y < player.position.Y)
@@ -2885,6 +2881,7 @@ namespace CalamityMod.NPCs
                     }
                     else
                     {
+                        // Push Aureus towards the player on the X axis if he's not directly on top of or below the player
                         float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.0001f;
                         velocityXChange += 0.1f * enrageScale;
 
@@ -2904,7 +2901,18 @@ namespace CalamityMod.NPCs
                             npc.velocity.X = num626;
                     }
 
-                    CustomGravity();
+                    // Don't start falling quickly until half a second has passed
+                    npc.ai[3] += 1f;
+                    if (npc.ai[3] > 30f)
+                    {
+                        // Make sure Aureus falls rather quickly
+                        if (npc.velocity.Y < -3f)
+                            npc.velocity.Y = -3f;
+
+                        CustomGravity();
+                    }
+                    else
+                        npc.velocity.Y *= 0.95f;
                 }
             }
 
@@ -5048,7 +5056,7 @@ namespace CalamityMod.NPCs
                 float aiGateValue = 120f;
                 if (npc.ai[1] == aiGateValue - 30f)
                 {
-                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, npc.position);
+                    SoundEngine.PlaySound(SoundID.DD2_BetsyFireballShot, npc.Center);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
