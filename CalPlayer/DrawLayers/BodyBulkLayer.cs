@@ -13,7 +13,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
     {
         public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
-        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.shadow != 0f || drawInfo.drawPlayer.dead;
+        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.shadow == 0f || !drawInfo.drawPlayer.dead;
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
@@ -27,16 +27,16 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 int dyeShader = drawPlayer.dye?[0].dye ?? 0;
 
                 // Remember to use drawInfo.position and not drawPlayer.position, or else it will not display properly in the player selection screen.
-                Vector2 origin = new Vector2(drawPlayer.legFrame.Width * 0.5f, drawPlayer.legFrame.Height * 0.4f);
-                Vector2 headDrawPosition = drawInfo.Center.Floor() - Main.screenPosition;
+                Vector2 origin = new Vector2(drawPlayer.bodyFrame.Width * 0.5f, drawPlayer.bodyFrame.Height * 0.5f);
+                Vector2 drawPosition = drawInfo.Center.Floor() - Main.screenPosition;
 
                 //Account for the hellspawns known as mounts
                 if (drawPlayer.mount.Active)
-                    headDrawPosition.Y += drawPlayer.mount.HeightBoost;
+                    drawPosition.Y += drawPlayer.mount.HeightBoost;
 
                 Texture2D extraPieceTexture = ModContent.Request<Texture2D>(chestplateBulkDrawer.BulkTexture).Value;
                 Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
-                DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.colorHead, drawPlayer.fullRotation, origin, 1f, drawInfo.playerEffect, 0)
+                DrawData pieceDrawData = new DrawData(extraPieceTexture, drawPosition, frame, drawInfo.colorArmorBody, drawPlayer.fullRotation, origin, 1f, drawInfo.playerEffect, 0)
                 {
                     shader = dyeShader
                 };

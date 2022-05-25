@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 25;
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Sea Remains");
         }
 

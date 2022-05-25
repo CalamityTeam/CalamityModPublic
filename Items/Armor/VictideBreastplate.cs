@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor
                 EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/VictideFaulds_Waist", EquipType.Waist, name: "VictideFaulds");
             }
         }
-
+		
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
