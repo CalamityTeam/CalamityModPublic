@@ -36,10 +36,11 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (TimeCountdown > 0f)
                 {
-                    if (TimeCountdown > 140f)
-                        Projectile.scale = MathHelper.Clamp(Projectile.scale + 0.05f, 0f, 1f);
-                    if (TimeCountdown < 25f)
+                    if (TimeCountdown <= 20f)
                         Projectile.scale = MathHelper.Clamp(Projectile.scale - 0.05f, 0f, 1f);
+                    else if (Projectile.scale < 1f)
+                        Projectile.scale = MathHelper.Clamp(Projectile.scale + 0.05f, 0f, 1f);
+
                     TimeCountdown--;
                 }
                 else
