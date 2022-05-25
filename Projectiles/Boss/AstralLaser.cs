@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,14 +26,15 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 240;
+            Projectile.timeLeft = 480;
+            Projectile.extraUpdates = 1;
             Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
         {
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 4)
+            if (Projectile.frameCounter > 8)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;
@@ -55,10 +56,10 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(Projectile.Center, 0.3f, 0.3f, 0f);
 
             Projectile.ai[0] += 1f;
-            if (Projectile.ai[0] > 9f)
+            if (Projectile.ai[0] > 18f)
             {
                 if (Projectile.alpha > 0)
-                    Projectile.alpha -= 5;
+                    Projectile.alpha -= 3;
             }
         }
 
