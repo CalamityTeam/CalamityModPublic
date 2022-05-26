@@ -2540,7 +2540,7 @@ namespace CalamityMod.NPCs
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            float laserVelocity = death ? 10f : 9.25f;
+                            float laserVelocity = death ? 7f : 6f;
                             if (calamityGlobalNPC.newAI[2] == 0f)
                             {
                                 calamityGlobalNPC.newAI[2] = 1f;
@@ -2563,7 +2563,7 @@ namespace CalamityMod.NPCs
 
                                 if (phase3)
                                 {
-                                    float flameVelocity = 6f;
+                                    float flameVelocity = death ? 14f : 12f;
                                     maxProjectiles = 2;
                                     spread = 45;
 
@@ -2859,7 +2859,7 @@ namespace CalamityMod.NPCs
                         {
                             calamityGlobalNPC.newAI[3] = 1f;
 
-                            float flameVelocity = 7f;
+                            float flameVelocity = 6f;
                             int maxProjectiles = !phase2 ? (malice ? 7 : death ? 5 : 3) : (malice ? 9 : death ? 7 : 5);
                             int spread = !phase2 ? (malice ? 56 : death ? 44 : 32) : (malice ? 72 : death ? 56 : 40);
 
@@ -2882,7 +2882,7 @@ namespace CalamityMod.NPCs
                         {
                             calamityGlobalNPC.newAI[3] = 0f;
 
-                            float laserVelocity = death ? 10f : 9.25f;
+                            float laserVelocity = death ? 7f : 6f;
                             int maxProjectiles = !phase3 ? (malice ? 17 : death ? 13 : 9) : (malice ? 21 : death ? 17 : 13);
                             int spread = !phase3 ? (malice ? 28 : death ? 22 : 16) : (malice ? 28 : death ? 24 : 20);
 
