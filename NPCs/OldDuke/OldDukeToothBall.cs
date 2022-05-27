@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.OldDuke
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                     Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }
@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.OldDuke
             {
                 int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

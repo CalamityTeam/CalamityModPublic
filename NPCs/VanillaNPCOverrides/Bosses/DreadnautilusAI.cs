@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Create dust
-            if (npc.ai[0] != -1f && Main.rand.Next(4) == 0)
+            if (npc.ai[0] != -1f && Main.rand.NextBool(4))
             {
                 npc.position += npc.netOffset;
                 Dust dust = Dust.NewDustDirect(npc.position + new Vector2(5f), npc.width - 10, npc.height - 10, 5);

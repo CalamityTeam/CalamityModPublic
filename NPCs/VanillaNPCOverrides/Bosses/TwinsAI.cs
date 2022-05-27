@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.rotation = num401;
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 int num403 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f);
                 Main.dust[num403].velocity.X *= 0.5f;

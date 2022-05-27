@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs
         }
         public static void BuffedSwampThingAI(NPC npc)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.Next(240) == 0)
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(240))
             {
                 npc.ai[2] = (float)Main.rand.Next(-480, -60);
                 npc.netUpdate = true;
@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                         float time = npc.ai[2] + maxTime;
-                        if (time < 180f && (Main.rand.Next(3) == 0 || npc.ai[2] % 3f == 0f))
+                        if (time < 180f && (Main.rand.NextBool(3) || npc.ai[2] % 3f == 0f))
                         {
                             MedusaHeadDustEffect(npc, time);
                         }
@@ -706,7 +706,7 @@ namespace CalamityMod.NPCs
                                 int dustIdx = Dust.NewDust(spawnPosiion, 1, 1, 27, 0f, 0f, 0, default, 1f);
                                 Main.dust[dustIdx].velocity = -dustVelocity * 0.3f;
                                 Main.dust[dustIdx].alpha = 100;
-                                if (Main.rand.Next(2) == 0)
+                                if (Main.rand.NextBool(2))
                                 {
                                     Main.dust[dustIdx].noGravity = true;
                                     Main.dust[dustIdx].scale += 0.3f;
@@ -925,7 +925,7 @@ namespace CalamityMod.NPCs
                 {
                     maxValue = 1;
                 }
-                if (Main.rand.Next(maxValue) == 0)
+                if (Main.rand.NextBool(maxValue))
                 {
                     Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default, 1f)];
                     dust.noGravity = true;
@@ -978,7 +978,7 @@ namespace CalamityMod.NPCs
                 {
                     maxValue2 = 1;
                 }
-                if (Main.rand.Next(maxValue2) == 0)
+                if (Main.rand.NextBool(maxValue2))
                 {
                     Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 229, 0f, 0f, 0, default, 1f)];
                     dust.noGravity = true;
@@ -1133,7 +1133,7 @@ namespace CalamityMod.NPCs
                 {
                     npc.localAI[3] -= 1f;
                 }
-                if (npc.justHit && npc.localAI[3] <= 0f && Main.rand.Next(2) == 0)
+                if (npc.justHit && npc.localAI[3] <= 0f && Main.rand.NextBool())
                 {
                     npc.localAI[3] = 30f;
                     int nailCount = Main.rand.Next(3, 6);
@@ -1284,31 +1284,31 @@ namespace CalamityMod.NPCs
             }
             if (npc.ai[3] < (float)aiGateValue && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == InvasionID.GoblinArmy && (npcType == NPCID.Yeti || npcType == NPCID.ElfArcher)) || (Main.invasionType == InvasionID.GoblinArmy && (npcType == NPCID.GoblinPeon || npcType == NPCID.GoblinThief || npcType == NPCID.GoblinWarrior || npcType == NPCID.GoblinArcher || npcType == NPCID.GoblinSummoner)) || (npcType == NPCID.GoblinScout || (Main.invasionType == InvasionID.PirateInvasion && npcType >= 212 && npcType <= 216)) || (Main.invasionType == InvasionID.MartianMadness && (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianOfficer || npcType == NPCID.GrayGrunt || npcType == NPCID.MartianEngineer || npcType == NPCID.GigaZapper || npcType == NPCID.Scutlix || npcType == NPCID.MartianWalker)) || (npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy || npcType == NPCID.SkeletonArcher || npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>() || npcType == NPCID.CorruptPenguin || npcType == NPCID.FaceMonster || npcType == NPCID.SnowFlinx || npcType == NPCID.Lihzahrd || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.IcyMerman || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.SeaSnail || npcType == NPCID.BloodCrawler || npcType == NPCID.IceGolem || npcType == NPCID.ZombieMushroom || npcType == NPCID.ZombieMushroomHat || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite || npcType == NPCID.CrimsonBunny || npcType == NPCID.CrimsonPenguin || npcType == NPCID.NebulaSoldier || (npcType == NPCID.StardustSoldier && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npcType == NPCID.StardustSpiderBig || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexSoldier || npcType == NPCID.VortexHornet || npcType == NPCID.VortexLarva || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.SolarSolenian || (npcType >= 524 && npcType <= 527)) || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast))
             {
-                if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
+                if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.NextBool(1000))
                 {
                     SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position);
                 }
-                if (npcType == NPCID.BloodZombie && Main.rand.Next(800) == 0)
+                if (npcType == NPCID.BloodZombie && Main.rand.NextBool(800))
                 {
                     SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position); //There was a npcType thing afterwards but its not really useable now. Hilarious, frankly
                 }
-                if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.Next(500) == 0)
+                if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.NextBool(500))
                 {
                     SoundEngine.PlaySound(SoundID.Mummy, npc.position);
                 }
-                if (npcType == NPCID.Vampire && Main.rand.Next(500) == 0)
+                if (npcType == NPCID.Vampire && Main.rand.NextBool(500))
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), npc.position);
                 }
-                if (npcType == NPCID.Frankenstein && Main.rand.Next(500) == 0)
+                if (npcType == NPCID.Frankenstein && Main.rand.NextBool(500))
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(6), npc.position);
                 }
-                if (npcType == NPCID.FaceMonster && Main.rand.Next(500) == 0)
+                if (npcType == NPCID.FaceMonster && Main.rand.NextBool(500))
                 {
                     SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(8), npc.position);
                 }
-                if (npcType >= 269 && npcType <= 280 && Main.rand.Next(1000) == 0)
+                if (npcType >= 269 && npcType <= 280 && Main.rand.NextBool(1000))
                 {
                     SoundEngine.PlaySound(SoundID.ZombieMoan, npc.position);
                 }
@@ -2007,7 +2007,7 @@ namespace CalamityMod.NPCs
                             npc.velocity.Y += 0.35f;
                         }
                     }
-                    if (Main.rand.Next(3) == 0)
+                    if (Main.rand.NextBool(3))
                     {
                         Vector2 position = npc.Center + new Vector2((float)(npc.direction * -14), -8f) - Vector2.One * 4f;
                         Vector2 velocity = new Vector2((float)(npc.direction * -6), 12f) * 0.2f + Utils.RandomVector2(Main.rand, -1f, 1f) * 0.1f;
@@ -2222,7 +2222,7 @@ namespace CalamityMod.NPCs
                         }
                     }
                 }
-                if (Main.rand.Next(6) == 0 && npc.ai[1] <= 20f)
+                if (Main.rand.NextBool(6) && npc.ai[1] <= 20f)
                 {
                     Dust dust = Main.dust[Dust.NewDust(npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 8 : -20), -20f), 8, 8, 229, npc.velocity.X, npc.velocity.Y, 100, default, 1f)];
                     dust.velocity = dust.velocity / 4f + npc.velocity / 2f;
@@ -2241,7 +2241,7 @@ namespace CalamityMod.NPCs
                     dust.scale = 1.2f;
                     dust.noLight = true;
                 }
-                if (Main.rand.Next(6) == 0)
+                if (Main.rand.NextBool(6))
                 {
                     Dust dust = Main.dust[Dust.NewDust(npc.Center, 2, 2, 229, 0f, 0f, 0, default, 1f)];
                     dust.position = npc.Center + new Vector2((float)((npc.spriteDirection == 1) ? 26 : -26), 24f);
@@ -2308,7 +2308,7 @@ namespace CalamityMod.NPCs
             }
             if (npcType == NPCID.IceGolem)
             {
-                if (npc.justHit && Main.rand.Next(3) == 0)
+                if (npc.justHit && Main.rand.NextBool(3))
                 {
                     npc.ai[2] -= (float)Main.rand.Next(20);
                 }
@@ -3668,7 +3668,7 @@ namespace CalamityMod.NPCs
                     dust.velocity.X *= 0.3f;
                     dust.velocity.Y *= 0.3f;
                 }
-                else if (npc.type != NPCID.Probe && npc.type != NPCID.Moth && npc.type != NPCID.Parrot && Main.rand.Next(20) == 0)
+                else if (npc.type != NPCID.Probe && npc.type != NPCID.Moth && npc.type != NPCID.Parrot && Main.rand.NextBool(20))
                 {
                     int num13 = 18;
                     if (npc.type == NPCID.Crimera)
@@ -3681,7 +3681,7 @@ namespace CalamityMod.NPCs
                     dust.velocity.Y *= 0.1f;
                 }
             }
-            else if (npc.type != NPCID.Parrot && Main.rand.Next(40) == 0)
+            else if (npc.type != NPCID.Parrot && Main.rand.NextBool(40))
             {
                 int num15 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
                 Dust dust = Main.dust[num15];
@@ -4088,7 +4088,7 @@ namespace CalamityMod.NPCs
                             if (npc.position.X + (float)npc.width > vector.X && npc.position.X < vector.X + 16f && npc.position.Y + (float)npc.height > vector.Y && npc.position.Y < vector.Y + 16f)
                             {
                                 flag2 = true;
-                                if (Main.rand.Next(100) == 0 && npc.type != NPCID.LeechHead && Main.tile[num33, num34].HasUnactuatedTile)
+                                if (Main.rand.NextBool(100) && npc.type != NPCID.LeechHead && Main.tile[num33, num34].HasUnactuatedTile)
                                 {
                                     WorldGen.KillTile(num33, num34, true, true, false);
                                 }
@@ -5028,7 +5028,7 @@ namespace CalamityMod.NPCs
             }
             if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
             {
-                if (Main.rand.Next(5) == 0)
+                if (Main.rand.NextBool(5))
                 {
                     int num116 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 2f), npc.width, npc.height, 27, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 1.5f);
                     Dust dust = Main.dust[num116];
@@ -5328,7 +5328,7 @@ namespace CalamityMod.NPCs
                 int num203 = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
                 Main.dust[num203].noGravity = true;
             }
-            if (npc.type == NPCID.IceBat && Main.rand.Next(10) == 0)
+            if (npc.type == NPCID.IceBat && Main.rand.NextBool(10))
             {
                 int num204 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                 Main.dust[num204].noGravity = true;
@@ -6474,14 +6474,14 @@ namespace CalamityMod.NPCs
             {
                 num290 = 8;
 
-                if (Main.rand.Next(6) == 0)
+                if (Main.rand.NextBool(6))
                 {
                     int num298 = Dust.NewDust(npc.position, npc.width, npc.height, 55, 0f, 0f, 200, npc.color, 1f);
                     Dust dust = Main.dust[num298];
                     dust.velocity *= 0.3f;
                 }
 
-                if (Main.rand.Next(40) == 0)
+                if (Main.rand.NextBool(40))
                 {
                     SoundEngine.PlaySound(SoundID.Pixie, npc.position);
                 }
@@ -6492,7 +6492,7 @@ namespace CalamityMod.NPCs
 
                 npc.alpha = 30;
 
-                if (Main.rand.Next(3) == 0)
+                if (Main.rand.NextBool(3))
                 {
                     int num299 = Dust.NewDust(npc.position, npc.width, npc.height, 92, 0f, 0f, 200, default(Color), 1f);
                     Dust dust = Main.dust[num299];
@@ -7522,7 +7522,7 @@ namespace CalamityMod.NPCs
                 Rectangle hitbox = npc.Hitbox;
                 for (int m = 0; m < 2; m++)
                 {
-                    if (Main.rand.Next(3) == 0)
+                    if (Main.rand.NextBool(3))
                     {
                         Dust expr_1B5F = Main.dust[Dust.NewDust(hitbox.TopLeft(), hitbox.Width, hitbox.Height, 242, 0f, 0f, 0, default(Color), 1f)];
                         expr_1B5F.velocity = Vector2.Zero;
@@ -7599,7 +7599,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (npc.type == NPCID.IceTortoise && Main.rand.Next(10) == 0)
+            if (npc.type == NPCID.IceTortoise && Main.rand.NextBool(10))
             {
                 int num537 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                 Main.dust[num537].noGravity = true;
@@ -9141,7 +9141,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Spawn some cool dust.
-                if (npc.type == NPCID.MartianDrone && Main.rand.Next(4) == 0)
+                if (npc.type == NPCID.MartianDrone && Main.rand.NextBool(4))
                 {
                     int idx = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 100, default, 0.5f);
                     Main.dust[idx].noGravity = true;
@@ -9246,7 +9246,7 @@ namespace CalamityMod.NPCs
                     Main.dust[idx].position = ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * ((float)Main.rand.NextDouble() * 96f) + npc.Center;
                     Main.dust[idx].velocity = Main.dust[idx].velocity / 2f + Vector2.Normalize(Main.dust[idx].position - npc.Center);
 
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.NextBool())
                     {
                         idx = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 100, default, 0.9f);
                         Main.dust[idx].noGravity = true;
@@ -9256,7 +9256,7 @@ namespace CalamityMod.NPCs
                         Main.dust[idx].velocity = Main.dust[idx].velocity / 2f + Vector2.Normalize(Main.dust[idx].position - npc.Center);
                     }
 
-                    if (Main.rand.Next(4) == 0)
+                    if (Main.rand.NextBool(4))
                     {
                         idx = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 100, default, 0.7f);
                         dust = Main.dust[idx];

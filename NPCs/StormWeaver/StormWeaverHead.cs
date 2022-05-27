@@ -363,9 +363,9 @@ namespace CalamityMod.NPCs.StormWeaver
                                 if (Main.player[NPC.target].velocity.Y > 0f)
                                     snowDustSpawnY -= (int)Main.player[NPC.target].velocity.Y;
 
-                                if (Main.rand.Next(5) == 0)
+                                if (Main.rand.NextBool(5))
                                     snowDustSpawnX = Main.rand.Next(500) - 500;
-                                else if (Main.rand.Next(5) == 0)
+                                else if (Main.rand.NextBool(5))
                                     snowDustSpawnX = Main.rand.Next(500) + (int)scaledSize.X;
 
                                 if (snowDustSpawnX < 0 || snowDustSpawnX > scaledSize.X)

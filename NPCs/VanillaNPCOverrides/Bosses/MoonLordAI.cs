@@ -1608,7 +1608,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         calamityGlobalNPC.newAI[0] = 1f;
                 }
 
-                if (Main.rand.Next(420) == 0)
+                if (Main.rand.NextBool(420))
                     SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(Main.rand.Next(100, 101)), npc.Center);
 
                 Vector2 value22 = new Vector2(30f);
@@ -1972,7 +1972,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (num1245 == 45f)
                         {
-                            npc.ai[2] = (Main.rand.Next(2) == 0).ToDirectionInt() * MathHelper.TwoPi / 40f;
+                            npc.ai[2] = Main.rand.NextBool().ToDirectionInt() * MathHelper.TwoPi / 40f;
                             npc.netUpdate = true;
                         }
 

@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
                     {
                         dropItem = ItemID.MiningPotion;
                     }
-                    else if (Main.netMode != NetmodeID.SinglePlayer && Main.rand.Next(2) == 0)
+                    else if (Main.netMode != NetmodeID.SinglePlayer && Main.rand.NextBool())
                     {
                         dropItem = ItemID.WormholePotion;
                     }
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 
                 // Ores.
                 case 2:
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.NextBool())
                     {
                         dropItem = Main.rand.Next(ItemID.IronOre, ItemID.SilverOre + 1);
                     }

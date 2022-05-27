@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 float num247 = 0f;
                 float num248 = 0f;
-                if (Main.rand.Next(2) == 1)
+                if (Main.rand.NextBool())
                 {
                     num247 = NPC.velocity.X * 0.5f;
                     num248 = NPC.velocity.Y * 0.5f;
@@ -75,7 +75,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
                 Main.dust[num252].position = NPC.Center + new Vector2(0f, (float)(-(float)NPC.height / 2)).RotatedBy((double)NPC.rotation, default) * 1.1f;
-                Main.rand.Next(2);
                 num252 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;

@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     }
 
                     int random = lowerLife ? 5 : 9;
-                    if (lowLife && Main.rand.Next(random) == 0)
+                    if (lowLife && Main.rand.NextBool(random))
                         NPC.localAI[3] = 1f;
 
                     NPC.netUpdate = true;

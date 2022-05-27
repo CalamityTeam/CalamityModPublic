@@ -1010,7 +1010,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     Dust dust = Main.dust[num1495];
                     dust.velocity *= 0.2f;
                     Main.dust[num1495].fadeIn = 0.4f;
-                    if (Main.rand.Next(6) == 0)
+                    if (Main.rand.NextBool(6))
                     {
                         dust = Main.dust[num1495];
                         dust.velocity *= 5f;

@@ -1673,7 +1673,7 @@ namespace CalamityMod.NPCs
                 float phaseTimer = 400f - (death ? 120f * (1f - lifeRatio) : 0f);
                 if (npc.ai[2] >= phaseTimer || phase5)
                 {
-                    if (death && !phase5 && Main.rand.Next(2) == 0 && !brotherAlive)
+                    if (death && !phase5 && Main.rand.NextBool() && !brotherAlive)
                         npc.ai[1] = 4f;
                     else
                         npc.ai[1] = 1f;
@@ -1757,7 +1757,7 @@ namespace CalamityMod.NPCs
                 float phaseTimer = 240f - (death ? 60f * (1f - lifeRatio) : 0f);
                 if (npc.ai[2] >= phaseTimer || phase5)
                 {
-                    if (death && !phase5 && Main.rand.Next(2) == 0 && !brotherAlive)
+                    if (death && !phase5 && Main.rand.NextBool() && !brotherAlive)
                         npc.ai[1] = 0f;
                     else
                         npc.ai[1] = !brotherAlive && phase3 && revenge ? 4f : 0f;

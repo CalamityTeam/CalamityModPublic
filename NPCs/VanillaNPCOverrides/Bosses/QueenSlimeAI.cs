@@ -512,7 +512,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 Main.dust[num22].position = position;
                                 Main.dust[num22].noGravity = true;
                                 Main.dust[num22].velocity.Y = npc.velocity.Y * 0.9f;
-                                Main.dust[num22].velocity.X = ((Main.rand.Next(2) == 0) ? (-10f) : 10f) + Main.rand.NextFloatDirection() * 3f;
+                                Main.dust[num22].velocity.X = (Main.rand.NextBool() ? (-10f) : 10f) + Main.rand.NextFloatDirection() * 3f;
                             }
                         }
 
