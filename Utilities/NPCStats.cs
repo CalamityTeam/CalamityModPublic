@@ -77,8 +77,6 @@ namespace CalamityMod
 
             // If the assigned value would be -1, don't actually assign it. This allows for conditionally disabling the system.
             int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-            if (CalamityWorld.malice && damageToUse != -1)
-                damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
             if (damageToUse != -1)
                 npc.damage = damageToUse;
         }
@@ -101,8 +99,6 @@ namespace CalamityMod
             int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
 
             int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-            if (CalamityWorld.malice)
-                damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 
             return damageToUse;
         }
@@ -125,8 +121,6 @@ namespace CalamityMod
             int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
 
             int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-            if (CalamityWorld.malice)
-                damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 
             return damageToUse;
         }
