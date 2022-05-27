@@ -5861,16 +5861,18 @@ namespace CalamityMod.CalPlayer
             if (totalMoonlightDyes > 0)
             {
                 // Initialize the aurora drawer.
-                int size = 520;
-                int sourceArea = 3;
+                int size = 455;
+                FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
+
                 float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
                 if (ProfanedMoonlightAuroraDrawer is null || ProfanedMoonlightAuroraDrawer.Size != size)
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
+                int sourceArea = (int)Math.Ceiling(6f / ProfanedMoonlightAuroraDrawer.Scale) + 1;
                 ProfanedMoonlightAuroraDrawer.ShouldUpdate = true;
                 ProfanedMoonlightAuroraDrawer.UpdateAction = () =>
                 {
-                    int auroraCount = totalMoonlightDyes / 2 + 3;
+                    int auroraCount = totalMoonlightDyes / 2 + 4;
                     for (int i = 0; i < auroraCount; i++)
                     {
                         float auroraPower = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
@@ -5880,7 +5882,7 @@ namespace CalamityMod.CalPlayer
 
                         Vector2 auroraVelocity = (offsetAngle / 3f + Main.GlobalTimeWrappedHourly * 0.32f).ToRotationVector2();
                         auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
-                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.04f;
+                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.03f;
 
                         Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
                         Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
