@@ -17,6 +17,10 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
+            //While the extra bulk draws over the players head position, we don't want to have it drawn when the head alone is being drawn.
+            if (drawInfo.headOnlyRender)
+                return;
+
             Player drawPlayer = drawInfo.drawPlayer;
             int bodyItem = drawPlayer.armor[1].type;
             if (drawPlayer.armor[11].type > ItemID.None)
@@ -25,18 +29,24 @@ namespace CalamityMod.CalPlayer.DrawLayers
             if (ModContent.GetModItem(bodyItem) is IBulkyArmor chestplateBulkDrawer)
             {
                 int dyeShader = drawPlayer.dye?[0].dye ?? 0;
+                Vector2 drawPosition = drawInfo.Position - Main.screenPosition;
 
-                // Remember to use drawInfo.position and not drawPlayer.position, or else it will not display properly in the player selection screen.
-                Vector2 origin = new Vector2(drawPlayer.bodyFrame.Width * 0.5f, drawPlayer.bodyFrame.Height * 0.5f);
-                Vector2 drawPosition = drawInfo.Center.Floor() - Main.screenPosition;
+                // Using drawPlayer to get width & height and such is perfectly fine, on the other hand. Just center everything
+                drawPosition += new Vector2((drawPlayer.width - drawPlayer.bodyFrame.Width) / 2f, drawPlayer.height - drawPlayer.bodyFrame.Height + 4f);
 
-                //Account for the hellspawns known as mounts
-                if (drawPlayer.mount.Active)
-                    drawPosition.Y += drawPlayer.mount.HeightBoost;
+                //Convert to int to remove the jitter.
+                drawPosition = new Vector2((int)drawPosition.X, (int)drawPosition.Y);
 
+                //Some dispalcements
+                drawPosition += drawPlayer.bodyPosition + drawInfo.bodyVect;
+
+                //Grab the extension texture
                 Texture2D extraPieceTexture = ModContent.Request<Texture2D>(chestplateBulkDrawer.BulkTexture).Value;
+
+                //Get the frame of the extension based on the players body frame
                 Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
-                DrawData pieceDrawData = new DrawData(extraPieceTexture, drawPosition, frame, drawInfo.colorArmorBody, drawPlayer.fullRotation, origin, 1f, drawInfo.playerEffect, 0)
+
+                DrawData pieceDrawData = new DrawData(extraPieceTexture, drawPosition, frame, drawInfo.colorArmorBody, drawPlayer.fullRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0)
                 {
                     shader = dyeShader
                 };

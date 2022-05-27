@@ -5832,25 +5832,13 @@ namespace CalamityMod.CalPlayer
             {
                 Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "VictideFaulds", EquipType.Waist);
 
-                //
-                //string[] victideHelmetNames = new string[5] { "VictideHeadgear" , "VictideHelm", "VictideHelmet", "VictideMask", "VictideVisage" };
-                //bool anyVictideHelmetVisible = false;
-                //int victideHelmetIndex = 0;
-
-                //for (int i = 0; i < 5; i++)
-                //    if (Player.head == EquipLoader.GetEquipSlot(Mod, victideHelmetNames[i], EquipType.Head))
-                //    {
-                //        victideHelmetIndex = i;
-                //        anyVictideHelmetVisible = true;
-                //        break;
-                //    }
-                
-                //Crop out the face of the victide mask if the chestplate is worn (so the little seastar crest can peek through)
-                //if (victideBreastplateVisible && anyVictideHelmetVisible)
-                //{
-                //    Player.head = EquipLoader.GetEquipSlot(Mod, victideHelmetNames[victideHelmetIndex] + "Cropped", EquipType.Head);
-                //}
-                //
+                //Also prevent the player from having any front drawing accs which would be wildly offset because of the different proportions.
+                if (victideBreastplateVisible)
+                {
+                    Player.front = -1;
+                    Player.handoff = -1;
+                    Player.handon = -1;
+                }
             }
         }
         #endregion
