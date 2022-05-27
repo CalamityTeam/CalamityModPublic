@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
         {
             // Randomly play pigron noises if the NPC is a pigron.
             if (Pigrons.Contains(npc.type) && Main.rand.NextBool(1000))
-                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(9), npc.Center);
+                SoundEngine.PlaySound(SoundID.Zombie9, npc.Center);
 
             // Disable gravity.
             npc.noGravity = true;

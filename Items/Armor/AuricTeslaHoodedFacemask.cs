@@ -5,6 +5,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Cooldowns;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
 {
@@ -56,7 +57,7 @@ namespace CalamityMod.Items.Armor
             player.crimsonRegen = true;
 
             if (modPlayer.godSlayerDashHotKeyPressed)
-                modPlayer.DashID = GodSlayerDash.ID;
+                modPlayer.DashID = GodslayerArmorDash.ID;
         }
 
         public override void UpdateEquip(Player player)

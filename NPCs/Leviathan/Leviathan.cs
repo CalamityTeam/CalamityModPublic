@@ -137,19 +137,19 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 
-            int soundChoiceRage = 92;
-            int soundChoice = Utils.SelectRandom(Main.rand, new int[]
+            SoundStyle soundChoiceRage = SoundID.Zombie92;
+            SoundStyle soundChoice = Utils.SelectRandom(Main.rand, new SoundStyle[]
             {
-                38,
-                39,
-                40
+                SoundID.Zombie38,
+                SoundID.Zombie39,
+                SoundID.Zombie49
             });
 
             if (soundDelay > 0)
                 soundDelay--;
 
             if (Main.rand.NextBool(600) && !spawnAnimation)
-                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound((sirenAlive && !death) ? soundChoice : soundChoiceRage), vector);
+                SoundEngine.PlaySound((sirenAlive && !death) ? soundChoice : soundChoiceRage, vector);
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.Leviathan
                     NPC.velocity = new Vector2(0f, -velocityY);
 
                     if (calamityGlobalNPC.newAI[3] == 10f)
-                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(soundChoiceRage), vector);
+                        SoundEngine.PlaySound(soundChoiceRage, vector);
 
                     NPC.Opacity = MathHelper.Clamp(calamityGlobalNPC.newAI[3] / spawnAnimationTime, 0f, 1f);
 
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Leviathan
                     int spawnLimit = (sirenAlive && !phase4) ? 2 : (death ? 3 : 4);
                     if (flag103 && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < spawnLimit)
                     {
-                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(soundChoice), vector);
+                        SoundEngine.PlaySound(soundChoice, vector);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }

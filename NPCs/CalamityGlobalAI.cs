@@ -1298,15 +1298,15 @@ namespace CalamityMod.NPCs
                 }
                 if (npcType == NPCID.Vampire && Main.rand.NextBool(500))
                 {
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), npc.position);
+                    SoundEngine.PlaySound(SoundID.Zombie7, npc.position);
                 }
                 if (npcType == NPCID.Frankenstein && Main.rand.NextBool(500))
                 {
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(6), npc.position);
+                    SoundEngine.PlaySound(SoundID.Zombie6, npc.position);
                 }
                 if (npcType == NPCID.FaceMonster && Main.rand.NextBool(500))
                 {
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(8), npc.position);
+                    SoundEngine.PlaySound(SoundID.Zombie8, npc.position);
                 }
                 if (npcType >= 269 && npcType <= 280 && Main.rand.NextBool(1000))
                 {

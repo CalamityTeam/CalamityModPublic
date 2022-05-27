@@ -1001,7 +1001,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
-                                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), NPC.Center);
+                                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(laser))
