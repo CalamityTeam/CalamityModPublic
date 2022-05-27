@@ -4,6 +4,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Cooldowns;
+using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor
 {
@@ -51,7 +52,7 @@ namespace CalamityMod.Items.Armor
 
             if (modPlayer.godSlayerDashHotKeyPressed)
             {
-                modPlayer.DashID = GodSlayerDash.ID;
+                modPlayer.DashID = GodslayerArmorDash.ID;
                 player.dash = 0;
             }
         }

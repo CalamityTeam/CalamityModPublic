@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 1800;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

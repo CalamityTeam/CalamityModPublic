@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +24,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.scale = 1.2f;
             Projectile.timeLeft = 600;
             Projectile.extraUpdates = 2;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

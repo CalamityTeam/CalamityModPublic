@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.Astral
                     {
                         if (SearchSoundCreationDelay == 0f)
                         {
-                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(7), NPC.Center);
+                            SoundEngine.PlaySound(SoundID.Zombie7, NPC.Center);
                             SearchSoundCreationDelay = -1f;
                         }
 

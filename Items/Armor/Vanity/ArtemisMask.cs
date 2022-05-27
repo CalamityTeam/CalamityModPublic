@@ -30,6 +30,6 @@ namespace CalamityMod.Items.Armor.Vanity
         }
 
         public string ExtensionTexture => "CalamityMod/Items/Armor/Vanity/ArtemisMask_Extra";
-        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2( drawInfo.drawPlayer.direction == 1f ? -16f : -10f, -10);
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2(drawInfo.drawPlayer.direction == 1f ? -6f : 0, 0f);
     }
 }

@@ -211,9 +211,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             bool biomeEnraged = biomeEnrageTimer <= 0;
 
             bool phase1 = false;
-            for (int num569 = 0; num569 < Main.maxNPCs; num569++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if ((Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
+                if ((Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
                     phase1 = true;
             }
 

@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.Ravager
             }
 
             player = Main.player[NPC.target];
-            if (NPC.target <= 0 || NPC.target == 255 || player.dead || !player.active)
+            if (NPC.target <= 0 || NPC.target == Main.maxPlayers || player.dead || !player.active)
             {
                 NPC.TargetClosest();
                 player = Main.player[NPC.target];

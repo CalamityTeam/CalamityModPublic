@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 dust.velocity.Y -= 0.5f + Main.rand.Next(10) * 0.1f;
                 dust.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
 
-                if (Main.rand.Next(10) == 0)
+                if (Main.rand.NextBool(10))
                 {
                     num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default, 1f);
                     if (Main.rand.Next(20) != 0)
@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 dust.velocity.Y -= 0.5f + Main.rand.Next(10) * 0.1f;
                 dust.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
 
-                if (Main.rand.Next(10) == 0)
+                if (Main.rand.NextBool(10))
                 {
                     num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default, 1f);
                     if (Main.rand.Next(20) != 0)
@@ -295,7 +295,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int num622 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Torch, 0f, 0f, 100, default, 2f);
                             Main.dust[num622].velocity.Y *= 6f;
                             Main.dust[num622].velocity.X *= 3f;
-                            if (Main.rand.Next(2) == 0)
+                            if (Main.rand.NextBool(2))
                             {
                                 Main.dust[num622].scale = 0.5f;
                                 Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;

@@ -254,27 +254,33 @@ namespace CalamityMod.Items
             switch (itemID)
             {
                 case ItemID.WoodenCrate:
+                case ItemID.WoodenCrateHard:
                     BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumShard>(), 0.25f, 3, 5);
                     break;
 
                 case ItemID.IronCrate:
+                case ItemID.IronCrateHard:
                     BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<WulfrumShard>(), 0.25f, 5, 8);
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<AncientBoneDust>(), 0.25f, 5, 8);
                     break;
 
                 case ItemID.GoldenCrate:
+                case ItemID.GoldenCrateHard:
                     BlockCrateDrops();
                     break;
 
                 case ItemID.CorruptFishingCrate:
                 case ItemID.CrimsonFishingCrate:
+                case ItemID.CorruptFishingCrateHard:
+                case ItemID.CrimsonFishingCrateHard:
                     BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<EbonianGel>(), 0.15f, 5, 8);
                     break;
 
                 case ItemID.HallowedFishingCrate:
+                case ItemID.HallowedFishingCrateHard:
                     BlockCrateDrops();
                     int potion = WorldGen.crimson ? ModContent.ItemType<ProfanedRagePotion>() : ModContent.ItemType<HolyWrathPotion>();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<UnholyEssence>(), DownedBossSystem.downedProvidence, 0.15f, 5, 10);
@@ -282,12 +288,14 @@ namespace CalamityMod.Items
                     break;
 
                 case ItemID.DungeonFishingCrate:
+                case ItemID.DungeonFishingCrateHard:
                     BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ItemID.Ectoplasm, NPC.downedPlantBoss, 0.1f, 1, 5);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<Phantoplasm>(), DownedBossSystem.downedPolterghast, 0.1f, 1, 5);
                     break;
 
                 case ItemID.JungleFishingCrate:
+                case ItemID.JungleFishingCrateHard:
                     BlockCrateDrops();
                     DropHelper.DropItemChance(s, player, ModContent.ItemType<MurkyPaste>(), 0.2f, 1, 3);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<BeetleJuice>(), Main.hardMode, 0.2f, 1, 3);
@@ -299,10 +307,31 @@ namespace CalamityMod.Items
                     break;
 
                 case ItemID.FloatingIslandFishingCrate:
+                case ItemID.FloatingIslandFishingCrateHard:
                     BlockCrateDrops();
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<AerialiteBar>(), DownedBossSystem.downedHiveMind || DownedBossSystem.downedPerforator, 0.1f, 1, 3);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<EssenceofCinder>(), Main.hardMode, 0.2f, 2, 4);
                     DropHelper.DropItemCondition(s, player, ModContent.ItemType<GalacticaSingularity>(), NPC.downedMoonlord, 0.1f, 1, 3);
+                    break;
+
+                case ItemID.FrozenCrate:
+                case ItemID.FrozenCrateHard:
+                    BlockCrateDrops();
+                    break;
+
+                case ItemID.LavaCrate:
+                case ItemID.LavaCrateHard:
+                    BlockCrateDrops();
+                    break;
+
+                case ItemID.OasisCrate:
+                case ItemID.OasisCrateHard:
+                    BlockCrateDrops();
+                    break;
+
+                case ItemID.OceanCrate:
+                case ItemID.OceanCrateHard:
+                    BlockCrateDrops();
                     break;
             }
         }

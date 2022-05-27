@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void AI()
         {
             // Target
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
                 NPC.TargetClosest(true);
 
             Player player = Main.player[NPC.target];

@@ -40,7 +40,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = 1200;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

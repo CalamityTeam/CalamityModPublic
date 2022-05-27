@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Perforator
             NPC.realLife = -1;
 
             // Target
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
                 NPC.TargetClosest(true);
 
             if (Main.player[NPC.target].dead)
@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.Perforator
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.Next(4) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                     Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }

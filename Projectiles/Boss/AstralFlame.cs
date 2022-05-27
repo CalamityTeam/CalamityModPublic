@@ -32,7 +32,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 100;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 485;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()
@@ -114,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(103), Projectile.position);
+            SoundEngine.PlaySound(SoundID.Zombie103, Projectile.position);
             Projectile.position = Projectile.Center;
             Projectile.width = Projectile.height = 96;
             Projectile.position.X = Projectile.position.X - (float)(Projectile.width / 2);

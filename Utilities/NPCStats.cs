@@ -77,8 +77,6 @@ namespace CalamityMod
 
             // If the assigned value would be -1, don't actually assign it. This allows for conditionally disabling the system.
             int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-            if (CalamityWorld.malice && damageToUse != -1)
-                damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
             if (damageToUse != -1)
                 npc.damage = damageToUse;
         }
@@ -101,8 +99,6 @@ namespace CalamityMod
             int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
 
             int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-            if (CalamityWorld.malice)
-                damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 
             return damageToUse;
         }
@@ -125,8 +121,6 @@ namespace CalamityMod
             int masterDamage = (int)Math.Round(projectileDamage[4] / damageAdjustment);
 
             int damageToUse = Main.masterMode ? masterDamage : CalamityWorld.death ? deathDamage : CalamityWorld.revenge ? revengeanceDamage : Main.expertMode ? expertDamage : normalDamage;
-            if (CalamityWorld.malice)
-                damageToUse = (int)Math.Round(damageToUse * CalamityGlobalNPC.MaliceModeDamageMultiplier);
 
             return damageToUse;
         }
@@ -403,7 +397,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), new int[] { 65, 104, 112, 136, 168 } },
                 { ModContent.NPCType<AquaticScourgeTail>(), new int[] { 60, 96, 104, 112, 156 } },
 
-                { NPCID.TheDestroyer, new int[] { 70, 280, 320, 340, 420 } },
+                { NPCID.TheDestroyer, new int[] { 70, 280, 300, 320, 420 } },
                 { NPCID.TheDestroyerBody, new int[] { 60, 102, 136, 153, 204 } },
                 { NPCID.TheDestroyerTail, new int[] { 40, 68, 102, 136, 153 } },
 
@@ -734,10 +728,11 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<CeaselessVoid>(), ModContent.ProjectileType<DarkEnergyBall>()), new int[] { 140, 240, 264, 280, 396 } },
                 { new Tuple<int, int>(ModContent.NPCType<CeaselessVoid>(), ModContent.ProjectileType<DarkEnergyBall2>()), new int[] { 140, 240, 264, 280, 396 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
                 { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
-                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.FrostWave), new int[] { 140, 240, 264, 280, 396 } },
-                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ModContent.ProjectileType<StormMarkHostile>()), new int[] { 150, 264, 288, 300, 432 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.FrostWave), new int[] { 150, 264, 288, 300, 432 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ModContent.ProjectileType<StormMarkHostile>()), new int[] { 160, 276, 304, 320, 456 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverBody>(), ModContent.ProjectileType<DestroyerElectricLaser>()), new int[] { 140, 240, 264, 280, 396 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverTail>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<SignusScythe>()), new int[] { 140, 240, 264, 280, 396 } },
                 { new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<EssenceDust>()), new int[] { 140, 240, 264, 280, 396 } },

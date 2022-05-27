@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.Perforator
         private bool small = false;
         private bool medium = false;
         private bool large = false;
+        private int wormsAlive = 0;
 
         public override void SetStaticDefaults()
         {
@@ -79,11 +80,13 @@ namespace CalamityMod.NPCs.Perforator
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(biomeEnrageTimer);
+            writer.Write(wormsAlive);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             biomeEnrageTimer = reader.ReadInt32();
+            wormsAlive = reader.ReadInt32();
         }
 
         public override void AI()
@@ -103,9 +106,9 @@ namespace CalamityMod.NPCs.Perforator
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            // Variables for ichor spore phase
-            float sporePhaseGateValue = malice ? 450f : 600f;
-            bool floatAboveToFireBlobs = NPC.ai[2] >= sporePhaseGateValue - 120f;
+            // Variables for ichor blob phase
+            float blobPhaseGateValue = malice ? 450f : 600f;
+            bool floatAboveToFireBlobs = NPC.ai[2] >= blobPhaseGateValue - 120f;
 
             // Don't deal damage for 3 seconds after spawning or while firing blobs
             NPC.damage = NPC.defDamage;
@@ -171,13 +174,17 @@ namespace CalamityMod.NPCs.Perforator
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            int wormsAlive = 0;
-            if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>()))
-                wormsAlive++;
-            if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>()))
-                wormsAlive++;
-            if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
-                wormsAlive++;
+            bool largeWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadLarge>());
+            bool mediumWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadMedium>());
+            bool smallWormAlive = NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>());
+            if (largeWormAlive && mediumWormAlive && smallWormAlive)
+                wormsAlive = 3;
+            else if ((largeWormAlive && mediumWormAlive) || (largeWormAlive && smallWormAlive) || (mediumWormAlive && smallWormAlive))
+                wormsAlive = 2;
+            else if (largeWormAlive || mediumWormAlive || smallWormAlive)
+                wormsAlive = 1;
+            else
+                wormsAlive = 0;
 
             NPC.Calamity().DR = wormsAlive * 0.3f;
 
@@ -208,6 +215,7 @@ namespace CalamityMod.NPCs.Perforator
                             large = true;
                             wormType = ModContent.NPCType<PerforatorHeadLarge>();
                         }
+
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
                         NPC.TargetClosest();
 
@@ -251,14 +259,14 @@ namespace CalamityMod.NPCs.Perforator
                 if (wormsAlive == 0 || malice || floatAboveToFireBlobs)
                 {
                     NPC.ai[2] += 1f;
-                    if (NPC.ai[2] >= sporePhaseGateValue)
+                    if (NPC.ai[2] >= blobPhaseGateValue)
                     {
-                        if (NPC.ai[2] < sporePhaseGateValue + 300f)
+                        if (NPC.ai[2] < blobPhaseGateValue + 300f)
                         {
                             if (NPC.velocity.Length() > 0.5f)
                                 NPC.velocity *= malice ? 0.94f : 0.96f;
                             else
-                                NPC.ai[2] = sporePhaseGateValue + 300f;
+                                NPC.ai[2] = blobPhaseGateValue + 300f;
                         }
                         else
                         {
@@ -287,7 +295,7 @@ namespace CalamityMod.NPCs.Perforator
                             {
                                 Vector2 blobVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                                 blobVelocity.Normalize();
-                                blobVelocity *= Main.rand.Next(200, 401) * (malice ? 0.02f : 0.01f);
+                                blobVelocity *= Main.rand.Next(400, 801) * (malice ? 0.02f : 0.01f);
 
                                 float sporeVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
                                 if (blobVelocity.Y < 2f)
@@ -318,9 +326,8 @@ namespace CalamityMod.NPCs.Perforator
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int shoot = (revenge ? 6 : 4) - wormsAlive;
-                NPC.localAI[0] += Main.rand.Next(shoot);
-                if (NPC.localAI[0] >= Main.rand.Next(300, 901) && NPC.position.Y + NPC.height < player.position.Y && Vector2.Distance(player.Center, NPC.Center) > 80f)
+                NPC.localAI[0] += 1f;
+                if (NPC.localAI[0] >= (revenge ? 200f : 250f) + wormsAlive * 150f && NPC.position.Y + NPC.height < player.position.Y && Vector2.Distance(player.Center, NPC.Center) > 80f)
                 {
                     NPC.localAI[0] = 0f;
                     SoundEngine.PlaySound(SoundID.NPCHit20, NPC.position);

@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Boss
             CooldownSlot = 1;
             Projectile.penetrate = -1;
             Projectile.timeLeft = timeLeft;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

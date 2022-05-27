@@ -138,9 +138,6 @@ namespace CalamityMod.NPCs
         // Boss Zen distance
         private const float BossZenDistance = 6400f;
 
-        // Boss contact and projectile damage multiplier in Malice Mode
-        public const double MaliceModeDamageMultiplier = 1.25;
-
         // Variable used to nerf desert prehardmode enemies pre-Desert Scourge
         private const double DesertEnemyStatMultiplier = 0.75;
 
@@ -6063,7 +6060,7 @@ namespace CalamityMod.NPCs
         public static void DoSpiderWallAI(NPC npc, int transformType, float chaseMaxSpeed = 2f, float chaseAcceleration = 0.08f)
         {
             //GET NEW TARGET
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
             {
                 npc.TargetClosest();
             }

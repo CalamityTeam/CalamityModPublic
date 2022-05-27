@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.OldDuke
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
                 NPC.TargetClosest(false);
                 NPC.netUpdate = true;
@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.OldDuke
             if (!CalamityWorld.revenge)
             {
                 int closestPlayer = Player.FindClosest(NPC.Center, 1, 1);
-                if (Main.rand.Next(8) == 0 && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
+                if (Main.rand.NextBool(8) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                     Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
         }

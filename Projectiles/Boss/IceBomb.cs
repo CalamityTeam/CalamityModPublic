@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.coldDamage = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 300;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.ai[0] >= 120f;

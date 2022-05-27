@@ -127,9 +127,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
-            if (NPC.timeLeft < 1800)
-                NPC.timeLeft = 1800;
-
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
             bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
@@ -292,6 +289,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 NPC.velocity *= 0.9f;
             }
         }
+
+        public override bool CheckActive() => false;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

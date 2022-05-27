@@ -50,7 +50,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 // Play a random Moon Lord sound
                 if (npc.ai[0] != -1f && npc.ai[0] != 2f && Main.rand.NextBool(200))
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(Main.rand.Next(93, 100)), npc.Center);
+                {
+                    SoundStyle voiceSound = Utils.SelectRandom(Main.rand, new SoundStyle[]
+                    {
+                        SoundID.Zombie93,
+                        SoundID.Zombie94,
+                        SoundID.Zombie95,
+                        SoundID.Zombie96,
+                        SoundID.Zombie97,
+                        SoundID.Zombie98,
+                        SoundID.Zombie99
+                    });
+                    SoundEngine.PlaySound(voiceSound, npc.Center);
+                }
 
                 // Start the AI
                 if (npc.localAI[3] == 0f)
@@ -66,7 +78,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] == 30f)
-                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(92), npc.Center);
+                        SoundEngine.PlaySound(SoundID.Zombie92, npc.Center);
 
                     if (npc.ai[1] < 60f)
                         MoonlordDeathDrama.RequestLight(npc.ai[1] / 30f, npc.Center);
@@ -91,7 +103,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[1] += 1f;
                     if (npc.ai[1] == 30f)
-                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(92), npc.Center);
+                        SoundEngine.PlaySound(SoundID.Zombie92, npc.Center);
 
                     if (npc.ai[1] < 60f)
                         MoonlordDeathDrama.RequestLight(npc.ai[1] / 30f, npc.Center);
@@ -1608,8 +1620,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         calamityGlobalNPC.newAI[0] = 1f;
                 }
 
-                if (Main.rand.Next(420) == 0)
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(Main.rand.Next(100, 101)), npc.Center);
+                if (Main.rand.NextBool(420))
+                {
+
+                    SoundEngine.PlaySound(Main.rand.NextBool() ? SoundID.Zombie100 : SoundID.Zombie101, npc.Center);
+                }
 
                 Vector2 value22 = new Vector2(30f);
 
@@ -1904,7 +1919,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (num1245 < 120f)
                         {
-                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(102), npc.Center);
+                            SoundEngine.PlaySound(SoundID.Zombie102, npc.Center);
 
                             if (num1245 == 105f)
                                 npc.netUpdate = true;
@@ -1972,7 +1987,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                         if (num1245 == 45f)
                         {
-                            npc.ai[2] = (Main.rand.Next(2) == 0).ToDirectionInt() * MathHelper.TwoPi / 40f;
+                            npc.ai[2] = Main.rand.NextBool().ToDirectionInt() * MathHelper.TwoPi / 40f;
                             npc.netUpdate = true;
                         }
 

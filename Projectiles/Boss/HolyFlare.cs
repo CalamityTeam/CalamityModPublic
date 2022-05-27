@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.extraUpdates = 1;
             Projectile.timeLeft = 840;
             CooldownSlot = 1;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

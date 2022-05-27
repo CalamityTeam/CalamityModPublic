@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

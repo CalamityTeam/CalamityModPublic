@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.AcidRain
                     CurrentFrame = 4;
             }
             if (AttackTimer == roarDelay)
-                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(97), Target.Center);
+                SoundEngine.PlaySound(SoundID.Zombie97, Target.Center);
 
             // Rotate towards the target.
             int previousSpriteDirection = NPC.spriteDirection;

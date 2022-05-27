@@ -766,7 +766,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.localAI[0] = 0f;
                         npc.TargetClosest();
-                        float num509 = malice ? 13f : 11f;
+                        float num509 = malice ? 10f : 8f;
                         int type = ProjectileID.DeathLaser;
                         int damage = npc.GetProjectileDamage(type);
                         num508 = num509 / num508;

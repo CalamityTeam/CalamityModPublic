@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             // Play a slither sound from time to time.
             if (Main.rand.NextBool(480))
-                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(32), NPC.Center);
+                SoundEngine.PlaySound(SoundID.Zombie32, NPC.Center);
 
             if (NPC.wet)
             {

@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.aiStyle = 1;
             Projectile.tileCollide = false;
             CooldownSlot = 1;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

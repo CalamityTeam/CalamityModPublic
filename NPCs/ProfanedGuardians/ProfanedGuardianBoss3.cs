@@ -90,9 +90,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
             Player player = Main.player[Main.npc[CalamityGlobalNPC.doughnutBoss].target];
 
-            if (NPC.timeLeft < 1800)
-                NPC.timeLeft = 1800;
-
             bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
 
@@ -132,6 +129,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (NPC.velocity.Length() < Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f)
                 NPC.velocity *= 1.1f;
         }
+
+        public override bool CheckActive() => false;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {

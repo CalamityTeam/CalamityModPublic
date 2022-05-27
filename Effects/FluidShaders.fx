@@ -144,11 +144,9 @@ float4 InitializeDivergence(float4 sampleColor : TEXCOORD, float2 coords : TEXCO
 
 float4 DrawField(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
 {
-    float density = tex2D(nextStates, coords).r;
-    if (density < 0.05)
-        return 0;
-    
-    return float4(tex2D(colorField, coords).rgb, 1) * density;
+    float density = pow(tex2D(nextStates, coords).r, 1.84);
+    float3 color = tex2D(colorField, coords).rgb;
+    return float4(color, 1) * density;
 }
 
 technique Technique1

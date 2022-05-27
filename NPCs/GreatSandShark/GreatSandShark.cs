@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                 Vector2 vector = NPC.Center;
                 Player player = Main.player[NPC.target];
 
-                if (NPC.target < 0 || NPC.target == 255 || player.dead || !player.active)
+                if (NPC.target < 0 || NPC.target == Main.maxPlayers || player.dead || !player.active)
                 {
                     NPC.TargetClosest();
                     player = Main.player[NPC.target];
@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     }
 
                     int random = lowerLife ? 5 : 9;
-                    if (lowLife && Main.rand.Next(random) == 0)
+                    if (lowLife && Main.rand.NextBool(random))
                         NPC.localAI[3] = 1f;
 
                     NPC.netUpdate = true;

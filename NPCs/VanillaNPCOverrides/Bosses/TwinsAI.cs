@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         #region True Melee Retinazer Phase 2 AI
         public static bool TrueMeleeRetinazerPhase2AI(NPC npc)
         {
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest();
             }
@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.rotation = num401;
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 int num403 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5f), 5, npc.velocity.X, 2f);
                 Main.dust[num403].velocity.X *= 0.5f;

@@ -462,7 +462,9 @@ namespace CalamityMod.ILEditing
                 // If the blazing mouse is actually going to do damage, draw an indicator aura.
                 if (Main.LocalPlayer.Calamity().blazingCursorDamage && !Main.mapFullscreen)
                 {
-                    int size = 375;
+                    int size = 450;
+                    FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
+
                     float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
                     ref FluidField calamityFireDrawer = ref Main.LocalPlayer.Calamity().CalamityFireDrawer;
                     ref Vector2 firePosition = ref Main.LocalPlayer.Calamity().FireDrawerPosition;
@@ -474,6 +476,8 @@ namespace CalamityMod.ILEditing
 
                     int x = (int)((drawPosition.X - firePosition.X) / calamityFireDrawer.Scale);
                     int y = (int)((drawPosition.Y - firePosition.Y) / calamityFireDrawer.Scale);
+                    int horizontalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
+                    int verticalArea = (int)Math.Ceiling(5f / calamityFireDrawer.Scale);
 
                     calamityFireDrawer.ShouldUpdate = true;
                     calamityFireDrawer.UpdateAction = () =>
@@ -483,9 +487,6 @@ namespace CalamityMod.ILEditing
                         // Use a rainbow color if the player has the rainbow cursor equipped as well as Calamity.
                         if (Main.LocalPlayer.hasRainbowCursor)
                             color = Color.Lerp(color, Main.hslToRgb(Main.GlobalTimeWrappedHourly * 0.97f % 1f, 1f, 0.6f), 0.75f);
-
-                        int horizontalArea = 2;
-                        int verticalArea = 2;
 
                         for (int i = -horizontalArea; i <= horizontalArea; i++)
                         {

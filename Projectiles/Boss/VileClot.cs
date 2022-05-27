@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 300;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

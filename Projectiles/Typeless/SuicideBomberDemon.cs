@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Typeless
             Time++;
 
             // Decide an owner if necessary.
-            if (Projectile.owner == 255)
+            if (Projectile.owner == Main.maxPlayers)
                 Projectile.owner = Player.FindClosest(Projectile.Center, 1, 1);
 
             // Rapidly fade in.

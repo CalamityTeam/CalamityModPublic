@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -97,8 +98,19 @@ namespace CalamityMod.NPCs.StormWeaver
             if (NPC.life > Main.npc[(int)NPC.ai[1]].life)
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
             // Shed armor
-            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.9f;
+            bool phase2 = NPC.life / (float)NPC.lifeMax < 0.8f;
+
+            // Target
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+                NPC.TargetClosest();
+
+            Player player = Main.player[NPC.target];
 
             // Update armored settings to naked settings
             if (phase2)
@@ -119,12 +131,34 @@ namespace CalamityMod.NPCs.StormWeaver
 
                     CalamityGlobalNPC global = NPC.Calamity();
                     NPC.defense = 30;
-                    global.DR = 0.2f;
+                    global.DR = 0.3f;
                     global.unbreakableDR = false;
                     NPC.chaseable = true;
                     NPC.HitSound = SoundID.NPCHit13;
                     NPC.DeathSound = SoundID.NPCDeath13;
                     NPC.frame = new Rectangle(0, 0, 54, 52);
+                }
+            }
+            else
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    // Fire a barrage of lasers every 5 seconds
+                    float laserBarrageGateValue = malice ? 200f : 300f;
+                    if (Main.npc[(int)NPC.ai[2]].localAI[0] % laserBarrageGateValue == 0f)
+                    {
+                        float bodySegmentDivisor = death ? 6 : revenge ? 5 : expertMode ? 4 : 3;
+                        if (NPC.ai[0] % bodySegmentDivisor == 0f)
+                        {
+                            NPC.TargetClosest();
+                            float projectileVelocity = death ? 5f : revenge ? 4.75f : expertMode ? 4.5f : 4f;
+                            Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
+                            int type = ModContent.ProjectileType<DestroyerElectricLaser>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocityVector, type, damage, 0f, Main.myPlayer);
+                            Main.projectile[proj].timeLeft = 900;
+                        }
+                    }
                 }
             }
 
@@ -224,14 +258,16 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase2 = lifeRatio < 0.9f;
-
-            bool phase3 = lifeRatio < (expertMode ? 0.7f : 0.5f);
+            bool phase2 = lifeRatio < 0.8f;
+            bool phase3 = lifeRatio < 0.6f;
+            bool phase4 = lifeRatio < 0.4f;
 
             // Gate value that decides when Storm Weaver will charge
-            float chargePhaseGateValue = (int)((malice ? 280f : death ? 320f : revenge ? 360f : 400f) - (malice ? 56f : death ? 64f : revenge ? 72f : 80f) * (1f - (lifeRatio / 0.9f)));
+            float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
             if (!phase3)
                 chargePhaseGateValue *= 0.5f;
+            if (phase4 && expertMode)
+                chargePhaseGateValue *= 0.9f;
 
             Texture2D texture2D15 = phase2 ? ModContent.Request<Texture2D>("CalamityMod/NPCs/StormWeaver/StormWeaverBodyNaked").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
@@ -285,7 +321,24 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= 400f ? 240 : 120;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+
+            float lifeRatio = NPC.life / (float)NPC.lifeMax;
+
+            bool phase3 = lifeRatio < 0.6f;
+            bool phase4 = lifeRatio < 0.4f;
+
+            // Gate value that decides when Storm Weaver will charge
+            float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
+            if (!phase3)
+                chargePhaseGateValue *= 0.5f;
+            if (phase4 && expertMode)
+                chargePhaseGateValue *= 0.9f;
+
+            int buffDuration = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= chargePhaseGateValue ? 240 : 120;
             player.AddBuff(BuffID.Electrified, buffDuration, true);
         }
 
@@ -296,7 +349,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x) && NPC.life / (float)NPC.lifeMax >= 0.9f)
+            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x) && NPC.life / (float)NPC.lifeMax >= 0.8f)
             {
                 if (projectile.penetrate == -1 && !projectile.minion)
                     projectile.penetrate = 1;

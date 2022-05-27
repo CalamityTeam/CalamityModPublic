@@ -303,7 +303,7 @@ namespace CalamityMod.NPCs.Crabulon
                         NPC.velocity.X = (NPC.velocity.X * 20f - num823) / 21f;
                 }
 
-                if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && player.position.Y <= NPC.position.Y + NPC.height)
+                if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && player.position.Y <= NPC.position.Y + NPC.height && !NPC.collideX)
                 {
                     NPC.noGravity = false;
                     NPC.noTileCollide = false;
