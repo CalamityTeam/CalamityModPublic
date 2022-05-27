@@ -30,8 +30,7 @@ namespace CalamityMod.Items.DifficultyItems
 
             // Boss lines
             "Enrages all bosses and gives them far more aggressive AI.\n" +
-            "Bosses and their projectiles deal 25% more damage.\n" +
-            "Increases the velocity of most boss projectiles by 25%.");
+            "Bosses and their projectiles deal 25% more damage.");
         }
 
         public override void SetDefaults()

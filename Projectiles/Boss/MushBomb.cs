@@ -24,7 +24,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.timeLeft = 480;
             Projectile.aiStyle = 1;
             AIType = ProjectileID.WoodenArrowFriendly;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

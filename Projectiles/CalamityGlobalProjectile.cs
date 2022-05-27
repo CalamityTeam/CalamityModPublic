@@ -122,10 +122,6 @@ namespace CalamityMod.Projectiles
             ProjectileType<ScavengerLaser>()
         };
 
-        // Boss projectile velocity multiplier in Malice Mode
-        public bool affectedByMaliceModeVelocityMultiplier = false;
-        public const float MaliceModeProjectileVelocityMultiplier = 1.25f;
-
         // Enchantment variables.
         public int ExplosiveEnchantCountdown = 0;
         public const int ExplosiveEnchantTime = 2400;
@@ -317,7 +313,6 @@ namespace CalamityMod.Projectiles
 
                 case ProjectileID.QueenSlimeGelAttack:
                 case ProjectileID.QueenSlimeMinionPinkBall:
-                    affectedByMaliceModeVelocityMultiplier = true;
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;
 
@@ -414,29 +409,6 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.FairyQueenLance:
                 case ProjectileID.DeerclopsIceSpike:
                 case ProjectileID.DeerclopsRangedProjectile:
-                    canBreakPlayerDefense = true;
-                    break;
-
-                case ProjectileID.Stinger:
-                case ProjectileID.Shadowflames:
-                case ProjectileID.DeathLaser:
-                case ProjectileID.PinkLaser:
-                case ProjectileID.CursedFlameHostile:
-                case ProjectileID.EyeFire:
-                case ProjectileID.EyeLaser:
-                case ProjectileID.PoisonSeedPlantera:
-                case ProjectileID.SeedPlantera:
-                case ProjectileID.Fireball:
-                case ProjectileID.EyeBeam:
-                case ProjectileID.InfernoHostileBolt:
-                case ProjectileID.CultistBossLightningOrb:
-                case ProjectileID.AncientDoomProjectile:
-                case ProjectileID.PhantasmalBolt:
-                case ProjectileID.PhantasmalEye:
-                case ProjectileID.QueenSlimeMinionBlueSpike:
-                    affectedByMaliceModeVelocityMultiplier = true;
-                    break;
-
                 case ProjectileID.DemonSickle:
                 case ProjectileID.BombSkeletronPrime:
                 case ProjectileID.Skull:
@@ -445,7 +417,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.CultistBossFireBall:
                 case ProjectileID.CultistBossFireBallClone:
                 case ProjectileID.CultistBossIceMist:
-                    canBreakPlayerDefense = affectedByMaliceModeVelocityMultiplier = true;
+                    canBreakPlayerDefense = true;
                     break;
 
                 case ProjectileID.LastPrismLaser:
@@ -2033,9 +2005,6 @@ namespace CalamityMod.Projectiles
                     // These projectiles are way too fucking fast so they need to be slower
                     if ((projectile.type == ProjectileID.QueenSlimeMinionBlueSpike && projectile.ai[1] >= 0f) || projectile.type == ProjectileID.QueenSlimeMinionPinkBall)
                         projectile.velocity *= 0.5f;
-
-                    if (CalamityPlayer.areThereAnyDamnBosses && affectedByMaliceModeVelocityMultiplier && (CalamityWorld.malice || BossRushEvent.BossRushActive))
-                        projectile.velocity *= MaliceModeProjectileVelocityMultiplier;
 
                     // Reduce Nail damage from Nailheads because they're stupid
                     if (projectile.type == ProjectileID.Nail && Main.expertMode)

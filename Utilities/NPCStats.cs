@@ -403,7 +403,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), new int[] { 65, 104, 112, 136, 168 } },
                 { ModContent.NPCType<AquaticScourgeTail>(), new int[] { 60, 96, 104, 112, 156 } },
 
-                { NPCID.TheDestroyer, new int[] { 70, 280, 320, 340, 420 } },
+                { NPCID.TheDestroyer, new int[] { 70, 280, 300, 320, 420 } },
                 { NPCID.TheDestroyerBody, new int[] { 60, 102, 136, 153, 204 } },
                 { NPCID.TheDestroyerTail, new int[] { 40, 68, 102, 136, 153 } },
 

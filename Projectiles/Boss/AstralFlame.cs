@@ -32,7 +32,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.alpha = 100;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 485;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void AI()

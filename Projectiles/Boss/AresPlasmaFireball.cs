@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.Opacity = 0f;
             CooldownSlot = 1;
             Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 96 : timeLeft;
-            Projectile.Calamity().affectedByMaliceModeVelocityMultiplier = true;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
