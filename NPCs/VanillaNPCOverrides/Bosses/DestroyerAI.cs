@@ -220,13 +220,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float shootProjectileGateValue = timer + shootProjectile;
 
                     // Shoot lasers
-                    // 50% chance to not shoot if probe has been launched
+                    // 50% chance to shoot harmless scrap if probe has been launched
                     bool probeLaunched = npc.ai[2] == 1f;
                     if (calamityGlobalNPC.newAI[0] >= shootProjectileGateValue)
                     {
                         calamityGlobalNPC.newAI[0] = 0f;
                         npc.TargetClosest();
-                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && (!probeLaunched || Main.rand.NextBool()))
+                        if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
                             // Laser speed
                             float projectileSpeed = 3.5f + Main.rand.NextFloat() * 1.5f;
@@ -255,14 +255,22 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 laserSpawnDistance = 20f;
                             }
 
+                            bool scrap = false;
+                            if (probeLaunched && Main.rand.NextBool())
+                            {
+                                scrap = true;
+                                projectileType = ProjectileID.SaucerScrap;
+                                laserSpawnDistance = 0f;
+                            }
+
                             // Get target vector
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileSpeed;
                             Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
                             // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
-                            int damage = npc.GetProjectileDamage(projectileType);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
-                            Main.projectile[proj].timeLeft = 900;
+                            int damage = scrap ? 0 : npc.GetProjectileDamage(projectileType);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, scrap ? 0f : 1f, 0f);
+                            Main.projectile[proj].timeLeft = scrap ? 150 : 900;
 
                             npc.netUpdate = true;
                         }
