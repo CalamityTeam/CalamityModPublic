@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Crags
         {
             bool provy = DownedBossSystem.downedProvidence;
             Player target = Main.player[NPC.target];
-            if (NPC.target < 0 || NPC.target == 255 || target.dead)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || target.dead)
             {
                 NPC.TargetClosest(true);
             }

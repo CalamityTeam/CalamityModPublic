@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 invinceTime = 240;
 
             // Target
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
                 NPC.TargetClosest();
 
             Player player = Main.player[NPC.target];

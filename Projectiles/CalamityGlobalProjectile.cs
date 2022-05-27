@@ -694,29 +694,38 @@ namespace CalamityMod.Projectiles
 
             else if (projectile.type == ProjectileID.FrostWave && projectile.ai[1] > 0f)
             {
-                if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
-                {
-                    projectile.scale += 0.005f;
-                    projectile.alpha -= 25;
-                    if (projectile.alpha <= 0)
-                    {
-                        projectile.ai[0] = 1f;
-                        projectile.alpha = 0;
-                    }
-                }
-                else if (projectile.ai[0] == 1f)
-                {
-                    projectile.scale -= 0.005f;
-                    projectile.alpha += 25;
-                    if (projectile.alpha >= 255)
-                    {
-                        projectile.ai[0] = 2f;
-                        projectile.alpha = 255;
-                    }
-                }
-
                 if (projectile.velocity.Length() < projectile.ai[1])
-                    projectile.velocity *= 1.0125f;
+                {
+                    projectile.velocity *= 1.01f;
+                    if (projectile.velocity.Length() > projectile.ai[1])
+                    {
+                        projectile.velocity.Normalize();
+                        projectile.velocity *= projectile.ai[1];
+                    }
+                }
+                else
+                {
+                    if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
+                    {
+                        projectile.scale += 0.005f;
+                        projectile.alpha -= 25;
+                        if (projectile.alpha <= 0)
+                        {
+                            projectile.ai[0] = 1f;
+                            projectile.alpha = 0;
+                        }
+                    }
+                    else if (projectile.ai[0] == 1f)
+                    {
+                        projectile.scale -= 0.005f;
+                        projectile.alpha += 25;
+                        if (projectile.alpha >= 255)
+                        {
+                            projectile.ai[0] = 2f;
+                            projectile.alpha = 255;
+                        }
+                    }
+                }
 
                 projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
@@ -2585,6 +2594,19 @@ namespace CalamityMod.Projectiles
                     return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
 
                 return Color.Transparent;
+            }
+
+            if (projectile.ai[1] > 0f && projectile.type == ProjectileID.FrostWave)
+            {
+                if (projectile.velocity.Length() < projectile.ai[1])
+                {
+                    float minVelocity = projectile.ai[1] * 0.5f;
+                    float velocityRatio = (projectile.velocity.Length() - minVelocity) / minVelocity;
+                    byte b2 = (byte)(velocityRatio * 200);
+                    byte a2 = (byte)(b2 / 200f * 255f);
+                    return new Color(b2, b2, b2, a2);
+                }
+                return new Color(200, 200, 200, projectile.alpha);
             }
 
             if (projectile.type == ProjectileID.SeedPlantera || projectile.type == ProjectileID.PoisonSeedPlantera ||

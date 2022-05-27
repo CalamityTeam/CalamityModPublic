@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void AI()
         {
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
                 NPC.TargetClosest(true);
             }

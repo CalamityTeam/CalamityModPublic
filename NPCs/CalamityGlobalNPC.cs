@@ -6063,7 +6063,7 @@ namespace CalamityMod.NPCs
         public static void DoSpiderWallAI(NPC npc, int transformType, float chaseMaxSpeed = 2f, float chaseAcceleration = 0.08f)
         {
             //GET NEW TARGET
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
             {
                 npc.TargetClosest();
             }

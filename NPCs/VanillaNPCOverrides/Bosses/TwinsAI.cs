@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         #region True Melee Retinazer Phase 2 AI
         public static bool TrueMeleeRetinazerPhase2AI(NPC npc)
         {
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
             {
                 npc.TargetClosest();
             }

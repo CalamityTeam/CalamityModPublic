@@ -1545,7 +1545,7 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             // Acquire target and determine enrage state
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
                 NPC.TargetClosest();
                 NPC.netUpdate = true;

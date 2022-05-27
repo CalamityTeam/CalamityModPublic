@@ -734,10 +734,11 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<CeaselessVoid>(), ModContent.ProjectileType<DarkEnergyBall>()), new int[] { 140, 240, 264, 280, 396 } },
                 { new Tuple<int, int>(ModContent.NPCType<CeaselessVoid>(), ModContent.ProjectileType<DarkEnergyBall2>()), new int[] { 140, 240, 264, 280, 396 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
                 { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 150, 264, 288, 300, 432 } },
-                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.FrostWave), new int[] { 140, 240, 264, 280, 396 } },
-                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ModContent.ProjectileType<StormMarkHostile>()), new int[] { 150, 264, 288, 300, 432 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ProjectileID.FrostWave), new int[] { 150, 264, 288, 300, 432 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverHead>(), ModContent.ProjectileType<StormMarkHostile>()), new int[] { 160, 276, 304, 320, 456 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverBody>(), ModContent.ProjectileType<DestroyerElectricLaser>()), new int[] { 140, 240, 264, 280, 396 } },
+                { new Tuple<int, int>(ModContent.NPCType<StormWeaverTail>(), ProjectileID.CultistBossLightningOrb), new int[] { 150, 264, 288, 300, 432 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<SignusScythe>()), new int[] { 140, 240, 264, 280, 396 } },
                 { new Tuple<int, int>(ModContent.NPCType<Signus>(), ModContent.ProjectileType<EssenceDust>()), new int[] { 140, 240, 264, 280, 396 } },

@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Astral
             // Setting this in SetDefaults will disable expert mode scaling, so put it here instead
             NPC.damage = 0;
 
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
                 NPC.TargetClosest(true);
             }

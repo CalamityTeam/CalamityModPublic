@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
                     num1038++;
                 }
             }
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
             {
                 NPC.TargetClosest();
             }

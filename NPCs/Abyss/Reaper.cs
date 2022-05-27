@@ -360,7 +360,7 @@ namespace CalamityMod.NPCs.Abyss
                 int num16 = 75;
                 Vector2 vector = NPC.Center;
                 Player player = Main.player[NPC.target];
-                if (NPC.target < 0 || NPC.target == 255 || player.dead || !player.active)
+                if (NPC.target < 0 || NPC.target == Main.maxPlayers || player.dead || !player.active)
                 {
                     NPC.TargetClosest(true);
                     player = Main.player[NPC.target];

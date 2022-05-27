@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
 
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
                 NPC.TargetClosest(true);
 
             // Check if other segments are still alive, if not, die

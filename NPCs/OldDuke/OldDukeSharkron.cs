@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.OldDuke
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            if (NPC.target < 0 || NPC.target == 255 || Main.player[NPC.target].dead)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
             {
                 NPC.TargetClosest(false);
                 NPC.netUpdate = true;

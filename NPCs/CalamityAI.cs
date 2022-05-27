@@ -2593,7 +2593,7 @@ namespace CalamityMod.NPCs
                                 if (postMoonLordBuff)
                                     damage *= 2;
 
-                                int centralLaser = (maxProjectiles - 1) / 2;
+                                int centralLaser = maxProjectiles / 2;
                                 int[] lasersToNotFire = new int[6] { centralLaser - 3, centralLaser - 2, centralLaser - 1, centralLaser + 1, centralLaser + 2, centralLaser + 3 };
                                 Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * laserVelocity;
                                 float rotation = MathHelper.ToRadians(spread);
@@ -5478,7 +5478,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[npc.target];
 
             // Get target
-            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || player.dead || !player.active)
             {
                 npc.TargetClosest();
                 player = Main.player[npc.target];
@@ -6625,7 +6625,7 @@ namespace CalamityMod.NPCs
             Vector2 vectorCenter = npc.Center;
 
             // Get a target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
 
             Player player = Main.player[npc.target];
