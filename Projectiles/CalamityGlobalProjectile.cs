@@ -1910,7 +1910,7 @@ namespace CalamityMod.Projectiles
                             projectile.velocity = -Vector2.UnitY;
 
                         if (projectile.localAI[0] == 0f)
-                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), projectile.position);
+                            SoundEngine.PlaySound(SoundID.Zombie104, projectile.position);
 
                         float num801 = 1f;
                         projectile.localAI[0] += 1f;

@@ -50,8 +50,14 @@ namespace CalamityMod.Projectiles.Magic
                 // Make an alert sound to indicate that the monster has become enraged and will now attack its caster.
                 if (Time == NPCAttackTime)
                 {
-                    int ambientNoiseID = Main.rand.Next(39, 41 + 1);
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(ambientNoiseID), Target.Center);
+                    SoundStyle ambientNoise = Utils.SelectRandom(Main.rand, new SoundStyle[]
+                    {
+                        SoundID.Zombie39,
+                        SoundID.Zombie40,
+                        SoundID.Zombie41
+                    });
+
+                    SoundEngine.PlaySound(ambientNoise, Target.Center);
                     SoundEngine.PlaySound(SoundID.DD2_DrakinShot, Target.Center);
                     CreateTransitionBurstDust();
                 }

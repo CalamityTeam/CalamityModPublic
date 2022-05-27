@@ -404,7 +404,7 @@ namespace CalamityMod.NPCs.AcidRain
                     if (AttackTimer == digReapperTime + chargeupTelegraphTime)
                     {
                         // Play a sound and create dust.
-                        SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), NPC.Center);
+                        SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                         for (int i = 0; i < 40; i++)
                         {
                             Dust burstDust = Dust.NewDustPerfect(NPC.Center + Main.rand.NextVector2Circular(75f, 75f), 267);

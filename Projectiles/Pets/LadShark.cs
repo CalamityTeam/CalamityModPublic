@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Pets
                         }
                     }
 
-                    SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(15), Projectile.position); //mouse squeak sound
+                    SoundEngine.PlaySound(SoundID.Zombie15, Projectile.position); //mouse squeak sound
 
                     float radius = 240f; // 15 blocks
                     for (int j = 0; j < Main.maxNPCs; j++)

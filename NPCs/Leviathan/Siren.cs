@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Play sound
             if (Main.rand.NextBool(300))
-                SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(35), NPC.position);
+                SoundEngine.PlaySound(SoundID.Zombie35, NPC.position);
 
             // Time left
             if (NPC.timeLeft < 1800)

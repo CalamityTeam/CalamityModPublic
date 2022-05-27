@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.Damage();
-            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(103), Projectile.Center);
+            SoundEngine.PlaySound(SoundID.Zombie103, Projectile.Center);
             for (int num193 = 0; num193 < 3; num193++)
             {
                 Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

@@ -7047,7 +7047,7 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.ai[1] == 180f)
                         {
-                            SoundEngine.PlaySound(CommonCalamitySounds.GetZombieSound(104), npc.position);
+                            SoundEngine.PlaySound(SoundID.Zombie104, npc.position);
                             Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
                             laserVelocity2.Normalize();
 
