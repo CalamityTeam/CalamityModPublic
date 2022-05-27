@@ -93,6 +93,6 @@ namespace CalamityMod.Items.Armor
         }
 
         public string ExtensionTexture => "CalamityMod/Items/Armor/DemonshadeHelm_Extension";
-        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2(0, -7f);
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => new Vector2(0, -4f);
     }
 }
