@@ -80,6 +80,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             writer.Write(stomping);
             writer.Write(NPC.alpha);
             writer.Write(NPC.localAI[2]);
+            writer.Write(NPC.localAI[3]);
             for (int i = 0; i < 4; i++)
                 writer.Write(NPC.Calamity().newAI[i]);
         }
@@ -89,6 +90,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             stomping = reader.ReadBoolean();
             NPC.alpha = reader.ReadInt32();
             NPC.localAI[2] = reader.ReadSingle();
+            NPC.localAI[3] = reader.ReadSingle();
             for (int i = 0; i < 4; i++)
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
         }

@@ -20,7 +20,6 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -1665,6 +1664,7 @@ namespace CalamityMod.NPCs
             }
 
             npc.alpha = npc.dontTakeDamage ? 255 : 0;
+            npc.damage = npc.dontTakeDamage ? 0 : npc.defDamage;
 
             // Float above target and fire lasers or fireballs
             if (npc.ai[1] == 0f)
@@ -2421,6 +2421,13 @@ namespace CalamityMod.NPCs
             bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
             npc.damage = postMoonLordBuff ? npc.defDamage * 2 : npc.defDamage;
 
+            // Don't deal contact damage for 2 seconds after the teleport phase to avoid cheap bullshit
+            if (npc.localAI[3] > 0f)
+            {
+                npc.localAI[3] -= 1f;
+                npc.damage = 0;
+            }
+
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -2438,7 +2445,7 @@ namespace CalamityMod.NPCs
             if (Main.dayTime || malice)
             {
                 npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
-                enrageScale += 2f;
+                enrageScale += 1f;
             }
 
             // Get a target
@@ -2480,12 +2487,16 @@ namespace CalamityMod.NPCs
                     if (npc.timeLeft > 60)
                         npc.timeLeft = 60;
 
-                    if (npc.ai[0] != 1f)
+                    if (npc.ai[0] != 0f)
                     {
-                        npc.ai[0] = 1f;
+                        npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
+                        npc.localAI[2] = 0f;
+                        npc.localAI[3] = 0f;
+                        calamityGlobalNPC.newAI[0] = 0f;
+                        calamityGlobalNPC.newAI[1] = 0f;
                         npc.netUpdate = true;
                     }
                     return;
@@ -2827,6 +2838,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[0] = phase2 ? (Main.rand.NextBool() ? (phase3 ? 2f : 1f) : 5f) : (Main.rand.NextBool() ? 2f : 1f);
                         npc.ai[2] = 0f;
+                        npc.ai[3] = 0f;
                         npc.netUpdate = true;
                     }
                     else
@@ -2835,6 +2847,7 @@ namespace CalamityMod.NPCs
                         npc.direction = playerLocation < 0 ? 1 : -1;
 
                         npc.ai[0] = 3f;
+                        npc.ai[3] = 0f;
                         npc.netUpdate = true;
                     }
 
@@ -3132,6 +3145,7 @@ namespace CalamityMod.NPCs
                     npc.alpha = 0;
                     npc.ai[0] = phase3 ? (Main.rand.NextBool() ? 3f : 2f) : (Main.rand.NextBool() ? 1f : 2f);
                     npc.ai[2] = 0f;
+                    npc.localAI[3] = 120f;
                     npc.netUpdate = true;
                 }
 
