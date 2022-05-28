@@ -5958,20 +5958,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
                 if (areThereAnyDamnBosses || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
-                {
-                    if (CalamityWorld.DoGSecondStageCountdown > 0)
-                    {
-                        CalamityWorld.DoGSecondStageCountdown = 0;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            var netMessage = Mod.GetPacket();
-                            netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                            netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                            netMessage.Send();
-                        }
-                    }
                     KillPlayer();
-                }
             }
             #endregion
 

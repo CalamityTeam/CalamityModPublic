@@ -398,11 +398,8 @@ namespace CalamityMod.CalPlayer
             {
                 // If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
                 // EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-                if ((areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
-                    !wofAndNotHell)
-                {
+                if ((areThereAnyDamnBosses || BossRushEvent.BossRushActive) && !wofAndNotHell)
                     adrenalineDiff += adrenalineMax / AdrenalineChargeTime;
-                }
 
                 // If you aren't actively in a boss fight, adrenaline rapidly fades away.
                 else

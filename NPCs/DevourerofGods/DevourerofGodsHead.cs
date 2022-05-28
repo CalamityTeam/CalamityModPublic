@@ -174,7 +174,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void BossHeadSlot(ref int index)
         {
-            if (Phase2Started && (CalamityWorld.DoGSecondStageCountdown > 60 || AwaitingPhase2Teleport))
+            if (Phase2Started && (NPC.localAI[2] > 60f || AwaitingPhase2Teleport))
                 index = -1;
             else if (Phase2Started && !AwaitingPhase2Teleport)
                 index = phase2IconIndex;
@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void BossHeadRotation(ref float rotation)
         {
-            if (Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60)
+            if (Phase2Started && NPC.localAI[2] <= 60f)
                 rotation = NPC.rotation;
         }
 
@@ -211,6 +211,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 writer.Write(NPC.Calamity().newAI[i]);
 
             // Phase 2 syncs
+            writer.Write(NPC.localAI[2]);
             writer.Write(shotSpacing_Phase2[0]);
             writer.Write(shotSpacing_Phase2[1]);
             writer.Write(shotSpacing_Phase2[2]);
@@ -263,6 +264,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
 
             // Phase 2 syncs
+            NPC.localAI[2] = reader.ReadSingle();
             shotSpacing_Phase2[0] = reader.ReadInt32();
             shotSpacing_Phase2[1] = reader.ReadInt32();
             shotSpacing_Phase2[2] = reader.ReadInt32();
@@ -411,18 +413,21 @@ namespace CalamityMod.NPCs.DevourerofGods
             else
                 NPC.takenDamageMultiplier = 1.1f;
 
-            // Close DoG's HP bar if busy with sentinels or a P2 transition.
-            if (CalamityWorld.DoGSecondStageCountdown > 0)
+            // Close DoG's HP bar if busy with sentinels or a P2 transition and decrement the countdown.
+            if (NPC.localAI[2] > 0f)
+            {
+                NPC.localAI[2] -= 1f;
                 NPC.Calamity().ShouldCloseHPBar = true;
+            }
 
             // Teleport after the Phase 2 animation.
-            if (CalamityWorld.DoGSecondStageCountdown == 61)
+            if (NPC.localAI[2] == 61f)
                 Teleport(player, malice, death, revenge, expertMode, phase5, true);
 
             // Be invincibile until the phase 2 teleport happens.
             // This is done to prevent DoG from suddenly and weirdly re-appearing after entering the phase 1 portal.
             // Once the teleport happens he will be in position and this effect stops.
-            if (Phase2Started && AwaitingPhase2Teleport && CalamityWorld.DoGSecondStageCountdown < 60)
+            if (Phase2Started && AwaitingPhase2Teleport && NPC.localAI[2] < 60f)
             {
                 NPC.Opacity = 0f;
                 NPC.dontTakeDamage = true;
@@ -445,23 +450,16 @@ namespace CalamityMod.NPCs.DevourerofGods
                         NPC.netUpdate = true;
                     }
 
-                    // Skip the sentinel phase entirely if DoG has already been killed
-                    CalamityWorld.DoGSecondStageCountdown = (DownedBossSystem.downedDoG || DownedBossSystem.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = Mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                        netMessage.Send();
-                    }
+                    // Phase 2 countdown
+                    NPC.localAI[2] = 600f;
                 }
 
                 // Play music after the transiton BS
-                if (CalamityWorld.DoGSecondStageCountdown == 530)
+                if (NPC.localAI[2] == 530f)
                     Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size and become visible again.
-                if (CalamityWorld.DoGSecondStageCountdown == 60)
+                if (NPC.localAI[2] == 60f)
                 {
                     preventBullshitHitsAtStartofFinalPhaseTimer = 180;
                     NPC.position = NPC.Center;
@@ -473,7 +471,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
 
                 // Dialogue the moment the second phase starts
-                if (CalamityWorld.DoGSecondStageCountdown == 60)
+                if (NPC.localAI[2] == 60f)
                 {
                     string key = "Mods.CalamityMod.EdgyBossText10";
                     Color messageColor = Color.Cyan;
@@ -484,8 +482,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Begin phase 2 once all sentinels are down
             if (Phase2Started)
             {
-                // Go immune and invisible if sentinels are alive
-                if (CalamityWorld.DoGSecondStageCountdown > 5)
+                // Go immune and invisible
+                if (NPC.localAI[2] > 5f)
                 {
                     // Don't take damage
                     NPC.dontTakeDamage = true;
@@ -515,7 +513,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             NPC.Opacity = 0f;
 
                         // Ensure the portal is pointing in the direction of the head at first, to prevent direction offsets.
-                        if (CalamityWorld.DoGSecondStageCountdown > 360)
+                        if (NPC.localAI[2] > 360f)
                             Main.projectile[PortalIndex].Center = NPC.Center + NPC.SafeDirectionTo(Main.projectile[PortalIndex].Center) * NPC.Distance(Main.projectile[PortalIndex].Center);
                     }
 
@@ -2266,7 +2264,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool useOtherTextures = (Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60) || NPC.IsABestiaryIconDummy;
+            bool useOtherTextures = (Phase2Started && NPC.localAI[2] <= 60f) || NPC.IsABestiaryIconDummy;
             Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
             if (NPC.IsABestiaryIconDummy)
@@ -2303,9 +2301,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnKill()
         {
-            // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
-            CalamityWorld.DoGSecondStageCountdown = 0;
-
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedDoG);

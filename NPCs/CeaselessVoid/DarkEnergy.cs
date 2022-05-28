@@ -37,15 +37,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.width = 80;
             NPC.height = 80;
             NPC.defense = 50;
-            NPC.lifeMax = 3000;
-            if (CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedCeaselessVoid)
-            {
-                NPC.lifeMax = 12000;
-            }
-            if (BossRushEvent.BossRushActive)
-            {
-                NPC.lifeMax = 4400;
-            }
+            NPC.lifeMax = BossRushEvent.BossRushActive ? 4400 : 12000;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;

@@ -79,9 +79,6 @@ namespace CalamityMod.Systems
             // Update Boss Rush.
             BossRushEvent.Update();
 
-            // Handle Phase 2 DoG's summon-code, for his sentinels.
-            HandleDoGP2Countdown(player);
-
             // Handle conditional summons.
             TrySpawnArmoredDigger(player, modPlayer);
             TrySpawnDungeonGuardian(player);
@@ -347,36 +344,6 @@ namespace CalamityMod.Systems
         }
         #endregion
 
-        #region Handle Phase 2 DoG's Summoning
-        public static void HandleDoGP2Countdown(Player player)
-        {
-            // Reset the DoG P2 transition countdown if DoG is not present.
-            if (CalamityGlobalNPC.DoGHead == -1)
-                DoGSecondStageCountdown = 0;
-
-            if (DoGSecondStageCountdown <= 0)
-                return;
-
-            DoGSecondStageCountdown--;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                if (DoGSecondStageCountdown == 21540)
-                    CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<CeaselessVoid>(), new OffscreenBossSpawnContext());
-                if (DoGSecondStageCountdown == 14340)
-                    CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<StormWeaverHead>(), new OffscreenBossSpawnContext());
-                if (DoGSecondStageCountdown == 7140)
-                    CalamityUtils.SpawnBossBetter(player.Center, ModContent.NPCType<Signus>(), new OffscreenBossSpawnContext());
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = CalamityMod.Instance.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(DoGSecondStageCountdown);
-                netMessage.Send();
-            }
-        }
-        #endregion
-
         #region Handle Armored Digger Random Spawns
         public static void TrySpawnArmoredDigger(Player player, CalamityPlayer modPlayer)
         {
@@ -400,7 +367,7 @@ namespace CalamityMod.Systems
                     if (Main.SceneMetrics.WaterCandleCount > 0)
                         spawnRate *= 0.8D;
 
-                    if (modPlayer.bossZen || DoGSecondStageCountdown > 0)
+                    if (modPlayer.bossZen)
                         spawnRate *= 50D;
                     if (modPlayer.zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
                         spawnRate *= 2D;
@@ -410,12 +377,6 @@ namespace CalamityMod.Systems
                         spawnRate *= 1.43D;
                     if (Main.SceneMetrics.PeaceCandleCount > 0)
                         spawnRate *= 1.25D;
-
-                    // TODO -- Draedon's remote appears to not exist as of 1.4 porting. Is this intentional or did something go wrong?
-                    /*
-                    if (player.HasItem(ModContent.ItemType<DraedonsRemote>()))
-                        spawnRate *= 5D;
-                    */
 
                     int chance = (int)spawnRate;
                     if (Main.rand.NextBool(chance))

@@ -124,10 +124,6 @@ namespace CalamityMod
                         byte playerIndex2 = reader.ReadByte();
                         CalamityUtils.SpawnOldDuke(playerIndex2);
                         break;
-                    case CalamityModMessageType.DoGCountdownSync:
-                        int countdown = reader.ReadInt32();
-                        CalamityWorld.DoGSecondStageCountdown = countdown;
-                        break;
                     case CalamityModMessageType.ArmoredDiggerCountdownSync:
                         int countdown5 = reader.ReadInt32();
                         CalamityWorld.ArmoredDiggerSpawnCooldown = countdown5;
@@ -349,7 +345,6 @@ namespace CalamityMod
         SpawnSuperDummy,
         DeleteAllSuperDummies,
         ServersideSpawnOldDuke,
-        DoGCountdownSync, // TODO -- this gets written in about six thousand places which all need to be individually evaluated
         ArmoredDiggerCountdownSync, // TODO -- remove this mechanic entirely
         ProvidenceDyeConditionSync, // TODO -- this packetstorms if you hit Provi with spam weapons. It should ONLY send a packet if the status changes.
         PSCChallengeSync, // TODO -- once you've failed the PSC challenge this packetstorms

@@ -4020,18 +4020,6 @@ namespace CalamityMod.NPCs
                     if (npc.velocity.Y < -12f)
                         npc.velocity.Y = -12f;
 
-                    if (npc.timeLeft < 10)
-                    {
-                        CalamityWorld.DoGSecondStageCountdown = 0;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            var netMessage = mod.GetPacket();
-                            netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                            netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                            netMessage.Send();
-                        }
-                    }
-
                     if (npc.timeLeft > 60)
                         npc.timeLeft = 60;
 
@@ -4285,7 +4273,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Destroy all Dark Energies if their total HP is below 20%
-                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : (CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedCeaselessVoid) ? 12000 : 3000;
+                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : 12000;
                 int totalDarkEnergiesSpawned = darkEnergyAmt * 3 + 2;
                 int totalDarkEnergyMaxHP = darkEnergyMaxHP * totalDarkEnergiesSpawned;
                 int succPhaseGateValue = (int)(totalDarkEnergyMaxHP * 0.2);

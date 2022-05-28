@@ -63,21 +63,10 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.npcSlots = 5f;
             NPC.width = 74;
             NPC.height = 74;
-
-            // 10% of HP is phase one
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedStormWeaver;
-            NPC.lifeMax = notDoGFight ? 825500 : 139750;
+            NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
-
-            // If fought alone, Storm Weaver plays its own theme
-            if (notDoGFight)
-            {
-                NPC.value = Item.buyPrice(2, 0, 0, 0);
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
-            }
-            // If fought as a DoG interlude, keep the DoG music playing
-            else
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+            NPC.value = Item.buyPrice(2, 0, 0, 0);
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -262,15 +251,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
-                    CalamityWorld.DoGSecondStageCountdown = 0;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = Mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                        netMessage.Send();
-                    }
-
                     for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                     {
                         if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
@@ -285,15 +265,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 10000f && NPC.life > 0)
             {
-                CalamityWorld.DoGSecondStageCountdown = 0;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-
                 for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                 {
                     if (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
@@ -933,45 +904,22 @@ namespace CalamityMod.NPCs.StormWeaver
             return false;
         }
 
-        public static bool AtFullStrength() => !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;
-
         public static bool LastSentinelKilled() => !DownedBossSystem.downedSignus && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedCeaselessVoid;
 
         public override void OnKill()
         {
-            bool fullStrength = AtFullStrength();
-            if (fullStrength)
-                CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            // If DoG's fight is active, set the timer for Signus' phase
-            if (CalamityWorld.DoGSecondStageCountdown > 7260)
-            {
-                CalamityWorld.DoGSecondStageCountdown = 7260;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-            }
-
-            // Mark Ceaseless Void as dead
-            if (fullStrength)
-            {
-                DownedBossSystem.downedStormWeaver = true;
-                CalamityNetcode.SyncWorld();
-            }
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            DownedBossSystem.downedStormWeaver = true;
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(AtFullStrength);
-            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<StormWeaverBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<StormWeaverBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
-            fullStrengthDrops.Add(normalOnly);
+            npcLoot.Add(normalOnly);
             {
                 // Weapons
                 int[] weapons = new int[]
@@ -993,7 +941,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
 
-            fullStrengthDrops.Add(ModContent.ItemType<WeaverTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<WeaverTrophy>(), 10);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());
