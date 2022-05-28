@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eArtifact = true;
             player.buffImmune[ModContent.BuffType<WhisperingDeath>()] = true;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

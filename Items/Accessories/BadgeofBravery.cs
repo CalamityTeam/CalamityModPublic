@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.badgeOfBravery = true;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
         }
 
         public override void AddRecipes()
