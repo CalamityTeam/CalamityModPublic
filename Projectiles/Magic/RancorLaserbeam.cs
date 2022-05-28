@@ -49,8 +49,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.hide = true;
-            Projectile.Calamity().PierceResistHarshness = 0.06f;
-            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void AI()

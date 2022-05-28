@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -26,8 +26,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Magic;
-            Projectile.Calamity().PierceResistHarshness = 0.06f;
-            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void AI()

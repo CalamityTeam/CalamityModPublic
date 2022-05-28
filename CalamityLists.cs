@@ -2040,6 +2040,8 @@ namespace CalamityMod
                 ProjectileID.Arkhalis,
                 ProjectileID.Terragrim,
                 ProjectileID.MonkStaffT3,
+                ProjectileID.LastPrismLaser,
+                ProjectileID.ChargedBlasterLaser,
                 ProjectileType<FlakKrakenProj>(),
                 ProjectileType<MurasamaSlash>(),
                 ProjectileType<OmnibladeSwing>(),
@@ -2078,6 +2080,14 @@ namespace CalamityMod
                 ProjectileType<UrchinStingerProj>(),
                 ProjectileType<EyeOfNightCell>(),
                 ProjectileType<ViolenceThrownProjectile>(),
+                ProjectileType<BlushieStaffProj>(),
+                ProjectileType<DarkSparkBeam>(),
+                ProjectileType<EidolicWailSoundwave>(),
+                ProjectileType<HadopelagicEchoSoundwave>(),
+                ProjectileType<RancorLaserbeam>(),
+                ProjectileType<SparklingBeam>(),
+                ProjectileType<YharimsCrystalBeam>(),
+                ProjectileType<PrismaticBeam>(),
             };
 
             // Lists of enemies that resist piercing to some extent (mostly worms).

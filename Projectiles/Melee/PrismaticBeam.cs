@@ -73,8 +73,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.timeLeft = 300;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
-            Projectile.Calamity().PierceResistHarshness = 0.06f;
-            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void DetermineScale()

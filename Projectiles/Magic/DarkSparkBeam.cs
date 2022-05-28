@@ -31,8 +31,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 15;
-            Projectile.Calamity().PierceResistHarshness = 0.06f;
-            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

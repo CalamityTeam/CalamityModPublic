@@ -4296,9 +4296,9 @@ namespace CalamityMod.NPCs
             if (CalamityLists.ThanatosIDs.Contains(npc.type) && unbreakableDR)
                 return;
 
-            float damageReduction = projectile.Calamity().timesPierced * projectile.Calamity().PierceResistHarshness;
-            if (damageReduction > projectile.Calamity().PierceResistCap)
-                damageReduction = projectile.Calamity().PierceResistCap;
+            float damageReduction = projectile.Calamity().timesPierced * CalamityGlobalProjectile.PierceResistHarshness;
+            if (damageReduction > CalamityGlobalProjectile.PierceResistCap)
+                damageReduction = CalamityGlobalProjectile.PierceResistCap;
 
             damage -= (int)(damage * damageReduction);
 

@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 {
                                     SoundEngine.PlaySound(SoundID.Item12, player.position);
                                     NPC.TargetClosest();
-                                    float projectileVelocity = malice ? 10f : death ? 9f : revenge ? 8.5f : expertMode ? 8f : 7f;
+                                    float projectileVelocity = malice ? 12f : death ? 11f : revenge ? 10.5f : expertMode ? 10f : 9f;
                                     Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                                     int type = ModContent.ProjectileType<DoGDeath>();
                                     int damage = NPC.GetProjectileDamage(type);
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 SoundEngine.PlaySound(SoundID.Item12, player.position);
                                 NPC.localAI[0] = 0f;
                                 NPC.TargetClosest();
-                                float projectileVelocity = malice ? 9f : death ? 8f : revenge ? 7.5f : expertMode ? 7f : 6f;
+                                float projectileVelocity = malice ? 11f : death ? 10f : revenge ? 9.5f : expertMode ? 9f : 8f;
                                 Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                                 int type = ModContent.ProjectileType<DoGDeath>();
                                 int damage = NPC.GetProjectileDamage(type);

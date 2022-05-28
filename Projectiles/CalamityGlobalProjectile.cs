@@ -52,9 +52,8 @@ namespace CalamityMod.Projectiles
         public bool forceHostile = false;
 
         // Damage Adjusters
-        private bool setDamageValues = true;
-        public float PierceResistHarshness = 0.12f;
-        public float PierceResistCap = 0.8f;
+        public const float PierceResistHarshness = 0.12f;
+        public const float PierceResistCap = 0.8f;
         public int defDamage = 0;
 
         // Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
@@ -418,12 +417,6 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.CultistBossFireBallClone:
                 case ProjectileID.CultistBossIceMist:
                     canBreakPlayerDefense = true;
-                    break;
-
-                case ProjectileID.LastPrismLaser:
-                case ProjectileID.ChargedBlasterLaser:
-                    PierceResistHarshness = 0.06f;
-                    PierceResistCap = 0.4f;
                     break;
 
                 default:
