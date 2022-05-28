@@ -26,27 +26,34 @@ namespace CalamityMod.CalPlayer.DrawLayers
                 {
                     int dyeShader = drawPlayer.dye?[0].dye ?? 0;
 
-                    // It is imperative that drawPlayer is not used to get any position stuff, or else it will break in the character selection screen.
-                    //We use the floor function to remove the jitter with the small float changes
-                    Vector2 headDrawPosition = drawInfo.Position.Floor() - Main.screenPosition ;
+                    // It is imperative to use drawInfo.Position and not drawInfo.Player.Position, or else the layer will break on the player select & map (in the case of a head layer)
+                    Vector2 headDrawPosition = drawInfo.Position - Main.screenPosition;
 
-                    //Account for the hellspawns known as mounts. But properly this time. HHHHAAAAAAAAAAAAAAAAAAAAAAAAA
-                    headDrawPosition += Vector2.UnitY * drawInfo.mountOffSet;
+                    // Using drawPlayer to get width & height and such is perfectly fine, on the other hand. Just center everything
+                    headDrawPosition += new Vector2((drawPlayer.width - drawPlayer.bodyFrame.Width) / 2f, drawPlayer.height - drawPlayer.bodyFrame.Height + 4f);
 
-                    //headDrawPosition += extendedHatDrawer.ExtensionSpriteOffset(drawInfo);
+                    //Convert to int to remove the jitter.
+                    headDrawPosition = new Vector2((int)headDrawPosition.X, (int)headDrawPosition.Y);
 
+                    //Some dispalcements
+                    headDrawPosition += drawPlayer.headPosition + drawInfo.headVect;
+
+                    //Apply our custom head position offset
+                    headDrawPosition += extendedHatDrawer.ExtensionSpriteOffset(drawInfo);
+
+                    //Grab the extension texture
                     Texture2D extraPieceTexture = ModContent.Request<Texture2D>(extendedHatDrawer.ExtensionTexture).Value;
 
-                    extraPieceTexture = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/WulfrumHeadgear_Head").Value;
+                    //Get the frame of the extension based on the players body frame
                     Rectangle frame = extraPieceTexture.Frame(1, 20, 0, drawPlayer.bodyFrame.Y / drawPlayer.bodyFrame.Height);
 
-                    Vector2 origin = frame.Size() / 2f;
-
-                    DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.colorArmorHead, drawPlayer.headRotation, origin, 1f, drawInfo.playerEffect, 0)
+                    DrawData pieceDrawData = new DrawData(extraPieceTexture, headDrawPosition, frame, drawInfo.colorArmorHead, drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0)
                     {
                         shader = dyeShader
                     };
+
                     drawInfo.DrawDataCache.Add(pieceDrawData);
+
                 }
             }
         }
