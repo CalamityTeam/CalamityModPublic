@@ -126,7 +126,8 @@ namespace CalamityMod.Items
                 { ItemID.CorruptYoyo, Do(AutoReuse, DamageExact(27)) },
                 { ItemID.CrimsonYoyo, Do(AutoReuse, DamageExact(30)) },
                 { ItemID.CrystalSerpent, Do(DamageExact(45)) },
-                { ItemID.CrystalVileShard, Do(DamageRatio(1.33f)) },
+                // Vanilla 1.4 buffed Crystal Vile Shard pretty hard: base damage 19 -> 25 and ignores 10 defense. This shouldn't be needed anymore.
+                // { ItemID.CrystalVileShard, Do(DamageRatio(1.33f)) },
                 { ItemID.CursedArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.Cutlass, Do(UseRatio(0.8f), DamageRatio(2f)) },
                 { ItemID.DaedalusStormbow, Do(DamageRatio(0.9f)) },
