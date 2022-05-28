@@ -217,7 +217,7 @@ namespace CalamityMod.Items.Accessories
                         // There's a "clever" way to do this with formatting but it's harder.
                         if (attackSpeed >= 1f)
                             sb.Append('+');
-                        sb.Append(TwoPlaces(100f * (meleeSpeed - 1f))).Append("% melee]");
+                        sb.Append(TwoPlaces(100f * (meleeSpeed - 1f))).Append("% from melee]");
                     }
                 }
 
