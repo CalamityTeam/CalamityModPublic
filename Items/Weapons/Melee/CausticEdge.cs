@@ -3,7 +3,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
