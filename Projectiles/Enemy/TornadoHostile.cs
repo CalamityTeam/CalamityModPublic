@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Enemy
             Vector2 vector146 = Vector2.Lerp(value72, value73, 0.5f);
             Vector2 value74 = new Vector2(0f, value73.Y - value72.Y);
             value74.X = value74.Y * 0.2f;
-            Projectile.width = (int)(value74.X * (Projectile.ai[1] == 1f ? 0.325f : 0.65f));
+            Projectile.width = (int)(value74.X * (Projectile.ai[1] == 1f ? 0.25f : 0.65f));
             Projectile.height = (int)value74.Y;
             Projectile.Center = vector146;
             if (Projectile.owner == Main.myPlayer)
