@@ -42,14 +42,14 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 }
 
 // The X coordinate is the trail completion, the Y coordinate is the same as any other.
-// This is simply how the primitive TextCoord is layed out in the C# code.
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 color = input.Color;
     float2 coords = input.TextureCoordinates;
     
     // Read the fade map as a streak.
-    float4 fadeMapColor = tex2D(uImage1, float2(frac(coords.y + cos(uTime) * 0.01), frac(coords.x - uTime * 1.4 * uSaturation)));
+    float fadeMapY = frac(coords.x - uTime * 1.4 * uSaturation);
+    float4 fadeMapColor = tex2D(uImage1, float2(coords.y, fadeMapY));
     fadeMapColor.r *= pow(coords.x, 0.2);
     
     float opacity = lerp(1.45, 1.95, fadeMapColor.r) * color.a;

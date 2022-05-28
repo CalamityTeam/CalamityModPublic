@@ -9,6 +9,9 @@
         // This is a const because it replaces a hardcoded value in vanilla
         internal const float BalloonJumpSpeedBoost = 0.75f;
 
+        // Sharpening Station grants this much armor penetration to melee weapons.
+        internal const float SharpeningStationArmorPenetration = 5f;
+
         // Vanilla shield slam stats
         // These are consts because they replace hardcoded values in vanilla
         internal const int ShieldOfCthulhuBonkNoCollideFrames = 6;

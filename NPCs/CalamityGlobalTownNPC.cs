@@ -1416,6 +1416,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.GenderChangePotion, true, Item.buyPrice(0, 1, 0, 0));
             }
 
+            if (type == NPCID.Princess)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.PrincessWeapon, true, Item.buyPrice(0, 50, 0, 0));
+            }
+
             if (type == NPCID.SkeletonMerchant)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<CalciumPotion>(), true, Item.buyPrice(0, 0, 20, 0));

@@ -437,8 +437,6 @@ namespace CalamityMod.CalPlayer
         public bool badgeOfBravery = false;
         public bool warbannerOfTheSun = false;
         public float warBannerBonus = 0f;
-        private const float maxWarBannerBonus = 0.2f;
-        private const float maxWarBannerDistance = 480f;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
@@ -3400,89 +3398,8 @@ namespace CalamityMod.CalPlayer
             // Increase wall placement speed to speed up early game a bit and make building more fun
             Player.wallSpeed += 0.5f;
 
-            #region MeleeSpeed
+            #region Melee Speed for Projectile Melee Weapons
             float meleeSpeedMult = 0f;
-            if (bBlood)
-            {
-                meleeSpeedMult += 0.025f;
-            }
-            if (rRage)
-            {
-                meleeSpeedMult += 0.05f;
-            }
-            if (yPower)
-            {
-                meleeSpeedMult += 0.05f;
-            }
-            if (darkSunRing)
-            {
-                meleeSpeedMult += 0.12f;
-            }
-            if (badgeOfBravery)
-            {
-                meleeSpeedMult += 0.15f;
-            }
-            if (warbannerOfTheSun)
-            {
-                int closestNPC = -1;
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    NPC nPC = Main.npc[i];
-                    if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
-                    {
-                        closestNPC = i;
-                        break;
-                    }
-                }
-                float distance = -1f;
-                for (int j = 0; j < Main.maxNPCs; j++)
-                {
-                    NPC nPC = Main.npc[j];
-                    if (nPC.active && !nPC.friendly && (nPC.damage > 0 || nPC.boss) && !nPC.dontTakeDamage)
-                    {
-                        float distance2 = Math.Abs(nPC.position.X + (float)(nPC.width / 2) - (Player.position.X + (float)(Player.width / 2))) + Math.Abs(nPC.position.Y + (float)(nPC.height / 2) - (Player.position.Y + (float)(Player.height / 2)));
-                        if (distance == -1f || distance2 < distance)
-                        {
-                            distance = distance2;
-                            closestNPC = j;
-                        }
-                    }
-                }
-
-                if (closestNPC != -1)
-                {
-                    NPC actualClosestNPC = Main.npc[closestNPC];
-
-                    float generousHitboxWidth = Math.Max(actualClosestNPC.Hitbox.Width / 2f, actualClosestNPC.Hitbox.Height / 2f);
-                    float hitboxEdgeDist = actualClosestNPC.Distance(Player.Center) - generousHitboxWidth;
-
-                    if (hitboxEdgeDist < 0)
-                        hitboxEdgeDist = 0;
-
-                    if (hitboxEdgeDist < maxWarBannerDistance)
-                    {
-                        warBannerBonus = MathHelper.Lerp(0f, maxWarBannerBonus, 1f - (hitboxEdgeDist / maxWarBannerDistance));
-
-                        if (warBannerBonus > maxWarBannerBonus)
-                            warBannerBonus = maxWarBannerBonus;
-                    }
-
-                    meleeSpeedMult += warBannerBonus;
-                }
-            }
-            if (eGauntlet)
-            {
-                meleeSpeedMult += 0.15f;
-            }
-            if (yInsignia)
-            {
-                meleeSpeedMult += 0.1f;
-            }
-            if (bloodyMary)
-            {
-                if (Main.bloodMoon)
-                    meleeSpeedMult += 0.15f;
-            }
             if (community)
             {
                 float floatTypeBoost = 0.05f +
@@ -3503,27 +3420,20 @@ namespace CalamityMod.CalPlayer
                     (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 meleeSpeedMult += floatTypeBoost * 0.25f;
             }
-            if (eArtifact)
-            {
-                meleeSpeedMult += 0.1f;
-            }
-            if (bloodyWormTooth)
-            {
-                meleeSpeedMult += 0.07f;
-            }
+
+            // Nerfs the effectiveness of Beetle Scale Mail.
             if (Player.beetleOffense && Player.beetleOrbs > 0)
-            {
                 meleeSpeedMult -= 0.1f * Player.beetleOrbs;
-            }
+
             if (CalamityConfig.Instance.Proficiency)
-            {
                 meleeSpeedMult += GetMeleeSpeedBonus();
-            }
-            if (GemTechState.IsYellowGemActive)
+
+            if (GemTechSet && GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
 
             Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
 
+            // TODO -- Attack speed multipliers should be done the vanilla way.
             // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade and Blade of Enmity.
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
                 Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())

@@ -76,6 +76,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
 
+            // Damage balance
+            IL.Terraria.Player.UpdateBuffs += NerfSharpeningStation;
+
             // Life regen balance
             IL.Terraria.Player.UpdateLifeRegen += PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen;
 
@@ -162,6 +165,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
 
+            // Damage balance
+            IL.Terraria.Player.UpdateBuffs -= NerfSharpeningStation;
+
             // Life regen balance
             IL.Terraria.Player.UpdateLifeRegen -= PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen;
 
@@ -191,7 +197,6 @@ namespace CalamityMod.ILEditing
             On.Terraria.Player.GetPickaxeDamage -= RemoveHellforgePickaxeRequirement;
 
             // Fix vanilla bugs exposed by Calamity mechanics
-            // On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
             On.Terraria.Item.Prefix -= LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;
