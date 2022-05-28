@@ -140,14 +140,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.Opacity = Main.npc[CalamityGlobalNPC.DoGHead].Opacity;
 
             // Fly up and despawn if DoG enters phase 2 and isn't in the final Cosmic Guardian spawn phase.
-            bool flyAwayAndDespawn = Main.npc[CalamityGlobalNPC.DoGHead].life / (float)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax < 0.6f && Main.npc[CalamityGlobalNPC.DoGHead].life / (float)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax > 0.18f;
+            bool flyAwayAndDespawn = (Main.npc[CalamityGlobalNPC.DoGHead].life / (float)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax < 0.6f && Main.npc[CalamityGlobalNPC.DoGHead].life / (float)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax > 0.18f) || Main.npc[CalamityGlobalNPC.DoGHead].life <= 1;
             if (flyAwayAndDespawn)
             {
                 NPC.TargetClosest(false);
 
-                NPC.velocity.Y -= 3f;
+                NPC.velocity.Y -= 1f;
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
-                    NPC.velocity.Y -= 3f;
+                    NPC.velocity.Y -= 1f;
 
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
