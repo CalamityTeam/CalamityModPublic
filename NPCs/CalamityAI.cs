@@ -2556,8 +2556,8 @@ namespace CalamityMod.NPCs
                             {
                                 calamityGlobalNPC.newAI[2] = 1f;
 
-                                int maxProjectiles = !phase2 ? (malice ? 7 : death ? 5 : 3) : (malice ? 9 : death ? 7 : 5);
-                                int spread = !phase2 ? (malice ? 14 : death ? 11 : 8) : (malice ? 14 : death ? 12 : 10);
+                                int maxProjectiles = !phase2 ? (malice ? 5 : 3) : (malice ? 7 : 5);
+                                int spread = !phase2 ? (malice ? 11 : 8) : (malice ? 12 : 10);
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
@@ -2596,8 +2596,8 @@ namespace CalamityMod.NPCs
                             {
                                 calamityGlobalNPC.newAI[2] = 0f;
 
-                                int maxProjectiles = !phase3 ? (malice ? 21 : death ? 15 : 9) : (malice ? 27 : death ? 21 : 15);
-                                int spread = !phase3 ? (malice ? 28 : death ? 22 : 16) : (malice ? 28 : death ? 24 : 20);
+                                int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 19 : death ? 17 : 15);
+                                int spread = !phase3 ? (malice ? 20 : death ? 18 : 16) : (malice ? 24 : death ? 22 : 20);
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
@@ -2896,8 +2896,8 @@ namespace CalamityMod.NPCs
                             calamityGlobalNPC.newAI[3] = 0f;
 
                             float laserVelocity = death ? 7f : 6f;
-                            int maxProjectiles = !phase3 ? (malice ? 17 : death ? 13 : 9) : (malice ? 21 : death ? 17 : 13);
-                            int spread = !phase3 ? (malice ? 28 : death ? 22 : 16) : (malice ? 28 : death ? 24 : 20);
+                            int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 17 : death ? 15 : 13);
+                            int spread = !phase3 ? (malice ? 20 : death ? 18 : 16) : (malice ? 24 : death ? 22 : 20);
 
                             int type = ModContent.ProjectileType<AstralLaser>();
                             int damage = npc.GetProjectileDamage(type);
