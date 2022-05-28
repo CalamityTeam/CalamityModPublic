@@ -3400,6 +3400,7 @@ namespace CalamityMod.CalPlayer
             // Increase wall placement speed to speed up early game a bit and make building more fun
             Player.wallSpeed += 0.5f;
 
+            // TODO -- Melee speed boosts can all go back into their own files.
             #region MeleeSpeed
             float meleeSpeedMult = 0f;
             if (bBlood)
@@ -3519,11 +3520,12 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
-            if (GemTechState.IsYellowGemActive)
+            if (GemTechSet && GemTechState.IsYellowGemActive)
                 meleeSpeedMult += GemTechHeadgear.MeleeSpeedBoost;
 
             Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
 
+            // TODO -- Attack speed multipliers should be done the vanilla way.
             // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade and Blade of Enmity.
             if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
                 Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
