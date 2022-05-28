@@ -2,6 +2,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -55,10 +57,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.BladeofGrass).
+                AddIngredient<Acidwood>(10).
+                AddRecipeGroup("Boss2Material", 8).
+                AddIngredient(ItemID.Deathweed, 2).
                 AddIngredient(ItemID.LavaBucket).
-                AddRecipeGroup("Boss2Material", 3).
-                AddIngredient(ItemID.Deathweed, 5).
                 AddTile(TileID.DemonAltar).
                 Register();
         }
