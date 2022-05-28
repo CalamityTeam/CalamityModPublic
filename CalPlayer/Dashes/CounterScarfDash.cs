@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Enums;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 
@@ -7,6 +8,8 @@ namespace CalamityMod.CalPlayer.Dashes
     public class CounterScarfDash : PlayerDashEffect
     {
         public static new string ID => "Counter Scarf";
+
+        public override DashCollisionType CollisionType => DashCollisionType.NoCollision;
 
         public override bool IsOmnidirectional => false;
 

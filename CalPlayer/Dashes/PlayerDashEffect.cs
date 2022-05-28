@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Enums;
+using Terraria;
 using Terraria.DataStructures;
 
 namespace CalamityMod.CalPlayer.Dashes
@@ -8,6 +9,8 @@ namespace CalamityMod.CalPlayer.Dashes
         // For the sake of easy access without the need for stored instances, this property is defined as static instead of abstract.
         // Derived classes should use the new keyword on this member to define their own version of it.
         public static string ID { get; }
+
+        public abstract DashCollisionType CollisionType { get; }
 
         public abstract bool IsOmnidirectional { get; }
 

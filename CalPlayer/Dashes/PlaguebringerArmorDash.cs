@@ -1,17 +1,18 @@
 ﻿using System;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.Dashes
 {
     public class PlaguebringerArmorDash : PlayerDashEffect
     {
         public static new string ID => "Plaguebringer Armor";
+
+        public override DashCollisionType CollisionType => DashCollisionType.NoCollision;
 
         public override bool IsOmnidirectional => false;
 

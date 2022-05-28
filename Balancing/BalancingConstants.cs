@@ -12,6 +12,12 @@
         // Sharpening Station grants this much armor penetration to melee weapons.
         internal const float SharpeningStationArmorPenetration = 5f;
 
+        // Dash cooldowns (in frames)
+        internal const int UniversalDashCooldown = 30;
+        internal const int UniversalShieldSlamCooldown = 30;
+        internal const int UniversalShieldBonkCooldown = 30;
+        internal const int OnShieldBonkCooldown = 30;
+
         // Vanilla shield slam stats
         // These are consts because they replace hardcoded values in vanilla
         internal const int ShieldOfCthulhuBonkNoCollideFrames = 6;

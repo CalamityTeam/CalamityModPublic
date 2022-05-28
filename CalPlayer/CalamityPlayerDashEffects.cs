@@ -1,7 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Balancing;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Mounts;
@@ -88,7 +90,6 @@ namespace CalamityMod.CalPlayer
 
             if (Player.dashDelay < 0)
             {
-                int delay = 30;
                 float dashSpeed = 12f;
                 float dashSpeedDecelerationFactor = 0.985f;
                 float runSpeed = Math.Max(Player.accRunSpeed, Player.maxRunSpeed);
@@ -133,7 +134,13 @@ namespace CalamityMod.CalPlayer
                         }
                     }
 
-                    Player.dashDelay = delay;
+                    // Dash delay depends on the type of dash used.
+                    int dashDelayToApply = BalancingConstants.UniversalDashCooldown;
+                    if (UsedDash.CollisionType == DashCollisionType.ShieldSlam)
+                        dashDelayToApply = BalancingConstants.UniversalShieldSlamCooldown;
+                    else if (UsedDash.CollisionType == DashCollisionType.ShieldBonk)
+                        dashDelayToApply = BalancingConstants.UniversalShieldBonkCooldown;
+                    Player.dashDelay = dashDelayToApply;
 
                     if (UsedDash.IsOmnidirectional)
                     {

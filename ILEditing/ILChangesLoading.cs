@@ -35,8 +35,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
-            IL.Terraria.Player.DashMovement += BuffSolarFlareShieldSlam;
-            IL.Terraria.Player.DashMovement += FixModdedDashesResettingDashCountdown;
+            IL.Terraria.Player.DashMovement += FixAllDashMechanics;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
@@ -127,8 +126,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;
-            IL.Terraria.Player.DashMovement -= BuffSolarFlareShieldSlam;
-            IL.Terraria.Player.DashMovement -= FixModdedDashesResettingDashCountdown;
+            IL.Terraria.Player.DashMovement -= FixAllDashMechanics;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack -= MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;

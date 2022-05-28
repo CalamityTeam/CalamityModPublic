@@ -1,4 +1,5 @@
-﻿using CalamityMod.Projectiles.Rogue;
+﻿using CalamityMod.Enums;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -9,6 +10,8 @@ namespace CalamityMod.CalPlayer.Dashes
     public class StatisBeltOfCursesDash : PlayerDashEffect
     {
         public static new string ID => "Statis' Belt of Curses";
+
+        public override DashCollisionType CollisionType => DashCollisionType.NoCollision;
 
         public override bool IsOmnidirectional => false;
 
