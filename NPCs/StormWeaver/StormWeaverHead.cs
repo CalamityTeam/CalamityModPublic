@@ -148,10 +148,10 @@ namespace CalamityMod.NPCs.StormWeaver
             bool phase2 = lifeRatio < 0.8f;
 
             // Start calling down frost waves from the sky in sheets
-            bool phase3 = lifeRatio < 0.6f;
+            bool phase3 = lifeRatio < 0.65f;
 
             // Lightning strike flash phase and start summoning tornadoes
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Update armored settings to naked settings
             if (phase2)
@@ -394,35 +394,34 @@ namespace CalamityMod.NPCs.StormWeaver
 
                             // Start fast at index 0, become slower as each projectile spawns and then become faster past the central wave
                             int centralWave = totalWaves / 2;
-                            float oneSixth = 1f / 6f;
-                            float velocityY = 8f;
+                            float velocityY = 6f;
                             int wavePatternType = revenge ? Main.rand.Next(3) : expertMode ? Main.rand.Next(2) + 1 : 2;
                             for (int x = 0; x < totalWaves; x++)
                             {
                                 switch (wavePatternType)
                                 {
-                                    // Starts at 8, central point is 6 and the end is 8
+                                    // Starts at 6, central point is 4.5 and the end is 6
                                     case 0:
 
                                         if (x != 0)
                                         {
                                             if (x <= centralWave)
-                                                velocityY -= oneSixth;
+                                                velocityY -= 0.125f;
                                             else
-                                                velocityY += oneSixth;
+                                                velocityY += 0.125f;
                                         }
 
                                         break;
 
-                                    // Starts at 8 and alternates between 6 and 8
+                                    // Starts at 6 and alternates between 4.5 and 6
                                     case 1:
 
                                         if (x != 0)
                                         {
                                             if (x % 2 == 0)
-                                                velocityY += 2f;
+                                                velocityY += 1.5f;
                                             else
-                                                velocityY -= 2f;
+                                                velocityY -= 1.5f;
                                         }
 
                                         break;
@@ -430,7 +429,7 @@ namespace CalamityMod.NPCs.StormWeaver
                                     // Flat line of slower waves
                                     case 2:
 
-                                        velocityY = 7f;
+                                        velocityY = 5.25f;
 
                                         break;
                                 }
@@ -455,7 +454,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             int projectileType = ModContent.ProjectileType<StormMarkHostile>();
                             int tornadoDamage = NPC.GetProjectileDamage(projectileType);
                             int totalTornadoes = revenge ? 5 : 3;
-                            float spawnDistance = revenge ? 640f : 960f;
+                            float spawnDistance = revenge ? 720f : 960f;
                             for (int i = 0; i < totalTornadoes; i++)
                             {
                                 Vector2 spawnPosition = Main.player[NPC.target].Center + Vector2.UnitX * spawnDistance * (i - totalTornadoes / 2);
@@ -748,8 +747,8 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase2 = lifeRatio < 0.8f;
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
@@ -817,8 +816,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;

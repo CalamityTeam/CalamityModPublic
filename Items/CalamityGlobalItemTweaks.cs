@@ -402,6 +402,7 @@ namespace CalamityMod.Items
                 { ItemID.SapphireStaff, Do(AutoReuse, DamageExact(25)) },
                 { ItemID.SanguineStaff, Do(AutoReuse, UseExact(25)) },
                 { ItemID.SawtoothShark, Do(TrueMelee, AxePower(45), UseTimeExact(4), TileBoostExact(-1)) },
+                { ItemID.ScytheWhip, autoReuse },
                 { ItemID.SDMG, pointBlank },
                 { ItemID.Seedler, Do(DamageRatio(1.5f)) },
                 { ItemID.Shackle, Do(DefenseDelta(+2)) },

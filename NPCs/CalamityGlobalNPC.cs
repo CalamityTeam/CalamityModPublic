@@ -4259,7 +4259,7 @@ namespace CalamityMod.NPCs
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
-                    double pointBlankShotDamageMultiplier = 1D + (projectile.Calamity().pointBlankShotDuration / CalamityGlobalProjectile.basePointBlankShotDuration * 0.5);
+                    double pointBlankShotDamageMultiplier = 1D + (projectile.Calamity().pointBlankShotDuration / (CalamityGlobalProjectile.basePointBlankShotDuration * 0.5));
                     damage = (int)(damage * pointBlankShotDamageMultiplier);
                     projectile.Calamity().pointBlankShotDuration = 0;
                 }

@@ -242,8 +242,8 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase2 = lifeRatio < 0.8f;
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
@@ -319,8 +319,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
