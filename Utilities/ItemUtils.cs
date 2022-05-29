@@ -16,6 +16,9 @@ namespace CalamityMod
     {
         public static bool IsTrueMelee(this Item item)
         {
+            if (item.IsAir)
+                return false;
+
             CalamityGlobalItem modItem = item.Calamity();
             return item.CountsAsClass<MeleeDamageClass>() && (item.shoot == ProjectileID.None || modItem.trueMelee);
         }
