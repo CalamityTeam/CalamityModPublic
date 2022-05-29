@@ -500,6 +500,10 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Frozen Turtle Shell rebalance.
+            if (item.type == ItemID.FrozenTurtleShell)
+                EditTooltipByNum(0, (line) => line.Text = "Puts a shell around the owner when below 50% life that reduces damage by 15%");
+
             // Ale and Sake rebalance.
             if (item.type == ItemID.Ale || item.type == ItemID.Sake)
                 EditTooltipByNum(0, (line) => line.Text = "Increases melee damage and speed by 10% and reduces defense by 10%");
@@ -726,11 +730,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
                 && !Main.LocalPlayer.Calamity().forbiddenCirclet)
                 EditTooltipByName("SetBonus", (line) => line.Text += "\nThe minion damage nerf is reduced while wielding magic weapons");
-
-            // Stardust
-            // 1) Chest and Legs only give 1 minion slot each instead of 2 each.
-            if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace('2', '1'));
             #endregion
 
             // Provide the full stats of every vanilla set of wings
@@ -855,7 +854,7 @@ namespace CalamityMod.Items
                     "while wearing the Solar Flare Armor");
 
             if (item.type == ItemID.WingsStardust)
-                AddWingStats(9f, 2.5f, 3, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
+                AddWingStats(9f, 2.5f, 3, 180, "10% increased minion damage while wearing the Stardust Armor");
 
             if (item.type == ItemID.WingsVortex)
                 AddWingStats(6.5f, 1.5f, 2, 180, "3% increased ranged damage and 7% increased ranged critical strike chance\n" +

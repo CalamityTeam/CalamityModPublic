@@ -543,7 +543,7 @@ namespace CalamityMod
             {
                 { new Tuple<int, int>(ModContent.NPCType<KingSlimeJewel>(), ModContent.ProjectileType<JewelProjectile>()), new int[] { 22, 36, 44, 48, 66 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<DesertScourgeBody>(), ModContent.ProjectileType<SandBlast>()), new int[] { 26, 44, 60, 68, 90 } },
+                { new Tuple<int, int>(ModContent.NPCType<DesertScourgeHead>(), ModContent.ProjectileType<SandBlast>()), new int[] { 26, 44, 60, 68, 90 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<MushBomb>()), new int[] { 32, 48, 60, 68, 90 } },
                 { new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<MushBombFall>()), new int[] { 32, 48, 60, 68, 90 } },

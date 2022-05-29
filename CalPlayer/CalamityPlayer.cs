@@ -4724,7 +4724,7 @@ namespace CalamityMod.CalPlayer
                         damage = (int)(damage * 0.6);
                         break;
                     case ProjectileID.HallowStar:
-                        damage = (int)(damage * 0.5);
+                        damage = (int)(damage * 0.7);
                         break;
                 }
 

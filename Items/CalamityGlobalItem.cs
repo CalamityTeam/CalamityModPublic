@@ -1424,10 +1424,7 @@ namespace CalamityMod.Items
             {
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.StardustHelmet && player.body == ArmorIDs.Body.StardustPlate && player.legs == ArmorIDs.Legs.StardustLeggings)
-                {
-                    player.maxMinions++;
-                    player.GetDamage<SummonDamageClass>() += 0.05f;
-                }
+                    player.GetDamage<SummonDamageClass>() += 0.1f;
             }
             else if (item.type == ItemID.FishronWings || item.type == ItemID.BetsyWings || item.type == ItemID.Yoraiz0rWings ||
                 item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings || item.type == ItemID.LokisWings ||
