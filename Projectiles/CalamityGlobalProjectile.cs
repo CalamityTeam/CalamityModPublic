@@ -244,6 +244,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.EnchantedBoomerang:
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.FruitcakeChakram:
+                case ProjectileID.BlueMoon:
                     projectile.extraUpdates = 1;
                     break;
 
@@ -273,7 +274,6 @@ namespace CalamityMod.Projectiles
                     projectile.localNPCHitCooldown = 20;
                     break;
 
-                case ProjectileID.BlueMoon:
                 case ProjectileID.Flamarang:
                     projectile.extraUpdates = 2;
                     break;
