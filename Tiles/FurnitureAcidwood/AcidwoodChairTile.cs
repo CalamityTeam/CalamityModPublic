@@ -63,6 +63,9 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info)
         {
+            info.DirectionOffset = 0;
+            info.VisualOffset = new Vector2(-8f, 0f);
+
             Tile tile = Framing.GetTileSafely(i, j);
 
             info.TargetDirection = + 1;

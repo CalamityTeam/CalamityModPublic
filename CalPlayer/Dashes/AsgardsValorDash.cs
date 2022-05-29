@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,8 @@ namespace CalamityMod.CalPlayer.Dashes
     public class AsgardsValorDash : PlayerDashEffect
     {
         public static new string ID => "Asgard's Valor";
+
+        public override DashCollisionType CollisionType => DashCollisionType.ShieldSlam;
 
         public override bool IsOmnidirectional => false;
 

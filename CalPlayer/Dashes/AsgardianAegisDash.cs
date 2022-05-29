@@ -1,6 +1,7 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -15,6 +16,7 @@ namespace CalamityMod.CalPlayer.Dashes
     {
         public static new string ID => "Asgardian Aegis";
 
+        public override DashCollisionType CollisionType => DashCollisionType.ShieldSlam;
         public override bool IsOmnidirectional => false;
 
         public override float CalculateDashSpeed(Player player) => 23.3f;

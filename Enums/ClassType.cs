@@ -1,5 +1,6 @@
 ﻿namespace CalamityMod
 {
+    // TODO -- Replace all instances with references to Damage Classes, now that TML 1.4 contains those
     public enum ClassType
     {
         Melee = 0,

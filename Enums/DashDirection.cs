@@ -1,4 +1,4 @@
-﻿namespace CalamityMod
+﻿namespace CalamityMod.Enums
 {
     public enum DashDirection
     {
