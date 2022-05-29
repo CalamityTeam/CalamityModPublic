@@ -156,14 +156,14 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Indignant",
                     null,
                     player => player.Calamity().cursedSummonsEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>()),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>() && !item.IsWhip()),
 
                 new Enchantment("Aflame", "Lights enemies ablaze on hit but also causes the user to take damage over time when holding this item.",
                     200,
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Aflame",
                     null,
                     player => player.Calamity().flamingItemEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>()),
+                    item => item.IsEnchantable() && item.damage > 0 && !item.CountsAsClass<SummonDamageClass>() && !item.IsWhip()),
 
                 new Enchantment("Oblatory", "Reduces mana cost and greatly increases damage but sometimes causes this item to use your life.",
                     300,
@@ -202,7 +202,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                     "CalamityMod/ExtraTextures/UI/EnchantmentSymbols/CurseIcon_Hellbound",
                     null,
                     player => player.Calamity().explosiveMinionsEnchant = true,
-                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>()),
+                    item => item.IsEnchantable() && item.damage > 0 && item.CountsAsClass<SummonDamageClass>() && !item.IsWhip()),
 
                 new Enchantment("Tainted", "Removes projectile shooting capabilities of this item. In exchange, two skeletal arms are released on use that slice at the mouse position.",
                     800,

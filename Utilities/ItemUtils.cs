@@ -256,6 +256,15 @@ namespace CalamityMod
             return item.Calamity().AppliedEnchantment.HasValue;
         }
 
+        /// <summary>
+        /// Determines if a given item is a whip based on what it shoots.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        public static bool IsWhip(this Item item)
+        {
+            return item.shoot > ProjectileID.None && ProjectileID.Sets.IsAWhip[item.shoot];
+        }
+
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];
