@@ -5382,6 +5382,10 @@ namespace CalamityMod.CalPlayer
             {
                 Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
             }
+            else if (npc.type == NPCID.HallowBoss)
+            {
+                Player.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+            }
             else if (npc.type == NPCID.BloodNautilus)
             {
                 Player.AddBuff(ModContent.BuffType<BurningBlood>(), 480);
@@ -5473,6 +5477,18 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.PhantasmalDeathray)
                 {
                     Player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
+                }
+                else if (proj.type == ProjectileID.FairyQueenLance || proj.type == ProjectileID.FairyQueenHymn || proj.type == ProjectileID.HallowBossRainbowStreak || proj.type == ProjectileID.HallowBossSplitShotCore)
+                {
+                    Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+                }
+                else if (proj.type == ProjectileID.HallowBossLastingRainbow)
+                {
+                    Player.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+                }
+                else if (proj.type == ProjectileID.FairyQueenSunDance)
+                {
+                    Player.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
                 }
                 else if (proj.type == ProjectileID.BloodNautilusShot)
                 {
