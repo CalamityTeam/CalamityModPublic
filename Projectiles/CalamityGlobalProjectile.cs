@@ -659,35 +659,42 @@ namespace CalamityMod.Projectiles
 
             else if (projectile.type == ProjectileID.FrostWave && projectile.ai[1] > 0f)
             {
-                if (projectile.velocity.Length() < projectile.ai[1])
+                if (projectile.ai[0] < 0f)
                 {
-                    projectile.velocity *= 1.01f;
-                    if (projectile.velocity.Length() > projectile.ai[1])
-                    {
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= projectile.ai[1];
-                    }
+                    projectile.ai[0] += 1f;
                 }
                 else
                 {
-                    if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
+                    if (projectile.velocity.Length() < projectile.ai[1])
                     {
-                        projectile.scale += 0.005f;
-                        projectile.alpha -= 25;
-                        if (projectile.alpha <= 0)
+                        projectile.velocity *= 1.04f;
+                        if (projectile.velocity.Length() > projectile.ai[1])
                         {
-                            projectile.ai[0] = 1f;
-                            projectile.alpha = 0;
+                            projectile.velocity.Normalize();
+                            projectile.velocity *= projectile.ai[1];
                         }
                     }
-                    else if (projectile.ai[0] == 1f)
+                    else
                     {
-                        projectile.scale -= 0.005f;
-                        projectile.alpha += 25;
-                        if (projectile.alpha >= 255)
+                        if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
                         {
-                            projectile.ai[0] = 2f;
-                            projectile.alpha = 255;
+                            projectile.scale += 0.005f;
+                            projectile.alpha -= 25;
+                            if (projectile.alpha <= 0)
+                            {
+                                projectile.ai[0] = 1f;
+                                projectile.alpha = 0;
+                            }
+                        }
+                        else if (projectile.ai[0] == 1f)
+                        {
+                            projectile.scale -= 0.005f;
+                            projectile.alpha += 25;
+                            if (projectile.alpha >= 255)
+                            {
+                                projectile.ai[0] = 2f;
+                                projectile.alpha = 255;
+                            }
                         }
                     }
                 }

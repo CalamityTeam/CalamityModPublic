@@ -9,6 +9,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -303,6 +304,9 @@ namespace CalamityMod.NPCs.StormWeaver
                 if (phase4 && expertMode)
                     chargePhaseGateValue *= 0.9f;
 
+                // Gate value for when Storm Weaver fires projectiles
+                float projectileGateValue = (int)(chargePhaseGateValue * 0.25f);
+
                 // Call down frost waves from the sky
                 if (phase3 && !useTornadoes)
                 {
@@ -375,7 +379,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         }
                     }
 
-                    if (calamityGlobalNPC.newAI[2] % (chargePhaseGateValue - 100f) == 0f)
+                    if (calamityGlobalNPC.newAI[2] == projectileGateValue)
                     {
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
@@ -394,34 +398,35 @@ namespace CalamityMod.NPCs.StormWeaver
 
                             // Start fast at index 0, become slower as each projectile spawns and then become faster past the central wave
                             int centralWave = totalWaves / 2;
-                            float velocityY = 6f;
+                            float velocityY = 8f;
                             int wavePatternType = revenge ? Main.rand.Next(3) : expertMode ? Main.rand.Next(2) + 1 : 2;
+                            float delayBeforeFiring = -60f;
                             for (int x = 0; x < totalWaves; x++)
                             {
                                 switch (wavePatternType)
                                 {
-                                    // Starts at 6, central point is 4.5 and the end is 6
+                                    // Starts at 8, central point is 6 and the end is 8
                                     case 0:
 
                                         if (x != 0)
                                         {
                                             if (x <= centralWave)
-                                                velocityY -= 0.125f;
+                                                velocityY -= 1f / 6f;
                                             else
-                                                velocityY += 0.125f;
+                                                velocityY += 1f / 6f;
                                         }
 
                                         break;
 
-                                    // Starts at 6 and alternates between 4.5 and 6
+                                    // Starts at 8 and alternates between 6 and 8
                                     case 1:
 
                                         if (x != 0)
                                         {
                                             if (x % 2 == 0)
-                                                velocityY += 1.5f;
+                                                velocityY += 2f;
                                             else
-                                                velocityY -= 1.5f;
+                                                velocityY -= 2f;
                                         }
 
                                         break;
@@ -429,12 +434,16 @@ namespace CalamityMod.NPCs.StormWeaver
                                     // Flat line of slower waves
                                     case 2:
 
-                                        velocityY = 5.25f;
+                                        velocityY = 7f;
 
                                         break;
                                 }
 
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.5f, type, waveDamage, 0f, Main.myPlayer, 0f, velocityY);
+                                // Telegraph is active for 60 frames
+                                // Frost Waves start moving after 30 frames
+                                // Frost Waves take 30 frames to reach full velocity
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.5f, ModContent.ProjectileType<StormWeaverFrostWaveTelegraph>(), 0, 0f, Main.myPlayer, 0f, velocityY);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.1f, type, waveDamage, 0f, Main.myPlayer, delayBeforeFiring, velocityY);
                                 projectileSpawnX += shotSpacing;
                             }
                         }
@@ -444,7 +453,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Summon tornadoes
                 if (useTornadoes)
                 {
-                    if (calamityGlobalNPC.newAI[2] % (chargePhaseGateValue - 100f) == 0f)
+                    if (calamityGlobalNPC.newAI[2] == projectileGateValue)
                     {
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         calamityGlobalNPC.newAI[3] += 1f;
@@ -467,9 +476,6 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Charge
                 if (calamityGlobalNPC.newAI[0] >= chargePhaseGateValue)
                 {
-                    // Disable frost waves during charge attack
-                    calamityGlobalNPC.newAI[2] = 1f;
-
                     NPC.localAI[3] = 60f;
 
                     if (NPC.localAI[1] == 0f)
@@ -480,6 +486,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         NPC.TargetClosest();
                         NPC.localAI[1] = 0f;
                         calamityGlobalNPC.newAI[0] = 0f;
+                        calamityGlobalNPC.newAI[2] = 0f;
                     }
 
                     if (NPC.localAI[1] == 2f)
