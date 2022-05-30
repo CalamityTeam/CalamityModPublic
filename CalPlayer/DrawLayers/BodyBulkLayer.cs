@@ -28,7 +28,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
             if (ModContent.GetModItem(bodyItem) is IBulkyArmor chestplateBulkDrawer)
             {
-                int dyeShader = drawPlayer.dye?[0].dye ?? 0;
+                int dyeShader = drawPlayer.dye?[1].dye ?? 0;
                 Vector2 drawPosition = drawInfo.Position - Main.screenPosition;
 
                 // Using drawPlayer to get width & height and such is perfectly fine, on the other hand. Just center everything
