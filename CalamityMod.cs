@@ -379,9 +379,7 @@ namespace CalamityMod
         {
             FusableParticleManager.PrepareFusableParticleTargets();
             DeathAshParticle.PrepareRenderTargets();
-
-            if (!Main.gameMenu)
-                FluidFieldManager.Update();
+            FluidFieldManager.Update();
         }
         #endregion Render Target Management
 

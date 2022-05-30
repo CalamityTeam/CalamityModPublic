@@ -16,6 +16,9 @@ namespace CalamityMod
     {
         public static bool IsTrueMelee(this Item item)
         {
+            if (item.IsAir)
+                return false;
+
             CalamityGlobalItem modItem = item.Calamity();
             return item.CountsAsClass<MeleeDamageClass>() && (item.shoot == ProjectileID.None || modItem.trueMelee);
         }
@@ -254,6 +257,15 @@ namespace CalamityMod
                 return true;
 
             return item.Calamity().AppliedEnchantment.HasValue;
+        }
+
+        /// <summary>
+        /// Determines if a given item is a whip based on what it shoots.
+        /// </summary>
+        /// <param name="item">The item to check.</param>
+        public static bool IsWhip(this Item item)
+        {
+            return item.shoot > ProjectileID.None && ProjectileID.Sets.IsAWhip[item.shoot];
         }
 
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
