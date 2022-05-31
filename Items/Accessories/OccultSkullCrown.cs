@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Otherworldly Skull Crown");
+            DisplayName.SetDefault("Occult Skull Crown");
             Tooltip.SetDefault("Only a fool would ever wear this...\n" +
                                "You constantly gain rage over time and rage does not fade away when out of combat\n" +
                                "Converts certain debuffs into buffs and extends their durations\n" +
