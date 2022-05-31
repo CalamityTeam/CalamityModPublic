@@ -1,10 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-    public class AshenBath : ModItem
+    public class AshenBathtub : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             Item.rare = ItemRarityID.Orange;
             Item.value = 0;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenBath>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenBathtub>();
         }
 
         public override void AddRecipes()

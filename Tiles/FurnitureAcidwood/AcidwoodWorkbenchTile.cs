@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
-    public class AcidwoodWorkbenchTile : ModTile
+    public class AcidwoodWorkBenchTile : ModTile
     {
         public override void SetStaticDefaults()
         {

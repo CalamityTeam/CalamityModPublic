@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<AcidwoodWorkbenchTile>();
+            Item.createTile = ModContent.TileType<AcidwoodWorkBenchTile>();
         }
 
         public override void AddRecipes()

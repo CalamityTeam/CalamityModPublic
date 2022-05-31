@@ -1,9 +1,9 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-    public class AshenPiano : ModItem
+    public class AshenPipeOrgan : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
             Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenPiano>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenPipeOrgan>();
         }
 
         public override void AddRecipes()

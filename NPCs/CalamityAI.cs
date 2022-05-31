@@ -25,7 +25,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs
 {
@@ -2574,7 +2573,7 @@ namespace CalamityMod.NPCs
 
                                 if (phase3)
                                 {
-                                    float flameVelocity = death ? 14f : 12f;
+                                    float flameVelocity = laserVelocity * 2f;
                                     maxProjectiles = 2;
                                     spread = 45;
 
@@ -2872,7 +2871,7 @@ namespace CalamityMod.NPCs
                         {
                             calamityGlobalNPC.newAI[3] = 1f;
 
-                            float flameVelocity = 6f;
+                            float flameVelocity = 9f;
                             int maxProjectiles = !phase2 ? (malice ? 7 : death ? 5 : 3) : (malice ? 9 : death ? 7 : 5);
                             int spread = !phase2 ? (malice ? 56 : death ? 44 : 32) : (malice ? 72 : death ? 56 : 40);
 

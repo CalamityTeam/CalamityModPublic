@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.alpha = 100;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 485;
+            Projectile.timeLeft = 600;
         }
 
         public override void AI()
@@ -76,15 +76,12 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.ai[0] >= 120f)
             {
-                if (Projectile.ai[1] < 120f)
+                if (Projectile.ai[1] < 180f)
                 {
-                    if (Projectile.ai[1] < 15f)
-                        Projectile.velocity *= 1.02f;
-
                     float scaleFactor2 = Projectile.velocity.Length();
                     vector11.Normalize();
                     vector11 *= scaleFactor2;
-                    Projectile.velocity = (Projectile.velocity * 15f + vector11) / 16f;
+                    Projectile.velocity = (Projectile.velocity * 30f + vector11) / 31f;
                     Projectile.velocity.Normalize();
                     Projectile.velocity *= scaleFactor2;
                 }

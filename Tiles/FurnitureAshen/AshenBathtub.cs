@@ -4,7 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    public class AshenBath : ModTile
+    public class AshenBathtub : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenBath>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenBathtub>());
         }
     }
 }

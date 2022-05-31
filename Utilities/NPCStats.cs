@@ -652,6 +652,7 @@ namespace CalamityMod
 
                 { new Tuple<int, int>(ModContent.NPCType<AstrumAureus>(), ModContent.ProjectileType<AstralLaser>()), new int[] { 88, 156, 184, 200, 270 } },
                 { new Tuple<int, int>(ModContent.NPCType<AstrumAureus>(), ModContent.ProjectileType<AstralFlame>()), new int[] { 100, 172, 208, 228, 300 } },
+                { new Tuple<int, int>(ModContent.NPCType<AureusSpawn>(), ModContent.ProjectileType<AstralLaser>()), new int[] { 88, 156, 184, 200, 270 } },
                 { new Tuple<int, int>(ModContent.NPCType<AureusSpawn>(), ModContent.ProjectileType<AstralFlame>()), new int[] { 100, 172, 208, 228, 300 } },
 
                 { new Tuple<int, int>(NPCID.Golem, ProjectileID.Fireball), new int[] { 58, 116, 160, 176, 234 } },
