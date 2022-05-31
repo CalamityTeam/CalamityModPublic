@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Placeables
 
             CreateRecipe().
                 AddIngredient<EutrophicPlatform>(2).
-                AddTile<EutrophicCrafting>().
+                AddTile<EutrophicShelf>().
                 Register();
         }
     }

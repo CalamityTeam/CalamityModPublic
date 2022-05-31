@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 15).AddIngredient(ItemID.Silk, 5).AddTile(ModContent.TileType<EutrophicCrafting>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 15).AddIngredient(ItemID.Silk, 5).AddTile(ModContent.TileType<EutrophicShelf>()).Register();
         }
     }
 }
