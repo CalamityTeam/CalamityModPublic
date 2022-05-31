@@ -1,10 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-    public class CosmiliteWorkbench : ModItem
+    public class CosmiliteWorkBench : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureCosmilite.CosmiliteWorkbench>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureCosmilite.CosmiliteWorkBench>();
         }
 
         public override void AddRecipes()

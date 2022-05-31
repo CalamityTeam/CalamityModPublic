@@ -1,19 +1,18 @@
-﻿using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria.ModLoader;
 using Terraria.ID;
-
-namespace CalamityMod.Items.Placeables.FurnitureAncient
+using Terraria.ModLoader;
+namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
-    public class AncientBathtub : ModItem
+    public class OtherworldlySink : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
+            Tooltip.SetDefault("Counts as a water source");
         }
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Ancient Bathtub");
+            Item.SetNameOverride("Otherworldly Sink");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 999;
@@ -22,15 +21,13 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
-            Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientBathtub>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureOtherworldly.OtherworldlySink>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<BrimstoneSlag>(), 14).AddTile(ModContent.TileType<AncientAltar>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<OtherworldlyStone>(), 6).AddIngredient(ItemID.WaterBucket).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

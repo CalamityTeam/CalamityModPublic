@@ -1,17 +1,17 @@
-﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
+﻿using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Tiles.FurnitureAcidwood
+namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
-    public class AcidwoodWorkBenchTile : ModTile
+    public class OtherworldlyWorkBench : ModTile
     {
         public override void SetStaticDefaults()
         {
-            this.SetUpWorkBench();
+            this.SetUpWorkBench(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
@@ -21,7 +21,8 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 7, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(125, 94, 128), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<OtherworldlyTileCloth>(), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
         }
 
@@ -32,7 +33,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<AcidwoodWorkBench>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeables.FurnitureOtherworldly.OtherworldlyWorkBench>());
         }
     }
 }

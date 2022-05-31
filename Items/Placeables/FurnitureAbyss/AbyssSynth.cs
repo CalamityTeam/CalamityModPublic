@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
-    public class AbyssPiano : ModItem
+    public class AbyssSynth : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssPiano>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssSynth>();
         }
 
         public override void AddRecipes()

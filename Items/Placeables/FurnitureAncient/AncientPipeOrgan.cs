@@ -1,9 +1,9 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
-    public class AncientPiano : ModItem
+    public class AncientPipeOrgan : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
             Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientPiano>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientPipeOrgan>();
         }
 
         public override void AddRecipes()
