@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -48,6 +50,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = Item.buyPrice(gold: 2);
         }
 
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<CnidarianYoyo>());
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().
@@ -56,8 +63,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 Register();
         }
 
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().mouseWorldListener = true;
+        }
+
+
         #region drawing stuff
-        public override void HoldItemFrame(Player player)
+        public void SetItemInHand(Player player, Rectangle heldItemFrame)
         {
             //Make the player face where they're aiming.
             if (Main.MouseWorld.X > player.Center.X)
@@ -69,6 +82,12 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.ChangeDir(-1);
             }
 
+            CalamityUtils.CleanHoldStyle(player, player.compositeFrontArm.rotation + MathHelper.PiOver2, player.GetFrontHandPosition(player.compositeFrontArm.stretch, player.compositeFrontArm.rotation).Floor(), new Vector2(42, 34), new Vector2(-15, 11));
+        }
+
+
+        public void SetPlayerArms(Player player)
+        {
             //Calculate the dirction in which the players arms should be pointing at.
             Vector2 playerToCursor = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
             float armPointingDirection = (playerToCursor.ToRotation());
@@ -93,20 +112,36 @@ namespace CalamityMod.Items.Weapons.Melee
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
         }
 
-
         public override void HoldStyle(Player player, Rectangle heldItemFrame)
         {
+            SetItemInHand(player, heldItemFrame);
+        }
 
-             player.itemLocation = player.MountedCenter + player.compositeFrontArm.rotation.ToRotationVector2() * 10f * player.direction;
-             player.itemRotation = player.compositeFrontArm.rotation + MathHelper.PiOver2 * player.direction;
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
+        {
+            SetItemInHand(player, heldItemFrame);
+        }
 
+        public override void HoldItemFrame(Player player)
+        {
+            SetPlayerArms(player);
+        }
+
+        public override void UseItemFrame(Player player)
+        {
+            SetPlayerArms(player);
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D properSprite = ModContent.Request<Texture2D>("CalamityMod/Items/Weapons/Melee/Cnidarian").Value;
 
-            spriteBatch.Draw(properSprite, position, null, drawColor, 0f, origin, scale, 0, 0);
+            //Scale the jellyfish sprite properly, since its larger than the fishing rod (Largest dimension of the jellyfish sprite : 52. Largest dimension of the fishing rod : 42)
+            float scaleRatio = 42 / 52f;
+            //Offset the jellyfish sprite properly, since the fishing rod is larger than the jellyfish (Jellyfish width : 28px, Fishing rod width : 42)
+            Vector2 positionOffset = new Vector2(21 - 14, 0) * scale;
+
+            spriteBatch.Draw(properSprite, position + positionOffset, null, drawColor, 0f, origin, scale * scaleRatio, 0, 0);
             return false;
         }
 
