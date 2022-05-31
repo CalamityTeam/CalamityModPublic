@@ -2780,9 +2780,6 @@ namespace CalamityMod.CalPlayer
                 Player.lifeMagnet = true;
             }
 
-            if (Player.wellFed)
-                Player.moveSpeed -= 0.1f;
-
             if (Player.poisoned)
                 Player.moveSpeed -= 0.1f;
 

@@ -10,11 +10,11 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
-using System.Reflection;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
@@ -205,6 +205,49 @@ namespace CalamityMod.NPCs.DesertScourge
                     }
                     TailSpawned = true;
                 }
+
+                if (NPC.Calamity().newAI[2] < 600f)
+                    NPC.Calamity().newAI[2] += 1f;
+
+                if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
+                    NPC.Calamity().newAI[2] >= 600f && Vector2.Distance(NPC.Center, player.Center) > 480f &&
+                    Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                {
+                    if (NPC.Calamity().newAI[2] % 30f == 0f)
+                    {
+                        Vector2 vectorCenter = NPC.Center;
+                        float num742 = NPC.velocity.Length() + 3f;
+                        float num743 = player.position.X + player.width * 0.5f - vectorCenter.X;
+                        float num744 = player.position.Y + player.height * 0.5f - vectorCenter.Y;
+                        float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+                        num745 = num742 / num745;
+                        num743 *= num745;
+                        num744 *= num745;
+                        vectorCenter.X += num743 * 5f;
+                        vectorCenter.Y += num744 * 5f;
+
+                        int type = ModContent.ProjectileType<SandBlast>();
+                        int damage = NPC.GetProjectileDamage(type);
+                        int numProj = NPC.Calamity().newAI[2] % 60f == 0f ? 3 : 2;
+                        int spread = 28;
+                        float rotation = MathHelper.ToRadians(spread);
+                        float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+                        double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+                        double deltaAngle = rotation / numProj;
+                        double offsetAngle;
+
+                        for (int i = 0; i < numProj; i++)
+                        {
+                            offsetAngle = startAngle + deltaAngle * i;
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer);
+                        }
+                    }
+
+                    NPC.Calamity().newAI[2] += 1f;
+                    if (NPC.Calamity().newAI[2] > 660f)
+                        NPC.Calamity().newAI[2] = 0f;
+                }
             }
 
             int num12 = (int)(NPC.position.X / 16f) - 1;
@@ -339,6 +382,40 @@ namespace CalamityMod.NPCs.DesertScourge
             // Quickly fall back down once above target
             if (lungeUpward && NPC.Center.Y <= player.Center.Y - 420f)
             {
+                // Spit a huge spread of sand upwards that falls down
+                SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
+                if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
+                {
+                    Vector2 vectorCenter = NPC.Center;
+                    float num742 = 9f;
+                    float num743 = NPC.Center.X + NPC.velocity.X * 10f - vectorCenter.X;
+                    float num744 = NPC.Center.Y + NPC.velocity.Y * 10f - vectorCenter.Y;
+                    float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+                    num745 = num742 / num745;
+                    num743 *= num745;
+                    num744 *= num745;
+                    vectorCenter.X += num743 * 5f;
+                    vectorCenter.Y += num744 * 5f;
+
+                    int type = ModContent.ProjectileType<GreatSandBlast>();
+                    int damage = NPC.GetProjectileDamage(type);
+                    int numProj = 24;
+                    int spread = 60;
+                    float rotation = MathHelper.ToRadians(spread);
+                    float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+                    double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+                    double deltaAngle = rotation / numProj;
+                    double offsetAngle;
+
+                    for (int i = 0; i < numProj; i++)
+                    {
+                        offsetAngle = startAngle + deltaAngle * i;
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer);
+                        Main.projectile[proj].timeLeft = 600;
+                    }
+                }
+
                 NPC.TargetClosest();
                 NPC.Calamity().newAI[1] = 2f;
                 playRoarSound = false;

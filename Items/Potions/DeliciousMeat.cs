@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Delicious Meat");
-            Tooltip.SetDefault("{$CommonItemTooltip.MinorStats}\n'So very delicious'");
+            Tooltip.SetDefault("{$CommonItemTooltip.MediumStats}\n'So very delicious'");
             SacrificeTotal = 5;
         }
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Potions
             Item.UseSound = SoundID.Item2;
             Item.useStyle = ItemUseStyleID.EatFood;
             Item.useTurn = true;
-            Item.buffType = BuffID.WellFed;
+            Item.buffType = BuffID.WellFed2;
             Item.buffTime = CalamityUtils.SecondsToFrames(1800f);
         }
     }
