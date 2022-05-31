@@ -107,7 +107,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             switch (secondaryArgumentCount)
             {
                 case 6:
-                    object sixthElement = parameters.ElementAt(4);
+                    object sixthElement = parameters.ElementAt(5);
                     if (sixthElement is Action<Item> creationElement)
                         creationEffect = creationElement;
                     else if (sixthElement is Action<Player> holdElement)
@@ -116,8 +116,8 @@ namespace CalamityMod.UI.CalamitasEnchants
                         throw new ArgumentException("The sixth argument to this command must be an Item or Player Action.");
                     break;
                 case 7:
-                    sixthElement = parameters.ElementAt(4);
-                    object seventhElement = parameters.ElementAt(5);
+                    sixthElement = parameters.ElementAt(5);
+                    object seventhElement = parameters.ElementAt(6);
                     if (sixthElement is Action<Item> creationElement2)
                     {
                         creationEffect = creationElement2;
