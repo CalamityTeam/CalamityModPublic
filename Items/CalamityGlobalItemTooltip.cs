@@ -247,7 +247,7 @@ namespace CalamityMod.Items
                         defenseIndex = i;
                         break;
                     }
-                tooltips.Insert(defenseIndex, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+                tooltips.Insert(defenseIndex + 1, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
             }
             #endregion
 
@@ -610,7 +610,7 @@ namespace CalamityMod.Items
                 AddTooltip("10% increased movement speed");
 
             // Iron
-            if (item.type == ItemID.IronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
+            if (item.type == ItemID.IronHelmet || item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
                 AddTooltip("Reduces damage taken by 3%");
 
             // Lead
@@ -634,7 +634,7 @@ namespace CalamityMod.Items
                 AddTooltip("10% increased movement speed");
 
             // Gold
-            if (item.type == ItemID.GoldHelmet)
+            if (item.type == ItemID.GoldHelmet || item.type == ItemID.AncientGoldHelmet)
                 AddTooltip("6% increased damage");
             if (item.type == ItemID.GoldChainmail)
                 AddTooltip("Reduces damage taken by 5%");
