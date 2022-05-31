@@ -215,7 +215,7 @@ namespace CalamityMod.Items
         // Turns a number into a string of increased mining speed.
         public static string MiningSpeedString(int percent) => $"\n{percent}% increased mining speed";
 
-        private void ModifyVanillaTooltips(Item item, IList<TooltipLine> tooltips)
+        private static void ModifyVanillaTooltips(Item item, IList<TooltipLine> tooltips)
         {
             #region Modular Tooltip Editing Code
             // This is a modular tooltip editor which loops over all tooltip lines of an item,
@@ -236,6 +236,19 @@ namespace CalamityMod.Items
             // These functions are shorthand to invoke ApplyTooltipEdits using the above predicates.
             void EditTooltipByNum(int lineNum, Action<TooltipLine> action) => ApplyTooltipEdits(tooltips, LineNum(lineNum), action);
             void EditTooltipByName(string lineName, Action<TooltipLine> action) => ApplyTooltipEdits(tooltips, LineName(lineName), action);
+
+            // For items such as a Copper Helmet which literally have no tooltips at all, add a custom "Tooltip0" which mimics the vanilla Tooltip0.
+            void AddTooltip(string text)
+            {
+                int defenseIndex = -1;
+                for (int i = 0; i < tooltips.Count; ++i)
+                    if (tooltips[i].Name == "Defense")
+                    {
+                        defenseIndex = i;
+                        break;
+                    }
+                tooltips.Insert(defenseIndex, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+            }
             #endregion
 
             // Numerous random tooltip edits which don't fit into another category
@@ -582,59 +595,59 @@ namespace CalamityMod.Items
             #region Pre-Hardmode Ore Armor
             // Copper
             if (item.type == ItemID.CopperHelmet)
-                EditTooltipByNum(0, (line) => line.Text = "5% increased damage");
+                AddTooltip("5% increased damage");
             if (item.type == ItemID.CopperChainmail)
-                EditTooltipByNum(0, (line) => line.Text = "3% increased critical strike chance");
+                AddTooltip("3% increased critical strike chance");
             if (item.type == ItemID.CopperGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "5% increased movement speed");
+                AddTooltip("5% increased movement speed");
 
             // Tin
             if (item.type == ItemID.TinHelmet)
-                EditTooltipByNum(0, (line) => line.Text = "4% increased critical strike chance");
+                AddTooltip("4% increased critical strike chance");
             if (item.type == ItemID.TinChainmail)
-                EditTooltipByNum(0, (line) => line.Text = "+1 life regen");
+                AddTooltip("+1 life regen");
             if (item.type == ItemID.TinGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Iron
             if (item.type == ItemID.IronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 3%");
+                AddTooltip("Reduces damage taken by 3%");
 
             // Lead
             if (item.type == ItemID.LeadHelmet || item.type == ItemID.LeadChainmail || item.type == ItemID.LeadGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 3%");
+                AddTooltip("Reduces damage taken by 3%");
 
             // Silver
             if (item.type == ItemID.SilverHelmet)
-                EditTooltipByNum(0, (line) => line.Text = "6% increased critical strike chance");
+                AddTooltip("6% increased critical strike chance");
             if (item.type == ItemID.SilverChainmail)
-                EditTooltipByNum(0, (line) => line.Text = "+2 life regen");
+                AddTooltip("+2 life regen");
             if (item.type == ItemID.SilverGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Tungsten
             if (item.type == ItemID.TungstenHelmet)
-                EditTooltipByNum(0, (line) => line.Text = "7% increased damage");
+                AddTooltip("7% increased damage");
             if (item.type == ItemID.TungstenChainmail)
-                EditTooltipByNum(0, (line) => line.Text = "+1 life regen");
+                AddTooltip("+1 life regen");
             if (item.type == ItemID.TungstenGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "10% increased movement speed");
+                AddTooltip("10% increased movement speed");
 
             // Gold
             if (item.type == ItemID.GoldHelmet)
-                EditTooltipByNum(0, (line) => line.Text = "6% increased damage");
+                AddTooltip("6% increased damage");
             if (item.type == ItemID.GoldChainmail)
-                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
+                AddTooltip("Reduces damage taken by 5%");
             if (item.type == ItemID.GoldGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "12% increased movement speed");
+                AddTooltip("12% increased movement speed");
 
             // Platinum
             if (item.type == ItemID.PlatinumHelmet)
-                EditTooltipByNum(0, (line) => line.Text = "8% increased damage");
+                AddTooltip("8% increased damage");
             if (item.type == ItemID.PlatinumChainmail)
-                EditTooltipByNum(0, (line) => line.Text = "6% increased critical strike chance");
+                AddTooltip("6% increased critical strike chance");
             if (item.type == ItemID.PlatinumGreaves)
-                EditTooltipByNum(0, (line) => line.Text = "12% increased movement speed");
+                AddTooltip("12% increased movement speed");
             #endregion
 
             #region Hardmode Ore Armor
