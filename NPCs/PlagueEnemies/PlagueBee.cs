@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,6 +23,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
             DisplayName.SetDefault("Plague Charger");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
@@ -44,6 +47,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
             BannerItem = ModContent.ItemType<PlagueChargerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("While hornets on their own are known for aggressive defense of their territory, once they have been warped by the plague, their sense of their dominion reaches ever further.")
+            });
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

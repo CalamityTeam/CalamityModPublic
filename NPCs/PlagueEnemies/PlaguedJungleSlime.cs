@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Boss;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -23,6 +24,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             DisplayName.SetDefault("Pestilent Slime");
             Main.npcFrameCount[NPC.type] = 2;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
@@ -45,6 +48,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
             BannerItem = ModContent.ItemType<PestilentSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A slime infested by the nanobots of the plague. With no directive the plague can naturally apply to it, it simply continues its life, corroding anything which approaches.")
+            });
         }
 
         public override void AI()

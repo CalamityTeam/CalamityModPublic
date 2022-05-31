@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -25,6 +26,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             DisplayName.SetDefault("Plaguebringer");
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.7f,
@@ -57,6 +59,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
             BannerItem = ModContent.ItemType<PlaguebringerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Queen Bees are reared upon royal honey, raising them into the matriarchs they are. If during the process, their growth is hijacked by the plague, they are left as only a pathetic reminder of what they could have been.")
+            });
         }
 
         public override void AI()

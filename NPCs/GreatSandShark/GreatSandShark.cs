@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -26,6 +27,14 @@ namespace CalamityMod.NPCs.GreatSandShark
         {
             DisplayName.SetDefault("Great Sand Shark");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.5f,
+                PortraitPositionXOverride = 14f
+            };
+            value.Position.X += 25f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -51,11 +60,23 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.timeLeft = NPC.activeTime * 30;
+            NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<GreatSandSharkBanner>();
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Sandstorm,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("One wonders if there is a limit to the persistence of sharks in their quest to survive. In the very opposite of their usual climate, they have conquered too. It is a miracle that none yet have grown wings.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

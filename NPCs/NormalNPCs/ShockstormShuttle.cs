@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -16,6 +17,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Shockstorm Shuttle");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
@@ -39,6 +42,16 @@ namespace CalamityMod.NPCs.NormalNPCs
             BannerItem = ModContent.ItemType<ShockstormShuttleBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Proof of life in the stars, these were likely once weapons of war, now primitive to their original civilization. They continue to scour the cosmos for hospitable planets, which they attack.")
+            });
         }
 
         public override void AI()

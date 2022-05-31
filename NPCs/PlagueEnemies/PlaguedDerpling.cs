@@ -6,6 +6,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -20,6 +21,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             DisplayName.SetDefault("Viruling");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
@@ -40,6 +43,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Overtaken by the plague, derplings immediately lose their legs, as they are seen as only a hindrance. No longer will they gaily spring about.")
+            });
         }
 
         public override void FindFrame(int frameHeight)

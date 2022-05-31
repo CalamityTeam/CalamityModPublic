@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -17,6 +18,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
         {
             DisplayName.SetDefault("Plagueshell");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
@@ -38,6 +41,17 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle, 
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+                // wow reading these entries remind me of how cool it would be if the plague dynamically infected stuff
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("In truth, once a jungle tortoise has been touched by the plague, its original shell disintegrates, and the thorny shield it now wields is constructed entirely of reinforced nanobots.")
+            });
         }
 
         public override void HitEffect(int hitDirection, double damage)

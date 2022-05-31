@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -46,6 +47,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Cloud Elemental");
             Main.npcFrameCount[NPC.type] = 8;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 
         public override void SetDefaults()
@@ -71,6 +74,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.Calamity().VulnerableToElectricity = false;
             NPC.Calamity().VulnerableToWater = false;
             NPC.Calamity().VulnerableToHeat = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Sky,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Events.Rain,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Once, outposts were created in the sky, for ease of worship towards the forces that occupied the clouds in order to please them. Now they lay abandoned and their deity angered.")
+            });
         }
 
         public override void AI()
