@@ -261,6 +261,7 @@ namespace CalamityMod.Items
                 { ItemID.LifeFruit, autoReuse },
                 { ItemID.LightDisc, Do(DamageExact(128)) },
                 { ItemID.LightsBane, Do(AutoReuse, UseTurn, DamageRatio(2f)) },
+                { ItemID.LucyTheAxe, Do(AxePower(150), UseTimeExact(13), UseAnimationExact(13), TileBoostExact(+1)) },
                 { ItemID.LunarFlareBook, Do(DamageRatio(1.5f)) },
                 { ItemID.LunarHamaxeNebula, Do(HammerPower(100), AxePower(175), UseTimeExact(5), TileBoostExact(+4)) },
                 { ItemID.LunarHamaxeSolar, Do(HammerPower(100), AxePower(175), UseTimeExact(5), TileBoostExact(+4)) },
