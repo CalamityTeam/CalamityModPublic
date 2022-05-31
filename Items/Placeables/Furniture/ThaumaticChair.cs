@@ -1,7 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.FurnitureAbyss;
 using CalamityMod.Items.Placeables.FurnitureAshen;
-using CalamityMod.Items.Placeables.FurnitureAstral;
+using CalamityMod.Items.Placeables.FurnitureMonolith;
 using CalamityMod.Items.Placeables.FurnitureBotanic;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Placeables.FurnitureEutrophic;

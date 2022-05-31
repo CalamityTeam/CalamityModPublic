@@ -1,14 +1,13 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
-    public class AbyssWorkbench : ModItem
+    public class AbyssWorkBench : ModItem
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
             SacrificeTotal = 1;
         }
 
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
             Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssWorkbench>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssWorkBench>();
 
             // This is Ozz's item of choice for placing inactive Power Cell Factories for lab schematics. It should not do this normally.
             // item.createTile = ModContent.TileType<Tiles.DraedonStructures.InactivePowerCellFactory>();

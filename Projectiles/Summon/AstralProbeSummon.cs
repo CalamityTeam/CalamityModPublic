@@ -108,7 +108,10 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = target.Center - Projectile.Center;
                     velocity.Normalize();
                     velocity *= speedMult;
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner, target.whoAmI, 0f);
+                    int round = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, projType, Projectile.damage, 0f, Projectile.owner, target.whoAmI, 0f);
+                    if (Main.projectile.IndexInRange(round))
+                        Main.projectile[round].originalDamage = Projectile.originalDamage;
+
                     Projectile.netUpdate = true;
                 }
             }

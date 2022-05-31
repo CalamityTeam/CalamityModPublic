@@ -276,7 +276,9 @@ namespace CalamityMod.Projectiles.Summon
                 vomitVel.X += Main.rand.NextFloat(-30f, 30f) * 0.05f;
 
                 //Fire the vomit projectile
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vomitVel, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0f);
+                int vomit = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vomitVel, projType, Projectile.damage, Projectile.knockBack, Projectile.owner, Main.rand.Next(3), 0f);
+                if (Main.projectile.IndexInRange(vomit))
+                    Main.projectile[vomit].originalDamage = Projectile.originalDamage;
 
                 //Fire 5 bubbles for every three attacks
                 if (bubbleCounter++ % 3 == 2)
@@ -289,7 +291,9 @@ namespace CalamityMod.Projectiles.Summon
                         bubbleVel.Y += Main.rand.NextFloat(-50f, 50f) * 0.05f;
                         bubbleVel.X += Main.rand.NextFloat(-50f, 50f) * 0.05f;
 
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, bubbleVel, ModContent.ProjectileType<GastricBelcherBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        int bubble = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, bubbleVel, ModContent.ProjectileType<GastricBelcherBubble>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
+                        if (Main.projectile.IndexInRange(bubble))
+                            Main.projectile[bubble].originalDamage = Projectile.originalDamage;
                     }
                 }
 

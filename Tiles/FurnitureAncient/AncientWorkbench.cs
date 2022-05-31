@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    public class AncientWorkbench : ModTile
+    public class AncientWorkBench : ModTile
     {
         public override void SetStaticDefaults()
         {
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientWorkbench>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<Items.Placeables.FurnitureAncient.AncientWorkBench>());
         }
     }
 }

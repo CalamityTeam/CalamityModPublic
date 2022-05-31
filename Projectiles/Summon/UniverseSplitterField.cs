@@ -136,7 +136,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Vector2 offset = new(Main.rand.NextFloat(-800f, 800f), -1460f);
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
+                    int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                              Projectile.Center + offset,
                                              -Vector2.Normalize(offset),
                                              ModContent.ProjectileType<UniverseSplitterSmallBeam>(),
@@ -144,13 +144,14 @@ namespace CalamityMod.Projectiles.Summon
                                              Projectile.knockBack,
                                              Projectile.owner,
                                              (-Vector2.Normalize(offset)).ToRotation());
+                    Main.projectile[beam].originalDamage = Projectile.damage;
                 }
             }
             // Summon a giant beam
             if (Timer == TimeLeft - UniverseSplitterHugeBeam.TimeLeft && Main.myPlayer == Projectile.owner)
             {
                 SoundEngine.PlaySound(SoundID.Zombie104, Projectile.Center);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
+                int beam = Projectile.NewProjectile(Projectile.GetSource_FromThis(), 
                                          Projectile.Center + Vector2.UnitY * -UniverseSplitterHugeBeam.MaximumLength / 2f,
                                          Vector2.UnitY,
                                          ModContent.ProjectileType<UniverseSplitterHugeBeam>(),
@@ -158,6 +159,7 @@ namespace CalamityMod.Projectiles.Summon
                                          Projectile.knockBack,
                                          Projectile.owner,
                                          0f);
+                Main.projectile[beam].originalDamage = Projectile.damage;
             }
         }
 

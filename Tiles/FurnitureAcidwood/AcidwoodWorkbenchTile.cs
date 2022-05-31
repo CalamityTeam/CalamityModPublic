@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurnitureAcidwood;
+﻿using CalamityMod.Items.Placeables.FurnitureAcidwood;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles.FurnitureAcidwood
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<AcidwoodWorkbench>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 16, ModContent.ItemType<AcidwoodWorkBench>());
         }
     }
 }

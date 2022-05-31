@@ -670,7 +670,13 @@ namespace CalamityMod.World
                             chest = MiscWorldgenRoutines.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
                         }
                     }
+
+                    if (attempts >= 5000)
+                        break;
                 }
+
+                if (attempts >= 5000)
+                    continue;
 
                 // If a chest was placed, force its first item to be the unique item.
                 if (chest != null)
@@ -697,7 +703,10 @@ namespace CalamityMod.World
             TileID.MatureHerbs,
             TileID.Pots,
             TileID.Pumpkins, // Happens during Halloween
-            TileID.FallenLog
+            TileID.FallenLog,
+            TileID.LilyPad,
+            TileID.VanityTreeSakura,
+            TileID.VanityTreeYellowWillow
         };
 
         public static List<int> WallsForSulphSeaToDestroy = new()

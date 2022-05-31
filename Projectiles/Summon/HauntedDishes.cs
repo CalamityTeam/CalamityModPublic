@@ -362,6 +362,8 @@ namespace CalamityMod.Projectiles.Summon
                                 Projectile.direction = -1;
                             if (SpeedX > 0f)
                                 Projectile.direction = 1;
+                            if (Main.projectile.IndexInRange(index))
+                                Main.projectile[index].originalDamage = Projectile.originalDamage;
                             Projectile.netUpdate = true;
                         }
                     }

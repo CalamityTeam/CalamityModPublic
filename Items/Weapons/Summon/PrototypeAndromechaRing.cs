@@ -128,8 +128,9 @@ namespace CalamityMod.Items.Weapons.Summon
                 {
                     var source = player.GetSource_ItemUse(item);
                     int damage = player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot ? GiantIbanRobotOfDoom.RegicideBaseDamageSmall : GiantIbanRobotOfDoom.RegicideBaseDamageLarge;
-                    Projectile.NewProjectile(source, robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
+                    int slash = Projectile.NewProjectile(source, robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX,
                                Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));
+                    Main.projectile[slash].originalDamage = damage;
                 }
 
                 if (!robotModProjectile.TopIconActive &&

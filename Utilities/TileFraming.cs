@@ -75,11 +75,11 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSand>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSnow>()] = true;
             tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralClay>()] = true;
-            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<AstralSilt>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralDirt>()][ModContent.TileType<NovaeSlag>()] = true;
             tileMergeTypes[ModContent.TileType<AstralSnow>()][ModContent.TileType<AstralIce>()] = true;
             tileMergeTypes[ModContent.TileType<AstralSand>()][ModContent.TileType<HardenedAstralSand>()] = true;
             tileMergeTypes[ModContent.TileType<HardenedAstralSand>()][ModContent.TileType<AstralSandstone>()] = true;
-            tileMergeTypes[ModContent.TileType<AstralSandstone>()][ModContent.TileType<AstralFossil>()] = true;
+            tileMergeTypes[ModContent.TileType<AstralSandstone>()][ModContent.TileType<CelestialRemains>()] = true;
 
             tileMergeTypes[ModContent.TileType<BrimstoneSlag>()][ModContent.TileType<CharredOre>()] = true;
 
