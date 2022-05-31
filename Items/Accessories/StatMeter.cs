@@ -153,7 +153,7 @@ namespace CalamityMod.Items.Accessories
                 // This also applies to GetTotalCritChance, GetTotalAttackSpeed, and GetTotalArmorPenetration.
                 var currentStats = player.GetTotalDamage(dc);
 
-                float baseFlatDamage = currentStats.Flat;
+                float baseFlatDamage = currentStats.Base; // flat increases to the base damage of the weapon. boosted by % damage and multiplicative damage
                 float normalDamage = currentStats.Additive - 1f; // 1f = +0%, 2f = +100%
                 float multDamage = currentStats.Multiplicative; // direct multiplier. 1f = 1x, 2f = 2x, applies after standard boosts
                 float flatDamage = currentStats.Flat; // direct flat addition, applies after multiplication
