@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 10).AddIngredient(ModContent.ItemType<PrismShard>(), 3).AddIngredient(ModContent.ItemType<SeaPrism>(), 6).AddTile(ModContent.TileType<EutrophicCrafting>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<Navystone>(), 10).AddIngredient(ModContent.ItemType<PrismShard>(), 3).AddIngredient(ModContent.ItemType<SeaPrism>(), 6).AddTile(ModContent.TileType<EutrophicShelf>()).Register();
         }
     }
 }

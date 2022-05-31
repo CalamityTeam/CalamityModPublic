@@ -1,10 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-    public class AshenWorkbench : ModItem
+    public class AshenWorkBench : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
             Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenWorkbench>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenWorkBench>();
         }
 
         public override void AddRecipes()

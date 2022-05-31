@@ -1573,7 +1573,7 @@ namespace CalamityMod
             {
                 ItemID.SiltBlock,
                 ItemID.SlushBlock,
-                ModContent.ItemType<AstralSilt>()
+                ModContent.ItemType<NovaeSlag>()
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 

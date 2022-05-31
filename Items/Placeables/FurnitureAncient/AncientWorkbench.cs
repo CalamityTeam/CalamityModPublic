@@ -1,10 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
-    public class AncientWorkbench : ModItem
+    public class AncientWorkBench : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAncient
             Item.rare = ItemRarityID.Orange;
             Item.consumable = true;
             Item.value = 0;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientWorkbench>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureAncient.AncientWorkBench>();
         }
 
         public override void AddRecipes()

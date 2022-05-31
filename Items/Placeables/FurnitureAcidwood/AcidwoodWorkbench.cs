@@ -1,9 +1,9 @@
-using CalamityMod.Tiles.FurnitureAcidwood;
+﻿using CalamityMod.Tiles.FurnitureAcidwood;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
-    public class AcidwoodWorkbench : ModItem
+    public class AcidwoodWorkBench : ModItem
     {
         public override void SetStaticDefaults()
         {

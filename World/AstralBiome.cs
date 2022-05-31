@@ -55,8 +55,8 @@ namespace CalamityMod.World
                         (Main.tile[x, y].TileType == ModContent.TileType<AstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSandstone>() ||
                         Main.tile[x, y].TileType == ModContent.TileType<HardenedAstralSand>() || Main.tile[x, y].TileType == ModContent.TileType<AstralIce>() ||
                         Main.tile[x, y].TileType == ModContent.TileType<AstralDirt>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralGrass>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSilt>() ||
-                        Main.tile[x, y].TileType == ModContent.TileType<AstralFossil>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSnow>() ||
+                        Main.tile[x, y].TileType == ModContent.TileType<AstralGrass>() || Main.tile[x, y].TileType == ModContent.TileType<NovaeSlag>() ||
+                        Main.tile[x, y].TileType == ModContent.TileType<CelestialRemains>() || Main.tile[x, y].TileType == ModContent.TileType<AstralSnow>() ||
                         Main.tile[x, y].TileType == ModContent.TileType<AstralClay>() || Main.tile[x, y].TileType == ModContent.TileType<AstralStone>()))
                     {
                         astralTileCount++;
@@ -568,7 +568,7 @@ namespace CalamityMod.World
                                 NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case WallID.DesertFossil:
-                                Main.tile[x, y].WallType = (ushort)ModContent.WallType<AstralFossilWall>();
+                                Main.tile[x, y].WallType = (ushort)ModContent.WallType<CelestialRemainsWall>();
                                 WorldGen.SquareWallFrame(x, y, true);
                                 NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
@@ -637,12 +637,12 @@ namespace CalamityMod.World
                                 break;
                             case TileID.Silt:
                             case TileID.Slush:
-                                Main.tile[x, y].TileType = (ushort)ModContent.TileType<AstralSilt>();
+                                Main.tile[x, y].TileType = (ushort)ModContent.TileType<NovaeSlag>();
                                 WorldGen.SquareTileFrame(x, y, true);
                                 NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
                             case TileID.DesertFossil:
-                                Main.tile[x, y].TileType = (ushort)ModContent.TileType<AstralFossil>();
+                                Main.tile[x, y].TileType = (ushort)ModContent.TileType<CelestialRemains>();
                                 WorldGen.SquareTileFrame(x, y, true);
                                 NetMessage.SendTileSquare(-1, x, y, 1);
                                 break;
@@ -863,7 +863,7 @@ namespace CalamityMod.World
                     {
                         Main.tile[x, y].WallType = WallID.SnowWallUnsafe;
                     }
-                    else if (wallType == ModContent.WallType<AstralFossilWall>())
+                    else if (wallType == ModContent.WallType<CelestialRemainsWall>())
                     {
                         Main.tile[x, y].WallType = WallID.DesertFossil;
                     }
@@ -925,11 +925,11 @@ namespace CalamityMod.World
                     {
                         tile.TileType = TileID.SnowBlock;
                     }
-                    else if (type == ModContent.TileType<AstralSilt>())
+                    else if (type == ModContent.TileType<NovaeSlag>())
                     {
                         tile.TileType = TileID.Silt;
                     }
-                    else if (type == ModContent.TileType<AstralFossil>())
+                    else if (type == ModContent.TileType<CelestialRemains>())
                     {
                         tile.TileType = TileID.DesertFossil;
                     }
