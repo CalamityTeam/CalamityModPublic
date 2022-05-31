@@ -49,7 +49,8 @@ namespace CalamityMod.Projectiles.Summon
             for (int i = 0; i < 6; i++)
             {
                 Vector2 shootVelocity = (MathHelper.TwoPi * i / 12f).ToRotationVector2() * Main.rand.NextFloat(6f, 17f);
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shootVelocity * 2f, shootVelocity, ModContent.ProjectileType<HomingGammaBullet>(), Projectile.damage / 2, Projectile.knockBack * 0.4f, Projectile.owner);
+                int bullet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + shootVelocity * 2f, shootVelocity, ModContent.ProjectileType<HomingGammaBullet>(), Projectile.damage / 2, Projectile.knockBack * 0.4f, Projectile.owner);
+                Main.projectile[bullet].originalDamage = Projectile.originalDamage / 2;
             }
         }
     }

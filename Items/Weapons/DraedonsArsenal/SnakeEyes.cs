@@ -52,7 +52,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            int watcher = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+            if (Main.projectile.IndexInRange(watcher))
+                Main.projectile[watcher].originalDamage = Item.damage;
+
             return false;
         }
 
