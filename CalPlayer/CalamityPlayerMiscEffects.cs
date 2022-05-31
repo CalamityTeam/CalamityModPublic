@@ -2482,7 +2482,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
-            Player.moveSpeed += 0.5f;
+            // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy.
+            if (CalamityMod.Instance.overhaul is null)
+                Player.moveSpeed += BalancingConstants.DefaultMoveSpeedBoost;
 
             if (cirrusDress)
                 Player.moveSpeed -= 0.2f;

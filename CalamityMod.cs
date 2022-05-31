@@ -125,6 +125,7 @@ namespace CalamityMod
         internal Mod census = null;
         internal Mod crouchMod = null;
         internal Mod fargos = null;
+        internal Mod overhaul = null;
         internal Mod redemption = null;
         internal Mod soa = null;
         internal Mod summonersAssociation = null;
@@ -148,24 +149,28 @@ namespace CalamityMod
 
             // If any of these mods aren't loaded, it will simply keep them as null.
             musicMod = null;
-            ancientsAwakened = null;
-            census = null;
-            crouchMod = null;
-            fargos = null;
-            redemption = null;
-            soa = null;
-            summonersAssociation = null;
-            thorium = null;
-            varia = null;
             ModLoader.TryGetMod("CalamityModMusic", out musicMod);
+            ancientsAwakened = null;
+            ModLoader.TryGetMod("AAMod", out ancientsAwakened);
+            bossChecklist = null;
             ModLoader.TryGetMod("BossChecklist", out bossChecklist);
+            census = null;
             ModLoader.TryGetMod("Census", out census);
+            crouchMod = null;
             ModLoader.TryGetMod("CrouchMod", out crouchMod);
+            fargos = null;
             ModLoader.TryGetMod("Fargowiltas", out fargos);
+            overhaul = null;
+            ModLoader.TryGetMod("TerrariaOverhaul", out overhaul);
+            redemption = null;
             ModLoader.TryGetMod("Redemption", out redemption);
+            soa = null;
             ModLoader.TryGetMod("SacredTools", out soa);
+            summonersAssociation = null;
             ModLoader.TryGetMod("SummonersAssociation", out summonersAssociation);
+            thorium = null;
             ModLoader.TryGetMod("ThoriumMod", out thorium);
+            varia = null;
             ModLoader.TryGetMod("Varia", out varia);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
@@ -295,6 +300,7 @@ namespace CalamityMod
             census = null;
             crouchMod = null;
             fargos = null;
+            overhaul = null;
             redemption = null;
             soa = null;
             summonersAssociation = null;

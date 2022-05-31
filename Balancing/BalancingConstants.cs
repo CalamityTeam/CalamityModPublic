@@ -2,6 +2,9 @@
 {
     public static class BalancingConstants
     {
+        // Permanent move speed boost given to the player at all stages of the game
+        internal static readonly float DefaultMoveSpeedBoost = 0.5f;
+        
         // The multiplier for the player's gravity (downwards acceleration) while they are holding the Down button (S by default).
         internal static readonly float HoldingDownGravityMultiplier = 2f;
 
