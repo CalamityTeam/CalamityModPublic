@@ -15,23 +15,32 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Tin";
 
-        public const float ArmorPen = 5.0f;
-        public const int LifeRegen = 1;
-        public const int MiningSpeedPercentSetBonus = 25;
+        public const float HeadCrit = 4f;
+        public const int ChestLifeRegen = 1;
+        public const float LegsMoveSpeed = 0.1f;
+        public const float SetBonusArmorPen = 5.0f;
+        public const int SetBonusLifeRegen = 1;
+        public const int SetBonusMiningSpeedPercent = 25;
+
+        public override void ApplyHeadPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += HeadCrit;
+
+        public override void ApplyBodyPieceEffect(Player player) => player.lifeRegen += ChestLifeRegen;
+
+        public override void ApplyLegPieceEffect(Player player) => player.moveSpeed += LegsMoveSpeed;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
             sb.Append("+5 armor penetration, +1 life regen\n");
-            sb.Append(CalamityGlobalItem.MiningSpeedString(MiningSpeedPercentSetBonus));
+            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }
 
         public override void ApplyArmorSetBonus(Player player)
         {
-            player.GetArmorPenetration<GenericDamageClass>() += ArmorPen;
-            player.lifeRegen += LifeRegen;
-            player.pickSpeed -= MiningSpeedPercentSetBonus * 0.01f;
+            player.GetArmorPenetration<GenericDamageClass>() += SetBonusArmorPen;
+            player.lifeRegen += SetBonusLifeRegen;
+            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
         }
     }
 }
