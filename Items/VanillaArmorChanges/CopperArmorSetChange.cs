@@ -31,7 +31,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("+2 flat damage to all attacks, +10% movement speed\n");
+            sb.Append("\n+2 flat damage to all attacks, +10% movement speed");
             sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }

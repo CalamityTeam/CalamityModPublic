@@ -34,7 +34,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("+2 flat damage to all attacks, +10% movement speed\n");
+            sb.Append("\n+1 life regen\nTwo seconds after getting hit for 20 or more damage, you heal for 10\nGetting hit again resets the timer, delaying the heal");
             sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }

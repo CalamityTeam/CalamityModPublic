@@ -30,7 +30,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         public override void UpdateSetBonusText(ref string setBonusText)
         {
             StringBuilder sb = new StringBuilder(256);
-            sb.Append("Reduces damage taken by 6%, +2 life regen\n");
+            sb.Append("\nReduces damage taken by 6%, +2 life regen");
             sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
             setBonusText += sb.ToString();
         }

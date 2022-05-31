@@ -579,39 +579,93 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 
-            // Edit individual tooltips for early hardmode armor sets.
-            // Cobalt Hat.
+            #region Pre-Hardmode Ore Armor
+            // Copper
+            if (item.type == ItemID.CopperHelmet)
+                EditTooltipByNum(0, (line) => line.Text = "5% increased damage");
+            if (item.type == ItemID.CopperChainmail)
+                EditTooltipByNum(0, (line) => line.Text = "3% increased critical strike chance");
+            if (item.type == ItemID.CopperGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "5% increased movement speed");
+
+            // Tin
+            if (item.type == ItemID.TinHelmet)
+                EditTooltipByNum(0, (line) => line.Text = "4% increased critical strike chance");
+            if (item.type == ItemID.TinChainmail)
+                EditTooltipByNum(0, (line) => line.Text = "+1 life regen");
+            if (item.type == ItemID.TinGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "10% increased movement speed");
+
+            // Iron
+            if (item.type == ItemID.IronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 3%");
+
+            // Lead
+            if (item.type == ItemID.LeadHelmet || item.type == ItemID.LeadChainmail || item.type == ItemID.LeadGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 3%");
+
+            // Silver
+            if (item.type == ItemID.SilverHelmet)
+                EditTooltipByNum(0, (line) => line.Text = "6% increased critical strike chance");
+            if (item.type == ItemID.SilverChainmail)
+                EditTooltipByNum(0, (line) => line.Text = "+2 life regen");
+            if (item.type == ItemID.SilverGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "10% increased movement speed");
+
+            // Tungsten
+            if (item.type == ItemID.TungstenHelmet)
+                EditTooltipByNum(0, (line) => line.Text = "7% increased damage");
+            if (item.type == ItemID.TungstenChainmail)
+                EditTooltipByNum(0, (line) => line.Text = "+1 life regen");
+            if (item.type == ItemID.TungstenGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "10% increased movement speed");
+
+            // Gold
+            if (item.type == ItemID.GoldHelmet)
+                EditTooltipByNum(0, (line) => line.Text = "6% increased damage");
+            if (item.type == ItemID.GoldChainmail)
+                EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
+            if (item.type == ItemID.GoldGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "12% increased movement speed");
+
+            // Platinum
+            if (item.type == ItemID.PlatinumHelmet)
+                EditTooltipByNum(0, (line) => line.Text = "8% increased damage");
+            if (item.type == ItemID.PlatinumChainmail)
+                EditTooltipByNum(0, (line) => line.Text = "6% increased critical strike chance");
+            if (item.type == ItemID.PlatinumGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "12% increased movement speed");
+            #endregion
+
+            #region Hardmode Ore Armor
+            // Cobalt
             if (item.type == ItemID.CobaltHat)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {CobaltArmorSetChange.MaxManaBoost + 40}");
 
-            // Palladium Breastplate.
+            // Palladium
             if (item.type == ItemID.PalladiumBreastplate)
                 EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
-
-            // Palladium Leggings.
             if (item.type == ItemID.PalladiumLeggings)
                 EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
 
-            // Mythril Hood.
+            // Mythril
             if (item.type == ItemID.MythrilHood)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
-
-            // Mythril Chainmail.
             if (item.type == ItemID.MythrilChainmail)
                 EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
-
-            // Mythril Greaves.
             if (item.type == ItemID.MythrilGreaves)
                 EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 
-            // Orichalcum Breastplate.
+            // Orichalcum
             if (item.type == ItemID.OrichalcumBreastplate)
                 EditTooltipByNum(0, (line) => line.Text = $"{OrichalcumArmorSetChange.ChestplateCritChanceBoost + 6}% increased critical strike chance");
 
-            // Adamantite Headgear.
+            // Adamantite
             if (item.type == ItemID.AdamantiteHeadgear)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {AdamantiteArmorSetChange.MaxManaBoost + 80}");
+            #endregion
 
+            #region DD2 Armor
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
             if (item.type == ItemID.SquirePlating)
@@ -667,6 +721,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ApprenticeAltPants)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
                 "20% increased movement speed");
+            #endregion
 
             // Worm Scarf only gives 10% DR instead of 17%
             if (item.type == ItemID.WormScarf)
