@@ -359,14 +359,19 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
             #endregion
 
-            // Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
-            #region Dodging Belt Tooltips
+            // Brain of Confusion, Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
+            #region Guaranteed Dodge Tooltips
             string beltDodgeLine = "Grants the ability to dodge attacks\n" +
                 $"The dodge has a {BalancingConstants.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
             if (item.type == ItemID.BlackBelt)
                 EditTooltipByNum(0, (line) => line.Text = beltDodgeLine);
             if (item.type == ItemID.MasterNinjaGear)
                 EditTooltipByNum(1, (line) => line.Text = beltDodgeLine);
+
+            string brainDodgeLine = "Grants the ability to dodge attacks\n" +
+                $"The dodge has a {BalancingConstants.BrainDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
+            if (item.type == ItemID.BrainOfConfusion)
+                EditTooltipByNum(0, (line) => line.Text = brainDodgeLine);
             #endregion
 
             // Early Hardmode ore melee weapons have new on-hit effects.
