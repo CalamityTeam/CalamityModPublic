@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -26,6 +26,14 @@ namespace CalamityMod.Items.Placeables.Ores
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 12);
             Item.rare = ItemRarityID.Pink;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe(ItemID.HallowedBar).
+                AddIngredient<HallowedOre>(4).
+                AddTile(TileID.AdamantiteForge).
+                Register();
         }
     }
 }

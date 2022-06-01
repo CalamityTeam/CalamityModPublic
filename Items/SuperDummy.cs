@@ -102,6 +102,11 @@ namespace CalamityMod.Items
             CreateRecipe().
                 AddIngredient(ItemID.TargetDummy).
                 Register();
+
+            // Super Dummy revert to Target Dummy
+            CreateRecipe(ItemID.TargetDummy).
+                AddIngredient<SuperDummy>().
+                Register();
         }
     }
 }
