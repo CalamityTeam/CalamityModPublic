@@ -15,6 +15,7 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Twinkler");
             Main.npcFrameCount[NPC.type] = 8;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -25,7 +26,6 @@ namespace CalamityMod.NPCs.Astral
             AIType = NPCID.LightningBug;
             AnimationType = NPCID.LightningBug;
             NPC.catchItem = (short)ModContent.ItemType<TwinklerItem>();
-            NPC.friendly = true; // prevents critter from getting slagged
             //Banner = npc.type;
             //BannerItem = ModContent.ItemType<TwinklerBanner>();
         }

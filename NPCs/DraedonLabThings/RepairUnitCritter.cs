@@ -50,6 +50,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             DisplayName.SetDefault("Repair Unit");
             Main.npcFrameCount[NPC.type] = 17;
+            NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -63,7 +64,6 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
-            NPC.friendly = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
         }

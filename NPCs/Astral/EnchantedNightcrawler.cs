@@ -14,7 +14,8 @@ namespace CalamityMod.NPCs.Astral
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0){ Hide = true };
             NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
-            }
+            NPCID.Sets.CountsAsCritter[NPC.type] = true;
+        }
 
         public override void SetDefaults()
         {
