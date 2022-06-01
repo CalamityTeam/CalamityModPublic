@@ -592,6 +592,38 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 
+            // Worm Scarf only gives 10% DR instead of 17%
+            if (item.type == ItemID.WormScarf)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("17%", "10%"));
+
+            if (item.type == ItemID.TitanGlove)
+                EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
+            if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove || item.type == ItemID.BerserkerGlove)
+                EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
+            if (item.type == ItemID.FireGauntlet)
+            {
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
+                string extraLine = "\n10% increased true melee damage";
+                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
+            }
+
+            // On Fire! debuff immunities
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            // IT'S HELLFIRE!!!
+            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
+
+            // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
+            if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
+                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
+            #endregion
+
+            // Pre-Hardmode ore armor tooltip edits
             #region Pre-Hardmode Ore Armor
             // Copper
             if (item.type == ItemID.CopperHelmet)
@@ -648,8 +680,23 @@ namespace CalamityMod.Items
                 AddTooltip("6% increased critical strike chance");
             if (item.type == ItemID.PlatinumGreaves)
                 AddTooltip("12% increased movement speed");
+
+            // Shadow
+            if (item.type == ItemID.ShadowHelmet || item.type == ItemID.AncientShadowHelmet || item.type == ItemID.ShadowScalemail || item.type == ItemID.AncientShadowScalemail || item.type == ItemID.ShadowGreaves || item.type == ItemID.AncientShadowGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "5% increased damage and 7% increased jump speed");
+
+            // Crimson
+            if (item.type == ItemID.CrimsonHelmet || item.type == ItemID.CrimsonScalemail || item.type == ItemID.CrimsonGreaves)
+            {
+                EditTooltipByNum(0, (line) => {
+                    string newTooltip = line.Text.Replace("2%", "5%");
+                    newTooltip += "\n+1 life regen";
+                    line.Text = newTooltip;
+                });
+            }
             #endregion
 
+            // Hardmode ore armor tooltip edits
             #region Hardmode Ore Armor
             // Cobalt
             if (item.type == ItemID.CobaltHat)
@@ -678,6 +725,7 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {AdamantiteArmorSetChange.MaxManaBoost + 80}");
             #endregion
 
+            // DD2 armor tooltip edits
             #region DD2 Armor
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
@@ -734,37 +782,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ApprenticeAltPants)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
                 "20% increased movement speed");
-            #endregion
-
-            // Worm Scarf only gives 10% DR instead of 17%
-            if (item.type == ItemID.WormScarf)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("17%", "10%"));
-
-            if (item.type == ItemID.TitanGlove)
-                EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
-            if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove || item.type == ItemID.BerserkerGlove)
-                EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
-            if (item.type == ItemID.FireGauntlet)
-            {
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
-                string extraLine = "\n10% increased true melee damage";
-                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
-            }
-
-            // On Fire! debuff immunities
-            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
-
-            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
-                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
-
-            // IT'S HELLFIRE!!!
-            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
-
-            // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
-            if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
-                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
             #endregion
 
             // Non-consumable boss summon items
