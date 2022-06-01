@@ -20,6 +20,8 @@ namespace CalamityMod.NPCs.OldDuke
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tooth Ball");
+            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0) { Hide = true };
+            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
         }
 
         public override void SetDefaults()
