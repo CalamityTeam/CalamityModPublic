@@ -2872,7 +2872,7 @@ namespace CalamityMod.NPCs
                             calamityGlobalNPC.newAI[3] = 1f;
 
                             float flameVelocity = 9f;
-                            int maxProjectiles = !phase2 ? (malice ? 7 : death ? 5 : 3) : (malice ? 9 : death ? 7 : 5);
+                            int maxProjectiles = !phase2 ? (malice ? 4 : death ? 3 : 2) : (malice ? 5 : death ? 4 : 3);
                             int spread = !phase2 ? (malice ? 56 : death ? 44 : 32) : (malice ? 72 : death ? 56 : 40);
 
                             int type = ModContent.ProjectileType<AstralFlame>();

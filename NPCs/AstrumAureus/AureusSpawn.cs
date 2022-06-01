@@ -157,13 +157,13 @@ namespace CalamityMod.NPCs.AstrumAureus
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
             {
                 NPC.localAI[0] += 1f;
-                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 300f)
+                if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[0] >= 180f)
                 {
                     NPC.localAI[0] = 0f;
                     if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                     {
                         SoundEngine.PlaySound(SoundID.Item109, NPC.position);
-                        float speed = 9f;
+                        float speed = 6f;
                         Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
                         float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X;
                         float num7 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y;
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                         num8 = speed / num8;
                         num6 *= num8;
                         num7 *= num8;
-                        int type = ModContent.ProjectileType<AstralFlame>();
+                        int type = ModContent.ProjectileType<AstralLaser>();
                         int damage = NPC.GetProjectileDamage(type);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
                     }

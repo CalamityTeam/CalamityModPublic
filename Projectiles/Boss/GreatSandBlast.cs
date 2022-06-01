@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 600;
             Projectile.aiStyle = 1;
             Projectile.alpha = 255;
         }
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Projectile.tileCollide = Projectile.timeLeft < 240;
+            Projectile.tileCollide = Projectile.timeLeft < 540;
             Projectile.rotation = (float)Math.Atan2((double)Projectile.velocity.Y, (double)Projectile.velocity.X) + 1.57f;
             Projectile.localAI[0] += 1f;
             if (Projectile.localAI[0] > 4f)
