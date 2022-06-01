@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            Recipe r = CreateRecipe(ItemID.AvengerEmblem);
+            Recipe r = Mod.CreateRecipe(ItemID.AvengerEmblem);
             r.AddIngredient(ModContent.ItemType<RogueEmblem>());
             r.AddIngredient(ItemID.SoulofMight, 5);
             r.AddIngredient(ItemID.SoulofSight, 5);
