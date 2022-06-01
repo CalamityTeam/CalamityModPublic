@@ -30,10 +30,8 @@ namespace CalamityMod.Items.Placeables.Ores
 
         public override void AddRecipes()
         {
-            CreateRecipe(ItemID.HallowedBar).
-                AddIngredient<HallowedOre>(4).
-                AddTile(TileID.AdamantiteForge).
-                Register();
+            Recipe r = Mod.CreateRecipe(ItemID.HallowedBar);
+            r.AddIngredient<HallowedOre>(4).AddTile(TileID.AdamantiteForge).Register();
         }
     }
 }
