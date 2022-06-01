@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Xna.Framework;
+using System.Text;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,6 +45,21 @@ namespace CalamityMod.Items.VanillaArmorChanges
             player.lifeRegen += SetBonusLifeRegen;
             player.Calamity().silverMedkit = true;
             player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
+        }
+
+        internal static void OnHealEffects(Entity entity)
+        {
+            Vector2 dustCenter = entity.Center;
+
+            int numDust = 36;
+            for (int i = 0; i < numDust; ++i)
+            {
+                float theta = MathHelper.TwoPi * (i / 36f);
+                Vector2 dustVel = 3.5f * Vector2.One.RotatedBy(theta);
+                Dust d = Dust.NewDustPerfect(dustCenter, DustID.SilverCoin, dustVel, Scale: 1.4f);
+                d.noGravity = true;
+                d.noLight = false;
+            }
         }
     }
 }

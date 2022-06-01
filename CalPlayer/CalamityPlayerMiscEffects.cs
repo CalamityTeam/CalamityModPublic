@@ -1150,11 +1150,12 @@ namespace CalamityMod.CalPlayer
                 --silverMedkitTimer;
                 if (silverMedkitTimer == 0)
                 {
-                    // TODO -- should play some sound and produce some white/green puff of dust
                     Player.HealEffect(SilverArmorSetChange.SetBonusHealAmount, true);
                     Player.statLife += SilverArmorSetChange.SetBonusHealAmount;
                     if (Player.statLife > Player.statLifeMax2)
                         Player.statLife = Player.statLifeMax2;
+
+                    SilverArmorSetChange.OnHealEffects(Player);
                 }
             }
 
