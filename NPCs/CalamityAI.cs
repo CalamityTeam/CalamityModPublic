@@ -25,7 +25,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs
 {
@@ -2556,8 +2555,8 @@ namespace CalamityMod.NPCs
                             {
                                 calamityGlobalNPC.newAI[2] = 1f;
 
-                                int maxProjectiles = !phase2 ? (malice ? 7 : death ? 5 : 3) : (malice ? 9 : death ? 7 : 5);
-                                int spread = !phase2 ? (malice ? 14 : death ? 11 : 8) : (malice ? 14 : death ? 12 : 10);
+                                int maxProjectiles = !phase2 ? (malice ? 5 : 3) : (malice ? 7 : 5);
+                                int spread = !phase2 ? (malice ? 11 : 8) : (malice ? 12 : 10);
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
@@ -2574,7 +2573,7 @@ namespace CalamityMod.NPCs
 
                                 if (phase3)
                                 {
-                                    float flameVelocity = death ? 14f : 12f;
+                                    float flameVelocity = laserVelocity * 2f;
                                     maxProjectiles = 2;
                                     spread = 45;
 
@@ -2596,8 +2595,8 @@ namespace CalamityMod.NPCs
                             {
                                 calamityGlobalNPC.newAI[2] = 0f;
 
-                                int maxProjectiles = !phase3 ? (malice ? 21 : death ? 15 : 9) : (malice ? 27 : death ? 21 : 15);
-                                int spread = !phase3 ? (malice ? 28 : death ? 22 : 16) : (malice ? 28 : death ? 24 : 20);
+                                int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 19 : death ? 17 : 15);
+                                int spread = !phase3 ? (malice ? 20 : death ? 18 : 16) : (malice ? 24 : death ? 22 : 20);
 
                                 int type = ModContent.ProjectileType<AstralLaser>();
                                 int damage = npc.GetProjectileDamage(type);
@@ -2872,8 +2871,8 @@ namespace CalamityMod.NPCs
                         {
                             calamityGlobalNPC.newAI[3] = 1f;
 
-                            float flameVelocity = 6f;
-                            int maxProjectiles = !phase2 ? (malice ? 7 : death ? 5 : 3) : (malice ? 9 : death ? 7 : 5);
+                            float flameVelocity = 9f;
+                            int maxProjectiles = !phase2 ? (malice ? 4 : death ? 3 : 2) : (malice ? 5 : death ? 4 : 3);
                             int spread = !phase2 ? (malice ? 56 : death ? 44 : 32) : (malice ? 72 : death ? 56 : 40);
 
                             int type = ModContent.ProjectileType<AstralFlame>();
@@ -2896,8 +2895,8 @@ namespace CalamityMod.NPCs
                             calamityGlobalNPC.newAI[3] = 0f;
 
                             float laserVelocity = death ? 7f : 6f;
-                            int maxProjectiles = !phase3 ? (malice ? 17 : death ? 13 : 9) : (malice ? 21 : death ? 17 : 13);
-                            int spread = !phase3 ? (malice ? 28 : death ? 22 : 16) : (malice ? 28 : death ? 24 : 20);
+                            int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 17 : death ? 15 : 13);
+                            int spread = !phase3 ? (malice ? 20 : death ? 18 : 16) : (malice ? 24 : death ? 22 : 20);
 
                             int type = ModContent.ProjectileType<AstralLaser>();
                             int damage = npc.GetProjectileDamage(type);
@@ -4020,18 +4019,6 @@ namespace CalamityMod.NPCs
                     if (npc.velocity.Y < -12f)
                         npc.velocity.Y = -12f;
 
-                    if (npc.timeLeft < 10)
-                    {
-                        CalamityWorld.DoGSecondStageCountdown = 0;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            var netMessage = mod.GetPacket();
-                            netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                            netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                            netMessage.Send();
-                        }
-                    }
-
                     if (npc.timeLeft > 60)
                         npc.timeLeft = 60;
 
@@ -4285,7 +4272,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Destroy all Dark Energies if their total HP is below 20%
-                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : (CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedCeaselessVoid) ? 12000 : 3000;
+                int darkEnergyMaxHP = BossRushEvent.BossRushActive ? 44000 : 12000;
                 int totalDarkEnergiesSpawned = darkEnergyAmt * 3 + 2;
                 int totalDarkEnergyMaxHP = darkEnergyMaxHP * totalDarkEnergiesSpawned;
                 int succPhaseGateValue = (int)(totalDarkEnergyMaxHP * 0.2);

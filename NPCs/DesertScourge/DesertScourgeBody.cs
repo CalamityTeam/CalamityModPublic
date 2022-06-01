@@ -63,13 +63,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            Player player = Main.player[NPC.target];
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            float burrowTimeGateValue = death ? 420f : 540f;
-            bool burrow = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] >= burrowTimeGateValue;
-
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
 
@@ -109,34 +102,6 @@ namespace CalamityMod.NPCs.DesertScourge
 
             if (Main.player[NPC.target].dead)
                 NPC.TargetClosest(false);
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && revenge && !burrow)
-            {
-                NPC.localAI[0] += malice ? 6f : Main.rand.Next(4);
-                if (NPC.localAI[0] >= Main.rand.Next(1400, 26001))
-                {
-                    NPC.localAI[0] = 0f;
-                    if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
-                    {
-                        Vector2 vector104 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
-                        float num942 = player.position.X + (float)player.width * 0.5f - vector104.X;
-                        float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
-                        float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
-                        int projectileType = ModContent.ProjectileType<SandBlast>();
-                        float num941 = malice ? 9f : 6f;
-                        num944 = num941 / num944;
-                        num942 *= num944;
-                        num943 *= num944;
-                        vector104.X += num942 * 5f;
-                        vector104.Y += num943 * 5f;
-                        if (Main.rand.NextBool(2) || malice)
-                        {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vector104.X, vector104.Y, num942, num943, projectileType, NPC.GetProjectileDamage(projectileType), 0f, Main.myPlayer, 0f, 0f);
-                        }
-                        NPC.netUpdate = true;
-                    }
-                }
-            }
 
             Vector2 vector18 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
             float num191 = Main.player[NPC.target].position.X + (float)(Main.player[NPC.target].width / 2);

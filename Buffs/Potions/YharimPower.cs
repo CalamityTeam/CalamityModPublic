@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Potions
@@ -17,6 +17,7 @@ namespace CalamityMod.Buffs.Potions
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().yPower = true;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
         }
     }
 }

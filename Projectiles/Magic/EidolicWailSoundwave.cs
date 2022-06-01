@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -30,8 +30,6 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 16;
             Projectile.timeLeft = 450;
-            Projectile.Calamity().PierceResistHarshness = 0.06f;
-            Projectile.Calamity().PierceResistCap = 0.4f;
         }
 
         public override void AI()

@@ -2,10 +2,10 @@
 {
     CalamityMod:
     {
-    	DamageClassName:
-    	{
+        DamageClassName:
+        {
              "RogueDamageClass": "rogue damage",
              "AverageDamageClass": "average damage",
-    	}
+        }
     }
 }

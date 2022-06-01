@@ -9,6 +9,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -63,21 +64,10 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.npcSlots = 5f;
             NPC.width = 74;
             NPC.height = 74;
-
-            // 10% of HP is phase one
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedStormWeaver;
-            NPC.lifeMax = notDoGFight ? 825500 : 139750;
+            NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
-
-            // If fought alone, Storm Weaver plays its own theme
-            if (notDoGFight)
-            {
-                NPC.value = Item.buyPrice(2, 0, 0, 0);
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
-            }
-            // If fought as a DoG interlude, keep the DoG music playing
-            else
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+            NPC.value = Item.buyPrice(2, 0, 0, 0);
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -159,10 +149,10 @@ namespace CalamityMod.NPCs.StormWeaver
             bool phase2 = lifeRatio < 0.8f;
 
             // Start calling down frost waves from the sky in sheets
-            bool phase3 = lifeRatio < 0.6f;
+            bool phase3 = lifeRatio < 0.65f;
 
             // Lightning strike flash phase and start summoning tornadoes
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Update armored settings to naked settings
             if (phase2)
@@ -262,15 +252,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 if ((double)NPC.position.Y < Main.topWorld + 16f)
                 {
-                    CalamityWorld.DoGSecondStageCountdown = 0;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = Mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                        netMessage.Send();
-                    }
-
                     for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                     {
                         if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
@@ -285,15 +266,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
             if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > 10000f && NPC.life > 0)
             {
-                CalamityWorld.DoGSecondStageCountdown = 0;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-
                 for (int num957 = 0; num957 < Main.maxNPCs; num957++)
                 {
                     if (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
@@ -331,6 +303,9 @@ namespace CalamityMod.NPCs.StormWeaver
                     chargePhaseGateValue *= 0.5f;
                 if (phase4 && expertMode)
                     chargePhaseGateValue *= 0.9f;
+
+                // Gate value for when Storm Weaver fires projectiles
+                float projectileGateValue = (int)(chargePhaseGateValue * 0.25f);
 
                 // Call down frost waves from the sky
                 if (phase3 && !useTornadoes)
@@ -404,7 +379,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         }
                     }
 
-                    if (calamityGlobalNPC.newAI[2] % (chargePhaseGateValue - 100f) == 0f)
+                    if (calamityGlobalNPC.newAI[2] == projectileGateValue)
                     {
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
@@ -423,9 +398,9 @@ namespace CalamityMod.NPCs.StormWeaver
 
                             // Start fast at index 0, become slower as each projectile spawns and then become faster past the central wave
                             int centralWave = totalWaves / 2;
-                            float oneSixth = 1f / 6f;
                             float velocityY = 8f;
                             int wavePatternType = revenge ? Main.rand.Next(3) : expertMode ? Main.rand.Next(2) + 1 : 2;
+                            float delayBeforeFiring = -60f;
                             for (int x = 0; x < totalWaves; x++)
                             {
                                 switch (wavePatternType)
@@ -436,9 +411,9 @@ namespace CalamityMod.NPCs.StormWeaver
                                         if (x != 0)
                                         {
                                             if (x <= centralWave)
-                                                velocityY -= oneSixth;
+                                                velocityY -= 1f / 6f;
                                             else
-                                                velocityY += oneSixth;
+                                                velocityY += 1f / 6f;
                                         }
 
                                         break;
@@ -464,7 +439,11 @@ namespace CalamityMod.NPCs.StormWeaver
                                         break;
                                 }
 
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.5f, type, waveDamage, 0f, Main.myPlayer, 0f, velocityY);
+                                // Telegraph is active for 60 frames
+                                // Frost Waves start moving after 30 frames
+                                // Frost Waves take 30 frames to reach full velocity
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.5f, ModContent.ProjectileType<StormWeaverFrostWaveTelegraph>(), 0, 0f, Main.myPlayer, 0f, velocityY);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawnX, Main.player[NPC.target].Center.Y - 1600f, 0f, velocityY * 0.1f, type, waveDamage, 0f, Main.myPlayer, delayBeforeFiring, velocityY);
                                 projectileSpawnX += shotSpacing;
                             }
                         }
@@ -474,7 +453,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Summon tornadoes
                 if (useTornadoes)
                 {
-                    if (calamityGlobalNPC.newAI[2] % (chargePhaseGateValue - 100f) == 0f)
+                    if (calamityGlobalNPC.newAI[2] == projectileGateValue)
                     {
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         calamityGlobalNPC.newAI[3] += 1f;
@@ -484,7 +463,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             int projectileType = ModContent.ProjectileType<StormMarkHostile>();
                             int tornadoDamage = NPC.GetProjectileDamage(projectileType);
                             int totalTornadoes = revenge ? 5 : 3;
-                            float spawnDistance = revenge ? 640f : 960f;
+                            float spawnDistance = revenge ? 720f : 960f;
                             for (int i = 0; i < totalTornadoes; i++)
                             {
                                 Vector2 spawnPosition = Main.player[NPC.target].Center + Vector2.UnitX * spawnDistance * (i - totalTornadoes / 2);
@@ -497,9 +476,6 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Charge
                 if (calamityGlobalNPC.newAI[0] >= chargePhaseGateValue)
                 {
-                    // Disable frost waves during charge attack
-                    calamityGlobalNPC.newAI[2] = 1f;
-
                     NPC.localAI[3] = 60f;
 
                     if (NPC.localAI[1] == 0f)
@@ -510,6 +486,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         NPC.TargetClosest();
                         NPC.localAI[1] = 0f;
                         calamityGlobalNPC.newAI[0] = 0f;
+                        calamityGlobalNPC.newAI[2] = 0f;
                     }
 
                     if (NPC.localAI[1] == 2f)
@@ -777,8 +754,8 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase2 = lifeRatio < 0.8f;
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
@@ -846,8 +823,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
@@ -933,45 +910,22 @@ namespace CalamityMod.NPCs.StormWeaver
             return false;
         }
 
-        public static bool AtFullStrength() => !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;
-
         public static bool LastSentinelKilled() => !DownedBossSystem.downedSignus && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedCeaselessVoid;
 
         public override void OnKill()
         {
-            bool fullStrength = AtFullStrength();
-            if (fullStrength)
-                CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            // If DoG's fight is active, set the timer for Signus' phase
-            if (CalamityWorld.DoGSecondStageCountdown > 7260)
-            {
-                CalamityWorld.DoGSecondStageCountdown = 7260;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-            }
-
-            // Mark Ceaseless Void as dead
-            if (fullStrength)
-            {
-                DownedBossSystem.downedStormWeaver = true;
-                CalamityNetcode.SyncWorld();
-            }
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            DownedBossSystem.downedStormWeaver = true;
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(AtFullStrength);
-            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<StormWeaverBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<StormWeaverBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
-            fullStrengthDrops.Add(normalOnly);
+            npcLoot.Add(normalOnly);
             {
                 // Weapons
                 int[] weapons = new int[]
@@ -993,7 +947,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
 
-            fullStrengthDrops.Add(ModContent.ItemType<WeaverTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<WeaverTrophy>(), 10);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());

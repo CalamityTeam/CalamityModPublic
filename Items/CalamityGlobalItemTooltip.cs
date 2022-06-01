@@ -215,7 +215,7 @@ namespace CalamityMod.Items
         // Turns a number into a string of increased mining speed.
         public static string MiningSpeedString(int percent) => $"\n{percent}% increased mining speed";
 
-        private void ModifyVanillaTooltips(Item item, IList<TooltipLine> tooltips)
+        private static void ModifyVanillaTooltips(Item item, IList<TooltipLine> tooltips)
         {
             #region Modular Tooltip Editing Code
             // This is a modular tooltip editor which loops over all tooltip lines of an item,
@@ -236,6 +236,19 @@ namespace CalamityMod.Items
             // These functions are shorthand to invoke ApplyTooltipEdits using the above predicates.
             void EditTooltipByNum(int lineNum, Action<TooltipLine> action) => ApplyTooltipEdits(tooltips, LineNum(lineNum), action);
             void EditTooltipByName(string lineName, Action<TooltipLine> action) => ApplyTooltipEdits(tooltips, LineName(lineName), action);
+
+            // For items such as a Copper Helmet which literally have no tooltips at all, add a custom "Tooltip0" which mimics the vanilla Tooltip0.
+            void AddTooltip(string text)
+            {
+                int defenseIndex = -1;
+                for (int i = 0; i < tooltips.Count; ++i)
+                    if (tooltips[i].Name == "Defense")
+                    {
+                        defenseIndex = i;
+                        break;
+                    }
+                tooltips.Insert(defenseIndex + 1, new TooltipLine(CalamityMod.Instance, "Tooltip0", text));
+            }
             #endregion
 
             // Numerous random tooltip edits which don't fit into another category
@@ -359,14 +372,19 @@ namespace CalamityMod.Items
                 EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
             #endregion
 
-            // Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
-            #region Dodging Belt Tooltips
+            // Brain of Confusion, Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
+            #region Guaranteed Dodge Tooltips
             string beltDodgeLine = "Grants the ability to dodge attacks\n" +
                 $"The dodge has a {BalancingConstants.BeltDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
             if (item.type == ItemID.BlackBelt)
                 EditTooltipByNum(0, (line) => line.Text = beltDodgeLine);
             if (item.type == ItemID.MasterNinjaGear)
                 EditTooltipByNum(1, (line) => line.Text = beltDodgeLine);
+
+            string brainDodgeLine = "Grants the ability to dodge attacks\n" +
+                $"The dodge has a {BalancingConstants.BrainDodgeCooldown / 60} second cooldown which is shared with all other dodges and reflects";
+            if (item.type == ItemID.BrainOfConfusion)
+                EditTooltipByNum(0, (line) => line.Text = brainDodgeLine);
             #endregion
 
             // Early Hardmode ore melee weapons have new on-hit effects.
@@ -500,6 +518,10 @@ namespace CalamityMod.Items
             // Rebalances to vanilla item stats
             #region Vanilla Item Rebalance Tooltips
 
+            // Frozen Turtle Shell rebalance.
+            if (item.type == ItemID.FrozenTurtleShell)
+                EditTooltipByNum(0, (line) => line.Text = "Puts a shell around the owner when below 50% life that reduces damage by 15%");
+
             // Ale and Sake rebalance.
             if (item.type == ItemID.Ale || item.type == ItemID.Sake)
                 EditTooltipByNum(0, (line) => line.Text = "Increases melee damage and speed by 10% and reduces defense by 10%");
@@ -570,39 +592,141 @@ namespace CalamityMod.Items
             if (item.type == ItemID.MagicHat)
                 EditTooltipByNum(0, (line) => line.Text = "5% increased magic damage and critical strike chance");
 
-            // Edit individual tooltips for early hardmode armor sets.
-            // Cobalt Hat.
+            // Worm Scarf only gives 10% DR instead of 17%
+            if (item.type == ItemID.WormScarf)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("17%", "10%"));
+
+            if (item.type == ItemID.TitanGlove)
+                EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
+            if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove || item.type == ItemID.BerserkerGlove)
+                EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
+            if (item.type == ItemID.FireGauntlet)
+            {
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
+                string extraLine = "\n10% increased true melee damage";
+                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
+            }
+
+            // On Fire! debuff immunities
+            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
+
+            // IT'S HELLFIRE!!!
+            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
+                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
+
+            // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
+            if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
+                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
+            #endregion
+
+            // Pre-Hardmode ore armor tooltip edits
+            #region Pre-Hardmode Ore Armor
+            // Copper
+            if (item.type == ItemID.CopperHelmet)
+                AddTooltip("5% increased damage");
+            if (item.type == ItemID.CopperChainmail)
+                AddTooltip("3% increased critical strike chance");
+            if (item.type == ItemID.CopperGreaves)
+                AddTooltip("5% increased movement speed");
+
+            // Tin
+            if (item.type == ItemID.TinHelmet)
+                AddTooltip("4% increased critical strike chance");
+            if (item.type == ItemID.TinChainmail)
+                AddTooltip("+1 life regen");
+            if (item.type == ItemID.TinGreaves)
+                AddTooltip("10% increased movement speed");
+
+            // Iron
+            if (item.type == ItemID.IronHelmet || item.type == ItemID.AncientIronHelmet || item.type == ItemID.IronChainmail || item.type == ItemID.IronGreaves)
+                AddTooltip("Reduces damage taken by 3%");
+
+            // Lead
+            if (item.type == ItemID.LeadHelmet || item.type == ItemID.LeadChainmail || item.type == ItemID.LeadGreaves)
+                AddTooltip("Reduces damage taken by 3%");
+
+            // Silver
+            if (item.type == ItemID.SilverHelmet)
+                AddTooltip("6% increased critical strike chance");
+            if (item.type == ItemID.SilverChainmail)
+                AddTooltip("+2 life regen");
+            if (item.type == ItemID.SilverGreaves)
+                AddTooltip("10% increased movement speed");
+
+            // Tungsten
+            if (item.type == ItemID.TungstenHelmet)
+                AddTooltip("7% increased damage");
+            if (item.type == ItemID.TungstenChainmail)
+                AddTooltip("+1 life regen");
+            if (item.type == ItemID.TungstenGreaves)
+                AddTooltip("10% increased movement speed");
+
+            // Gold
+            if (item.type == ItemID.GoldHelmet || item.type == ItemID.AncientGoldHelmet)
+                AddTooltip("6% increased damage");
+            if (item.type == ItemID.GoldChainmail)
+                AddTooltip("Reduces damage taken by 5%");
+            if (item.type == ItemID.GoldGreaves)
+                AddTooltip("12% increased movement speed");
+
+            // Platinum
+            if (item.type == ItemID.PlatinumHelmet)
+                AddTooltip("8% increased damage");
+            if (item.type == ItemID.PlatinumChainmail)
+                AddTooltip("6% increased critical strike chance");
+            if (item.type == ItemID.PlatinumGreaves)
+                AddTooltip("12% increased movement speed");
+
+            // Shadow
+            if (item.type == ItemID.ShadowHelmet || item.type == ItemID.AncientShadowHelmet || item.type == ItemID.ShadowScalemail || item.type == ItemID.AncientShadowScalemail || item.type == ItemID.ShadowGreaves || item.type == ItemID.AncientShadowGreaves)
+                EditTooltipByNum(0, (line) => line.Text = "5% increased damage and 7% increased jump speed");
+
+            // Crimson
+            if (item.type == ItemID.CrimsonHelmet || item.type == ItemID.CrimsonScalemail || item.type == ItemID.CrimsonGreaves)
+            {
+                EditTooltipByNum(0, (line) => {
+                    string newTooltip = line.Text.Replace("2%", "5%");
+                    newTooltip += "\n+1 life regen";
+                    line.Text = newTooltip;
+                });
+            }
+            #endregion
+
+            // Hardmode ore armor tooltip edits
+            #region Hardmode Ore Armor
+            // Cobalt
             if (item.type == ItemID.CobaltHat)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {CobaltArmorSetChange.MaxManaBoost + 40}");
 
-            // Palladium Breastplate.
+            // Palladium
             if (item.type == ItemID.PalladiumBreastplate)
                 EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.ChestplateDamagePercentageBoost + 3}% increased damage.");
-
-            // Palladium Leggings.
             if (item.type == ItemID.PalladiumLeggings)
                 EditTooltipByNum(0, (line) => line.Text = $"{PalladiumArmorSetChange.LeggingsDamagePercentageBoost + 2}% increased damage.");
 
-            // Mythril Hood.
+            // Mythril
             if (item.type == ItemID.MythrilHood)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {MythrilArmorSetChange.MaxManaBoost + 60}");
-
-            // Mythril Chainmail.
             if (item.type == ItemID.MythrilChainmail)
                 EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.ChestplateDamagePercentageBoost + 7}% increased damage");
-
-            // Mythril Greaves.
             if (item.type == ItemID.MythrilGreaves)
                 EditTooltipByNum(0, (line) => line.Text = $"{MythrilArmorSetChange.LeggingsCritChanceBoost + 10}% increased critical strike chance");
 
-            // Orichalcum Breastplate.
+            // Orichalcum
             if (item.type == ItemID.OrichalcumBreastplate)
                 EditTooltipByNum(0, (line) => line.Text = $"{OrichalcumArmorSetChange.ChestplateCritChanceBoost + 6}% increased critical strike chance");
 
-            // Adamantite Headgear.
+            // Adamantite
             if (item.type == ItemID.AdamantiteHeadgear)
                 EditTooltipByNum(0, (line) => line.Text = $"Increases maximum mana by {AdamantiteArmorSetChange.MaxManaBoost + 80}");
+            #endregion
 
+            // DD2 armor tooltip edits
+            #region DD2 Armor
             // Reduce DD2 armor piece bonuses because they're overpowered
             // Squire armor
             if (item.type == ItemID.SquirePlating)
@@ -658,36 +782,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ApprenticeAltPants)
                 EditTooltipByNum(0, (line) => line.Text = "10% increased minion damage and magic critical strike chance\n" +
                 "20% increased movement speed");
-
-            // Worm Scarf only gives 10% DR instead of 17%
-            if (item.type == ItemID.WormScarf)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("17%", "10%"));
-
-            if (item.type == ItemID.TitanGlove)
-                EditTooltipByNum(0, (line) => line.Text += "\n10% increased true melee damage");
-            if (item.type == ItemID.PowerGlove || item.type == ItemID.MechanicalGlove || item.type == ItemID.BerserkerGlove)
-                EditTooltipByNum(1, (line) => line.Text += "\n10% increased true melee damage");
-            if (item.type == ItemID.FireGauntlet)
-            {
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
-                string extraLine = "\n10% increased true melee damage";
-                EditTooltipByNum(1, (line) => line.Text = "14% increased melee damage and speed" + extraLine);
-            }
-
-            // On Fire! debuff immunities
-            if (item.type == ItemID.ObsidianSkull || item.type == ItemID.AnkhShield || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
-
-            if (item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
-                EditTooltipByNum(1, (line) => line.Text = line.Text.Replace("fire blocks", "the Burning and On Fire! debuffs"));
-
-            // IT'S HELLFIRE!!!
-            if (item.type == ItemID.MagmaStone || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace("fire damage", "Hellfire"));
-
-            // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
-            if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
-                EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
             #endregion
 
             // Non-consumable boss summon items
@@ -726,11 +820,6 @@ namespace CalamityMod.Items
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants
                 && !Main.LocalPlayer.Calamity().forbiddenCirclet)
                 EditTooltipByName("SetBonus", (line) => line.Text += "\nThe minion damage nerf is reduced while wielding magic weapons");
-
-            // Stardust
-            // 1) Chest and Legs only give 1 minion slot each instead of 2 each.
-            if (item.type == ItemID.StardustBreastplate || item.type == ItemID.StardustLeggings)
-                EditTooltipByNum(0, (line) => line.Text = line.Text.Replace('2', '1'));
             #endregion
 
             // Provide the full stats of every vanilla set of wings
@@ -855,7 +944,7 @@ namespace CalamityMod.Items
                     "while wearing the Solar Flare Armor");
 
             if (item.type == ItemID.WingsStardust)
-                AddWingStats(9f, 2.5f, 3, 180, "+1 max minion and 5% increased minion damage while wearing the Stardust Armor");
+                AddWingStats(9f, 2.5f, 3, 180, "10% increased minion damage while wearing the Stardust Armor");
 
             if (item.type == ItemID.WingsVortex)
                 AddWingStats(6.5f, 1.5f, 2, 180, "3% increased ranged damage and 7% increased ranged critical strike chance\n" +

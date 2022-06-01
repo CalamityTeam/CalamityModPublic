@@ -19,7 +19,6 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Cosmic Worm");
             Tooltip.SetDefault("Summons the Devourer of Gods\n" +
-                "SENTINEL WARNING TOOLTIP LINE HERE\n" +
                 "Not consumable");
         }
 
@@ -35,18 +34,9 @@ namespace CalamityMod.Items.SummonItems
             Item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
-            bool sentinelsNotDefeated = !DownedBossSystem.downedCeaselessVoid || !DownedBossSystem.downedStormWeaver || !DownedBossSystem.downedSignus;
-
-            if (line != null)
-                line.Text = sentinelsNotDefeated ? "WARNING! Some sentinels have not been truly defeated yet and will spawn at full power during this fight!" : "";
-        }
-
         public override bool CanUseItem(Player player)
         {
-            return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && CalamityWorld.DoGSecondStageCountdown <= 0 && !BossRushEvent.BossRushActive;
+            return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)

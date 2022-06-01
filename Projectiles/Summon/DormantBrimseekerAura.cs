@@ -92,6 +92,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         int idx = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrimseekerAuraBall>(), Projectile.damage, 3f, Projectile.owner, Projectile.identity);
                         Main.projectile[idx].timeLeft = Projectile.timeLeft;
+                        Main.projectile[idx].originalDamage = Projectile.originalDamage;
                     }
                 }
             }

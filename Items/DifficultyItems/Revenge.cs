@@ -76,7 +76,7 @@ namespace CalamityMod.Items.DifficultyItems
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 return true;
 
-            if (CalamityPlayer.areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive)
+            if (CalamityPlayer.areThereAnyDamnBosses || BossRushEvent.BossRushActive)
             {
                 string key = "Mods.CalamityMod.ChangingTheRules";
                 Color messageColor = Color.Crimson;
@@ -113,7 +113,6 @@ namespace CalamityMod.Items.DifficultyItems
                     messageColor = Color.Crimson;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
-                CalamityWorld.DoGSecondStageCountdown = 0;
                 CalamityNetcode.SyncWorld();
             }
             return true;

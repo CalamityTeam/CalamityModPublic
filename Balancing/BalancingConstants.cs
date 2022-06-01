@@ -2,12 +2,24 @@
 {
     public static class BalancingConstants
     {
+        // Permanent move speed boost given to the player at all stages of the game
+        internal static readonly float DefaultMoveSpeedBoost = 0.5f;
+        
         // The multiplier for the player's gravity (downwards acceleration) while they are holding the Down button (S by default).
         internal static readonly float HoldingDownGravityMultiplier = 2f;
 
         // Altered jump speed boost provided by Shiny Red Balloon via IL edit
         // This is a const because it replaces a hardcoded value in vanilla
         internal const float BalloonJumpSpeedBoost = 0.75f;
+
+        // Sharpening Station grants this much armor penetration to melee weapons.
+        internal const float SharpeningStationArmorPenetration = 5f;
+
+        // Dash cooldowns (in frames)
+        internal const int UniversalDashCooldown = 30;
+        internal const int UniversalShieldSlamCooldown = 30;
+        internal const int UniversalShieldBonkCooldown = 30;
+        internal const int OnShieldBonkCooldown = 30;
 
         // Vanilla shield slam stats
         // These are consts because they replace hardcoded values in vanilla

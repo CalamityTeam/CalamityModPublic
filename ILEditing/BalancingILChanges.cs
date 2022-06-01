@@ -505,5 +505,27 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_R4, 150f); // Reduce homing range by 50%.
         }
         #endregion
+
+        #region Sharpening Station Nerf
+        private static void NerfSharpeningStation(ILContext il)
+        {
+            // Reduce armor penetration from the Sharpening Station from 12 (it was originally 16!)
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcI4(BuffID.Sharpened)))
+            {
+                LogFailure("Sharpening Station Nerf", "Could not locate the Sharpened buff ID.");
+                return;
+            }
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(12f))) // The amount of armor penetration to grant.
+            {
+                LogFailure("Sharpening Station Nerf", "Could not locate the amount of armor penetration granted.");
+                return;
+            }
+
+            // Replace the value entirely.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, BalancingConstants.SharpeningStationArmorPenetration);
+        }
+        #endregion
     }
 }

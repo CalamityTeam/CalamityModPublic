@@ -27,18 +27,9 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.npcSlots = 5f;
             NPC.width = 40;
             NPC.height = 40;
-
-            // 10% of HP is phase one
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedStormWeaver;
-            NPC.lifeMax = notDoGFight ? 825500 : 139750;
+            NPC.lifeMax = 825500;
             NPC.LifeMaxNERB(NPC.lifeMax, NPC.lifeMax, 475000);
-
-            // If fought alone, Storm Weaver plays its own theme
-            if (notDoGFight)
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
-            // If fought as a DoG interlude, keep the DoG music playing
-            else
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Weaver") ?? MusicID.Boss3;
 
             // Phase one settings
             CalamityGlobalNPC global = NPC.Calamity();
@@ -151,7 +142,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         if (NPC.ai[0] % bodySegmentDivisor == 0f)
                         {
                             NPC.TargetClosest();
-                            float projectileVelocity = death ? 5f : revenge ? 4.75f : expertMode ? 4.5f : 4f;
+                            float projectileVelocity = death ? 6.25f : revenge ? 5.75f : expertMode ? 5.5f : 5f;
                             Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                             int type = ModContent.ProjectileType<DestroyerElectricLaser>();
                             int damage = NPC.GetProjectileDamage(type);
@@ -259,8 +250,8 @@ namespace CalamityMod.NPCs.StormWeaver
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             bool phase2 = lifeRatio < 0.8f;
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
@@ -328,8 +319,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
-            bool phase3 = lifeRatio < 0.6f;
-            bool phase4 = lifeRatio < 0.4f;
+            bool phase3 = lifeRatio < 0.65f;
+            bool phase4 = lifeRatio < 0.5f;
 
             // Gate value that decides when Storm Weaver will charge
             float chargePhaseGateValue = malice ? 280f : death ? 320f : revenge ? 340f : expertMode ? 360f : 400f;
@@ -345,17 +336,6 @@ namespace CalamityMod.NPCs.StormWeaver
         public override bool CheckActive()
         {
             return false;
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x) && NPC.life / (float)NPC.lifeMax >= 0.8f)
-            {
-                if (projectile.penetrate == -1 && !projectile.minion)
-                    projectile.penetrate = 1;
-                else if (projectile.penetrate >= 1)
-                    projectile.penetrate = 1;
-            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

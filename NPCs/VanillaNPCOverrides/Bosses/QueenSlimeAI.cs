@@ -1,6 +1,7 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -652,7 +653,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 for (int i = 0; i < numGelProjectiles; i++)
                                 {
                                     Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numGelProjectiles - 1)));
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, 0f, Main.myPlayer, 0f, -2f);
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer, 0f, -2f);
                                     Main.projectile[proj].timeLeft = 900;
                                 }
                             }
@@ -662,8 +663,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 {
                                     Vector2 spinningpoint = new Vector2(projectileVelocity, 0f);
                                     spinningpoint = spinningpoint.RotatedBy((-j) * ((float)Math.PI * 2f) / numGelProjectiles, Vector2.Zero);
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center.X, npc.Center.Y, spinningpoint.X, spinningpoint.Y, type, damage, 0f, Main.myPlayer, 0f, -1f);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, spinningpoint, type, damage, 0f, Main.myPlayer, 0f, -1f);
                                 }
+                            }
+
+                            // Fire gel balls directly at players with a max of 3
+                            List<int> targets = new List<int>();
+                            for (int p = 0; p < Main.maxPlayers; p++)
+                            {
+                                if (Main.player[p].active && !Main.player[p].dead)
+                                    targets.Add(p);
+
+                                if (targets.Count > 2)
+                                    break;
+                            }
+                            foreach (int t in targets)
+                            {
+                                Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - npc.Center) * projectileVelocity;
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, -2f);
+                                Main.projectile[proj].timeLeft = 900;
                             }
                         }
 

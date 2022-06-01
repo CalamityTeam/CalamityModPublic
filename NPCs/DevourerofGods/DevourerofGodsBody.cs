@@ -144,11 +144,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 phase2Started = true;
 
                 // Play music after the transiton BS
-                if (CalamityWorld.DoGSecondStageCountdown == 530)
+                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 530f)
                     Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size
-                if (CalamityWorld.DoGSecondStageCountdown == 60)
+                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
                 {
                     NPC.position = NPC.Center;
                     NPC.width = 70;
@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 {
                                     SoundEngine.PlaySound(SoundID.Item12, player.position);
                                     NPC.TargetClosest();
-                                    float projectileVelocity = malice ? 10f : death ? 9f : revenge ? 8.5f : expertMode ? 8f : 7f;
+                                    float projectileVelocity = malice ? 12f : death ? 11f : revenge ? 10.5f : expertMode ? 10f : 9f;
                                     Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                                     int type = ModContent.ProjectileType<DoGDeath>();
                                     int damage = NPC.GetProjectileDamage(type);
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 SoundEngine.PlaySound(SoundID.Item12, player.position);
                                 NPC.localAI[0] = 0f;
                                 NPC.TargetClosest();
-                                float projectileVelocity = malice ? 9f : death ? 8f : revenge ? 7.5f : expertMode ? 7f : 6f;
+                                float projectileVelocity = malice ? 11f : death ? 10f : revenge ? 9.5f : expertMode ? 9f : 8f;
                                 Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
                                 int type = ModContent.ProjectileType<DoGDeath>();
                                 int damage = NPC.GetProjectileDamage(type);
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            if (Main.npc[(int)NPC.ai[1]].Opacity >= 0.5f && (!setOpacity || (CalamityWorld.DoGSecondStageCountdown <= 60 && CalamityWorld.DoGSecondStageCountdown > 0)))
+            if (Main.npc[(int)NPC.ai[1]].Opacity >= 0.5f && (!setOpacity || (Main.npc[(int)NPC.ai[2]].localAI[2] <= 60f && Main.npc[(int)NPC.ai[2]].localAI[2] > 0f)))
             {
                 NPC.Opacity += 0.165f;
                 if (NPC.Opacity >= 1f && invinceTime <= 0)
@@ -367,7 +367,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool useOtherTextures = phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
+            bool useOtherTextures = phase2Started && Main.npc[(int)NPC.ai[2]].localAI[2] <= 60f;
             Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsBodyS").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 

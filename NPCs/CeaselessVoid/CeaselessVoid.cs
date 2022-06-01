@@ -47,20 +47,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.defense = 80;
             CalamityGlobalNPC global = NPC.Calamity();
             global.DR = 0.5f;
-
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedCeaselessVoid;
-            NPC.LifeMaxNERB(notDoGFight ? 64400 : 16100, notDoGFight ? 77280 : 19320, 72000);
-
-            // If fought alone, Ceaseless Void plays its own theme
-            if (notDoGFight)
-            {
-                NPC.value = Item.buyPrice(2, 0, 0, 0);
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
-            }
-            // If fought as a DoG interlude, keep the DoG music playing
-            else
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
-
+            NPC.LifeMaxNERB(64400, 77280, 72000);
+            NPC.value = Item.buyPrice(2, 0, 0, 0);
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Void") ?? MusicID.Boss3;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -184,46 +173,22 @@ namespace CalamityMod.NPCs.CeaselessVoid
             return false;
         }
 
-        // Ceaseless Void is "at full strength" if the DoG fight is not active, or if he has not been killed yet and the DoG fight IS active.
-        public static bool AtFullStrength() => CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedCeaselessVoid;
-
         public static bool LastSentinelKilled() => !DownedBossSystem.downedCeaselessVoid && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedSignus;
 
         public override void OnKill()
         {
-            bool fullStrength = AtFullStrength();
-            if (fullStrength)
-                CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            // If DoG's fight is active, set the timer for the remaining two sentinels
-            if (CalamityWorld.DoGSecondStageCountdown > 14460)
-            {
-                CalamityWorld.DoGSecondStageCountdown = 14460;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-            }
-
-            // Mark Ceaseless Void as dead
-            if (fullStrength)
-            {
-                DownedBossSystem.downedCeaselessVoid = true;
-                CalamityNetcode.SyncWorld();
-            }
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            DownedBossSystem.downedCeaselessVoid = true;
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(AtFullStrength);
-            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<CeaselessVoidBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<CeaselessVoidBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
-            fullStrengthDrops.Add(normalOnly);
+            npcLoot.Add(normalOnly);
             {
                 // Weapons
                 int[] weapons = new int[]
@@ -246,7 +211,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
 
-            fullStrengthDrops.Add(ModContent.ItemType<CeaselessVoidTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<CeaselessVoidTrophy>(), 10);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());

@@ -52,9 +52,8 @@ namespace CalamityMod.Projectiles
         public bool forceHostile = false;
 
         // Damage Adjusters
-        private bool setDamageValues = true;
-        public float PierceResistHarshness = 0.12f;
-        public float PierceResistCap = 0.8f;
+        public const float PierceResistHarshness = 0.12f;
+        public const float PierceResistCap = 0.8f;
         public int defDamage = 0;
 
         // Enables "supercrits". When crit is over 100%, projectiles with this bool enabled can "supercrit".
@@ -245,6 +244,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.EnchantedBoomerang:
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.FruitcakeChakram:
+                case ProjectileID.BlueMoon:
                     projectile.extraUpdates = 1;
                     break;
 
@@ -274,7 +274,6 @@ namespace CalamityMod.Projectiles
                     projectile.localNPCHitCooldown = 20;
                     break;
 
-                case ProjectileID.BlueMoon:
                 case ProjectileID.Flamarang:
                     projectile.extraUpdates = 2;
                     break;
@@ -418,12 +417,6 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.CultistBossFireBallClone:
                 case ProjectileID.CultistBossIceMist:
                     canBreakPlayerDefense = true;
-                    break;
-
-                case ProjectileID.LastPrismLaser:
-                case ProjectileID.ChargedBlasterLaser:
-                    PierceResistHarshness = 0.06f;
-                    PierceResistCap = 0.4f;
                     break;
 
                 default:
@@ -666,35 +659,42 @@ namespace CalamityMod.Projectiles
 
             else if (projectile.type == ProjectileID.FrostWave && projectile.ai[1] > 0f)
             {
-                if (projectile.velocity.Length() < projectile.ai[1])
+                if (projectile.ai[0] < 0f)
                 {
-                    projectile.velocity *= 1.01f;
-                    if (projectile.velocity.Length() > projectile.ai[1])
-                    {
-                        projectile.velocity.Normalize();
-                        projectile.velocity *= projectile.ai[1];
-                    }
+                    projectile.ai[0] += 1f;
                 }
                 else
                 {
-                    if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
+                    if (projectile.velocity.Length() < projectile.ai[1])
                     {
-                        projectile.scale += 0.005f;
-                        projectile.alpha -= 25;
-                        if (projectile.alpha <= 0)
+                        projectile.velocity *= 1.04f;
+                        if (projectile.velocity.Length() > projectile.ai[1])
                         {
-                            projectile.ai[0] = 1f;
-                            projectile.alpha = 0;
+                            projectile.velocity.Normalize();
+                            projectile.velocity *= projectile.ai[1];
                         }
                     }
-                    else if (projectile.ai[0] == 1f)
+                    else
                     {
-                        projectile.scale -= 0.005f;
-                        projectile.alpha += 25;
-                        if (projectile.alpha >= 255)
+                        if (projectile.ai[0] == 0f || projectile.ai[0] == 2f)
                         {
-                            projectile.ai[0] = 2f;
-                            projectile.alpha = 255;
+                            projectile.scale += 0.005f;
+                            projectile.alpha -= 25;
+                            if (projectile.alpha <= 0)
+                            {
+                                projectile.ai[0] = 1f;
+                                projectile.alpha = 0;
+                            }
+                        }
+                        else if (projectile.ai[0] == 1f)
+                        {
+                            projectile.scale -= 0.005f;
+                            projectile.alpha += 25;
+                            if (projectile.alpha >= 255)
+                            {
+                                projectile.ai[0] = 2f;
+                                projectile.alpha = 255;
+                            }
                         }
                     }
                 }

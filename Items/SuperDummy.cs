@@ -99,9 +99,14 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            CreateRecipe().
-                AddIngredient(ItemID.TargetDummy).
-                Register();
+            Recipe r = CreateRecipe();
+            r.AddIngredient(ItemID.TargetDummy);
+            r.Register();
+
+            // Super Dummy revert to Target Dummy
+            r = Mod.CreateRecipe(ItemID.TargetDummy);
+            r.AddIngredient<SuperDummy>();
+            r.Register();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using CalamityMod.Enums;
 using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -12,6 +13,8 @@ namespace CalamityMod.CalPlayer.Dashes
     public class OrnateShieldDash : PlayerDashEffect
     {
         public static new string ID => "Ornate Shield";
+
+        public override DashCollisionType CollisionType => DashCollisionType.ShieldSlam;
 
         public override bool IsOmnidirectional => false;
 

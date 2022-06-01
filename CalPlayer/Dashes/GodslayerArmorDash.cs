@@ -1,7 +1,9 @@
 ﻿using System;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Enums;
 using CalamityMod.Items.Armor;
+using CalamityMod.NPCs.DevourerofGods;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -9,13 +11,14 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs.DevourerofGods;
 
 namespace CalamityMod.CalPlayer.Dashes
 {
     public class GodslayerArmorDash : PlayerDashEffect
     {
         public static new string ID => "Godslayer Armor";
+
+        public override DashCollisionType CollisionType => DashCollisionType.ShieldSlam;
 
         public override bool IsOmnidirectional => true;
 

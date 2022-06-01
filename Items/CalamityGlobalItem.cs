@@ -1424,10 +1424,7 @@ namespace CalamityMod.Items
             {
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.StardustHelmet && player.body == ArmorIDs.Body.StardustPlate && player.legs == ArmorIDs.Legs.StardustLeggings)
-                {
-                    player.maxMinions++;
-                    player.GetDamage<SummonDamageClass>() += 0.05f;
-                }
+                    player.GetDamage<SummonDamageClass>() += 0.1f;
             }
             else if (item.type == ItemID.FishronWings || item.type == ItemID.BetsyWings || item.type == ItemID.Yoraiz0rWings ||
                 item.type == ItemID.JimsWings || item.type == ItemID.SkiphsWings || item.type == ItemID.LokisWings ||
@@ -1574,15 +1571,18 @@ namespace CalamityMod.Items
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            float moveSpeedBoost = modPlayer.moveSpeedStat * 0.001f;
 
             float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +
                 (modPlayer.profanedRage ? 0.05f : 0f) +
                 (modPlayer.draconicSurge ? 0.1f : 0f) +
-                (modPlayer.reaverSpeed ? 0.1f : 0f);
+                (modPlayer.reaverSpeed ? 0.1f : 0f) +
+                moveSpeedBoost;
 
             float flightAccMult = 1f +
-                (modPlayer.draconicSurge ? 0.1f : 0f);
+                (modPlayer.draconicSurge ? 0.1f : 0f) +
+                moveSpeedBoost;
 
             flightSpeedMult = MathHelper.Clamp(flightSpeedMult, 0.5f, 1.5f);
             speed *= flightSpeedMult;

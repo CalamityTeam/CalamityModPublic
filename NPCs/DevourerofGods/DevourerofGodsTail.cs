@@ -147,11 +147,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                 phase2Started = true;
 
                 // Play music after the transiton BS
-                if (CalamityWorld.DoGSecondStageCountdown == 530)
+                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 530f)
                     Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size
-                if (CalamityWorld.DoGSecondStageCountdown == 60)
+                if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
                 {
                     NPC.position = NPC.Center;
                     NPC.width = 80;
@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.active = false;
             }
 
-            if (Main.npc[(int)NPC.ai[1]].Opacity >= 0.5f && (!setOpacity || (CalamityWorld.DoGSecondStageCountdown <= 60 && CalamityWorld.DoGSecondStageCountdown > 0)))
+            if (Main.npc[(int)NPC.ai[1]].Opacity >= 0.5f && (!setOpacity || (Main.npc[(int)NPC.ai[2]].localAI[2] <= 60f && Main.npc[(int)NPC.ai[2]].localAI[2] > 0f)))
             {
                 NPC.Opacity += 0.165f;
                 if (NPC.Opacity >= 1f && invinceTime <= 0)
@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool useOtherTextures = phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60;
+            bool useOtherTextures = phase2Started && Main.npc[(int)NPC.ai[2]].localAI[2] <= 60f;
             Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTailS").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
 

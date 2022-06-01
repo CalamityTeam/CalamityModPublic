@@ -10,14 +10,14 @@ namespace CalamityMod.Items.Potions
 {
     public class SunkenStew : ModItem
     {
-        public static int BuffType = BuffID.WellFed;
+        public static int BuffType = BuffID.WellFed2;
         public static int BuffDuration = 216000;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hadal Stew");
             Tooltip.SetDefault("Only gives 50 seconds of Potion Sickness\n" +
-               "Grants Well Fed\n" +
+               "{$CommonItemTooltip.MediumStats}\n" +
                "60 minute duration");
                SacrificeTotal = 30;
         }

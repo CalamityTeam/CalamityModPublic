@@ -35,8 +35,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime += PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs += AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt += RemoveRNGFromDodges;
-            IL.Terraria.Player.DashMovement += BuffSolarFlareShieldSlam;
-            IL.Terraria.Player.DashMovement += FixModdedDashesResettingDashCountdown;
+            IL.Terraria.Player.DashMovement += FixAllDashMechanics;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack += MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision += NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor += OpenDoor_LabDoorOverride;
@@ -75,6 +74,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update += NerfMagiluminescence;
             IL.Terraria.Player.Update += NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement += RemoveSoaringInsigniaInfiniteWingTime;
+
+            // Damage balance
+            IL.Terraria.Player.UpdateBuffs += NerfSharpeningStation;
 
             // Life regen balance
             IL.Terraria.Player.UpdateLifeRegen += PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen;
@@ -124,8 +126,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Main.UpdateTime -= PermitNighttimeTownNPCSpawning;
             On.Terraria.Main.UpdateTime_SpawnTownNPCs -= AlterTownNPCSpawnRate;
             IL.Terraria.Player.Hurt -= RemoveRNGFromDodges;
-            IL.Terraria.Player.DashMovement -= BuffSolarFlareShieldSlam;
-            IL.Terraria.Player.DashMovement -= FixModdedDashesResettingDashCountdown;
+            IL.Terraria.Player.DashMovement -= FixAllDashMechanics;
             IL.Terraria.Player.GiveImmuneTimeForCollisionAttack -= MakeShieldSlamIFramesConsistent;
             IL.Terraria.Player.Update_NPCCollision -= NerfShieldOfCthulhuBonkSafety;
             On.Terraria.WorldGen.OpenDoor -= OpenDoor_LabDoorOverride;
@@ -162,6 +163,9 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.Update -= NerfSoaringInsigniaRunAcceleration;
             IL.Terraria.Player.WingMovement -= RemoveSoaringInsigniaInfiniteWingTime;
 
+            // Damage balance
+            IL.Terraria.Player.UpdateBuffs -= NerfSharpeningStation;
+
             // Life regen balance
             IL.Terraria.Player.UpdateLifeRegen -= PreventWellFedFromBeingRequiredInExpertModeForFullLifeRegen;
 
@@ -191,7 +195,6 @@ namespace CalamityMod.ILEditing
             On.Terraria.Player.GetPickaxeDamage -= RemoveHellforgePickaxeRequirement;
 
             // Fix vanilla bugs exposed by Calamity mechanics
-            // On.Terraria.Main.InitLifeBytes -= BossRushLifeBytes;
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
             On.Terraria.Item.Prefix -= LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate -= FixProjectileUpdatePriorityProblems;

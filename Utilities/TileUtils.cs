@@ -7,7 +7,7 @@ using CalamityMod.Tiles.Crags;
 using CalamityMod.Tiles.FurnitureAbyss;
 using CalamityMod.Tiles.FurnitureAshen;
 using CalamityMod.Tiles.FurnitureEutrophic;
-using CalamityMod.Tiles.FurnitureOccult;
+using CalamityMod.Tiles.FurnitureOtherworldly;
 using CalamityMod.Tiles.FurnitureProfaned;
 using CalamityMod.Tiles.FurnitureVoid;
 using CalamityMod.Tiles.Ores;
@@ -383,7 +383,7 @@ namespace CalamityMod
             TileType<AstralSand>(),
             TileType<HardenedAstralSand>(),
             TileType<AstralSandstone>(),
-            TileType<AstralFossil>(),
+            TileType<CelestialRemains>(),
             // Sunken Sea
             TileType<EutrophicSand>(),
             TileType<Navystone>(),
@@ -405,7 +405,7 @@ namespace CalamityMod
             // Astral Snow
             TileType<AstralIce>(),
             TileType<AstralSnow>(),
-            TileType<AstralSilt>(),
+            TileType<NovaeSlag>(),
         });
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace CalamityMod
             SetMerge(type, TileType<AstralSand>());
             SetMerge(type, TileType<HardenedAstralSand>());
             SetMerge(type, TileType<AstralSandstone>());
-            SetMerge(type, TileType<AstralFossil>());
+            SetMerge(type, TileType<CelestialRemains>());
             //Astral Snow
             SetMerge(type, TileType<AstralIce>());
             SetMerge(type, TileType<AstralSnow>());
@@ -485,7 +485,7 @@ namespace CalamityMod
             SetMerge(type, TileType<CryonicBrick>());
             SetMerge(type, TileType<PerennialBrick>());
             SetMerge(type, TileType<UelibloomBrick>());
-            SetMerge(type, TileType<OccultStone>());
+            SetMerge(type, TileType<OtherworldlyStone>());
             SetMerge(type, TileType<ProfanedSlab>());
             SetMerge(type, TileType<RunicProfanedBrick>());
             SetMerge(type, TileType<AshenSlab>());

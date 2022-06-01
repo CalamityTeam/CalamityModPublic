@@ -1660,11 +1660,6 @@ namespace CalamityMod
                     Item itemToSet = (Item)args[1];
                     return SetCalamityRarity(itemToSet, rarity);
 
-                case "GetDoGCountdown":
-                case "GetDoGFightCountdown":
-                case "GetDoGStage2Countdown":
-                    return CalamityWorld.DoGSecondStageCountdown;
-
                 case "AcidRainActive":
                 case "IsAcidRainActive":
                 case "GetAcidRainActive":

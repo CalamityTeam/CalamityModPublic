@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     if (Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                     {
                         SoundEngine.PlaySound(SoundID.Item109, NPC.position);
-                        float speed = 5f;
+                        float speed = 6f;
                         Vector2 vector = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)(NPC.height / 2));
                         float num6 = Main.player[NPC.target].position.X + (float)Main.player[NPC.target].width * 0.5f - vector.X;
                         float num7 = Main.player[NPC.target].position.Y + (float)Main.player[NPC.target].height * 0.5f - vector.Y;
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                         num8 = speed / num8;
                         num6 *= num8;
                         num7 *= num8;
-                        int type = ModContent.ProjectileType<AstralFlame>();
+                        int type = ModContent.ProjectileType<AstralLaser>();
                         int damage = NPC.GetProjectileDamage(type);
                         Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center.X, NPC.Center.Y, num6, num7, type, damage, 0f, Main.myPlayer);
                     }
@@ -372,6 +372,30 @@ namespace CalamityMod.NPCs.AstrumAureus
             NPC.width = NPC.height = 432;
             NPC.position.X = NPC.position.X - (float)(NPC.width / 2);
             NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
+
+            // Split into a halo of projectiles in death mode
+            if (CalamityWorld.death || BossRushEvent.BossRushActive)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int totalProjectiles = 4;
+                    double radians = MathHelper.TwoPi / totalProjectiles;
+                    int type = ModContent.ProjectileType<AstralLaser>();
+                    int damage2 = NPC.GetProjectileDamage(type);
+                    float velocity = 6f;
+                    double angleA = radians * 0.5;
+                    double angleB = MathHelper.ToRadians(90f) - angleA;
+                    float velocityX = (float)(velocity * Math.Sin(angleA) / Math.Sin(angleB));
+                    Vector2 spinningPoint = Main.rand.NextBool() ? new Vector2(0f, -velocity) : new Vector2(-velocityX, -velocity);
+                    for (int k = 0; k < totalProjectiles; k++)
+                    {
+                        Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage2, 0f, Main.myPlayer);
+                        Main.projectile[proj].timeLeft = 200;
+                    }
+                }
+            }
+
             for (int num621 = 0; num621 < 30; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);

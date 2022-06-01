@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.NPCs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -32,6 +33,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
+            {
+                Projectile.active = false;
+                Projectile.netUpdate = true;
+                return;
+            }
+
             if (TimeCountdown > 0f)
             {
                 if (TimeCountdown > 120f)
@@ -41,9 +49,9 @@ namespace CalamityMod.Projectiles.Boss
                 TimeCountdown--;
             }
             else
-                Projectile.scale = Utils.GetLerpValue(60000f, 59945f, Projectile.timeLeft, true) * Utils.GetLerpValue(60f, 115f, CalamityWorld.DoGSecondStageCountdown, true);
+                Projectile.scale = Utils.GetLerpValue(60000f, 59945f, Projectile.timeLeft, true) * Utils.GetLerpValue(60f, 115f, Main.npc[CalamityGlobalNPC.DoGHead].localAI[2], true);
 
-            if ((CalamityWorld.DoGSecondStageCountdown < 60f && TimeCountdown == 0f) || NPCs.CalamityGlobalNPC.DoGHead == -1 || TimeCountdown == 1f)
+            if ((Main.npc[CalamityGlobalNPC.DoGHead].localAI[2] < 60f && TimeCountdown == 0f) || CalamityGlobalNPC.DoGHead == -1 || TimeCountdown == 1f)
                 Projectile.Kill();
         }
 

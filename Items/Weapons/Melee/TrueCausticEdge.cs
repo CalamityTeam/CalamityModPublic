@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<CausticEdge>().
                 AddRecipeGroup("AnyEvilFlask", 5).
                 AddIngredient(ItemID.FlaskofPoison, 5).
-                AddIngredient(ItemID.Deathweed, 3).
+                AddIngredient(ItemID.Deathweed, 4).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

@@ -128,8 +128,11 @@ namespace CalamityMod.NPCs.DevourerofGods
         private int idleCounter = idleCounterMax;
         private int postTeleportTimer = 0;
         private int teleportTimer = -1;
+        private const int TimeBeforeTeleport_Death = 120;
+        private const int TimeBeforeTeleport_Revengeance = 140;
+        private const int TimeBeforeTeleport_Expert = 160;
+        private const int TimeBeforeTeleport_Normal = 180;
         private bool spawnedGuardians3 = false;
-        private int preventBullshitHitsAtStartofFinalPhaseTimer = 0;
         private const float alphaGateValue = 669f;
 
         // Death animation variables
@@ -174,7 +177,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void BossHeadSlot(ref int index)
         {
-            if (Phase2Started && (CalamityWorld.DoGSecondStageCountdown > 60 || AwaitingPhase2Teleport))
+            if (Phase2Started && (NPC.localAI[2] > 60f || AwaitingPhase2Teleport))
                 index = -1;
             else if (Phase2Started && !AwaitingPhase2Teleport)
                 index = phase2IconIndex;
@@ -184,7 +187,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void BossHeadRotation(ref float rotation)
         {
-            if (Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60)
+            if (Phase2Started && NPC.localAI[2] <= 60f)
                 rotation = NPC.rotation;
         }
 
@@ -211,6 +214,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 writer.Write(NPC.Calamity().newAI[i]);
 
             // Phase 2 syncs
+            writer.Write(NPC.localAI[2]);
             writer.Write(shotSpacing_Phase2[0]);
             writer.Write(shotSpacing_Phase2[1]);
             writer.Write(shotSpacing_Phase2[2]);
@@ -219,7 +223,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(laserWallPhase);
             writer.Write(laserWallType_Phase2);
             writer.Write(postTeleportTimer);
-            writer.Write(preventBullshitHitsAtStartofFinalPhaseTimer);
             writer.Write(teleportTimer);
             writer.Write(NPC.Opacity);
 
@@ -263,6 +266,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.Calamity().newAI[i] = reader.ReadSingle();
 
             // Phase 2 syncs
+            NPC.localAI[2] = reader.ReadSingle();
             shotSpacing_Phase2[0] = reader.ReadInt32();
             shotSpacing_Phase2[1] = reader.ReadInt32();
             shotSpacing_Phase2[2] = reader.ReadInt32();
@@ -271,7 +275,6 @@ namespace CalamityMod.NPCs.DevourerofGods
             laserWallPhase = reader.ReadInt32();
             laserWallType_Phase2 = reader.ReadInt32();
             postTeleportTimer = reader.ReadInt32();
-            preventBullshitHitsAtStartofFinalPhaseTimer = reader.ReadInt32();
             teleportTimer = reader.ReadInt32();
             NPC.Opacity = reader.ReadSingle();
 
@@ -320,14 +323,14 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Phase 1 phases
             bool phase2 = lifeRatio < 0.9f;
-            bool phase3 = lifeRatio < 0.68f;
+            bool phase3 = lifeRatio < 0.75f;
             bool summonSentinels = lifeRatio < 0.6f;
 
             // Phase 2 phases
-            bool phase4 = lifeRatio < 0.48f;
-            bool phase5 = lifeRatio < 0.36f;
-            bool phase6 = lifeRatio < 0.18f;
-            bool phase7 = lifeRatio < 0.09f;
+            bool phase4 = lifeRatio < 0.5f;
+            bool phase5 = lifeRatio < 0.4f;
+            bool phase6 = lifeRatio < 0.2f;
+            bool phase7 = lifeRatio < 0.15f;
 
             // Velocity variables
             float fallSpeed = malice ? 19f : death ? 17.5f : 16f;
@@ -411,18 +414,28 @@ namespace CalamityMod.NPCs.DevourerofGods
             else
                 NPC.takenDamageMultiplier = 1.1f;
 
-            // Close DoG's HP bar if busy with sentinels or a P2 transition.
-            if (CalamityWorld.DoGSecondStageCountdown > 0)
+            // Close DoG's HP bar if busy with sentinels or a P2 transition and decrement the countdown.
+            if (NPC.localAI[2] > 0f)
+            {
+                NPC.localAI[2] -= 1f;
                 NPC.Calamity().ShouldCloseHPBar = true;
+            }
 
             // Teleport after the Phase 2 animation.
-            if (CalamityWorld.DoGSecondStageCountdown == 61)
-                Teleport(player, malice, death, revenge, expertMode, phase5, true);
+            float timeWhenDoGShouldTeleportDuringPhase2Countdown = 61f;
+            if (NPC.localAI[2] == timeWhenDoGShouldTeleportDuringPhase2Countdown + ((CalamityWorld.death || BossRushEvent.BossRushActive) ? TimeBeforeTeleport_Death : CalamityWorld.revenge ? TimeBeforeTeleport_Revengeance : Main.expertMode ? TimeBeforeTeleport_Expert : TimeBeforeTeleport_Normal))
+                SpawnTeleportLocation(player, true);
+            if (NPC.localAI[2] == timeWhenDoGShouldTeleportDuringPhase2Countdown)
+                Teleport(player, malice, death, revenge, expertMode, phase5);
+
+            // Just in case the projectile cap is reached and the teleport rift doesn't spawn.
+            if (AwaitingPhase2Teleport && NPC.localAI[2] == 0f)
+                AwaitingPhase2Teleport = false;
 
             // Be invincibile until the phase 2 teleport happens.
             // This is done to prevent DoG from suddenly and weirdly re-appearing after entering the phase 1 portal.
             // Once the teleport happens he will be in position and this effect stops.
-            if (Phase2Started && AwaitingPhase2Teleport && CalamityWorld.DoGSecondStageCountdown < 60)
+            if (Phase2Started && AwaitingPhase2Teleport && NPC.localAI[2] < 60f)
             {
                 NPC.Opacity = 0f;
                 NPC.dontTakeDamage = true;
@@ -445,25 +458,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                         NPC.netUpdate = true;
                     }
 
-                    // Skip the sentinel phase entirely if DoG has already been killed
-                    CalamityWorld.DoGSecondStageCountdown = (DownedBossSystem.downedDoG || DownedBossSystem.downedSecondSentinels || BossRushEvent.BossRushActive) ? 600 : 21600;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = Mod.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                        netMessage.Send();
-                    }
+                    // Phase 2 countdown
+                    NPC.localAI[2] = 600f;
                 }
 
                 // Play music after the transiton BS
-                if (CalamityWorld.DoGSecondStageCountdown == 530)
+                if (NPC.localAI[2] == 530f)
                     Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP2") ?? MusicID.LunarBoss;
 
                 // Once before DoG spawns, set new size and become visible again.
-                if (CalamityWorld.DoGSecondStageCountdown == 60)
+                if (NPC.localAI[2] == 60f)
                 {
-                    preventBullshitHitsAtStartofFinalPhaseTimer = 180;
                     NPC.position = NPC.Center;
                     NPC.width = 186;
                     NPC.height = 186;
@@ -473,7 +478,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
 
                 // Dialogue the moment the second phase starts
-                if (CalamityWorld.DoGSecondStageCountdown == 60)
+                if (NPC.localAI[2] == 60f)
                 {
                     string key = "Mods.CalamityMod.EdgyBossText10";
                     Color messageColor = Color.Cyan;
@@ -484,8 +489,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Begin phase 2 once all sentinels are down
             if (Phase2Started)
             {
-                // Go immune and invisible if sentinels are alive
-                if (CalamityWorld.DoGSecondStageCountdown > 5)
+                // Go immune and invisible
+                if (NPC.localAI[2] > 5f)
                 {
                     // Don't take damage
                     NPC.dontTakeDamage = true;
@@ -515,7 +520,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             NPC.Opacity = 0f;
 
                         // Ensure the portal is pointing in the direction of the head at first, to prevent direction offsets.
-                        if (CalamityWorld.DoGSecondStageCountdown > 360)
+                        if (NPC.localAI[2] > 360f)
                             Main.projectile[PortalIndex].Center = NPC.Center + NPC.SafeDirectionTo(Main.projectile[PortalIndex].Center) * NPC.Distance(Main.projectile[PortalIndex].Center);
                     }
 
@@ -535,12 +540,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                 else
                 {
                     // Immunity after teleport and when dying
-                    NPC.dontTakeDamage = postTeleportTimer > 0 || preventBullshitHitsAtStartofFinalPhaseTimer > 0 || Dying;
+                    NPC.dontTakeDamage = postTeleportTimer > 0 || Dying;
 
-                    // Teleport
-                    if (teleportTimer >= 0)
+                    // Teleport countdown
+                    if (teleportTimer > 0)
                     {
                         teleportTimer--;
+
+                        // Teleport
                         if (teleportTimer == 0)
                             Teleport(player, malice, death, revenge, expertMode, phase5);
                     }
@@ -554,10 +561,14 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
 
                     // Laser walls
-                    if (phase4 && !phase6 && postTeleportTimer <= 0)
+                    if (phase4 && !spawnedGuardians3 && postTeleportTimer <= 0)
                     {
                         if (laserWallPhase == (int)LaserWallPhase.SetUp)
                         {
+                            // Enter laser wall phase very quickly when final phase starts
+                            if (phase6 && calamityGlobalNPC.newAI[3] < alphaGateValue)
+                                calamityGlobalNPC.newAI[3] = alphaGateValue;
+
                             // Increment next laser wall phase timer
                             calamityGlobalNPC.newAI[3] += 1f;
 
@@ -565,10 +576,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                             if (calamityGlobalNPC.newAI[3] > alphaGateValue)
                             {
                                 // Disable teleports
-                                if (teleportTimer >= 0)
+                                if (teleportTimer > 0)
                                 {
                                     GetRiftLocation(false);
-                                    teleportTimer = -1;
+                                    teleportTimer = 0;
                                 }
 
                                 NPC.Opacity = 1f - (MathHelper.Clamp((calamityGlobalNPC.newAI[3] - alphaGateValue) * 5f, 0f, 255f) / 255f);
@@ -610,29 +621,17 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                     else
                     {
-                        // Set alpha after teleport
+                        // Set opacity after teleport
                         if (postTeleportTimer > 0)
                         {
                             postTeleportTimer--;
-                            if (postTeleportTimer < 0)
-                                postTeleportTimer = 0;
-
                             NPC.Opacity = 1f - (postTeleportTimer / 255f);
                         }
                         else
                         {
                             NPC.Opacity += 0.024f;
-                            if (NPC.Opacity >= 1f)
+                            if (NPC.Opacity > 1f)
                                 NPC.Opacity = 1f;
-                        }
-
-                        // This exists so that DoG doesn't sometimes hit the player when he goes to phase 2 or final phase
-                        if (preventBullshitHitsAtStartofFinalPhaseTimer > 0)
-                        {
-                            preventBullshitHitsAtStartofFinalPhaseTimer--;
-
-                            if (NPC.Opacity > 0.996f)
-                                NPC.Opacity = 0.996f;
                         }
 
                         // Reset laser wall phase
@@ -642,9 +641,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                         // Enter final phase
                         if (!spawnedGuardians3 && phase6)
                         {
-                            SpawnTeleportLocation(player);
-
-                            preventBullshitHitsAtStartofFinalPhaseTimer = 180;
+                            // Reset laser wall timers to 0
+                            calamityGlobalNPC.newAI[1] = 0f;
+                            calamityGlobalNPC.newAI[3] = 0f;
 
                             // Anger message
                             string key = "Mods.CalamityMod.EdgyBossText11";
@@ -695,7 +694,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                             calamityGlobalNPC.newAI[0] = 0f;
 
                         // Laser walls
-                        if (!phase6 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
+                        if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                         {
                             float spawnOffset = 1500f;
                             float divisor = malice ? 80f : 120f;
@@ -850,7 +849,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
 
                     // Set flight time to max during laser walls
-                    if (!phase6 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
+                    if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                     {
                         if (Main.netMode != NetmodeID.Server)
                         {
@@ -923,7 +922,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         int num44 = (int)(player.Center.Y / 16f);
 
                         // Charge at target for 1.5 seconds
-                        bool flyAtTarget = (!phase4 || phase6) && calamityGlobalNPC.newAI[2] > phaseLimit - 90 && revenge;
+                        bool flyAtTarget = (!phase4 || spawnedGuardians3) && calamityGlobalNPC.newAI[2] > phaseLimit - 90 && revenge;
 
                         for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
                         {
@@ -1110,9 +1109,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (increaseSpeedMore)
                         {
                             if (laserWallPhase == (int)LaserWallPhase.SetUp && calamityGlobalNPC.newAI[3] <= alphaGateValue)
-                            {
                                 SpawnTeleportLocation(player);
-                            }
                             else
                                 groundPhaseTurnSpeed *= 4f;
                         }
@@ -2045,32 +2042,26 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.life = Main.npc[(int)NPC.ai[0]].life;
         }
 
-        private void SpawnTeleportLocation(Player player)
+        private void SpawnTeleportLocation(Player player, bool phase2Transition = false)
         {
-            if (teleportTimer > -1 || player.dead || !player.active)
+            if (teleportTimer > 0 || player.dead || !player.active)
                 return;
 
-            teleportTimer = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 120 : CalamityWorld.revenge ? 140 : Main.expertMode ? 160 : 180;
+            if (!phase2Transition)
+                teleportTimer = (CalamityWorld.death || BossRushEvent.BossRushActive) ? TimeBeforeTeleport_Death : CalamityWorld.revenge ? TimeBeforeTeleport_Revengeance : Main.expertMode ? TimeBeforeTeleport_Expert : TimeBeforeTeleport_Normal;
+            
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int randomRange = 48;
-                float distance = 640f;
+                float distance = 500f;
                 Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
                 SoundEngine.PlaySound(SoundID.Item109, player.Center);
                 Projectile.NewProjectile(NPC.GetSource_FromAI(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
             }
         }
 
-        private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase5, bool phase2Transition = false)
+        private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase5)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient && phase2Transition)
-            {
-                int randomRange = 48;
-                float distance = 1080f;
-                Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
-                Projectile.NewProjectile(NPC.GetSource_FromAI(), targetVector, Vector2.Zero, ModContent.ProjectileType<DoGTeleportRift>(), 0, 0f, Main.myPlayer, NPC.whoAmI);
-            }
-
             Vector2 newPosition = GetRiftLocation(true);
 
             if ((!AwaitingPhase2Teleport && (player.dead || !player.active)) || newPosition == default)
@@ -2266,7 +2257,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool useOtherTextures = (Phase2Started && CalamityWorld.DoGSecondStageCountdown <= 60) || NPC.IsABestiaryIconDummy;
+            bool useOtherTextures = (Phase2Started && NPC.localAI[2] <= 60f) || NPC.IsABestiaryIconDummy;
             Texture2D texture2D15 = useOtherTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHeadS").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(texture2D15.Width / 2, texture2D15.Height / 2);
             if (NPC.IsABestiaryIconDummy)
@@ -2303,9 +2294,6 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void OnKill()
         {
-            // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
-            CalamityWorld.DoGSecondStageCountdown = 0;
-
             CalamityGlobalNPC.SetNewBossJustDowned(NPC);
 
             CalamityGlobalNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, DownedBossSystem.downedDoG);
@@ -2405,7 +2393,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= (Phase2Started ? 80f : 55f) && (NPC.Opacity >= 1f || postTeleportTimer > 0) && preventBullshitHitsAtStartofFinalPhaseTimer <= 0;
+            return minDist <= (Phase2Started ? 80f : 55f) && (NPC.Opacity >= 1f || postTeleportTimer > 0);
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)

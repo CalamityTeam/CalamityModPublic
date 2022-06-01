@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Ranged;
+﻿using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -54,9 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.hide = true;
             Projectile.timeLeft = 300;
             Projectile.usesIDStaticNPCImmunity = true;
-            Projectile.idStaticNPCHitCooldown = 19;
-            Projectile.Calamity().PierceResistHarshness = 0.06f;
-            Projectile.Calamity().PierceResistCap = 0.4f;
+            Projectile.idStaticNPCHitCooldown = 20;
         }
 
         public override bool PreDraw(ref Color lightColor)

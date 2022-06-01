@@ -1,5 +1,7 @@
+﻿using System.Text;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
@@ -13,13 +15,32 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override string ArmorSetName => "Copper";
 
-        public const int MiningSpeedPercentSetBonus = 15;
+        public const float HeadDamage = 0.05f;
+        public const float ChestCrit = 3f;
+        public const float LegsMoveSpeed = 0.05f;
+        public const float SetBonusFlatDamage = 2.0f;
+        public const float SetBonusMoveSpeed = 0.1f;
+        public const int SetBonusMiningSpeedPercent = 25;
+
+        public override void ApplyHeadPieceEffect(Player player) => player.GetDamage<GenericDamageClass>() += HeadDamage;
+
+        public override void ApplyBodyPieceEffect(Player player) => player.GetCritChance<GenericDamageClass>() += ChestCrit;
+
+        public override void ApplyLegPieceEffect(Player player) => player.moveSpeed += LegsMoveSpeed;
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText += CalamityGlobalItem.MiningSpeedString(MiningSpeedPercentSetBonus);
+            StringBuilder sb = new StringBuilder(256);
+            sb.Append("\nIncreases all damage by 2\n10% increased movement speed");
+            sb.Append(CalamityGlobalItem.MiningSpeedString(SetBonusMiningSpeedPercent));
+            setBonusText += sb.ToString();
         }
 
-        public override void ApplyArmorSetBonus(Player player) => player.pickSpeed -= MiningSpeedPercentSetBonus * 0.01f;
+        public override void ApplyArmorSetBonus(Player player)
+        {
+            player.GetDamage<GenericDamageClass>().Flat += SetBonusFlatDamage;
+            player.moveSpeed += SetBonusMoveSpeed;
+            player.pickSpeed -= SetBonusMiningSpeedPercent * 0.01f;
+        }
     }
 }

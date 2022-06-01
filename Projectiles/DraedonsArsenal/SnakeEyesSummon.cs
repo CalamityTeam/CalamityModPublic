@@ -192,6 +192,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     if (laser.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[laser].timeLeft *= 2;
+                        Main.projectile[laser].originalDamage = Projectile.originalDamage;
                         Main.projectile[laser].tileCollide = false;
                         Main.projectile[laser].netUpdate = true;
                         Main.projectile[laser].Calamity().forceMinion = true;

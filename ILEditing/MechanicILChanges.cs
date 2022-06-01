@@ -47,6 +47,186 @@ namespace CalamityMod.ILEditing
         // This function is (optionally) invoked manually in an IL edit to enable NPCs to spawn at night.
         private static Action VanillaSpawnTownNPCs;
 
+        #region Dash Fixes and Improvements
+        private static void MakeShieldSlamIFramesConsistent(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            // Find the direct assignment of the player's iframes.
+            if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchStfld<Player>("immuneTime")))
+            {
+                LogFailure("Shield Slam Consistent Immunity Frames", "Could not locate the assignment of the player's immune time.");
+                return;
+            }
+
+            // Delete this instruction. The stack still contains the player and amount of iframes to give.
+            cursor.Remove();
+
+            // Emit a delegate which calls the Calamity utility to consistently provide iframes.
+            cursor.EmitDelegate<Action<Player, int>>((p, frames) => CalamityUtils.GiveIFrames(p, frames, false));
+        }
+
+        private static readonly Func<Player, int> CalamityDashEquipped = (Player p) => p.Calamity().HasCustomDash ? 1 : 0;
+
+        private static void FixAllDashMechanics(ILContext il)
+        {
+            var cursor = new ILCursor(il);
+
+            //
+            // FIX DASH COOLDOWN RESET FOR CALAMITY DASHES
+            //
+
+            // Vanilla resets dash cooldown if no vanilla dash is equipped. Calamity dashes must also be considered.
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdfld<Player>("dash")))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate the check for vanilla dash ID.");
+                return;
+            }
+
+            // Load the player itself onto the stack so that it becomes an argument for the following delegate.
+            cursor.Emit(OpCodes.Ldarg_0);
+
+            // Emit a delegate which places whether the player has a Calamity dash equipped onto the stack.
+            cursor.EmitDelegate<Func<Player, int>>(CalamityDashEquipped);
+
+            // Bitwise OR the two values together. This will only return zero if both values were zero.
+            // This will occur precisely when the player has no vanilla OR Calamity dash items equipped.
+            cursor.Emit(OpCodes.Or);
+
+            //
+            // SHIELD OF CTHULHU
+            //
+
+            // Move to Shield of Cthulhu's code by finding its function call for iframes.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchCall<Player>("GiveImmuneTimeForCollisionAttack")))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate function call for Shield of Cthulhu iframes.");
+                return;
+            }
+
+            if (!cursor.TryGotoPrev(MoveType.AfterLabel, i => i.MatchLdcI4(30)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate amount of frames of dash cooldown applied on impact with Shield of Cthulhu.");
+                return;
+            }
+
+            // Remove the instruction and replace it with one which gives Calamity's (customizable) amount of dash cooldown.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, BalancingConstants.OnShieldBonkCooldown);
+
+            //
+            // SOLAR FLARE ARMOR
+            //
+
+            // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(150f)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate Solar Flare Armor shield slam base damage.");
+                return;
+            }
+
+            // Replace vanilla's base damage of 150 with Calamity's custom base damage.
+            cursor.Next.Operand = BalancingConstants.SolarFlareBaseDamage;
+
+            // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate Solar Flare Armor \"Solar Counter\" base damage.");
+                return;
+            }
+
+            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with the already-calculated base damage, then cast it to int.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldloc, 13);
+            cursor.Emit(OpCodes.Conv_I4);
+
+            // Move to the immunity frame setting code for the Solar Flare set bonus. Find the constant 4 given as iframes.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(4)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate Solar Flare shield slam iframes.");
+                return;
+            }
+
+            // Replace it with Calamity's number of iframes.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, BalancingConstants.SolarFlareIFrames);
+
+            //
+            // DASH COOLDOWNS
+            //
+
+            // Move to the dash cooldown code by finding the location where the dash cooldown local variable is initialized.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStloc(22)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate default dash cooldown initialization.");
+                return;
+            }
+
+            // The instruction right before this is Ldc.I4 20, so replace its operand directly.
+            // This is the default, so set it to the default universal dash cooldown.
+            cursor.Previous.Operand = BalancingConstants.UniversalDashCooldown;
+
+            // dash == 1 (aka Tabi) uses the default cooldown and thus does not need edits.
+
+            // Same thing as last time, but this time it's the cooldown for dash == 2 (aka Shield of Cthulhu).
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStloc(22)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate dash cooldown assignment for Shield of Cthulhu.");
+                return;
+            }
+
+            // The instruction right before this is Ldc.I4 30, so replace its operand directly.
+            // This is for Shield of Cthulhu, so set it to the shield bonk cooldown.
+            cursor.Previous.Operand = BalancingConstants.UniversalShieldBonkCooldown;
+
+            // Same thing as last time, but this time it's the cooldown for dash == 3 (aka Solar Flare Armor).
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStloc(22)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate dash cooldown assignment for Solar Flare Armor.");
+                return;
+            }
+
+            // The instruction right before this is Ldc.I4 30, so replace its operand directly.
+            // This is for Solar Flare Armor, so set it to the shield slam cooldown.
+            cursor.Previous.Operand = BalancingConstants.UniversalShieldSlamCooldown;
+
+            // Same thing as last time, but this time it's the cooldown for dash == 4 (?????).
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStloc(22)))
+            {
+                LogFailure("Vanilla Dash Fixes", "Could not locate dash cooldown assignment for UNKNOWN DASH ID 4.");
+                return;
+            }
+
+            // The instruction right before this is Ldc.I4 20, so replace its operand directly.
+            cursor.Previous.Operand = BalancingConstants.UniversalDashCooldown;
+
+            // dash == 5 (aka Crystal Assassin Armor) uses the default cooldown and thus does not need edits.
+        }
+
+        private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
+        {
+            // Reduce the number of "no-collide frames" (they are NOT iframes) granted by the Shield of Cthulhu bonk.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("eocDash"))) // Loading the remaining frames of the SoC dash
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate Shield of Cthulhu dash remaining frame counter.");
+                return;
+            }
+
+            // Find the 0 this is normally compared to. We will be replacing this value.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(0)))
+            {
+                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate the zero comparison.");
+                return;
+            }
+
+            // Remove the zero and replace it with a calculated value.
+            // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
+        }
+        #endregion Dash Fixes and Improvements
+
         #region Enabling of Triggered NPC Platform Fallthrough
         // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
         private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
@@ -201,117 +381,6 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Action<Player>>((Player p) => p.AddCooldown(GlobalDodge.ID, BalancingConstants.BrainDodgeCooldown));
         }
         #endregion Removal of Dodge RNG
-
-        #region Vanilla Dash / Shield Slam Improvements
-        private static void MakeShieldSlamIFramesConsistent(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-
-            // Find the direct assignment of the player's iframes.
-            if (!cursor.TryGotoNext(MoveType.AfterLabel, i => i.MatchStfld<Player>("immuneTime")))
-            {
-                LogFailure("Shield Slam Consistent Immunity Frames", "Could not locate the assignment of the player's immune time.");
-                return;
-            }
-
-            // Delete this instruction. The stack still contains the player and amount of iframes to give.
-            cursor.Remove();
-
-            // Emit a delegate which calls the Calamity utility to consistently provide iframes.
-            cursor.EmitDelegate<Action<Player, int>>((p, frames) => CalamityUtils.GiveIFrames(p, frames, false));
-        }
-
-        private static void BuffSolarFlareShieldSlam(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-
-            // Move onto the next dash (Solar Flare set bonus) by looking for the base damage of the direct contact strike.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(150f)))
-            {
-                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor shield slam base damage.");
-                return;
-            }
-
-            // Replace vanilla's base damage of 150 with Calamity's custom base damage.
-            cursor.Next.Operand = BalancingConstants.SolarFlareBaseDamage;
-
-            // Now that the new base damage has been applied to the direct contact strike, also apply it to the Solar Counter projectile.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(150)))
-            {
-                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare Armor \"Solar Counter\" base damage.");
-                return;
-            }
-
-            // Replace vanilla's flat 150 damage (doesn't even scale with melee stats!) with the already-calculated base damage, then cast it to int.
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 13);
-            cursor.Emit(OpCodes.Conv_I4);
-
-            // Move to the immunity frame setting code for the Solar Flare set bonus. Find the constant 4 given as iframes.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(4)))
-            {
-                LogFailure("Vanilla Shield Slam Fix", "Could not locate Solar Flare shield slam iframes.");
-                return;
-            }
-
-            // Replace it with Calamity's number of iframes.
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, BalancingConstants.SolarFlareIFrames);
-        }
-
-        private static void NerfShieldOfCthulhuBonkSafety(ILContext il)
-        {
-            // Reduce the number of "no-collide frames" (they are NOT iframes) granted by the Shield of Cthulhu bonk.
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdfld<Player>("eocDash"))) // Loading the remaining frames of the SoC dash
-            {
-                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate Shield of Cthulhu dash remaining frame counter.");
-                return;
-            }
-
-            // Find the 0 this is normally compared to. We will be replacing this value.
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcI4(0)))
-            {
-                LogFailure("Shield of Cthulhu Bonk Nerf", "Could not locate the zero comparison.");
-                return;
-            }
-
-            // Remove the zero and replace it with a calculated value.
-            // This is the total length of the EoC bonk (10) minus the number of safe frames allowed by Calamity.
-            cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_I4, 10 - BalancingConstants.ShieldOfCthulhuBonkNoCollideFrames);
-        }
-
-        private static void FixModdedDashesResettingDashCountdown(ILContext il)
-        {
-            var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchStfld<Player>("dashDelay")))
-            {
-                LogFailure("Modded Dashes Resetting Dash Countdown Fix", "Could not locate the dash delay storage.");
-                return;
-            }
-
-            int afterDashResetsIndex = cursor.Index;
-
-            // Go back to the start and remove the original check, replacing it with one that accepts modded dashes.
-            cursor.Goto(0);
-            cursor.RemoveRange(afterDashResetsIndex);
-
-            cursor.Emit(OpCodes.Ldarg_0);
-            cursor.EmitDelegate<Action<Player>>(p =>
-            {
-                if (p.dashDelay == 0)
-                    p.dash = p.dashType;
-
-                if (p.dash == 0 && !p.Calamity().HasCustomDash)
-                {
-                    p.dashTime = 0;
-                    p.dashDelay = 0;
-                }
-            });
-        }
-
-        #endregion Vanilla Dash Shield Improvements
 
         #region Custom Gate Door Logic
         private static bool OpenDoor_LabDoorOverride(On.Terraria.WorldGen.orig_OpenDoor orig, int i, int j, int direction)

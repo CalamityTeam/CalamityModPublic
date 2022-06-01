@@ -4259,7 +4259,7 @@ namespace CalamityMod.NPCs
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
-                    double pointBlankShotDamageMultiplier = 1D + (projectile.Calamity().pointBlankShotDuration / CalamityGlobalProjectile.basePointBlankShotDuration * 0.5);
+                    double pointBlankShotDamageMultiplier = 1D + (projectile.Calamity().pointBlankShotDuration / (CalamityGlobalProjectile.basePointBlankShotDuration * 0.5));
                     damage = (int)(damage * pointBlankShotDamageMultiplier);
                     projectile.Calamity().pointBlankShotDuration = 0;
                 }
@@ -4296,9 +4296,9 @@ namespace CalamityMod.NPCs
             if (CalamityLists.ThanatosIDs.Contains(npc.type) && unbreakableDR)
                 return;
 
-            float damageReduction = projectile.Calamity().timesPierced * projectile.Calamity().PierceResistHarshness;
-            if (damageReduction > projectile.Calamity().PierceResistCap)
-                damageReduction = projectile.Calamity().PierceResistCap;
+            float damageReduction = projectile.Calamity().timesPierced * CalamityGlobalProjectile.PierceResistHarshness;
+            if (damageReduction > CalamityGlobalProjectile.PierceResistCap)
+                damageReduction = CalamityGlobalProjectile.PierceResistCap;
 
             damage -= (int)(damage * damageReduction);
 
@@ -4563,7 +4563,7 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 2.5);
                 maxSpawns = (int)(maxSpawns * 0.3f);
             }
-            if ((player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown > 0) && CalamityConfig.Instance.BossZen)
+            if (player.Calamity().bossZen && CalamityConfig.Instance.BossZen)
             {
                 spawnRate *= 5;
                 maxSpawns = (int)(maxSpawns * 0.001f);

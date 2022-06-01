@@ -26,5 +26,16 @@ namespace CalamityMod.Items.Accessories
         {
             player.GetDamage<ThrowingDamageClass>() += 0.15f;
         }
+
+        public override void AddRecipes()
+        {
+            Recipe r = Mod.CreateRecipe(ItemID.AvengerEmblem);
+            r.AddIngredient(ModContent.ItemType<RogueEmblem>());
+            r.AddIngredient(ItemID.SoulofMight, 5);
+            r.AddIngredient(ItemID.SoulofSight, 5);
+            r.AddIngredient(ItemID.SoulofFright, 5);
+            r.AddTile(TileID.TinkerersWorkbench);
+            r.Register();
+        }
     }
 }

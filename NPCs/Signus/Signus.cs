@@ -52,20 +52,9 @@ namespace CalamityMod.NPCs.Signus
             NPC.width = 130;
             NPC.height = 130;
             NPC.defense = 60;
-
-            bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !DownedBossSystem.downedSignus;
-            NPC.LifeMaxNERB(notDoGFight ? 297000 : 73000, notDoGFight ? 356400 : 87600, 240000);
-
-            // If fought alone, Signus plays his own theme
-            if (notDoGFight)
-            {
-                NPC.value = Item.buyPrice(2, 0, 0, 0);
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
-            }
-            // If fought as a DoG interlude, keep the DoG music playing
-            else
-                Music = CalamityMod.Instance.GetMusicFromMusicMod("ScourgeofTheUniverse") ?? MusicID.Boss3;
-
+            NPC.LifeMaxNERB(297000, 356400, 240000);
+            NPC.value = Item.buyPrice(2, 0, 0, 0);
+            Music = CalamityMod.Instance.GetMusicFromMusicMod("Signus") ?? MusicID.Boss4;
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.knockBackResist = 0f;
@@ -142,18 +131,6 @@ namespace CalamityMod.NPCs.Signus
                 player = Main.player[NPC.target];
                 if (!player.active || player.dead || Vector2.Distance(player.Center, vectorCenter) > 6400f)
                 {
-                    if (NPC.timeLeft < 10)
-                    {
-                        CalamityWorld.DoGSecondStageCountdown = 0;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            var netMessage = Mod.GetPacket();
-                            netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                            netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                            netMessage.Send();
-                        }
-                    }
-
                     NPC.rotation = NPC.velocity.X * 0.04f;
 
                     if (NPC.velocity.Y > 3f)
@@ -760,45 +737,22 @@ namespace CalamityMod.NPCs.Signus
             potionType = ModContent.ItemType<SupremeHealingPotion>();
         }
 
-        public static bool AtFullStrength() => !DownedBossSystem.downedSignus || CalamityWorld.DoGSecondStageCountdown <= 0;
-
         public static bool LastSentinelKilled() => !DownedBossSystem.downedSignus && DownedBossSystem.downedStormWeaver && DownedBossSystem.downedCeaselessVoid;
 
         public override void OnKill()
         {
-            bool fullStrength = AtFullStrength();
-            if (fullStrength)
-                CalamityGlobalNPC.SetNewBossJustDowned(NPC);
-
-            // If DoG's fight is active, set the timer precisely for DoG phase 2 to spawn
-            if (CalamityWorld.DoGSecondStageCountdown > 600)
-            {
-                CalamityWorld.DoGSecondStageCountdown = 600;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                    netMessage.Send();
-                }
-            }
-
-            // Mark Ceaseless Void as dead
-            if (fullStrength)
-            {
-                DownedBossSystem.downedSignus = true;
-                CalamityNetcode.SyncWorld();
-            }
+            CalamityGlobalNPC.SetNewBossJustDowned(NPC);
+            DownedBossSystem.downedSignus = true;
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            var fullStrengthDrops = npcLoot.DefineConditionalDropSet(AtFullStrength);
-            fullStrengthDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<SignusBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SignusBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
-            fullStrengthDrops.Add(normalOnly);
+            npcLoot.Add(normalOnly);
             {
                 // Weapons
                 int[] weapons = new int[]
@@ -821,7 +775,7 @@ namespace CalamityMod.NPCs.Signus
                     OnSuccess(ItemDropRule.Common(ModContent.ItemType<AncientGodSlayerLeggings>())));
             }
 
-            fullStrengthDrops.Add(ModContent.ItemType<SignusTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<SignusTrophy>(), 10);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(LastSentinelKilled, ModContent.ItemType<KnowledgeSentinels>());

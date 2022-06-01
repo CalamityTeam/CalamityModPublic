@@ -45,7 +45,6 @@ namespace CalamityMod
             CalamityGlobalNPC.draedonExoMechWorm = -1;
             CalamityGlobalNPC.adultEidolonWyrmHead = -1;
             BossRushEvent.BossRushStage = 0;
-            DoGSecondStageCountdown = 0;
             ArmoredDiggerSpawnCooldown = 0;
             BossRushEvent.BossRushActive = false;
             BossRushEvent.BossRushSpawnCountdown = 180;

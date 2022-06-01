@@ -299,7 +299,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<DivineGeode>(50).
                 AddIngredient<UnholyEssence>(100).
                 AddIngredient<ShadowspecBar>(5).
-                AddTile<ProfanedBasin>().
+                AddTile<ProfanedCrucible>().
                 AddConsumeItemCallback(MakeRecipesCheaper).
                 Register();
         }

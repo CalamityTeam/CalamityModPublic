@@ -363,6 +363,41 @@ namespace CalamityMod
             return NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3;
         });
 
+        public static IItemDropRuleCondition GoldSetBonusGoldCondition = If((info) =>
+        {
+            // Gold coins "from normal enemies" do not drop from the following:
+            // 1 - NPCs spawned from statues
+            // 2 - NPCs with no contact damage (bosses are NOT excepted, since they hit the other rule)
+            // 3 - Very weak NPCs: those with 5 or less max health.
+            NPC npc = info.npc;
+            if (npc.SpawnedFromStatue || npc.damage <= 5 || npc.lifeMax <= 5)
+                return false;
+
+            // If the drop info doesn't have a player, then find the closest player to the NPC and use that player instead.
+            Player p = info.player;
+            if (p is null || !p.active)
+                p = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+
+            // With the player identified, return whether or not they have the full Gold Armor set equipped.
+            return p.Calamity().goldArmorGoldDrops;
+        });
+
+        public static IItemDropRuleCondition GoldSetBonusBossCondition = If((info) =>
+        {
+            // Gold coins "from from bosses"
+            NPC npc = info.npc;
+            if (!npc.boss)
+                return false;
+
+            // If the drop info doesn't have a player, then find the closest player to the NPC and use that player instead.
+            Player p = info.player;
+            if (p is null || !p.active)
+                p = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)];
+
+            // With the player identified, return whether or not they have the full Gold Armor set equipped.
+            return p.Calamity().goldArmorGoldDrops;
+        });
+
         public static IItemDropRuleCondition TarragonSetBonusHeartCondition = If((info) =>
         {
             // Tarragon hearts do not drop from the following:

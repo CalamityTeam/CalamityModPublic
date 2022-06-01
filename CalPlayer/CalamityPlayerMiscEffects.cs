@@ -126,6 +126,9 @@ namespace CalamityMod.CalPlayer
             // Limits
             Limits();
 
+            // This is used to increase horizontal velocity based on the player's movement speed stat.
+            moveSpeedStat = (int)((Player.moveSpeed - 1f) * 100f);
+
             // Double Jumps
             DoubleJumps();
 
@@ -398,11 +401,8 @@ namespace CalamityMod.CalPlayer
             {
                 // If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
                 // EXCEPTION: Wall of Flesh is alive and you are not in hell. Then you don't get anything.
-                if ((areThereAnyDamnBosses || CalamityWorld.DoGSecondStageCountdown > 0 || BossRushEvent.BossRushActive) &&
-                    !wofAndNotHell)
-                {
+                if ((areThereAnyDamnBosses || BossRushEvent.BossRushActive) && !wofAndNotHell)
                     adrenalineDiff += adrenalineMax / AdrenalineChargeTime;
-                }
 
                 // If you aren't actively in a boss fight, adrenaline rapidly fades away.
                 else
@@ -849,7 +849,8 @@ namespace CalamityMod.CalPlayer
                 bool notInLiquid = !Player.wet;
                 bool notOnRope = !Player.pulley && Player.ropeCount == 0;
                 bool notGrappling = Player.grappling[0] == -1;
-                if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling)
+                bool airborne = Player.velocity.Y != 0;
+                if (holdingDown && Player.ControlsEnabled() && notInLiquid && notOnRope && notGrappling && airborne)
                 {
                     Player.velocity.Y += Player.gravity * (BalancingConstants.HoldingDownGravityMultiplier - 1f);
                     if (Player.velocity.Y > Player.maxFallSpeed)
@@ -1142,6 +1143,22 @@ namespace CalamityMod.CalPlayer
                 auralisAurora--;
             if (auralisAuroraCooldown > 0)
                 auralisAuroraCooldown--;
+            
+            // Silver Armor "Medkit" effect
+            if (silverMedkitTimer > 0)
+            {
+                --silverMedkitTimer;
+                if (silverMedkitTimer == 0)
+                {
+                    Player.HealEffect(SilverArmorSetChange.SetBonusHealAmount, true);
+                    Player.statLife += SilverArmorSetChange.SetBonusHealAmount;
+                    if (Player.statLife > Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    SilverArmorSetChange.OnHealEffects(Player);
+                }
+            }
+
             if (MythrilFlareSpawnCountdown > 0)
                 MythrilFlareSpawnCountdown--;
             if (AdamantiteSetDecayDelay > 0)
@@ -2466,7 +2483,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
-            Player.moveSpeed += 0.5f;
+            // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy.
+            if (CalamityMod.Instance.overhaul is null)
+                Player.moveSpeed += BalancingConstants.DefaultMoveSpeedBoost;
 
             if (cirrusDress)
                 Player.moveSpeed -= 0.2f;
@@ -2779,9 +2798,6 @@ namespace CalamityMod.CalPlayer
                     Player.ClearBuff(BuffID.Lifeforce);
                 Player.lifeMagnet = true;
             }
-
-            if (Player.wellFed)
-                Player.moveSpeed -= 0.1f;
 
             if (Player.poisoned)
                 Player.moveSpeed -= 0.1f;
