@@ -420,10 +420,10 @@ namespace CalamityMod
             AddSummonAndProgressionRecipes();
             AddEarlyGameWeaponRecipes();
             AddEarlyGameAccessoryRecipes();
+            AddHardmodeItemRecipes();
             AddArmorRecipes();
             AddAnkhShieldRecipes();
             AddLivingWoodRecipes();
-            AddAlternateHardmodeRecipes();
         }
 
         #region Vanilla Recipe Edits
@@ -454,6 +454,8 @@ namespace CalamityMod
             EditOpticStaffRecipe();
             EditShroomiteBarRecipe();
             EditChlorophyteBarRecipe();
+
+            EditPreHardmodeOreArmorRecipes();
             EditHardmodeOreSetRecipes();
         }
 
@@ -924,7 +926,52 @@ namespace CalamityMod
             });
         }
 
-        // Change the recipes to be consistent on each tier and less cost for pickaxe.
+        // Changes pre-hardmode ore armor recipes to be consistent for each tier and require far fewer bars.
+        private static void EditPreHardmodeOreArmorRecipes()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+
+            bool isPHMOreHelmet(Recipe r)
+            {
+                int itemID = r.createItem.type;
+                if (itemID == ItemID.CopperHelmet || itemID == ItemID.TinHelmet)
+                    return true;
+                if (itemID == ItemID.IronHelmet || itemID == ItemID.AncientIronHelmet || itemID == ItemID.LeadHelmet)
+                    return true;
+                if (itemID == ItemID.SilverHelmet || itemID == ItemID.TungstenHelmet)
+                    return true;
+                return itemID == ItemID.GoldHelmet || itemID == ItemID.AncientGoldHelmet || itemID == ItemID.PlatinumHelmet;
+            }
+            rec.Where(x => isPHMOreHelmet(x)).ToList().ForEach(s => s.requiredItem[0].stack = 10);
+
+            bool isPHMOreChainmail(Recipe r)
+            {
+                int itemID = r.createItem.type;
+                if (itemID == ItemID.CopperChainmail || itemID == ItemID.TinChainmail)
+                    return true;
+                if (itemID == ItemID.IronChainmail || itemID == ItemID.LeadChainmail)
+                    return true;
+                if (itemID == ItemID.SilverChainmail || itemID == ItemID.TungstenChainmail)
+                    return true;
+                return itemID == ItemID.GoldChainmail || itemID == ItemID.PlatinumChainmail;
+            }
+            rec.Where(x => isPHMOreChainmail(x)).ToList().ForEach(s => s.requiredItem[0].stack = 16);
+
+            bool isPHMOreGreaves(Recipe r)
+            {
+                int itemID = r.createItem.type;
+                if (itemID == ItemID.CopperGreaves || itemID == ItemID.TinGreaves)
+                    return true;
+                if (itemID == ItemID.IronGreaves || itemID == ItemID.LeadGreaves)
+                    return true;
+                if (itemID == ItemID.SilverGreaves || itemID == ItemID.TungstenGreaves)
+                    return true;
+                return itemID == ItemID.GoldGreaves || itemID == ItemID.PlatinumGreaves;
+            }
+            rec.Where(x => isPHMOreGreaves(x)).ToList().ForEach(s => s.requiredItem[0].stack = 14);
+        }
+
+        // Changes hardmode ore recipes to be consistent for each tier, and makes pickaxes/drills cheaper.
         private static void EditHardmodeOreSetRecipes()
         {
             short MeleeHelm;
@@ -1548,7 +1595,6 @@ namespace CalamityMod
         #endregion
 
         #region Armor
-        // Rare uncraftable armors like Eskimo armor
         private static void AddArmorRecipes()
         {
             // Eskimo armor
@@ -1586,8 +1632,7 @@ namespace CalamityMod
         }
         #endregion
 
-        #region AnkhShield
-        // Every base component for the Ankh Shield
+        #region Ankh Shield Components
         private static void AddAnkhShieldRecipes()
         {
             // Cobalt Shield
@@ -1704,21 +1749,11 @@ namespace CalamityMod
         }
         #endregion
 
-        #region HardmodeEquipment
-        // Alternate recipes for vanilla Hardmode equipment
-        private static void AddAlternateHardmodeRecipes()
+        #region Hardmode Items and Accessories
+        private static void AddHardmodeItemRecipes()
         {
-            // Avenger Emblem made with Rogue Emblem
-            Recipe r = CreateRecipe(ItemID.AvengerEmblem);
-            r.AddIngredient(ModContent.ItemType<RogueEmblem>());
-            r.AddIngredient(ItemID.SoulofMight, 5);
-            r.AddIngredient(ItemID.SoulofSight, 5);
-            r.AddIngredient(ItemID.SoulofFright, 5);
-            r.AddTile(TileID.TinkerersWorkbench);
-            r.Register();
-
             // Celestial Magnet
-            r = CreateRecipe(ItemID.CelestialMagnet);
+            Recipe r = CreateRecipe(ItemID.CelestialMagnet);
             r.AddIngredient(ItemID.FallenStar, 20);
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
