@@ -35,7 +35,10 @@ namespace CalamityMod.Projectiles.Melee
         public static int FadeoutTime = 20;
         public static int ElectrifyTimer = 180;
         public static float ZapDamageMultiplier = 0.75f;
+
+        //Sounds
         public static readonly SoundStyle ZapSound = SoundID.Item94 with { Volume = SoundID.Item94.Volume * 0.5f };
+        public static readonly SoundStyle SlapSound = new SoundStyle( "CalamityMod/Sounds/Custom/WetSlap", 4 );
 
         internal PrimitiveTrail TrailRenderer;
 
@@ -57,8 +60,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.aiStyle = -1;
-            Projectile.width = 16;
-            Projectile.height = 16;
+            Projectile.width = 28;
+            Projectile.height = 28;
             Projectile.scale = 1.15f;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
@@ -135,7 +138,6 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
 
             Timer++;
-            CentrifugalForce -= 0.2f;
         }
 
         public void Electrify(int maxTargets, float targettingDistance)
@@ -241,6 +243,15 @@ namespace CalamityMod.Projectiles.Melee
 
             Projectile.netUpdate = true;
             Projectile.netSpam = 0;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            //Play a wet slap sound if you hit an enemy fast enough
+            float centrifugalForce = Math.Clamp((Segments[SegmentCount - 1].position - Segments[SegmentCount - 1].oldPosition).Length() * 2f, 0f, 130f) / 130f;
+            if (centrifugalForce > 0.2f)
+                SoundEngine.PlaySound(SlapSound with { Volume = SlapSound.Volume * centrifugalForce + 0.8f}, target.position);
+
         }
 
         //Swing animation keys

@@ -150,7 +150,5 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
         #endregion
-
-
     }
 }
