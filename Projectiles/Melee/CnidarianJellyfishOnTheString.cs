@@ -10,6 +10,8 @@ using System;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Particles;
 using Terraria.Audio;
+using static CalamityMod.CalamityUtils;
+using System.IO;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -41,8 +43,8 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
         public ref float Initialized => ref Projectile.ai[0];
         public ref float Timer => ref Projectile.ai[1];
-
         public Vector2 CnidarianPos => Segments[SegmentCount - 1].position;
+        public float TotalChainLength => (SegmentCount - 1) * SegmentCount;
 
         public override void SetStaticDefaults()
         {
@@ -78,6 +80,11 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), CnidarianPos - Projectile.Hitbox.Size() / 2f, Projectile.Hitbox.Size());
+        }
+
+        public override bool? CanCutTiles()
+        {
+            return false;
         }
 
         public void Initialize()
@@ -128,6 +135,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.Kill();
 
             Timer++;
+            CentrifugalForce -= 0.2f;
         }
 
         public void Electrify(int maxTargets, float targettingDistance)
@@ -230,7 +238,16 @@ namespace CalamityMod.Projectiles.Melee
                     Segments[j + 1] = pointB;
                 }
             }
+
+            Projectile.netUpdate = true;
+            Projectile.netSpam = 0;
         }
+
+        //Swing animation keys
+        public CurveSegment anticipation = new CurveSegment(EasingType.PolyInOut, 0f, 1f, 0.35f, 3);
+        public CurveSegment contraction = new CurveSegment(EasingType.PolyOut, 0.5f, 1.35f, -0.85f, 5);
+        public CurveSegment retract = new CurveSegment(EasingType.SineInOut, 0.7f, 0.5f, 0.5f);
+        internal float StretchRatio() => PiecewiseAnimation(MathHelper.Clamp((Timer + 45) % ElectrifyTimer, 0, 80) / 80f, new CurveSegment[] { anticipation, contraction, retract });
 
         public float PrimWidthFunction(float completionRatio)
         {
@@ -257,28 +274,45 @@ namespace CalamityMod.Projectiles.Melee
             TrailRenderer.Draw(segmentPositions, -Main.screenPosition, 66);
 
 
-            float timeAfterZap = MathHelper.Clamp(20 - (Timer - 20f) % ElectrifyTimer, 0, 20);
-            float postZapTime = 1 - timeAfterZap / 20f;
-
             Texture2D tex = Request<Texture2D>(Texture).Value;
 
-            float rotation = (Segments[SegmentCount - 1].position - Segments[SegmentCount - 2].position).ToRotation() - MathHelper.PiOver2;
+            Vector2 squish = new Vector2(2 - StretchRatio(), StretchRatio());
 
+            float centrifugalForce = Math.Clamp((Segments[SegmentCount - 1].position - Segments[SegmentCount - 1].oldPosition).Length() * 2f - 10f, 0f, 130f) / 150f;
+            Vector2 centrifugalSquish = new Vector2(1 - centrifugalForce * 0.66f, 1 + centrifugalForce * 2.2f);
+            squish *= centrifugalSquish;
+
+            float rotation = (Segments[SegmentCount - 1].position - Segments[SegmentCount - 2].position).ToRotation() - MathHelper.PiOver2;
             lightColor = Lighting.GetColor((int)CnidarianPos.X / 16, (int)CnidarianPos.Y / 16);
 
-            Main.EntitySpriteDraw(tex, Segments[SegmentCount - 1].position - Main.screenPosition, null, Projectile.GetAlpha(lightColor) * (Projectile.timeLeft / (float)FadeoutTime), rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.EntitySpriteDraw(tex, Segments[SegmentCount - 1].position - Main.screenPosition, null, Projectile.GetAlpha(lightColor) * (Projectile.timeLeft / (float)FadeoutTime), rotation, tex.Size() / 2f, Projectile.scale * squish, SpriteEffects.None, 0);
 
-            Main.EntitySpriteDraw(tex, Segments[SegmentCount - 1].position - Main.screenPosition, null, Color.DeepSkyBlue * (1 - postZapTime), rotation, tex.Size() / 2f, Projectile.scale + postZapTime * 1.4f, 0f, 0);
+            //Add a blue glowing overlay quickly following a zap
+            float timeAfterZap = MathHelper.Clamp(20 - (Timer - 15f) % ElectrifyTimer, 0, 20);
+            float postZapTime = 1 - timeAfterZap / 20f;
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            if (postZapTime < 1)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
+                Main.EntitySpriteDraw(tex, Segments[SegmentCount - 1].position - Main.screenPosition, null, Color.DeepSkyBlue * (1 - postZapTime), rotation, tex.Size() / 2f, (Projectile.scale + postZapTime * 1.4f) * squish, 0f, 0);
 
-
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            }
             return false;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.WriteVector2(Segments[SegmentCount - 1].position);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Segments[SegmentCount - 1].position = reader.ReadVector2();
         }
     }
 }
