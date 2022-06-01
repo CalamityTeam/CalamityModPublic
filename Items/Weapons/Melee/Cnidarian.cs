@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -17,11 +17,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cnidarian");
-            Tooltip.SetDefault("Fires a seashell when enemies are near\n" +
-            "A very agile yoyo");
-            ItemID.Sets.Yoyo[Item.type] = true;
-            ItemID.Sets.GamepadExtraRange[Item.type] = 15;
-            ItemID.Sets.GamepadSmartQuickReach[Item.type] = true;
+            Tooltip.SetDefault("Fishes up an electric jellyfish\n" +
+            "Periodically sends out sparks to electrocute nearby enemies.");
             SacrificeTotal = 1;
         }
 
@@ -43,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
             //Item.noUseGraphic = true;
             Item.noMelee = true;
 
-            Item.shoot = ModContent.ProjectileType<CnidarianYoyo>();
+            Item.shoot = ModContent.ProjectileType<CnidarianJellyfishOnTheString>();
             Item.shootSpeed = 10f;
 
             Item.rare = ItemRarityID.Green;
@@ -52,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<CnidarianYoyo>());
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<CnidarianJellyfishOnTheString>());
         }
 
         public override void AddRecipes()

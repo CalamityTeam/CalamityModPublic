@@ -7,8 +7,11 @@ using Terraria.ModLoader;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using static Terraria.ModLoader.ModContent;
+using CalamityMod.Particles;
+using Terraria.Audio;
 
-namespace CalamityMod.Projectiles.Melee.Yoyos
+namespace CalamityMod.Projectiles.Melee
 {
     public class VerletSimulatedSegment
     {
@@ -23,17 +26,23 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         }
     }
 
-    public class CnidarianYoyo : ModProjectile
+    public class CnidarianJellyfishOnTheString : ModProjectile
     {
         public const int SegmentCount = 10;
         public const float SegmentDistance = 20;
-        public const int FadeoutTime = 20;
+        public static int FadeoutTime = 20;
+        public static int ElectrifyTimer = 180;
+        public static float ZapDamageMultiplier = 0.75f;
+        public static readonly SoundStyle ZapSound = SoundID.Item94 with { Volume = SoundID.Item94.Volume * 0.5f };
 
         internal PrimitiveTrail TrailRenderer;
 
         public List<VerletSimulatedSegment> Segments;
         public Player Owner => Main.player[Projectile.owner];
         public ref float Initialized => ref Projectile.ai[0];
+        public ref float Timer => ref Projectile.ai[1];
+
+        public Vector2 CnidarianPos => Segments[SegmentCount - 1].position;
 
         public override void SetStaticDefaults()
         {
@@ -66,6 +75,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 Projectile.Center = Owner.Center + (Projectile.Center - Owner.Center).SafeNormalize(Vector2.One) * 380f;
         }
 
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            return Collision.CheckAABBvAABBCollision(targetHitbox.TopLeft(), targetHitbox.Size(), CnidarianPos - Projectile.Hitbox.Size() / 2f, Projectile.Hitbox.Size());
+        }
+
         public void Initialize()
         {
             //Initialize the segments
@@ -80,10 +94,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
             Segments[0].locked = true;
 
+            int j = 0;
             foreach (VerletSimulatedSegment segment in Segments)
             {
-                Particles.CritSpark particle = new Particles.CritSpark(segment.position, Vector2.Zero, Color.White, Color.Cyan, 1f, 10);
-                Particles.GeneralParticleHandler.SpawnParticle(particle);
+                CritSpark particle = new CritSpark(segment.position, Vector2.UnitY * (-1f * j / (float)SegmentCount), Color.White, Color.Cyan, 1f, 10);
+                GeneralParticleHandler.SpawnParticle(particle);
+                j++;
             }
 
 
@@ -101,15 +117,79 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Owner.channel)
                 Projectile.timeLeft = FadeoutTime;
 
-            SetOrigin(Projectile.Center.MoveTowards(Owner.Calamity().mouseWorld), 30f));
-
+            SetOrigin(Projectile.Center.MoveTowards(Owner.Calamity().mouseWorld, 10f));
 
             SimulateSegments();
 
-            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, 180f, 5, ModContent.ProjectileType<Seashell>(), 0.75);
+            Electrify(3, 300f);
+
 
             if ((Projectile.Center - Owner.Center).Length() > 3200f) //200 blocks
                 Projectile.Kill();
+
+            Timer++;
+        }
+
+        public void Electrify(int maxTargets, float targettingDistance)
+        {
+            float timeAfterZap = MathHelper.Clamp(20 - (Timer - 20f) % ElectrifyTimer, 0, 20);
+            float postZapTime = 1 - timeAfterZap / 20f;
+
+            Lighting.AddLight(CnidarianPos, Color.DeepSkyBlue.ToVector3() * (1 - postZapTime));
+
+            if (Timer % ElectrifyTimer == ElectrifyTimer - 1)
+            {
+
+                SoundEngine.PlaySound(ZapSound, CnidarianPos);
+                int maxDust = 2 + Main.rand.Next(3);
+                for (int i = 0; i < maxDust; i++)
+                {
+                    Dust.NewDustDirect(Projectile.Center, 0, 0, 226, -3f + Main.rand.NextFloat(0, 6f), -5f, Scale: Main.rand.NextFloat(0.2f, 1f));
+
+                    Dust.NewDustDirect(CnidarianPos, 0, 0, 226, -4f + Main.rand.NextFloat(0, 8f), -3f, Scale: Main.rand.NextFloat(0.2f, 1f));
+                }
+
+                int[] targetArray = new int[maxTargets];
+                int targetsAquired = 0;
+
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (targetsAquired == maxTargets)
+                        break;
+
+                    if (Main.npc[i].CanBeChasedBy(Projectile))
+                    {
+                        if ((CnidarianPos - Main.npc[i].Center).Length() < targettingDistance)
+                        {
+                            targetArray[targetsAquired] = i;
+                            targetsAquired++;
+                        }
+                    }
+                }
+
+                // If there is anything to actually shoot at, pick targets at random and fire.
+                if (targetsAquired > 0)
+                {
+                    Vector2 velocity;
+
+                    for (int i = 0; i < targetsAquired; i++)
+                    {
+                        velocity = (Main.npc[targetArray[i]].Center - CnidarianPos).SafeNormalize(Vector2.Zero) * 10f;
+                        
+                        for (int j = 0; j < 3; j++)
+                        {
+                            Color bloomColor = Main.rand.NextBool() ? (Main.rand.NextBool() ? Color.Gold : Color.Cyan) : Color.SpringGreen;
+                            ElectricSpark spark = new ElectricSpark(CnidarianPos, velocity.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(0.2f, 1.3f), Color.Gold, bloomColor, 0.5f + Main.rand.NextFloat(0.5f), 30, bloomScale: 2) ;
+                            GeneralParticleHandler.SpawnParticle(spark);
+                        }
+
+                        if (Projectile.owner == Main.myPlayer)
+                        {
+                            Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), CnidarianPos, velocity, ProjectileType<CnidarianSpark>(), (int)(Projectile.damage * ZapDamageMultiplier), Projectile.knockBack, Projectile.owner, targetArray[i], 0f);
+                        }
+                    }
+                }
+            }
         }
 
         public void SimulateSegments()
@@ -118,7 +198,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             Segments[0].position = Projectile.Center;
 
             //https://youtu.be/PGk0rnyTa1U?t=400 we use verlet integration chains here
-            float movementLenght = Projectile.velocity.Length();
             foreach (VerletSimulatedSegment segment in Segments)
             {
                 if (!segment.locked)
@@ -126,7 +205,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                     Vector2 positionBeforeUpdate = segment.position;
 
                     segment.position += (segment.position - segment.oldPosition); // This adds conservation of energy to the segments. This makes it super bouncy and shouldnt be used but it's really funny
-                    segment.position += Vector2.UnitY * 0.1f; //=> This adds gravity to the segments. 
+                    segment.position += Vector2.UnitY * 0.3f; //=> This adds gravity to the segments. 
 
                     segment.oldPosition = positionBeforeUpdate;
                 }
@@ -155,12 +234,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public float PrimWidthFunction(float completionRatio)
         {
-            return 2f;
+            return 1.6f;
         }
 
         public Color PrimColorFunction(float completionRatio)
         {
-            Color startingColor = Color.Cyan * (Projectile.timeLeft / (float)FadeoutTime);
+            float timeAfterZap = MathHelper.Clamp( 20 - (Timer - 5 - completionRatio * 12f) % ElectrifyTimer, 0, 20);
+            float postZapTime = 1 - timeAfterZap / 20f;
+
+            Color startingColor = Color.Lerp(Color.Cyan, Color.Maroon, (float)Math.Pow(postZapTime, 2f)) * (Projectile.timeLeft / (float)FadeoutTime);
             Color endColor = Color.DarkCyan * 0f;
             return Color.Lerp(endColor, startingColor, (float)Math.Pow(completionRatio, 1.5D)) * 0.7f;
         }
@@ -175,12 +257,27 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             TrailRenderer.Draw(segmentPositions, -Main.screenPosition, 66);
 
 
-            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            float timeAfterZap = MathHelper.Clamp(20 - (Timer - 20f) % ElectrifyTimer, 0, 20);
+            float postZapTime = 1 - timeAfterZap / 20f;
+
+            Texture2D tex = Request<Texture2D>(Texture).Value;
 
             float rotation = (Segments[SegmentCount - 1].position - Segments[SegmentCount - 2].position).ToRotation() - MathHelper.PiOver2;
 
+            lightColor = Lighting.GetColor((int)CnidarianPos.X / 16, (int)CnidarianPos.Y / 16);
 
             Main.EntitySpriteDraw(tex, Segments[SegmentCount - 1].position - Main.screenPosition, null, Projectile.GetAlpha(lightColor) * (Projectile.timeLeft / (float)FadeoutTime), rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(tex, Segments[SegmentCount - 1].position - Main.screenPosition, null, Color.DeepSkyBlue * (1 - postZapTime), rotation, tex.Size() / 2f, Projectile.scale + postZapTime * 1.4f, 0f, 0);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+
+
             return false;
         }
     }

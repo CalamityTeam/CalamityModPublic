@@ -2895,7 +2895,7 @@ namespace CalamityMod.Projectiles
                     {
                         int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
-                        if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
+                        if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[projectile2].Calamity().forceMelee = true;
