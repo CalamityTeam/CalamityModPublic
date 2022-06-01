@@ -611,6 +611,7 @@ namespace CalamityMod.CalPlayer
         #region Armor Set
         public bool silverMedkit = false;
         public int silverMedkitTimer = 0;
+        public bool goldArmorGoldDrops = false;
         public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
@@ -1758,6 +1759,7 @@ namespace CalamityMod.CalPlayer
             forbiddenCirclet = false;
 
             silverMedkit = false;
+            goldArmorGoldDrops = false;
 
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
@@ -2392,6 +2394,7 @@ namespace CalamityMod.CalPlayer
             #region Armorbonuses
             silverMedkit = false;
             silverMedkitTimer = 0;
+            goldArmorGoldDrops = false;
             flamethrowerBoost = false;
             hoverboardBoost = false; //hoverboard + shroomite visage
             shadowSpeed = false;
