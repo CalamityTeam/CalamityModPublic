@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Average vertical speed\n" +
                 "Flight time: 180\n" +
                 "5% increased damage while wearing the Hydrothermic Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 7.75f, 1.5f);
         }
 
         public override void SetDefaults()
@@ -58,7 +60,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 180;
             player.noFallDmg = true;
         }
 
@@ -69,12 +70,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 0.7f;
             maxAscentMultiplier = 1.75f;
             constantAscend = 0.11f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 7.75f;
-            acceleration *= 1.5f;
         }
 
         public override void AddRecipes()
