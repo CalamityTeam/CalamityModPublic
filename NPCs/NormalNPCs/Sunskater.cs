@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Sunskater");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
         }
 

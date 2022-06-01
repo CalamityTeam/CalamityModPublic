@@ -30,10 +30,10 @@ namespace CalamityMod.NPCs.GreatSandShark
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                Scale = 0.5f,
-                PortraitPositionXOverride = 14f
+                Scale = 0.6f,
+                PortraitPositionXOverride = 35f
             };
-            value.Position.X += 25f;
+            value.Position.X += 60f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

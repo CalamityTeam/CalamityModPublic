@@ -1143,6 +1143,22 @@ namespace CalamityMod.CalPlayer
                 auralisAurora--;
             if (auralisAuroraCooldown > 0)
                 auralisAuroraCooldown--;
+            
+            // Silver Armor "Medkit" effect
+            if (silverMedkitTimer > 0)
+            {
+                --silverMedkitTimer;
+                if (silverMedkitTimer == 0)
+                {
+                    Player.HealEffect(SilverArmorSetChange.SetBonusHealAmount, true);
+                    Player.statLife += SilverArmorSetChange.SetBonusHealAmount;
+                    if (Player.statLife > Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    SilverArmorSetChange.OnHealEffects(Player);
+                }
+            }
+
             if (MythrilFlareSpawnCountdown > 0)
                 MythrilFlareSpawnCountdown--;
             if (AdamantiteSetDecayDelay > 0)
@@ -2467,7 +2483,9 @@ namespace CalamityMod.CalPlayer
             }
 
             // 50% movement speed bonus so that you don't feel like a snail in the early game.
-            Player.moveSpeed += 0.5f;
+            // Disabled while Overhaul is enabled, because Overhaul does very similar things to make movement more snappy.
+            if (CalamityMod.Instance.overhaul is null)
+                Player.moveSpeed += BalancingConstants.DefaultMoveSpeedBoost;
 
             if (cirrusDress)
                 Player.moveSpeed -= 0.2f;

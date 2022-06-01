@@ -1271,6 +1271,18 @@ namespace CalamityMod.NPCs
         #region Modify Global Loot Main Hook
         public override void ModifyGlobalLoot(GlobalLoot globalLoot)
         {
+            // Gold armor set bonus: 4% chance to drop 1 Gold from all valid enemies
+            // See the condition lambda in DropHelper for details
+            // Does not show up in the Bestiary
+            LeadingConditionRule goldNormalEnemiesDrop = new LeadingConditionRule(DropHelper.GoldSetBonusGoldCondition);
+            goldNormalEnemiesDrop.Add(ItemID.GoldCoin, 25, hideLootReport: true);
+            globalLoot.Add(goldNormalEnemiesDrop);
+
+            // Same as above, except Gold armor makes all bosses drop 3 gold
+            LeadingConditionRule goldBossDrop = new LeadingConditionRule(DropHelper.GoldSetBonusBossCondition);
+            goldBossDrop.Add(ItemID.GoldCoin, minQuantity: 3, maxQuantity: 3, hideLootReport: true);
+            globalLoot.Add(goldBossDrop);
+            
             // Tarragon armor set bonus: 20% chance to drop hearts from all valid enemies
             // See the condition lambda in DropHelper for details
             // Does not show up in the Bestiary
