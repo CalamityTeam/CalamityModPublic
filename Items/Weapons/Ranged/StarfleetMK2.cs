@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient<AquashardShotgun>().
                 AddIngredient<Starfleet>().
                 AddIngredient<StarSputter>().
                 AddIngredient<ExodiumClusterOre>(15).

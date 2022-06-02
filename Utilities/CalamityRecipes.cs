@@ -347,8 +347,27 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
-            // Wings
-            group = new RecipeGroup(() => "Any Wings", new int[]
+            // Mana Flower+ for Ethereal Talisman
+            group = new RecipeGroup(() => "Any Mana Flowers", new int[]
+            {
+                ItemID.ManaFlower,
+                ItemID.ArcaneFlower,
+                ItemID.MagnetFlower,
+                ItemID.ManaCloak
+            }); 
+            RecipeGroup.RegisterGroup("ManaFlowersGroup", group);
+
+            // Magic Quiver+ for Elemental Quiver
+            group = new RecipeGroup(() => "Any Quivers", new int[]
+            {
+                ItemID.MagicQuiver,
+                ItemID.MoltenQuiver,
+                ItemID.StalkersQuiver
+            });
+            RecipeGroup.RegisterGroup("QuiversGroup", group);
+
+        // Wings
+        group = new RecipeGroup(() => "Any Wings", new int[]
             {
                 ItemID.DemonWings,
                 ItemID.AngelWings,
