@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using System;
 using System.IO;
@@ -240,16 +241,15 @@ namespace CalamityMod.NPCs.OldDuke
             if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles)
             {
                 spawnedProjectiles = true;
-                int totalProjectiles = 4;
+                int totalProjectiles = 6;
                 float radians = MathHelper.TwoPi / totalProjectiles;
-                int type = ModContent.ProjectileType<SandToothOldDuke>();
+                int type = ModContent.ProjectileType<TrilobiteSpike>();
                 int damage = NPC.GetProjectileDamage(type);
                 for (int k = 0; k < totalProjectiles; k++)
                 {
-                    float velocity = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? Main.rand.Next(6, 10) : Main.rand.Next(7, 11);
+                    float velocity = Main.rand.Next(7, 11);
                     Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
-                    int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
-                    Main.projectile[proj].timeLeft = 360;
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage, 0f, Main.myPlayer);
                 }
 
                 type = ModContent.ProjectileType<SandPoisonCloudOldDuke>();
