@@ -7,27 +7,13 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class VictideHeadgear : ModItem
+    public class VictideHeadcrab : ModItem
     {
-        public override void Load()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/VictideHeadgear_CroppedHead", EquipType.Head, name: Name + "Cropped");
-            }
-        }
-        
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Headgear");
+            DisplayName.SetDefault("Victide Headcrab");
             Tooltip.SetDefault("5% increased rogue damage");
-
-            if (Main.netMode == NetmodeID.Server)
-                return;
-
-            int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name + "Cropped", EquipType.Head);
-            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
         }
 
         public override void SetDefaults()
@@ -41,7 +27,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<VictideBreastplate>() && legs.type == ModContent.ItemType<VictideLeggings>();
+            return body.type == ModContent.ItemType<VictideBreastplate>() && legs.type == ModContent.ItemType<VictideGreaves>();
         }
 
         public override void UpdateArmorSet(Player player)

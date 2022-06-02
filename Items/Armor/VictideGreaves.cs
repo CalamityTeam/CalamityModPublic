@@ -6,12 +6,12 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class VictideLeggings : ModItem
+    public class VictideGreaves : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Leggings");
+            DisplayName.SetDefault("Victide Greaves");
             Tooltip.SetDefault("Movement speed increased by 8%\n" +
                 "Movement speed increased by 30% while submerged in liquid");
 

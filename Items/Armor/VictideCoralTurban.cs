@@ -7,27 +7,13 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class VictideVisage : ModItem
+    public class VictideCoralTurban : ModItem
     {
-        public override void Load()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/VictideVisage_CroppedHead", EquipType.Head, name: Name + "Cropped");
-            }
-        }
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Visage");
+            DisplayName.SetDefault("Victide Coral Turban");
             Tooltip.SetDefault("5% increased ranged damage");
-
-            if (Main.netMode == NetmodeID.Server)
-                return;
-
-            int equipSlotHead = EquipLoader.GetEquipSlot(Mod, Name + "Cropped", EquipType.Head);
-            ArmorIDs.Head.Sets.DrawHead[equipSlotHead] = false;
-
         }
 
         public override void SetDefaults()
@@ -41,7 +27,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<VictideBreastplate>() && legs.type == ModContent.ItemType<VictideLeggings>();
+            return body.type == ModContent.ItemType<VictideBreastplate>() && legs.type == ModContent.ItemType<VictideGreaves>();
         }
 
         public override void UpdateArmorSet(Player player)
