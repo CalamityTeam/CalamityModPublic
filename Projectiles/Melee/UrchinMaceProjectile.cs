@@ -8,72 +8,116 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class UrchinMaceProjectile : ModProjectile
     {
+        public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/UrchinMace";
+
+        public const float MaxWindup = 70;
+        public ref float Windup => ref Projectile.ai[0];
+        public float WindupProgress => MathHelper.Clamp(Windup, 0, MaxWindup) / MaxWindup;
+
+        public ref float SoundPlayed => ref Projectile.localAI[0];
+
+        Vector2 offset;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Whirlpool");
-            Main.projFrames[Projectile.type] = 3;
+            DisplayName.SetDefault("Urchin Mace");
         }
 
         public override void SetDefaults()
         {
             Projectile.width = 60;
             Projectile.height = 60;
-            Projectile.scale = 0.5f;
             Projectile.friendly = true;
-            Projectile.ignoreWater = true;
-            Projectile.penetrate = 2;
             Projectile.DamageType = DamageClass.Melee;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.penetrate = -1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = 20;
+        }
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 70 * Projectile.scale;
+            float bladeWidth = 30 * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.rotation.ToRotationVector2() * bladeLenght), bladeWidth, ref collisionPoint);
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, 0f, 0f, Projectile.scale * 1.5f);
-            int num626 = 6;
-            for (int num627 = 0; num627 < num626; num627++)
+            if (offset == null)
+                offset = Vector2.Zero;
+
+            if (Owner.controlUp)
             {
-                Vector2 vector45 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)(float)num626, default) + Projectile.Center;
-                Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-                int num628 = Dust.NewDust(vector45 + value15, 0, 0, 172, value15.X * 2f, value15.Y * 2f, 100, default, Projectile.scale);
-                Main.dust[num628].noGravity = true;
-                Main.dust[num628].noLight = true;
-                Main.dust[num628].velocity /= 4f;
-                Main.dust[num628].velocity -= Projectile.velocity;
+                offset.X -= 0.5f;
             }
-            if (Projectile.scale <= 1f)
+            if (Owner.controlDown)
             {
-                Projectile.scale *= 1.015f;
+                offset.X += 0.5f;
             }
-            if (Projectile.scale >= 1f)
+
+            Main.mouseText = true;
+            Main.instance.MouseText(offset.X.ToString());
+
+            Projectile.rotation += WindupProgress * MathHelper.PiOver4 / 23f;
+
+
+            if (Owner.channel)
             {
-                Projectile.Kill();
+                Projectile.timeLeft = 2;
+                UpdateOwnerVars();
             }
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter > 3)
+
+            Projectile.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 0f + Vector2.UnitY * 4;
+
+            if (Owner.direction < 0) //My god why is Owner.direction not properly being updated.
+                Projectile.Center += Vector2.UnitX * 12;
+
+            if (Projectile.rotation < 0f)
             {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
+                SoundPlayed = 0f;
             }
-            if (Projectile.frame >= 3)
+            else if (SoundPlayed == 0f)
             {
-                Projectile.frame = 0;
+                SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce, Owner.Center);
+                SoundPlayed = 1f;
             }
-            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            Windup++;
+        }
+
+        public void UpdateOwnerVars()
+        {
+            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.PiOver2);
+            Owner.heldProj = Projectile.whoAmI;
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D texture2D13 = ModContent.Request<Texture2D>(Texture).Value;
-            int num214 = ModContent.Request<Texture2D>(Texture).Value.Height / Main.projFrames[Projectile.type];
-            int y6 = num214 * Projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), Projectile.GetAlpha(lightColor), Projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), Projectile.scale, SpriteEffects.None, 0);
+            Texture2D maceTexture = ModContent.Request<Texture2D>(Texture).Value;
+            Texture2D whirlpoolTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/RedtideWhirlpool").Value;
+
+            float whirlpoolScale = WindupProgress * 2.4f;
+            float whirlpoolOpacity = WindupProgress * 0.2f;
+
+            Main.spriteBatch.Draw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity, Projectile.rotation + Windup * 0.1f, whirlpoolTexture.Size() / 2f, whirlpoolScale, SpriteEffects.None, 0);
+
+            Vector2 handleOrigin = new Vector2(0, maceTexture.Height);
+            float maceRotation = Projectile.rotation + MathHelper.PiOver4;
+            Main.spriteBatch.Draw(maceTexture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), maceRotation, handleOrigin, Projectile.scale, SpriteEffects.None, 0);
+
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
+            //Spawn a whirlpool typhoon after sending it out
+
             SoundEngine.PlaySound(SoundID.NPCDeath19, Projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)

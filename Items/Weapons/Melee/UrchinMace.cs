@@ -22,6 +22,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 42;
             Item.damage = 35;
+            Item.channel = true;
+            Item.noUseGraphic = true;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 19;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -29,18 +31,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.knockBack = 4;
             Item.UseSound = SoundID.Item1;
-            Item.autoReuse = true;
-            Item.height = 42;
+            Item.height = 48;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<UrchinMaceProjectile>();
             Item.shootSpeed = 9f;
-        }
-
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, type, damage / 2, knockback, player.whoAmI, 0f, 0f);
-            return false;
         }
 
         public override void AddRecipes()

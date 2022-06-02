@@ -17,6 +17,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Reed Blowgun");
             Tooltip.SetDefault("Fires a high-pressure stream of bubbles");
+            //Lore about how the sea kingdom always had the advantage over any attempts at invasions thanks to their armament specifically crafted to work underwater through looking at sealife (Pistol shrimps in this case)
+            //..That is, until most of the underwater got hellfired away.
             SacrificeTotal = 1;
         }
 
