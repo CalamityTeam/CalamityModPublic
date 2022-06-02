@@ -450,7 +450,7 @@ namespace CalamityMod.Items
                 { ItemID.SpiderStaff, Do(AutoReuse, UseExact(25)) },
                 { ItemID.StaffofEarth, Do(DamageRatio(1.6f)) },
                 { ItemID.StaffoftheFrostHydra, Do(UseExact(20)) },
-                { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(1.5f), UseRatio(1.5f)) },
+                { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StardustCellStaff, Do(UseExact(20)) },
                 { ItemID.StardustChainsaw, trueMelee },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
