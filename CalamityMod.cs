@@ -329,7 +329,6 @@ namespace CalamityMod
             BossRushEvent.Unload();
             SchematicManager.Unload();
             CustomLavaManagement.Unload();
-            BossHealthBarManager.Unload();
             DraedonStructures.Unload();
             CooldownRegistry.Unload();
             PlayerDashManager.Unload();

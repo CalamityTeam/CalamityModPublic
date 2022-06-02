@@ -29,8 +29,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.UI.BigProgressBar;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -61,7 +63,7 @@ namespace CalamityMod.UI
     That should be it -- ask if you have any questions!
     */
 
-    public static class BossHealthBarManager
+    public class BossHealthBarManager : ModBossBarStyle
     {
         public struct BossEntityExtension
         {
@@ -346,7 +348,7 @@ namespace CalamityMod.UI
         }
 #pragma warning restore IDE0028 // Simplify collection initialization
 
-        internal static void Unload()
+        public override void Unload()
         {
             BossMainHPBar = null;
             BossComboHPBar = null;
@@ -360,7 +362,7 @@ namespace CalamityMod.UI
             SpecialHPRequirements = null;
         }
 
-        public static void Update()
+        public override void Update(IBigProgressBar currentBar, ref BigProgressBarInfo info)
         {
             for (int i = 0; i < Main.maxNPCs; i++)
             {
@@ -411,7 +413,9 @@ namespace CalamityMod.UI
                 Bars.Add(new BossHPUI(index, overridingName));
         }
 
-        public static void Draw(SpriteBatch sb)
+        public override bool PreventDraw => true;
+
+        public override void Draw(SpriteBatch spriteBatch, IBigProgressBar currentBar, BigProgressBarInfo info)
         {
             int startHeight = 100;
             int x = Main.screenWidth - 420;
@@ -421,7 +425,7 @@ namespace CalamityMod.UI
 
             foreach (BossHPUI ui in Bars)
             {
-                ui.Draw(sb, x, y);
+                ui.Draw(spriteBatch, x, y);
                 y -= BossHPUI.VerticalOffsetPerBar;
             }
         }

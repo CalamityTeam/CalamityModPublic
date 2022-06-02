@@ -21,6 +21,7 @@ namespace CalamityMod.NPCs.SunkenSea
             DisplayName.SetDefault("Baby Ghost Bell");
             Main.npcFrameCount[NPC.type] = 4;
             Main.npcCatchable[NPC.type] = true;
+            NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -47,10 +48,10 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Like their adult counterparts, they shimmer gently, and would make great sources of light if the prisms around them didn’t already do so. Maybe if there was a way to bring one with you.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Like their adult counterparts, they shimmer gently, and would make great sources of light if the prisms around them didn’t already do so. Maybe if there was a way to bring one with you.")
             });
         }
 
