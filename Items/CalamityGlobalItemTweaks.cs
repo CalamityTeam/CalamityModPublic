@@ -216,7 +216,7 @@ namespace CalamityMod.Items
                 { ItemID.GreenPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.GreenPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.GreenSolution, Do(Value(Item.buyPrice(silver: 5))) },
-                { ItemID.GrenadeLauncher, Do(DamageRatio(2f), UseRatio(1.5f)) },
+                { ItemID.GrenadeLauncher, Do(DamageRatio(1.5f)) },
                 { ItemID.Gungnir, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(92), ShootSpeedRatio(1.25f)) },
                 { ItemID.HallowedGreaves, Do(DefenseDelta(+2)) },
                 { ItemID.HallowedPlateMail, Do(DefenseDelta(+3)) },
@@ -249,7 +249,7 @@ namespace CalamityMod.Items
                 { ItemID.JoustingLance, trueMelee },
                 { ItemID.JungleYoyo, autoReuse },
                 { ItemID.Katana, Do(UseExact(15), DamageRatio(1.5f)) },
-                { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(138)) },
+                { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(110)) },
                 { ItemID.KOCannon, Do(DamageRatio(2.65f)) },
                 { ItemID.Kraken, autoReuse },
                 { ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4)) },
@@ -292,7 +292,7 @@ namespace CalamityMod.Items
                 { ItemID.MoltenPickaxe, Do(PickPower(100), UseTimeExact(10)) },
                 { ItemID.MoltenSkullRose, Do(DefenseExact(8)) },
                 { ItemID.MonkStaffT1, Do(TrueMelee, DamageExact(83)) }, // Sleepy Octopod
-                { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(1.33f)) }, // Ghastly Glaive
+                { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) }, // Ghastly Glaive
                 { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
                 { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.MoonlordTurretStaff, Do(UseExact(15), DamageRatio(1.5f)) },
@@ -448,7 +448,7 @@ namespace CalamityMod.Items
                 { ItemID.SpectrePickaxe, Do(PickPower(200), UseTimeExact(8), TileBoostExact(+4)) },
                 { ItemID.SpectreStaff, Do(DamageRatio(3f)) },
                 { ItemID.SpiderStaff, Do(AutoReuse, UseExact(25)) },
-                { ItemID.StaffofEarth, Do(DamageRatio(1.6f)) },
+                { ItemID.StaffofEarth, Do(DamageRatio(1.2f)) },
                 { ItemID.StaffoftheFrostHydra, Do(UseExact(20)) },
                 { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StardustCellStaff, Do(UseExact(20)) },
