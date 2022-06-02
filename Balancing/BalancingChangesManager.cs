@@ -55,8 +55,10 @@ namespace CalamityMod.Balancing
 
             UniversalBalancingChanges = new List<IBalancingRule[]>()
             {
-                // Nerf the T3 Monk Staff by 75% due to its strong primary fire buff.
-                Do(new ProjectileSpecificRequirementBalancingRule(0.25f, MonkStaffT3Filter)),
+                // Nerf Sky Dragon's Fury's alt fire projectiles due to its strong primary fire buff.
+                // TODO -- Vanilla 1.4 already nerfs the projectiles to 0.5x, so this nerf is disabled for now.
+                // The multiplier can be changed as needed.
+                // Do(new ProjectileSpecificRequirementBalancingRule(0.25f, MonkStaffT3Filter)),
 
                 // Nerf Seedler seeds by 66.6%.
                 Do(new ProjectileResistBalancingRule(1f / 3f, ProjectileID.SeedlerNut, ProjectileID.SeedlerThorn)),

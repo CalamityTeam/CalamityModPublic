@@ -58,6 +58,10 @@
         // Summon damage bonuses counting less towards "scales with your best class"
         internal static readonly float SummonAllClassScalingFactor = 0.75f;
 
+        // Minimum and maximum allowed attack speed ratios when using Calamity Global Item Tweaks
+        internal static readonly float MinimumAllowedAttackSpeed = 0.25f;
+        internal static readonly float MaximumAllowedAttackSpeed = 10f;
+
         // TODO -- Add all balance related constants here that don't belong in other files.
         // These constants were just the ones sitting in CalamityPlayer.
         // Review all constants and static readonlys in the entire mod to find things to add.
