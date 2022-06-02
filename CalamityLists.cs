@@ -1249,7 +1249,6 @@ namespace CalamityMod
                 ProjectileID.VortexVortexLightning,
                 ProjectileID.VortexLightning,
                 ProjectileID.VortexAcid,
-                ProjectileType<GreatSandBlast>(),
                 ProjectileType<PearlBurst>(),
                 ProjectileType<PearlRain>()
             };
