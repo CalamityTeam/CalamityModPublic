@@ -1331,9 +1331,9 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), DownedBossSystem.downedPerforator && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), DownedBossSystem.downedHiveMind && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), DownedBossSystem.downedPerforator);
+                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), DownedBossSystem.downedHiveMind);
                 SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
             }
 

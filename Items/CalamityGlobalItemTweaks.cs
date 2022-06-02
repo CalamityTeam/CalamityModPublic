@@ -196,7 +196,7 @@ namespace CalamityMod.Items
                 { ItemID.FrostburnArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.FrostStaff, Do(ManaExact(9), DamageExact(215), UseTimeExact(50), UseAnimationExact(50), ShootSpeedExact(40f)) },
                 { ItemID.FrozenShield, Do(DefenseDelta(+7)) },
-                { ItemID.FrozenTurtleShell, Do(DefenseDelta(+6)) },
+                { ItemID.FrozenTurtleShell, Do(DefenseExact(6)) },
                 { ItemID.FruitcakeChakram, Do(DamageRatio(2f)) },
                 { ItemID.Gatligator, pointBlank },
                 { ItemID.GoblinBattleStandard, nonConsumableBossSummon },
