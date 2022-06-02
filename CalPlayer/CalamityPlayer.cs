@@ -1468,18 +1468,6 @@ namespace CalamityMod.CalPlayer
             if (regenator)
                 Player.statLifeMax2 = (int)(Player.statLifeMax2 * 0.5);
 
-            // Extra accessory slots
-            // This is probably fucked in 1.4
-            if (extraAccessoryML)
-                Player.extraAccessorySlots = 1;
-            if (extraAccessoryML && Player.extraAccessory && (Main.expertMode || Main.gameMenu))
-                Player.extraAccessorySlots = 2;
-            if (BossRushEvent.BossRushActive)
-            {
-                if (CalamityConfig.Instance.BossRushAccessoryCurse)
-                    Player.extraAccessorySlots = 0;
-            }
-
             ResetRogueStealth();
 
             contactDamageReduction = 0D;
