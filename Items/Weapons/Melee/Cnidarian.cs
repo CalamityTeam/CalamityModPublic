@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Cnidarian");
             Tooltip.SetDefault("Fishes up an electric jellyfish\n" +
             "Periodically sends out sparks to electrocute nearby enemies.");
+            //Tooltip could include a lore line about electric attributes that are shared in sunken sealife
             SacrificeTotal = 1;
         }
 
@@ -70,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public void SetItemInHand(Player player, Rectangle heldItemFrame)
         {
             //Make the player face where they're aiming.
-            if (Main.MouseWorld.X > player.Center.X)
+            if (player.Calamity().mouseWorld.X > player.Center.X)
             {
                 player.ChangeDir(1);
             }
@@ -86,7 +87,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public void SetPlayerArms(Player player)
         {
             //Calculate the dirction in which the players arms should be pointing at.
-            Vector2 playerToCursor = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
+            Vector2 playerToCursor = (player.Calamity().mouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
             float armPointingDirection = (playerToCursor.ToRotation());
 
 

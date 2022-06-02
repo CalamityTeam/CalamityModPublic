@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
 
         //Sounds
         public static readonly SoundStyle ZapSound = SoundID.Item94 with { Volume = SoundID.Item94.Volume * 0.5f };
-        public static readonly SoundStyle SlapSound = new SoundStyle( "CalamityMod/Sounds/Custom/WetSlap", 4 );
+        public static readonly SoundStyle SlapSound = new("CalamityMod/Sounds/Custom/WetSlap", 4);
 
         internal PrimitiveTrail TrailRenderer;
 

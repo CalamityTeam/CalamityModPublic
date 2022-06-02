@@ -5,15 +5,18 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ReedBlowgun : ModItem
     {
+        public static readonly SoundStyle BubbleBurstSound = new ("CalamityMod/Sounds/Custom/PistolShrimpBubbleBurst") { PitchVariance = 0.15f, Volume = 0.2f};
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reed Blowgun");
-            Tooltip.SetDefault("Fires slow-moving water blasts");
+            Tooltip.SetDefault("Fires a high-pressure stream of bubbles");
             SacrificeTotal = 1;
         }
 
@@ -26,24 +29,90 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useTime = 25;
             Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Shoot;
+            Item.holdStyle = 16;
             Item.noMelee = true;
-            Item.knockBack = 2.5f;
+            Item.knockBack = 13.5f;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.UseSound = SoundID.Item5;
+            Item.UseSound = null;
             Item.autoReuse = true;
-            Item.shoot = ProjectileID.PurificationPowder;
+            Item.shoot = ModContent.ProjectileType<PressurizedBubbleStream>();
             Item.shootSpeed = 16f;
-            Item.useAmmo = AmmoID.Arrow;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void HoldItem(Player player)
         {
-            float SpeedX = velocity.X + (float)Main.rand.Next(-30, 31) * 0.05f;
-            float SpeedY = velocity.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-            Projectile.NewProjectile(source, position.X, position.Y, SpeedX * 0.5f, SpeedY * 0.5f, ModContent.ProjectileType<SandWater>(), (int)(damage * 0.4), 0f, player.whoAmI);
-            return true;
+            player.Calamity().mouseWorldListener = true;
+        }
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            velocity = velocity.RotatedByRandom(0.01f);
+        }
+
+        public void SetItemInHand(Player player, Rectangle heldItemFrame)
+        {
+            //Make the player face where they're aiming.
+            if (Main.MouseWorld.X > player.Center.X)
+            {
+                player.ChangeDir(1);
+            }
+            else
+            {
+                player.ChangeDir(-1);
+            }
+
+            float blowpipeRotation = player.compositeBackArm.rotation + MathHelper.PiOver2 + player.direction * MathHelper.PiOver4 / 3f;
+
+            Vector2 blowpipePosition = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor() + Vector2.UnitY * 7f;
+            if (player.direction > 0)
+                blowpipePosition += Vector2.UnitX * -9f;
+
+            CalamityUtils.CleanHoldStyle(player, blowpipeRotation, blowpipePosition, new Vector2(50, 18), new Vector2(-17, 6));
+        }
+
+
+        public void SetPlayerArms(Player player, bool frontArm = false)
+        {
+            //Make the player face where they're aiming.
+            if (player.Calamity().mouseWorld.X > player.Center.X)
+            {
+                player.ChangeDir(1);
+            }
+            else
+            {
+                player.ChangeDir(-1);
+            }
+
+            //Calculate the dirction in which the players arms should be pointing at.
+            Vector2 playerToCursor = (player.Calamity().mouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
+            float pointingDirection = (playerToCursor.ToRotation());
+
+            if (frontArm)
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, pointingDirection - MathHelper.PiOver2);
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, pointingDirection - MathHelper.PiOver2);
+            player.headRotation = pointingDirection;
+        }
+
+        public override void HoldStyle(Player player, Rectangle heldItemFrame)
+        {
+            SetItemInHand(player, heldItemFrame);
+        }
+
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
+        {
+            SetItemInHand(player, heldItemFrame);
+        }
+
+        public override void HoldItemFrame(Player player)
+        {
+            SetPlayerArms(player);
+        }
+
+        public override void UseItemFrame(Player player)
+        {
+            SetPlayerArms(player, true);
         }
 
         public override void AddRecipes()
