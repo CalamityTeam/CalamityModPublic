@@ -23,189 +23,42 @@ namespace CalamityMod
         private static Recipe CreateRecipe(int itemID, int stack = 1) => CalamityMod.Instance.CreateRecipe(itemID, stack);
 
         #region Recipe Group Definitions
-        public static void AddRecipeGroups()
+        private static void ModifyVanillaRecipeGroups()
         {
-            //Modify Vanilla Recipe Groups
+            // Twinklers count as Fireflies
             RecipeGroup firefly = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Fireflies"]];
             firefly.ValidItems.Add(ModContent.ItemType<TwinklerItem>());
 
+            // Astral, Sunken Sea and Sulphurous Sea Sand is Sand
             RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
             sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
             sand.ValidItems.Add(ModContent.ItemType<EutrophicSand>());
             sand.ValidItems.Add(ModContent.ItemType<SulphurousSand>());
 
+            // Acidwood is Wood
             RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
-            wood.ValidItems.Add(ModContent.ItemType<Acidwood>()); //Astral Monolith was decidedly not wood-like enough
+            wood.ValidItems.Add(ModContent.ItemType<Acidwood>());
+            // Astral Monolith is decidedly not wood-like enough to be used as generic wood.
+        }
 
-            //New Groups
-            RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
-            {
-                ItemID.CopperBar,
-                ItemID.TinBar
-            });
-            RecipeGroup.RegisterGroup("AnyCopperBar", group);
+        public static void AddRecipeGroups()
+        {
+            ModifyVanillaRecipeGroups();
 
-            group = new RecipeGroup(() => "Any Gold Ore", new int[]
-            {
-                ItemID.GoldOre,
-                ItemID.PlatinumOre
-            });
-            RecipeGroup.RegisterGroup("AnyGoldOre", group);
+            AddOreAndBarRecipeGroups();
+            AddEvilBiomeItemRecipeGroups();
+            AddBiomeBlockRecipeGroups();
+            AddEquipmentRecipeGroups();
 
-            group = new RecipeGroup(() => "Any Gold Bar", new int[]
-            {
-                ItemID.GoldBar,
-                ItemID.PlatinumBar
-            });
-            RecipeGroup.RegisterGroup("AnyGoldBar", group);
-
-            group = new RecipeGroup(() => "Any Evil Block", new int[]
-            {
-                ItemID.EbonstoneBlock,
-                ItemID.CrimstoneBlock,
-                ItemID.PurpleIceBlock,
-                ItemID.RedIceBlock,
-                ItemID.EbonsandBlock,
-                ItemID.CrimsandBlock,
-                ItemID.CorruptHardenedSand,
-                ItemID.CrimsonHardenedSand,
-                ItemID.CorruptSandstone,
-                ItemID.CrimsonSandstone
-            });
-            RecipeGroup.RegisterGroup("AnyEvilBlock", group);
-
-            group = new RecipeGroup(() => "Any Evil Bar", new int[]
-            {
-                ItemID.DemoniteBar,
-                ItemID.CrimtaneBar
-            });
-            RecipeGroup.RegisterGroup("AnyEvilBar", group);
-
-            group = new RecipeGroup(() => "Any Cobalt Bar", new int[]
-            {
-                ItemID.CobaltBar,
-                ItemID.PalladiumBar
-            });
-            RecipeGroup.RegisterGroup("AnyCobaltBar", group);
-
-            group = new RecipeGroup(() => "Any Mythril Bar", new int[]
-            {
-                ItemID.MythrilBar,
-                ItemID.OrichalcumBar
-            });
-            RecipeGroup.RegisterGroup("AnyMythrilBar", group);
-
-            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
-            {
-                ItemID.AdamantiteBar,
-                ItemID.TitaniumBar
-            });
-            RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
-
-            group = new RecipeGroup(() => "Any Evil Powder", new int[]
-            {
-                ItemID.VilePowder,
-                ItemID.ViciousPowder
-            });
-            RecipeGroup.RegisterGroup("EvilPowder", group);
-
-            group = new RecipeGroup(() => "Shadow Scale or Tissue Sample", new int[]
-            {
-                ItemID.ShadowScale,
-                ItemID.TissueSample
-            });
-            RecipeGroup.RegisterGroup("Boss2Material", group);
-
-            group = new RecipeGroup(() => "Cursed Flame or Ichor", new int[]
-            {
-                ItemID.CursedFlame,
-                ItemID.Ichor
-            });
-            RecipeGroup.RegisterGroup("CursedFlameIchor", group);
-
-            group = new RecipeGroup(() => "Any Evil Flask", new int[]
-            {
-                ItemID.FlaskofCursedFlames,
-                ItemID.FlaskofIchor
-            });
-            RecipeGroup.RegisterGroup("AnyEvilFlask", group);
-
-            group = new RecipeGroup(() => "Any Evil Water", new int[]
-            {
-                ItemID.UnholyWater,
-                ItemID.BloodWater
-            });
-            RecipeGroup.RegisterGroup("AnyEvilWater", group);
-
-            group = new RecipeGroup(() => "Any Ice Block", new int[]
-            {
-                ItemID.IceBlock,
-                ItemID.PurpleIceBlock,
-                ItemID.RedIceBlock,
-                ItemID.PinkIceBlock,
-                ModContent.ItemType<AstralIce>()
-            });
-            RecipeGroup.RegisterGroup("AnyIceBlock", group);
-
-            group = new RecipeGroup(() => "Any Snow Block", new int[]
-            {
-                ItemID.SnowBlock,
-                ModContent.ItemType<AstralSnow>()
-            });
-            RecipeGroup.RegisterGroup("AnySnowBlock", group);
-
-            group = new RecipeGroup(() => "Any Stone Block", new int[]
-            {
-                ItemID.StoneBlock,
-                ItemID.EbonstoneBlock,
-                ItemID.CrimstoneBlock,
-                ItemID.PearlstoneBlock,
-                ModContent.ItemType<AstralStone>()
-            });
-            RecipeGroup.RegisterGroup("AnyStoneBlock", group);
-
-            group = new RecipeGroup(() => "Any Silt", new int[]
-            {
-                ItemID.SiltBlock,
-                ItemID.SlushBlock,
-                ModContent.ItemType<NovaeSlag>()
-            });
-            RecipeGroup.RegisterGroup("SiltGroup", group);
-
-            group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
-            {
-                ItemID.HallowedHelmet,
-                ItemID.HallowedHeadgear,
-                ItemID.HallowedMask,
-                ItemID.HallowedHood,
-                ItemID.AncientHallowedHelmet,
-                ItemID.AncientHallowedHeadgear,
-                ItemID.AncientHallowedMask,
-                ItemID.AncientHallowedHood
-            });
-            RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
-
-            group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
-            {
-                ItemID.HallowedPlateMail,
-                ItemID.AncientHallowedPlateMail
-            });
-            RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
-
-            group = new RecipeGroup(() => "Any Hallowed Greaves", new int[]
-            {
-                ItemID.HallowedGreaves,
-                ItemID.AncientHallowedGreaves
-            });
-            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
-
-            group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
+            // Mythril Anvil and Orichalcum Anvil
+            RecipeGroup group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
             {
                 ItemID.MythrilAnvil,
                 ItemID.OrichalcumAnvil
             });
             RecipeGroup.RegisterGroup("HardmodeAnvil", group);
 
+            // Adamantite Forge and Titanium Forge
             group = new RecipeGroup(() => "Any Hardmode Forge", new int[]
             {
                 ItemID.AdamantiteForge,
@@ -213,49 +66,21 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("HardmodeForge", group);
 
-            group = new RecipeGroup(() => "Any Lunar Pickaxe", new int[]
+            // Large Gems (PvP tokens)
+            group = new RecipeGroup(() => "Any Large Gem", new int[]
             {
-                ItemID.SolarFlarePickaxe,
-                ItemID.VortexPickaxe,
-                ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe,
-                ModContent.ItemType<GallantPickaxe>()
+                ItemID.LargeAmber,
+                ItemID.LargeAmethyst,
+                ItemID.LargeDiamond,
+                ItemID.LargeEmerald,
+                ItemID.LargeRuby,
+                ItemID.LargeSapphire,
+                ItemID.LargeTopaz
             });
-            RecipeGroup.RegisterGroup("LunarPickaxe", group);
+            RecipeGroup.RegisterGroup("AnyLargeGem", group);
 
-            group = new RecipeGroup(() => "Any Lunar Hamaxe", new int[]
-            {
-                ItemID.LunarHamaxeSolar,
-                ItemID.LunarHamaxeVortex,
-                ItemID.LunarHamaxeNebula,
-                ItemID.LunarHamaxeStardust
-            });
-            RecipeGroup.RegisterGroup("LunarHamaxe", group);
-
-            group = new RecipeGroup(() => "Any Wooden Sword", new int[]
-            {
-                ItemID.WoodenSword,
-                ItemID.BorealWoodSword,
-                ItemID.RichMahoganySword,
-                ItemID.PalmWoodSword,
-                ItemID.EbonwoodSword,
-                ItemID.ShadewoodSword,
-                ItemID.PearlwoodSword
-            });
-            RecipeGroup.RegisterGroup("AnyWoodenSword", group);
-
-            //group = new RecipeGroup(() => "Any Large Gem", new int[]
-            //{
-            //    ItemID.LargeAmber,
-            //    ItemID.LargeAmethyst,
-            //    ItemID.LargeDiamond,
-            //    ItemID.LargeEmerald,
-            //    ItemID.LargeRuby,
-            //    ItemID.LargeSapphire,
-            //    ItemID.LargeTopaz
-            //});
-            //RecipeGroup.RegisterGroup("AnyLargeGem", group);
-
+            // 1.3 Food Items
+            // TODO -- "Any Food" doesn't count the numerous 1.4 foods
             group = new RecipeGroup(() => "Any Food Item", new int[]
             {
                 ItemID.CookedFish,
@@ -276,7 +101,253 @@ namespace CalamityMod
                 ModContent.ItemType<SunkenStew>()
             });
             RecipeGroup.RegisterGroup("AnyFood", group);
+        }
 
+        private static void AddOreAndBarRecipeGroups()
+        {
+            // Copper and Tin
+            RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
+            {
+                ItemID.CopperBar,
+                ItemID.TinBar
+            });
+            RecipeGroup.RegisterGroup("AnyCopperBar", group);
+
+            // Silver and Tungsten
+            group = new RecipeGroup(() => "Any Silver Bar", new int[]
+            {
+                ItemID.SilverBar,
+                ItemID.TungstenBar,
+            });
+            RecipeGroup.RegisterGroup("AnySilverBar", group);
+
+            // Gold and Platinum Ore
+            group = new RecipeGroup(() => "Any Gold Ore", new int[]
+            {
+                ItemID.GoldOre,
+                ItemID.PlatinumOre
+            });
+            RecipeGroup.RegisterGroup("AnyGoldOre", group);
+
+            // Gold and Platinum
+            group = new RecipeGroup(() => "Any Gold Bar", new int[]
+            {
+                ItemID.GoldBar,
+                ItemID.PlatinumBar
+            });
+            RecipeGroup.RegisterGroup("AnyGoldBar", group);
+
+            // Demonite and Crimtane
+            group = new RecipeGroup(() => "Any Evil Bar", new int[]
+            {
+                ItemID.DemoniteBar,
+                ItemID.CrimtaneBar
+            });
+            RecipeGroup.RegisterGroup("AnyEvilBar", group);
+
+            // Cobalt and Palladium
+            group = new RecipeGroup(() => "Any Cobalt Bar", new int[]
+            {
+                ItemID.CobaltBar,
+                ItemID.PalladiumBar
+            });
+            RecipeGroup.RegisterGroup("AnyCobaltBar", group);
+
+            // Mythril and Orichalcum
+            group = new RecipeGroup(() => "Any Mythril Bar", new int[]
+            {
+                ItemID.MythrilBar,
+                ItemID.OrichalcumBar
+            });
+            RecipeGroup.RegisterGroup("AnyMythrilBar", group);
+
+            // Adamantite and Titanium
+            group = new RecipeGroup(() => "Any Adamantite Bar", new int[]
+            {
+                ItemID.AdamantiteBar,
+                ItemID.TitaniumBar
+            });
+            RecipeGroup.RegisterGroup("AnyAdamantiteBar", group);
+        }
+
+        private static void AddEvilBiomeItemRecipeGroups()
+        {
+            // Vile and Vicious Powder
+            RecipeGroup group = new RecipeGroup(() => "Any Evil Powder", new int[]
+            {
+                ItemID.VilePowder,
+                ItemID.ViciousPowder
+            });
+            RecipeGroup.RegisterGroup("EvilPowder", group);
+
+            // Shadow Scale and Tissue Sample
+            group = new RecipeGroup(() => "Shadow Scale or Tissue Sample", new int[]
+            {
+                ItemID.ShadowScale,
+                ItemID.TissueSample
+            });
+            RecipeGroup.RegisterGroup("Boss2Material", group);
+
+            // Cursed Flame and Ichor
+            group = new RecipeGroup(() => "Cursed Flame or Ichor", new int[]
+            {
+                ItemID.CursedFlame,
+                ItemID.Ichor
+            });
+            RecipeGroup.RegisterGroup("CursedFlameIchor", group);
+
+            // Unholy Water and Blood Water
+            group = new RecipeGroup(() => "Any Evil Water", new int[]
+            {
+                ItemID.UnholyWater,
+                ItemID.BloodWater
+            });
+            RecipeGroup.RegisterGroup("AnyEvilWater", group);
+
+            // Flask of Cursed Flames and Flask of Ichor
+            group = new RecipeGroup(() => "Any Evil Flask", new int[]
+            {
+                ItemID.FlaskofCursedFlames,
+                ItemID.FlaskofIchor
+            });
+            RecipeGroup.RegisterGroup("AnyEvilFlask", group);
+        }
+
+        private static void AddBiomeBlockRecipeGroups()
+        {
+            // Vanilla Stone and Astral Stone
+            RecipeGroup group = new RecipeGroup(() => "Any Stone Block", new int[]
+            {
+                ItemID.StoneBlock,
+                ItemID.EbonstoneBlock,
+                ItemID.CrimstoneBlock,
+                ItemID.PearlstoneBlock,
+                ModContent.ItemType<AstralStone>()
+            });
+            RecipeGroup.RegisterGroup("AnyStoneBlock", group);
+
+            // Vanilla Snow and Astral Snow
+            group = new RecipeGroup(() => "Any Snow Block", new int[]
+            {
+                ItemID.SnowBlock,
+                ModContent.ItemType<AstralSnow>()
+            });
+            RecipeGroup.RegisterGroup("AnySnowBlock", group);
+
+            // Vanilla Ice and Astral Ice
+            group = new RecipeGroup(() => "Any Ice Block", new int[]
+            {
+                ItemID.IceBlock,
+                ItemID.PurpleIceBlock,
+                ItemID.RedIceBlock,
+                ItemID.PinkIceBlock,
+                ModContent.ItemType<AstralIce>()
+            });
+            RecipeGroup.RegisterGroup("AnyIceBlock", group);
+
+            // Silt, Slush, and Astral Silt
+            group = new RecipeGroup(() => "Any Silt", new int[]
+            {
+                ItemID.SiltBlock,
+                ItemID.SlushBlock,
+                ModContent.ItemType<NovaeSlag>()
+            });
+            RecipeGroup.RegisterGroup("SiltGroup", group);
+
+            // Set of all generic Corruption/Crimson blocks
+            group = new RecipeGroup(() => "Any Evil Block", new int[]
+            {
+                ItemID.EbonstoneBlock,
+                ItemID.CrimstoneBlock,
+                ItemID.PurpleIceBlock,
+                ItemID.RedIceBlock,
+                ItemID.EbonsandBlock,
+                ItemID.CrimsandBlock,
+                ItemID.CorruptHardenedSand,
+                ItemID.CrimsonHardenedSand,
+                ItemID.CorruptSandstone,
+                ItemID.CrimsonSandstone
+            });
+            RecipeGroup.RegisterGroup("AnyEvilBlock", group);
+
+            // Set of all generic Hallow blocks
+            group = new RecipeGroup(() => "Any Good Block", new int[]
+            {
+                ItemID.PearlstoneBlock,
+                ItemID.PinkIceBlock,
+                ItemID.PearlsandBlock,
+                ItemID.HallowHardenedSand,
+                ItemID.HallowSandstone
+            });
+        }
+        
+        private static void AddEquipmentRecipeGroups()
+        {
+            // Wooden Swords
+            RecipeGroup group = new RecipeGroup(() => "Any Wooden Sword", new int[]
+            {
+                ItemID.WoodenSword,
+                ItemID.BorealWoodSword,
+                ItemID.RichMahoganySword,
+                ItemID.PalmWoodSword,
+                ItemID.EbonwoodSword,
+                ItemID.ShadewoodSword,
+                ItemID.PearlwoodSword
+            });
+            RecipeGroup.RegisterGroup("AnyWoodenSword", group);
+
+            // Hallowed Helmets
+            group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
+            {
+                ItemID.HallowedHelmet,
+                ItemID.HallowedHeadgear,
+                ItemID.HallowedMask,
+                ItemID.HallowedHood,
+                ItemID.AncientHallowedHelmet,
+                ItemID.AncientHallowedHeadgear,
+                ItemID.AncientHallowedMask,
+                ItemID.AncientHallowedHood
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedHelmet", group);
+
+            // Hallowed Plate Mails
+            group = new RecipeGroup(() => "Any Hallowed Platemail", new int[]
+            {
+                ItemID.HallowedPlateMail,
+                ItemID.AncientHallowedPlateMail
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedPlatemail", group);
+
+            // Hallowed Greaves
+            group = new RecipeGroup(() => "Any Hallowed Greaves", new int[]
+            {
+                ItemID.HallowedGreaves,
+                ItemID.AncientHallowedGreaves
+            });
+            RecipeGroup.RegisterGroup("AnyHallowedGreaves", group);
+
+            // Vanilla Luminite Pickaxes and Genesis Pickaxe
+            group = new RecipeGroup(() => "Any Lunar Pickaxe", new int[]
+            {
+                ItemID.SolarFlarePickaxe,
+                ItemID.VortexPickaxe,
+                ItemID.NebulaPickaxe,
+                ItemID.StardustPickaxe,
+                ModContent.ItemType<GallantPickaxe>()
+            });
+            RecipeGroup.RegisterGroup("LunarPickaxe", group);
+
+            // Luminite Hamaxes
+            group = new RecipeGroup(() => "Any Lunar Hamaxe", new int[]
+            {
+                ItemID.LunarHamaxeSolar,
+                ItemID.LunarHamaxeVortex,
+                ItemID.LunarHamaxeNebula,
+                ItemID.LunarHamaxeStardust
+            });
+            RecipeGroup.RegisterGroup("LunarHamaxe", group);
+
+            // Wings
             group = new RecipeGroup(() => "Any Wings", new int[]
             {
                 ItemID.DemonWings,
