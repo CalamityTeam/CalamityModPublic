@@ -396,8 +396,8 @@ namespace CalamityMod.Items
             }
             if (modPlayer.victideSet)
             {
-                if ((item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<MagicDamageClass>() || 
-                    item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<SummonDamageClass>()) && 
+                if ((item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>() || item.CountsAsClass<MagicDamageClass>() ||
+                    item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<SummonDamageClass>()) &&
                     Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
@@ -505,7 +505,7 @@ namespace CalamityMod.Items
             tag.Add("canFirePointBlankShots", canFirePointBlankShots);
             tag.Add("trueMelee", trueMelee);
         }
-        
+
         public override void LoadData(Item item, TagCompound tag)
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
@@ -1733,678 +1733,277 @@ namespace CalamityMod.Items
             int prefix = -2;
             if (item.accessory)
             {
-                if (Main.player[Main.myPlayer].Calamity().finalTierAccessoryReforge)
+                if (Main.LocalPlayer.Calamity().finalTierAccessoryReforge)
                 {
                     // Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
                     prefix = Main.rand.Next(18, 24);
                 }
                 else
                 {
-                    switch (reforgeTier)
+                    prefix = reforgeTier switch
                     {
-                        case 0:
-                            break;
-                        case 1:
-                            // Hard = 1, Jagged = 2, Brisk = 3, Wild = 4, Quiet = 5
-                            prefix = Main.rand.Next(1, 6);
-                            break;
-                        case 2:
-                            // Guarding = 6, Spiked = 7, Fleeting = 8, Rash = 9, Cloaked = 10
-                            prefix = Main.rand.Next(6, 11);
-                            break;
-                        case 3:
-                            // Precise = 11, Arcane = 12
-                            prefix = Main.rand.Next(11, 13);
-                            break;
-                        case 4:
-                            // Armored = 13, Angry = 14, Hasty = 15, Intrepid = 16, Camouflaged = 17
-                            prefix = Main.rand.Next(13, 18);
-                            break;
-                        case 5:
-                        case 6:
-                            // Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
-                            prefix = Main.rand.Next(18, 24);
-                            break;
-                    }
+                        1 => Main.rand.Next(1, 6), // Hard = 1, Jagged = 2, Brisk = 3, Wild = 4, Quiet = 5
+                        2 => Main.rand.Next(6, 11), // Guarding = 6, Spiked = 7, Fleeting = 8, Rash = 9, Cloaked = 10
+                        3 => Main.rand.Next(11, 13), // Precise = 11, Arcane = 12
+                        4 => Main.rand.Next(13, 18), // Armored = 13, Angry = 14, Hasty = 15, Intrepid = 16, Camouflaged = 17
+                        5 or 6 => Main.rand.Next(18, 24), // Warding = 18, Menacing = 19, Quick = 20, Violent = 21, Lucky = 22, Silent = 23
+                        _ => prefix
+                    };
                 }
-                switch (prefix)
+
+                prefix = prefix switch
                 {
-                    case -2:
-                        break;
-                    case 1:
-                        prefix = PrefixID.Hard;
-                        break;
-                    case 2:
-                        prefix = PrefixID.Jagged;
-                        break;
-                    case 3:
-                        prefix = PrefixID.Brisk;
-                        break;
-                    case 4:
-                        prefix = PrefixID.Wild;
-                        break;
-                    case 5:
-                        prefix = Mod.Find<ModPrefix>("Quiet").Type;
-                        break;
-                    case 6:
-                        prefix = PrefixID.Guarding;
-                        break;
-                    case 7:
-                        prefix = PrefixID.Spiked;
-                        break;
-                    case 8:
-                        prefix = PrefixID.Fleeting;
-                        break;
-                    case 9:
-                        prefix = PrefixID.Rash;
-                        break;
-                    case 10:
-                        prefix = Mod.Find<ModPrefix>("Cloaked").Type;
-                        break;
-                    case 11:
-                        prefix = PrefixID.Precise;
-                        break;
-                    case 12:
-                        prefix = PrefixID.Arcane;
-                        break;
-                    case 13:
-                        prefix = PrefixID.Armored;
-                        break;
-                    case 14:
-                        prefix = PrefixID.Angry;
-                        break;
-                    case 15:
-                        prefix = PrefixID.Hasty2;
-                        break;
-                    case 16:
-                        prefix = PrefixID.Intrepid;
-                        break;
-                    case 17:
-                        prefix = Mod.Find<ModPrefix>("Camouflaged").Type;
-                        break;
-                    case 18:
-                        prefix = PrefixID.Warding;
-                        break;
-                    case 19:
-                        prefix = PrefixID.Menacing;
-                        break;
-                    case 20:
-                        prefix = PrefixID.Quick2;
-                        break;
-                    case 21:
-                        prefix = PrefixID.Violent;
-                        break;
-                    case 22:
-                        prefix = PrefixID.Lucky;
-                        break;
-                    case 23:
-                        prefix = Mod.Find<ModPrefix>("Silent").Type;
-                        break;
-                }
+                    1 => PrefixID.Hard,
+                    2 => PrefixID.Jagged,
+                    3 => PrefixID.Brisk,
+                    4 => PrefixID.Wild,
+                    5 => Mod.Find<ModPrefix>("Quiet").Type,
+                    6 => PrefixID.Guarding,
+                    7 => PrefixID.Spiked,
+                    8 => PrefixID.Fleeting,
+                    9 => PrefixID.Rash,
+                    10 => Mod.Find<ModPrefix>("Cloaked").Type,
+                    11 => PrefixID.Precise,
+                    12 => PrefixID.Arcane,
+                    13 => PrefixID.Armored,
+                    14 => PrefixID.Angry,
+                    15 => PrefixID.Hasty2,
+                    16 => PrefixID.Intrepid,
+                    17 => Mod.Find<ModPrefix>("Camouflaged").Type,
+                    18 => PrefixID.Warding,
+                    19 => PrefixID.Menacing,
+                    20 => PrefixID.Quick2,
+                    21 => PrefixID.Violent,
+                    22 => PrefixID.Lucky,
+                    23 => Mod.Find<ModPrefix>("Silent").Type,
+                    _ => prefix,
+                };
             }
             else if (item.CountsAsClass<MeleeDamageClass>())
             {
                 // Yoyos, Flails, Spears, etc.
                 if (item.channel || item.noMelee)
                 {
-                    switch (reforgeTier)
+                    prefix = reforgeTier switch
                     {
-                        case 0:
-                            break;
-                        case 1:
-                            // Keen = 1, Ruthless = 2
-                            prefix = Main.rand.Next(1, 3);
-                            break;
-                        case 2:
-                            // Hurtful = 3, Zealous = 4
-                            prefix = Main.rand.Next(3, 5);
-                            break;
-                        case 3:
-                            // Forceful = 5, Strong = 6
-                            prefix = Main.rand.Next(5, 7);
-                            break;
-                        case 4:
-                            // Demonic = 7
-                            prefix = 7;
-                            break;
-                        case 5:
-                            // Superior = 8
-                            prefix = 8;
-                            break;
-                        case 6:
-                            // Godly = 9
-                            prefix = 9;
-                            break;
-                    }
-                    switch (prefix)
+                        1 => Main.rand.Next(1, 3),// Keen = 1, Ruthless = 2
+                        2 => Main.rand.Next(3, 5),// Hurtful = 3, Zealous = 4
+                        3 => Main.rand.Next(5, 7),// Forceful = 5, Strong = 6
+                        4 => 7,// Demonic = 7
+                        5 => 8,// Superior = 8
+                        6 => 9,// Godly = 9
+                        _ => prefix,
+                    };
+
+                    prefix = prefix switch
                     {
-                        case -2:
-                            break;
-                        case 1:
-                            prefix = PrefixID.Keen;
-                            break;
-                        case 2:
-                            prefix = PrefixID.Ruthless;
-                            break;
-                        case 3:
-                            prefix = PrefixID.Hurtful;
-                            break;
-                        case 4:
-                            prefix = PrefixID.Zealous;
-                            break;
-                        case 5:
-                            prefix = PrefixID.Forceful;
-                            break;
-                        case 6:
-                            prefix = PrefixID.Strong;
-                            break;
-                        case 7:
-                            prefix = PrefixID.Demonic;
-                            break;
-                        case 8:
-                            prefix = PrefixID.Superior;
-                            break;
-                        case 9:
-                            prefix = PrefixID.Godly;
-                            break;
-                    }
+                        1 => PrefixID.Keen,
+                        2 => PrefixID.Ruthless,
+                        3 => PrefixID.Hurtful,
+                        4 => PrefixID.Zealous,
+                        5 => PrefixID.Forceful,
+                        6 => PrefixID.Strong,
+                        7 => PrefixID.Demonic,
+                        8 => PrefixID.Superior,
+                        9 => PrefixID.Godly,
+                        _ => prefix,
+                    };
                 }
                 // All other melee weapons
                 else
                 {
-                    switch (reforgeTier)
+                    prefix = reforgeTier switch
                     {
-                        case 0:
-                            break;
-                        case 1:
-                            // Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Heavy = 5, Light = 6
-                            prefix = Main.rand.Next(1, 7);
-                            break;
-                        case 2:
-                            // Hurtful = 7, Zealous = 8, Quick = 9, Pointy = 10, Bulky = 11
-                            prefix = Main.rand.Next(7, 12);
-                            break;
-                        case 3:
-                            // Forceful = 12, Strong = 13, Agile = 14, Large = 15, Dangerous = 16, Sharp = 17
-                            prefix = Main.rand.Next(12, 18);
-                            break;
-                        case 4:
-                            // Murderous = 18, Massive = 19, Unpleasant = 20, Deadly2 = 21
-                            prefix = Main.rand.Next(18, 22);
-                            break;
-                        case 5:
-                            // Superior = 22, Demonic = 23, Savage = 24
-                            prefix = Main.rand.Next(22, 25);
-                            break;
-                        case 6:
-                            // Legendary = 25, Light = 6 ~We are tool friendly (=
-                            if (item.pick > 0 || item.axe > 0 || item.hammer > 0)
-                                prefix = Main.rand.NextBool() ? 25 : 6;
-                            else
-                                prefix = 25;
-                            break;
-                    }
-                    switch (prefix)
+                        1 => Main.rand.Next(1, 7),// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Heavy = 5, Light = 6
+                        2 => Main.rand.Next(7, 12),// Hurtful = 7, Zealous = 8, Quick = 9, Pointy = 10, Bulky = 11
+                        3 => Main.rand.Next(12, 18),// Forceful = 12, Strong = 13, Agile = 14, Large = 15, Dangerous = 16, Sharp = 17
+                        4 => Main.rand.Next(18, 22),// Murderous = 18, Massive = 19, Unpleasant = 20, Deadly2 = 21
+                        5 => Main.rand.Next(22, 25),// Superior = 22, Demonic = 23, Savage = 24
+                        6 => item.pick > 0 || item.axe > 0 || item.hammer > 0 ? (Main.rand.NextBool() ? 25 : 6) : 25,// Legendary = 25, Light = 6 ~We are tool friendly (=
+                        _ => prefix,
+                    };
+
+                    prefix = prefix switch
                     {
-                        case -2:
-                            break;
-                        case 1:
-                            prefix = PrefixID.Keen;
-                            break;
-                        case 2:
-                            prefix = PrefixID.Ruthless;
-                            break;
-                        case 3:
-                            prefix = PrefixID.Nimble;
-                            break;
-                        case 4:
-                            prefix = PrefixID.Nasty;
-                            break;
-                        case 5:
-                            prefix = PrefixID.Heavy;
-                            break;
-                        case 6:
-                            prefix = PrefixID.Light;
-                            break;
-                        case 7:
-                            prefix = PrefixID.Hurtful;
-                            break;
-                        case 8:
-                            prefix = PrefixID.Zealous;
-                            break;
-                        case 9:
-                            prefix = PrefixID.Quick;
-                            break;
-                        case 10:
-                            prefix = PrefixID.Pointy;
-                            break;
-                        case 11:
-                            prefix = PrefixID.Bulky;
-                            break;
-                        case 12:
-                            prefix = PrefixID.Forceful;
-                            break;
-                        case 13:
-                            prefix = PrefixID.Strong;
-                            break;
-                        case 14:
-                            prefix = PrefixID.Agile;
-                            break;
-                        case 15:
-                            prefix = PrefixID.Large;
-                            break;
-                        case 16:
-                            prefix = PrefixID.Dangerous;
-                            break;
-                        case 17:
-                            prefix = PrefixID.Sharp;
-                            break;
-                        case 18:
-                            prefix = PrefixID.Murderous;
-                            break;
-                        case 19:
-                            prefix = PrefixID.Massive;
-                            break;
-                        case 20:
-                            prefix = PrefixID.Unpleasant;
-                            break;
-                        case 21:
-                            prefix = PrefixID.Deadly2;
-                            break;
-                        case 22:
-                            prefix = PrefixID.Superior;
-                            break;
-                        case 23:
-                            prefix = PrefixID.Demonic;
-                            break;
-                        case 24:
-                            prefix = PrefixID.Savage;
-                            break;
-                        case 25:
-                            prefix = PrefixID.Legendary;
-                            break;
-                    }
+                        1 => PrefixID.Keen,
+                        2 => PrefixID.Ruthless,
+                        3 => PrefixID.Nimble,
+                        4 => PrefixID.Nasty,
+                        5 => PrefixID.Heavy,
+                        6 => PrefixID.Light,
+                        7 => PrefixID.Hurtful,
+                        8 => PrefixID.Zealous,
+                        9 => PrefixID.Quick,
+                        10 => PrefixID.Pointy,
+                        11 => PrefixID.Bulky,
+                        12 => PrefixID.Forceful,
+                        13 => PrefixID.Strong,
+                        14 => PrefixID.Agile,
+                        15 => PrefixID.Large,
+                        16 => PrefixID.Dangerous,
+                        17 => PrefixID.Sharp,
+                        18 => PrefixID.Murderous,
+                        19 => PrefixID.Massive,
+                        20 => PrefixID.Unpleasant,
+                        21 => PrefixID.Deadly2,
+                        22 => PrefixID.Superior,
+                        23 => PrefixID.Demonic,
+                        24 => PrefixID.Savage,
+                        25 => PrefixID.Legendary,
+                        _ => prefix,
+                    };
                 }
             }
             else if (item.CountsAsClass<RangedDamageClass>())
             {
-                switch (reforgeTier)
+                prefix = reforgeTier switch
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        // Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Powerful = 5
-                        prefix = Main.rand.Next(1, 6);
-                        break;
-                    case 2:
-                        // Hurtful = 6, Zealous = 7, Quick = 8
-                        prefix = Main.rand.Next(6, 9);
-                        break;
-                    case 3:
-                        // Forceful = 9, Strong = 10, Agile = 11, Sighted = 12, Murderous = 13
-                        prefix = Main.rand.Next(9, 14);
-                        break;
-                    case 4:
-                        // Superior = 14, Demonic = 15, Deadly2 = 16, Intimidating = 17, Unpleasant = 18
-                        prefix = Main.rand.Next(14, 19);
-                        break;
-                    case 5:
-                        // Godly = 19, Rapid = 20, Hasty = 21, Deadly = 22, Staunch = 23
-                        prefix = Main.rand.Next(19, 24);
-                        break;
-                    case 6:
-                        // Unreal = 24
-                        prefix = 24;
-                        break;
-                }
-                switch (prefix)
+                    1 => Main.rand.Next(1, 6),// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Powerful = 5
+                    2 => Main.rand.Next(6, 9),// Hurtful = 6, Zealous = 7, Quick = 8
+                    3 => Main.rand.Next(9, 14),// Forceful = 9, Strong = 10, Agile = 11, Sighted = 12, Murderous = 13
+                    4 => Main.rand.Next(14, 19),// Superior = 14, Demonic = 15, Deadly2 = 16, Intimidating = 17, Unpleasant = 18
+                    5 => Main.rand.Next(19, 24),// Godly = 19, Rapid = 20, Hasty = 21, Deadly = 22, Staunch = 23
+                    6 => 24,// Unreal = 24
+                    _ => prefix,
+                };
+
+                prefix = prefix switch
                 {
-                    case -2:
-                        break;
-                    case 1:
-                        prefix = PrefixID.Keen;
-                        break;
-                    case 2:
-                        prefix = PrefixID.Ruthless;
-                        break;
-                    case 3:
-                        prefix = PrefixID.Nimble;
-                        break;
-                    case 4:
-                        prefix = PrefixID.Nasty;
-                        break;
-                    case 5:
-                        prefix = PrefixID.Powerful;
-                        break;
-                    case 6:
-                        prefix = PrefixID.Hurtful;
-                        break;
-                    case 7:
-                        prefix = PrefixID.Zealous;
-                        break;
-                    case 8:
-                        prefix = PrefixID.Quick;
-                        break;
-                    case 9:
-                        prefix = PrefixID.Forceful;
-                        break;
-                    case 10:
-                        prefix = PrefixID.Strong;
-                        break;
-                    case 11:
-                        prefix = PrefixID.Agile;
-                        break;
-                    case 12:
-                        prefix = PrefixID.Sighted;
-                        break;
-                    case 13:
-                        prefix = PrefixID.Murderous;
-                        break;
-                    case 14:
-                        prefix = PrefixID.Superior;
-                        break;
-                    case 15:
-                        prefix = PrefixID.Demonic;
-                        break;
-                    case 16:
-                        prefix = PrefixID.Deadly2;
-                        break;
-                    case 17:
-                        prefix = PrefixID.Intimidating;
-                        break;
-                    case 18:
-                        prefix = PrefixID.Unpleasant;
-                        break;
-                    case 19:
-                        prefix = PrefixID.Godly;
-                        break;
-                    case 20:
-                        prefix = PrefixID.Rapid;
-                        break;
-                    case 21:
-                        prefix = PrefixID.Hasty;
-                        break;
-                    case 22:
-                        prefix = PrefixID.Deadly;
-                        break;
-                    case 23:
-                        prefix = PrefixID.Staunch;
-                        break;
-                    case 24:
-                        prefix = PrefixID.Unreal;
-                        break;
-                }
+                    1 => PrefixID.Keen,
+                    2 => PrefixID.Ruthless,
+                    3 => PrefixID.Nimble,
+                    4 => PrefixID.Nasty,
+                    5 => PrefixID.Powerful,
+                    6 => PrefixID.Hurtful,
+                    7 => PrefixID.Zealous,
+                    8 => PrefixID.Quick,
+                    9 => PrefixID.Forceful,
+                    10 => PrefixID.Strong,
+                    11 => PrefixID.Agile,
+                    12 => PrefixID.Sighted,
+                    13 => PrefixID.Murderous,
+                    14 => PrefixID.Superior,
+                    15 => PrefixID.Demonic,
+                    16 => PrefixID.Deadly2,
+                    17 => PrefixID.Intimidating,
+                    18 => PrefixID.Unpleasant,
+                    19 => PrefixID.Godly,
+                    20 => PrefixID.Rapid,
+                    21 => PrefixID.Hasty,
+                    22 => PrefixID.Deadly,
+                    23 => PrefixID.Staunch,
+                    24 => PrefixID.Unreal,
+                    _ => prefix,
+                };
             }
             else if (item.CountsAsClass<MagicDamageClass>())
             {
-                switch (reforgeTier)
+                prefix = reforgeTier switch
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        // Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Furious = 5
-                        prefix = Main.rand.Next(1, 6);
-                        break;
-                    case 2:
-                        // Hurtful = 6, Zealous = 7, Quick = 8, Taboo = 9, Manic = 10
-                        prefix = Main.rand.Next(6, 11);
-                        break;
-                    case 3:
-                        // Forceful = 11, Strong = 12, Agile = 13, Murderous = 14, Adept = 15, Celestial = 16
-                        prefix = Main.rand.Next(11, 17);
-                        break;
-                    case 4:
-                        // Superior = 17, Demonic = 18, Deadly2 = 19, Mystic = 20
-                        prefix = Main.rand.Next(17, 21);
-                        break;
-                    case 5:
-                        // Godly = 21, Masterful = 22
-                        prefix = Main.rand.Next(21, 23);
-                        break;
-                    case 6:
-                        // Mythical = 23
-                        prefix = 23;
-                        break;
-                }
-                switch (prefix)
+                    1 => Main.rand.Next(1, 6),// Keen = 1, Ruthless = 2, Nimble = 3, Nasty = 4, Furious = 5
+                    2 => Main.rand.Next(6, 11),// Hurtful = 6, Zealous = 7, Quick = 8, Taboo = 9, Manic = 10
+                    3 => Main.rand.Next(11, 17),// Forceful = 11, Strong = 12, Agile = 13, Murderous = 14, Adept = 15, Celestial = 16
+                    4 => Main.rand.Next(17, 21),// Superior = 17, Demonic = 18, Deadly2 = 19, Mystic = 20
+                    5 => Main.rand.Next(21, 23),// Godly = 21, Masterful = 22
+                    6 => 23,// Mythical = 23
+                    _ => prefix,
+                };
+
+                prefix = prefix switch
                 {
-                    case -2:
-                        break;
-                    case 1:
-                        prefix = PrefixID.Keen;
-                        break;
-                    case 2:
-                        prefix = PrefixID.Ruthless;
-                        break;
-                    case 3:
-                        prefix = PrefixID.Nimble;
-                        break;
-                    case 4:
-                        prefix = PrefixID.Nasty;
-                        break;
-                    case 5:
-                        prefix = PrefixID.Furious;
-                        break;
-                    case 6:
-                        prefix = PrefixID.Hurtful;
-                        break;
-                    case 7:
-                        prefix = PrefixID.Zealous;
-                        break;
-                    case 8:
-                        prefix = PrefixID.Quick;
-                        break;
-                    case 9:
-                        prefix = PrefixID.Taboo;
-                        break;
-                    case 10:
-                        prefix = PrefixID.Manic;
-                        break;
-                    case 11:
-                        prefix = PrefixID.Forceful;
-                        break;
-                    case 12:
-                        prefix = PrefixID.Strong;
-                        break;
-                    case 13:
-                        prefix = PrefixID.Agile;
-                        break;
-                    case 14:
-                        prefix = PrefixID.Murderous;
-                        break;
-                    case 15:
-                        prefix = PrefixID.Adept;
-                        break;
-                    case 16:
-                        prefix = PrefixID.Celestial;
-                        break;
-                    case 17:
-                        prefix = PrefixID.Superior;
-                        break;
-                    case 18:
-                        prefix = PrefixID.Demonic;
-                        break;
-                    case 19:
-                        prefix = PrefixID.Deadly2;
-                        break;
-                    case 20:
-                        prefix = PrefixID.Mystic;
-                        break;
-                    case 21:
-                        prefix = PrefixID.Godly;
-                        break;
-                    case 22:
-                        prefix = PrefixID.Masterful;
-                        break;
-                    case 23:
-                        prefix = PrefixID.Mythical;
-                        break;
-                }
+                    1 => PrefixID.Keen,
+                    2 => PrefixID.Ruthless,
+                    3 => PrefixID.Nimble,
+                    4 => PrefixID.Nasty,
+                    5 => PrefixID.Furious,
+                    6 => PrefixID.Hurtful,
+                    7 => PrefixID.Zealous,
+                    8 => PrefixID.Quick,
+                    9 => PrefixID.Taboo,
+                    10 => PrefixID.Manic,
+                    11 => PrefixID.Forceful,
+                    12 => PrefixID.Strong,
+                    13 => PrefixID.Agile,
+                    14 => PrefixID.Murderous,
+                    15 => PrefixID.Adept,
+                    16 => PrefixID.Celestial,
+                    17 => PrefixID.Superior,
+                    18 => PrefixID.Demonic,
+                    19 => PrefixID.Deadly2,
+                    20 => PrefixID.Mystic,
+                    21 => PrefixID.Godly,
+                    22 => PrefixID.Masterful,
+                    23 => PrefixID.Mythical,
+                    _ => prefix,
+                };
             }
             else if (item.CountsAsClass<SummonDamageClass>())
             {
-                switch (reforgeTier)
+                prefix = reforgeTier switch
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        // Nimble = 1, Furious = 2
-                        prefix = Main.rand.Next(1, 3);
-                        break;
-                    case 2:
-                        // Hurtful = 3, Quick = 4, Taboo = 5, Manic = 6
-                        prefix = Main.rand.Next(3, 7);
-                        break;
-                    case 3:
-                        // Forceful = 7, Strong = 8, Adept = 9, Celestial = 10
-                        prefix = Main.rand.Next(7, 11);
-                        break;
-                    case 4:
-                        // Deadly2 = 11, Mystic = 12, Superior = 13, Demonic = 14
-                        prefix = Main.rand.Next(11, 15);
-                        break;
-                    case 5:
-                        // Masterful = 15, Mythical = 16, Godly = 17
-                        prefix = Main.rand.Next(15, 18);
-                        break;
-                    case 6:
-                        // Ruthless = 18
-                        prefix = 18;
-                        break;
-                }
-                switch (prefix)
+                    1 => Main.rand.Next(1, 3),// Nimble = 1, Furious = 2
+                    2 => Main.rand.Next(3, 7),// Hurtful = 3, Quick = 4, Taboo = 5, Manic = 6
+                    3 => Main.rand.Next(7, 11),// Forceful = 7, Strong = 8, Adept = 9, Celestial = 10
+                    4 => Main.rand.Next(11, 15),// Deadly2 = 11, Mystic = 12, Superior = 13, Demonic = 14
+                    5 => Main.rand.Next(15, 18),// Masterful = 15, Mythical = 16, Godly = 17
+                    6 => 18,// Ruthless = 18
+                    _ => prefix,
+                };
+
+                prefix = prefix switch
                 {
-                    case -2:
-                        break;
-                    case 1:
-                        prefix = PrefixID.Nimble;
-                        break;
-                    case 2:
-                        prefix = PrefixID.Furious;
-                        break;
-                    case 3:
-                        prefix = PrefixID.Hurtful;
-                        break;
-                    case 4:
-                        prefix = PrefixID.Quick;
-                        break;
-                    case 5:
-                        prefix = PrefixID.Taboo;
-                        break;
-                    case 6:
-                        prefix = PrefixID.Manic;
-                        break;
-                    case 7:
-                        prefix = PrefixID.Forceful;
-                        break;
-                    case 8:
-                        prefix = PrefixID.Strong;
-                        break;
-                    case 9:
-                        prefix = PrefixID.Adept;
-                        break;
-                    case 10:
-                        prefix = PrefixID.Celestial;
-                        break;
-                    case 11:
-                        prefix = PrefixID.Deadly2;
-                        break;
-                    case 12:
-                        prefix = PrefixID.Mystic;
-                        break;
-                    case 13:
-                        prefix = PrefixID.Superior;
-                        break;
-                    case 14:
-                        prefix = PrefixID.Demonic;
-                        break;
-                    case 15:
-                        prefix = PrefixID.Masterful;
-                        break;
-                    case 16:
-                        prefix = PrefixID.Mythical;
-                        break;
-                    case 17:
-                        prefix = PrefixID.Godly;
-                        break;
-                    case 18:
-                        prefix = PrefixID.Ruthless;
-                        break;
-                }
+                    1 => PrefixID.Nimble,
+                    2 => PrefixID.Furious,
+                    3 => PrefixID.Hurtful,
+                    4 => PrefixID.Quick,
+                    5 => PrefixID.Taboo,
+                    6 => PrefixID.Manic,
+                    7 => PrefixID.Forceful,
+                    8 => PrefixID.Strong,
+                    9 => PrefixID.Adept,
+                    10 => PrefixID.Celestial,
+                    11 => PrefixID.Deadly2,
+                    12 => PrefixID.Mystic,
+                    13 => PrefixID.Superior,
+                    14 => PrefixID.Demonic,
+                    15 => PrefixID.Masterful,
+                    16 => PrefixID.Mythical,
+                    17 => PrefixID.Godly,
+                    18 => PrefixID.Ruthless,
+                    _ => prefix,
+                };
             }
             else if (item.CountsAsClass<RogueDamageClass>())
             {
-                switch (reforgeTier)
+                prefix = reforgeTier switch
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        // Radical = 1, Pointy = 2
-                        prefix = Main.rand.Next(1, 3);
-                        break;
-                    case 2:
-                        // Sharp = 3, Glorious = 4
-                        prefix = Main.rand.Next(3, 5);
-                        break;
-                    case 3:
-                        // Feathered = 5, Sleek = 6, Hefty = 7
-                        prefix = Main.rand.Next(5, 8);
-                        break;
-                    case 4:
-                        // Mighty = 8, Serrated = 9
-                        prefix = Main.rand.Next(8, 10);
-                        break;
-                    case 5:
-                        // Vicious = 10, Lethal = 11
-                        prefix = Main.rand.Next(10, 12);
-                        break;
-                    case 6:
-                        // Flawless = 12
-                        prefix = 12;
-                        break;
-                }
-                switch (prefix)
+                    1 => Main.rand.Next(1, 3),// Radical = 1, Pointy = 2
+                    2 => Main.rand.Next(3, 5),// Sharp = 3, Glorious = 4
+                    3 => Main.rand.Next(5, 8),// Feathered = 5, Sleek = 6, Hefty = 7
+                    4 => Main.rand.Next(8, 10),// Mighty = 8, Serrated = 9
+                    5 => Main.rand.Next(10, 12),// Vicious = 10, Lethal = 11
+                    6 => 12,// Flawless = 12
+                    _ => prefix,
+                };
+
+                prefix = prefix switch
                 {
-                    case -2:
-                        break;
-                    case 1:
-                        prefix = Mod.Find<ModPrefix>("Radical").Type;
-                        break;
-                    case 2:
-                        prefix = Mod.Find<ModPrefix>("Pointy").Type;
-                        break;
-                    case 3:
-                        prefix = Mod.Find<ModPrefix>("Sharp").Type;
-                        break;
-                    case 4:
-                        prefix = Mod.Find<ModPrefix>("Glorious").Type;
-                        break;
-                    case 5:
-                        prefix = Mod.Find<ModPrefix>("Feathered").Type;
-                        break;
-                    case 6:
-                        prefix = Mod.Find<ModPrefix>("Sleek").Type;
-                        break;
-                    case 7:
-                        prefix = Mod.Find<ModPrefix>("Hefty").Type;
-                        break;
-                    case 8:
-                        prefix = Mod.Find<ModPrefix>("Mighty").Type;
-                        break;
-                    case 9:
-                        prefix = Mod.Find<ModPrefix>("Serrated").Type;
-                        break;
-                    case 10:
-                        prefix = Mod.Find<ModPrefix>("Vicious").Type;
-                        break;
-                    case 11:
-                        prefix = Mod.Find<ModPrefix>("Lethal").Type;
-                        break;
-                    case 12:
-                        prefix = Mod.Find<ModPrefix>("Flawless").Type;
-                        break;
-                }
+                    1 => Mod.Find<ModPrefix>("Radical").Type,
+                    2 => Mod.Find<ModPrefix>("Pointy").Type,
+                    3 => Mod.Find<ModPrefix>("Sharp").Type,
+                    4 => Mod.Find<ModPrefix>("Glorious").Type,
+                    5 => Mod.Find<ModPrefix>("Feathered").Type,
+                    6 => Mod.Find<ModPrefix>("Sleek").Type,
+                    7 => Mod.Find<ModPrefix>("Hefty").Type,
+                    8 => Mod.Find<ModPrefix>("Mighty").Type,
+                    9 => Mod.Find<ModPrefix>("Serrated").Type,
+                    10 => Mod.Find<ModPrefix>("Vicious").Type,
+                    11 => Mod.Find<ModPrefix>("Lethal").Type,
+                    12 => Mod.Find<ModPrefix>("Flawless").Type,
+                    _ => prefix,
+                };
             }
+
             return prefix;
         }
 
@@ -2418,7 +2017,7 @@ namespace CalamityMod.Items
         // Get cash from dickhead goblin fuck
         public override void PostReforge(Item item)
         {
-            CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
+            CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
             if (modPlayer.itemTypeLastReforged != item.type)
             {
                 modPlayer.reforgeTierSafety = 0;
@@ -2427,7 +2026,7 @@ namespace CalamityMod.Items
 
             modPlayer.itemTypeLastReforged = item.type;
 
-            if (modPlayer.reforgeTierSafety > 6)
+            if (modPlayer.reforgeTierSafety >= 6)
             {
                 modPlayer.reforgeTierSafety = 0;
                 modPlayer.finalTierAccessoryReforge = true;
@@ -2440,7 +2039,7 @@ namespace CalamityMod.Items
             item.netDefaults(item.netID);
             item.Prefix(NewPrefixType(item));
 
-            item.Center = Main.player[Main.myPlayer].Center;
+            item.Center = Main.LocalPlayer.Center;
             item.favorited = favorited;
 
             if (NPC.AnyNPCs(ModContent.NPCType<THIEF>()))
@@ -2481,45 +2080,29 @@ namespace CalamityMod.Items
 
         public static int GetBuyPrice(int rarity)
         {
-            switch (rarity)
+            return rarity switch
             {
-                case 0:
-                    return Rarity0BuyPrice;
-                case 1:
-                    return Rarity1BuyPrice;
-                case 2:
-                    return Rarity2BuyPrice;
-                case 3:
-                    return Rarity3BuyPrice;
-                case 4:
-                    return Rarity4BuyPrice;
-                case 5:
-                    return Rarity5BuyPrice;
-                case 6:
-                    return Rarity6BuyPrice;
-                case 7:
-                    return Rarity7BuyPrice;
-                case 8:
-                    return Rarity8BuyPrice;
-                case 9:
-                    return Rarity9BuyPrice;
-                case 10:
-                    return Rarity10BuyPrice;
-                case 11:
-                    return Rarity11BuyPrice;
-                case (int)CalamityRarity.Turquoise:
-                    return RarityTurquoiseBuyPrice;
-                case (int)CalamityRarity.PureGreen:
-                    return RarityPureGreenBuyPrice;
-                case (int)CalamityRarity.DarkBlue:
-                    return RarityDarkBlueBuyPrice;
-                case (int)CalamityRarity.Violet:
-                    return RarityVioletBuyPrice;
-                case (int)CalamityRarity.HotPink:
-                    return RarityHotPinkBuyPrice;
-            }
-            return 0;
+                0 => Rarity0BuyPrice,
+                1 => Rarity1BuyPrice,
+                2 => Rarity2BuyPrice,
+                3 => Rarity3BuyPrice,
+                4 => Rarity4BuyPrice,
+                5 => Rarity5BuyPrice,
+                6 => Rarity6BuyPrice,
+                7 => Rarity7BuyPrice,
+                8 => Rarity8BuyPrice,
+                9 => Rarity9BuyPrice,
+                10 => Rarity10BuyPrice,
+                11 => Rarity11BuyPrice,
+                (int)CalamityRarity.Turquoise => RarityTurquoiseBuyPrice,
+                (int)CalamityRarity.PureGreen => RarityPureGreenBuyPrice,
+                (int)CalamityRarity.DarkBlue => RarityDarkBlueBuyPrice,
+                (int)CalamityRarity.Violet => RarityVioletBuyPrice,
+                (int)CalamityRarity.HotPink => RarityHotPinkBuyPrice,
+                _ => 0,
+            };
         }
+
         public static int GetBuyPrice(Item item)
         {
             return GetBuyPrice(item.rare);
