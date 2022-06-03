@@ -105,13 +105,15 @@ namespace CalamityMod.NPCs
         public bool? VulnerableToWater = null;
 
         // Eskimo Set effect
-        public bool IncreasedColdEffects = false;
+        public bool IncreasedColdEffects_EskimoSet = false;
 
-        // Fireball and Cinnamon Roll effect
-        public bool IncreasedHeatEffects = false;
+        // Fireball, Cinnamon Roll and Hellfire Treads effects
+        public bool IncreasedHeatEffects_Fireball = false;
+        public bool IncreasedHeatEffects_CinnamonRoll = false;
+        public bool IncreasedHeatEffects_HellfireTreads = false;
 
         // Evergreen Gin effect
-        public bool IncreasedSicknessAndWaterEffects = false;
+        public bool IncreasedSicknessAndWaterEffects_EvergreenGin = false;
 
         // Biome enrage timer max
         public const int biomeEnrageTimerMax = 300;
@@ -336,9 +338,11 @@ namespace CalamityMod.NPCs
             myClone.VulnerableToElectricity = VulnerableToElectricity;
             myClone.VulnerableToWater = VulnerableToWater;
 
-            myClone.IncreasedColdEffects = IncreasedColdEffects;
-            myClone.IncreasedHeatEffects = IncreasedHeatEffects;
-            myClone.IncreasedSicknessAndWaterEffects = IncreasedSicknessAndWaterEffects;
+            myClone.IncreasedColdEffects_EskimoSet = IncreasedColdEffects_EskimoSet;
+            myClone.IncreasedHeatEffects_Fireball = IncreasedHeatEffects_Fireball;
+            myClone.IncreasedHeatEffects_CinnamonRoll = IncreasedHeatEffects_CinnamonRoll;
+            myClone.IncreasedHeatEffects_HellfireTreads = IncreasedHeatEffects_HellfireTreads;
+            myClone.IncreasedSicknessAndWaterEffects_EvergreenGin = IncreasedSicknessAndWaterEffects_EvergreenGin;
 
             myClone.velocityPriorToPhaseSwap = velocityPriorToPhaseSwap;
 
@@ -763,16 +767,20 @@ namespace CalamityMod.NPCs
                     waterDamageMult *= 0.5;
             }
 
-            if (IncreasedHeatEffects)
+            if (IncreasedHeatEffects_Fireball)
+                heatDamageMult += 0.25;
+            if (IncreasedHeatEffects_CinnamonRoll)
+                heatDamageMult += 0.5;
+            if (IncreasedHeatEffects_HellfireTreads)
                 heatDamageMult += 0.5;
 
-            if (IncreasedColdEffects)
-                coldDamageMult += 0.5;
+            if (IncreasedColdEffects_EskimoSet)
+                coldDamageMult += 0.25;
 
-            if (IncreasedSicknessAndWaterEffects)
+            if (IncreasedSicknessAndWaterEffects_EvergreenGin)
             {
-                sicknessDamageMult += 0.5;
-                waterDamageMult += 0.5;
+                sicknessDamageMult += 0.25;
+                waterDamageMult += 0.25;
             }
 
             // Subtract 1 for the vanilla damage multiplier because it's already dealing DoT in the vanilla regen code.
