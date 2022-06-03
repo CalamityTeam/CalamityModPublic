@@ -2985,25 +2985,22 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound( RageActivationSound, Player.position);
+                    SoundEngine.PlaySound(RageActivationSound, Player.position);
 
-                    // TODO -- improve Rage activation visuals
-                    for (int num502 = 0; num502 < 64; num502++)
+                    // TODO -- Rage should provide glowy red afterimages to the player for the duration.
+                    // If Shattered Community is equipped, the afterimages are magenta instead.
+                    int rageDustID = 235;
+                    int dustCount = 132;
+                    float minSpeed = 4f;
+                    float maxSpeed = 11f;
+                    for (int i = 0; i < dustCount; ++i)
                     {
-                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
-                        Main.dust[dust].velocity *= 3f;
-                        Main.dust[dust].scale *= 1.15f;
-                    }
-                    int num226 = 36;
-                    for (int num227 = 0; num227 < num226; num227++)
-                    {
-                        Vector2 vector6 = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Player.Center;
-                        Vector2 vector7 = vector6 - Player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                        Main.dust[num228].noGravity = true;
-                        Main.dust[num228].noLight = true;
-                        Main.dust[num228].velocity = vector7;
+                        float speed = (float)Math.Sqrt(Main.rand.NextFloat(minSpeed * minSpeed, maxSpeed * maxSpeed));
+                        Vector2 dustVel = Main.rand.NextVector2Unit() * speed;
+                        Dust d = Dust.NewDustPerfect(Player.Center, rageDustID, dustVel);
+                        d.noGravity = !Main.rand.NextBool(4); // 25% of dust has gravity
+                        d.noLight = false;
+                        d.scale = Main.rand.NextFloat(0.9f, 2.1f);
                     }
                 }
             }
@@ -3018,23 +3015,53 @@ namespace CalamityMod.CalPlayer
                     // Play Adrenaline Activation sound
                     SoundEngine.PlaySound(AdrenalineActivationSound, Player.position);
 
-                    // TODO -- improve Adrenaline activation visuals
-                    for (int num502 = 0; num502 < 64; num502++)
+                    // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
+                    int dustPerSegment = 96;
+
+                    // Parametric segment 1: y = 3x + 120
+                    Vector2 segmentOneStart = new Vector2(0f, -120f);
+                    Vector2 segmentOneEnd = new Vector2(-48f, 24f);
+                    Vector2 segmentOneIncrement = (segmentOneEnd - segmentOneStart) / dustPerSegment;
+
+                    // Parametric segment 2: y = 0.5x
+                    Vector2 segmentTwoStart = segmentOneEnd;
+                    Vector2 segmentTwoEnd = new Vector2(48f, -24f);
+                    Vector2 segmentTwoIncrement = (segmentTwoEnd - segmentTwoStart) / dustPerSegment;
+
+                    // Parametric segment 3: y = 3x - 120
+                    Vector2 segmentThreeStart = segmentTwoEnd;
+                    Vector2 segmentThreeEnd = new Vector2(0f, 120f);
+                    Vector2 segmentThreeIncrement = (segmentThreeEnd - segmentThreeStart) / dustPerSegment;
+
+                    float maxDustVelSpread = 1.2f;
+                    for (int i = 0; i < dustPerSegment; ++i)
                     {
-                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, 206, 0f, 0f, 0, default, 1f);
-                        Main.dust[dust].velocity *= 3f;
-                        Main.dust[dust].scale *= 2f;
-                    }
-                    int num226 = 36;
-                    for (int num227 = 0; num227 < num226; num227++)
-                    {
-                        Vector2 vector6 = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Player.Center;
-                        Vector2 vector7 = vector6 - Player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 206, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                        Main.dust[num228].noGravity = true;
-                        Main.dust[num228].noLight = true;
-                        Main.dust[num228].velocity = vector7;
+                        bool electricity = Main.rand.NextBool(4);
+                        int dustID = electricity ? 132 : DustID.TerraBlade;
+
+                        float interpolant = i + 0.5f;
+                        float spreadSpeed = Main.rand.NextFloat(0.5f, maxDustVelSpread);
+                        if (electricity)
+                            spreadSpeed *= 4f;
+
+                        Vector2 segmentOnePos = Player.Center + segmentOneStart + segmentOneIncrement * interpolant;
+                        Dust d = Dust.NewDustPerfect(segmentOnePos, dustID, Vector2.Zero);
+                        if (electricity)
+                            d.noGravity = false;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
+
+                        Vector2 segmentTwoPos = Player.Center + segmentTwoStart + segmentTwoIncrement * interpolant;
+                        d = Dust.CloneDust(d);
+                        d.position = segmentTwoPos;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
+
+                        Vector2 segmentThreePos = Player.Center + segmentThreeStart + segmentThreeIncrement * interpolant;
+                        d = Dust.CloneDust(d);
+                        d.position = segmentThreePos;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
                     }
                 }
             }

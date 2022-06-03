@@ -45,6 +45,8 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
+        // TODO -- If you unequip Draedon's Heart, you should lose all Adrenaline.
+        // TODO -- You should not be able to equip or unequip Draedon's Heart while Adrenaline is active.
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

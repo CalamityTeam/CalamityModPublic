@@ -494,7 +494,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.bFlames || calamityPlayer.aFlames || calamityPlayer.rageModeActive)
+            if (calamityPlayer.bFlames || calamityPlayer.aFlames)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
@@ -550,23 +550,48 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.adrenalineModeActive)
+
+            // Dust while Rage Mode is active
+            if (calamityPlayer.rageModeActive)
             {
-                if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
+                if (drawInfo.shadow == 0f)
                 {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 206, Player.velocity.X * 0.4f, Player.velocity.Y * 0.4f, 100, default, 3f);
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    drawInfo.DustCache.Add(dust);
-                }
-                if (noRogueStealth)
-                {
-                    r *= 0.01f;
-                    g *= 0.15f;
-                    b *= 0.1f;
-                    fullBright = true;
+                    int dustCount = Main.rand.NextBool() ? 2 : 3;
+                    for (int i = 0; i < dustCount; ++i)
+                    {
+                        int dustID = ModContent.DustType<BrimstoneFlame>();
+                        if (shatteredCommunity && Main.rand.NextBool(3))
+                            dustID = DustID.DemonTorch;
+
+                        Vector2 dustVel = Player.velocity * 0.5f;
+                        int idx = Dust.NewDust(drawInfo.Position, Player.width, Player.height, dustID, dustVel.X, dustVel.Y);
+                        Dust d = Main.dust[idx];
+                        d.fadeIn = 0.4f;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.5f);
+                        d.noGravity = true;
+                        d.noLight = false;
+                        drawInfo.DustCache.Add(idx);
+                    }
                 }
             }
+
+            // Dust while Adrenaline Mode is active
+            if (calamityPlayer.adrenalineModeActive)
+            {
+                if (drawInfo.shadow == 0f)
+                {
+                    int dustID = 132;
+                    Vector2 dustVel = Player.velocity * 0.5f;
+                    int idx = Dust.NewDust(drawInfo.Position, Player.width, Player.height, dustID, dustVel.X, dustVel.Y);
+                    Dust d = Main.dust[idx];
+                    d.fadeIn = 1.1f;
+                    d.scale = Main.rand.NextFloat(0.8f, 1.5f);
+                    d.noGravity = Main.rand.NextBool(4);
+                    d.noLight = false;
+                    drawInfo.DustCache.Add(idx);
+                }
+            }
+
             if (calamityPlayer.gsInferno)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
