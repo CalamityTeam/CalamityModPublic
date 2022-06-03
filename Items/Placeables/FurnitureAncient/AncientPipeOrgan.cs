@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
+    [LegacyName("AncientPiano")]
     public class AncientPipeOrgan : ModItem
     {
         public override void SetStaticDefaults()
