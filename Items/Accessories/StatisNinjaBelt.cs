@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
             SacrificeTotal = 1;
             DisplayName.SetDefault("Statis' Ninja Belt");
             Tooltip.SetDefault("6% increased jump speed and allows constant jumping\n" +
+                "Grants the ability to swim\n" +
                 "Increased fall damage resistance by 35 blocks\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
                 "The dodge has a 90 second cooldown\n" +
@@ -36,13 +37,14 @@ namespace CalamityMod.Items.Accessories
             player.dash = 1;
             player.Calamity().DashID = string.Empty;
             player.spikedBoots = 2;
+            player.accFlipper = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient(ItemID.MasterNinjaGear).
-                AddIngredient(ItemID.FrogLeg).
+                AddIngredient(ItemID.FrogGear).
                 AddIngredient<PurifiedGel>(50).
                 AddIngredient<Phantoplasm>(5).
                 AddTile(TileID.LunarCraftingStation).

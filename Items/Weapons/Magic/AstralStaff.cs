@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<AstralBar>().
+                AddIngredient<AstralBar>(6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MagicQuiver).
+                AddRecipeGroup("QuiversGroup").
                 AddIngredient<ArtemisEmblem>().
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).

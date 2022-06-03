@@ -56,7 +56,10 @@ namespace CalamityMod.NPCs
             "Sylux", // <@!331812782183809025> (Gonk#2451)
         };
         private const int DemolitionistVanillaNames = 22;
-        private static readonly string[] DemolitionistNames = null;
+        private static readonly string[] DemolitionistNames =
+        {
+            "Tavish DeGroot", // <@!442447226992721930> (Magicoal#2655)
+        };
         private const int DryadVanillaNames = 21;
         private static readonly string[] DryadNames =
         {

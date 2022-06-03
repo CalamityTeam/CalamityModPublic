@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using CalamityMod.Balancing;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,25 +31,25 @@ namespace CalamityMod.Items
                 { ItemID.AdamantiteDrill, Do(TrueMelee, PickPower(180), UseTimeExact(4), TileBoostExact(+1)) },
                 { ItemID.AdamantiteGlaive, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(65), ShootSpeedRatio(1.25f)) },
                 { ItemID.AdamantitePickaxe, Do(PickPower(180), UseTimeExact(8), TileBoostExact(+1)) },
-                { ItemID.AdamantiteRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.AdamantiteRepeater, Do(PointBlank) },
                 { ItemID.AdamantiteSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(77)) },
                 { ItemID.AdamantiteWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.Amarok, autoReuse },
                 { ItemID.AmberStaff, Do(DamageRatio(1.33f), UseTimeExact(15), UseAnimationExact(40)) },
                 { ItemID.AmethystStaff, Do(ManaExact(2)) },
-                { ItemID.Anchor, Do(DamageExact(107)) },
+                { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
                 { ItemID.AnkhShield, Do(DefenseDelta(+8)) },
                 { ItemID.AntlionClaw, Do(ScaleRatio(1.5f), DamageRatio(1.5f)) },
                 { ItemID.AquaScepter, Do(DamageExact(21), ShootSpeedExact(25f)) },
                 { ItemID.Arkhalis, trueMelee },
                 { ItemID.BabyBirdStaff, Do(AutoReuse, UseExact(35)) },
-                { ItemID.Bananarang, Do(DamageExact(110)) },
+                { ItemID.Bananarang, Do(DamageExact(98), UseExact(14)) },
                 { ItemID.BatBat, autoReuse },
-                { ItemID.BatScepter, Do(DamageRatio(1.1f)) },
+                { ItemID.BatScepter, Do(DamageExact(56)) },
                 { ItemID.BeamSword, Do(AutoReuse, DamageExact(360), UseAnimationExact(60), ShootSpeedExact(23f)) },
                 { ItemID.BeeGun, Do(DamageExact(11)) },
                 { ItemID.BeeKeeper, Do(UseTurn, ScaleRatio(1.5f), DamageRatio(2.5f)) },
-                { ItemID.BeesKnees, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.BeesKnees, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.BladedGlove, Do(DamageExact(15), UseExact(7)) },
                 { ItemID.BladeofGrass, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(65)) },
                 { ItemID.Bladetongue, Do(UseTurn, UseRatio(0.8f), DamageExact(120), ScaleRatio(1.75f)) },
@@ -59,15 +61,15 @@ namespace CalamityMod.Items
                 { ItemID.BloodySpine, nonConsumableBossSummon },
                 { ItemID.Blowgun, pointBlank },
                 { ItemID.Blowpipe, pointBlank },
-                { ItemID.BluePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.BluePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.BluePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.BlueSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.BoneArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.BonePickaxe, Do(PickPower(55), UseTimeExact(6)) },
                 { ItemID.BoneSword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.25f)) },
                 { ItemID.BoneWhip, autoReuse },
-                { ItemID.BookofSkulls, Do(ManaExact(12), ShootSpeedExact(9f)) },
-                { ItemID.BookStaff, Do(ManaExact(10), DamageRatio(1.25f)) },
+                { ItemID.BookofSkulls, Do(ManaExact(12), ShootSpeedExact(5.5f)) },
+                { ItemID.BookStaff, Do(ManaExact(14)) },
                 { ItemID.Boomstick, pointBlank },
                 { ItemID.BorealWoodBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.BorealWoodHammer, Do(HammerPower(25), UseTimeExact(11), TileBoostExact(+0)) },
@@ -78,7 +80,7 @@ namespace CalamityMod.Items
                 { ItemID.ButchersChainsaw, Do(TrueMelee, AxePower(150), UseTimeExact(3), TileBoostExact(+0)) },
                 { ItemID.CactusPickaxe, Do(PickPower(34), UseTimeExact(9)) },
                 { ItemID.CactusSword, Do(AutoReuse, UseTurn) },
-                { ItemID.CnadyCanePickaxe, Do(PickPower(55), UseTimeExact(9), TileBoostExact(+1)) }, // intentionally not in alphabetical order to correct for typo
+                { ItemID.CnadyCanePickaxe, Do(PickPower(55), UseTimeExact(9), TileBoostExact(+1)) }, // Candy Cane Pickaxe, intentionally not in alphabetical order to correct for typo
                 { ItemID.CandyCaneSword, Do(AutoReuse, DamageRatio(1.25f)) },
                 { ItemID.CandyCornRifle, pointBlank },
                 { ItemID.Cascade, Do(AutoReuse, DamageExact(39)) },
@@ -86,7 +88,8 @@ namespace CalamityMod.Items
                 { ItemID.ChainGuillotines, Do(DamageExact(100)) },
                 { ItemID.ChainGun, pointBlank },
                 { ItemID.ChainKnife, Do(AutoReuse, DamageExact(14)) },
-                { ItemID.ChargedBlasterCannon, Do(DamageRatio(1.33f)) },
+                // Charged Blaster Cannon is now an earlier Last Prism-like, so it will probably need careful balance attention.
+                // { ItemID.ChargedBlasterCannon, Do(DamageRatio(1.33f)) },
                 { ItemID.Chik, autoReuse },
                 { ItemID.ChlorophyteArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.ChlorophyteChainsaw, Do(TrueMelee, AxePower(120), UseTimeExact(3), TileBoostExact(+0)) },
@@ -95,11 +98,11 @@ namespace CalamityMod.Items
                 { ItemID.ChlorophyteJackhammer, Do(TrueMelee, HammerPower(90), UseTimeExact(5), TileBoostExact(+0)) },
                 { ItemID.ChlorophytePartisan, Do(AutoReuse, UseRatio(0.8f), DamageExact(100)) },
                 { ItemID.ChlorophytePickaxe, Do(PickPower(200), UseTimeExact(7), TileBoostExact(+2)) },
-                { ItemID.ChlorophyteSaber, Do(DamageExact(80), UseTimeExact(10)) },
-                { ItemID.ChlorophyteShotbow, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.ChlorophyteSaber, Do(DamageExact(80), UseExact(10)) },
+                { ItemID.ChlorophyteShotbow, Do(PointBlank, DamageExact(39)) },
                 { ItemID.ChlorophyteWarhammer, Do(HammerPower(90), UseTimeExact(8), TileBoostExact(+2)) },
-                { ItemID.ChristmasTreeSword, Do(AutoReuse, UseTurn, DamageExact(155)) },
-                { ItemID.ClingerStaff, Do(DamageRatio(1.33f)) },
+                { ItemID.ChristmasTreeSword, Do(AutoReuse, UseTurn, DamageExact(114)) },
+                { ItemID.ClingerStaff, Do(DamageExact(118)) },
                 { ItemID.ClockworkAssaultRifle, pointBlank },
                 { ItemID.CobaltBreastplate, Do(DefenseDelta(+3)) },
                 { ItemID.CobaltChainsaw, Do(TrueMelee, AxePower(70), UseTimeExact(4), TileBoostExact(-1)) },
@@ -110,7 +113,7 @@ namespace CalamityMod.Items
                 { ItemID.CobaltMask, Do(DefenseDelta(+3)) },
                 { ItemID.CobaltNaginata, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(90)) },
                 { ItemID.CobaltPickaxe, Do(PickPower(130), UseTimeExact(9)) },
-                { ItemID.CobaltRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.CobaltRepeater, Do(PointBlank) },
                 { ItemID.CobaltShield, Do(DefenseDelta(+3)) },
                 { ItemID.CobaltSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(80)) },
                 { ItemID.CobaltWaraxe, Do(AxePower(125), UseTimeExact(12), TileBoostExact(+0)) },
@@ -130,7 +133,8 @@ namespace CalamityMod.Items
                 // { ItemID.CrystalVileShard, Do(DamageRatio(1.33f)) },
                 { ItemID.CursedArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.Cutlass, Do(UseRatio(0.8f), DamageRatio(2f)) },
-                { ItemID.DaedalusStormbow, Do(DamageRatio(0.9f)) },
+                // Vanilla 1.4 nerfed Daedalus Stormbow themselves. If further nerfs are needed, apply them here.
+                // { ItemID.DaedalusStormbow, Do(DamageRatio(0.9f)) },
                 { ItemID.DaoofPow, Do(DamageExact(160)) },
                 { ItemID.DarkBlueSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.DarkLance, Do(AutoReuse, TrueMelee, DamageExact(68)) },
@@ -138,21 +142,21 @@ namespace CalamityMod.Items
                 { ItemID.DartRifle, pointBlank },
                 // if Daybreak still needs a buff after the 1.4 explosion change, apply it here
                 // { ItemID.DayBreak, Do(DamageRatio(1.0f)) }
-                { ItemID.DD2BallistraTowerT1Popper, Do(UseExact(30)) },
-                { ItemID.DD2BallistraTowerT2Popper, Do(UseExact(25)) },
-                { ItemID.DD2BallistraTowerT3Popper, Do(UseExact(20)) },
+                { ItemID.DD2BallistraTowerT1Popper, Do(UseExact(30)) }, // Ballista Tier 1
+                { ItemID.DD2BallistraTowerT2Popper, Do(UseExact(25)) }, // Ballista Tier 2
+                { ItemID.DD2BallistraTowerT3Popper, Do(UseExact(20)) }, // Ballista Tier 3
                 { ItemID.DD2BetsyBow, Do(DamageRatio(1.1f)) }, // Aerial Bane's ridiculous multiplier is removed, so this compensates for that
-                { ItemID.DD2ExplosiveTrapT1Popper, Do(UseExact(30)) },
-                { ItemID.DD2ExplosiveTrapT2Popper, Do(UseExact(25)) },
-                { ItemID.DD2ExplosiveTrapT3Popper, Do(UseExact(20)) },
-                { ItemID.DD2FlameburstTowerT1Popper, Do(UseExact(30)) },
-                { ItemID.DD2FlameburstTowerT2Popper, Do(UseExact(25)) },
-                { ItemID.DD2FlameburstTowerT3Popper, Do(UseExact(20)) },
-                { ItemID.DD2LightningAuraT1Popper, Do(UseExact(30)) },
-                { ItemID.DD2LightningAuraT2Popper, Do(UseExact(25)) },
-                { ItemID.DD2LightningAuraT3Popper, Do(UseExact(20)) },
-                { ItemID.DD2PhoenixBow, Do(PointBlank, DamageRatio(1.1f)) },
-                { ItemID.DD2SquireDemonSword, Do(DamageExact(110)) },
+                { ItemID.DD2ExplosiveTrapT1Popper, Do(UseExact(30)) }, // Explosive Trap Tier 1
+                { ItemID.DD2ExplosiveTrapT2Popper, Do(UseExact(25)) }, // Explosive Trap Tier 2
+                { ItemID.DD2ExplosiveTrapT3Popper, Do(UseExact(20)) }, // Explosive Trap Tier 3
+                { ItemID.DD2FlameburstTowerT1Popper, Do(UseExact(30)) }, // Flameburst Tier 1
+                { ItemID.DD2FlameburstTowerT2Popper, Do(UseExact(25)) }, // Flameburst Tier 2
+                { ItemID.DD2FlameburstTowerT3Popper, Do(UseExact(20)) }, // Flameburst Tier 3
+                { ItemID.DD2LightningAuraT1Popper, Do(UseExact(30)) }, // Lightning Aura Tier 1
+                { ItemID.DD2LightningAuraT2Popper, Do(UseExact(25)) }, // Lightning Aura Tier 2
+                { ItemID.DD2LightningAuraT3Popper, Do(UseExact(20)) }, // Lightning Aura Tier 3
+                { ItemID.DD2PhoenixBow, Do(PointBlank) }, // Phantom Phoenix
+                { ItemID.DD2SquireDemonSword, Do(DamageExact(110), UseExact(25)) }, // Brand of the Inferno
                 { ItemID.DeadlySphereStaff, Do(UseExact(20)) },
                 { ItemID.DeathbringerPickaxe, Do(PickPower(70), UseTimeExact(10)) },
                 { ItemID.DeathSickle, Do(DamageExact(82), ShootSpeedExact(15f)) },
@@ -167,7 +171,7 @@ namespace CalamityMod.Items
                 { ItemID.EbonwoodHammer, Do(HammerPower(25), UseTimeExact(9), TileBoostExact(+0)) },
                 { ItemID.EbonwoodSword, Do(AutoReuse, UseTurn) },
                 { ItemID.ElectrosphereLauncher, Do(DamageRatio(1.1f)) },
-                { ItemID.EldMelter, Do(DamageRatio(1.5f)) }, // intentionally not in alphabetical order to correct for typo
+                { ItemID.EldMelter, Do(DamageRatio(1.5f)) }, // Elf Melter, intentionally not in alphabetical order to correct for typo
                 { ItemID.EmeraldStaff, Do(DamageExact(28)) },
                 { ItemID.EmpressBlade, Do(UseExact(20)) },
                 { ItemID.EnchantedBoomerang, Do(DamageRatio(2f)) },
@@ -176,25 +180,26 @@ namespace CalamityMod.Items
                 { ItemID.EoCShield, Do(DefenseDelta(+1)) },
                 { ItemID.FairyQueenRangedItem, pointBlank },
                 { ItemID.Excalibur, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(125)) },
-                { ItemID.FalconBlade, Do(UseTurn, ScaleRatio(1.5f), DamageExact(40)) },
+                { ItemID.FalconBlade, Do(UseTurn, ScaleRatio(1.5f), DamageExact(40), UseExact(15)) },
                 { ItemID.FieryGreatsword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(98), UseExact(45)) },
                 { ItemID.FireWhip, autoReuse },
-                { ItemID.FireworksLauncher, Do(DamageRatio(2f)) },
+                // Unsure what to do with Celebration. Should it be treated as a serious weapon or not? Currently not changing it from vanilla.
+                // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration
                 { ItemID.Flamarang, Do(DamageRatio(2f)) },
-                { ItemID.Flamelash, Do(DamageExact(75), UseExact(38)) },
+                { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
                 { ItemID.Flamethrower, Do(DamageRatio(1.5f)) },
                 { ItemID.FlamingArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.FlareGun, pointBlank },
                 { ItemID.FleshGrinder, Do(HammerPower(70), UseTimeExact(13), TileBoostExact(+0)) },
                 { ItemID.FlintlockPistol, pointBlank },
                 { ItemID.FlinxStaff, Do(AutoReuse, UseExact(35)) },
-                { ItemID.FlowerofFire, Do(AutoReuse, DamageExact(60)) },
-                { ItemID.FlowerofFrost, Do(DamageRatio(1.2f)) },
+                { ItemID.FlowerofFire, Do(AutoReuse, ManaExact(7), UseExact(14)) },
+                { ItemID.FlowerofFrost, Do(AutoReuse, ManaExact(7), DamageRatio(1.2f)) },
                 { ItemID.FlyingKnife, Do(DamageExact(70)) },
                 { ItemID.FormatC, autoReuse },
                 { ItemID.Frostbrand, Do(DamageExact(140), UseTimeExact(20)) },
                 { ItemID.FrostburnArrow, Do(DamageRatio(1.1f)) },
-                { ItemID.FrostStaff, Do(ManaExact(9), DamageExact(215), UseTimeExact(50), UseAnimationExact(50), ShootSpeedExact(40f)) },
+                { ItemID.FrostStaff, Do(DamageRatio(3f), UseExact(29), ShootSpeedExact(26f)) },
                 { ItemID.FrozenShield, Do(DefenseDelta(+7)) },
                 { ItemID.FrozenTurtleShell, Do(DefenseExact(6)) },
                 { ItemID.FruitcakeChakram, Do(DamageRatio(2f)) },
@@ -208,14 +213,14 @@ namespace CalamityMod.Items
                 { ItemID.GoldShortsword, Do(AutoReuse, DamageRatio(2f)) },
                 { ItemID.GolemFist, Do(DamageExact(150)) },
                 { ItemID.Gradient, autoReuse },
-                { ItemID.GreenPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.GreenPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.GreenPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.GreenSolution, Do(Value(Item.buyPrice(silver: 5))) },
-                { ItemID.GrenadeLauncher, Do(DamageRatio(2f)) },
+                { ItemID.GrenadeLauncher, Do(DamageRatio(1.5f)) },
                 { ItemID.Gungnir, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(92), ShootSpeedRatio(1.25f)) },
                 { ItemID.HallowedGreaves, Do(DefenseDelta(+2)) },
                 { ItemID.HallowedPlateMail, Do(DefenseDelta(+3)) },
-                { ItemID.HallowedRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.HallowedRepeater, Do(PointBlank) },
                 { ItemID.HallowJoustingLance, trueMelee },
                 { ItemID.Hammush, Do(HammerPower(85), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.Handgun, pointBlank },
@@ -228,7 +233,7 @@ namespace CalamityMod.Items
                 { ItemID.HornetStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.IceBlade, Do(DamageExact(26), UseTimeExact(33)) },
                 { ItemID.IceBoomerang, Do(DamageRatio(2f)) },
-                { ItemID.IceBow, Do(PointBlank, DamageRatio(1.5f)) },
+                { ItemID.IceBow, Do(PointBlank, DamageExact(69), UseExact(21)) },
                 { ItemID.IceSickle, Do(AutoReuse, DamageExact(95), ShootSpeedExact(20f)) },
                 { ItemID.IchorArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.ImpStaff, Do(AutoReuse, UseExact(30)) },
@@ -244,7 +249,7 @@ namespace CalamityMod.Items
                 { ItemID.JoustingLance, trueMelee },
                 { ItemID.JungleYoyo, autoReuse },
                 { ItemID.Katana, Do(UseExact(15), DamageRatio(1.5f)) },
-                { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(184), UseExact(18)) },
+                { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(110)) },
                 { ItemID.KOCannon, Do(DamageRatio(2.65f)) },
                 { ItemID.Kraken, autoReuse },
                 { ItemID.LaserDrill, Do(PickPower(220), AxePower(120), UseTimeExact(4)) },
@@ -260,7 +265,7 @@ namespace CalamityMod.Items
                 { ItemID.LifeCrystal, autoReuse },
                 { ItemID.LifeFruit, autoReuse },
                 { ItemID.LightDisc, Do(DamageExact(128)) },
-                { ItemID.LightsBane, Do(AutoReuse, UseTurn, DamageRatio(2f)) },
+                { ItemID.LightsBane, Do(AutoReuse, UseTurn, DamageExact(34)) },
                 { ItemID.LucyTheAxe, Do(AxePower(150), UseTimeExact(13), UseAnimationExact(13), TileBoostExact(+1)) },
                 { ItemID.LunarFlareBook, Do(DamageRatio(1.5f)) },
                 { ItemID.LunarHamaxeNebula, Do(HammerPower(100), AxePower(175), UseTimeExact(5), TileBoostExact(+4)) },
@@ -269,14 +274,14 @@ namespace CalamityMod.Items
                 { ItemID.LunarHamaxeVortex, Do(HammerPower(100), AxePower(175), UseTimeExact(5), TileBoostExact(+4)) },
                 { ItemID.MaceWhip, autoReuse },
                 { ItemID.MagicDagger, autoReuse },
-                { ItemID.MagicMissile, Do(DamageExact(48), UseExact(15)) },
+                { ItemID.MagicMissile, Do(DamageRatio(1.2f)) },
                 { ItemID.MagnetSphere, Do(DamageRatio(1.1f)) },
                 { ItemID.ManaCrystal, autoReuse },
-                { ItemID.Marrow, Do(PointBlank, DamageRatio(1.5f)) },
+                { ItemID.Marrow, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.MechanicalEye, nonConsumableBossSummon },
                 { ItemID.MechanicalSkull, nonConsumableBossSummon },
                 { ItemID.MechanicalWorm, nonConsumableBossSummon },
-                { ItemID.MedusaHead, Do(DamageRatio(1.66f)) },
+                { ItemID.MedusaHead, Do(ManaExact(6), DamageRatio(1.2f)) },
                 { ItemID.Megashark, pointBlank },
                 { ItemID.Meowmere, Do(DamageRatio(1.33f)) },
                 { ItemID.MeteorHamaxe, Do(HammerPower(70), AxePower(100), UseTimeExact(16), TileBoostExact(+0)) },
@@ -286,28 +291,28 @@ namespace CalamityMod.Items
                 { ItemID.MoltenHamaxe, Do(HammerPower(75), AxePower(125), UseTimeExact(14), TileBoostExact(+0)) },
                 { ItemID.MoltenPickaxe, Do(PickPower(100), UseTimeExact(10)) },
                 { ItemID.MoltenSkullRose, Do(DefenseExact(8)) },
-                { ItemID.MonkStaffT1, Do(TrueMelee, DamageExact(110)) },
-                { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) },
-                { ItemID.MonkStaffT3, Do(DamageExact(225)) },
+                { ItemID.MonkStaffT1, Do(TrueMelee, DamageExact(83)) }, // Sleepy Octopod
+                { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) }, // Ghastly Glaive
+                { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
                 { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.MoonlordTurretStaff, Do(UseExact(15), DamageRatio(1.5f)) },
-                { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(1.5f)) },
                 { ItemID.MushroomSpear, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(100)) },
                 { ItemID.Musket, pointBlank },
                 { ItemID.MythrilChainsaw, Do(TrueMelee, AxePower(80), UseTimeExact(4), TileBoostExact(-1)) },
                 { ItemID.MythrilDrill, Do(TrueMelee, PickPower(160), UseTimeExact(4)) },
                 { ItemID.MythrilHalberd, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(95), ShootSpeedRatio(1.25f)) },
                 { ItemID.MythrilPickaxe, Do(PickPower(160), UseTimeExact(8)) },
-                { ItemID.MythrilRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.MythrilRepeater, Do(PointBlank) },
                 { ItemID.MythrilSword, Do(UseTurn, ScaleRatio(1.5f), DamageExact(100), UseExact(25)) },
                 { ItemID.MythrilWaraxe, Do(AxePower(140), UseTimeExact(11), TileBoostExact(+0)) },
                 { ItemID.NaughtyPresent, nonConsumableBossSummon },
                 { ItemID.NebulaChainsaw, trueMelee },
                 { ItemID.NebulaDrill, Do(TrueMelee, PickPower(225), UseTimeExact(3), TileBoostExact(+4)) },
                 { ItemID.NebulaPickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
-                { ItemID.NettleBurst, Do(DamageRatio(1.33f)) },
+                { ItemID.NettleBurst, Do(ManaExact(10), DamageExact(43)) },
                 { ItemID.NightmarePickaxe, Do(PickPower(66), UseTimeExact(9)) },
-                { ItemID.NightsEdge, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(3f)) },
+                { ItemID.NightsEdge, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(98)) },
                 { ItemID.NorthPole, autoReuse },
                 { ItemID.ObsidianShield, Do(DefenseDelta(+5)) },
                 { ItemID.ObsidianSkull, Do(DefenseDelta(+1)) },
@@ -315,7 +320,7 @@ namespace CalamityMod.Items
                 { ItemID.ObsidianSwordfish, Do(AutoReuse, TrueMelee, DamageExact(45)) },
                 { ItemID.OnyxBlaster, pointBlank },
                 { ItemID.OpticStaff, Do(AutoReuse, UseExact(25), DamageRatio(0.75f)) }, // NOTE: Optic Staff minions have local iframes, so they should be much better overall
-                { ItemID.OrangePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.OrangePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.OrangePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.OrichalcumBreastplate, Do(DefenseDelta(+3)) },
                 { ItemID.OrichalcumChainsaw, Do(TrueMelee, AxePower(80), UseTimeExact(4), TileBoostExact(-1)) },
@@ -326,7 +331,7 @@ namespace CalamityMod.Items
                 { ItemID.OrichalcumLeggings, Do(DefenseDelta(+4)) },
                 { ItemID.OrichalcumMask, Do(DefenseDelta(+3)) },
                 { ItemID.OrichalcumPickaxe, Do(PickPower(160), UseTimeExact(8)) },
-                { ItemID.OrichalcumRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.OrichalcumRepeater, Do(PointBlank) },
                 { ItemID.OrichalcumSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(82)) },
                 { ItemID.OrichalcumWaraxe, Do(AxePower(140), UseTimeExact(11), TileBoostExact(+0)) },
                 { ItemID.PainterPaintballGun, pointBlank },
@@ -341,7 +346,7 @@ namespace CalamityMod.Items
                 { ItemID.PalladiumLeggings, Do(DefenseDelta(+3)) },
                 { ItemID.PalladiumPickaxe, Do(PickPower(130), UseTimeExact(9)) },
                 { ItemID.PalladiumPike, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageRatio(3f)) },
-                { ItemID.PalladiumRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.PalladiumRepeater, Do(PointBlank) },
                 { ItemID.PalladiumSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(100)) },
                 { ItemID.PalladiumWaraxe, Do(AxePower(125), UseTimeExact(12), TileBoostExact(+0)) },
                 { ItemID.PalmWoodBow, Do(PointBlank, DamageRatio(1.1f)) },
@@ -364,13 +369,13 @@ namespace CalamityMod.Items
                 { ItemID.PlatinumHammer, Do(HammerPower(60), UseTimeExact(9), TileBoostExact(+0)) },
                 { ItemID.PlatinumPickaxe, Do(PickPower(55), UseTimeExact(9)) },
                 { ItemID.PlatinumShortsword, Do(AutoReuse, DamageRatio(2f)) },
-                { ItemID.PoisonStaff, Do(DamageRatio(1.2f)) },
-                { ItemID.ProximityMineLauncher, Do(DamageRatio(2f)) },
-                { ItemID.PsychoKnife, Do(UseTurn, DamageRatio(4f)) },
-                { ItemID.PulseBow, Do(PointBlank, DamageRatio(1.66f)) },
+                { ItemID.PoisonStaff, Do(DamageExact(57)) },
+                { ItemID.ProximityMineLauncher, Do(DamageRatio(4f), UseRatio(0.8f)) },
+                { ItemID.PsychoKnife, Do(UseTurn, UseExact(11), AttackSpeedExact(0.5f), DamageRatio(3f)) },
+                { ItemID.PulseBow, Do(PointBlank, DamageRatio(1.2f)) },
                 { ItemID.PumpkinMoonMedallion, nonConsumableBossSummon },
                 { ItemID.PurpleClubberfish, Do(UseTurn, ScaleRatio(1.5f), DamageExact(45), KnockbackExact(10f)) },
-                { ItemID.PurplePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.PurplePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.PurplePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.PurpleSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.Pwnhammer, Do(HammerPower(80), UseTimeExact(11), TileBoostExact(+1)) },
@@ -379,13 +384,13 @@ namespace CalamityMod.Items
                 { ItemID.QueenSlimeCrystal, nonConsumableBossSummon },
                 { ItemID.QueenSpiderStaff, Do(UseExact(25)) },
                 { ItemID.RainbowCrystalStaff, Do(UseExact(15)) },
-                { ItemID.RainbowRod, Do(DamageExact(130)) },
+                { ItemID.RainbowRod, Do(DamageRatio(1.2f)) },
                 { ItemID.RainbowWhip, autoReuse },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(20)) },
                 { ItemID.RavenStaff, Do(UseExact(20)) },
                 { ItemID.Razorpine, Do(DamageRatio(0.75f)) },
                 { ItemID.ReaverShark, Do(PickPower(100), UseTimeExact(16)) },
-                { ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.RedPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.RedPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.RedRyder, pointBlank },
                 { ItemID.RedSolution, Do(Value(Item.buyPrice(silver: 5))) },
@@ -396,7 +401,7 @@ namespace CalamityMod.Items
                 { ItemID.RichMahoganySword, Do(AutoReuse, UseTurn) },
                 { ItemID.RocketIII, Do(DamageRatio(0.75f)) },
                 { ItemID.RocketIV, Do(DamageRatio(0.75f)) },
-                { ItemID.RocketLauncher, Do(DamageRatio(2f)) },
+                { ItemID.RocketLauncher, Do(DamageRatio(1.1f)) },
                 { ItemID.Rockfish, Do(HammerPower(50), UseTimeExact(10), TileBoostExact(+0)) },
                 { ItemID.RubyStaff, Do(DamageExact(25)) },
                 { ItemID.Sandgun, pointBlank },
@@ -410,7 +415,7 @@ namespace CalamityMod.Items
                 { ItemID.ShadewoodBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.ShadewoodHammer, Do(HammerPower(25), UseTimeExact(9), TileBoostExact(+0)) },
                 { ItemID.ShadewoodSword, Do(AutoReuse, UseTurn) },
-                { ItemID.ShadowbeamStaff, Do(DamageRatio(2f)) },
+                { ItemID.ShadowbeamStaff, Do(DamageRatio(1.75f)) },
                 { ItemID.ShadowFlameBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.ShadowFlameKnife, Do(DamageExact(70)) },
                 { ItemID.ShadowJoustingLance, trueMelee },
@@ -422,7 +427,7 @@ namespace CalamityMod.Items
                 { ItemID.SilverHammer, Do(HammerPower(55), UseTimeExact(10), TileBoostExact(+0)) },
                 { ItemID.SilverPickaxe, Do(PickPower(50), UseTimeExact(11)) },
                 { ItemID.SilverShortsword, Do(AutoReuse, DamageRatio(1.5f)) },
-                { ItemID.SkyFracture, Do(DamageExact(54), ShootSpeedExact(30f)) },
+                { ItemID.SkyFracture, Do(DamageRatio(1.5f), ShootSpeedExact(21f)) },
                 { ItemID.SlapHand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(120)) },
                 { ItemID.SlimeCrown, nonConsumableBossSummon },
                 { ItemID.SlimeStaff, Do(AutoReuse, UseExact(30)) },
@@ -435,16 +440,17 @@ namespace CalamityMod.Items
                 { ItemID.SolarFlareDrill, Do(TrueMelee, PickPower(225), UseTimeExact(3), TileBoostExact(+4)) },
                 { ItemID.SolarFlarePickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
                 { ItemID.SolarTablet, nonConsumableBossSummon },
-                { ItemID.SoulDrain, Do(DamageRatio(1.33f)) },
+                // Life Drain could probably get a bigger buff
+                { ItemID.SoulDrain, Do(DamageRatio(1.1f)) }, // Life Drain
                 { ItemID.SpaceGun, Do(DamageExact(25)) },
                 { ItemID.Spear, Do(AutoReuse, TrueMelee, DamageRatio(2f)) },
                 { ItemID.SpectreHamaxe, Do(HammerPower(90), AxePower(170), UseTimeExact(8), TileBoostExact(+4)) },
                 { ItemID.SpectrePickaxe, Do(PickPower(200), UseTimeExact(8), TileBoostExact(+4)) },
                 { ItemID.SpectreStaff, Do(DamageRatio(3f)) },
                 { ItemID.SpiderStaff, Do(AutoReuse, UseExact(25)) },
-                { ItemID.StaffofEarth, Do(DamageRatio(1.66f)) },
+                { ItemID.StaffofEarth, Do(DamageRatio(1.2f)) },
                 { ItemID.StaffoftheFrostHydra, Do(UseExact(20)) },
-                { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(1.25f)) },
+                { ItemID.StakeLauncher, Do(PointBlank, DamageRatio(2f), UseRatio(1.5f)) },
                 { ItemID.StardustCellStaff, Do(UseExact(20)) },
                 { ItemID.StardustChainsaw, trueMelee },
                 { ItemID.StardustDragonStaff, Do(AutoReuse, DamageExact(20), UseExact(19)) },
@@ -484,16 +490,16 @@ namespace CalamityMod.Items
                 { ItemID.TitaniumChainsaw, Do(TrueMelee, AxePower(90), UseTimeExact(4), TileBoostExact(+0)) },
                 { ItemID.TitaniumDrill, Do(TrueMelee, PickPower(180), UseTimeExact(4), TileBoostExact(+1)) },
                 { ItemID.TitaniumPickaxe, Do(PickPower(180), UseTimeExact(8), TileBoostExact(+1)) },
-                { ItemID.TitaniumRepeater, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.TitaniumRepeater, Do(PointBlank) },
                 { ItemID.TitaniumSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(77)) },
                 { ItemID.TitaniumTrident, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(72), ShootSpeedRatio(1.25f)) },
                 { ItemID.TitaniumWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.TopazStaff, Do(ManaExact(2)) },
                 { ItemID.TragicUmbrella, autoReuse },
-                { ItemID.Trident, Do(AutoReuse, TrueMelee, DamageRatio(2f)) },
+                { ItemID.Trident, Do(AutoReuse, TrueMelee, DamageExact(22)) },
                 { ItemID.TrueExcalibur, Do(AutoReuse, UseTurn, DamageExact(82)) },
                 { ItemID.TrueNightsEdge, Do(AutoReuse, UseTurn, DamageExact(160), ShootSpeedExact(16), ScaleRatio(1.5f)) },
-                { ItemID.Tsunami, Do(PointBlank, DamageRatio(1.1f)) },
+                { ItemID.Tsunami, Do(PointBlank, DamageRatio(1.25f)) },
                 { ItemID.TungstenAxe, Do(AxePower(70), UseTimeExact(14), TileBoostExact(+0)) },
                 { ItemID.TungstenBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.TungstenBroadsword, Do(AutoReuse, UseTurn, DamageRatio(1.5f)) },
@@ -502,25 +508,25 @@ namespace CalamityMod.Items
                 { ItemID.TungstenShortsword, Do(AutoReuse, DamageRatio(1.5f)) },
                 { ItemID.Umbrella, autoReuse },
                 { ItemID.UnholyArrow, Do(DamageRatio(1.1f)) },
-                { ItemID.UnholyTrident, Do(ManaExact(14)) },
+                { ItemID.UnholyTrident, Do(ManaExact(14), DamageRatio(1.25f)) },
                 { ItemID.Uzi, pointBlank },
                 { ItemID.ValkyrieYoyo, autoReuse },
                 { ItemID.VampireFrogStaff, Do(AutoReuse, UseExact(30)) },
                 { ItemID.VampireKnives, Do(DamageRatio(1.33f)) },
                 { ItemID.VenomArrow, Do(DamageRatio(1.1f)) },
-                { ItemID.VenomStaff, Do(DamageRatio(1.33f)) },
+                { ItemID.VenomStaff, Do(DamageRatio(1.5f)) },
                 { ItemID.VenusMagnum, Do(AutoReuse, PointBlank) },
                 { ItemID.Vilethorn, Do(DamageExact(14)) },
                 { ItemID.VortexBeater, pointBlank },
                 { ItemID.VortexChainsaw, trueMelee },
                 { ItemID.VortexDrill, Do(TrueMelee, PickPower(225), UseTimeExact(3), TileBoostExact(+4)) },
                 { ItemID.VortexPickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
-                { ItemID.WandofSparking, Do(AutoReuse, DamageExact(15)) },
+                { ItemID.WandofSparking, Do(AutoReuse) },
                 { ItemID.WarAxeoftheNight, Do(AxePower(100), UseTimeExact(13), TileBoostExact(+0)) },
-                { ItemID.WaspGun, Do(DamageRatio(1.5f)) },
-                { ItemID.WaterBolt, Do(DamageExact(28)) },
+                { ItemID.WaspGun, Do(UseExact(11)) },
+                { ItemID.WaterBolt, Do(DamageExact(23)) },
                 { ItemID.WeatherPain, autoReuse },
-                { ItemID.WhitePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.WhitePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.WhitePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.WoodenArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.WoodenBoomerang, Do(DamageRatio(2f)) },
@@ -532,7 +538,7 @@ namespace CalamityMod.Items
                 { ItemID.Xenopopper, Do(DamageRatio(0.75f)) },
                 { ItemID.XenoStaff, Do(UseExact(20)) },
                 { ItemID.Yelets, autoReuse },
-                { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(2f)) },
+                { ItemID.YellowPhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.66f)) },
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.ZapinatorGray, autoReuse },
                 { ItemID.ZapinatorOrange, autoReuse },
@@ -592,6 +598,35 @@ namespace CalamityMod.Items
             void ApplyTweak(Item it);
         }
 
+        #region Attack Speed Ratio
+        private static float CapAttackSpeed(float f) => MathHelper.Clamp(f, BalancingConstants.MinimumAllowedAttackSpeed, BalancingConstants.MaximumAllowedAttackSpeed);
+
+        internal class AttackSpeedExactRule : IItemTweak
+        {
+            internal readonly float ratio = 1f;
+
+            public AttackSpeedExactRule(float f) => ratio = f;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it) => ItemID.Sets.BonusAttackSpeedMultiplier[it.type] = CapAttackSpeed(ratio);
+        }
+        internal static IItemTweak AttackSpeedExact(float f) => new AttackSpeedExactRule(f);
+
+        internal class AttackSpeedRatioRule : IItemTweak
+        {
+            internal readonly float ratio = 1f;
+
+            public AttackSpeedRatioRule(float f) => ratio = f;
+            public bool AppliesTo(Item it) => IsUsable(it);
+            public void ApplyTweak(Item it)
+            {
+                float currentAttackSpeedRatio = ItemID.Sets.BonusAttackSpeedMultiplier[it.type];
+                ItemID.Sets.BonusAttackSpeedMultiplier[it.type] = CapAttackSpeed(ratio * currentAttackSpeedRatio);
+            }
+        }
+        internal static IItemTweak AttackSpeedRatio(float f) => new AttackSpeedRatioRule(f);
+        #endregion
+
+        #region Auto Reuse
         internal class AutoReuseRule : IItemTweak
         {
             internal readonly bool flag = true;
@@ -602,7 +637,9 @@ namespace CalamityMod.Items
         }
         internal static IItemTweak AutoReuse => new AutoReuseRule(true);
         internal static IItemTweak NoAutoReuse => new AutoReuseRule(false);
+        #endregion
 
+        #region Axe Power
         // Uses the values shown by Terraria, which are multiplied by 5, not the internal values
         internal class AxePowerRule : IItemTweak
         {
@@ -618,7 +655,9 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak AxePower(int a) => new AxePowerRule(a);
+        #endregion
 
+        #region Consumable
         internal class ConsumableRule : IItemTweak
         {
             internal readonly bool flag = false;
@@ -629,6 +668,7 @@ namespace CalamityMod.Items
         }
         internal static IItemTweak Consumable => new ConsumableRule(true);
         internal static IItemTweak NotConsumable => new ConsumableRule(false);
+        #endregion
 
         #region Damage
         internal class DamageDeltaRule : IItemTweak
@@ -677,6 +717,7 @@ namespace CalamityMod.Items
         internal static IItemTweak DamageRatio(float f) => new DamageRatioRule(f);
         #endregion
 
+        #region Defense
         internal class DefenseDeltaRule : IItemTweak
         {
             internal readonly int delta = 0;
@@ -706,7 +747,9 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak DefenseExact(int d) => new DefenseExactRule(d);
+        #endregion
 
+        #region Hammer Power
         internal class HammerPowerRule : IItemTweak
         {
             internal readonly int newHammerPower = 0;
@@ -721,6 +764,7 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak HammerPower(int h) => new HammerPowerRule(h);
+        #endregion
 
         #region Knockback
         internal class KnockbackDeltaRule : IItemTweak
@@ -816,6 +860,7 @@ namespace CalamityMod.Items
         internal static IItemTweak ManaRatio(float f) => new ManaRatioRule(f);
         #endregion
 
+        #region Max Stack
         internal class MaxStackRule : IItemTweak // max stack plus - calamity style
         {
             internal readonly int newMaxStack = 999;
@@ -830,7 +875,9 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak MaxStack(int stk) => new MaxStackRule(stk);
+        #endregion
 
+        #region Pick Power
         internal class PickPowerRule : IItemTweak
         {
             internal readonly int newPickPower = 0;
@@ -845,13 +892,16 @@ namespace CalamityMod.Items
             }
         }
         internal static IItemTweak PickPower(int p) => new PickPowerRule(p);
+        #endregion
 
+        #region Point Blank
         internal class PointBlankRule : IItemTweak
         {
             public bool AppliesTo(Item it) => true;
             public void ApplyTweak(Item it) => it.Calamity().canFirePointBlankShots = true;
         }
         internal static IItemTweak PointBlank => new PointBlankRule();
+        #endregion
 
         #region Scale (True Melee)
         internal class ScaleDeltaRule : IItemTweak
@@ -947,6 +997,7 @@ namespace CalamityMod.Items
         internal static IItemTweak ShootSpeedRatio(float f) => new ShootSpeedRatioRule(f);
         #endregion
 
+        #region Tile Boost (Extra Tool Range)
         internal class TileBoostDeltaRule : IItemTweak
         {
             private readonly int delta = 0;
@@ -966,13 +1017,16 @@ namespace CalamityMod.Items
             public void ApplyTweak(Item it) => it.tileBoost = newTileBoost;
         }
         internal static IItemTweak TileBoostExact(int tb) => new TileBoostExactRule(tb);
+        #endregion
 
+        #region True Melee
         internal class TrueMeleeRule : IItemTweak
         {
             public bool AppliesTo(Item it) => IsMelee(it);
             public void ApplyTweak(Item it) => it.Calamity().trueMelee = true;
         }
         internal static IItemTweak TrueMelee => new TrueMeleeRule();
+        #endregion
 
         #region Use Time and Use Animation
         internal class UseDeltaRule : IItemTweak
@@ -1120,6 +1174,7 @@ namespace CalamityMod.Items
         internal static IItemTweak UseTimeRatio(float f) => new UseTimeRatioRule(f);
         #endregion
 
+        #region Use Turn
         internal class UseTurnRule : IItemTweak
         {
             internal readonly bool flag = true;
@@ -1130,7 +1185,9 @@ namespace CalamityMod.Items
         }
         internal static IItemTweak UseTurn => new UseTurnRule(true);
         internal static IItemTweak NoUseTurn => new UseTurnRule(false);
+        #endregion
 
+        #region Value (Sell Price)
         internal class ValueRule : IItemTweak
         {
             internal readonly int newValue = 0;
@@ -1146,6 +1203,7 @@ namespace CalamityMod.Items
         }
         internal static IItemTweak Value(int v) => new ValueRule(v);
         internal static IItemTweak Worthless => new ValueRule(0);
+        #endregion
         #endregion
         #endregion
     }

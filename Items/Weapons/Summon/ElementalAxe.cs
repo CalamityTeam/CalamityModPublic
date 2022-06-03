@@ -53,6 +53,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
+                AddIngredient(ItemID.Smolstar). //Blade Staff
                 AddIngredient<PlantationStaff>().
                 AddIngredient<HauntedScroll>().
                 AddIngredient<GalacticaSingularity>(5).
