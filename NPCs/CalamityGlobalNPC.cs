@@ -3488,11 +3488,18 @@ namespace CalamityMod.NPCs
                     npc.dontTakeDamage = true;
                     npc.noTileCollide = true;
 
-                    if (Vector2.Distance(npc.Center, targetData.Center) > 80f)
+                    // Teleport to the player if far enough away.
+                    if (Vector2.Distance(npc.Center, targetData.Center) > 1000f)
+                    {
+                        npc.Center = targetData.Center;
+                    }
+
+                    // Move towards the player if far enough away.
+                    else if (Vector2.Distance(npc.Center, targetData.Center) > 80f)
                     {
                         Rectangle r = Utils.CenteredRectangle(targetData.Center, new Vector2(targetData.Width + 60, targetData.Height / 2));
                         Vector2 vector3 = r.ClosestPointInRect(npc.Center);
-                        Vector2 value = npc.DirectionTo(vector3) * 2f;
+                        Vector2 value = npc.DirectionTo(vector3) * ((targetData.Velocity.Length() * 0.5f) + 2f);
                         float num8 = npc.Distance(vector3);
                         if (num8 > 225f)
                             value *= 2f;
@@ -4259,7 +4266,7 @@ namespace CalamityMod.NPCs
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
-                    double pointBlankShotDamageMultiplier = 1D + (projectile.Calamity().pointBlankShotDuration / (CalamityGlobalProjectile.basePointBlankShotDuration * 0.5));
+                    float pointBlankShotDamageMultiplier = 1f + (projectile.Calamity().pointBlankShotDuration / (float)CalamityGlobalProjectile.basePointBlankShotDuration * 0.5f);
                     damage = (int)(damage * pointBlankShotDamageMultiplier);
                     projectile.Calamity().pointBlankShotDuration = 0;
                 }

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.velocity.Length() < 15f && (Main.expertMode || BossRushEvent.BossRushActive))
             {
-                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1f;
+                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
                 Projectile.velocity *= velocityMult;
             }
 

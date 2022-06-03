@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Boss
 
             Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
 
-            if (Projectile.ai[0] == 2f)
+            if (Projectile.ai[0] >= 2f)
                 return;
 
             if (start)
@@ -213,7 +213,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 240);
+            if (Projectile.ai[0] == 3f)
+                target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
+            else
+                target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 240);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

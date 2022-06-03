@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                 Vector2 normalizedPerturbedSpeed = Vector2.Normalize(perturbedSpeed);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, normalizedPerturbedSpeed * NPC.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter, normalizedPerturbedSpeed * NPC.velocity.Length() * 1.25f, type, damage, 0f, Main.myPlayer, 3f, 0f);
                             }
                         }
                     }

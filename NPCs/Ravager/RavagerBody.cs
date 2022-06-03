@@ -364,6 +364,7 @@ namespace CalamityMod.NPCs.Ravager
                         NPC.noTileCollide = true;
 
                         NPC.TargetClosest();
+                        player = Main.player[NPC.target];
 
                         bool shouldFall = player.position.Y >= NPC.Bottom.Y;
                         float velocityXBoost = !anyHeadActive ? 6f : death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
@@ -465,6 +466,7 @@ namespace CalamityMod.NPCs.Ravager
 
                     calamityGlobalNPC.newAI[1] = 0f;
                     calamityGlobalNPC.newAI[3] = 0f;
+
                     NPC.TargetClosest();
 
                     for (int stompDustArea = (int)NPC.position.X - 30; stompDustArea < (int)NPC.position.X + NPC.width + 60; stompDustArea += 30)
@@ -508,17 +510,18 @@ namespace CalamityMod.NPCs.Ravager
                             NPC.velocity.Y = -velocityY;
                     }
 
-                    float maxOffsetScale = death ? 320f : 240f;
-                    float maxOffset = maxOffsetScale * (1f - lifeRatio);
-                    float offset = phase2 ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
-
                     // Set offset to 0 if the target stops moving
                     if (Math.Abs(player.velocity.X) < 0.5f)
                         calamityGlobalNPC.newAI[2] = 0f;
                     else
                         calamityGlobalNPC.newAI[2] = player.direction;
 
-                    if ((NPC.position.X < targetVector.X + offset && NPC.position.X + NPC.width > targetVector.X + player.width + offset && (inRange || NPC.ai[0] != 2f)) || NPC.ai[1] > 0f || calamityGlobalNPC.newAI[3] >= 180f)
+                    float maxOffsetScale = death ? 320f : 240f;
+                    float maxOffset = maxOffsetScale * (1f - lifeRatio);
+                    float offset = phase2 ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
+                    int quarterWidth = (int)(NPC.width * 0.25f);
+
+                    if ((NPC.position.X + quarterWidth < targetVector.X + offset && NPC.position.X + NPC.width - quarterWidth > targetVector.X + player.width + offset && (inRange || NPC.ai[0] != 2f)) || NPC.ai[1] > 0f || calamityGlobalNPC.newAI[3] >= 180f)
                     {
                         NPC.damage = NPC.defDamage;
 

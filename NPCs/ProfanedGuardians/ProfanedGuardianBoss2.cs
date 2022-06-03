@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                         SoundEngine.PlaySound(SoundID.Item20, NPC.position);
                         int type = ModContent.ProjectileType<FlareDust>();
                         int damage = NPC.GetProjectileDamage(type);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * NPC.velocity.Length() * 0.5f, type, damage, 0f, Main.myPlayer, 2f, 0f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * NPC.velocity.Length() * 0.5f, type, damage, 0f, Main.myPlayer, 3f, 0f);
                     }
                 }
 
