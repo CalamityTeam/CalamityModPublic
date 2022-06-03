@@ -144,8 +144,8 @@ namespace CalamityMod.Projectiles.Summon
             Color alpha5 = Projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
             Color color60 = Main.hslToRgb(Projectile.ai[0], 1f, 0.5f).MultiplyRGBA(new Color(255, 255, 255, 0));
-            Main.spriteBatch.Draw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, Projectile.rotation, origin11, Projectile.scale * 2f, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, 0f, origin11, Projectile.scale * 2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, Projectile.rotation, origin11, Projectile.scale * 2f, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(texture2D34, vector59, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60, 0f, origin11, Projectile.scale * 2f, SpriteEffects.None, 0);
             if (Projectile.ai[1] != -1f && Projectile.Opacity > 0.3f)
             {
                 Vector2 vector61 = Main.projectile[(int)Projectile.ai[1]].Center - Projectile.Center;
@@ -155,8 +155,8 @@ namespace CalamityMod.Projectiles.Summon
                 num279 = MathHelper.Clamp(num279, 0f, 1f);
                 if (num279 > 0f)
                 {
-                    Main.spriteBatch.Draw(texture2D34, vector59 + vector61 / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60 * num279, rotation27, origin11, vector62, SpriteEffects.None, 0);
-                    Main.spriteBatch.Draw(texture2D34, vector59 + vector61 / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * num279, rotation27, origin11, vector62 / 2f, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(texture2D34, vector59 + vector61 / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangle17), color60 * num279, rotation27, origin11, vector62, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(texture2D34, vector59 + vector61 / 2f, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * num279, rotation27, origin11, vector62 / 2f, SpriteEffects.None, 0);
                 }
             }
             return false;

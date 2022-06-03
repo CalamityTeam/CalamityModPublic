@@ -159,13 +159,13 @@ namespace CalamityMod.Projectiles.Summon
             Rectangle frame = eyeTexture.Frame(1, 4, 0, Projectile.frame);
             Vector2 origin = frame.Size() * 0.5f;
             SpriteEffects spriteEffects = Owner.gravDir == 1 ? SpriteEffects.None : SpriteEffects.FlipVertically;
-            Main.spriteBatch.Draw(eyeTexture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(eyeTexture, Projectile.Center - Main.screenPosition, frame, Projectile.GetAlpha(lightColor), Projectile.rotation, origin, Projectile.scale, SpriteEffects.None, 0);
 
             // Pupil drawing.
             Texture2D pupilTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/DeathstareEyePupil").Value;
             Vector2 pupilDrawPosition = Projectile.Center - Main.screenPosition + PupilAngle.ToRotationVector2() * PupilOutwardness;
             pupilDrawPosition -= Vector2.UnitY * 4f;
-            Main.spriteBatch.Draw(pupilTexture, pupilDrawPosition, null, Projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(pupilTexture, pupilDrawPosition, null, Projectile.GetAlpha(lightColor), PupilAngle, pupilTexture.Size() * 0.5f, PupilScale, SpriteEffects.None, 0);
             return false;
         }
 
