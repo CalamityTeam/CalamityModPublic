@@ -4,6 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
+    [LegacyName("AbyssPiano")]
     public class AbyssSynth : ModTile
     {
         public override void SetStaticDefaults()

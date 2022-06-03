@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
+    [LegacyName("AbyssPiano")]
     public class AbyssSynth : ModItem
     {
         public override void SetStaticDefaults()
