@@ -9,7 +9,8 @@ using CalamityMod.CalPlayer.Dashes;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AuricTeslaHelm : ModItem
+    [LegacyName("AuricTeslaHelm")]
+    public class AuricTeslaRoyalHelm : ModItem
     {
         public override void SetStaticDefaults()
         {
