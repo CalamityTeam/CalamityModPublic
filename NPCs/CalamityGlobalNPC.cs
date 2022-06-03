@@ -138,8 +138,17 @@ namespace CalamityMod.NPCs
         // Boss Zen distance
         private const float BossZenDistance = 6400f;
 
-        // Variable used to nerf desert prehardmode enemies pre-Desert Scourge
+        // Used to nerf desert prehardmode enemies pre-Desert Scourge
         private const double DesertEnemyStatMultiplier = 0.75;
+
+        // Used to increase coin drops in Normal Mode
+        private const double NPCValueMultiplier_NormalCalamity = 2.5;
+
+        // Used to decrease coin drops in Expert Mode
+        private const double NPCValueMultiplier_ExpertVanilla = 2.5;
+
+        // Used to change the Expert Mode coin drop multiplier
+        private const double NPCValueMultiplier_ExpertCalamity = 1.5;
 
         // Max velocity used in contact damage scaling
         public float maxVelocity = 0f;
@@ -1134,8 +1143,6 @@ namespace CalamityMod.NPCs
         #region Revengeance and Death Mode Stat Changes
         private void RevDeathStatChanges(NPC npc, Mod mod)
         {
-            npc.value = (int)(npc.value * 1.5);
-
             if (CalamityLists.DeathModeSplittingWormIDs.Contains(npc.type))
             {
                 if (CalamityWorld.death)
@@ -2008,6 +2015,8 @@ namespace CalamityMod.NPCs
         #region Other Stat Changes
         private void OtherStatChanges(NPC npc)
         {
+            EditGlobalCoinDrops(npc);
+
             switch (npc.type)
             {
                 case NPCID.KingSlime:
@@ -2289,6 +2298,28 @@ namespace CalamityMod.NPCs
             {
                 double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
                 npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+            }
+        }
+        #endregion
+
+        #region Edit Coin Drops
+        private void EditGlobalCoinDrops(NPC npc)
+        {
+            // Old Rev coin drop math: Normal = 10 Gold, Expert = 25 Gold, Rev = 37 Gold 50 Silver.
+            // New Rev coin drop math: Normal = 25 Gold, Expert AND Rev = 37 Gold 50 Silver.
+            // Rebalance coin drops so that Normal Mode enemies and bosses drop an adequate amount of coins.
+
+            // Increase Normal Mode coin drops by 2.5x.
+            npc.value = (int)(npc.value * NPCValueMultiplier_NormalCalamity);
+
+            // Change the Expert Mode coin drop multiplier.
+            if (Main.expertMode)
+            {
+                // Undo the Expert Mode coin drop multiplier.
+                npc.value = (int)(npc.value / NPCValueMultiplier_ExpertVanilla);
+
+                // Change the Expert Mode coin drop multiplier to the new Calamity amount.
+                npc.value = (int)(npc.value * NPCValueMultiplier_ExpertCalamity);
             }
         }
         #endregion
