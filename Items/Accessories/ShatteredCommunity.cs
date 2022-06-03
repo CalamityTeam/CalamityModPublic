@@ -1,14 +1,16 @@
-﻿using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using CalamityMod.CalPlayer;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -154,6 +156,11 @@ namespace CalamityMod.Items.Accessories
         {
             // Stat tooltips are added dynamically.
             StringBuilder sb = new StringBuilder(256);
+
+            // Line 1: If not on Rev+, note that the accessory enables Rage.
+            TooltipLine rageOverTimeLine = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+            if (rageOverTimeLine != null && !CalamityWorld.revenge)
+                rageOverTimeLine.Text = "Adds the Rage meter\n" + rageOverTimeLine.Text;
 
             // Line 6: Current level
             sb.Append("Current level: ");

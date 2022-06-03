@@ -333,6 +333,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rage
+        public bool RageEnabled => CalamityWorld.revenge || shatteredCommunity;
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
@@ -349,6 +350,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Adrenaline
+        public bool AdrenalineEnabled => CalamityWorld.revenge || draedonsHeart;
         public bool adrenalineModeActive = false;
         public float adrenaline = 0f;
         public float adrenalineMax = 100f; // 0 to 100% by default
@@ -432,6 +434,7 @@ namespace CalamityMod.CalPlayer
         public bool laudanum = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
+        public int nanomachinesLockoutTimer = 0;
         public bool vexation = false;
         public bool dodgeScarf = false;
         public bool evasionScarf = false;
@@ -1471,6 +1474,9 @@ namespace CalamityMod.CalPlayer
 
             ResetRogueStealth();
 
+            // Reset adrenaline duration to default. If Draedon's Heart is equipped, it'll change itself every frame.
+            AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
+
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
             rogueVelocity = 1f;
@@ -2312,6 +2318,7 @@ namespace CalamityMod.CalPlayer
             triumph = false;
             penumbra = false;
             shadow = false;
+            nanomachinesLockoutTimer = 0;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -2978,31 +2985,28 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound( RageActivationSound, Player.position);
+                    SoundEngine.PlaySound(RageActivationSound, Player.position);
 
-                    // TODO -- improve Rage activation visuals
-                    for (int num502 = 0; num502 < 64; num502++)
+                    // TODO -- Rage should provide glowy red afterimages to the player for the duration.
+                    // If Shattered Community is equipped, the afterimages are magenta instead.
+                    int rageDustID = 235;
+                    int dustCount = 132;
+                    float minSpeed = 4f;
+                    float maxSpeed = 11f;
+                    for (int i = 0; i < dustCount; ++i)
                     {
-                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
-                        Main.dust[dust].velocity *= 3f;
-                        Main.dust[dust].scale *= 1.15f;
-                    }
-                    int num226 = 36;
-                    for (int num227 = 0; num227 < num226; num227++)
-                    {
-                        Vector2 vector6 = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Player.Center;
-                        Vector2 vector7 = vector6 - Player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                        Main.dust[num228].noGravity = true;
-                        Main.dust[num228].noLight = true;
-                        Main.dust[num228].velocity = vector7;
+                        float speed = (float)Math.Sqrt(Main.rand.NextFloat(minSpeed * minSpeed, maxSpeed * maxSpeed));
+                        Vector2 dustVel = Main.rand.NextVector2Unit() * speed;
+                        Dust d = Dust.NewDustPerfect(Player.Center, rageDustID, dustVel);
+                        d.noGravity = !Main.rand.NextBool(4); // 25% of dust has gravity
+                        d.noLight = false;
+                        d.scale = Main.rand.NextFloat(0.9f, 2.1f);
                     }
                 }
             }
 
             // Trigger for pressing the Adrenaline hotkey.
-            if (CalamityKeybinds.AdrenalineHotKey.JustPressed && CalamityWorld.revenge)
+            if (CalamityKeybinds.AdrenalineHotKey.JustPressed && AdrenalineEnabled)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -3011,23 +3015,53 @@ namespace CalamityMod.CalPlayer
                     // Play Adrenaline Activation sound
                     SoundEngine.PlaySound(AdrenalineActivationSound, Player.position);
 
-                    // TODO -- improve Adrenaline activation visuals
-                    for (int num502 = 0; num502 < 64; num502++)
+                    // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
+                    int dustPerSegment = 96;
+
+                    // Parametric segment 1: y = 3x + 120
+                    Vector2 segmentOneStart = new Vector2(0f, -120f);
+                    Vector2 segmentOneEnd = new Vector2(-48f, 24f);
+                    Vector2 segmentOneIncrement = (segmentOneEnd - segmentOneStart) / dustPerSegment;
+
+                    // Parametric segment 2: y = 0.5x
+                    Vector2 segmentTwoStart = segmentOneEnd;
+                    Vector2 segmentTwoEnd = new Vector2(48f, -24f);
+                    Vector2 segmentTwoIncrement = (segmentTwoEnd - segmentTwoStart) / dustPerSegment;
+
+                    // Parametric segment 3: y = 3x - 120
+                    Vector2 segmentThreeStart = segmentTwoEnd;
+                    Vector2 segmentThreeEnd = new Vector2(0f, 120f);
+                    Vector2 segmentThreeIncrement = (segmentThreeEnd - segmentThreeStart) / dustPerSegment;
+
+                    float maxDustVelSpread = 1.2f;
+                    for (int i = 0; i < dustPerSegment; ++i)
                     {
-                        int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, 206, 0f, 0f, 0, default, 1f);
-                        Main.dust[dust].velocity *= 3f;
-                        Main.dust[dust].scale *= 2f;
-                    }
-                    int num226 = 36;
-                    for (int num227 = 0; num227 < num226; num227++)
-                    {
-                        Vector2 vector6 = Vector2.Normalize(Player.velocity) * new Vector2((float)Player.width / 2f, (float)Player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Player.Center;
-                        Vector2 vector7 = vector6 - Player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 206, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-                        Main.dust[num228].noGravity = true;
-                        Main.dust[num228].noLight = true;
-                        Main.dust[num228].velocity = vector7;
+                        bool electricity = Main.rand.NextBool(4);
+                        int dustID = electricity ? 132 : DustID.TerraBlade;
+
+                        float interpolant = i + 0.5f;
+                        float spreadSpeed = Main.rand.NextFloat(0.5f, maxDustVelSpread);
+                        if (electricity)
+                            spreadSpeed *= 4f;
+
+                        Vector2 segmentOnePos = Player.Center + segmentOneStart + segmentOneIncrement * interpolant;
+                        Dust d = Dust.NewDustPerfect(segmentOnePos, dustID, Vector2.Zero);
+                        if (electricity)
+                            d.noGravity = false;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
+
+                        Vector2 segmentTwoPos = Player.Center + segmentTwoStart + segmentTwoIncrement * interpolant;
+                        d = Dust.CloneDust(d);
+                        d.position = segmentTwoPos;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
+
+                        Vector2 segmentThreePos = Player.Center + segmentThreeStart + segmentThreeIncrement * interpolant;
+                        d = Dust.CloneDust(d);
+                        d.position = segmentThreePos;
+                        d.scale = Main.rand.NextFloat(0.8f, 1.4f);
+                        d.velocity = Main.rand.NextVector2Unit() * spreadSpeed;
                     }
                 }
             }
@@ -4503,8 +4537,8 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge)
-                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
+            // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
+            CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             damage = (int)(damage * damageMult);
             #endregion
@@ -4537,12 +4571,6 @@ namespace CalamityMod.CalPlayer
                 damage += (int)(0.5f * penetratedDefense);
             }
             #endregion
-
-            if (draedonsHeart)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    damage = (int)(damage * 0.5);
-            }
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
             {
@@ -4614,8 +4642,8 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge)
-                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
+            // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
+            CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             if (filthyGlove && proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {
@@ -4723,12 +4751,6 @@ namespace CalamityMod.CalPlayer
 
             if (proj.type == ProjectileID.SpectreWrath && Player.ghostHurt)
                 damage = (int)(damage * 0.7);
-
-            if (draedonsHeart)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    damage = (int)(damage * 0.5);
-            }
 
             #endregion
 
@@ -5037,9 +5059,13 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            if (CalamityWorld.revenge)
+            // Full Adrenaline DR does not apply when using Draedon's Heart
+            // Instead, nanomachine accumulation is stopped for a while
+            if (AdrenalineEnabled)
             {
-                if (adrenaline == adrenalineMax && !adrenalineModeActive)
+                if (draedonsHeart)
+                    nanomachinesLockoutTimer = DraedonsHeart.NanomachinePauseAfterDamage;
+                else if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
                     double adrenalineDRBoost = 0D +
                         (adrenalineBoostOne ? 0.05 : 0D) +
@@ -5281,7 +5307,8 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            if (CalamityWorld.revenge)
+            // Full Adrenaline DR does not apply when using Draedon's Heart
+            if (AdrenalineEnabled && !draedonsHeart)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -5960,7 +5987,7 @@ namespace CalamityMod.CalPlayer
 
             // Shattered Community makes the player gain rage based on the amount of damage taken.
             // Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (CalamityWorld.revenge && shatteredCommunity && rageGainCooldown == 0)
+            if (shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / Player.statLifeMax2;
                 float rageConversionRatio = 0.8f;
@@ -5991,7 +6018,7 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
 
             // Give Rage combat frames because being hurt counts as combat.
-            if (CalamityWorld.revenge)
+            if (RageEnabled)
                 rageCombatFrames = RageCombatDelayTime;
 
             if (Player.whoAmI == Main.myPlayer)
@@ -6043,7 +6070,8 @@ namespace CalamityMod.CalPlayer
                     witheringDamageDone = 0;
                 }
 
-                if (CalamityWorld.revenge)
+                // Lose adrenaline on hit, unless using Draedon's Heart.
+                if (AdrenalineEnabled && !draedonsHeart)
                 {
                     if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {
@@ -8147,7 +8175,20 @@ namespace CalamityMod.CalPlayer
                 defenseDamageTaken = cap;
 
             // Apply defense damage to the adamantite armor set boost.
-            AdamantiteSetDefenseBoost -= defenseDamageTaken;
+            if (AdamantiteSetDefenseBoost > 0)
+            {
+                int defenseDamageToAdamantite = Math.Min(AdamantiteSetDefenseBoost, defenseDamageTaken);
+                AdamantiteSetDefenseBoost -= defenseDamageToAdamantite;
+                defenseDamageTaken -= defenseDamageToAdamantite;
+
+                // If Adamantite Armor's set bonus entirely absorbed the defense damage, then display the number and play the sound,
+                // but don't actually reduce defense or trigger the defense damage recovery cooldown.
+                if (defenseDamageTaken <= 0)
+                {
+                    ShowDefenseDamageEffects(defenseDamageToAdamantite);
+                    return;
+                }
+            }
 
             // Apply that defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;
@@ -8168,6 +8209,12 @@ namespace CalamityMod.CalPlayer
             // Reset the delay between iframes and being able to recover from defense damage.
             defenseDamageDelayFrames = DefenseDamageRecoveryDelay;
 
+            // Audiovisual effects
+            ShowDefenseDamageEffects(defenseDamageTaken);
+        }
+
+        private void ShowDefenseDamageEffects(int defDamage)
+        {
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0)
             {
@@ -8176,7 +8223,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Display text indicating that defense damage was taken.
-            string text = (-defenseDamageTaken).ToString();
+            string text = (-defDamage).ToString();
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
