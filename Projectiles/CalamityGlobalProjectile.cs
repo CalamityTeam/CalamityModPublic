@@ -446,10 +446,7 @@ namespace CalamityMod.Projectiles
 
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
-            {
-                ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);
-                return false;
-            }
+                return ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);
 
             // WHY DOES THE CYRSTAL STILL SHOOT THESE FUCKING THINGS???
             if (projectile.type == ProjectileID.CrystalLeafShot)
