@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
+    [LegacyName("AshenWorkbench")]
     public class AshenWorkBench : ModTile
     {
         public override void SetStaticDefaults()

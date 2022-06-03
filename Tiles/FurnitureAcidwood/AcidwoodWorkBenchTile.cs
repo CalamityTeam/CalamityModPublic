@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAcidwood
 {
+    [LegacyName("AcidwoodWorkbenchTile")]
     public class AcidwoodWorkBenchTile : ModTile
     {
         public override void SetStaticDefaults()

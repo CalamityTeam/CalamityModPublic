@@ -4,6 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
+    [LegacyName("AncientWorkbench")]
     public class AncientWorkBench : ModItem
     {
         public override void SetStaticDefaults()
