@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
+    [LegacyName("AccelerationBullet")]
     public class AccelerationRound : ModItem
     {
         public override void SetStaticDefaults()

@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
+    [LegacyName("DiscordianWings")]
     public class HadalMantle : ModItem
     {
         public override void SetStaticDefaults()

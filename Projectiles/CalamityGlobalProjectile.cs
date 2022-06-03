@@ -2033,7 +2033,7 @@ namespace CalamityMod.Projectiles
                 }
                 else
                 {
-                    if (modPlayer.artemisEmblem && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
+                    if (modPlayer.deadshotBrooch && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
                         projectile.extraUpdates += 1;
 
                     if (modPlayer.camper && !player.StandingStill())

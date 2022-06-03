@@ -5,12 +5,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class ArtemisEmblem : ModItem
+    [LegacyName("DaedalusEmblem")]
+    public class DeadshotBrooch : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Artemis Emblem");
+            DisplayName.SetDefault("Deadshot Brooch");
             Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance and 20% reduced ammo usage\n" +
                 "Greatly increases all ranged projectile velocity");
         }
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.Calamity().artemisEmblem = true;
+            player.Calamity().deadshotBrooch = true;
             player.Calamity().rangedAmmoCost *= 0.8f;
             player.GetDamage<RangedDamageClass>() += 0.1f;
             player.GetCritChance<RangedDamageClass>() += 5;

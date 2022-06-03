@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.Dashes
 {
-    public class StatisBeltOfCursesDash : PlayerDashEffect
+    public class StatisVoidSashDash : PlayerDashEffect
     {
-        public static new string ID => "Statis' Belt of Curses";
+        public static new string ID => "Statis' Void Sash";
 
         public override DashCollisionType CollisionType => DashCollisionType.NoCollision;
 

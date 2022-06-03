@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
+    [LegacyName("FlashBullet")]
     public class FlashRound : ModItem
     {
         public override void SetStaticDefaults()
