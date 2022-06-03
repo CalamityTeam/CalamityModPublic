@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultBathtub")]
     public class OtherworldlyBathtub : ModTile
     {
         public override void SetStaticDefaults()

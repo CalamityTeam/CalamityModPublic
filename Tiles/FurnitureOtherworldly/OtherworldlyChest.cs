@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultChest")]
     public class OtherworldlyChest : ModTile
     {
         public override void SetStaticDefaults()

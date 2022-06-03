@@ -1,7 +1,8 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultWorkbench", "OccultWorkBench")]
     public class OtherworldlyWorkBench : ModItem
     {
         public override void SetStaticDefaults()

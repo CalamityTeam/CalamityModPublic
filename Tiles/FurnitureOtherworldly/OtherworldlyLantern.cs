@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultLantern")]
     public class OtherworldlyLantern : ModTile
     {
         public override void SetStaticDefaults()

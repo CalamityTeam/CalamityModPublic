@@ -1,8 +1,9 @@
-using CalamityMod.Items.Placeables.FurnitureCosmilite;
+﻿using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultCandelabra")]
     public class OtherworldlyCandelabra : ModItem
     {
         public override void SetStaticDefaults()

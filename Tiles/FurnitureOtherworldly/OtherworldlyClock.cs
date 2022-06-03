@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultClock")]
     public class OtherworldlyClock : ModTile
     {
         public override void SetStaticDefaults()
