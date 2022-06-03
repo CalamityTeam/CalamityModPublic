@@ -51,6 +51,15 @@ namespace CalamityMod.CalPlayer
             {
                 PlayerDrawLayers.Shoes.Hide();
             }
+
+            if (drawInfo.drawPlayer.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+            {
+                foreach (var layer in PlayerDrawLayerLoader.Layers)
+                {
+                    if (layer != PlayerDrawLayers.BackAcc)
+                        layer.Hide();
+                }
+            }
         }
 
         public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
