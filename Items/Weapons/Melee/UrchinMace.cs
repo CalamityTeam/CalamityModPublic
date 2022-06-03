@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useAnimation = 19;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 19;
-            Item.useTurn = true;
             Item.knockBack = 4;
             Item.UseSound = SoundID.Item1;
             Item.height = 48;

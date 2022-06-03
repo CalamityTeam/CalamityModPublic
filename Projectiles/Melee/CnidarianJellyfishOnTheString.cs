@@ -142,6 +142,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public void Electrify(int maxTargets, float targettingDistance)
         {
+            //The volt bunnys gores could be nice to look at, but may be too much for this. Maybe for a future ghost bell upgrade?
+
             float timeAfterZap = MathHelper.Clamp(20 - (Timer - 20f) % ElectrifyTimer, 0, 20);
             float postZapTime = 1 - timeAfterZap / 20f;
 

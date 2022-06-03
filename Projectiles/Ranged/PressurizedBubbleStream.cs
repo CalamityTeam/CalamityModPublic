@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public Particle chargeBubble;
         public Player Owner => Main.player[Projectile.owner];
-
         public ref float PulseTimer => ref Projectile.localAI[0];
         public ref float PrevPulseTimer => ref Projectile.localAI[1];
 

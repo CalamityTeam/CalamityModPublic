@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -13,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fishbone Boomerang");
-            Tooltip.SetDefault("Stealth strikes fire seashells at nearby enemies");
+            Tooltip.SetDefault("Stealth strikes make the boomerang ricochet between enemies");
+            //Lore about the huge loss of wildlife during the sea burn
             SacrificeTotal = 1;
         }
 
@@ -27,13 +29,18 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 15;
             Item.knockBack = 5.5f;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = null;
             Item.height = 34;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<FishboneBoomerangProjectile>();
-            Item.shootSpeed = 11.5f;
+            Item.shootSpeed = 3f;
             Item.DamageType = RogueDamageClass.Instance;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ModContent.ProjectileType<FishboneBoomerangProjectile>());
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
