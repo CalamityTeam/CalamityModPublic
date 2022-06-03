@@ -171,12 +171,12 @@ namespace CalamityMod.Projectiles.Summon
                     Color color = Color.Lerp(Color.White, Color.DarkOliveGreen, i / (float)Projectile.oldPos.Length) *
                         ((Projectile.oldPos.Length - i) / (float)Projectile.oldPos.Length);
                     float scale = MathHelper.Lerp(Projectile.scale * 1f, Projectile.scale * 0.5f, i / (float)Projectile.oldPos.Length);
-                    Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color,
+                    Main.EntitySpriteDraw(texture, drawPos, new Rectangle?(rectangle), color,
                         Projectile.rotation,
                         rectangle.Size() / 2f, scale, SpriteEffects.None, 0);
                 }
             }
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition + new Vector2(0f, Projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
                        Projectile.rotation,
                        rectangle.Size() / 2f, 1f, spriteEffects, 0);
             return false;

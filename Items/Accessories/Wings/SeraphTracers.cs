@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings, EquipType.Shoes)]
+    [LegacyName("InfinityBoots")]
     public class SeraphTracers : ModItem
     {
         public override void SetStaticDefaults()

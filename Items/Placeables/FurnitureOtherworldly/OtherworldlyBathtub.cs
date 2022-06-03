@@ -2,6 +2,7 @@
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultBathtub")]
     public class OtherworldlyBathtub : ModItem
     {
         public override void SetStaticDefaults()

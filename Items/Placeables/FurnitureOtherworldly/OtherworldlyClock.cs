@@ -1,8 +1,9 @@
-using CalamityMod.Items.Placeables.FurnitureCosmilite;
+﻿using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultClock")]
     public class OtherworldlyClock : ModItem
     {
         public override void SetStaticDefaults()

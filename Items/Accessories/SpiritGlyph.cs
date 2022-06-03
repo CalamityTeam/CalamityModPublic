@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("SpiritGenerator")]
     public class SpiritGlyph : ModItem
     {
         public override void SetStaticDefaults()

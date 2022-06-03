@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultTable")]
     public class OtherworldlyTable : ModTile
     {
         public override void SetStaticDefaults()

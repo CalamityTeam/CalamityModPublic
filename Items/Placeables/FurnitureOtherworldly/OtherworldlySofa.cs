@@ -1,7 +1,8 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultSofa")]
     public class OtherworldlySofa : ModItem
     {
         public override void SetStaticDefaults()

@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 {
+    [LegacyName("AcidwoodWorkbench")]
     public class AcidwoodWorkBench : ModItem
     {
         public override void SetStaticDefaults()

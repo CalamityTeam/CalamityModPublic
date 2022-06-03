@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
+    [LegacyName("MonolithCrafting")]
     public class MonolithAmalgam : ModTile
     {
         public override void SetStaticDefaults()

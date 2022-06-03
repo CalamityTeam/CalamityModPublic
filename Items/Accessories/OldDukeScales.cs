@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("DukeScales")]
     public class OldDukeScales : ModItem
     {
         public override void SetStaticDefaults()

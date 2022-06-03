@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
+    [LegacyName("AshenPiano")]
     public class AshenPipeOrgan : ModItem
     {
         public override void SetStaticDefaults()

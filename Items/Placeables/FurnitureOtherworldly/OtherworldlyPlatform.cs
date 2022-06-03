@@ -2,6 +2,7 @@
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultPlatform")]
     public class OtherworldlyPlatform : ModItem
     {
         public override void SetStaticDefaults()

@@ -6,6 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
+    [LegacyName("AshenPiano")]
     public class AshenPipeOrgan : ModTile
     {
         public override void SetStaticDefaults()

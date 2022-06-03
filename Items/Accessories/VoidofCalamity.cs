@@ -6,6 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("CalamityRing")]
     public class VoidofCalamity : ModItem
     {
         public override void SetStaticDefaults()

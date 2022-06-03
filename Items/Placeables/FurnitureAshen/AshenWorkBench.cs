@@ -4,6 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
+    [LegacyName("AshenWorkbench")]
     public class AshenWorkBench : ModItem
     {
         public override void SetStaticDefaults()

@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
+    [LegacyName("AureateWings")]
     public class AureateBooster : ModItem
     {
         public override void SetStaticDefaults()

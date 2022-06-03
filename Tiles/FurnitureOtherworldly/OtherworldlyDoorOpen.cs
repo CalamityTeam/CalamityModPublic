@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultDoorOpen")]
     public class OtherworldlyDoorOpen : ModTile
     {
         public override void SetStaticDefaults()

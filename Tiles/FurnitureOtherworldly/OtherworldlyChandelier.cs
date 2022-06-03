@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultChandelier")]
     public class OtherworldlyChandelier : ModTile
     {
         public override void SetStaticDefaults()

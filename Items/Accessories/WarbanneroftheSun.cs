@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Balloon)]
+    [LegacyName("SamuraiBadge")]
     public class WarbanneroftheSun : ModItem
     {
         internal const float MaxBonus = 0.2f;

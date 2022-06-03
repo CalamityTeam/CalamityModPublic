@@ -29,20 +29,20 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
-    float interval = (cos(framedCoords.x * 6.283 + uTime * 3.141) * 2 + sin(uTime * 7 + framedCoords.y * 6)) * 0.125 + 0.5;
+    float interval = (sin(framedCoords.x * 6.283 + uTime * 3.141) * 2 + sin(uTime * 7 + framedCoords.y * 6)) * 0.125 + 0.5;
     interval *= 2; // Exaggerate the interval.
     float4 returnColor = float4(lerp(colors[floor(interval) % 4], colors[floor(interval + 1) % 4], interval % 1), 1); // But clamp it to a 0-1 range.
     
-    return returnColor * color * 1.95;
+    return returnColor * color * sampleColor * 1.95;
 }
 technique Technique1
 {
     pass DyePass
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }

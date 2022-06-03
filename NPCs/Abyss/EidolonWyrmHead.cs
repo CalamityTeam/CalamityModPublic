@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs.Abyss
             aewMinionCondition.Add(postPolter);
             postPolter.Add(ModContent.ItemType<SoulEdge>(), 3);
             postPolter.Add(ModContent.ItemType<EidolicWail>(), 3);
-            postPolter.Add(ModContent.ItemType<StardustStaff>(), 3);
+            postPolter.Add(ModContent.ItemType<EidolonStaff>(), 3);
 
             // Post-Clone: 6-8 Lumenyl (8-11 on Expert)
             LeadingConditionRule postClone = new(DropHelper.If(() => DownedBossSystem.downedCalamitas));

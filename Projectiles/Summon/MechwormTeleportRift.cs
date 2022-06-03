@@ -71,25 +71,25 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, 0f, origin, scale, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.8f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, 0f, origin, scale * 0.8f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver2, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, 0f, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver2, origin, scale * 0.8f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, 0f, origin, scale * 0.8f, spriteEffects, 0);
 
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver2 + GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver2 + GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver2 + GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, GeneralRotationalOffset * 0.25f, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver2 + GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, GeneralRotationalOffset * 0.5f, origin, scale * 0.8f, spriteEffects, 0);
 
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.4f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.4f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4, origin, scale * 0.4f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f, origin, scale * 0.4f, spriteEffects, 0);
 
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
-            Main.spriteBatch.Draw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4 + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorA, MathHelper.PiOver4 * 3f + GeneralRotationalOffset * 0.75f, origin, scale * 0.6f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4 + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, drawPos, null, colorB, MathHelper.PiOver4 * 3f + GeneralRotationalOffset, origin, scale * 0.4f, spriteEffects, 0);
 
             return false;
         }

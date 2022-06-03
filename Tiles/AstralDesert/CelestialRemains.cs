@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.AstralDesert
 {
+    [LegacyName("AstralFossil")]
     public class CelestialRemains : ModTile
     {
         public override void SetStaticDefaults()

@@ -6,6 +6,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("FabledTortoiseShell")]
     public class FlameLickedShell : ModItem
     {
         public override void SetStaticDefaults()

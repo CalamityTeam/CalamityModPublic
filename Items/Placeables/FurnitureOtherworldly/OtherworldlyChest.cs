@@ -1,8 +1,9 @@
-using CalamityMod.Items.Placeables.FurnitureCosmilite;
+﻿using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultChest")]
     public class OtherworldlyChest : ModItem
     {
         public override void SetStaticDefaults()

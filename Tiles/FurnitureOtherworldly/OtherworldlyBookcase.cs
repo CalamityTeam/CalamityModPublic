@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultBookcase")]
     public class OtherworldlyBookcase : ModTile
     {
         public override void SetStaticDefaults()

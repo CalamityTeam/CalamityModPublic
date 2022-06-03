@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class StardustStaff : ModItem
+    [LegacyName("StardustStaff")]
+    public class EidolonStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Summon
                     continue;
                 float angleAtPoint = i == chainPoints.Count - 1 ? (end - chainPoints[i]).ToRotation() : (chainPoints[i + 1] - chainPoints[i]).ToRotation();
                 angleAtPoint += MathHelper.PiOver2;
-                Main.spriteBatch.Draw(chain,
+                Main.EntitySpriteDraw(chain,
                                  positionAtPoint - Main.screenPosition,
                                  null,
                                  Color.Lerp(Color.White, Color.Transparent, 0.6f),
@@ -249,11 +249,11 @@ namespace CalamityMod.Projectiles.Summon
                                  chain.Size() / 2f,
                                  1f,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
 
             Texture2D headTexture = ModContent.Request<Texture2D>(Texture).Value;
-            Main.spriteBatch.Draw(headTexture,
+            Main.EntitySpriteDraw(headTexture,
                              Projectile.Center - Main.screenPosition + Vector2.UnitY * Projectile.gfxOffY,
                              headTexture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame),
                              lightColor,
@@ -261,7 +261,7 @@ namespace CalamityMod.Projectiles.Summon
                              Projectile.Size * 0.5f,
                              Projectile.scale,
                              Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                             0f);
+                             0);
 
             return false;
         }

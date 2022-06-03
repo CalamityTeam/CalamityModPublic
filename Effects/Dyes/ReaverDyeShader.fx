@@ -21,7 +21,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
@@ -30,7 +30,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
 
     color.rgb *= ((framedCoords.x * uColor * (1 - yMultiplier) * 1.4) + ((1 - framedCoords.x) * uSecondaryColor * yMultiplier * 1.7)) * luminosity * 2.1;
     color.rgb *= clamp(1.6 * saturate(distance((0.5, 0.5), framedCoords)), 0.8, 1.6); // Intensify the colors based on how far they are from the center of the sprite.
-    return color;
+    return color * sampleColor;
 }
 technique Technique1
 {

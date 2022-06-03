@@ -1,7 +1,8 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultDresser")]
     public class OtherworldlyDresser : ModItem
     {
         public override void SetStaticDefaults()

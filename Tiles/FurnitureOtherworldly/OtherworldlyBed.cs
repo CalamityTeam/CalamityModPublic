@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultBed")]
     public class OtherworldlyBed : ModTile
     {
         public override void SetStaticDefaults()

@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
+    [LegacyName("AbyssWorkbench")]
     public class AbyssWorkBench : ModTile
     {
         public override void SetStaticDefaults()

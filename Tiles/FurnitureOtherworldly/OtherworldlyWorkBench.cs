@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultWorkbench", "OccultWorkBench")]
     public class OtherworldlyWorkBench : ModTile
     {
         public override void SetStaticDefaults()

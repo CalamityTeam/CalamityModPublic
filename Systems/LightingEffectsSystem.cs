@@ -76,9 +76,13 @@ namespace CalamityMod.Systems
 
             if (BossRushEvent.BossRushActive || BossRushEvent.StartTimer > 0 || BossRushSky.ShouldDrawRegularly)
             {
+                float fadeToBlack = BossRushEvent.WhiteDimness;
                 backgroundColor = Color.Lerp(backgroundColor, Color.LightGray, bossRushWhiteFade);
+                backgroundColor = Color.Lerp(backgroundColor, Color.Black, fadeToBlack);
                 tileColor = Color.Lerp(tileColor, Color.LightGray, bossRushWhiteFade);
+                tileColor = Color.Lerp(tileColor, Color.Black, fadeToBlack);
                 Main.ColorOfTheSkies = Color.Lerp(Main.ColorOfTheSkies, Color.Gray, bossRushWhiteFade);
+                Main.ColorOfTheSkies = Color.Lerp(Main.ColorOfTheSkies, Color.Black, fadeToBlack);
             }
             else if (SkyManager.Instance["CalamityMod:ExoMechs"].IsActive())
             {

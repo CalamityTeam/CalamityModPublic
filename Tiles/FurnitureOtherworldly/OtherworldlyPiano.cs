@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultPiano")]
     public class OtherworldlyPiano : ModTile
     {
         public override void SetStaticDefaults()

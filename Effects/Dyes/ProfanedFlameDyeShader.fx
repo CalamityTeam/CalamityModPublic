@@ -21,13 +21,13 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
     
     // Read the fade map as a streak.
-    float4 fadeMapColor = tex2D(uImage1, float2(frac(framedCoords.x * 0.18 + cos(uTime * 0.9) * 0.021), frac(framedCoords.y * 0.32 + uTime * 0.2)));
+    float4 fadeMapColor = tex2D(uImage1, float2(frac(framedCoords.x * 0.18 + sin(uTime * 0.9) * 0.021), frac(framedCoords.y * 0.32 + uTime * 0.2)));
     fadeMapColor.r *= pow(framedCoords.x, 0.2);
     
     float opacity = lerp(1.05, 1.95, fadeMapColor.r);
@@ -41,7 +41,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     transformColor = lerp(transformColor, float3(206 / 255, 116 / 255, 59 / 255), orangeFade);
     color.rgb = lerp(color.rgb, transformColor, fadeMapColor.r);
     opacity *= color.a;
-    return color * opacity;
+    return color * sampleColor * opacity;
 }
 technique Technique1
 {

@@ -8,6 +8,7 @@ using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("StatisBeltofCurses")]
     public class StatisVoidSash : ModItem
     {
         public override void SetStaticDefaults()
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 0.6f;
             player.noFallDmg = true;
             player.blackBelt = true;
-            modPlayer.DashID = StatisBeltOfCursesDash.ID;
+            modPlayer.DashID = StatisVoidSashDash.ID;
             player.dash = 0;
             player.spikedBoots = 2;
         }

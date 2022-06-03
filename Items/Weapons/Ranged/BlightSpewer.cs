@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class MepheticSprayer : ModItem
+    [LegacyName("MepheticSprayer")]
+    public class BlightSpewer : ModItem
     {
         public override void SetStaticDefaults()
         {
