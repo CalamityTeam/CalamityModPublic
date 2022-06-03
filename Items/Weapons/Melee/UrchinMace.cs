@@ -21,9 +21,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             Item.width = 42;
-            Item.damage = 35;
+            Item.damage = 20;
             Item.channel = true;
             Item.noUseGraphic = true;
+            Item.noMelee = true;
+            Item.useTurn = true;
             Item.DamageType = DamageClass.Melee;
             Item.useAnimation = 19;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -35,6 +37,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Green;
             Item.shoot = ModContent.ProjectileType<UrchinMaceProjectile>();
             Item.shootSpeed = 9f;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().mouseWorldListener = true;
         }
 
         public override void AddRecipes()

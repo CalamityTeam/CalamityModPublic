@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 18;
-            Item.damage = 15;
+            Item.damage = 24;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useAnimation = 15;
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.shoot = ModContent.ProjectileType<FishboneBoomerangProjectile>();
             Item.shootSpeed = 3f;
             Item.DamageType = RogueDamageClass.Instance;
+            Item.autoReuse = true;
         }
 
         public override bool CanUseItem(Player player)

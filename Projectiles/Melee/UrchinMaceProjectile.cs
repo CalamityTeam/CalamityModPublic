@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -12,13 +13,10 @@ namespace CalamityMod.Projectiles.Melee
         public Player Owner => Main.player[Projectile.owner];
         public override string Texture => "CalamityMod/Items/Weapons/Melee/UrchinMace";
 
-        public const float MaxWindup = 70;
+        public static float MaxWindup = 110;
         public ref float Windup => ref Projectile.ai[0];
         public float WindupProgress => MathHelper.Clamp(Windup, 0, MaxWindup) / MaxWindup;
-
-        public ref float SoundPlayed => ref Projectile.localAI[0];
-
-        Vector2 offset;
+        public static float whirlpoolDamageMultiplier = 1.6f;
 
         public override void SetStaticDefaults()
         {
@@ -35,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 20;
+            Projectile.localNPCHitCooldown = 10;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -48,23 +46,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if (offset == null)
-                offset = Vector2.Zero;
+            Owner.direction = Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X);
 
-            if (Owner.controlUp)
-            {
-                offset.X -= 0.5f;
-            }
-            if (Owner.controlDown)
-            {
-                offset.X += 0.5f;
-            }
+            Projectile.velocity = Vector2.Zero;
 
-            Main.mouseText = true;
-            Main.instance.MouseText(offset.X.ToString());
-
-            Projectile.rotation += WindupProgress * MathHelper.PiOver4 / 23f;
-
+            Projectile.rotation += (WindupProgress * MathHelper.PiOver4 / 1.5f) * Owner.direction;
 
             if (Owner.channel)
             {
@@ -72,19 +58,25 @@ namespace CalamityMod.Projectiles.Melee
                 UpdateOwnerVars();
             }
 
-            Projectile.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 0f + Vector2.UnitY * 4;
-
-            if (Owner.direction < 0) //My god why is Owner.direction not properly being updated.
-                Projectile.Center += Vector2.UnitX * 12;
-
-            if (Projectile.rotation < 0f)
+            if (WindupProgress > 0.5f)
             {
-                SoundPlayed = 0f;
+                int dustCount = Main.rand.Next(4);
+                float offset = Main.rand.NextFloat(MathHelper.TwoPi);
+                for (int i = 0; i < dustCount; i++)
+                {
+                    float angle = i / (float)dustCount * MathHelper.TwoPi + offset;
+                    Vector2 dustPos = Owner.Center + angle.ToRotationVector2() * 40f * WindupProgress;
+                    Dust dust = Dust.NewDustPerfect(dustPos, 176, (angle - MathHelper.PiOver2 * Owner.direction).ToRotationVector2() * 5f + Owner.velocity, Scale: Main.rand.NextFloat(1f, 2f));
+                    dust.noGravity = true;
+                }
             }
-            else if (SoundPlayed == 0f)
+
+            Projectile.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 10f - Vector2.UnitX * 4 * Owner.direction;
+
+            if (Projectile.soundDelay <= 0)
             {
                 SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce, Owner.Center);
-                SoundPlayed = 1f;
+                Projectile.soundDelay = 28;
             }
 
             Windup++;
@@ -92,6 +84,21 @@ namespace CalamityMod.Projectiles.Melee
 
         public void UpdateOwnerVars()
         {
+            float armPointingDirection = ((Owner.Calamity().mouseWorld - Owner.Center).ToRotation());
+
+            //"crop" the rotation so the player only tilts the fishing rod slightly up and slightly down.
+            if (armPointingDirection < MathHelper.PiOver2 && armPointingDirection >= -MathHelper.PiOver2)
+                armPointingDirection = -MathHelper.PiOver2 + MathHelper.PiOver4 / 2f + MathHelper.PiOver2 * 1.5f * Utils.GetLerpValue(0f, MathHelper.Pi, armPointingDirection + MathHelper.PiOver2, true);
+            else
+            {
+                if (armPointingDirection > 0)
+                    armPointingDirection = MathHelper.PiOver2 + MathHelper.PiOver4 / 2f + MathHelper.PiOver4 * 1.5f * Utils.GetLerpValue(0f, MathHelper.PiOver2, armPointingDirection - MathHelper.PiOver2, true);
+                else
+                    armPointingDirection = -MathHelper.Pi + MathHelper.PiOver4 * 1.5f * Utils.GetLerpValue(-MathHelper.Pi, -MathHelper.PiOver4, armPointingDirection, true);
+            }
+
+
+            Owner.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.rotation - MathHelper.PiOver2);
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
@@ -100,13 +107,18 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
+            Owner.direction = Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X);
+
             Texture2D maceTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D whirlpoolTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/RedtideWhirlpool").Value;
 
-            float whirlpoolScale = WindupProgress * 2.4f;
-            float whirlpoolOpacity = WindupProgress * 0.2f;
+            float whirlpoolScale = WindupProgress * 2f;
+            float whirlpoolOpacity = WindupProgress * 0.2f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f;
+            float whirlpoolRotation = Windup * 0.34f * Owner.direction;
+            SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            Main.spriteBatch.Draw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity, Projectile.rotation + Windup * 0.1f, whirlpoolTexture.Size() / 2f, whirlpoolScale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity * 0.3f, whirlpoolRotation * 1.2f, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
+            Main.spriteBatch.Draw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity, whirlpoolRotation, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
 
             Vector2 handleOrigin = new Vector2(0, maceTexture.Height);
             float maceRotation = Projectile.rotation + MathHelper.PiOver4;
@@ -118,19 +130,12 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             //Spawn a whirlpool typhoon after sending it out
-
-            SoundEngine.PlaySound(SoundID.NPCDeath19, Projectile.position);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+            if (WindupProgress >= 1f && Projectile.owner == Main.myPlayer)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 172, vector7.X * 2f, vector7.Y * 2f, 100, default, 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, (Main.MouseWorld - Owner.position).SafeNormalize(Vector2.One) * 25f, ModContent.ProjectileType<RedtideWhirlpool>(), (int)(Projectile.damage * whirlpoolDamageMultiplier), Projectile.knockBack, Projectile.owner, 0, 0f);
             }
+
+            SoundEngine.PlaySound(SoundID.Item7, Projectile.position);
         }
     }
 }

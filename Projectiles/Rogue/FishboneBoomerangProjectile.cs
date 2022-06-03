@@ -43,6 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.penetrate = -1;
             Projectile.timeLeft = Lifetime + ChargeupTime;
             Projectile.DamageType = RogueDamageClass.Instance;
+            Projectile.ignoreWater = true;
         }
 
         public override bool ShouldUpdatePosition()
@@ -145,13 +146,13 @@ namespace CalamityMod.Projectiles.Rogue
             ImpactEffects();
 
             float streakRotation;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 streakRotation = Main.rand.NextFloat(MathHelper.TwoPi);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center + streakRotation.ToRotationVector2() * (4f + 4f * j), 34, streakRotation.ToRotationVector2() * (4f * j + 4f));
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + streakRotation.ToRotationVector2() * (2f + 0.4f * j), 176, streakRotation.ToRotationVector2() * (0.6f * j + 3f), Scale: 1.4f);
                     dust.noGravity = true;
                 }
             }
