@@ -3442,15 +3442,6 @@ namespace CalamityMod.CalPlayer
 
             Player.GetAttackSpeed<MeleeDamageClass>() += meleeSpeedMult;
 
-            // TODO -- Attack speed multipliers should be done the vanilla way.
-            // Reduce melee speed bonus by 0.25x for Astral Blade, Mantis Claws, Omniblade and Blade of Enmity.
-            if (Player.ActiveItem().type == ModContent.ItemType<AstralBlade>() || Player.ActiveItem().type == ModContent.ItemType<MantisClaws>() ||
-                Player.ActiveItem().type == ModContent.ItemType<Omniblade>() || Player.ActiveItem().type == ModContent.ItemType<BladeofEnmity>())
-            {
-                float newMeleeSpeed = 1f + ((Player.GetAttackSpeed<MeleeDamageClass>() - 1f) * 0.25f);
-                Player.GetAttackSpeed<MeleeDamageClass>() = newMeleeSpeed;
-            }
-
             // Melee speed does not affect non-true melee weapon projectile rate of fire.
             if (Player.HoldingProjectileMeleeWeapon())
             {
@@ -4597,7 +4588,7 @@ namespace CalamityMod.CalPlayer
             Item heldItem = Player.ActiveItem();
 
             #region MultiplierBoosts
-            double damageMult = 1.0;
+            double damageMult = 1D;
             if (isTrueMelee)
                 damageMult += trueMeleeDamage;
 
@@ -4635,16 +4626,17 @@ namespace CalamityMod.CalPlayer
                     damageMult += 0.1;
             }
 
+            if (proj.type == ProjectileID.Gungnir)
+            {
+                if (target.life > (int)(target.lifeMax * 0.75))
+                    damageMult += 1D;
+            }
+
             // Adjust damage based on the damage multiplier
             damage = (int)(damage * damageMult);
             #endregion
 
             #region AdditiveBoosts
-            if (proj.type == ProjectileID.Gungnir)
-            {
-                if (target.life > (int)(target.lifeMax * 0.75))
-                    damage *= 2;
-            }
             if (proj.type == ProjectileID.TitaniumTrident)
             {
                 int knockbackAdd = (int)(damage * 0.15 * (1f - target.knockBackResist));
