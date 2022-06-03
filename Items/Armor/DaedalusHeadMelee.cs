@@ -7,14 +7,15 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DaedalusVisor : ModItem
+    [LegacyName("DaedalusHelm")]
+    public class DaedalusHeadMelee : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Daedalus Facemask");
-            Tooltip.SetDefault("13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%\n" +
-                "5% increased movement speed");
+            DisplayName.SetDefault("Daedalus Helm");
+            Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
+                "15% increased melee speed");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.Pink;
-            Item.defense = 7; //37
+            Item.defense = 21; //51
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -39,25 +40,22 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased rogue damage\n" +
-                "Rogue projectiles throw out crystal shards as they travel\n" +
-                "Rogue stealth builds while not attacking and slower while moving, up to a max of 105\n" +
-                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            player.setBonus = "5% increased melee damage\n" +
+                "Enemies are more likely to target you\n" +
+                "You reflect projectiles back at enemies\n" +
+                "Reflected projectiles deal 50% less damage to you\n" +
+                "This reflect has a 90 second cooldown which is shared with all other dodges and reflects";
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.daedalusSplit = true;
-            modPlayer.rogueStealthMax += 1.05f;
-            player.GetDamage<ThrowingDamageClass>() += 0.05f;
-            modPlayer.wearingRogueArmor = true;
+            modPlayer.daedalusReflect = true;
+            player.GetDamage<MeleeDamageClass>() += 0.05f;
+            player.aggro += 500;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.Calamity().rogueVelocity += 0.15f;
-            player.GetDamage<ThrowingDamageClass>() += 0.13f;
-            player.GetCritChance<ThrowingDamageClass>() += 7;
-            player.moveSpeed += 0.05f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
+            player.GetDamage<MeleeDamageClass>() += 0.1f;
+            player.GetCritChance<MeleeDamageClass>() += 10;
         }
 
         public override void AddRecipes()

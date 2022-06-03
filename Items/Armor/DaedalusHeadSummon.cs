@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DaedalusHeadgear : ModItem
+    [LegacyName("DaedalusHeadgear")]
+    public class DaedalusHeadSummon : ModItem
     {
         public override void SetStaticDefaults()
         {

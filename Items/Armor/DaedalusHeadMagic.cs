@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DaedalusHat : ModItem
+    [LegacyName("DaedalusHat")]
+    public class DaedalusHeadMagic : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -7,14 +7,15 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class DaedalusHelm : ModItem
+    [LegacyName("DaedalusHelmet")]
+    public class DaedalusHeadRanged : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Daedalus Helm");
-            Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
-                "15% increased melee speed");
+            DisplayName.SetDefault("Daedalus Headgear");
+            Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
+                "Reduces ammo usage by 20%");
         }
 
         public override void SetDefaults()
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.Pink;
-            Item.defense = 21; //51
+            Item.defense = 9; //39
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -39,22 +40,18 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased melee damage\n" +
-                "Enemies are more likely to target you\n" +
-                "You reflect projectiles back at enemies\n" +
-                "Reflected projectiles deal 50% less damage to you\n" +
-                "This reflect has a 90 second cooldown which is shared with all other dodges and reflects";
+            player.setBonus = "5% increased ranged damage\n" +
+                "Getting hit causes you to emit a blast of crystal shards";
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.daedalusReflect = true;
-            player.GetDamage<MeleeDamageClass>() += 0.05f;
-            player.aggro += 500;
+            modPlayer.daedalusShard = true;
+            player.GetDamage<RangedDamageClass>() += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
-            player.GetDamage<MeleeDamageClass>() += 0.1f;
-            player.GetCritChance<MeleeDamageClass>() += 10;
+            player.ammoCost80 = true;
+            player.GetDamage<RangedDamageClass>() += 0.13f;
+            player.GetCritChance<RangedDamageClass>() += 7;
         }
 
         public override void AddRecipes()
