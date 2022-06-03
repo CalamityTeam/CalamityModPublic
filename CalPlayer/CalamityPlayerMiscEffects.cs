@@ -172,8 +172,8 @@ namespace CalamityMod.CalPlayer
             {
                 // player.rangedCrit already contains the crit stat of the held item, no need to grab it separately.
                 // Don't store the base 4% because you're not removing it.
-                spiritOriginConvertedCrit = (int)(Player.GetCritChance<RangedDamageClass>() - 4);
-                Player.GetCritChance<RangedDamageClass>() = 4;
+                spiritOriginConvertedCrit = (int)(Player.GetTotalCritChance<RangedDamageClass>() - 4);
+                Player.GetCritChance<RangedDamageClass>() = -spiritOriginConvertedCrit;
             }
 
             if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
@@ -191,7 +191,7 @@ namespace CalamityMod.CalPlayer
         #region Revengeance Effects
         private void RevengeanceModeMiscEffects()
         {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge)
             {
                 // Adjusts the life steal cap in rev/death
                 float lifeStealCap = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 30f : CalamityWorld.death ? 45f : 60f;
@@ -221,23 +221,16 @@ namespace CalamityMod.CalPlayer
                         if (Player.hurtCooldowns[k] > immuneTimeLimit)
                             Player.hurtCooldowns[k] = immuneTimeLimit;
                     }
-
-                    // Adrenaline and Rage
-                    if (CalamityWorld.revenge)
-                        UpdateRippers();
                 }
             }
 
-            // If Revengeance Mode is not active, then set rippers to zero
-            else if (Player.whoAmI == Main.myPlayer)
-            {
-                rage = 0;
-                adrenaline = 0;
-            }
+            // Adrenaline and Rage
+            UpdateRippers();
         }
 
         private void UpdateRippers()
         {
+            #region Rage
             // Figure out Rage's current duration based on boosts.
             if (rageBoostOne)
                 RageDuration += RageDurationPerBooster;
@@ -364,31 +357,37 @@ namespace CalamityMod.CalPlayer
                 rageDiff -= rageMax / RageFadeTime;
 
             // Apply the rage change and cap rage in both directions.
-            rage += rageDiff;
-            if (rage < 0)
-                rage = 0;
-
-            if (rage >= rageMax)
+            // Changes are only applied if the Rage mechanic is available.
+            if (RageEnabled)
             {
-                // If Rage is not active, it is capped at 100%.
-                if (!rageModeActive)
-                    rage = rageMax;
+                rage += rageDiff;
+                if (rage < 0)
+                    rage = 0;
 
-                // If using the Shattered Community, Rage is capped at 200% while it's active.
-                // This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
-                else if (shatteredCommunity && rage >= 2f * rageMax)
-                    rage = 2f * rageMax;
-
-                // Play a sound when the Rage Meter is full
-                if (playFullRageSound)
+                if (rage >= rageMax)
                 {
-                    playFullRageSound = false;
-                    SoundEngine.PlaySound(RageFilledSound, Player.position);
-                }
-            }
-            else
-                playFullRageSound = true;
+                    // If Rage is not active, it is capped at 100%.
+                    if (!rageModeActive)
+                        rage = rageMax;
 
+                    // If using the Shattered Community, Rage is capped at 200% while it's active.
+                    // This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
+                    else if (shatteredCommunity && rage >= 2f * rageMax)
+                        rage = 2f * rageMax;
+
+                    // Play a sound when the Rage Meter is full
+                    if (playFullRageSound)
+                    {
+                        playFullRageSound = false;
+                        SoundEngine.PlaySound(RageFilledSound, Player.position);
+                    }
+                }
+                else
+                    playFullRageSound = true;
+            }
+            #endregion
+
+            #region Adrenaline
             // This is how much Adrenaline will be changed by this frame.
             float adrenalineDiff = 0;
             bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
@@ -414,23 +413,28 @@ namespace CalamityMod.CalPlayer
                 adrenalineDiff *= 0.67f;
 
             // Apply the adrenaline change and cap adrenaline in both directions.
-            adrenaline += adrenalineDiff;
-            if (adrenaline < 0)
-                adrenaline = 0;
-
-            if (adrenaline >= adrenalineMax)
+            // Changes are only applied if the Adrenaline mechanic is available.
+            if (AdrenalineEnabled)
             {
-                adrenaline = adrenalineMax;
+                adrenaline += adrenalineDiff;
+                if (adrenaline < 0)
+                    adrenaline = 0;
 
-                // Play a sound when the Adrenaline Meter is full
-                if (playFullAdrenalineSound)
+                if (adrenaline >= adrenalineMax)
                 {
-                    playFullAdrenalineSound = false;
-                    SoundEngine.PlaySound(AdrenalineFilledSound, Player.position);
+                    adrenaline = adrenalineMax;
+
+                    // Play a sound when the Adrenaline Meter is full
+                    if (playFullAdrenalineSound)
+                    {
+                        playFullAdrenalineSound = false;
+                        SoundEngine.PlaySound(AdrenalineFilledSound, Player.position);
+                    }
                 }
+                else
+                    playFullAdrenalineSound = true;
             }
-            else
-                playFullAdrenalineSound = true;
+            #endregion
         }
         #endregion
 
@@ -3680,13 +3684,6 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-            }
-
-            // Draedon's Heart bonus
-            if (draedonsHeart)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    Player.statDefense += (int)(Player.statDefense * 0.75);
             }
 
             // Endurance reductions

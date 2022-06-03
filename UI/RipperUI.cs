@@ -96,10 +96,6 @@ namespace CalamityMod.UI
 
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
-            // If Revengeance isn't on, or Rage and Adrenaline are turned off, don't draw anything.
-            if (!CalamityWorld.revenge)
-                return;
-
             // If for some reason either of the bars has been thrown into the corner (likely to 0,0 by default), put them at their default positions
             CheckGarbageCornerPos();
 
@@ -111,8 +107,10 @@ namespace CalamityMod.UI
 
             // Grab the ModPlayer object and then start drawing
             CalamityPlayer modPlayer = player.Calamity();
-            DrawRageBar(spriteBatch, modPlayer);
-            DrawAdrenalineBar(spriteBatch, modPlayer);
+            if (modPlayer.RageEnabled)
+                DrawRageBar(spriteBatch, modPlayer);
+            if (modPlayer.AdrenalineEnabled)
+                DrawAdrenalineBar(spriteBatch, modPlayer);
 
             HandleMouseInteraction(modPlayer, rageBorderTex.Size(), adrenBorderTex.Size());
         }

@@ -333,6 +333,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rage
+        public bool RageEnabled => CalamityWorld.revenge || shatteredCommunity;
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
@@ -349,6 +350,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Adrenaline
+        public bool AdrenalineEnabled => CalamityWorld.revenge || draedonsHeart;
         public bool adrenalineModeActive = false;
         public float adrenaline = 0f;
         public float adrenalineMax = 100f; // 0 to 100% by default
@@ -432,6 +434,7 @@ namespace CalamityMod.CalPlayer
         public bool laudanum = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
+        public int nanomachinesTimer = 0;
         public bool vexation = false;
         public bool dodgeScarf = false;
         public bool evasionScarf = false;
@@ -2312,6 +2315,7 @@ namespace CalamityMod.CalPlayer
             triumph = false;
             penumbra = false;
             shadow = false;
+            nanomachinesTimer = 0;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -3002,7 +3006,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Trigger for pressing the Adrenaline hotkey.
-            if (CalamityKeybinds.AdrenalineHotKey.JustPressed && CalamityWorld.revenge)
+            if (CalamityKeybinds.AdrenalineHotKey.JustPressed && AdrenalineEnabled)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -4503,8 +4507,8 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff && witheringWeaponEnchant)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge)
-                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
+            // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
+            CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             damage = (int)(damage * damageMult);
             #endregion
@@ -4608,8 +4612,8 @@ namespace CalamityMod.CalPlayer
             if (witheredDebuff)
                 damageMult += 0.6;
 
-            if (CalamityWorld.revenge)
-                CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
+            // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
+            CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
 
             if (filthyGlove && proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {
@@ -5025,7 +5029,8 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            if (CalamityWorld.revenge)
+            // Full Adrenaline DR does not apply when using Draedon's Heart
+            if (AdrenalineEnabled && !draedonsHeart)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -5269,7 +5274,8 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            if (CalamityWorld.revenge)
+            // Full Adrenaline DR does not apply when using Draedon's Heart
+            if (AdrenalineEnabled && !draedonsHeart)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -5948,7 +5954,7 @@ namespace CalamityMod.CalPlayer
 
             // Shattered Community makes the player gain rage based on the amount of damage taken.
             // Also set the Rage gain cooldown to prevent bizarre abuse cases.
-            if (CalamityWorld.revenge && shatteredCommunity && rageGainCooldown == 0)
+            if (shatteredCommunity && rageGainCooldown == 0)
             {
                 float HPRatio = (float)damage / Player.statLifeMax2;
                 float rageConversionRatio = 0.8f;
@@ -5979,7 +5985,7 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
 
             // Give Rage combat frames because being hurt counts as combat.
-            if (CalamityWorld.revenge)
+            if (RageEnabled)
                 rageCombatFrames = RageCombatDelayTime;
 
             if (Player.whoAmI == Main.myPlayer)
@@ -6031,7 +6037,8 @@ namespace CalamityMod.CalPlayer
                     witheringDamageDone = 0;
                 }
 
-                if (CalamityWorld.revenge)
+                // Lose adrenaline on hit, unless using Draedon's Heart.
+                if (AdrenalineEnabled && !draedonsHeart)
                 {
                     if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
                     {

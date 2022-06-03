@@ -706,16 +706,6 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (calamityPlayer.draedonsHeart && !calamityPlayer.shadeRegen && !calamityPlayer.cFreeze && Player.StandingStill() && Player.itemAnimation == 0)
-            {
-                if (noRogueStealth)
-                {
-                    r *= 0f;
-                    g *= 0.5f;
-                    b *= 0f;
-                    fullBright = true;
-                }
-            }
             if (calamityPlayer.bBlood)
             {
                 if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
