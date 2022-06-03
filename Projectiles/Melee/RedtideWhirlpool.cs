@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -39,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee
             for (int i = 0; i < dustCount; i++)
             {
                 float angle = i / (float)dustCount * MathHelper.TwoPi + offset;
-                Vector2 dustPos = Projectile.Center + angle.ToRotationVector2() * 40f;
-                Dust dust = Dust.NewDustPerfect(dustPos, 176, (angle - MathHelper.PiOver2 * Math.Sign(Projectile.velocity.X)).ToRotationVector2() * 5f + Projectile.velocity, Scale: Main.rand.NextFloat(1f, 2f));
+                Vector2 dustPos = Projectile.Center + angle.ToRotationVector2() * 46f;
+                Dust dust = Dust.NewDustPerfect(dustPos, 176, (angle - MathHelper.PiOver2 * Math.Sign(Projectile.velocity.X)).ToRotationVector2() * 8f + Projectile.velocity, Scale: Main.rand.NextFloat(1.6f, 3f));
                 dust.noGravity = true;
             }
         }
@@ -50,6 +51,8 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
 
             SpriteEffects flip = Math.Sign(Projectile.velocity.X) < 0? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, lightColor * 0.3f, Projectile.rotation * 1.2f, texture.Size() / 2f, 1.5f, flip, 0);
             Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, lightColor * 0.4f, Projectile.rotation, texture.Size() / 2f, 2f, flip, 0);
 
             return false;

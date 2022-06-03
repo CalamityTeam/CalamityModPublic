@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -79,6 +80,11 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.soundDelay = 28;
             }
 
+            if (Windup == MaxWindup && Owner.whoAmI == Main.myPlayer)
+            {
+                SoundEngine.PlaySound(SoundID.Item43, Owner.Center);
+            }
+
             Windup++;
         }
 
@@ -105,6 +111,17 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemAnimation = 2;
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+
+                Particle spike = new UrchinSpikeParticle(target.Center + angle.ToRotationVector2() * 15f, angle.ToRotationVector2() * 6f, angle + MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.3f), lifetime: Main.rand.Next(10) + 25);
+                GeneralParticleHandler.SpawnParticle(spike);
+            }
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
             Owner.direction = Math.Sign(Owner.Calamity().mouseWorld.X - Owner.position.X);
@@ -112,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee
             Texture2D maceTexture = ModContent.Request<Texture2D>(Texture).Value;
             Texture2D whirlpoolTexture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Melee/RedtideWhirlpool").Value;
 
-            float whirlpoolScale = WindupProgress * 2f;
+            float whirlpoolScale = MathHelper.Clamp(WindupProgress * 3f - 0.4f, 0f, 1f) * 2f;
             float whirlpoolOpacity = WindupProgress * 0.2f + (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.1f;
             float whirlpoolRotation = Windup * 0.34f * Owner.direction;
             SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
