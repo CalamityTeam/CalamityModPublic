@@ -434,7 +434,7 @@ namespace CalamityMod.CalPlayer
         public bool laudanum = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
-        public int nanomachinesTimer = 0;
+        public int nanomachinesLockoutTimer = 0;
         public bool vexation = false;
         public bool dodgeScarf = false;
         public bool evasionScarf = false;
@@ -1474,6 +1474,9 @@ namespace CalamityMod.CalPlayer
 
             ResetRogueStealth();
 
+            // Reset adrenaline duration to default. If Draedon's Heart is equipped, it'll change itself every frame.
+            AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
+
             contactDamageReduction = 0D;
             projectileDamageReduction = 0D;
             rogueVelocity = 1f;
@@ -2315,7 +2318,7 @@ namespace CalamityMod.CalPlayer
             triumph = false;
             penumbra = false;
             shadow = false;
-            nanomachinesTimer = 0;
+            nanomachinesLockoutTimer = 0;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -5030,9 +5033,12 @@ namespace CalamityMod.CalPlayer
             }
 
             // Full Adrenaline DR does not apply when using Draedon's Heart
-            if (AdrenalineEnabled && !draedonsHeart)
+            // Instead, nanomachine accumulation is stopped for a while
+            if (AdrenalineEnabled)
             {
-                if (adrenaline == adrenalineMax && !adrenalineModeActive)
+                if (draedonsHeart)
+                    nanomachinesLockoutTimer = DraedonsHeart.NanomachinePauseAfterDamage;
+                else if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
                     double adrenalineDRBoost = 0D +
                         (adrenalineBoostOne ? 0.05 : 0D) +

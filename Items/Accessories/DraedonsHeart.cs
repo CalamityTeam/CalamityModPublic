@@ -13,14 +13,22 @@ namespace CalamityMod.Items.Accessories
     {
         private const double ContactDamageReduction = 0.15D;
 
+        // Duration of Nanomachines in frames.
+        internal static readonly int NanomachinesDuration = 120;
+
+        // Duration of time where Nanomachines won't accumulate after taking damage, in frames.
+        internal static readonly int NanomachinePauseAfterDamage = 240;
+
+        internal static readonly int NanomachinesHeal = 240;
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Heart");
             Tooltip.SetDefault("15% reduced contact damage from enemies\n" +
                 "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
-                "Unlike Adrenaline, you lose no Nanomachines when you take damage, but it stops generating for 4 seconds\n" +
-                "With full Nanomachines, press & to heal 300 health over 2 seconds\n" +
+                $"Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {NanomachinePauseAfterDamage / 60} seconds\n" +
+                $"With full Nanomachines, press & to heal {NanomachinesHeal} health over {NanomachinesDuration / 60} seconds\n" +
                 "While healing, wings are disabled and your mobility is crippled\n" +
                 "'Nanomachines, son.'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
@@ -41,6 +49,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.draedonsHeart = true;
+            modPlayer.AdrenalineDuration = NanomachinesDuration;
             modPlayer.contactDamageReduction += ContactDamageReduction;
         }
 
@@ -54,7 +63,8 @@ namespace CalamityMod.Items.Accessories
             // The 4th tooltip line "Unlike Adrenaline..." is replaced on Normal or Expert
             TooltipLine doesntStopOnDamageLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip3");
             if (doesntStopOnDamageLine != null && !CalamityWorld.revenge)
-                doesntStopOnDamageLine.Text = "Nanomachines generates over time when fighting bosses\nTaking damage stops its generation for 4 seconds";
+                doesntStopOnDamageLine.Text = "Nanomachines accumulate over time while fighting bosses\n" +
+                    $"Taking damage stops the accumulation for {NanomachinePauseAfterDamage / 60} seconds";
 
             // The 5th tooltip line "With full Nanomachines" has the & replaced with the hotkey.
             string adrenKey = CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString();

@@ -1,4 +1,7 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
@@ -9,6 +12,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
+using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
@@ -42,22 +46,17 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using CalamityMod.EntitySources;
-using ReLogic.Content;
-using Terraria.GameContent;
-using CalamityMod.Systems;
 
 namespace CalamityMod.CalPlayer
 {
@@ -395,7 +394,30 @@ namespace CalamityMod.CalPlayer
 
             // If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
             if (adrenalineModeActive)
+            {
                 adrenalineDiff = -adrenalineMax / AdrenalineDuration;
+
+                // If using Draedon's Heart, you get healing instead of damage.
+                if (draedonsHeart)
+                {
+                    Player.statLife += DraedonsHeart.NanomachinesHeal / DraedonsHeart.NanomachinesDuration;
+                    if (Player.statLife >= Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    // Old Draedon's Heart dust effect from its standing still regen. Works just fine.
+                    int dustID = DustID.TerraBlade;
+                    {
+                        int regen = Dust.NewDust(Player.position, Player.width, Player.height, dustID, 0f, 0f, 200, default, 1f);
+                        Main.dust[regen].noGravity = true;
+                        Main.dust[regen].fadeIn = 1.3f;
+                        Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+                        Main.dust[regen].velocity = velocity;
+                        velocity.Normalize();
+                        velocity *= 34f;
+                        Main.dust[regen].position = Player.Center - velocity;
+                    }
+                }
+            }
             else
             {
                 // If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
@@ -414,7 +436,7 @@ namespace CalamityMod.CalPlayer
 
             // Apply the adrenaline change and cap adrenaline in both directions.
             // Changes are only applied if the Adrenaline mechanic is available.
-            if (AdrenalineEnabled)
+            if (AdrenalineEnabled && nanomachinesLockoutTimer == 0)
             {
                 adrenaline += adrenalineDiff;
                 if (adrenaline < 0)
@@ -434,12 +456,14 @@ namespace CalamityMod.CalPlayer
                 else
                     playFullAdrenalineSound = true;
             }
+
+            if (nanomachinesLockoutTimer > 0)
+                nanomachinesLockoutTimer--;
             #endregion
         }
         #endregion
 
         #region Misc Effects
-
         private void HandleBlazingMouseEffects()
         {
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
