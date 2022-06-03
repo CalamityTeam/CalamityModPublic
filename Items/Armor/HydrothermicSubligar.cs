@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class AtaxiaSubligar : ModItem
+    [LegacyName("AtaxiaSubligar")]
+    public class HydrothermicSubligar : ModItem
     {
         public override void SetStaticDefaults()
         {

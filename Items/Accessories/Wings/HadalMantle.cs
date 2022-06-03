@@ -37,10 +37,10 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<AtaxiaHeadgear>() || player.armor[0].type == ModContent.ItemType<AtaxiaHelm>() ||
-                player.armor[0].type == ModContent.ItemType<AtaxiaHelmet>() || player.armor[0].type == ModContent.ItemType<AtaxiaHood>() ||
-                player.armor[0].type == ModContent.ItemType<AtaxiaMask>()) &&
-                player.armor[1].type == ModContent.ItemType<HydrothermicArmor>() && player.armor[2].type == ModContent.ItemType<AtaxiaSubligar>())
+            if ((player.armor[0].type == ModContent.ItemType<HydrothermicHeadRanged>() || player.armor[0].type == ModContent.ItemType<HydrothermicHeadMelee>() ||
+                player.armor[0].type == ModContent.ItemType<HydrothermicHeadSummon>() || player.armor[0].type == ModContent.ItemType<HydrothermicHeadRogue>() ||
+                player.armor[0].type == ModContent.ItemType<HydrothermicHeadMagic>()) &&
+                player.armor[1].type == ModContent.ItemType<HydrothermicArmor>() && player.armor[2].type == ModContent.ItemType<HydrothermicSubligar>())
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
             }

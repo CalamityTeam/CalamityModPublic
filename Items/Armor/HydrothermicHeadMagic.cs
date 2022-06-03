@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AtaxiaMask : ModItem
+    [LegacyName("AtaxiaMask")]
+    public class HydrothermicHeadMagic : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<HydrothermicArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
+            return body.type == ModContent.ItemType<HydrothermicArmor>() && legs.type == ModContent.ItemType<HydrothermicSubligar>();
         }
 
         public override void ArmorSetShadows(Player player)

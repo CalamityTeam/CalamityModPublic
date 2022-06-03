@@ -7,15 +7,15 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AtaxiaHelm : ModItem
+    [LegacyName("AtaxiaHood")]
+    public class HydrothermicHeadRogue : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Hydrothermic Helm");
-            Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
-                "18% increased melee speed\n" +
-                "Melee attacks and melee projectiles inflict on fire\n" +
+            DisplayName.SetDefault("Hydrothermic Hood");
+            Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
+                "50% chance to not consume rogue items and 5% increased movement speed\n" +
                 "Temporary immunity to lava and immunity to fire damage");
         }
 
@@ -25,12 +25,12 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 30, 0, 0);
             Item.rare = ItemRarityID.Yellow;
-            Item.defense = 33; //67
+            Item.defense = 12; //49
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<HydrothermicArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
+            return body.type == ModContent.ItemType<HydrothermicArmor>() && legs.type == ModContent.ItemType<HydrothermicSubligar>();
         }
 
         public override void ArmorSetShadows(Player player)
@@ -41,25 +41,28 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased melee damage\n" +
-                "Enemies are more likely to target you\n" +
+            player.setBonus = "5% increased rogue damage\n" +
                 "Inferno effect when below 50% life\n" +
-                "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
-                "You emit a blazing explosion when you are hit";
+                "Rogue weapons unleash a volley of homing chaos flames around the player every 2.5 seconds\n" +
+                "You emit a blazing explosion when you are hit\n" +
+                "Rogue stealth builds while not attacking and slower while moving, up to a max of 110\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
-            modPlayer.ataxiaGeyser = true;
-            player.GetDamage<MeleeDamageClass>() += 0.05f;
-            player.aggro += 700;
+            modPlayer.ataxiaVolley = true;
+            modPlayer.rogueStealthMax += 1.1f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
+            modPlayer.wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.ataxiaFire = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.18f;
-            player.GetDamage<MeleeDamageClass>() += 0.12f;
-            player.GetCritChance<MeleeDamageClass>() += 10;
+            player.Calamity().rogueAmmoCost *= 0.5f;
+            player.GetDamage<ThrowingDamageClass>() += 0.12f;
+            player.GetCritChance<ThrowingDamageClass>() += 10;
+            player.moveSpeed += 0.05f;
             player.lavaMax += 240;
             player.buffImmune[BuffID.OnFire] = true;
         }
