@@ -3446,7 +3446,7 @@ namespace CalamityMod.CalPlayer
 
             // Takes the movement speed bonus and uses it to increase run speed
             float accRunSpeedMin = Player.accRunSpeed * 0.5f;
-            Player.accRunSpeed += Player.accRunSpeed * moveSpeedBonus * 0.1f;
+            Player.accRunSpeed += Player.accRunSpeed * moveSpeedBonus * 0.2f;
             if (Player.accRunSpeed < accRunSpeedMin)
                 Player.accRunSpeed = accRunSpeedMin;
 

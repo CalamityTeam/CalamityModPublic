@@ -26,7 +26,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Getting hit while Adrenaline is maxed will reduce damage taken by a massive amount.\n" +
 
                 // General enemy lines
-                "All enemies drop 50% more coins and spawn 15% more frequently.\n" +
+                "All enemies spawn 15% more frequently.\n" +
                 "Certain non-boss enemies and projectiles deal between 10% and 25% more damage.\n" +
                 "Makes certain enemies block life steal and nerfs the effectiveness of life steal.\n" +
 

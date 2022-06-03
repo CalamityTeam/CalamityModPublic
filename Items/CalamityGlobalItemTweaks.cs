@@ -35,7 +35,7 @@ namespace CalamityMod.Items
                 { ItemID.AdamantiteSword, Do(UseTurn, ScaleRatio(1.5f), UseRatio(0.8f), DamageExact(77)) },
                 { ItemID.AdamantiteWaraxe, Do(AxePower(160), UseTimeExact(10), TileBoostExact(+1)) },
                 { ItemID.Amarok, autoReuse },
-                { ItemID.AmberStaff, Do(DamageRatio(1.33f), UseTimeExact(15), UseAnimationExact(40)) },
+                { ItemID.AmberStaff, Do(DamageExact(19), UseTimeExact(15), UseAnimationExact(40)) },
                 { ItemID.AmethystStaff, Do(ManaExact(2)) },
                 { ItemID.Anchor, Do(DamageExact(107), UseExact(30)) },
                 { ItemID.AnkhShield, Do(DefenseDelta(+8)) },
