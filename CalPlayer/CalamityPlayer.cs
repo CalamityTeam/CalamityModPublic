@@ -4538,12 +4538,6 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
 
-            if (draedonsHeart)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    damage = (int)(damage * 0.5);
-            }
-
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
             {
                 if (CalamityConfig.Instance.Proficiency)
@@ -4723,12 +4717,6 @@ namespace CalamityMod.CalPlayer
 
             if (proj.type == ProjectileID.SpectreWrath && Player.ghostHurt)
                 damage = (int)(damage * 0.7);
-
-            if (draedonsHeart)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    damage = (int)(damage * 0.5);
-            }
 
             #endregion
 
@@ -8147,7 +8135,20 @@ namespace CalamityMod.CalPlayer
                 defenseDamageTaken = cap;
 
             // Apply defense damage to the adamantite armor set boost.
-            AdamantiteSetDefenseBoost -= defenseDamageTaken;
+            if (AdamantiteSetDefenseBoost > 0)
+            {
+                int defenseDamageToAdamantite = Math.Min(AdamantiteSetDefenseBoost, defenseDamageTaken);
+                AdamantiteSetDefenseBoost -= defenseDamageToAdamantite;
+                defenseDamageTaken -= defenseDamageToAdamantite;
+
+                // If Adamantite Armor's set bonus entirely absorbed the defense damage, then display the number and play the sound,
+                // but don't actually reduce defense or trigger the defense damage recovery cooldown.
+                if (defenseDamageTaken <= 0)
+                {
+                    ShowDefenseDamageEffects(defenseDamageToAdamantite);
+                    return;
+                }
+            }
 
             // Apply that defense damage on top of whatever defense damage the player currently has.
             int previousDefenseDamage = CurrentDefenseDamage;
@@ -8168,6 +8169,12 @@ namespace CalamityMod.CalPlayer
             // Reset the delay between iframes and being able to recover from defense damage.
             defenseDamageDelayFrames = DefenseDamageRecoveryDelay;
 
+            // Audiovisual effects
+            ShowDefenseDamageEffects(defenseDamageTaken);
+        }
+
+        private void ShowDefenseDamageEffects(int defDamage)
+        {
             // Play a sound from taking defense damage.
             if (hurtSoundTimer == 0)
             {
@@ -8176,7 +8183,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Display text indicating that defense damage was taken.
-            string text = (-defenseDamageTaken).ToString();
+            string text = (-defDamage).ToString();
             Color messageColor = Color.LightGray;
             Rectangle location = new Rectangle((int)Player.position.X, (int)Player.position.Y - 16, Player.width, Player.height);
             CombatText.NewText(location, messageColor, Language.GetTextValue(text));
