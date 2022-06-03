@@ -809,10 +809,7 @@ namespace CalamityMod.CalPlayer
                         case 17:
                             Player.AddBuff(BuffID.Poisoned, 300, false);
                             break;
-                        case 40:
-                            Player.AddBuff(BuffID.Bleeding, 300, false);
-                            break;
-                        case 60:
+                        case 80:
                             Player.AddBuff(BuffID.Venom, 300, false);
                             break;
                         default:
