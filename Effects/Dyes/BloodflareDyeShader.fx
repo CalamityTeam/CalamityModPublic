@@ -21,7 +21,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 pixelBelow = tex2D(uImage0, coords);
@@ -41,7 +41,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     // Handle red fades based on noise.
     color = lerp(color, float4(1, 0, 0, 1), pow(noiseColor.r, 3) * 0.3 + verticalFlowMovement * 0.3 + 0.16) * color.a;
     
-    return color * (1 + (1 - outlineFade) * 0.25);
+    return color * (1 + (1 - outlineFade) * 0.25) * sampleColor;
 }
 technique Technique1
 {

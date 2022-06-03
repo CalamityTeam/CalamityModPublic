@@ -21,7 +21,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     
@@ -42,7 +42,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     
     // Become notably darker to reinforce the stone aesthetic.
     stoneColor.rgb *= 0.2 + noiseColor.r * 0.65;
-    return (stoneColor + flameColor * 0.4) * color.a;
+    return (stoneColor + flameColor * 0.4) * sampleColor * color.a;
 }
 technique Technique1
 {

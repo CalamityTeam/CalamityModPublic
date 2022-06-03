@@ -27,14 +27,14 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     coords.x += randomness(uTime + framedCoords.y).x * (1 - framedCoords.y) * 6 / uImageSize0.x; // Add an X offset based on a noise function, giving a moon lord void-esque shader effect.
     float4 color = tex2D(uImage0, coords);
     float4 returnColor = color * 0.1;
     returnColor.a = color.a;
-    return returnColor;
+    return returnColor * sampleColor;
 }
 technique Technique1
 {

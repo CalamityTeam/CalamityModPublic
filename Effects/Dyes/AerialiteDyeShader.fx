@@ -29,7 +29,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     
@@ -52,7 +52,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float4 metalColor = lerp(color, float4(BlendColor(color.rgb * 0.6, uColor), 1), 0.7);
     
     // And mix it all together.
-    return (color * 0.35 + metalColor * 0.65 + updraftColor * 0.8 + cloudColor * 0.3) * color.a * 0.85;
+    return (color * 0.35 + metalColor * 0.65 + updraftColor * 0.8 + cloudColor * 0.3) * color.a * sampleColor * 0.85;
 }
 technique Technique1
 {

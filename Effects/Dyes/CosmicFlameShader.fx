@@ -21,7 +21,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float2 swirlOffset = float2(sin(uTime * 0.26 + 1.754) * 0.31, sin(uTime * 0.26) * 0.16) * uSaturation;
@@ -46,12 +46,12 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     
     // And create stars based on a noise texture that rise upward.
     color = lerp(color, float4(starColor, 1) * color.a, fadeToNormal * pow(brightnessFactor, 6) * 0.15);
-    return color * (1 + brightnessFactor);
+    return color * (1 + brightnessFactor) * sampleColor;
 }
 technique Technique1
 {
     pass DyePass
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }
