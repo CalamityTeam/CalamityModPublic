@@ -401,6 +401,14 @@ namespace CalamityMod.NPCs
                             if (Main.LocalPlayer.Calamity().newPainterInventory)
                                 DrawNewInventoryAlert(npc);
                             break;
+                        case NPCID.Golfer:
+                            if (Main.LocalPlayer.Calamity().newGolferInventory)
+                                DrawNewInventoryAlert(npc);
+                            break;
+                        case NPCID.BestiaryGirl:
+                            if (Main.LocalPlayer.Calamity().newZoologistInventory)
+                                DrawNewInventoryAlert(npc);
+                            break;
                         case NPCID.DyeTrader:
                             if (Main.LocalPlayer.Calamity().newDyeTraderInventory)
                                 DrawNewInventoryAlert(npc);
@@ -465,6 +473,10 @@ namespace CalamityMod.NPCs
                             if (Main.LocalPlayer.Calamity().newCyborgInventory)
                                 DrawNewInventoryAlert(npc);
                             break;
+                        case NPCID.Princess:
+                            if (Main.LocalPlayer.Calamity().newPrincessInventory)
+                                DrawNewInventoryAlert(npc);
+                            break;
                         case NPCID.SkeletonMerchant:
                             if (Main.LocalPlayer.Calamity().newSkeletonMerchantInventory)
                                 DrawNewInventoryAlert(npc);
@@ -516,6 +528,12 @@ namespace CalamityMod.NPCs
                     case NPCID.Painter:
                         Main.LocalPlayer.Calamity().newPainterInventory = false;
                         break;
+                    case NPCID.Golfer:
+                        Main.LocalPlayer.Calamity().newGolferInventory = false;
+                        break;
+                    case NPCID.BestiaryGirl:
+                        Main.LocalPlayer.Calamity().newZoologistInventory = false;
+                        break;
                     case NPCID.DyeTrader:
                         Main.LocalPlayer.Calamity().newDyeTraderInventory = false;
                         break;
@@ -564,6 +582,9 @@ namespace CalamityMod.NPCs
                     case NPCID.Cyborg:
                         Main.LocalPlayer.Calamity().newCyborgInventory = false;
                         break;
+                    case NPCID.Princess:
+                        Main.LocalPlayer.Calamity().newPrincessInventory = false;
+                        break;
                     case NPCID.SkeletonMerchant:
                         Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = false;
                         break;
@@ -604,6 +625,12 @@ namespace CalamityMod.NPCs
                                 break;
                             case NPCID.Painter:
                                 Main.LocalPlayer.Calamity().newPainterInventory = true;
+                                break;
+                            case NPCID.Golfer:
+                                Main.LocalPlayer.Calamity().newGolferInventory = true;
+                                break;
+                            case NPCID.BestiaryGirl:
+                                Main.LocalPlayer.Calamity().newZoologistInventory = true;
                                 break;
                             case NPCID.DyeTrader:
                                 Main.LocalPlayer.Calamity().newDyeTraderInventory = true;
@@ -652,6 +679,9 @@ namespace CalamityMod.NPCs
                                 break;
                             case NPCID.Cyborg:
                                 Main.LocalPlayer.Calamity().newCyborgInventory = true;
+                                break;
+                            case NPCID.Princess:
+                                Main.LocalPlayer.Calamity().newPrincessInventory = true;
                                 break;
                             case NPCID.SkeletonMerchant:
                                 Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = true;

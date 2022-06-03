@@ -153,6 +153,8 @@ namespace CalamityMod.CalPlayer
         #region Town NPC Shop Variables
         public bool newMerchantInventory = false;
         public bool newPainterInventory = false;
+        public bool newGolferInventory = false;
+        public bool newZoologistInventory = false;
         public bool newDyeTraderInventory = false;
         public bool newPartyGirlInventory = false;
         public bool newStylistInventory = false;
@@ -169,6 +171,7 @@ namespace CalamityMod.CalPlayer
         public bool newWizardInventory = false;
         public bool newSteampunkerInventory = false;
         public bool newCyborgInventory = false;
+        public bool newPrincessInventory = false;
         public bool newSkeletonMerchantInventory = false;
         public bool newPermafrostInventory = false;
         public bool newCirrusInventory = false;
@@ -1159,6 +1162,8 @@ namespace CalamityMod.CalPlayer
 
             newMerchantInventory = false;
             newPainterInventory = false;
+            newGolferInventory = false;
+            newZoologistInventory = false;
             newDyeTraderInventory = false;
             newPartyGirlInventory = false;
             newStylistInventory = false;
@@ -1175,6 +1180,7 @@ namespace CalamityMod.CalPlayer
             newWizardInventory = false;
             newSteampunkerInventory = false;
             newCyborgInventory = false;
+            newPrincessInventory = false;
             newSkeletonMerchantInventory = false;
             newPermafrostInventory = false;
             newCirrusInventory = false;
@@ -1210,6 +1216,8 @@ namespace CalamityMod.CalPlayer
 
             boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
             boost.AddWithCondition("newPainterInventory", newPainterInventory);
+            boost.AddWithCondition("newGolferInventory", newGolferInventory);
+            boost.AddWithCondition("newZoologistInventory", newZoologistInventory);
             boost.AddWithCondition("newDyeTraderInventory", newDyeTraderInventory);
             boost.AddWithCondition("newPartyGirlInventory", newPartyGirlInventory);
             boost.AddWithCondition("newStylistInventory", newStylistInventory);
@@ -1226,6 +1234,7 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("newWizardInventory", newWizardInventory);
             boost.AddWithCondition("newSteampunkerInventory", newSteampunkerInventory);
             boost.AddWithCondition("newCyborgInventory", newCyborgInventory);
+            boost.AddWithCondition("newPrincessInventory", newPrincessInventory);
             boost.AddWithCondition("newSkeletonMerchantInventory", newSkeletonMerchantInventory);
             boost.AddWithCondition("newPermafrostInventory", newPermafrostInventory);
             boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
@@ -1313,6 +1322,8 @@ namespace CalamityMod.CalPlayer
 
             newMerchantInventory = boost.Contains("newMerchantInventory");
             newPainterInventory = boost.Contains("newPainterInventory");
+            newGolferInventory = boost.Contains("newGolferInventory");
+            newZoologistInventory = boost.Contains("newZoologistInventory");
             newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
             newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
             newStylistInventory = boost.Contains("newStylistInventory");
@@ -1329,6 +1340,7 @@ namespace CalamityMod.CalPlayer
             newWizardInventory = boost.Contains("newWizardInventory");
             newSteampunkerInventory = boost.Contains("newSteampunkerInventory");
             newCyborgInventory = boost.Contains("newCyborgInventory");
+            newPrincessInventory = boost.Contains("newPrincessInventory");
             newSkeletonMerchantInventory = boost.Contains("newSkeletonMerchantInventory");
             newPermafrostInventory = boost.Contains("newPermafrostInventory");
             newCirrusInventory = boost.Contains("newCirrusInventory");
