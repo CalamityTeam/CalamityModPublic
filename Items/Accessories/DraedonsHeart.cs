@@ -17,13 +17,12 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Draedon's Heart");
-            Tooltip.SetDefault(@"15% reduced contact damage from enemies
-Reduces defense damage taken by 50%
-Replaces Adrenaline with the Nanomachines meter
-Unlike Adrenaline, you lose no Nanomachines when you take damage, but it stops generating for 4 seconds
-With full Nanomachines, press & to heal 300 health over 2 seconds
-While healing, wings are disabled and your mobility is crippled
-Nanomachines, son");
+            Tooltip.SetDefault("15% reduced contact damage from enemies\n" +
+                "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
+                "Unlike Adrenaline, you lose no Nanomachines when you take damage, but it stops generating for 4 seconds\n" +
+                "With full Nanomachines, press & to heal 300 health over 2 seconds\n" +
+                "While healing, wings are disabled and your mobility is crippled\n" +
+                "'Nanomachines, son.'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
         }
 
