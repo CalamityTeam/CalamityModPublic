@@ -18,7 +18,7 @@ float2 uLegacyArmorSheetSize;
 
 float2 RotatedBy(float2 xy, float theta)
 {
-    return float2(xy.x * cos(theta) + xy.y * sin(theta), xy.x * sin(theta) - xy.y * cos(theta));
+    return float2(xy.x * sin(theta + 1.57) + xy.y * sin(theta), xy.x * sin(theta) - xy.y * sin(theta + 1.57));
 }
 
 float2 InverseLerp(float2 start, float2 end, float2 x)
