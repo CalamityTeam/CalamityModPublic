@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<TerraFlameburster>().
                 AddIngredient<Meowthrower>().
-                AddIngredient<MepheticSprayer>().
+                AddIngredient<BlightSpewer>().
                 AddIngredient<BrimstoneFlamesprayer>().
                 AddIngredient<GalacticaSingularity>(5).
                 AddIngredient(ItemID.LunarBar, 5).

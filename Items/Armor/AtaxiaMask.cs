@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<AtaxiaArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
+            return body.type == ModContent.ItemType<HydrothermicArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
         }
 
         public override void ArmorSetShadows(Player player)

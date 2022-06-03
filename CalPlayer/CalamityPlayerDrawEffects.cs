@@ -868,7 +868,7 @@ namespace CalamityMod.CalPlayer
                 List<int> tankItems = new List<int>()
                 {
                     ModContent.ItemType<FlurrystormCannon>(),
-                    ModContent.ItemType<MepheticSprayer>(),
+                    ModContent.ItemType<BlightSpewer>(),
                     ModContent.ItemType<BrimstoneFlameblaster>(),
                     ModContent.ItemType<BrimstoneFlamesprayer>(),
                     ModContent.ItemType<SparkSpreader>(),

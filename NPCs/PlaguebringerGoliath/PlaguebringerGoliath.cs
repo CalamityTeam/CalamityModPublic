@@ -1232,7 +1232,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     ModContent.ItemType<Malevolence>(),
                     ModContent.ItemType<PestilentDefiler>(),
                     ModContent.ItemType<TheHive>(),
-                    ModContent.ItemType<MepheticSprayer>(), // Blight Spewer
+                    ModContent.ItemType<BlightSpewer>(), // Blight Spewer
                     ModContent.ItemType<PlagueStaff>(),
                     ModContent.ItemType<FuelCellBundle>(),
                     ModContent.ItemType<InfectedRemote>(),

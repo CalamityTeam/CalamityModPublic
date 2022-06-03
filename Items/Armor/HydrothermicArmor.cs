@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
-    public class AtaxiaArmor : ModItem
+    [LegacyName("AtaxiaArmor")]
+    public class HydrothermicArmor : ModItem
     {
         public override void SetStaticDefaults()
         {

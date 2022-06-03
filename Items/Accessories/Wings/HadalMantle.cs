@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Accessories.Wings
             if ((player.armor[0].type == ModContent.ItemType<AtaxiaHeadgear>() || player.armor[0].type == ModContent.ItemType<AtaxiaHelm>() ||
                 player.armor[0].type == ModContent.ItemType<AtaxiaHelmet>() || player.armor[0].type == ModContent.ItemType<AtaxiaHood>() ||
                 player.armor[0].type == ModContent.ItemType<AtaxiaMask>()) &&
-                player.armor[1].type == ModContent.ItemType<AtaxiaArmor>() && player.armor[2].type == ModContent.ItemType<AtaxiaSubligar>())
+                player.armor[1].type == ModContent.ItemType<HydrothermicArmor>() && player.armor[2].type == ModContent.ItemType<AtaxiaSubligar>())
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
             }
