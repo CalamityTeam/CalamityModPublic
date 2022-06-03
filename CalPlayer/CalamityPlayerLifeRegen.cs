@@ -601,7 +601,7 @@ namespace CalamityMod.CalPlayer
                     Player.mount.Dismount(Player);
             }
 
-            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodSlayerDash.ID && Player.dashDelay < 0))
+            if ((silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodSlayerDash.ID && Player.dashDelay < 0))
             {
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen = 0;

@@ -475,7 +475,6 @@ namespace CalamityMod.CalPlayer
         public bool fBarrier = false;
         public bool aBrain = false;
         public bool amalgam = false;
-        public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
         public int raiderCooldown = 0;
@@ -1688,7 +1687,6 @@ namespace CalamityMod.CalPlayer
             manaOverloader = false;
             royalGel = false;
             handWarmer = false;
-            lol = false;
             raiderTalisman = false;
             gSabaton = false;
             sGlyph = false;
@@ -4973,8 +4971,8 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If this NPC deals defense damage with contact damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes, is otherwise invincible, or has Lul equipped.
-            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible && !lol)
+            // Defense damage is not applied if the player has iframes or is otherwise invincible.
+            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible)
                 DealDefenseDamage(damage);
 
             if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
@@ -5263,8 +5261,8 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If this projectile is capable of dealing defense damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes, is otherwise invincible, or has Lul equipped.
-            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible && !lol)
+            // Defense damage is not applied if the player has iframes or is otherwise invincible.
+            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible)
                 DealDefenseDamage(damage);
 
             if (projRefRare)
@@ -5813,7 +5811,7 @@ namespace CalamityMod.CalPlayer
                     Player.eocDash = 0;
             }
 
-            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodslayerArmorDash.ID && Player.dashDelay < 0))
+            if ((silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodslayerArmorDash.ID && Player.dashDelay < 0))
             {
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen = 0;
@@ -5909,10 +5907,6 @@ namespace CalamityMod.CalPlayer
             #region Ignore Incoming Hits
             // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
             if (HandleDodges())
-                return false;
-
-            // Lul makes the player completely invincible.
-            if (lol)
                 return false;
 
             // Unless holding Coldheart Icicle, the Purified Jam makes you completely invincible.

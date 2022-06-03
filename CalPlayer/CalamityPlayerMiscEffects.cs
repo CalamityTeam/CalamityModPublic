@@ -1505,8 +1505,8 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Remove Purified Jam and Lul accessory thorn damage exploits
-            if (invincible || lol)
+            // Remove Purified Jam thorn damage exploits
+            if (invincible)
             {
                 Player.thorns = 0f;
                 Player.turtleThorns = false;
