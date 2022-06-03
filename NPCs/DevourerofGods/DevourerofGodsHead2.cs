@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,6 +23,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Guardian");
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -43,6 +45,19 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            int associatedNPCType = ModContent.NPCType<DevourerofGodsHead>();
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //Custom background probably?,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("An interdimensional creation of the Devourer brought from its home dimension to aid it in battle. Nowhere near the strength of its sentinels.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

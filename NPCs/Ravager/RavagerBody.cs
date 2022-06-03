@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -33,6 +34,7 @@ namespace CalamityMod.NPCs.Ravager
         {
             DisplayName.SetDefault("Ravager");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.5f,
@@ -76,6 +78,16 @@ namespace CalamityMod.NPCs.Ravager
             Music = CalamityMod.Instance.GetMusicFromMusicMod("Ravager") ?? MusicID.Boss4;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Flames roar from what almost appear to be the parapets of a rotting fortress. You will know when it is approaching downwind, from the smell alone.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

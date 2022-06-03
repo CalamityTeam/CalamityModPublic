@@ -6,6 +6,7 @@ using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,6 +50,16 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.knockBackResist = 0.8f;
             AnimationType = NPCID.Wizard;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant’s grasp?")
+            });
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money) => DownedBossSystem.downedSCal && !NPC.AnyNPCs(NPCType<SCalBoss>());

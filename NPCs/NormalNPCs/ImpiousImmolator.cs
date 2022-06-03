@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -44,6 +45,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A burning spirit, with no regard or acknowledgment for its surroundings. Anyone who intrudes upon the Profaned Goddess’ holy grounds will be turned to ash.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

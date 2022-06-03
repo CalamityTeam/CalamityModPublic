@@ -40,7 +40,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundSnow,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("The souls of those who passed on in the heart of a blizzard. They now seek out others to freeze to death, to die as they did.")

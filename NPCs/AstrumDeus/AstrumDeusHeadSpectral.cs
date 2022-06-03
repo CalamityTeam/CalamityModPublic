@@ -19,6 +19,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.GameContent.ItemDropRules;
@@ -37,6 +38,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             DisplayName.SetDefault("Astrum Deus");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -76,6 +78,16 @@ namespace CalamityMod.NPCs.AstrumDeus
             Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The fragments of the star god’s corpse still hold some of their former power, and even after succumbing to a dark infection, then being torn apart by an upstart worm, they willfully seek to return to the stars.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

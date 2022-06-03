@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System.IO;
@@ -30,6 +31,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             DisplayName.SetDefault("Ceaseless Void");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.55f,
@@ -60,6 +62,16 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.boss = true;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("When the fabric of the universe is meddled with, especially by inexperienced beings, the risk of irreparable damage is very, very high.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

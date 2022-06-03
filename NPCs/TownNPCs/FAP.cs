@@ -7,6 +7,7 @@ using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
@@ -45,6 +46,16 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath6;
             NPC.knockBackResist = 0.5f;
             AnimationType = NPCID.Guide;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("No one knows where she came from, but no one minds her either. She’s a good person to share a drink with, given you don’t make her mad.")
+            });
         }
 
         public override void AI()

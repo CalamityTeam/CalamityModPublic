@@ -23,6 +23,7 @@ using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -55,6 +56,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             DisplayName.SetDefault("The Plaguebringer Goliath");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.4f,
@@ -91,6 +93,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Music = CalamityMod.Instance.GetMusicFromMusicMod("PlaguebringerGoliath") ?? MusicID.Boss3;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Machinery and nanobots have nearly entirely eaten away at the form of this Queen Bee. One wonders if it would simply be more efficient to create one from the ground up.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

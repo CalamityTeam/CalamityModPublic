@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,6 +26,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             DisplayName.SetDefault("Dark Energy");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -47,6 +49,19 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.HitSound = SoundID.NPCHit53;
             NPC.DeathSound = SoundID.NPCDeath44;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            int associatedNPCType = ModContent.NPCType<CeaselessVoid>();
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+            BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("One of the many rifts created in the fabric of space by the Ceaseless Void. Some say you could even see a glimpse of another world if you gaze into it.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

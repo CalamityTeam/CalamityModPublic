@@ -3,6 +3,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -42,6 +43,17 @@ namespace CalamityMod.NPCs.Crags
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Crags,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A devotee, their mind lost to the raging, hating fires of the brimstone flames. None have ever seen under their hood, and none ever should.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

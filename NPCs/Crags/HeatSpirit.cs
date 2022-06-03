@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
@@ -33,6 +34,16 @@ namespace CalamityMod.NPCs.Crags
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Crags,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A human spirit, its mind lost to the blazing orange fires of its dwelling. It seeks out and attempts to eliminate any source of moisture it can detect entering the hellscape.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

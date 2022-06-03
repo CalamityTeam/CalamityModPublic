@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.World;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -37,6 +38,16 @@ namespace CalamityMod.NPCs.NormalNPCs
             BannerItem = ModContent.ItemType<AeroSlimeBanner>();
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Slimes take on the qualities of their environments and after feasting on aerialite ore, this slime has grown wings.")
+            });
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

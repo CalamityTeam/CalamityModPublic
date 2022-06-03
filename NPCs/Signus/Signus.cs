@@ -18,6 +18,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
@@ -37,6 +38,7 @@ namespace CalamityMod.NPCs.Signus
             DisplayName.SetDefault("Signus, Envoy of the Devourer");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
+            NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 PortraitPositionYOverride = 30f,
@@ -67,6 +69,16 @@ namespace CalamityMod.NPCs.Signus
             NPC.HitSound = SoundID.NPCHit49;
             NPC.DeathSound = SoundID.NPCDeath51;
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("A figure draped in dark robes and even darker history. No one knows the true form of this creature, though many rumors have been spread.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

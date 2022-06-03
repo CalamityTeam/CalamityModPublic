@@ -4,6 +4,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
@@ -35,6 +36,16 @@ namespace CalamityMod.NPCs.NormalNPCs
             Banner = ModContent.NPCType<PhantomSpirit>();
             BannerItem = ModContent.ItemType<PhantomSpiritBanner>();
             NPC.Calamity().VulnerableToSickness = false;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheDungeon,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Spirits which turned upon one another, cannibalizing others in their mindless frustrated frenzies. There is precedent in the past, for spirits which have devoured enough of others, to grow astoundingly in power.")
+            });
         }
 
         public override void FindFrame(int frameHeight)
