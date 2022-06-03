@@ -1571,7 +1571,7 @@ namespace CalamityMod.Items
         public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            float moveSpeedBoost = modPlayer.moveSpeedStat * 0.001f;
+            float moveSpeedBoost = modPlayer.moveSpeedBonus * 0.1f;
 
             float flightSpeedMult = 1f +
                 (modPlayer.soaring ? 0.1f : 0f) +

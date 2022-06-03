@@ -122,7 +122,7 @@ namespace CalamityMod.CalPlayer
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
         public bool LungingDown = false;
-        public int moveSpeedStat = 0;
+        public float moveSpeedBonus = 0f;
         #endregion
 
         #region Speedrun Timer
@@ -1276,7 +1276,7 @@ namespace CalamityMod.CalPlayer
             tag["exactRogueLevel"] = exactRogueLevel;
             tag["itemTypeLastReforged"] = itemTypeLastReforged;
             tag["reforgeTierSafety"] = reforgeTierSafety;
-            tag["moveSpeedStat"] = moveSpeedStat;
+            tag["moveSpeedBonus"] = moveSpeedBonus;
             tag["defenseDamage"] = totalDefenseDamage;
             tag["defenseDamageRecoveryFrames"] = defenseDamageRecoveryFrames;
             tag["totalSpeedrunTicks"] = totalTicks;
@@ -1378,7 +1378,8 @@ namespace CalamityMod.CalPlayer
             exactSummonLevel = tag.GetInt("exactSummonLevel");
             exactRogueLevel = tag.GetInt("exactRogueLevel");
 
-            moveSpeedStat = tag.GetInt("moveSpeedStat");
+            if (tag.ContainsKey("moveSpeedBonus"))
+                moveSpeedBonus = tag.GetFloat("moveSpeedBonus");
             totalDefenseDamage = tag.GetInt("defenseDamage");
             defenseDamageRecoveryFrames = tag.GetInt("defenseDamageRecoveryFrames");
             if (defenseDamageRecoveryFrames < 0)
@@ -3399,11 +3400,9 @@ namespace CalamityMod.CalPlayer
             // Increase wall placement speed to speed up early game a bit and make building more fun
             Player.wallSpeed += 0.5f;
 
-            // Takes the % move speed boost and reduces it to a quarter to get the actual speed increase
-            // 400% move speed boost = 80% run speed boost, so an 8 run speed would become 14.4 with a 400% move speed stat
+            // Takes the movement speed bonus and uses it to increase run speed
             float accRunSpeedMin = Player.accRunSpeed * 0.5f;
-            Player.accRunSpeed += Player.accRunSpeed * moveSpeedStat * 0.002f;
-
+            Player.accRunSpeed += Player.accRunSpeed * moveSpeedBonus * 0.1f;
             if (Player.accRunSpeed < accRunSpeedMin)
                 Player.accRunSpeed = accRunSpeedMin;
 

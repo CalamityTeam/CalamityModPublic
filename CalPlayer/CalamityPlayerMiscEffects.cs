@@ -127,7 +127,7 @@ namespace CalamityMod.CalPlayer
             Limits();
 
             // This is used to increase horizontal velocity based on the player's movement speed stat.
-            moveSpeedStat = (int)((Player.moveSpeed - 1f) * 100f);
+            moveSpeedBonus = Player.moveSpeed - 1f;
 
             // Double Jumps
             DoubleJumps();
