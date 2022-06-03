@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -9,6 +8,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
+    [LegacyName("Seabow")]
     public class ReedBlowgun : ModItem
     {
         public static readonly SoundStyle BubbleBurstSound = new ("CalamityMod/Sounds/Custom/PistolShrimpBubbleBurst") { PitchVariance = 0.15f, Volume = 0.2f};

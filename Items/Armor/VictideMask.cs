@@ -10,6 +10,10 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
+    //[LegacyName("VictideHelmet")]
+    //While the victide summoner helmet was previously named "VictideHelmet", the victide mage hat was named "VictideMask".
+    //To avoid bizzare side effects, the victide mage helmet will simply turn into the summoner helm that stole its name, and the old VictideHelmet will become the new victide mage helmet
+
     public class VictideMask : ModItem
     {
 

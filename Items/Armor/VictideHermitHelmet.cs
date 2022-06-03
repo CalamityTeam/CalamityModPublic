@@ -7,6 +7,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
+    [LegacyName("VictideHelmet")]
+    //Look at VictideMask.cs for the explanation.
     public class VictideHermitHelmet : ModItem
     {
         public override void SetStaticDefaults()

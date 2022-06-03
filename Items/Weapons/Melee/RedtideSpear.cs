@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    [LegacyName("UrchinSpear")]
     public class RedtideSpear : ModItem
     {
         public override void SetStaticDefaults()

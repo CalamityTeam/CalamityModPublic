@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
+    [LegacyName("VictideBar")]
     public class SeaRemains : ModItem
     {
         public override void SetStaticDefaults()

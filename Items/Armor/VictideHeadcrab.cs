@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
+    [LegacyName("VictideHeadgear")]
     public class VictideHeadcrab : ModItem
     {
         public override void SetStaticDefaults()

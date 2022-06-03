@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]
+    [LegacyName("VictideLeggings")]
     public class VictideGreaves : ModItem
     {
         public override void SetStaticDefaults()

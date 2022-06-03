@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
+    [LegacyName("SeashellBoomerang")]
     public class FishboneBoomerang : ModItem
     {
         public override void SetStaticDefaults()

@@ -1,20 +1,19 @@
-﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    [LegacyName("RedtideSword")]
     public class UrchinMace : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Urchin Mace");
-            Tooltip.SetDefault("Throws short-range whirlpools");
+            Tooltip.SetDefault("Throws out a whirlpool when released at full charge");
             SacrificeTotal = 1;
         }
 
@@ -42,6 +41,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void HoldItem(Player player)
         {
             player.Calamity().mouseWorldListener = true;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ModContent.ProjectileType<UrchinMaceProjectile>());
         }
 
         public override void AddRecipes()

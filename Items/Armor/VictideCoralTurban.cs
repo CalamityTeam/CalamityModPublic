@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
+    [LegacyName("VictideVisage")]
     public class VictideCoralTurban : ModItem
     {
         public override void SetStaticDefaults()

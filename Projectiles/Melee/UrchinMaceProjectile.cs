@@ -39,6 +39,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
+            //Prevent spam click abuse
+            if (Windup < Projectile.localNPCHitCooldown)
+                return false;
+
             float collisionPoint = 0f;
             float bladeLenght = 70 * Projectile.scale;
             float bladeWidth = 30 * Projectile.scale;

@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
+    [LegacyName("VictideHelm")]
     public class VictideSeaShellmet : ModItem
     {
         public override void SetStaticDefaults()
