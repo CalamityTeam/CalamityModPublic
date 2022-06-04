@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("When it turns its burning spear towards anything, it's simple mind has made clear the goal. To entirely eradicate the enemy.")
+				new FlavorTextBestiaryInfoElement("When it turns its burning spear towards anything, its simple mind has a clear goal. To entirely eradicate the enemy.")
             });
         }
 
