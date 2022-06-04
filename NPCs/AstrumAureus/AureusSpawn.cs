@@ -19,6 +19,7 @@ namespace CalamityMod.NPCs.AstrumAureus
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Aureus Spawn");
             Main.npcFrameCount[NPC.type] = 4;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
