@@ -34,8 +34,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Projectile.Center = Owner.Center + Vector2.UnitX * Owner.direction * 18f;
-
             // If the player is no longer able to hold the book, kill it.
             if (!Owner.channel || Owner.noItems || Owner.CCed)
             {
@@ -47,14 +45,13 @@ namespace CalamityMod.Projectiles.Magic
                 ReleaseThings();
 
             // Switch frames at a linearly increasing rate to make it look like the player is flipping pages quickly.
-            Projectile.frameCounter++;
-            if (Projectile.frameCounter >= (int)MathHelper.Lerp(10f, 2f, Utils.GetLerpValue(0f, 180f, Time, true)))
-            {
-                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
-                Projectile.frameCounter = 0;
-            }
+            Projectile.localAI[0] += Utils.Remap(Time, 0f, 180f, 1f, 5f);
+            Projectile.frame = (int)Math.Round(Projectile.localAI[0] / 10f) % Main.projFrames[Projectile.type];
+            if (Projectile.localAI[0] >= Main.projFrames[Projectile.type] * 10f)
+                Projectile.localAI[0] = 0f;
 
             AdjustPlayerValues();
+            Projectile.Center = Owner.Center + (Owner.compositeFrontArm.rotation + MathHelper.PiOver2).ToRotationVector2() * 14f;
             Projectile.timeLeft = 2;
             AttackTimer++;
             Time++;
@@ -102,6 +99,12 @@ namespace CalamityMod.Projectiles.Magic
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
             Owner.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
+
+            // Update the player's arm directions to make it look as though they're flipping through the book.
+            float frontArmRotation = (MathHelper.PiOver2 - 0.46f) * -Owner.direction;
+            float backArmRotation = frontArmRotation + MathHelper.Lerp(0.23f, 0.97f, CalamityUtils.Convert01To010(Projectile.localAI[0] / Main.projFrames[Projectile.type] / 10f)) * -Owner.direction;
+            Owner.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, backArmRotation);
+            Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmRotation);
         }
 
         public override bool PreDraw(ref Color lightColor)

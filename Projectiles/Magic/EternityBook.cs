@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.NPCs.Providence;
+using System;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -34,8 +35,6 @@ namespace CalamityMod.Projectiles.Magic
         {
             Player player = Main.player[Projectile.owner];
 
-            Projectile.Center = player.Center + 18f * player.direction * Vector2.UnitX;
-
             // If the player is no longer able to hold the book, kill it (and by extension the other projectiles).
             if (!player.channel || player.noItems || player.CCed)
             {
@@ -58,14 +57,15 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Switch frames at a linearly increasing rate to make it look like the player is flipping pages quickly.
-            if (Projectile.frameCounter++ >= (int)MathHelper.Lerp(10f, 1f, Utils.GetLerpValue(0f, 200f, Time, true)))
-            {
-                Projectile.frame = (Projectile.frame + 1) % Main.projFrames[Projectile.type];
-                Projectile.frameCounter = 0;
-            }
+            Projectile.localAI[0] += Utils.Remap(Time, 0f, 200f, 1f, 5f);
+            Projectile.frame = (int)Math.Round(Projectile.localAI[0] / 10f) % Main.projFrames[Projectile.type];
+            if (Projectile.localAI[0] >= Main.projFrames[Projectile.type] * 10f)
+                Projectile.localAI[0] = 0f;
 
             AdjustPlayerValues(player);
+            Projectile.Center = player.Center + (player.compositeFrontArm.rotation + MathHelper.PiOver2).ToRotationVector2() * 14f;
         }
+
         public void AdjustPlayerValues(Player player)
         {
             Projectile.spriteDirection = Projectile.direction = player.direction;
@@ -74,7 +74,14 @@ namespace CalamityMod.Projectiles.Magic
             player.itemTime = 2;
             player.itemAnimation = 2;
             player.itemRotation = (Projectile.direction * Projectile.velocity).ToRotation();
+
+            // Update the player's arm directions to make it look as though they're flipping through the book.
+            float frontArmRotation = (MathHelper.PiOver2 - 0.46f) * -player.direction;
+            float backArmRotation = frontArmRotation + MathHelper.Lerp(0.12f, 1.1f, CalamityUtils.Convert01To010(Projectile.localAI[0] / Main.projFrames[Projectile.type] / 10f)) * -player.direction;
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, backArmRotation);
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmRotation);
         }
+
         public void SummonProjectilesOnTarget(NPC target, Player owner)
         {
             Projectile hex = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), target.Center, Vector2.Zero, ModContent.ProjectileType<EternityHex>(), Projectile.damage, 0f, owner.whoAmI, target.whoAmI);
@@ -94,6 +101,7 @@ namespace CalamityMod.Projectiles.Magic
                 circleSpell.localAI[1] = Projectile.whoAmI;
             }
         }
+
         public override bool? CanDamage() => false;
     }
 }
