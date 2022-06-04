@@ -196,12 +196,22 @@ namespace CalamityMod.ILEditing
         #region Make Windy Day Music Play Less Often
         private static void MakeWindyDayMusicPlayLessOften(ILContext il)
         {
-            // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f.
+            // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f and make it stop when the wind dies down to below 0.54f instead of 0.34f.
             var cursor = new ILCursor(il);
+
+            FieldInfo _minWindField = typeof(Main).GetField("_minWind", BindingFlags.NonPublic | BindingFlags.Static);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(_minWindField))) // The min wind speed check that stops the windy day theme when the wind dies down enough.
+            {
+                LogFailure("Make Windy Day Music Play Less Often", "Could not locate the _minWind variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.54f); // Change to 0.54f.
 
             FieldInfo _maxWindField = typeof(Main).GetField("_maxWind", BindingFlags.NonPublic | BindingFlags.Static);
 
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(_maxWindField))) // The wind speed check.
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(_maxWindField))) // The max wind speed check that causes the windy day theme to play.
             {
                 LogFailure("Make Windy Day Music Play Less Often", "Could not locate the _maxWind variable.");
                 return;
