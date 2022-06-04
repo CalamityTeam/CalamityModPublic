@@ -84,6 +84,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("The fragments of the star god’s corpse still hold some of their former power, and even after succumbing to a dark infection, then being torn apart by an upstart worm, they willfully seek to return to the stars.")
