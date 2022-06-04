@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Charge => ref Projectile.ai[0];
         public float ChargeProgress => MathHelper.Clamp(Charge, 0, MaxCharge) / MaxCharge;
         public float FullChargeProgress => MathHelper.Clamp(Charge, 0, MaxCharge * 1.5f) / (MaxCharge * 1.5f);
-        public float Spread => MathHelper.PiOver2 * (1 - ChargeProgress * 0.95f);
+        public float Spread => MathHelper.PiOver2 * (1 - (float)Math.Pow(ChargeProgress, 1.5) * 0.95f);
 
         public Player Owner => Main.player[Projectile.owner];
 
@@ -66,16 +66,6 @@ namespace CalamityMod.Projectiles.Magic
             float pointingRotation = (Owner.Calamity().mouseWorld - Owner.Center).ToRotation();
             Projectile.Center = Owner.Center + pointingRotation.ToRotationVector2() * 40f;
 
-            for (int i = -1; i <= 1; i += 2)
-            {
-                float angle = pointingRotation + (Spread / 2f) * i;
-                for (int j = 0; j < 10; j++)
-                {
-                    Dust waterDust = Dust.NewDustPerfect(Owner.Center + angle.ToRotationVector2() * j * 40f, 33, Vector2.Zero, 100, default, 0.9f);
-                    waterDust.noGravity = true;
-                }
-            }
-
             if (Projectile.soundDelay <= 0)
             {
                 SoundEngine.PlaySound(CoralSpout.ChargeSound with { Pitch = 0.5f * ChargeProgress}, Owner.Center);
@@ -92,7 +82,22 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            return base.PreDraw(ref lightColor);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/DeathstareBeam").Value;
+
+            for (int i = -1; i <= 1; i += 2)
+            {
+                float angle = (Owner.Center - Owner.Calamity().mouseWorld).ToRotation() + (Spread / 2f) * i - MathHelper.PiOver2;
+                Vector2 scale = new Vector2(0.2f, 1f) * 3f;
+                Main.EntitySpriteDraw(texture, Owner.Center - Main.screenPosition, null, Color.DodgerBlue * 0.5f * (float)Math.Sqrt(ChargeProgress), angle, new Vector2(texture.Width / 2f, texture.Height), scale, 0, 0);
+            }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+            return false;
         }
 
         public override void Kill(int timeLeft)
@@ -101,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (FullChargeProgress < 1)
             {
-                SoundEngine.PlaySound(SoundID.Item167 with { Volume = SoundID.Item167.Volume * 0.4f }, Owner.Center);
+                SoundEngine.PlaySound(SoundID.Item167 with { Volume = SoundID.Item167.Volume * 0.4f + 0.2f * ChargeProgress }, Owner.Center);
 
 
                 for (int i = 0; i < ShotProjectiles; i++)
