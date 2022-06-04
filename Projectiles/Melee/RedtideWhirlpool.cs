@@ -61,16 +61,17 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.NPCDeath19, Projectile.position);
-            int num226 = 36;
-            for (int num227 = 0; num227 < num226; num227++)
+
+            int dustCount = 36;
+            for (int i = 0; i < dustCount; i++)
             {
-                Vector2 vector6 = Vector2.Normalize(Projectile.velocity) * new Vector2((float)Projectile.width / 2f, (float)Projectile.height) * 0.75f;
-                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + Projectile.Center;
-                Vector2 vector7 = vector6 - Projectile.Center;
-                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 172, vector7.X * 2f, vector7.Y * 2f, 100, default, 1.4f);
-                Main.dust[num228].noGravity = true;
-                Main.dust[num228].noLight = true;
-                Main.dust[num228].velocity = vector7;
+                Vector2 offset = Vector2.Normalize(Projectile.velocity) * new Vector2(Projectile.width / 2f, Projectile.height) * 0.75f;
+                offset = offset.RotatedBy(((i - (dustCount / 2 - 1)) * MathHelper.TwoPi / (float)dustCount), default) + Projectile.Center;
+                Vector2 dustDirection = offset - Projectile.Center;
+                Dust dust = Dust.NewDustPerfect(offset + dustDirection, 172, Vector2.Zero, 100, default, 1.4f);
+                dust.noGravity = true;
+                dust.noLight = true;
+                dust.velocity = dustDirection;
             }
         }
     }

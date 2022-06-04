@@ -29,6 +29,7 @@ namespace CalamityMod.Particles
 
         public override void Update()
         {
+            Opacity *= 0.98f;
             Color = Lighting.GetColor((int)Position.X / 16, (int)Position.Y / 16) * Opacity;
             Velocity *= 0.9f;
             if (Velocity.Length() <= 0.01f)
