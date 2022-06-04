@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 "Right click to throw a spread of gravity affected comets that explode, leaving behind a star\n" +
                 "Stealth strikes lob a bombshell that additionally splits into comets on hit");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -64,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse != 2)
                 return 1f;
-            return 0.75f;
+            return 1.25f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
