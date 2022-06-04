@@ -138,12 +138,12 @@ namespace CalamityMod.Projectiles.Melee
             float whirlpoolRotation = Windup * 0.34f * Owner.direction;
             SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            Main.spriteBatch.Draw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity * 0.3f, whirlpoolRotation * 1.2f, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
-            Main.spriteBatch.Draw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity, whirlpoolRotation, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
+            Main.EntitySpriteDraw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity * 0.3f, whirlpoolRotation * 1.2f, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
+            Main.EntitySpriteDraw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity, whirlpoolRotation, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
 
             Vector2 handleOrigin = new Vector2(0, maceTexture.Height);
             float maceRotation = Projectile.rotation + MathHelper.PiOver4;
-            Main.spriteBatch.Draw(maceTexture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), maceRotation, handleOrigin, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(maceTexture, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), maceRotation, handleOrigin, Projectile.scale, SpriteEffects.None, 0);
 
             return false;
         }
