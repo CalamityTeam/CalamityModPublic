@@ -19,8 +19,6 @@ namespace CalamityMod.Projectiles.Magic
         public ref float DetachmentEffectsComplete => ref Projectile.localAI[0];
         public bool Stuck => (StuckNPC != null && StuckNPC.active && ManaCharge < FullMana);
         public bool HasStuck => (Projectile.numHits > 0);
-        public bool DroppedDown => (HasStuck && !Stuck);
-
 
         Vector2 offsetFromStuckNPC;
         float rotationFromStuckNPC;
@@ -68,6 +66,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.frame == 0)
                 Projectile.frame = Main.rand.Next(3) + 1;
 
+            //Stay anchored to the enemy it's stuck in and emit charge particles.
             if (Stuck)
             {
                 Projectile.Center = StuckNPC.Center + offsetFromStuckNPC.RotatedBy(StuckNPC.rotation) * StuckNPC.scale;
@@ -76,7 +75,12 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.tileCollide = false;
                 Projectile.timeLeft++;
                 ManaCharge++;
-                //Particles
+
+                if (Main.rand.NextBool(5))
+                {
+                    Particle lilStar = new CuteManaStarParticle(Projectile.Center + Main.rand.NextVector2Circular(19f, 19f), Main.rand.NextVector2Circular(4f, 4f) - Vector2.UnitY * 6f * Main.rand.NextFloat(0.6f, 1.2f), Main.rand.NextFloat(0.8f, 1.8f), lifetime: Main.rand.Next(14) + 14);
+                    GeneralParticleHandler.SpawnParticle(lilStar);
+                }
             }
 
             //Act as a magnetized collectible.
@@ -90,7 +94,6 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.velocity = Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * -1 * (Main.rand.NextFloat(5f) + 5f);
                 }
 
-                float fallSpeed = Projectile.velocity.Y;
                 if (Projectile.velocity.X != 0)
                     Projectile.rotation += 0.02f * Math.Sign(Projectile.velocity.X) * Math.Clamp(Projectile.velocity.Length(), 0f, 5f);
 
@@ -107,9 +110,23 @@ namespace CalamityMod.Projectiles.Magic
                     if (distanceToOwner < 10f)
                         Projectile.Kill();
                 }
+
                 //particles
+
+                if (Main.rand.NextBool(2))
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15f, 15f), 45, Vector2.UnitY * -7f, Alpha: Main.rand.Next(100) + 120, Scale: Main.rand.NextFloat(1f, 2f));
+                    dust.noGravity = true; 
+                }
+
+                if (Main.rand.NextBool(5))
+                {
+                    Particle lilStar = new CuteManaStarParticle(Projectile.Center + Main.rand.NextVector2Circular(19f, 19f), -Vector2.UnitY * 6f * Main.rand.NextFloat(0.6f, 1.2f), Main.rand.NextFloat(0.8f, 1.8f), lifetime: Main.rand.Next(14) + 14);
+                    GeneralParticleHandler.SpawnParticle(lilStar);
+                }
             }
 
+            //the flung state.
             else
             {
                 float fallSpeed = Projectile.velocity.Y;
@@ -123,6 +140,19 @@ namespace CalamityMod.Projectiles.Magic
 
                 if (Projectile.velocity.Y > 0)
                     Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y, 0,  Math.Max(18f, fallSpeed));
+
+                //Sharticles
+                if (Main.rand.NextBool(2))
+                {
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15f, 15f), 15, Projectile.velocity * 0.3f, Alpha: Main.rand.Next(100) + 120, Scale: Main.rand.NextFloat(1f, 2f));
+                    dust.noGravity = true;
+                }
+
+                if (Main.rand.NextBool(3))
+                {
+                    Particle lilStar = new CuteManaStarParticle(Projectile.Center, Projectile.velocity * 0.2f + Main.rand.NextVector2Circular(5f, 5f) - Vector2.UnitY * 3f, Main.rand.NextFloat(0.8f, 1.8f), lifetime: Main.rand.Next(14) + 14);
+                    GeneralParticleHandler.SpawnParticle(lilStar);
+                }
             }
         }
 
@@ -139,9 +169,11 @@ namespace CalamityMod.Projectiles.Magic
         {
             if ((Owner.Center - Projectile.Center).Length() < 10f && HasStuck)
             {
-                Owner.statMana += 60;
+                SoundEngine.PlaySound(SoundID.Item28 with { Volume = SoundID.Item28.Volume * 0.8f }, Projectile.Center);
+
+                Owner.statMana += 80;
                 if (Main.myPlayer == Owner.whoAmI)
-                    Owner.ManaEffect(60);
+                    Owner.ManaEffect(80);
 
                 if (Owner.statMana > Owner.statManaMax2)
                     Owner.statMana = Owner.statManaMax2;
@@ -149,37 +181,53 @@ namespace CalamityMod.Projectiles.Magic
                 return;
             }
 
-            SoundEngine.PlaySound(SoundID.Item171, Projectile.Center);
-
-            //Particles, with extra ones if it crashed chargeless
-            for (int i = 0; i < 8; i++)
+            //don't play the thuk sound & do the particles if it dies of natural causes
+            if (timeLeft != 0)
             {
-                float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+                SoundEngine.PlaySound(SoundID.Item171, Projectile.Center);
 
-                Particle spike = new UrchinSpikeParticle(Projectile.Center + angle.ToRotationVector2() * 2f, angle.ToRotationVector2() * 6f, angle + MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.3f), lifetime: Main.rand.Next(10) + 25);
-                GeneralParticleHandler.SpawnParticle(spike);
+                //Particles, with extra ones if it crashed chargeless
+                for (int i = 0; i < 8; i++)
+                {
+                    float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+
+                    Particle spike = new UrchinSpikeParticle(Projectile.Center + angle.ToRotationVector2() * 2f, angle.ToRotationVector2() * 6f, angle + MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.3f), lifetime: Main.rand.Next(10) + 25);
+                    GeneralParticleHandler.SpawnParticle(spike);
+                }
+
+                int dustCount = Main.rand.Next(7);
+                for (int i = 0; i < dustCount; i++)
+                {
+                    int dustOpacity = (int)(200 * Main.rand.NextFloat(0.5f, 1f));
+                    float dustScale = Main.rand.NextFloat(1f, 1.4f);
+                    int dustType = CoralSpike.DustPick; //Epic reuse of static method babey
+                    Vector2 dustVelocity = (dustType == 255 ? 1 : -1) * Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 0.6f + Main.rand.NextVector2Circular(7f, 7f);
+
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, dustType, dustVelocity, Alpha: dustOpacity, Scale: dustScale);
+                    dust.noGravity = true;
+                }
+
+                int goreNumber = Main.rand.Next(4);
+
+                for (int i = 0; i < goreNumber; i++)
+                {
+                    int goreID = Main.rand.NextBool() ? 266 : Main.rand.NextBool() ? 971 : 972;
+                    Gore bone = Gore.NewGorePerfect(Projectile.GetSource_FromAI(), Projectile.position, Projectile.velocity * -0.2f + Main.rand.NextVector2Circular(5f, 5f), goreID);
+                    bone.scale = Main.rand.NextFloat(0.6f, 1f) * (goreID == 972 ? 0.7f : 1f); //Shrink the larger bones
+                    bone.type = goreID; //Gotta do that or else itll spawn gores from the general pool :(
+                }
             }
 
-            int dustCount = Main.rand.Next(7);
-            for (int i = 0; i < dustCount; i++)
+            else if (HasStuck)
             {
-                int dustOpacity = (int)(200 * Main.rand.NextFloat(0.5f, 1f));
-                float dustScale = Main.rand.NextFloat(1f, 1.4f);
-                int dustType = CoralSpike.DustPick; //Epic reuse of static method babey
-                Vector2 dustVelocity = (dustType == 255 ? 1 : -1) * Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * 0.6f + Main.rand.NextVector2Circular(7f, 7f);
+                for (int i = 0; i < 14; i++)
+                {
+                    Vector2 direction = Main.rand.NextVector2Circular(10f, 10f);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + direction, 45, direction + Vector2.UnitY * -7f, Alpha: Main.rand.Next(100) + 120, Scale: Main.rand.NextFloat(1f, 2f));
+                    dust.noGravity = true;
+                }
 
-                Dust dust = Dust.NewDustPerfect(Projectile.Center, dustType, dustVelocity, Alpha: dustOpacity, Scale: dustScale);
-                dust.noGravity = true;
-            }
-
-            int goreNumber = Main.rand.Next(4);
-
-            for (int i = 0; i < goreNumber; i++)
-            {
-                int goreID = Main.rand.NextBool() ? 266 : Main.rand.NextBool() ? 971 : 972;
-                Gore bone = Gore.NewGorePerfect(Projectile.GetSource_FromAI(), Projectile.position, Projectile.velocity * -0.2f + Main.rand.NextVector2Circular(5f, 5f), goreID);
-                bone.scale = Main.rand.NextFloat(0.6f, 1f) * (goreID == 972 ? 0.7f : 1f); //Shrink the larger bones
-                bone.type = goreID; //Gotta do that or else itll spawn gores from the general pool :(
+                SoundEngine.PlaySound(SoundID.Item29 with { Volume = SoundID.Item29.Volume * 0.4f, Pitch = -0.3f }, Projectile.Center);
             }
 
         }
@@ -204,11 +252,12 @@ namespace CalamityMod.Projectiles.Magic
 
                 float period = (int)(FullMana / 4f);
 
-                float pulseProgress = Main.GlobalTimeWrappedHourly % period / period; 
+                float pulseProgress = Main.GlobalTimeWrappedHourly % period / period;
 
                 if (Stuck)
+                {
                     pulseProgress = (ManaCharge % period) / period;
-
+                }
 
                 float overimageSize = scale + (float)Math.Sqrt(pulseProgress) * 0.4f;
                 float overimageOpacity = (float)Math.Sin(pulseProgress * MathHelper.PiOver2 + MathHelper.PiOver2) * 0.7f;

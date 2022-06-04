@@ -51,7 +51,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(SoundID.Dig, Projectile.Center);
+            if (timeLeft != 0)
+                SoundEngine.PlaySound(SoundID.Dig with { Volume = SoundID.Dig.Volume * 0.4f}, Projectile.Center);
 
             for (int i = 0; i < 3; i++)
             {

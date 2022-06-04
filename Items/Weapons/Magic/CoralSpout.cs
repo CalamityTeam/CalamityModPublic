@@ -16,7 +16,12 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coral Spout");
-            Tooltip.SetDefault("Casts coral water spouts that lay on the ground and damage enemies");
+            Tooltip.SetDefault("Casts a shotgun-like blast of coral shards\n" +
+                               "Keep the attack button held down to narrow the spread\n" +
+                               "Fully charging the attack releases a single, bigger chunk of coral that sticks to enemies\n" +
+                               "Grabbing the chunk of coral after it falls from the enemy replenishes 80 mana"
+                
+                );
             //Lore about stone tablets being used since paper couldn't be brought underwater.
             //Maybe something something, the sea kingdom had to have a large amount of scribes to rewrite books into tablets
             SacrificeTotal = 1;
