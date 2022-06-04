@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An insect, its shell inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A lizard, its back inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
             });
         }
 

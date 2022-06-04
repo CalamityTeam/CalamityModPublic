@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An insect, its shell inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
+				new FlavorTextBestiaryInfoElement("A lizard, its back inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
             });
         }
 

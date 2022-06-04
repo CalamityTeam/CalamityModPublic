@@ -42,10 +42,10 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Underground,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Caverns,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("An insect, its shell inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
+				new FlavorTextBestiaryInfoElement("A lizard, its back inundated with crystals. These provide protection, but they are easily spooked and can be harvested for the rare gems upon their backs.")
             });
         }
 

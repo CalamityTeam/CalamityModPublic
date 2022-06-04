@@ -50,9 +50,11 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
+            int associatedNPCType = ModContent.NPCType<GammaSlime>(); //This exists so you're not locked out of getting an entry for Irradiated Slime if you skip the second tier
+            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
+
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
 				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier2,
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier3,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Encrusted with gunk that evaporates slowly from the sulphurous sea, these slimes actually form in the upper atmosphere’s acidic rain, before falling back to the earth.")

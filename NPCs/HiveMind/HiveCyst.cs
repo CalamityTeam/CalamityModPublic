@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.HiveMind
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundCorruption,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Despite retaining a humanoid form, it is not capable of any higher thoughts. It only knows violence.")
+				new FlavorTextBestiaryInfoElement("The blemish of a colonial superorganism, the mass of organic matter pulses like a heart. The growth is the result of the corruption’s beings forming together.")
             });
         }
 
