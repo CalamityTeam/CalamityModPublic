@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("70% chance to not consume flares\n" +
                 "Right click to fire a spread of flares");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override float UseTimeMultiplier    (Player player)
         {
             if (player.altFunctionUse == 2)
-                return 0.3333f;
+                return 3f;
             return 1f;
         }
 

@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Right click to fire a nuke\n" +
                 "Rockets will destroy tiles with tile-destroying ammo");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

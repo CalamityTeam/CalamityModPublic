@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Hold left click to load up to eight bolts for powerful burst fire\n" +
                 "Hold right click to use the repeater full auto");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

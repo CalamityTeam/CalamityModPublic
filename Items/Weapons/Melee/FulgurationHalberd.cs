@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee.Spears;
 using Microsoft.Xna.Framework;
@@ -17,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Inflicts burning blood on enemy hits\n" +
                 "Right click to use as a spear");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
