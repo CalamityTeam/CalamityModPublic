@@ -1,8 +1,8 @@
 ﻿using CalamityMod.Balancing;
-using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -198,7 +198,10 @@ namespace CalamityMod.ILEditing
         {
             // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f.
             var cursor = new ILCursor(il);
-            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStsfld<Main>("_maxWind"))) // The wind speed check.
+
+            FieldInfo _maxWindField = typeof(Main).GetField("_maxWind", BindingFlags.NonPublic | BindingFlags.Static);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(_maxWindField))) // The wind speed check.
             {
                 LogFailure("Make Windy Day Music Play Less Often", "Could not locate the _maxWind variable.");
                 return;
