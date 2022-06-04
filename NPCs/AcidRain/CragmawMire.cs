@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.AcidRain
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier3,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Within its calcified shell which has formed against all logic in the sulphurous sea, a gelatinous body stirs. It is also host to a myriad of other creatures within its armor.")
+				new FlavorTextBestiaryInfoElement("Within its calcified shell which has formed against all logic in the sulphurous sea, a gelatinous body stirs. It is also host to a long grappling creature, which helps it grab prey in exchange for protection.")
             });
         }
 
