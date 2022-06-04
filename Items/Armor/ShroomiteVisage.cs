@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
 
             CreateRecipe().
                 AddIngredient(ItemID.ChlorophyteHelmet).
-                AddIngredient(ItemID.GlowingMushroom, 180).
+                AddIngredient(ItemID.GlowingMushroom, 60).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
