@@ -81,6 +81,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.NightTime,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("A multi-legged mechanical beast, its very existence speaks of the extent of control the astral virus has. Not even machinery can stand against it.")
