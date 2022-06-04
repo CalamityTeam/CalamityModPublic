@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             float armPointingDirection = ((Owner.Calamity().mouseWorld - Owner.Center).ToRotation());
 
-            //"crop" the rotation so the player only tilts the fishing rod slightly up and slightly down.
+            //"crop" the rotation so the player only points their arm in a smaller range. (The back arm points in the throw direction)
             if (armPointingDirection < MathHelper.PiOver2 && armPointingDirection >= -MathHelper.PiOver2)
                 armPointingDirection = -MathHelper.PiOver2 + MathHelper.PiOver4 / 2f + MathHelper.PiOver2 * 1.5f * Utils.GetLerpValue(0f, MathHelper.Pi, armPointingDirection + MathHelper.PiOver2, true);
             else
@@ -124,6 +124,16 @@ namespace CalamityMod.Projectiles.Melee
                 Particle spike = new UrchinSpikeParticle(target.Center + angle.ToRotationVector2() * 15f, angle.ToRotationVector2() * 6f, angle + MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.3f), lifetime: Main.rand.Next(10) + 25);
                 GeneralParticleHandler.SpawnParticle(spike);
             }
+        }
+
+        //If we don't do that, the hit enemies get knocked back towards you if you hit them from the right??
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            // This would knock enemies away consistently, but i'm choosing to go with the other option
+            //hitDirection = Math.Sign(target.Center.X - Owner.Center.X);
+            
+            //Doing it this way lets the player choose if they want to knockback enemies towards them by pointing away from them
+            hitDirection = Owner.direction;
         }
 
         public override bool PreDraw(ref Color lightColor)

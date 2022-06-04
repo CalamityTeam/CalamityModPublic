@@ -8,12 +8,12 @@ namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     [LegacyName("VictideHelm")]
-    public class VictideSeaShellmet : ModItem
+    public class VictideShellmet : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Sea Shellmet");
+            DisplayName.SetDefault("Victide Shellmet");
             Tooltip.SetDefault("5% increased melee damage");
         }
 

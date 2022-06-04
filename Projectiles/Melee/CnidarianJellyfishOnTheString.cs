@@ -256,7 +256,7 @@ namespace CalamityMod.Projectiles.Melee
 
         }
 
-        //Swing animation keys
+        //Squish animation keys
         public CurveSegment anticipation = new CurveSegment(EasingType.PolyInOut, 0f, 1f, 0.35f, 3);
         public CurveSegment contraction = new CurveSegment(EasingType.PolyOut, 0.5f, 1.35f, -0.85f, 5);
         public CurveSegment retract = new CurveSegment(EasingType.SineInOut, 0.7f, 0.5f, 0.5f);
