@@ -219,7 +219,6 @@ namespace CalamityMod.NPCs.DesertScourge
                         {
                             SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
                             float velocity = NPC.velocity.Length() + 1f;
-                            float projectileOffset = 5f;
                             int type = ModContent.ProjectileType<SandBlast>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
@@ -230,7 +229,7 @@ namespace CalamityMod.NPCs.DesertScourge
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * projectileOffset, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                             }
                         }
 
@@ -363,6 +362,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (burrow && NPC.Center.Y >= burrowTarget - 16f)
             {
                 NPC.Calamity().newAI[1] = 1f;
+                NPC.Calamity().newAI[2] = 0f;
                 if (!playRoarSound)
                 {
                     SoundEngine.PlaySound(RoarSound, player.Center);
@@ -375,10 +375,9 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 // Spit a huge spread of sand upwards that falls down
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
-                if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     float velocity = malice ? 9f : death ? 7f : 6f;
-                    float projectileOffset = 5f;
                     int type = ModContent.ProjectileType<GreatSandBlast>();
                     int damage = NPC.GetProjectileDamage(type);
                     Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
@@ -388,13 +387,12 @@ namespace CalamityMod.NPCs.DesertScourge
                     for (int i = 0; i < numProj; i++)
                     {
                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * projectileOffset, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                     }
                 }
 
                 NPC.TargetClosest();
                 NPC.Calamity().newAI[1] = 2f;
-                NPC.Calamity().newAI[2] = 0f;
                 playRoarSound = false;
             }
 

@@ -131,11 +131,10 @@ namespace CalamityMod.NPCs
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float mistVelocity = death ? 10f : 8f;
-                            float projectileOffset = 5f;
                             Vector2 projectileVelocity = Vector2.Normalize(npc.Center + npc.velocity * 10f - npc.Center);
                             int type = ModContent.ProjectileType<SulphuricAcidMist>();
                             int damage = npc.GetProjectileDamage(type);
-                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * projectileOffset, projectileVelocity * mistVelocity, type, damage, 0f, Main.myPlayer);
+                            int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 5f, projectileVelocity * mistVelocity, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].tileCollide = false;
                             Main.projectile[proj].timeLeft = 600;
                         }
@@ -155,7 +154,7 @@ namespace CalamityMod.NPCs
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }
@@ -266,7 +265,7 @@ namespace CalamityMod.NPCs
                                         if (expertMode)
                                             velocity *= 1f + (maximumVelocityMult * (0.5f - lifeRatio));
 
-                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity, type, damage, 0f, Main.myPlayer);
+                                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(velocity) * 5f, velocity, type, damage, 0f, Main.myPlayer);
                                     }
                                 }
                             }
@@ -293,12 +292,11 @@ namespace CalamityMod.NPCs
                                 {
                                     SoundEngine.PlaySound(SoundID.Item17, npc.Center);
                                     float toothVelocity = death ? 9f : 8f;
-                                    float projectileOffset = 5f;
                                     Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center);
                                     int type = ModContent.ProjectileType<SandTooth>();
                                     int damage = npc.GetProjectileDamage(type);
                                     float accelerate = phase4 ? 1f : 0f;
-                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * projectileOffset, projectileVelocity * toothVelocity, type, damage, 0f, Main.myPlayer, accelerate, 0f);
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + projectileVelocity * 5f, projectileVelocity * toothVelocity, type, damage, 0f, Main.myPlayer, accelerate, 0f);
                                     npc.netUpdate = true;
                                 }
                             }
@@ -881,11 +879,10 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float velocity = (death ? 7f : revenge ? 6f : 5f) + (2f * enrageScale) + (expertMode ? 3f * (1f - lifeRatio) : 0f);
-                        float projectileOffset = 3f;
                         int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                         int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
-                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * projectileOffset, projectileVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
                         Main.projectile[proj].timeLeft = 240;
 
                         if (npc.ai[1] % divisor2 == divisor2 - 1f)
@@ -900,7 +897,7 @@ namespace CalamityMod.NPCs
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * projectileOffset, perturbedSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
                             }
                         }
                     }
@@ -972,7 +969,7 @@ namespace CalamityMod.NPCs
                         for (int k = 0; k < totalProjectiles; k++)
                         {
                             Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                         }
 
                         if (death)
@@ -981,7 +978,7 @@ namespace CalamityMod.NPCs
                             for (int k = 0; k < totalProjectiles; k++)
                             {
                                 Vector2 vector255 = spinningPoint.RotatedBy(radians2 * k);
-                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, vector255 * 0.75f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(vector255) * 5f, vector255 * 0.75f, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                             }
                         }
 

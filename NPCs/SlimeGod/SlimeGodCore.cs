@@ -439,26 +439,12 @@ namespace CalamityMod.NPCs.SlimeGod
                                 float divisor = malice ? 10f : 15f;
                                 if (NPC.ai[1] % divisor == 0f && Vector2.Distance(player.Center, NPC.Center) > 160f)
                                 {
-                                    float num179 = expertMode ? 9f : 7.5f;
-                                    Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
-                                    float num180 = player.position.X + player.width * 0.5f - value9.X;
-                                    float num181 = Math.Abs(num180) * 0.1f;
-                                    float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
-                                    float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                                    num183 = num179 / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
+                                    SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                                    float slimeVelocity = expertMode ? 9f : 7.5f;
                                     int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
                                     int damage = NPC.GetProjectileDamage(type);
-                                    value9.X += num180;
-                                    value9.Y += num182;
-                                    num180 = player.position.X + player.width * 0.5f - value9.X;
-                                    num182 = player.position.Y + player.height * 0.5f - value9.Y;
-                                    num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-                                    num183 = num179 / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                    Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * slimeVelocity;
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
@@ -471,6 +457,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         if (NPC.ai[1] % 40f == 0f)
                         {
+                            SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                             float num179 = expertMode ? 12f : 10f;
                             Vector2 value9 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                             float num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -496,7 +483,7 @@ namespace CalamityMod.NPCs.SlimeGod
                                 num182 += Main.rand.Next(-spread, spread + 1);
                                 num180 *= num183;
                                 num182 *= num183;
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer);
                             }
                         }
                     }

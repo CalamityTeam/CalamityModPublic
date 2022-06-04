@@ -1,10 +1,10 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -38,14 +38,10 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.timeLeft < 60)
                 Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
 
-            if (Projectile.ai[1] == 0f)
-            {
-                Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
-            }
-
             if (Main.rand.NextBool(2))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, 0f, 0f);
+
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.05f;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 12f, targetHitbox);

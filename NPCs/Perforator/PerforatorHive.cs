@@ -372,7 +372,6 @@ namespace CalamityMod.NPCs.Perforator
                     int numProj = death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
                     int spread = 75;
                     float velocity = 8f;
-                    float projectileOffset = 50f;
                     Vector2 destination = wormsAlive > 0 ? player.Center : NPC.Center - Vector2.UnitY * 100f;
                     Vector2 projectileVelocity = new Vector2(Vector2.Normalize(destination - NPC.Center).X * velocity, -velocity);
                     float rotation = MathHelper.ToRadians(spread);
@@ -380,7 +379,7 @@ namespace CalamityMod.NPCs.Perforator
                     {
                         Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                         Vector2 randomVelocity = new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * projectileOffset, perturbedSpeed + randomVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 50f, perturbedSpeed + randomVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                     }
                 }
             }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -302,9 +303,10 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.ai[1] += 1f;
                     if (NPC.ai[1] > 10f)
                     {
+                        SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            // Eruption of slime balls
+                            // Eruption of slime balls that fall down
                             float projectileVelocity = 8f;
                             int type = ModContent.ProjectileType<AbyssBallVolley2>();
                             int damage = NPC.GetProjectileDamage(type);
@@ -316,7 +318,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             for (int i = 0; i < numProj; i++)
                             {
                                 Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 30f * NPC.scale, perturbedSpeed * 1.5f, type, damage, 0f, Main.myPlayer, 1f, 0f);
                             }
 
                             // Fire slime balls directly at players with a max of 2
@@ -334,7 +336,7 @@ namespace CalamityMod.NPCs.SlimeGod
                                 foreach (int t in targets)
                                 {
                                     Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - NPC.Center) * projectileVelocity;
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, velocity2, type, damage, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(velocity2) * 30f * NPC.scale, velocity2, type, damage, 0f, Main.myPlayer);
                                 }
                             }
                         }
