@@ -95,6 +95,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
 
             // Removal of vanilla stupidity
+            IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
@@ -184,6 +185,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
 
             // Removal of vanilla stupidity
+            IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind -= DecreaseSandstormWindSpeedRequirement;
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;

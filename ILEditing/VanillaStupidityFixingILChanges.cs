@@ -11,6 +11,21 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        #region Decrease Sandstorm Wind Speed Requirement
+        private static void DecreaseSandstormWindSpeedRequirement(ILContext il)
+        {
+            // Sandstorms don't rapidly diminish unless the wind speed is less than 0.2f instead of 0.6f.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.6f))) // The 0.6f wind speed check.
+            {
+                LogFailure("Decrease Sandstorm Wind Speed Requirement", "Could not locate the wind speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Change to 0.2f.
+        }
+        #endregion Decrease Sandstorm Wind Speed Requirement
+
         #region Reforge Requirement Relaxation
         private static void RelaxPrefixRequirements(ILContext il)
         {
