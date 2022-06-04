@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         if (NPC.Calamity().newAI[2] % 30f == 0f)
                         {
                             SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                            float velocity = NPC.velocity.Length() + 1f;
+                            float velocity = malice ? 12f : death ? 10f : 9f;
                             int type = ModContent.ProjectileType<SandBlast>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
