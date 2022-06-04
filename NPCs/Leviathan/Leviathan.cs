@@ -764,7 +764,7 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<LeviathanTeeth>(),
                     ModContent.ItemType<LureofEnthrallment>()
                 };
-                npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
+                normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<LeviathanMask>(), 7);
