@@ -1719,6 +1719,80 @@ namespace CalamityMod
             r.AddIngredient(ItemID.AncientCloth, 4);
             r.AddTile(TileID.Loom);
             r.Register();
+
+            // Alternative Turtle, Shroomite, and Spectre Armor set recipes
+            r = CreateRecipe(ItemID.TurtleHelmet);
+            r.AddIngredient(ItemID.ChlorophyteMask);
+            r.AddIngredient(ItemID.TurtleShell);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.TurtleScaleMail);
+            r.AddIngredient(ItemID.ChlorophytePlateMail);
+            r.AddIngredient(ItemID.TurtleShell);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.TurtleLeggings);
+            r.AddIngredient(ItemID.ChlorophyteGreaves);
+            r.AddIngredient(ItemID.TurtleShell);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteHelmet);
+            r.AddIngredient(ItemID.ChlorophyteHelmet);
+            r.AddIngredient(ItemID.GlowingMushroom, 180);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteHeadgear);
+            r.AddIngredient(ItemID.ChlorophyteHelmet);
+            r.AddIngredient(ItemID.GlowingMushroom, 180);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteMask);
+            r.AddIngredient(ItemID.ChlorophyteHelmet);
+            r.AddIngredient(ItemID.GlowingMushroom, 180);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteBreastplate);
+            r.AddIngredient(ItemID.ChlorophytePlateMail);
+            r.AddIngredient(ItemID.GlowingMushroom, 360);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteLeggings);
+            r.AddIngredient(ItemID.ChlorophyteGreaves);
+            r.AddIngredient(ItemID.GlowingMushroom, 240);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectreHood);
+            r.AddIngredient(ItemID.ChlorophyteHeadgear);
+            r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectreMask);
+            r.AddIngredient(ItemID.ChlorophyteHeadgear);
+            r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectreRobe);
+            r.AddIngredient(ItemID.ChlorophytePlateMail);
+            r.AddIngredient(ItemID.Ectoplasm, 12);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectrePants);
+            r.AddIngredient(ItemID.ChlorophyteGreaves);
+            r.AddIngredient(ItemID.Ectoplasm, 9);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
         }
         #endregion
 
