@@ -84,10 +84,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             // Left click: Exo Fire, with a chance of Exo Light Bombs.
             for (int i = 0; i < 2; i++)
             {
-
                 Projectile.NewProjectile(source, position, velocity, type, damage, knockback, player.whoAmI, 0f, 0f);
             }
-            if (player.itemAnimation == 1)
+            if (player.itemAnimation == 2)
             {
                 for (int i = 0; i < 2; i++)
                 {
