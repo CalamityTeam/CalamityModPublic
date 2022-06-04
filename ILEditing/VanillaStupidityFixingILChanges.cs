@@ -193,6 +193,21 @@ namespace CalamityMod.ILEditing
         }
         #endregion
 
+        #region Make Windy Day Music Play Less Often
+        private static void MakeWindyDayMusicPlayLessOften(ILContext il)
+        {
+            // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchStsfld<Main>("_maxWind"))) // The wind speed check.
+            {
+                LogFailure("Make Windy Day Music Play Less Often", "Could not locate the _maxWind variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.6f); // Change to 0.6f.
+        }
+        #endregion Make Windy Day Music Play Less Often
+
         #region Change Blood Moon Max HP Requirements
         private static void BloodMoonsRequire200MaxLife(ILContext il)
         {

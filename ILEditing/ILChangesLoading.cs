@@ -102,6 +102,7 @@ namespace CalamityMod.ILEditing
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Player.IsTileTypeInInteractionRange += IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile += MakeMeteoriteExplodable;
+            IL.Terraria.Main.UpdateWindyDayState += MakeWindyDayMusicPlayLessOften;
             IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
             IL.Terraria.Projectile.Damage += MakeTagDamageMultiplicative;
@@ -189,6 +190,7 @@ namespace CalamityMod.ILEditing
             //IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Player.IsTileTypeInInteractionRange -= IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile -= MakeMeteoriteExplodable;
+            IL.Terraria.Main.UpdateWindyDayState -= MakeWindyDayMusicPlayLessOften;
             IL.Terraria.Main.UpdateTime_StartNight -= BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
             IL.Terraria.Projectile.Damage -= MakeTagDamageMultiplicative;
