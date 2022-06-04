@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Tools
             DisplayName.SetDefault("Grax");
             Tooltip.SetDefault("Hitting an enemy will greatly boost your defense, melee damage and melee crit for a short time\n" +
                 "Right click to use without hammering down walls or chopping down trees");
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

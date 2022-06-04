@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 "Calls down a swarm of molten asteroids\n" +
                 "Right click to fire a spread of molten asteroids from the staff");
             Item.staff[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
             SacrificeTotal = 1;
         }
 

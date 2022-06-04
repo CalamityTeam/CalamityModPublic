@@ -23,6 +23,7 @@ Taking damage while firing the stream will interrupt it and reduce your wing fli
 Right click to fire two devastating barrages of five empowered fireballs.
 'Just don't get hit'");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

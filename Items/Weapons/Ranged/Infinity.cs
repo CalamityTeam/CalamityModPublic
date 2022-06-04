@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Right click to fire a barrage of normal bullets\n" +
                 "They say infinity is neverending, yet you hold it in your hands");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

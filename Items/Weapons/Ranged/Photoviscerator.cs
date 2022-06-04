@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Fires a stream of exo flames and light that explodes into homing sparks\n" +
                 "Right click to fire homing flares which stick to enemies and incinerate them");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

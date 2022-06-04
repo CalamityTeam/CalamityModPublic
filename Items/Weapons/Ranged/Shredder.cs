@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "Fires a barrage of energy bolts that split and bounce\n" +
                 "Right click to fire a barrage of normal bullets");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

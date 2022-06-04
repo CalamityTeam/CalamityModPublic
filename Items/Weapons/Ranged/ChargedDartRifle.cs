@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires a shotgun spread of darts and a splitting energy blast\n" +
             "Right click to fire a more powerful exploding energy blast that bounces");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

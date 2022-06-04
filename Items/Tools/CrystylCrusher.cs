@@ -25,14 +25,15 @@ namespace CalamityMod.Items.Tools
             Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
                 "Right click to swing normally");
             Item.staff[Item.type] = true;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
             Item.damage = 400;
             Item.knockBack = 9f;
-            Item.useTime = 2;
-            Item.useAnimation = 2;
+            Item.useTime = 3;
+            Item.useAnimation = 3;
             Item.pick = PickPower;
             // tile boost intentionally missing, usually 50
 
