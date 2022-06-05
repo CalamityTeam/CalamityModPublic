@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 hyperMode = true;
             }
 
-            float distanceSpeedBoost = Vector2.Distance(player.Center, NPC.Center) * ((malice || hyperMode) ? 0.008f : 0.005f);
+            float distanceSpeedBoost = Vector2.Distance(player.Center, NPC.Center) * (malice ? 0.008f : 0.005f);
 
             if (NPC.ai[0] == 0f)
             {
@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.knockBackResist = 0f;
                 Vector2 distanceFromTarget = player.Center - NPC.Center;
                 distanceFromTarget.Y -= 16f;
-                if (Main.netMode != NetmodeID.MultiplayerClient && distanceFromTarget.Length() < 600f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) &&
+                if (Main.netMode != NetmodeID.MultiplayerClient && distanceFromTarget.Length() < 500f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                 {
                     NPC.ai[0] = 0f;
@@ -473,10 +473,10 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.netUpdate = true;
                 }
 
-                if (distanceFromTarget.Length() > 10f)
+                if (distanceFromTarget.Length() > 12f)
                 {
                     distanceFromTarget.Normalize();
-                    distanceFromTarget *= 10f;
+                    distanceFromTarget *= 12f;
                 }
 
                 NPC.velocity = (NPC.velocity * 4f + distanceFromTarget) / 5f;
