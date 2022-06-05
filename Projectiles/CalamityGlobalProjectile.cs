@@ -448,10 +448,6 @@ namespace CalamityMod.Projectiles
             if (projectile.type == ProjectileID.CrystalLeaf)
                 return ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);
 
-            // WHY DOES THE CYRSTAL STILL SHOOT THESE FUCKING THINGS???
-            if (projectile.type == ProjectileID.CrystalLeafShot)
-                projectile.Kill();
-
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
             {
                 ExplosiveEnchantCountdown--;
