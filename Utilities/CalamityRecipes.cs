@@ -544,6 +544,7 @@ namespace CalamityMod
             EditOpticStaffRecipe();
             EditShroomiteBarRecipe();
             EditChlorophyteBarRecipe();
+            EditAnkhCharmRecipe();
 
             EditPreHardmodeOreArmorRecipes();
             EditHardmodeOreSetRecipes();
@@ -1014,6 +1015,36 @@ namespace CalamityMod
             {
                 s.requiredItem[0].stack = 4;
             });
+        }
+
+        // Add Pocket Mirror to the Ankh Charm recipe.
+        private static void EditAnkhCharmRecipe()
+        {
+            {
+                List<Recipe> rec = Main.recipe.ToList();
+                rec.Where(x => x.createItem.type == ItemID.AnkhCharm).ToList().ForEach(s =>
+                {
+                    s.requiredItem = new List<Item>();
+                    for (int i = 0; i < 6; i++)
+                        s.requiredItem.Add(new Item());
+                    s.requiredItem[0].SetDefaults(ItemID.ArmorBracing, false);
+                    s.requiredItem[0].stack = 1;
+                    s.requiredItem[1].SetDefaults(ItemID.MedicatedBandage, false);
+                    s.requiredItem[1].stack = 1;
+                    s.requiredItem[2].SetDefaults(ItemID.ThePlan, false);
+                    s.requiredItem[2].stack = 1;
+                    s.requiredItem[3].SetDefaults(ItemID.CountercurseMantra, false);
+                    s.requiredItem[3].stack = 1;
+                    s.requiredItem[4].SetDefaults(ItemID.Blindfold, false);
+                    s.requiredItem[4].stack = 1;
+                    s.requiredItem[5].SetDefaults(ItemID.PocketMirror, false);
+                    s.requiredItem[5].stack = 1;
+
+                    s.requiredTile[0] = TileID.TinkerersWorkbench;
+                    s.createItem.SetDefaults(ItemID.AnkhCharm, false);
+                    s.createItem.stack = 1;
+                });
+            }
         }
 
         // Changes pre-hardmode ore armor recipes to be consistent for each tier and require far fewer bars.
@@ -1719,6 +1750,80 @@ namespace CalamityMod
             r.AddIngredient(ItemID.AncientCloth, 4);
             r.AddTile(TileID.Loom);
             r.Register();
+
+            // Alternative Turtle, Shroomite, and Spectre Armor set recipes
+            r = CreateRecipe(ItemID.TurtleHelmet);
+            r.AddIngredient(ItemID.ChlorophyteMask);
+            r.AddIngredient(ItemID.TurtleShell);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.TurtleScaleMail);
+            r.AddIngredient(ItemID.ChlorophytePlateMail);
+            r.AddIngredient(ItemID.TurtleShell);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.TurtleLeggings);
+            r.AddIngredient(ItemID.ChlorophyteGreaves);
+            r.AddIngredient(ItemID.TurtleShell);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteHelmet);
+            r.AddIngredient(ItemID.ChlorophyteHelmet);
+            r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteHeadgear);
+            r.AddIngredient(ItemID.ChlorophyteHelmet);
+            r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteMask);
+            r.AddIngredient(ItemID.ChlorophyteHelmet);
+            r.AddIngredient(ItemID.GlowingMushroom, 60);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteBreastplate);
+            r.AddIngredient(ItemID.ChlorophytePlateMail);
+            r.AddIngredient(ItemID.GlowingMushroom, 120);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.ShroomiteLeggings);
+            r.AddIngredient(ItemID.ChlorophyteGreaves);
+            r.AddIngredient(ItemID.GlowingMushroom, 80);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectreHood);
+            r.AddIngredient(ItemID.ChlorophyteHeadgear);
+            r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectreMask);
+            r.AddIngredient(ItemID.ChlorophyteHeadgear);
+            r.AddIngredient(ItemID.Ectoplasm, 6);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectreRobe);
+            r.AddIngredient(ItemID.ChlorophytePlateMail);
+            r.AddIngredient(ItemID.Ectoplasm, 12);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            r = CreateRecipe(ItemID.SpectrePants);
+            r.AddIngredient(ItemID.ChlorophyteGreaves);
+            r.AddIngredient(ItemID.Ectoplasm, 9);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
         }
         #endregion
 
@@ -1798,6 +1903,15 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Wire, 10);
             r.AddRecipeGroup("AnyCobaltBar", 5);
             r.AddIngredient(ItemID.Ruby, 3);
+            r.AddTile(TileID.MythrilAnvil);
+            r.Register();
+
+            // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
+            r = CreateRecipe(ItemID.PocketMirror);
+            r.AddIngredient(ItemID.Glass, 10);
+            r.AddRecipeGroup("AnyGoldBar", 4);
+            r.AddIngredient(ItemID.CrystalShard, 2);
+            r.AddIngredient(ItemID.SoulofNight, 2);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
         }
