@@ -63,14 +63,10 @@ namespace CalamityMod.Projectiles.Rogue
         //Swing animation keys
         public CurveSegment pullback = new CurveSegment(EasingType.PolyOut, 0f, 0f, MathHelper.PiOver4 * -1.2f, 2);
         public CurveSegment throwout = new CurveSegment(EasingType.PolyOut, 0.7f, MathHelper.PiOver4 * -1.2f, MathHelper.PiOver4 * 1.2f + MathHelper.PiOver2, 3);
-        public CurveSegment stay = new CurveSegment(EasingType.Linear, 0.95f, MathHelper.PiOver2, 0f);
         internal float ArmAnticipationMovement() => PiecewiseAnimation(ChargeProgress, new CurveSegment[] { pullback, throwout });
 
         public override void AI()
         {
-            //if (Projectile.Calamity().stealthStrike)
-            //    CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 10f, 20f, 5, ModContent.ProjectileType<Seashell>());
-
             //Anticipation animation. Make the player look like theyre holding the fish skeleton
             if (ChargeProgress < 1)
             {

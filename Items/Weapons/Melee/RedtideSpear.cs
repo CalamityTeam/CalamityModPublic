@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Shoot;
+            Item.channel = true;
             Item.useTime = 25;
             Item.knockBack = 5f;
             Item.UseSound = SoundID.Item1;
