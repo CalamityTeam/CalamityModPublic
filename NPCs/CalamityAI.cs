@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs
                 if (doSpiral)
                 {
                     npc.localAI[3] = 90f;
-                    float acidMistBarfDivisor = malice ? 3f : expertMode ? 4f : 6f;
+                    float acidMistBarfDivisor = malice ? 2f : expertMode ? 3f : 5f;
                     float toxicCloudBarfDivisor = malice ? 30f : expertMode ? 40f : 60f;
 
                     // Vomit acid mist

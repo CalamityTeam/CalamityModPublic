@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !charging)
             {
                 time++;
-                if (time >= (malice ? 480 : 600))
+                if (time >= (malice ? 660 : 900))
                 {
                     time = 0;
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, NPC.ai[0] * 0.5f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
                     }
                 }
             }
@@ -889,7 +889,7 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     time = 0;
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                    int totalProjectiles = 4;
+                    int totalProjectiles = 2;
                     float radians = MathHelper.TwoPi / totalProjectiles;
                     int type = ModContent.ProjectileType<IceBomb>();
                     int damage = NPC.GetProjectileDamage(type);
@@ -901,7 +901,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer, 0f, 1f);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage, 0f, Main.myPlayer);
                     }
                 }
 

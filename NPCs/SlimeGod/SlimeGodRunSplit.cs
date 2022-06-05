@@ -320,7 +320,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
                             destination.Normalize();
                             destination *= projectileVelocity;
-                            int numProj = 2;
+                            int numProj = 3;
                             float rotation = MathHelper.ToRadians(45);
                             for (int i = 0; i < numProj; i++)
                             {
