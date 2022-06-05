@@ -35,7 +35,7 @@ namespace CalamityMod.UI
     public class SpeedrunTimerUI
     {
         internal const float DefaultTimerPosX = 46f;
-        internal const float DefaultTimerPosY = 1f;
+        internal const float DefaultTimerPosY = 1.481f;
 
         public static void Draw(Player player)
         {

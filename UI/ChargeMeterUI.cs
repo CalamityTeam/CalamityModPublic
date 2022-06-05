@@ -10,8 +10,10 @@ namespace CalamityMod.UI
 {
     public class ChargeMeterUI
     {
-        public static Vector2 DrawPosition = new Vector2(CalamityConfig.Instance.ChargeMeterPosX, CalamityConfig.Instance.ChargeMeterPosY);
-        public static Vector2 Offset = DrawPosition;
+        internal const float DefaultChargePosX = 49.47917f;
+        internal const float DefaultChargePosY = 43f;
+        private const float MouseDragEpsilon = 0.05f; // 0.05%
+
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             if (DrawPosition.X <= 60f && DrawPosition.Y <= 20f)

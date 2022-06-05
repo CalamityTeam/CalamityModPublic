@@ -141,7 +141,7 @@ namespace CalamityMod
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 100f)]
-        [DefaultValue(49.47917f)]
+        [DefaultValue(ChargeMeterUI.DefaultChargePosX)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ChargeMeterPosX")]
         public float ChargeMeterPosX { get; set; }
 
@@ -149,7 +149,7 @@ namespace CalamityMod
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 100f)]
-        [DefaultValue(43f)]
+        [DefaultValue(ChargeMeterUI.DefaultChargePosY)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ChargeMeterPosY")]
         public float ChargeMeterPosY { get; set; }
 
@@ -163,7 +163,7 @@ namespace CalamityMod
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 100f)]
-        [DefaultValue(53.5417f)]
+        [DefaultValue(SpeedrunTimerUI.DefaultTimerPosX)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SpeedrunTimerPosX")]
         public float SpeedrunTimerPosX { get; set; }
 
@@ -171,7 +171,7 @@ namespace CalamityMod
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0f, 100f)]
-        [DefaultValue(0.01481f)]
+        [DefaultValue(SpeedrunTimerUI.DefaultTimerPosY)]
         [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SpeedrunTimerPosY")]
         public float SpeedrunTimerPosY { get; set; }
         #endregion
@@ -327,11 +327,6 @@ namespace CalamityMod
         // Because it is impossible to know the item IDs of Calamity items until runtime,
         // and we have many config titles which use embedded Calamity items,
         // we need to dynamically declare those items and inject them as dynamic localization.
-        //
-        // TODO -- this doesn't work, see CalamityMod for more info
-        // if you do fix this, you will need to add _ in front of all entry title keys above
-        // or alternatively change the mechanism via which the dynamic localizations are injected
-        // You are not allowed to get registered mod translations in any way
         internal static void RegisterDynamicLocalization()
         {
             static string EmbedItem(int itemID, string suffix = "") => $"[i:{itemID}] {suffix}";
