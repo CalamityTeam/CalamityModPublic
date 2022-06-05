@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
             else if (Projectile.ai[0] == 1f)
             {
                 if (Projectile.velocity.Length() < 10f)
-                    Projectile.velocity *= (CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 1.05f : 1.04f;
+                    Projectile.velocity *= (CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 1.03f : 1.025f;
 
                 Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
