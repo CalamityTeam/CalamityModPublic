@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.Serialization;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
@@ -383,15 +384,14 @@ namespace CalamityMod
                 new("BossRushIFrameCurse", ItemID.Shackle),
             };
 
-            Mod cal = CalamityMod.Instance;
+            // TODO -- Next month's TML Stable will have this function be public
+            MethodInfo getTrans = typeof(LocalizationLoader).GetMethod("GetOrCreateTranslation", BindingFlags.Static | BindingFlags.NonPublic, new[] { typeof(string), typeof(bool) });
             foreach (KeyValuePair<string, int> kv in configLabelItemEmbeds)
             {
                 string localizationKey = $"Mods.CalamityMod.Config.EntryTitle.{kv.Key}";
-                string baseTooltip = Language.GetText(localizationKey).Value;
-                string dynamicKey = $"Config.EntryTitle._{kv.Key}";
-                ModTranslation newDynTrans = LocalizationLoader.CreateTranslation(cal, dynamicKey);
-                newDynTrans.SetDefault(EmbedItem(kv.Value, baseTooltip));
-                LocalizationLoader.AddTranslation(newDynTrans);
+                ModTranslation trans = getTrans.Invoke(null, new object[] { localizationKey, true }) as ModTranslation;
+                var culture = Language.ActiveCulture;
+                trans.AddTranslation(culture, EmbedItem(kv.Value, trans.GetTranslation(culture)));
             }
         }
         #endregion

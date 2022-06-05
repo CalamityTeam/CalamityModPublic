@@ -75,7 +75,6 @@ namespace CalamityMod
     public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
-        // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -207,10 +206,7 @@ namespace CalamityMod
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
             CalamityLocalization.AddLocalizations();
-            // TODO -- Item icons are not visible in config tooltips.
-            // You cannot inject localizations and then RefreshModLanguage without crashing the game instantly.
-            // You cannot display Calamity items in static localizations because their IDs could change.
-            // CalamityConfig.RegisterDynamicLocalization();
+            CalamityConfig.RegisterDynamicLocalization();
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();
