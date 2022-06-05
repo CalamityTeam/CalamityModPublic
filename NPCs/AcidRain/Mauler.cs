@@ -73,7 +73,6 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.HitSound = SoundID.NPCHit1;
             NPC.DeathSound = SoundID.NPCDeath60;
             NPC.knockBackResist = 0f;
-            NPC.rarity = 2;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<MaulerBanner>();
             NPC.RemoveWaterSlowness();
