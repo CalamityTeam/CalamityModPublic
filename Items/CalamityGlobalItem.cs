@@ -797,6 +797,7 @@ namespace CalamityMod.Items
             }
 
             // Conversion for Profaned Soul Crystal
+            ProfanedSoulCrystal.DetermineTransformationEligibility(player);
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>()))
                 return player.altFunctionUse == 0 ? ProfanedSoulCrystal.TransformItemUsage(item, player) : AltFunctionUse(item, player);
 

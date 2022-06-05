@@ -51,7 +51,10 @@ namespace CalamityMod.Projectiles.Summon
                 velocity *= 8f;
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + outerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                 if (proj.WithinBounds(Main.maxProjectiles))
+                {
+                    Main.projectile[proj].originalDamage = damage;
                     Main.projectile[proj].Calamity().forceMinion = true;
+                }
                 if (innerSplits > 0) //only runs if there's still inner splits to create
                 {
                     innerPosVec = innerPosVec.RotatedBy(innerAngleVariance);
@@ -60,7 +63,10 @@ namespace CalamityMod.Projectiles.Summon
                     velocity *= 5f;
                     proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center + innerPosVec, velocity, ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].originalDamage = damage;
                         Main.projectile[proj].Calamity().forceMinion = true;
+                    }
                 }
                 innerSplits--;
             }
@@ -626,7 +632,10 @@ namespace CalamityMod.Projectiles.Summon
                     correctedVelocity *= 25f;
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), (int)((double)Projectile.damage * 1.5f), Projectile.knockBack, Projectile.owner, 2);
                     if (proj.WithinBounds(Main.maxProjectiles))
+                    {
+                        Main.projectile[proj].originalDamage = (int)(Projectile.originalDamage * 1.5);
                         Main.projectile[proj].Calamity().forceMinion = true;
+                    }
                     ((ProfanedCrystalRangedHuges)Main.projectile[proj].ModProjectile).boomerSwarm = true;
                 }
             }
