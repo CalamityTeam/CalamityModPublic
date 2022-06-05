@@ -12,7 +12,9 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Redtide Spear");
-            Tooltip.SetDefault("Poisons enemies and fires short-range stingers");
+            Tooltip.SetDefault("Poisons enemies on hit\n"+
+                               "Aiming the spear in front of you while running holds it down with increased knockback\n"+
+                               "Releasing the attack button after the charge makes an upwards slash, sending enemies flying into the air");
             SacrificeTotal = 1;
         }
 
@@ -29,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.channel = true;
             Item.useTime = 25;
             Item.knockBack = 5f;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = null;
             Item.autoReuse = true;
             Item.height = 56;
             Item.value = Item.buyPrice(0, 2, 0, 0);

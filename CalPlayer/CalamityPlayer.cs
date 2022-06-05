@@ -5775,7 +5775,7 @@ namespace CalamityMod.CalPlayer
 
             bool victideBreastplateVisible = Player.body == EquipLoader.GetEquipSlot(Mod, "VictideBreastplate", EquipType.Body);
             //Give the player faulds if either the body armor or the leggings are equipped
-            if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideLeggings", EquipType.Legs))
+            if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideGreaves", EquipType.Legs))
             {
                 Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "VictideFaulds", EquipType.Waist);
 

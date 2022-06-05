@@ -7,6 +7,7 @@ using Terraria.Audio;
 using System;
 using CalamityMod.Particles;
 using static CalamityMod.CalamityUtils;
+using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
@@ -15,6 +16,19 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public Player Owner => Main.player[Projectile.owner];
         public static int Lifetime = 28;
         public int Timer => Lifetime - Projectile.timeLeft;
+
+        private SlotId ChargeWindSoundSlot;
+        public ActiveSound ChargeWindSound
+        {
+            get
+            {
+                ActiveSound sound;
+                if (SoundEngine.TryGetActiveSound(ChargeWindSoundSlot, out sound))
+                    return sound;
+                return null;
+            }
+        }
+
 
         public int ChargeDirection => Math.Sign(Projectile.velocity.X);
 
@@ -48,8 +62,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public static int MaxRunTime = 300;
         //Player can only do the run attack while moving fast horizontally in the direction of the thrust, but remaining on the ground
-        public bool CanRunAttack => Math.Abs(Owner.velocity.Y) <= 0.4f && Math.Abs(Owner.velocity.X) >= Owner.maxRunSpeed * 0.7f && Math.Sign(Owner.velocity.X) == ChargeDirection && Owner.channel && !RunBroken;
-        public bool CanStartRunAttack => CanRunAttack && (Owner.Calamity().mouseWorld.Y - Owner.Center.Y) > -50;
+        public bool CanRunAttack => Math.Abs(Owner.velocity.Y) <= 0.8f && Math.Abs(Owner.velocity.X) >= Owner.maxRunSpeed * 0.7f && Math.Sign(Owner.velocity.X) == ChargeDirection && Owner.channel && !RunBroken;
+        //You can only start a run attack if you meet the other conditions, but ALSO you can't do it if you are aiming too much upwards or downwards
+        public bool CanStartRunAttack => CanRunAttack && Math.Abs(Owner.Calamity().mouseWorld.Y - Owner.Center.Y) <= 300;
         public ref float RunTimer => ref Projectile.ai[0];
         //The window of time during which the run hasn't fully started, and is indentical to the regular thrust's start. This tells us when we can no longer do this switch.
         public bool FullyRunning => RunTimer > InitializationTime;
@@ -218,23 +233,52 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     if (FullyRunning)
                     {
                         Projectile.timeLeft = UpThrustLifetime;
-                        //Play a sound
                     }
+                }
+
+                ActiveSound soundOut;
+                if (!SoundEngine.TryGetActiveSound(ChargeWindSoundSlot, out soundOut) || !soundOut.IsPlaying)
+                    ChargeWindSoundSlot = SoundEngine.PlaySound(SoundID.DD2_BookStaffTwisterLoop with { IsLooped = true, Volume = SoundID.DD2_BookStaffTwisterLoop.Volume * 0.7f }, Projectile.Center);
+
+                else
+                {
+                    soundOut.Volume = MathHelper.Lerp(0f, SoundID.DD2_BookStaffTwisterLoop.Volume * 0.7f, Math.Clamp(RunTimer / 120f, 0f, 1f));
+                    soundOut.Position = Projectile.Center;
                 }
 
                 RunTimer++;
 
+                if (Main.rand.NextBool())
+                {
+                    int dustOpacity = Main.rand.Next(80);
+                    float dustScale = Main.rand.NextFloat(1f, 1.4f);
+                    Vector2 dustVelocity = (AppropriateRotation + MathHelper.Pi).ToRotationVector2().RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.5f, 5f);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + AppropriateRotation.ToRotationVector2() * 40f, 16, dustVelocity, Alpha: dustOpacity, Scale: dustScale);
+                }
             }
 
             //Basic spear attack
             else if (CurrentAttackState == AttackState.ForwardThrust)
             {
-                //Play a sound if in the middle of the thrust.
+                if (ThrustProgress == 0.5f)
+                    SoundEngine.PlaySound(SoundID.DD2_JavelinThrowersAttack, Projectile.Center);
             }
 
             else if (CurrentAttackState == AttackState.UpwardsThrust)
             {
-                //Do i even need to do anything here lol
+                ActiveSound soundOut;
+
+
+                if (SoundEngine.TryGetActiveSound(ChargeWindSoundSlot, out soundOut))
+                {
+                    soundOut.Volume *= 0.7f;
+                    soundOut.Position = Projectile.Center;
+                    if (soundOut.Volume < 0.2f)
+                        soundOut.Stop();
+                }
+
+                if (ThrustProgress == 0.5f)
+                    SoundEngine.PlaySound(SoundID.DD2_MonkStaffSwing, Projectile.Center);
             }
 
             UpdateOwnerVars();
@@ -267,11 +311,16 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             //Send the enemy flying up if hit by the upwards thrust.
             if (CurrentAttackState == AttackState.UpwardsThrust)
+            {
                 target.velocity.Y -= 12 * (float)Math.Sqrt(target.knockBackResist);
+                target.FallingNPC().ApplyFallDamage(target, 50, 5f);
+            }
 
             target.AddBuff(BuffID.Poisoned, 180);
 
-            Owner.GiveIFrames(5);
+            //Give a sliver of iframes to the player so its safer to ram into hordes (which is fun and should be encouraged)
+            if (CurrentAttackState == AttackState.RunAttack)
+                Owner.GiveIFrames(5);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

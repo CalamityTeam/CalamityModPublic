@@ -204,7 +204,20 @@ namespace CalamityMod.Projectiles.Rogue
 
         public void ImpactEffects()
         {
-            SoundEngine.PlaySound(SoundID.DD2_SkeletonHurt with { Volume = SoundID.DD2_SkeletonHurt.Volume * 0.8f }, Projectile.Center);
+            //If the boomerang somehow hits 10 enemies, make it start doing drum sounds
+            SoundStyle bonkSound = Projectile.numHits < 10 ? SoundID.DD2_SkeletonHurt with { Volume = SoundID.DD2_SkeletonHurt.Volume * 0.8f, Pitch = SoundID.DD2_SkeletonHurt.Pitch + 0.1f * Projectile.numHits } :
+                 Utils.SelectRandom(Main.rand, new SoundStyle[]
+                {
+                SoundID.DrumClosedHiHat,
+                SoundID.DrumCymbal1,
+                SoundID.DrumCymbal2,
+                SoundID.DrumKick,
+                SoundID.DrumTamaSnare,
+                SoundID.DrumTomHigh,
+                SoundID.DrumHiHat
+                });
+
+            SoundEngine.PlaySound(bonkSound, Projectile.Center);
             int goreNumber = Main.rand.Next(4);
 
             for (int i = 0; i < goreNumber; i++)
