@@ -33,10 +33,7 @@ namespace CalamityMod.UI
             edgeTexture = indicatorTexture = barTexture = fullBarTexture = null;
         }
 
-        private static void Reset()
-        {
-            dragOffset = null;
-        }
+        private static void Reset() => dragOffset = null;
         
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
@@ -95,7 +92,6 @@ namespace CalamityMod.UI
                     Main.LocalPlayer.mouseInterface = true;
                     string stealthStr = (100f * modPlayer.rogueStealth).ToString("n2");
                     string maxStealthStr = (100f * modPlayer.rogueStealthMax).ToString("n2");
-                    //only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.
                     Main.instance.MouseText($"Stealth: {stealthStr}/{maxStealthStr}", 0, 0, -1, -1, -1, -1);
                     modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
                 }
