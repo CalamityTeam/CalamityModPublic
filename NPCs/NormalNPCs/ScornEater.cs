@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
 
         public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/ScornJump");
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/ScornHit"); 
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/ScornHurt"); 
         public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/ScornDeath");
 
         public override void SetStaticDefaults()
