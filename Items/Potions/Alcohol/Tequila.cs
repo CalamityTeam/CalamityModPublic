@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             SacrificeTotal = 5;
             DisplayName.SetDefault("Tequila");
             Tooltip.SetDefault(@"Great for mixing up daytime drinks
-Boosts damage, damage reduction, and knockback by 3%, crit chance by 2%, and defense by 5 during daytime
+Boosts damage and damage reduction by 3%, knockback by 10%, crit chance by 2% and defense by 5 during daytime
 Reduces life regen by 1");
         }
 

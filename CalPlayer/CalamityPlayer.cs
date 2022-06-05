@@ -1445,7 +1445,7 @@ namespace CalamityMod.CalPlayer
             if (ZoneAbyss && abyssalAmulet)
                 Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
             if (coreOfTheBloodGod)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 10;
+                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 15;
             if (bloodPact)
                 Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 100;
             if (affliction || afflicted)
@@ -4325,7 +4325,7 @@ namespace CalamityMod.CalPlayer
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
             double healMult = 1D +
-                    (coreOfTheBloodGod ? 0.15 : 0) +
+                    (coreOfTheBloodGod ? 0.25 : 0) +
                     (bloodPactBoost ? 0.5 : 0);
             healValue = (int)(healValue * healMult);
         }
@@ -4354,16 +4354,19 @@ namespace CalamityMod.CalPlayer
                 knockback.Flat += item.knockBack * ((1f - modStealth) * 0.5f);
 
             if (whiskey)
-                knockback.Flat += item.knockBack * 0.04f;
+                knockback.Flat += item.knockBack * 0.2f;
 
             if (tequila && Main.dayTime)
-                knockback += item.knockBack * 0.03f;
+                knockback += item.knockBack * 0.1f;
 
             if (tequilaSunrise && Main.dayTime)
-                knockback += item.knockBack * 0.07f;
+                knockback += item.knockBack * 0.2f;
 
             if (moscowMule)
-                knockback += item.knockBack * 0.09f;
+                knockback += item.knockBack * 0.5f;
+
+            if (yPower)
+                knockback += item.knockBack * 0.25f;
 
             if (titanHeartMask && rogue)
                 knockback += item.knockBack * 0.05f;

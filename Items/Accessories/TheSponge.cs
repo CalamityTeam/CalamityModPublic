@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("The Sponge");
-            Tooltip.SetDefault("7% increased damage reduction\n" +
+            Tooltip.SetDefault("10% increased damage reduction\n" +
                 "+30 max life and mana\n" +
                 "5% increased movement and jump speed\n" +
                 "Standing still boosts life and mana regen\n" +

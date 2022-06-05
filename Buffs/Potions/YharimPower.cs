@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Potions
         public override void Update(Player player, ref int buffIndex)
         {
             player.Calamity().yPower = true;
-            player.GetAttackSpeed<MeleeDamageClass>() += 0.05f;
+            player.GetAttackSpeed<MeleeDamageClass>() += 0.075f;
         }
     }
 }

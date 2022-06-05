@@ -142,6 +142,16 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if (NPC.ai[0] == 0f)
             {
+                bool phaseThroughTilesToReachTarget = Vector2.Distance(player.Center, NPC.Center) > 2400f || !Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
+                if (Main.netMode != NetmodeID.MultiplayerClient && phaseThroughTilesToReachTarget)
+                {
+                    NPC.ai[0] = 5f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.ai[3] = 0f;
+                    NPC.netUpdate = true;
+                }
+
                 if (NPC.velocity.Y == 0f)
                 {
                     NPC.TargetClosest();
@@ -440,10 +450,37 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 NPC.velocity.X *= 0.98f;
             }
+            else if (NPC.ai[0] == 5f)
+            {
+                if (NPC.velocity.X > 0f)
+                    NPC.direction = 1;
+                else
+                    NPC.direction = -1;
 
-            int num244 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 173, NPC.velocity.X, NPC.velocity.Y, 255, new Color(0, 80, 255, 80), NPC.scale * 1.2f);
-            Main.dust[num244].noGravity = true;
-            Main.dust[num244].velocity *= 0.5f;
+                NPC.spriteDirection = NPC.direction;
+                NPC.noTileCollide = true;
+                NPC.noGravity = true;
+                NPC.knockBackResist = 0f;
+                Vector2 distanceFromTarget = player.Center - NPC.Center;
+                distanceFromTarget.Y -= 16f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && distanceFromTarget.Length() < 600f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) &&
+                    Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                {
+                    NPC.ai[0] = 0f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.ai[3] = 0f;
+                    NPC.netUpdate = true;
+                }
+
+                if (distanceFromTarget.Length() > 10f)
+                {
+                    distanceFromTarget.Normalize();
+                    distanceFromTarget *= 10f;
+                }
+
+                NPC.velocity = (NPC.velocity * 4f + distanceFromTarget) / 5f;
+            }
 
             if (bossLife == 0f && NPC.life > 0)
                 bossLife = NPC.lifeMax;
@@ -527,7 +564,7 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
             }
         }
 

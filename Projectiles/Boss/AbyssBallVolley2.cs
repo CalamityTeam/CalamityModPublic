@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 30;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
-            Projectile.alpha = 60;
+            Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
             Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
         }
@@ -32,14 +32,14 @@ namespace CalamityMod.Projectiles.Boss
             // Fly up and then fall down
             if (Projectile.ai[0] == 1f)
             {
-                if (Projectile.ai[1] < 90f)
+                if (Projectile.ai[1] < 60f)
                 {
                     Projectile.ai[1] += 1f;
                 }
                 else
                 {
                     if (Projectile.velocity.Y < 12f)
-                        Projectile.velocity.Y += 0.1f;
+                        Projectile.velocity.Y += 0.2f;
                 }
             }
 
@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             if (Projectile.timeLeft < 60)
-                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
+                Projectile.Opacity = MathHelper.Lerp(0f, 0.8f, Projectile.timeLeft / 60f);
 
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool())
             {
-                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 127, 0f, 0f);
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Crimson);
                 Main.dust[dust].noGravity = true;
             }
 

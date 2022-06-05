@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 30;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
-            Projectile.alpha = 60;
+            Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
             Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 780 : CalamityWorld.death ? 600 : CalamityWorld.revenge ? 540 : Main.expertMode ? 480 : 300;
         }
@@ -36,10 +36,13 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             if (Projectile.timeLeft < 60)
-                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
+                Projectile.Opacity = MathHelper.Lerp(0f, 0.8f, Projectile.timeLeft / 60f);
 
-            if (Main.rand.NextBool(2))
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, 0f, 0f);
+            if (Main.rand.NextBool())
+            {
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Lavender);
+                Main.dust[dust].noGravity = true;
+            }
 
             Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.05f;
         }

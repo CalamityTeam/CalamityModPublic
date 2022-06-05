@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("Boosts your max HP by 10%\n" +
-                "Healing Potions are 15% more effective\n" +
+            Tooltip.SetDefault("Boosts your max HP by 15%\n" +
+                "Healing Potions are 25% more effective\n" +
                 "Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 20 second cooldown");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));

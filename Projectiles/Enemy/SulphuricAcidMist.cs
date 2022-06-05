@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            Projectile.width = 30;
-            Projectile.height = 30;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.hostile = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void AI()
         {
             Projectile.frameCounter++;
-            if (Projectile.frameCounter > 6)
+            if (Projectile.frameCounter > 4)
             {
                 Projectile.frame++;
                 Projectile.frameCounter = 0;

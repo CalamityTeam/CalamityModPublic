@@ -14,7 +14,9 @@ namespace CalamityMod.Items.Potions
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Yharim's Stimulants");
-            Tooltip.SetDefault("Gives decent buffs to ALL offensive and defensive stats");
+            Tooltip.SetDefault("Increases defense by 10, knockback by 25%, damage reduction by 4%,\n" +
+                "mining speed by 10%, damage by 5%, critical strike chance by 2%, minion knockback by 100%,\n" +
+                "movement and melee speed by 7.5%");
         }
 
         public override void SetDefaults()

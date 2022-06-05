@@ -1386,7 +1386,7 @@ namespace CalamityMod.CalPlayer
                 Player.moveSpeed += 0.05f;
                 Player.jumpSpeedBoost += 0.25f;
                 Player.thorns += 0.5f;
-                Player.endurance += sponge ? 0.07f : 0.05f;
+                Player.endurance += sponge ? 0.1f : 0.07f;
 
                 if (Player.StandingStill() && Player.itemAnimation == 0)
                     Player.manaRegenBonus += 4;
@@ -2458,12 +2458,12 @@ namespace CalamityMod.CalPlayer
             if (yPower)
             {
                 Player.endurance += 0.04f;
-                Player.statDefense += 8;
-                Player.pickSpeed -= 0.05f;
-                Player.GetDamage<GenericDamageClass>() += 0.06f;
+                Player.statDefense += 10;
+                Player.pickSpeed -= 0.1f;
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
                 Player.GetCritChance<GenericDamageClass>() += YharimsStimulants.CritBoost;
                 Player.GetKnockback<SummonDamageClass>() += 1f;
-                Player.moveSpeed += 0.06f;
+                Player.moveSpeed += 0.075f;
             }
 
             if (tScale)
