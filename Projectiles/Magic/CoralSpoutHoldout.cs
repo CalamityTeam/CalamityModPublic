@@ -63,18 +63,18 @@ namespace CalamityMod.Projectiles.Magic
                 Owner.heldProj = Projectile.whoAmI;
             }
 
-            float pointingRotation = (Owner.Calamity().mouseWorld - Owner.Center).ToRotation();
-            Projectile.Center = Owner.Center + pointingRotation.ToRotationVector2() * 40f;
+            float pointingRotation = (Owner.Calamity().mouseWorld - Owner.MountedCenter).ToRotation();
+            Projectile.Center = Owner.MountedCenter + pointingRotation.ToRotationVector2() * 40f;
 
             if (Projectile.soundDelay <= 0)
             {
-                SoundEngine.PlaySound(CoralSpout.ChargeSound with { Pitch = 0.5f * ChargeProgress}, Owner.Center);
+                SoundEngine.PlaySound(CoralSpout.ChargeSound with { Pitch = 0.5f * ChargeProgress}, Owner.MountedCenter);
                 Projectile.soundDelay = 10;
             }
 
             if (Charge == (int)(MaxCharge * 1.5f) && Owner.whoAmI == Main.myPlayer)
             {
-                SoundEngine.PlaySound(SoundID.MaxMana, Owner.Center);
+                SoundEngine.PlaySound(SoundID.MaxMana, Owner.MountedCenter);
             }
 
             Charge++;
@@ -89,9 +89,9 @@ namespace CalamityMod.Projectiles.Magic
 
             for (int i = -1; i <= 1; i += 2)
             {
-                float angle = (Owner.Center - Owner.Calamity().mouseWorld).ToRotation() + (Spread / 2f) * i - MathHelper.PiOver2;
+                float angle = (Owner.MountedCenter - Owner.Calamity().mouseWorld).ToRotation() + (Spread / 2f) * i - MathHelper.PiOver2;
                 Vector2 scale = new Vector2(0.2f, 1f) * 3f;
-                Main.EntitySpriteDraw(texture, Owner.Center - Main.screenPosition, null, Color.DodgerBlue * 0.5f * (float)Math.Sqrt(ChargeProgress), angle, new Vector2(texture.Width / 2f, texture.Height), scale, 0, 0);
+                Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition, null, Color.DodgerBlue * 0.5f * (float)Math.Sqrt(ChargeProgress), angle, new Vector2(texture.Width / 2f, texture.Height), scale, 0, 0);
             }
 
             Main.spriteBatch.End();
@@ -102,11 +102,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            float mainAngle = (Projectile.Center - Owner.Center).ToRotation();
+            float mainAngle = (Projectile.Center - Owner.MountedCenter).ToRotation();
 
             if (FullChargeProgress < 1)
             {
-                SoundEngine.PlaySound(SoundID.Item167 with { Volume = SoundID.Item167.Volume * 0.4f + 0.2f * ChargeProgress }, Owner.Center);
+                SoundEngine.PlaySound(SoundID.Item167 with { Volume = SoundID.Item167.Volume * 0.4f + 0.2f * ChargeProgress }, Owner.MountedCenter);
 
 
                 for (int i = 0; i < ShotProjectiles; i++)
@@ -117,11 +117,11 @@ namespace CalamityMod.Projectiles.Magic
                     if (Owner.whoAmI == Main.myPlayer)
                     {
                         float speed = 10 + 15 * ChargeProgress;
-                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + direction * 30f, direction * speed, ModContent.ProjectileType<CoralSpike>(), Projectile.damage, Projectile.knockBack, Owner.whoAmI, ChargeProgress);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + direction * 30f, direction * speed, ModContent.ProjectileType<CoralSpike>(), Projectile.damage, Projectile.knockBack, Owner.whoAmI, ChargeProgress);
                     }
 
                     Color pulseColor = Main.rand.NextBool() ? Color.Coral : Color.DeepSkyBlue;
-                    Particle pulse = new DirectionalPulseRing(Owner.Center + direction * 44f, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), direction.ToRotation(), 0.04f, 0.2f, 30);
+                    Particle pulse = new DirectionalPulseRing(Owner.MountedCenter + direction * 44f, Vector2.Zero, pulseColor, new Vector2(0.5f, 1f), direction.ToRotation(), 0.04f, 0.2f, 30);
                     GeneralParticleHandler.SpawnParticle(pulse);
                 }
 
@@ -129,12 +129,12 @@ namespace CalamityMod.Projectiles.Magic
 
             else
             {
-                SoundEngine.PlaySound(SoundID.Item42, Owner.Center);
+                SoundEngine.PlaySound(SoundID.Item42, Owner.MountedCenter);
                 Vector2 direction = mainAngle.ToRotationVector2();
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + direction * 30f, direction * 35, ModContent.ProjectileType<ManaChargedCoral>(), (int)Projectile.damage * (ShotProjectiles + 1), Projectile.knockBack, Owner.whoAmI);
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.MountedCenter + direction * 30f, direction * 35, ModContent.ProjectileType<ManaChargedCoral>(), (int)Projectile.damage * (ShotProjectiles + 1), Projectile.knockBack, Owner.whoAmI);
                 }
 
                 Color pulseColor = Main.rand.NextBool() ? Color.Coral : Color.DeepSkyBlue;

@@ -70,23 +70,23 @@ namespace CalamityMod.Projectiles.Melee
                 for (int i = 0; i < dustCount; i++)
                 {
                     float angle = i / (float)dustCount * MathHelper.TwoPi + offset;
-                    Vector2 dustPos = Owner.Center + angle.ToRotationVector2() * 40f * WindupProgress;
+                    Vector2 dustPos = Owner.MountedCenter + angle.ToRotationVector2() * 40f * WindupProgress;
                     Dust dust = Dust.NewDustPerfect(dustPos, 176, (angle - MathHelper.PiOver2 * Owner.direction).ToRotationVector2() * 5f + Owner.velocity, Scale: Main.rand.NextFloat(1f, 2f));
                     dust.noGravity = true;
                 }
             }
 
-            Projectile.Center = Owner.Center + Projectile.rotation.ToRotationVector2() * 10f - Vector2.UnitX * 4 * Owner.direction;
+            Projectile.Center = Owner.MountedCenter + Projectile.rotation.ToRotationVector2() * 10f - Vector2.UnitX * 4 * Owner.direction;
 
             if (Projectile.soundDelay <= 0)
             {
-                SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce, Owner.Center);
+                SoundEngine.PlaySound(SoundID.DD2_GhastlyGlaivePierce, Owner.MountedCenter);
                 Projectile.soundDelay = 28;
             }
 
             if (Windup == MaxWindup && Owner.whoAmI == Main.myPlayer)
             {
-                SoundEngine.PlaySound(SoundID.Item43, Owner.Center);
+                SoundEngine.PlaySound(SoundID.Item43, Owner.MountedCenter);
             }
 
             Windup++;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void UpdateOwnerVars()
         {
-            float armPointingDirection = ((Owner.Calamity().mouseWorld - Owner.Center).ToRotation());
+            float armPointingDirection = ((Owner.Calamity().mouseWorld - Owner.MountedCenter).ToRotation());
 
             //"crop" the rotation so the player only points their arm in a smaller range. (The back arm points in the throw direction)
             if (armPointingDirection < MathHelper.PiOver2 && armPointingDirection >= -MathHelper.PiOver2)
@@ -148,8 +148,8 @@ namespace CalamityMod.Projectiles.Melee
             float whirlpoolRotation = Windup * 0.34f * Owner.direction;
             SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            Main.EntitySpriteDraw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity * 0.3f, whirlpoolRotation * 1.2f, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
-            Main.EntitySpriteDraw(whirlpoolTexture, Owner.Center - Main.screenPosition, null, Lighting.GetColor((int)Owner.Center.X / 16, (int)Owner.Center.Y / 16) * whirlpoolOpacity, whirlpoolRotation, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
+            Main.EntitySpriteDraw(whirlpoolTexture, Owner.MountedCenter - Main.screenPosition, null, Lighting.GetColor((int)Owner.MountedCenter.X / 16, (int)Owner.MountedCenter.Y / 16) * whirlpoolOpacity * 0.3f, whirlpoolRotation * 1.2f, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
+            Main.EntitySpriteDraw(whirlpoolTexture, Owner.MountedCenter - Main.screenPosition, null, Lighting.GetColor((int)Owner.MountedCenter.X / 16, (int)Owner.MountedCenter.Y / 16) * whirlpoolOpacity, whirlpoolRotation, whirlpoolTexture.Size() / 2f, whirlpoolScale, flip, 0);
 
             Vector2 handleOrigin = new Vector2(0, maceTexture.Height);
             float maceRotation = Projectile.rotation + MathHelper.PiOver4;

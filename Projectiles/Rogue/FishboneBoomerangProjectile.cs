@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
 
                 Owner.heldProj = Projectile.whoAmI;
 
-                Projectile.Center = Owner.Center + Vector2.UnitY.RotatedBy(armRotation) * -40f;
+                Projectile.Center = Owner.MountedCenter + Vector2.UnitY.RotatedBy(armRotation) * -40f;
                 Projectile.rotation = -MathHelper.PiOver2 + armRotation;
 
                 Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, MathHelper.Pi + armRotation);
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.timeLeft == Lifetime)
             {
                 SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
-                Projectile.Center = Owner.Center +Projectile.velocity * 12f;
+                Projectile.Center = Owner.MountedCenter + Projectile.velocity * 12f;
                 Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 17.5f;
                 Projectile.tileCollide = true;
             }
@@ -128,9 +128,9 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Projectile.tileCollide = false;
                 //Aim back at the player
-                Projectile.velocity = Projectile.velocity.Length() * (Owner.Center - Projectile.Center).SafeNormalize(Vector2.One);
+                Projectile.velocity = Projectile.velocity.Length() * (Owner.MountedCenter - Projectile.Center).SafeNormalize(Vector2.One);
 
-                if ((Projectile.Center - Owner.Center).Length() < 24f)
+                if ((Projectile.Center - Owner.MountedCenter).Length() < 24f)
                 {
                     Projectile.Kill();
                 }
@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             ImpactEffects();
-            Projectile.velocity = Projectile.oldVelocity.Length() * 0.3f * (Owner.Center - Projectile.Center).SafeNormalize(Vector2.One);
+            Projectile.velocity = Projectile.oldVelocity.Length() * 0.3f * (Owner.MountedCenter - Projectile.Center).SafeNormalize(Vector2.One);
             Returning = 1f;
             return false;
         }

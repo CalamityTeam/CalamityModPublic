@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Owner.direction < 0)
                     bubbleRotation += MathHelper.Pi;
 
-                Vector2 bubblePosition = Owner.Center - Vector2.UnitY * 4f + bubbleRotation.ToRotationVector2() * 55f;
+                Vector2 bubblePosition = Owner.MountedCenter - Vector2.UnitY * 4f + bubbleRotation.ToRotationVector2() * 55f;
 
                 Projectile.Center = bubblePosition;
                 Projectile.velocity = Vector2.UnitX.RotatedBy(bubbleRotation) * Projectile.velocity.Length();
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Owner.direction < 0)
                     bubbleRotation += MathHelper.Pi;
 
-                Vector2 bubblePosition = Owner.Center - Vector2.UnitY * 4f + bubbleRotation.ToRotationVector2() * 55f;
+                Vector2 bubblePosition = Owner.MountedCenter - Vector2.UnitY * 4f + bubbleRotation.ToRotationVector2() * 55f;
 
                 SoundEngine.PlaySound(ReedBlowgun.BubbleBurstSound, bubblePosition);
             }
