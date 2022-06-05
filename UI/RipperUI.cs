@@ -1,11 +1,10 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.World;
+﻿using System.Collections.Generic;
+using System.Text;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ReLogic.Content;
-using System.Collections.Generic;
-using System.Text;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,18 +12,19 @@ namespace CalamityMod.UI
 {
     public static class RipperUI
     {
-        public const float DefaultRagePosX = 500f;
-        public const float DefaultRagePosY = 30f;
-        public const float DefaultAdrenPosX = 650f;
-        public const float DefaultAdrenPosY = 30f;
+        public const float DefaultRagePosX = 26.04167f;
+        public const float DefaultRagePosY = 3f;
+        public const float DefaultAdrenPosX = 33.8542f;
+        public const float DefaultAdrenPosY = 3f;
+        private const float MouseDragEpsilon = 0.05f; // 0.05%
 
         private const int RageAnimFrameDelay = 6;
         private const int RageAnimFrames = 10;
         private const int AdrenAnimFrameDelay = 5;
         private const int AdrenAnimFrames = 10;
 
-        public static Vector2 rageDrawPos = new Vector2(DefaultRagePosX, DefaultRagePosY);
-        public static Vector2 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
+        private static Vector2 rageDrawPos;
+        private static Vector2 adrenDrawPos;
         private static Vector2? rageDragOffset = null;
         private static Vector2? adrenDragOffset = null;
         private static Vector2 pearlOffsetLeft = Vector2.Zero;
@@ -353,7 +353,7 @@ namespace CalamityMod.UI
 
         private static Vector2 GetShakeOffset()
         {
-            float shake = CalamityConfig.Instance.MeterShake;
+            float shake = CalamityConfig.Instance.RipperMeterShake;
             float shakeX = Main.rand.NextFloat(-shake, shake);
             float shakeY = Main.rand.NextFloat(-shake, shake);
             return new Vector2(shakeX, shakeY);

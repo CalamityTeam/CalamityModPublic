@@ -77,12 +77,17 @@ namespace CalamityMod.CalPlayer
             if (fearmongerRegenFrames > 0)
                 fearmongerRegenFrames--;
 
-            // Reduce the expert debuff time multiplier to the normal mode multiplier
+            // Reduce the expert+ debuff time multiplier to the normal mode multiplier
+            // TODO -- This should be a ModSystem, why is this in CalamityPlayer
             if (CalamityConfig.Instance.NerfExpertDebuffs)
             {
                 var copy = Main.RegisteredGameModes[GameModeID.Expert];
                 copy.DebuffTimeMultiplier = 1f;
                 Main.RegisteredGameModes[GameModeID.Expert] = copy;
+
+                copy = Main.RegisteredGameModes[GameModeID.Master];
+                copy.DebuffTimeMultiplier = 1f;
+                Main.RegisteredGameModes[GameModeID.Master] = copy;
             }
 
             // Go through the old positions for the player.
@@ -745,7 +750,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
             }
-            if (CalamityConfig.Instance.ReworkChilledWater)
+            if (CalamityConfig.Instance.ChilledWaterRework)
             {
                 if (Main.expertMode && Player.ZoneSnow && Player.wet && !Player.lavaWet && !Player.honeyWet)
                 {

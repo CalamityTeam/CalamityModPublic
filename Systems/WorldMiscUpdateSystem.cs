@@ -367,9 +367,9 @@ namespace CalamityMod.Systems
                     if (Main.SceneMetrics.WaterCandleCount > 0)
                         spawnRate *= 0.8D;
 
-                    if (modPlayer.bossZen)
+                    if (modPlayer.isNearbyBoss && CalamityConfig.Instance.BossZen)
                         spawnRate *= 50D;
-                    if (modPlayer.zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
+                    if (modPlayer.zen || (CalamityConfig.Instance.ForceTownSafety && player.townNPCs > 1f && Main.expertMode))
                         spawnRate *= 2D;
                     if (modPlayer.tranquilityCandle)
                         spawnRate *= 1.67D;

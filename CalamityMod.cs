@@ -207,7 +207,10 @@ namespace CalamityMod
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
             CalamityLocalization.AddLocalizations();
-            CalamityConfig.LoadConfigLabels(ModContent.GetInstance<CalamityMod>());
+            // TODO -- Item icons are not visible in config tooltips.
+            // You cannot inject localizations and then RefreshModLanguage without crashing the game instantly.
+            // You cannot display Calamity items in static localizations because their IDs could change.
+            // CalamityConfig.RegisterDynamicLocalization();
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();

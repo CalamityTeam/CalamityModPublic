@@ -253,7 +253,7 @@ namespace CalamityMod.ILEditing
             {
                 // A cached delegate is used here instead of direct reflection for performance reasons
                 // since UpdateTime is called every frame.
-                if (Main.dayTime || CalamityConfig.Instance.CanTownNPCsSpawnAtNight)
+                if (Main.dayTime || CalamityConfig.Instance.TownNPCsSpawnAtNight)
                     VanillaSpawnTownNPCs();
             });
 

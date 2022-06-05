@@ -67,6 +67,7 @@ namespace CalamityMod.CalPlayer
             if (Player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
                 AndromedaMechLayer.DrawTheStupidFuckingRobot(ref drawInfo);
 
+            // TODO -- Why is the Speedrun Timer not its own UI file? Why is this in CalamityPlayer?
             CalamityPlayer calamityPlayer = Player.Calamity();
             if (Main.myPlayer == Player.whoAmI && !Main.gameMenu && CalamityConfig.Instance.SpeedrunTimer)
             {
@@ -350,8 +351,8 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            bool noRogueStealth = calamityPlayer.rogueStealth == 0f || Player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisbility;
-            if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && Player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisbility)
+            bool noRogueStealth = calamityPlayer.rogueStealth == 0f || Player.townNPCs > 2f || !CalamityConfig.Instance.StealthInvisibility;
+            if (calamityPlayer.rogueStealth > 0f && calamityPlayer.rogueStealthMax > 0f && Player.townNPCs < 3f && CalamityConfig.Instance.StealthInvisibility)
             {
                 // A translucent orchid color, the rogue class color
                 float colorValue = calamityPlayer.rogueStealth / calamityPlayer.rogueStealthMax * 0.9f; //0 to 0.9

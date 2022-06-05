@@ -4604,12 +4604,12 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-            if (player.Calamity().zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
+            if (player.Calamity().zen || (CalamityConfig.Instance.ForceTownSafety && player.townNPCs > 1f && Main.expertMode))
             {
                 spawnRate = (int)(spawnRate * 2.5);
                 maxSpawns = (int)(maxSpawns * 0.3f);
             }
-            if (player.Calamity().bossZen && CalamityConfig.Instance.BossZen)
+            if (player.Calamity().isNearbyBoss && CalamityConfig.Instance.BossZen)
             {
                 spawnRate *= 5;
                 maxSpawns = (int)(maxSpawns * 0.001f);

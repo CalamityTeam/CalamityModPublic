@@ -1,380 +1,399 @@
-﻿using CalamityMod.UI;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.DifficultyItems;
+using CalamityMod.Items.DraedonMisc;
+using CalamityMod.Items.Dyes.HairDye;
+using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.UI;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace CalamityMod
 {
-    [Label("Config")]
+    [Label("$Mods.CalamityMod.Config.MainTitle")]
     [BackgroundColor(49, 32, 36, 216)]
     public class CalamityConfig : ModConfig
     {
         public static CalamityConfig Instance;
+
+        // TODO -- Not all Calamity config settings should be considered client side.
+        // There are many configs which are server side and should stay that way.
         public override ConfigScope Mode => ConfigScope.ClientSide;
+        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
 
         // Clamps values that would cause ugly problems if loaded directly without sanitization.
         [OnDeserialized]
         internal void ClampValues(StreamingContext context)
         {
             BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
-            MeterShake = Utils.Clamp(MeterShake, MinMeterShake, MaxMeterShake);
+            RipperMeterShake = Utils.Clamp(RipperMeterShake, MinMeterShake, MaxMeterShake);
         }
 
-        [Header("Graphics Changes")]
+        #region Graphics Changes
+        [Header("$Mods.CalamityMod.Config.SectionTitle.Graphics")]
 
-        [Label("Afterimages")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.Afterimages")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Enables rendering afterimages for Calamity NPCs, projectiles, etc.\nDisable to improve performance.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.Afterimages")]
         public bool Afterimages { get; set; }
 
-        [Label("MaxParticles")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ParticleLimit")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(0, 1000)]
         [DefaultValue(500)]
-        [Tooltip("Sets the maximum of particle effects that can exist at once.\nParticles are separate from dust and gores.\nTurn down to improve performance.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ParticleLimit")]
         public int ParticleLimit { get; set; }
 
-        [Label("ScreenshakeOff")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("Disables all screen-shaking effects.")]
-        public bool DisableScreenShakes { get; set; }
-
-        [Label("StealthInvisibility")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.Screenshake")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Enables players gradually turning invisible as their Rogue Stealth increases.\nThis effect is visually similar to Shroomite armor's stealth.")]
-        public bool StealthInvisbility { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.Screenshake")]
+        public bool Screenshake { get; set; }
 
-        [Label("ShopAlert")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.StealthInvisibility")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Adds an icon that appears over Town NPCs when they have new items in their shops.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.StealthInvisibility")]
+        public bool StealthInvisibility { get; set; }
+
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ShopNewAlert")]
+        [BackgroundColor(192, 54, 64, 192)]
+        [DefaultValue(true)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ShopNewAlert")]
         public bool ShopNewAlert { get; set; }
+        #endregion
 
-        [Header("UI Changes")]
+        #region UI Changes
+        [Header("$Mods.CalamityMod.Config.SectionTitle.UI")]
 
-        [Label("BossHealthBar")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossHealthBarExtraInfo")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Enables Calamity's boss health bar in the bottom right corner of the screen.")]
-        public bool BossHealthBar { get; set; }
-
-        [Label("BossHealthBarExtra")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(true)]
-        [Tooltip("Adds extra info to the Calamity boss health bar.\nThis displays either the boss's exact health or number of remaining parts or segments.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossHealthBarExtraInfo")]
         public bool BossHealthBarExtraInfo { get; set; }
 
-        [Label("DebuffDisplay")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.DebuffDisplay")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Adds an array of debuff icons above all bosses and minibosses.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.DebuffDisplay")]
         public bool DebuffDisplay { get; set; }
 
-        [Label("CooldownDisplay")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.CooldownDisplay")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f,2f)]
+        [Range(0f, 2f)]
         [DefaultValue(2f)]
         [Increment(1f)]
         [DrawTicks]
-        [Tooltip("Displays all the important cooldowns on your UI under your buffs and debuffs. Set this to 1 to have it display in a more compact way, and to 0 to entirely disable the UI")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.CooldownDisplay")]
         public float CooldownDisplay { get; set; }
 
-        [Label("VanillaCooldownDisplay")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.VanillaCooldownDisplay")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Adds custom cooldown displays for Chaos State and Potion Sickness.\nThis doesn't remove them from your buff list, but can help with visibility nontheless")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.VanillaCooldownDisplay")]
         public bool VanillaCooldownDisplay { get; set; }
 
         [BackgroundColor(192, 54, 64, 192)]
-        [Label("MeterLock")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.MeterPosLock")]
         [DefaultValue(true)]
-        [Tooltip("Prevents clicking on the Stealth, Charge, Rage, and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.MeterPosLock")]
         public bool MeterPosLock { get; set; }
 
-        [Label("StealthMeter")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.StealthMeter")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Enables the Stealth Meter UI, which shows the player's current stealth level.\nThe Stealth Meter is always hidden if not wearing Rogue armor.")]
-        public bool StealthBar { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.StealthMeter")]
+        public bool StealthMeter { get; set; }
 
-        [Label("StealthMeterX")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.StealthMeterPosX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 3840f)]
-        [DefaultValue(820f)]
-        [Tooltip("The X position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Range(0f, 100f)]
+        [DefaultValue(StealthUI.DefaultStealthPosX)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.StealthMeterPosX")]
         public float StealthMeterPosX { get; set; }
 
-        [Label("StealthMeterY")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.StealthMeterPosY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 2160f)]
-        [DefaultValue(43f)]
-        [Tooltip("The Y position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Range(0f, 100f)]
+        [DefaultValue(StealthUI.DefaultStealthPosY)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.StealthMeterPosY")]
         public float StealthMeterPosY { get; set; }
 
-        [Label("ChargeMeter")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ChargeMeter")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Enables the Charge Meter UI, which shows the charge level of the player's currently held Arsenal item.\nThe Charge Meter is always hidden if not holding a chargable arsenal item.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ChargeMeter")]
         public bool ChargeMeter { get; set; }
 
-        [Label("ChargeMeterX")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ChargeMeterPosX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 3840f)]
-        [DefaultValue(950f)]
-        [Tooltip("The X position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Range(0f, 100f)]
+        [DefaultValue(49.47917f)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ChargeMeterPosX")]
         public float ChargeMeterPosX { get; set; }
 
-        [Label("ChargeMeterY")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ChargeMeterPosY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 2160f)]
+        [Range(0f, 100f)]
         [DefaultValue(43f)]
-        [Tooltip("The Y position of the Charge Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ChargeMeterPosY")]
         public float ChargeMeterPosY { get; set; }
 
-        [Label("SpeedrunTimer")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.SpeedrunTimer")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
-        [Tooltip("Enables a Speedrun Timer.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SpeedrunTimer")]
         public bool SpeedrunTimer { get; set; }
 
-        [Label("SpeedrunTimerX")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.SpeedrunTimerPosX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(-800f, 800f)]
-        [DefaultValue(68f)]
-        [Tooltip("The X position of the Speedrun Timer.")]
+        [Range(0f, 100f)]
+        [DefaultValue(53.5417f)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SpeedrunTimerPosX")]
         public float SpeedrunTimerPosX { get; set; }
 
-        [Label("SpeedrunTimerY")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.SpeedrunTimerPosY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(16f, 1000f)]
-        [DefaultValue(16f)]
-        [Tooltip("The Y position of the Speedrun Timer.")]
+        [Range(0f, 100f)]
+        [DefaultValue(0.01481f)]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.SpeedrunTimerPosY")]
         public float SpeedrunTimerPosY { get; set; }
+        #endregion
 
-        [Header("General Gameplay Changes")]
+        #region General Gameplay Changes
+        [Header("$Mods.CalamityMod.Config.SectionTitle.Gameplay")]
 
-        [Label("EarlyHMRework")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.EarlyHardmodeProgressionRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Demon Altars no longer spawn ores and crimson/corruption blocks when broken.\n" +
-            "Wall of Flesh spawns Cobalt and Palladium ore on first kill.\n" +
-            "The first mech boss you fight has 20% less HP and damage and spawns Mythril and Orichalcum ore on first kill.\n" +
-            "The second mech boss you fight has 10% less HP and damage and spawns Adamantite and Titanium ore on first kill.\n" +
-            "The third mech boss spawns Hallowed Ore on first kill")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.EarlyHardmodeProgressionRework")]
         public bool EarlyHardmodeProgressionRework { get; set; }
 
-        [Label("Proficiency")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.Proficiency")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.Proficiency")]
         public bool Proficiency { get; set; }
 
-        [Label("BossZen")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossZen")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("While a boss is alive, all players near a boss receive the Boss Effects buff, which drastically reduces enemy spawn rates.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossZen")]
         public bool BossZen { get; set; }
 
-        [Label("NPCNightSpawn")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.TownNPCsSpawnAtNight")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
-        [Tooltip("Allows you to determine if town NPCs (including the Old Man) can spawn at night.")]
-        public bool CanTownNPCsSpawnAtNight { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.TownNPCsSpawnAtNight")]
+        public bool TownNPCsSpawnAtNight { get; set; }
 
         private const int MinTownNPCSpawnMultiplier = 1;
         private const int MaxTownNPCSpawnMultiplier = 10;
 
-        [Label("NPCExtraSpawn")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.TownNPCSpawnRateMultiplier")]
         [BackgroundColor(192, 54, 64, 192)]
         [Range(MinTownNPCSpawnMultiplier, MaxTownNPCSpawnMultiplier)]
         [Increment(1)]
         [DrawTicks]
         [DefaultValue(MinTownNPCSpawnMultiplier)]
-        [Tooltip("Makes town NPCs spawn more quickly, the higher this value is.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.TownNPCSpawnRateMultiplier")]
         public int TownNPCSpawnRateMultiplier { get; set; }
 
         private const float MinBossHealthBoost = 0f;
         private const float MaxBossHealthBoost = 900f;
 
-        [Label("BossHPBoost")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossHealthBoost")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(MinBossHealthBoost, MaxBossHealthBoost)]
-        [Increment(50f)]
+        [Increment(25f)]
         [DrawTicks]
         [DefaultValue(MinBossHealthBoost)]
-        [Tooltip("Globally boosts the health of all bosses.\nDoes not affect bosses that are already spawned.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossHealthBoost")]
         public float BossHealthBoost { get; set; }
+        #endregion
 
-        [Header("Expert Mode Changes")]
+        #region Expert and Master Mode Changes
+        [Header("$Mods.CalamityMod.Config.SectionTitle.ExpertMaster")]
 
-        [Label("ExpertDebuffReduction")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.NerfExpertDebuffs")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("Disables Expert Mode doubling the duration of all debuffs inflicted on the player.\nCalamity is balanced with the assumption that this setting is enabled.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.NerfExpertDebuffs")]
         public bool NerfExpertDebuffs { get; set; }
 
-        [Label("ChillWaterRework")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ChilledWaterRework")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(true)]
-        [Tooltip("When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.")]
-        public bool ReworkChilledWater { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ChilledWaterRework")]
+        public bool ChilledWaterRework { get; set; }
 
-        [Label("ExpertSafeTowns")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.ForceTownSafety")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
-        [Tooltip("Counteracts Expert Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.\nThis can have unintended side effects such as making critters difficult to find.")]
-        public bool DisableExpertTownSpawns { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.ForceTownSafety")]
+        public bool ForceTownSafety { get; set; }
+        #endregion
 
-        [Header("Revengeance Mode Changes")]
+        #region Revengeance Mode Changes
+        [Header("$Mods.CalamityMod.Config.SectionTitle.Revengeance")]
 
         private const float MinMeterShake = 0f;
         private const float MaxMeterShake = 4f;
 
-        [Label("RipperBarShake")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.RipperMeterShake")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
         [Range(MinMeterShake, MaxMeterShake)]
         [Increment(1f)]
         [DrawTicks]
         [DefaultValue(2f)]
-        [Tooltip("How much the Rage and Adrenaline Meters shake while in use.\nSet to zero to disable the shaking entirely.")]
-        public float MeterShake { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.RipperMeterShake")]
+        public float RipperMeterShake { get; set; }
 
-        [Label("RageX")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.RageMeterPosX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 3840f)]
+        [Range(0f, 100f)]
         [DefaultValue(RipperUI.DefaultRagePosX)]
-        [Tooltip("The X position of the Rage Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.RageMeterPosX")]
         public float RageMeterPosX { get; set; }
 
-        [Label("RageY")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.RageMeterPosY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 2160f)]
+        [Range(0f, 100f)]
         [DefaultValue(RipperUI.DefaultRagePosY)]
-        [Tooltip("The Y position of the Rage Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.RageMeterPosY")]
         public float RageMeterPosY { get; set; }
 
-        [Label("AdrenalineX")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.AdrenalineMeterPosX")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 3840f)]
+        [Range(0f, 100f)]
         [DefaultValue(RipperUI.DefaultAdrenPosX)]
-        [Tooltip("The X position of the Adrenaline Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.AdrenalineMeterPosX")]
         public float AdrenalineMeterPosX { get; set; }
 
-        [Label("AdrenalineY")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.AdrenalineMeterPosY")]
         [BackgroundColor(192, 54, 64, 192)]
         [SliderColor(224, 165, 56, 128)]
-        [Range(0f, 2160f)]
+        [Range(0f, 100f)]
         [DefaultValue(RipperUI.DefaultAdrenPosY)]
-        [Tooltip("The Y position of the Adrenaline Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.AdrenalineMeterPosY")]
         public float AdrenalineMeterPosY { get; set; }
+        #endregion
 
-        [Header("Boss Rush Curses")]
+        #region Boss Rush Curses
+        [Header("$Mods.CalamityMod.Config.SectionTitle.BossRushCurses")]
 
-        [Label("BRCurseAccessory")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushRegenCurse")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
-        [Tooltip("Limits the player to five accessories during the Boss Rush.")]
-        public bool BossRushAccessoryCurse { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushRegenCurse")]
+        public bool BossRushRegenCurse { get; set; }
 
-        [Label("BRCurseHealth")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushDashCurse")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
-        [Tooltip("Disables all health regeneration during the Boss Rush.")]
-        public bool BossRushHealthCurse { get; set; }
-
-        [Label("BRCurseDash")]
-        [BackgroundColor(192, 54, 64, 192)]
-        [DefaultValue(false)]
-        [Tooltip("Disables all dashes during the Boss Rush.")]
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushDashCurse")]
         public bool BossRushDashCurse { get; set; }
 
-        [Label("BRCurseImmunity")]
+        [Label("$Mods.CalamityMod.Config.EntryTitle.BossRushIFrameCurse")]
         [BackgroundColor(192, 54, 64, 192)]
         [DefaultValue(false)]
-        [Tooltip("During the Boss Rush, being hit twice within three seconds will cause instant death.\nThis effect ignores revives.")]
-        public bool BossRushImmunityFrameCurse { get; set; }
+        [Tooltip("$Mods.CalamityMod.Config.EntryTooltip.BossRushIFrameCurse")]
+        public bool BossRushIFrameCurse { get; set; }
+        #endregion
 
-        public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message) => true;
-
-
-
-
-        public static void LoadConfigLabels(Mod instance)
+        #region Dynamic Localization (Item Icon Injection)
+        
+        // Because it is impossible to know the item IDs of Calamity items until runtime,
+        // and we have many config titles which use embedded Calamity items,
+        // we need to dynamically declare those items and inject them as dynamic localization.
+        //
+        // TODO -- this doesn't work, see CalamityMod for more info
+        // if you do fix this, you will need to add _ in front of all entry title keys above
+        // or alternatively change the mechanism via which the dynamic localizations are injected
+        // You are not allowed to get registered mod translations in any way
+        internal static void RegisterDynamicLocalization()
         {
-            string[][] _configLabels = new[]
+            static string EmbedItem(int itemID, string suffix = "") => $"[i:{itemID}] {suffix}";
+
+            var configLabelItemEmbeds = new KeyValuePair<string, int>[]
             {
-                new [] { "Afterimages", ItemID.SteampunkGoggles.ToString(), "Afterimages" },
-                new [] { "MaxParticles", ItemID.FragmentStardust.ToString(), "Maximum particles" },
-                new [] { "ScreenshakeOff", instance.Find<ModItem>("WavePounder").Type.ToString(), "Disable Screenshakes" },
-                new [] { "StealthInvisibility", instance.Find<ModItem>("StealthHairDye").Type.ToString(), "Stealth Invisibility" },
-                new [] { "ShopAlert", ItemID.GoldChest.ToString(), "New Shop Inventory Alert" },
+                new("Afterimages", ItemID.SteampunkGoggles),
+                new("Screenshake", ModContent.ItemType<WavePounder>()),
+                new("ParticleLimit", ItemID.FragmentStardust),
+                new("StealthInvisibility", ModContent.ItemType<StealthHairDye>()),
+                new("ShopNewAlert", ItemID.GoldChest),
 
-                new [] { "BossHealthBar", instance.Find<ModItem>("BloodOrange").Type.ToString(), "Boss Health Bars" },
-                new [] { "BossHealthBarExtra", instance.Find<ModItem>("EncryptedSchematicPlanetoid").Type.ToString(), "Boss Health Bar Extra Info" },
-                new [] { "DebuffDisplay", ItemID.FlaskofIchor.ToString(), "Boss and Miniboss Debuff Display" },
-                new [] { "CooldownDisplay", instance.Find<ModItem>("NebulousCore").Type.ToString(), "Cooldown Display" },
-                new [] { "VanillaCooldownDisplay", ItemID.HealingPotion.ToString(), "Vanilla Cooldowns Display" },
-                new [] { "MeterLock", ItemID.GemLockTopaz.ToString(), "Lock Meter Positions" },
+                new("BossHealthBarExtraInfo", ModContent.ItemType<EncryptedSchematicPlanetoid>()),
+                new("DebuffDisplay", ItemID.FlaskofIchor),
+                new("CooldownDisplay", ModContent.ItemType<NebulousCore>()),
+                new("VanillaCooldownDisplay", ItemID.HealingPotion),
+                new("MeterPosLock", ItemID.GemLockTopaz),
 
-                new [] { "StealthMeter", instance.Find<ModItem>("EclipseMirror").Type.ToString(), "Stealth Meter" },
-                new [] { "StealthMeterX", ItemID.LaserRuler.ToString(), "Stealth Meter X Position" },
-                new [] { "StealthMeterY", ItemID.LaserRuler.ToString(), "Stealth Meter Y Position" },
+                new("StealthMeter", ModContent.ItemType<EclipseMirror>()),
+                new("StealthMeterPosX", ItemID.LaserRuler),
+                new("StealthMeterPosY", ItemID.LaserRuler),
 
-                new [] { "ChargeMeter", instance.Find<ModItem>("PowerCell").Type.ToString(), "Charge Meter" },
-                new [] { "ChargeMeterX", ItemID.LaserRuler.ToString(), "Charge Meter X Position" },
-                new [] { "ChargeMeterY", ItemID.LaserRuler.ToString(), "Charge Meter Y Position" },
+                new("ChargeMeter", ModContent.ItemType<PowerCell>()),
+                new("ChargeMeterPosX", ItemID.LaserRuler),
+                new("ChargeMeterPosY", ItemID.LaserRuler),
 
-                new [] { "SpeedrunTimer", ItemID.Stopwatch.ToString(), "Speedrun Timer" },
-                new [] { "SpeedrunTimerX", ItemID.LaserRuler.ToString(), "Speedrun Timer X Position" },
-                new [] { "SpeedrunTimerY", ItemID.LaserRuler.ToString(), "Speedrun Timer Y Position" },
+                new("SpeedrunTimer", ItemID.Stopwatch),
+                new("SpeedrunTimerPosX", ItemID.LaserRuler),
+                new("SpeedrunTimerPosY", ItemID.LaserRuler),
 
-                new [] { "EarlyHMRework", ItemID.Pwnhammer.ToString(), "Early Hardmode Progression Rework" },
-                new [] { "Proficiency", instance.Find<ModItem>("MagicLevelMeter").Type.ToString(), "Proficiency" },
-                new [] { "BossZen", instance.Find<ModItem>("ZenPotion").Type.ToString(), "Boss Zen" },
-                new [] { "NPCNightSpawn", ItemID.ClothierVoodooDoll.ToString(), "Let Town NPCs spawn at night" },
-                new [] { "NPCExtraSpawn", ItemID.GuideVoodooDoll.ToString(), "Town NPC Spawn Rate Multiplier" },
-                new [] { "BossHPBoost", ItemID.LifeCrystal.ToString(), "Boss Health Percentage Boost" },
+                new("EarlyHardmodeProgressionRework", ItemID.Pwnhammer),
+                new("Proficiency", ModContent.ItemType<MagicLevelMeter>()),
+                new("BossZen", ModContent.ItemType<ZenPotion>()),
+                new("TownNPCsSpawnAtNight", ItemID.ClothierVoodooDoll),
+                new("TownNPCSpawnRateMultiplier", ItemID.GuideVoodooDoll),
+                new("BossHealthBoost", ItemID.LifeCrystal),
 
-                new [] { "ExpertDebuffReduction", ItemID.AnkhCharm.ToString(), "Reduce Expert Debuff Durations" },
-                new [] { "ChillWaterRework", ItemID.ArcticDivingGear.ToString(), "Rework Chilled Water" },
-                new [] { "ExpertSafeTowns", ItemID.Sunflower.ToString(), "Disable Expert Enemy Spawns in Towns" },
-                new [] { "RipperBarShake", instance.Find<ModItem>("Revenge").Type.ToString(), "Rage and Adrenaline Meter Shake" },
-                new [] { "RageX", ItemID.LaserRuler.ToString(), "Rage Meter X Position" },
-                new [] { "RageY", ItemID.LaserRuler.ToString(), "Rage Meter Y Position" },
-                new [] { "AdrenalineX", ItemID.LaserRuler.ToString(), "Adrenaline Meter X Position" },
-                new [] { "AdrenalineY", ItemID.LaserRuler.ToString(), "Adrenaline Meter Y Position" },
+                new("NerfExpertDebuffs", ItemID.AnkhCharm),
+                new("ChilledWaterRework", ItemID.ArcticDivingGear),
+                new("ForceTownSafety", ItemID.Sunflower),
 
-                new [] { "BRCurseAccessory", ItemID.Shackle.ToString(), "Accessory Curse" },
-                new [] { "BRCurseHealth", ItemID.Shackle.ToString(), "Health Curse" },
-                new [] { "BRCurseDash", ItemID.Shackle.ToString(), "Dash Curse" },
-                new [] { "BRCurseImmunity", ItemID.Shackle.ToString(), "Immunity Frame Curse" }
+                new("RipperMeterShake", ModContent.ItemType<Revenge>()),
+                new("RageMeterPosX", ItemID.LaserRuler),
+                new("RageMeterPosY", ItemID.LaserRuler),
+                new("AdrenalineMeterPosX", ItemID.LaserRuler),
+                new("AdrenalineMeterPosY", ItemID.LaserRuler),
+
+                new("BossRushRegenCurse", ItemID.Shackle),
+                new("BossRushDashCurse", ItemID.Shackle),
+                new("BossRushIFrameCurse", ItemID.Shackle),
             };
 
-            foreach (string[] label in _configLabels)
+            Mod cal = CalamityMod.Instance;
+            foreach (KeyValuePair<string, int> kv in configLabelItemEmbeds)
             {
-                ModTranslation text = LocalizationLoader.CreateTranslation(label[0]);
-                text.SetDefault($"[i:" + label[1] + "]  "+ label[2]);
-                LocalizationLoader.AddTranslation(text);
+                string localizationKey = $"Mods.CalamityMod.Config.EntryTitle.{kv.Key}";
+                string baseTooltip = Language.GetText(localizationKey).Value;
+                string dynamicKey = $"Config.EntryTitle._{kv.Key}";
+                ModTranslation newDynTrans = LocalizationLoader.CreateTranslation(cal, dynamicKey);
+                newDynTrans.SetDefault(EmbedItem(kv.Value, baseTooltip));
+                LocalizationLoader.AddTranslation(newDynTrans);
             }
         }
+        #endregion
     }
 }

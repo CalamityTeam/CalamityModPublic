@@ -821,7 +821,7 @@ namespace CalamityMod.CalPlayer
         public bool omniscience = false;
         public bool zerg = false;
         public bool zen = false;
-        public bool bossZen = false;
+        public bool isNearbyBoss = false;
         public bool yPower = false;
         public bool aWeapon = false;
         public bool tScale = false;
@@ -1905,7 +1905,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
-            bossZen = false;
+            isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -2145,7 +2145,7 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
-            if (CalamityConfig.Instance.DisableScreenShakes)
+            if (!CalamityConfig.Instance.Screenshake)
                 return;
 
             if (GeneralScreenShakePower > 0f)
@@ -2327,7 +2327,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
-            bossZen = false;
+            isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -3437,15 +3437,7 @@ namespace CalamityMod.CalPlayer
                     Player.buffImmune[BuffID.WindPushed] = true;
             }
 
-            if (CalamityConfig.Instance.BossHealthBar)
-            {
-                drawBossHPBar = true;
-            }
-            else
-            {
-                drawBossHPBar = false;
-            }
-
+            // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             // Increase tile placement speed to speed up early game a bit and make building more fun
@@ -6382,7 +6374,7 @@ namespace CalamityMod.CalPlayer
                 else
                     Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
 
-                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
+                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
 
                 if (aeroSet && damage > 25)
