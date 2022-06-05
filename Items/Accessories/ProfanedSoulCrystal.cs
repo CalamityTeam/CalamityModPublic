@@ -11,6 +11,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using System.Linq;
+using CalamityMod.Buffs.StatBuffs;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -87,7 +88,7 @@ namespace CalamityMod.Items.Accessories
 
             }
 
-            else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
+            else
             {
                 TooltipLine line = tooltips.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
                 int manaCost = (int)(100 * Main.player[Main.myPlayer].manaCost);
@@ -117,6 +118,14 @@ namespace CalamityMod.Items.Accessories
 
             if (hideVisual)
                 modPlayer.profanedCrystalHide = true;
+        }
+
+        internal static void DetermineTransformationEligibility(Player player)
+        {
+            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())
+            {
+                player.Calamity().profanedCrystalBuffs = true;
+            }
         }
 
         // Moved from CalamityGlobalItem since it's just a function called in one place.
@@ -192,12 +201,18 @@ namespace CalamityMod.Items.Accessories
                             case 2: //boomer
                                 int proj = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), boomDamage, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
                                 if (proj.WithinBounds(Main.maxProjectiles))
+                                {
                                     Main.projectile[proj].Calamity().forceMinion = true;
+                                    Main.projectile[proj].originalDamage = boomBaseDamage;
+                                }
                                 break;
                             case 3: //bab boomer
                                 int proj2 = Projectile.NewProjectile(source, player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), boomDamage, 0f, player.whoAmI, 0f);
                                 if (proj2.WithinBounds(Main.maxProjectiles))
+                                {
                                     Main.projectile[proj2].Calamity().forceMinion = true;
+                                    Main.projectile[proj2].originalDamage = boomBaseDamage;
+                                }
                                 break;
                         }
                         if (projType > 1)
@@ -235,7 +250,10 @@ namespace CalamityMod.Items.Accessories
                         }
                         int proj = Projectile.NewProjectile(source, player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), magefireDamage, 1f, player.whoAmI, enrage ? 1f : 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
+                        {
                             Main.projectile[proj].Calamity().forceMinion = true;
+                            Main.projectile[proj].originalDamage = magefireBaseDamage;
+                        }
                         player.Calamity().profanedSoulWeaponUsage = enrage ? 20 : 25;
                     }
                     if (player.Calamity().profanedSoulWeaponUsage > 0)
@@ -257,7 +275,10 @@ namespace CalamityMod.Items.Accessories
                             int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
                             int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
+                            {
                                 Main.projectile[proj].Calamity().forceMinion = true;
+                                Main.projectile[proj].originalDamage = shardBaseDamage;
+                            }
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
                         player.Calamity().profanedSoulWeaponUsage = 0;
@@ -269,7 +290,10 @@ namespace CalamityMod.Items.Accessories
                         int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
                         int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 1f, 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
+                        {
                             Main.projectile[proj].Calamity().forceMinion = true;
+                            Main.projectile[proj].originalDamage = shardBaseDamage;
+                        }
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
                     }
                     player.Calamity().profanedSoulWeaponUsage += enrage ? 1 : 2;

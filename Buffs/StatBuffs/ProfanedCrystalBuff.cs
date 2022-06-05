@@ -17,14 +17,6 @@ namespace CalamityMod.Buffs.StatBuffs
             BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
         }
 
-        public override void Update(Player player, ref int buffIndex)
-        {
-            if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce)
-            {
-                player.Calamity().profanedCrystalBuffs = true;
-            }
-        }
-
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
             Player player = Main.player[Main.myPlayer];
