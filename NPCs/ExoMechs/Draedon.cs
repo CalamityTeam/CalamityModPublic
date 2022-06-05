@@ -79,10 +79,11 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 PortraitPositionYOverride = 30f,
                 Scale = 0.7f,
-                PortraitScale = 0.85f
+                PortraitScale = 0.85f,
             };
             value.Position.Y += 45f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            NPCID.Sets.ShouldBeCountedAsBoss[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -486,7 +487,10 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer - 1f, 0f, HologramFadeinTime);
                 if (HologramEffectTimer <= 0f)
+                {
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
                     NPC.active = false;
+                }
             }
 
             // Fade back in as a hologram if the player tried to kill Draedon.
