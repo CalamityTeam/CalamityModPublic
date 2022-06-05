@@ -104,15 +104,7 @@ namespace CalamityMod.Projectiles.Melee
             //Fat skull logic
             if (Projectile.ai[1] == 1f)
             {
-                if (Projectile.localAI[0] == 0f && !NPC.downedMoonlord)
-                {
-                    Projectile.penetrate = -1;
-                    Projectile.localAI[0] = 1f;
-                }
-                else if (NPC.downedMoonlord)
-                {
-                    Projectile.penetrate = 5;
-                }
+                Projectile.penetrate = 5;
                 Projectile.alpha += 1;
                 Projectile.damage = (int)Math.Ceiling(Projectile.damage * 0.992); //Exponentially decays to a factor of 0.12896 of the original damage
                 if (Projectile.alpha >= 255)
