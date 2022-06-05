@@ -9,11 +9,10 @@ namespace CalamityMod.NPCs.Astral
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Enchanted Nightcrawler");
             Main.npcFrameCount[NPC.type] = 2;
             Main.npcCatchable[NPC.type] = true;
-            NPCID.Sets.NPCBestiaryDrawModifiers bestiaryData = new NPCID.Sets.NPCBestiaryDrawModifiers(0){ Hide = true };
-            NPCID.Sets.NPCBestiaryDrawOffset.Add(Type, bestiaryData);
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
 

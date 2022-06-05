@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -99,6 +100,17 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.knockBackResist = 0f;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.Calamity().DoesNotGenerateRage = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //We'll probably want a custom background for Exos like ML has.
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The esteemed scientist himself. His AI is uploaded into a database, far from harm, and thus destroying his recon bodies achieves nothing.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
