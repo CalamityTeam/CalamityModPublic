@@ -1,9 +1,9 @@
 ﻿using System;
-using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -11,8 +11,9 @@ namespace CalamityMod.UI
 {
     public class ChargeMeterUI
     {
-        internal const float DefaultChargePosX = 49.47917f;
-        internal const float DefaultChargePosY = 43f;
+        // These values were handpicked on a 1080p screen by Ozzatron. Please disregard the bizarre precision.
+        internal const float DefaultChargePosX = 50.104603f;
+        internal const float DefaultChargePosY = 58.05169f;
         private const float MouseDragEpsilon = 0.05f; // 0.05%
 
         private static Vector2? dragOffset = null;
@@ -20,8 +21,8 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeterBorder").Value;
-            barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeter").Value;
+            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeterBorder", AssetRequestMode.ImmediateLoad).Value;
+            barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ChargeMeter", AssetRequestMode.ImmediateLoad).Value;
             Reset();
         }
 

@@ -34,8 +34,12 @@ namespace CalamityMod.UI
 {
     public class SpeedrunTimerUI
     {
+        // These values put the Speedrun Timer roughly at the top center of a 1080p screen.
         internal const float DefaultTimerPosX = 46f;
         internal const float DefaultTimerPosY = 1.481f;
+
+        private static readonly float SplitHorizontalOffset = +30f;
+        private static readonly float SplitVerticalOffset = +44f;
 
         public static void Draw(Player player)
         {
@@ -72,8 +76,8 @@ namespace CalamityMod.UI
             TimeSpan split = calamityPlayer.lastSplit;
             text = split.ToString(split.Days > 0 ? formatStrDays : formatStr);
             scale = 1f;
-            float lineTwoY = screenPos.Y + 44f;
-            float lineTwoX = screenPos.X - 58f;
+            float lineTwoX = screenPos.X + SplitHorizontalOffset;
+            float lineTwoY = screenPos.Y + SplitVerticalOffset;
             Texture2D texture = GetSplitIcon(calamityPlayer.lastSplitType);
 
             // If a split icon exists, draw it.

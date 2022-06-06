@@ -13,10 +13,11 @@ namespace CalamityMod.UI
 {
     public static class RipperUI
     {
-        public const float DefaultRagePosX = 26.04167f;
-        public const float DefaultRagePosY = 3f;
-        public const float DefaultAdrenPosX = 33.8542f;
-        public const float DefaultAdrenPosY = 3f;
+        // These values were handpicked on a 1080p screen by Ozzatron. Please disregard the bizarre precision.
+        public const float DefaultRagePosX = 35.77406f;
+        public const float DefaultRagePosY = 3.9761431f;
+        public const float DefaultAdrenPosX = 35.77406f;
+        public const float DefaultAdrenPosY = 8.846918f;
         private const float MouseDragEpsilon = 0.05f; // 0.05%
 
         private const int RageAnimFrameDelay = 6;

@@ -3,6 +3,7 @@ using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,8 +11,9 @@ namespace CalamityMod.UI
 {
     public class StealthUI
     {
-        internal const float DefaultStealthPosX = 42.7083f;
-        internal const float DefaultStealthPosY = 56.0000f;
+        // These values were handpicked on a 1080p screen by Ozzatron. Please disregard the bizarre precision.
+        internal const float DefaultStealthPosX = 50.104603f;
+        internal const float DefaultStealthPosY = 55.765408f;
         private const float MouseDragEpsilon = 0.05f; // 0.05%
 
         private static Vector2? dragOffset = null;
@@ -19,10 +21,10 @@ namespace CalamityMod.UI
 
         internal static void Load()
         {
-            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeter").Value;
-            indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator").Value;
-            barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBar").Value;
-            fullBarTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBarFull").Value;
+            edgeTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeter", AssetRequestMode.ImmediateLoad).Value;
+            indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator", AssetRequestMode.ImmediateLoad).Value;
+            barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBar", AssetRequestMode.ImmediateLoad).Value;
+            fullBarTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBarFull", AssetRequestMode.ImmediateLoad).Value;
             Reset();
         }
 
@@ -66,8 +68,10 @@ namespace CalamityMod.UI
                     CalamityConfig.Instance.StealthMeterPosY = screenRatioPosition.Y;
                     changed = true;
                 }
+
                 if (changed)
                     CalamityMod.SaveConfig(CalamityConfig.Instance);
+                return;
             }
 
             float offset = (edgeTexture.Width - barTexture.Width) * 0.5f;
@@ -77,9 +81,9 @@ namespace CalamityMod.UI
             if (modPlayer.StealthStrikeAvailable())
                 spriteBatch.Draw(indicatorTexture, screenPos, null, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
-            float completionRatio = modPlayer.rogueStealth / modPlayer.rogueStealthMax;
+            float completionRatio = modPlayer.rogueStealthMax <= 0f ? 0f : modPlayer.rogueStealth / modPlayer.rogueStealthMax;
             Rectangle barRectangle = new Rectangle(0, 0, (int)(barTexture.Width * completionRatio), barTexture.Width);
-            bool full = modPlayer.rogueStealth >= modPlayer.rogueStealthMax;
+            bool full = (modPlayer.rogueStealthMax > 0f) && (modPlayer.rogueStealth >= modPlayer.rogueStealthMax);
             spriteBatch.Draw(full ? fullBarTexture : barTexture, screenPos + new Vector2(offset * uiScale, 0), barRectangle, Color.White * modPlayer.stealthUIAlpha, 0f, indicatorTexture.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
             Rectangle mouseHitbox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 8, 8);
