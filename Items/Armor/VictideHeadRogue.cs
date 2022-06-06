@@ -7,15 +7,14 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    [LegacyName("VictideHelmet")]
-    //Look at VictideMask.cs for the explanation.
-    public class VictideHermitHelmet : ModItem
+    [LegacyName("VictideHeadgear")]
+    public class VictideHeadRogue : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Hermit Helmet");
-            Tooltip.SetDefault("5% increased magic damage");
+            DisplayName.SetDefault("Victide Headcrab");
+            Tooltip.SetDefault("5% increased rogue damage");
         }
 
         public override void SetDefaults()
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.Green;
-            Item.defense = 2; //9
+            Item.defense = 3; //10
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -34,23 +33,29 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+3 life regen and 10% increased magic damage while submerged in liquid\n" +
-                    "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
-                    "This seashell does true damage and does not benefit from any damage class\n" +
-                    "Provides increased underwater mobility and slightly reduces breath loss in the abyss";
+            player.setBonus = "+3 life regen and 10% increased rogue damage while submerged in liquid\n" +
+                "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
+                "This seashell does true damage and does not benefit from any damage class\n" +
+                "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
+                "Rogue stealth builds while not attacking and slower while moving, up to a max of 90\n" +
+                "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
+            modPlayer.rogueStealthMax += 0.9f;
+            modPlayer.wearingRogueArmor = true;
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.GetDamage<MagicDamageClass>() += 0.1f;
+                player.GetDamage<ThrowingDamageClass>() += 0.1f;
                 player.lifeRegen += 3;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<MagicDamageClass>() += 0.05f;
+            player.GetDamage<ThrowingDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()

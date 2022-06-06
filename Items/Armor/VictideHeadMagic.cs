@@ -7,14 +7,14 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    [LegacyName("VictideVisage")]
-    public class VictideCoralTurban : ModItem
+    [LegacyName("VictideMask")]
+    public class VictideHeadMagic : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Victide Coral Turban");
-            Tooltip.SetDefault("5% increased ranged damage");
+            DisplayName.SetDefault("Victide Hermit Helmet");
+            Tooltip.SetDefault("5% increased magic damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             Item.height = 18;
             Item.value = Item.buyPrice(0, 1, 50, 0);
             Item.rare = ItemRarityID.Green;
-            Item.defense = 3; //10
+            Item.defense = 2; //9
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -33,23 +33,23 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+3 life regen and 10% increased ranged damage while submerged in liquid\n" +
-                   "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
-                   "This seashell does true damage and does not benefit from any damage class\n" +
-                   "Provides increased underwater mobility and slightly reduces breath loss in the abyss";
+            player.setBonus = "+3 life regen and 10% increased magic damage while submerged in liquid\n" +
+                    "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
+                    "This seashell does true damage and does not benefit from any damage class\n" +
+                    "Provides increased underwater mobility and slightly reduces breath loss in the abyss";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.GetDamage<RangedDamageClass>() += 0.1f;
+                player.GetDamage<MagicDamageClass>() += 0.1f;
                 player.lifeRegen += 3;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetDamage<RangedDamageClass>() += 0.05f;
+            player.GetDamage<MagicDamageClass>() += 0.05f;
         }
 
         public override void AddRecipes()
