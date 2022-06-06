@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Ores
             DustType = 105;
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.ChaoticOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Scoria Ore");
+            name.SetDefault("Scoria");
             AddMapEntry(new Color(255, 0, 0), name);
             MineResist = 4f;
             MinPick = 210;

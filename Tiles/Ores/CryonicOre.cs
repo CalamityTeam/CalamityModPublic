@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Ores
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.CryonicOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cryonic Ore");
+            name.SetDefault("Cryonic");
             AddMapEntry(new Color(0, 0, 150), name);
             MineResist = 3f;
             MinPick = 180;

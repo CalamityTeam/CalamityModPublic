@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithGeneral(Type);
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.AerialiteOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Aerialite Ore");
+            name.SetDefault("Aerialite");
             AddMapEntry(new Color(0, 255, 255), name);
             MineResist = 2f;
             MinPick = 65;

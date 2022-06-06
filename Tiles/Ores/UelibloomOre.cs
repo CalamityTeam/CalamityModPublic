@@ -1,4 +1,4 @@
-
+﻿
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Ores
 
             ItemDrop = ModContent.ItemType<Items.Placeables.Ores.UelibloomOre>();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Uelibloom Ore");
+            name.SetDefault("Uelibloom");
             AddMapEntry(new Color(0, 255, 0), name);
             MineResist = 5f;
             MinPick = 225;

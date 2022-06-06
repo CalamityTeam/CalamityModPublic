@@ -4704,6 +4704,13 @@ namespace CalamityMod.NPCs
                     pool[NPCID.TruffleWorm] = SpawnCondition.OverworldMushroom.Chance * 0.5f;
             }
 
+            // Add Prismatic Lacewing spawns to surface hallow from dusk to midnight
+            if (!Main.dayTime && Main.time < 16200D && Main.hardMode && (spawnInfo.Player.ZoneOverworldHeight || spawnInfo.Player.ZoneSkyHeight))
+            {
+                if (!NPC.AnyNPCs(NPCID.EmpressButterfly))
+                    pool[NPCID.TruffleWorm] = SpawnCondition.OverworldHallow.Chance * 0.1f;
+            }
+
             // Increase fairy spawn rates while wearing Fairy Boots
             if (spawnInfo.Player.Calamity().fairyBoots)
             {
