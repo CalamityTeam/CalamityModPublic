@@ -23,7 +23,6 @@ namespace CalamityMod.UI
             indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterStrikeIndicator").Value;
             barTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBar").Value;
             fullBarTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/StealthMeterBarFull").Value;
-
             Reset();
         }
 
@@ -85,19 +84,16 @@ namespace CalamityMod.UI
             Rectangle stealthBar = Utils.CenteredRectangle(screenPos, edgeTexture.Size() * uiScale);
 
             // If the mouse is on top of the meter, show the player's exact numeric stealth.
-            if (stealthBar.Intersects(mouseHitbox))
+            if (stealthBar.Intersects(mouseHitbox) && modPlayer.rogueStealthMax > 0f && modPlayer.stealthUIAlpha >= 0.5f)
             {
-                if (modPlayer.rogueStealthMax > 0f && modPlayer.stealthUIAlpha >= 0.5f)
-                {
-                    Main.LocalPlayer.mouseInterface = true;
-                    string stealthStr = (100f * modPlayer.rogueStealth).ToString("n2");
-                    string maxStealthStr = (100f * modPlayer.rogueStealthMax).ToString("n2");
-                    Main.instance.MouseText($"Stealth: {stealthStr}/{maxStealthStr}", 0, 0, -1, -1, -1, -1);
-                    modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
-                }
+                Main.LocalPlayer.mouseInterface = true;
+                string stealthStr = (100f * modPlayer.rogueStealth).ToString("n2");
+                string maxStealthStr = (100f * modPlayer.rogueStealthMax).ToString("n2");
+                Main.instance.MouseText($"Stealth: {stealthStr}/{maxStealthStr}", 0, 0, -1, -1, -1, -1);
+                modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
             }
 
-            // Handle mouse dagging
+            // Handle mouse dragging
             if (!CalamityConfig.Instance.MeterPosLock)
             {
                 Vector2 newScreenRatioPosition = screenRatioPosition;

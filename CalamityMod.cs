@@ -267,6 +267,8 @@ namespace CalamityMod
             });
 
             RipperUI.Load();
+            StealthUI.Load();
+            ChargeMeterUI.Load();
             AstralArcanumUI.Load(this);
 
             Apollo.LoadHeadIcons();
@@ -344,6 +346,8 @@ namespace CalamityMod
             });
 
             RipperUI.Unload();
+            StealthUI.Unload();
+            ChargeMeterUI.Unload();
             AstralArcanumUI.Unload();
 
             if (!Main.dedServ)
