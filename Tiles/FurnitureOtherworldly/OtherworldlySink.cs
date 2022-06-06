@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultSink")]
     public class OtherworldlySink : ModTile
     {
         public override void SetStaticDefaults()

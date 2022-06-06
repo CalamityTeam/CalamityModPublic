@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Striking an enemy with the blade causes an earthen eruption\n" +
                 "Right click to fire an aegis bolt");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

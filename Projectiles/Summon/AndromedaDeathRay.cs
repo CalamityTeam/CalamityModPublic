@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Laser tail logic
 
-            Main.spriteBatch.Draw(laserTailTexture, Projectile.Center - Main.screenPosition, null, drawColor, Projectile.rotation, laserTailTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(laserTailTexture, Projectile.Center - Main.screenPosition, null, drawColor, Projectile.rotation, laserTailTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
 
             // Laser body logic
 
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         sourceRectangle.Height = (int)(laserLength - laserLengthDelta);
                     }
-                    Main.spriteBatch.Draw(laserBodyTexture, centerDelta - Main.screenPosition, new Rectangle?(sourceRectangle), drawColor, Projectile.rotation, new Vector2(sourceRectangle.Width / 2f, 0f), Projectile.scale, SpriteEffects.None, 0);
+                    Main.EntitySpriteDraw(laserBodyTexture, centerDelta - Main.screenPosition, new Rectangle?(sourceRectangle), drawColor, Projectile.rotation, new Vector2(sourceRectangle.Width / 2f, 0f), Projectile.scale, SpriteEffects.None, 0);
                     laserLengthDelta += sourceRectangle.Height * Projectile.scale;
                     centerDelta += Projectile.velocity * sourceRectangle.Height * Projectile.scale;
                     sourceRectangle.Y += 16;
@@ -191,7 +191,7 @@ namespace CalamityMod.Projectiles.Summon
 
             // Laser head logic
 
-            Main.spriteBatch.Draw(laserHeadTexture, centerDelta - Main.screenPosition, null, drawColor, Projectile.rotation, laserHeadTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(laserHeadTexture, centerDelta - Main.screenPosition, null, drawColor, Projectile.rotation, laserHeadTexture.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             return false;
         }
 

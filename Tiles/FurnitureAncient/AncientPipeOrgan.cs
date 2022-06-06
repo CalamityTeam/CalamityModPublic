@@ -6,6 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
+    [LegacyName("AncientPiano")]
     public class AncientPipeOrgan : ModTile
     {
         public override void SetStaticDefaults()

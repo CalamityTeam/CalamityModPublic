@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using System;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -15,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
     {
 
         public static readonly SoundStyle JumpSound = new("CalamityMod/Sounds/Custom/ScornJump");
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/ScornHit"); 
+        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/NPCHit/ScornHurt"); 
         public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/ScornDeath");
 
         public override void SetStaticDefaults()
@@ -46,6 +47,17 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess’ creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
+            });
         }
 
         public override void AI()

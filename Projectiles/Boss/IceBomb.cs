@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Projectile.velocity *= 0.99f;
+            Projectile.velocity *= 0.98f;
 
             if (Projectile.localAI[0] == 0f)
             {
@@ -98,11 +98,11 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Projectile.owner == Main.myPlayer)
             {
-                int totalProjectiles = (CalamityWorld.revenge || BossRushEvent.BossRushActive ? 3 : 2) + (int)Projectile.ai[1];
+                int totalProjectiles = 8;
                 float radians = MathHelper.TwoPi / totalProjectiles;
                 int type = ModContent.ProjectileType<IceRain>();
                 int damage = (int)Math.Round(Projectile.damage * 0.75);
-                float velocity = CalamityWorld.revenge || BossRushEvent.BossRushActive ? 7f : 6f;
+                float velocity = 1f;
                 Vector2 spinningPoint = new Vector2(0f, -velocity);
                 for (int k = 0; k < totalProjectiles; k++)
                 {

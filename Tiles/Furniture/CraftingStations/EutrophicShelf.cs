@@ -8,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
+    [LegacyName("EutrophicCrafting")]
     public class EutrophicShelf : ModTile
     {
         //

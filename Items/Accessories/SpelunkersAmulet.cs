@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("ChaosAmulet")]
     public class SpelunkersAmulet : ModItem
     {
         public override void SetStaticDefaults()

@@ -52,15 +52,11 @@ namespace CalamityMod.Projectiles.Boss
                     {
                         dust.noGravity = true;
                         dust.scale *= 3f;
-                        dust.velocity.X *= 1.5f;
-                        dust.velocity.Y *= 1.5f;
                     }
                     else
                     {
                         dust.scale *= 1.5f;
                     }
-                    dust.velocity.X *= 1.2f;
-                    dust.velocity.Y *= 1.2f;
                     dust.scale *= scalar;
                 }
             }

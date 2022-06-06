@@ -184,7 +184,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     Rectangle flameFrameRectangle = flameTexture.Frame(1, 4, 0, yFrame);
                     Vector2 flameOrigin = new Vector2(flameTexture.Width / 2, flameTexture.Height / 8 + 14);
-                    Main.spriteBatch.Draw(flameTexture,
+                    Main.EntitySpriteDraw(flameTexture,
                                           new Vector2(Projectile.oldPos[oldPositionDrawIndex].X - Main.screenPosition.X + Projectile.width / 2 - projectileTexture.Width * Projectile.scale / 2f + modifiedProjectileTexture.X * Projectile.scale, Projectile.oldPos[oldPositionDrawIndex].Y - Main.screenPosition.Y + Projectile.height - projectileTexture.Height * Projectile.scale / Main.projFrames[Projectile.type] + 4f + modifiedProjectileTexture.Y * Projectile.scale + Projectile.gfxOffY),
                                           new Rectangle?(flameFrameRectangle),
                                           drawColor,
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Summon
                                           flameOrigin,
                                           MathHelper.Lerp(0.1f, 1.2f, (10f - oldPositionDrawIndex) / 10f),
                                           spriteEffects,
-                                          0f);
+                                          0);
                 }
             }
         }

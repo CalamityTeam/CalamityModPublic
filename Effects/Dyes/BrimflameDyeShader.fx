@@ -21,7 +21,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
@@ -36,7 +36,7 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float3 flameColor = lerp(alteredColor, alteredSecondaryColor, fadeToRed);
     flameColor.r = 0.6 + sqrt(fadeToRed) * 0.4;
     color = lerp(color, float4(flameColor, 1), 0.45) * color.a;
-    return color * lerp(1.3, 5.4, pow(flameStreakBrightness, 4.44));
+    return color * lerp(1.3, 5.4, pow(flameStreakBrightness, 4.44)) * sampleColor;
 }
 technique Technique1
 {

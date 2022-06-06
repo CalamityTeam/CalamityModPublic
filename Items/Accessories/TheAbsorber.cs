@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "Increased defense, movement speed and damage reduction while submerged in liquid\n" +
                 "Enemies take damage when they touch you\n" +
                 "You emit a cloud of mushroom spores when you are hit\n" +
-                "5% increased damage reduction\n" +
+                "7% increased damage reduction\n" +
                 "5% of the damage from enemy attacks is absorbed and converted into healing\n" +
                 "Grants immunity to Armor Crunch");
         }

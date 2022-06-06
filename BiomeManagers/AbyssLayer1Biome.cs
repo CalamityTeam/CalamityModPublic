@@ -32,6 +32,10 @@ namespace CalamityMod.BiomeManagers
             }
 
             playerYTileCoords = point.Y;
+
+            if (WeakReferenceSupport.InAnySubworld())
+                return false;
+
             return point.Y > (Main.rockLayer - y * 0.05) &&
                 !player.lavaWet &&
                 !player.honeyWet &&

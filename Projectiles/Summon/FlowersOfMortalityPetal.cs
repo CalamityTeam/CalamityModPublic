@@ -88,8 +88,8 @@ namespace CalamityMod.Projectiles.Summon
             Color drawColor = Main.hslToRgb(Hue, 0.95f, 0.5f) * 2.3f;
 
             Vector2 drawPosition = Projectile.Center - Main.screenPosition;
-            Main.spriteBatch.Draw(petalTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.rotation, petalTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(coreTexture, drawPosition, null, Projectile.GetAlpha(lightColor), 0f, coreTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(petalTexture, drawPosition, null, Projectile.GetAlpha(drawColor), Projectile.rotation, petalTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
+            Main.EntitySpriteDraw(coreTexture, drawPosition, null, Projectile.GetAlpha(lightColor), 0f, coreTexture.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0);
 
             return false;
         }

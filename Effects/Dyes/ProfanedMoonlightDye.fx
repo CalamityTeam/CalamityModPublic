@@ -19,8 +19,8 @@ float2 uLegacyArmorSheetSize;
 float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 returnColor = tex2D(uImage0, coords);
-    returnColor.rgb *= uColor * max(1, (cos(uTime) * 0.5 + 0.5) * 0.3 + 1.3);
-    return returnColor;
+    returnColor.rgb *= uColor * max(1, (sin(uTime) * 0.5 + 0.5) * 0.3 + 1.3);
+    return returnColor * sampleColor;
 }
 technique Technique1
 {

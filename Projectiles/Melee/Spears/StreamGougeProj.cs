@@ -161,11 +161,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 Main.spriteBatch.EnterShaderRegion();
                 Vector2 intersectionNormal = portalDrawPosition + Main.screenPosition - Projectile.Center;
-                Vector2 worldOffset = Projectile.rotation.ToRotationVector2() * -45f;
+                Vector2 worldOffset = Projectile.rotation.ToRotationVector2() * Utils.GetLerpValue(0f, StreamGouge.SpearFireTime, Time - StreamGouge.SpinTime, true) * 80f;
                 Vector2 intersectionOffset = (portalDrawPosition + Main.screenPosition - Projectile.Center) * -1.5f;
                 GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uIntersectionPosition"].SetValue(portalDrawPosition + intersectionOffset);
                 GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uIntersectionNormal"].SetValue(intersectionNormal);
-                GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uIntersectionCutoffDirection"].SetValue(-1f);
+                GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uIntersectionCutoffDirection"].SetValue(1f);
                 GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uWorldPosition"].SetValue(Projectile.Center - Main.screenPosition + worldOffset);
                 GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uSize"].SetValue(texture.Size());
                 GameShaders.Misc["CalamityMod:IntersectionClip"].Shader.Parameters["uRotation"].SetValue(Projectile.rotation);

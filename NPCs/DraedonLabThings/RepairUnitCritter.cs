@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -50,6 +51,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             DisplayName.SetDefault("Repair Unit");
             Main.npcFrameCount[NPC.type] = 17;
+            NPCID.Sets.CountsAsCritter[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -63,9 +65,18 @@ namespace CalamityMod.NPCs.DraedonLabThings
             NPC.knockBackResist = 0f;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
-            NPC.friendly = true;
             NPC.HitSound = SoundID.NPCHit4;
             NPC.DeathSound = SoundID.NPCDeath44;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+				//Lab biome??? would be an incredibly niche category for just a critter, but they're pretty much all over the place so it'd be warranted
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("Thanks to these little machines, the dusty labs still stand. It appears they're unable to deal with rust, though.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)

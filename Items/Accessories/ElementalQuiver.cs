@@ -33,15 +33,15 @@ namespace CalamityMod.Items.Accessories
             player.GetCritChance<RangedDamageClass>() += 5;
             player.magicQuiver = true;
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.artemisEmblem = true;
+            modPlayer.deadshotBrooch = true;
             modPlayer.rangedAmmoCost *= 0.8f;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.MagicQuiver).
-                AddIngredient<ArtemisEmblem>().
+                AddRecipeGroup("QuiversGroup").
+                AddIngredient<DeadshotBrooch>().
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).
                 AddIngredient<AscendantSpiritEssence>(4).

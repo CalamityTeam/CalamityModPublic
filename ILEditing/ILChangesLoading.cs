@@ -95,6 +95,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
 
             // Removal of vanilla stupidity
+            IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
             IL.Terraria.Item.Prefix += RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns += PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC += MakeVoodooDemonDollWork;
@@ -102,6 +103,7 @@ namespace CalamityMod.ILEditing
             // IL.Terraria.NPC.VanillaHitEffect += RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Player.IsTileTypeInInteractionRange += IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile += MakeMeteoriteExplodable;
+            IL.Terraria.Main.UpdateWindyDayState += MakeWindyDayMusicPlayLessOften;
             IL.Terraria.Main.UpdateTime_StartNight += BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
             IL.Terraria.Projectile.Damage += MakeTagDamageMultiplicative;
@@ -183,12 +185,14 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
 
             // Removal of vanilla stupidity
+            IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind -= DecreaseSandstormWindSpeedRequirement;
             IL.Terraria.Item.Prefix -= RelaxPrefixRequirements;
             On.Terraria.NPC.SlimeRainSpawns -= PreventBossSlimeRainSpawns;
             IL.Terraria.NPC.SpawnNPC -= MakeVoodooDemonDollWork;
             //IL.Terraria.NPC.VanillaHitEffect -= RemoveLavaDropsFromExpertLavaSlimes;
             IL.Terraria.Player.IsTileTypeInInteractionRange -= IncreasePylonInteractionRange;
             IL.Terraria.Projectile.CanExplodeTile -= MakeMeteoriteExplodable;
+            IL.Terraria.Main.UpdateWindyDayState -= MakeWindyDayMusicPlayLessOften;
             IL.Terraria.Main.UpdateTime_StartNight -= BloodMoonsRequire200MaxLife;
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
             IL.Terraria.Projectile.Damage -= MakeTagDamageMultiplicative;

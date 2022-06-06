@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                 vector34.Y = 0f;
                 vector34.X = 0f;
                 vector34 += new Vector2(value33.X, num236) - Main.screenPosition;
-                Main.spriteBatch.Draw(texture2D23, vector34, new Microsoft.Xna.Framework.Rectangle?(rectangle9), color39, num233 + num238, origin3, 1f + num239, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(texture2D23, vector34, new Microsoft.Xna.Framework.Rectangle?(rectangle9), color39, num233 + num238, origin3, 1f + num239, SpriteEffects.None, 0);
             }
             return false;
         }

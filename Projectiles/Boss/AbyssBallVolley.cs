@@ -1,10 +1,10 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.height = 30;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
-            Projectile.alpha = 60;
+            Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
             Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 780 : CalamityWorld.death ? 600 : CalamityWorld.revenge ? 540 : Main.expertMode ? 480 : 300;
         }
@@ -31,21 +31,20 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.velocity.Length() < 12f && (Main.expertMode || BossRushEvent.BossRushActive))
             {
-                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1f;
+                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
                 Projectile.velocity *= velocityMult;
             }
 
             if (Projectile.timeLeft < 60)
-                Projectile.Opacity = MathHelper.Clamp(Projectile.timeLeft / 60f, 0f, 1f);
+                Projectile.Opacity = MathHelper.Lerp(0f, 0.8f, Projectile.timeLeft / 60f);
 
-            if (Projectile.ai[1] == 0f)
+            if (Main.rand.NextBool())
             {
-                Projectile.ai[1] = 1f;
-                SoundEngine.PlaySound(SoundID.Item33, Projectile.position);
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Lavender);
+                Main.dust[dust].noGravity = true;
             }
 
-            if (Main.rand.NextBool(2))
-                Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 173, 0f, 0f);
+            Projectile.rotation += (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y)) * 0.05f;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 12f, targetHitbox);

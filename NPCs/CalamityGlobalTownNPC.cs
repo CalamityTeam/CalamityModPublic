@@ -56,7 +56,10 @@ namespace CalamityMod.NPCs
             "Sylux", // <@!331812782183809025> (Gonk#2451)
         };
         private const int DemolitionistVanillaNames = 22;
-        private static readonly string[] DemolitionistNames = null;
+        private static readonly string[] DemolitionistNames =
+        {
+            "Tavish DeGroot", // <@!442447226992721930> (Magicoal#2655)
+        };
         private const int DryadVanillaNames = 21;
         private static readonly string[] DryadNames =
         {
@@ -398,6 +401,14 @@ namespace CalamityMod.NPCs
                             if (Main.LocalPlayer.Calamity().newPainterInventory)
                                 DrawNewInventoryAlert(npc);
                             break;
+                        case NPCID.Golfer:
+                            if (Main.LocalPlayer.Calamity().newGolferInventory)
+                                DrawNewInventoryAlert(npc);
+                            break;
+                        case NPCID.BestiaryGirl:
+                            if (Main.LocalPlayer.Calamity().newZoologistInventory)
+                                DrawNewInventoryAlert(npc);
+                            break;
                         case NPCID.DyeTrader:
                             if (Main.LocalPlayer.Calamity().newDyeTraderInventory)
                                 DrawNewInventoryAlert(npc);
@@ -462,6 +473,10 @@ namespace CalamityMod.NPCs
                             if (Main.LocalPlayer.Calamity().newCyborgInventory)
                                 DrawNewInventoryAlert(npc);
                             break;
+                        case NPCID.Princess:
+                            if (Main.LocalPlayer.Calamity().newPrincessInventory)
+                                DrawNewInventoryAlert(npc);
+                            break;
                         case NPCID.SkeletonMerchant:
                             if (Main.LocalPlayer.Calamity().newSkeletonMerchantInventory)
                                 DrawNewInventoryAlert(npc);
@@ -513,6 +528,12 @@ namespace CalamityMod.NPCs
                     case NPCID.Painter:
                         Main.LocalPlayer.Calamity().newPainterInventory = false;
                         break;
+                    case NPCID.Golfer:
+                        Main.LocalPlayer.Calamity().newGolferInventory = false;
+                        break;
+                    case NPCID.BestiaryGirl:
+                        Main.LocalPlayer.Calamity().newZoologistInventory = false;
+                        break;
                     case NPCID.DyeTrader:
                         Main.LocalPlayer.Calamity().newDyeTraderInventory = false;
                         break;
@@ -561,6 +582,9 @@ namespace CalamityMod.NPCs
                     case NPCID.Cyborg:
                         Main.LocalPlayer.Calamity().newCyborgInventory = false;
                         break;
+                    case NPCID.Princess:
+                        Main.LocalPlayer.Calamity().newPrincessInventory = false;
+                        break;
                     case NPCID.SkeletonMerchant:
                         Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = false;
                         break;
@@ -601,6 +625,12 @@ namespace CalamityMod.NPCs
                                 break;
                             case NPCID.Painter:
                                 Main.LocalPlayer.Calamity().newPainterInventory = true;
+                                break;
+                            case NPCID.Golfer:
+                                Main.LocalPlayer.Calamity().newGolferInventory = true;
+                                break;
+                            case NPCID.BestiaryGirl:
+                                Main.LocalPlayer.Calamity().newZoologistInventory = true;
                                 break;
                             case NPCID.DyeTrader:
                                 Main.LocalPlayer.Calamity().newDyeTraderInventory = true;
@@ -649,6 +679,9 @@ namespace CalamityMod.NPCs
                                 break;
                             case NPCID.Cyborg:
                                 Main.LocalPlayer.Calamity().newCyborgInventory = true;
+                                break;
+                            case NPCID.Princess:
+                                Main.LocalPlayer.Calamity().newPrincessInventory = true;
                                 break;
                             case NPCID.SkeletonMerchant:
                                 Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = true;
@@ -1331,9 +1364,9 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), DownedBossSystem.downedPerforator && Main.expertMode);
-                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), DownedBossSystem.downedHiveMind && Main.expertMode);
+                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), DownedBossSystem.downedPerforator);
+                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), DownedBossSystem.downedHiveMind);
                 SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
             }
 

@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Fires rainbow beams that change their behavior based on their color\n" +
                 "Right click for true melee");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

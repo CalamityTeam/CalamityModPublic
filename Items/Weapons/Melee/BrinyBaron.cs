@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -16,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Tooltip.SetDefault("Striking an enemy with the blade causes a briny typhoon to appear\n" +
                 "Right click to fire a razorwind aqua blade");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

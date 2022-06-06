@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipVertically;
 
-            Main.spriteBatch.Draw(texture, startPos, rectangle, Projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0);
+            Main.EntitySpriteDraw(texture, startPos, rectangle, Projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0);
             return false;
         }
     }

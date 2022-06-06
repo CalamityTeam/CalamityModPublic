@@ -72,6 +72,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
             player.buffImmune[BuffID.WindPushed] = true;
+            player.buffImmune[BuffID.Stoned] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))

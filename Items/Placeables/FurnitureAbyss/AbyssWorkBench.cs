@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
+    [LegacyName("AbyssWorkbench")]
     public class AbyssWorkBench : ModItem
     {
         public override void SetStaticDefaults()

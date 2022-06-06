@@ -7,6 +7,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultStone")]
     public class OtherworldlyStone : ModTile
     {
         private int extraFrameHeight = 36;

@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -12,8 +11,6 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class GaelsGreatsword : ModItem
     {
-        //Help, they're forcing me to slave away at Calamity until I die! - Dominic
-
         // Weapon attribute constants
         public static readonly int BaseDamage = 780;
         public static readonly float GiantSkullDamageMultiplier = 1.5f;

@@ -29,16 +29,6 @@ namespace CalamityMod.Systems
             int mouseIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
             if (mouseIndex != -1)
             {
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
-                {
-                    if (Main.LocalPlayer.Calamity().drawBossHPBar)
-                    {
-                        BossHealthBarManager.Update();
-                        BossHealthBarManager.Draw(Main.spriteBatch);
-                    }
-                    return true;
-                }, InterfaceScaleType.None));
-
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Hologram", () =>
                 {
                     LabHologramProjectorUI.Draw(Main.spriteBatch);
@@ -59,16 +49,6 @@ namespace CalamityMod.Systems
                     PowerCellFactoryUI.Draw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.Game));
-
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
-                {
-                    if (Main.LocalPlayer.Calamity().drawBossHPBar)
-                    {
-                        BossHealthBarManager.Update();
-                        BossHealthBarManager.Draw(Main.spriteBatch);
-                    }
-                    return true;
-                }, InterfaceScaleType.None));
 
                 // Mode Indicator UI.
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Mode Indicator UI", delegate ()

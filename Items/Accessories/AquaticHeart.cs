@@ -5,6 +5,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("SirensHeart")]
     public class AquaticHeart : ModItem
     {
         public override void Load()

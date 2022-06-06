@@ -36,9 +36,9 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
     VertexShaderOutput output = (VertexShaderOutput) 0;
     float2 coords = input.Coordinates - 0.5;
     float rotationSine = sin(uSaturation);
-    float rotationCosine = cos(uSaturation);
+    float rotationCosine = sin(uSaturation + 1.57);
     float rotationOriginSine = sin(uCircularRotation);
-    float rotationOriginCosine = cos(uCircularRotation);
+    float rotationOriginCosine = sin(uCircularRotation + 1.57);
     float2x2 rotationMatrix = float2x2(rotationCosine, -rotationSine, rotationSine, rotationCosine);
     float2x2 circularRotationMatrix = float2x2(rotationOriginCosine, -rotationOriginSine, rotationOriginSine, rotationOriginCosine);
     float2x2 scalingMatrix = float2x2(2, 0, 0, 1);

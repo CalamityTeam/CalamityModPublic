@@ -661,6 +661,7 @@ namespace CalamityMod
                 NPCID.QueenBee,
                 NPCID.SkeletronHead,
                 NPCID.SkeletronHand,
+                NPCID.Deerclops,
                 NPCID.WallofFlesh,
                 NPCID.WallofFleshEye,
                 NPCID.PirateShipCannon,
@@ -1249,7 +1250,6 @@ namespace CalamityMod
                 ProjectileID.VortexVortexLightning,
                 ProjectileID.VortexLightning,
                 ProjectileID.VortexAcid,
-                ProjectileType<GreatSandBlast>(),
                 ProjectileType<PearlBurst>(),
                 ProjectileType<PearlRain>()
             };
@@ -2534,6 +2534,7 @@ namespace CalamityMod
                 { NPCID.EyeofCthulhu, Item.buyPrice(0, 10)},
                 { NPCID.QueenBee, Item.buyPrice(0, 15)},
                 { NPCID.SkeletronHead, Item.buyPrice(0, 20) },
+                { NPCID.Deerclops, Item.buyPrice(0, 20) },
                 { NPCID.WallofFlesh, Item.buyPrice(0, 25)},
                 { NPCID.QueenSlimeBoss, Item.buyPrice(0, 30)},
                 { NPCID.Spazmatism, Item.buyPrice(0, 40)},

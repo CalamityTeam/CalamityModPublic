@@ -48,6 +48,13 @@ namespace CalamityMod.Items.Armor
                 AddIngredient(ItemID.ShroomiteBar, 12).
                 AddTile(TileID.MythrilAnvil).
                 Register();
+
+            CreateRecipe().
+                AddIngredient(ItemID.ChlorophyteHelmet).
+                AddIngredient(ItemID.GlowingMushroom, 60).
+                AddTile(TileID.MythrilAnvil).
+                Register();
+
         }
     }
 }

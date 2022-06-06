@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
+    [LegacyName("AncientWorkbench")]
     public class AncientWorkBench : ModTile
     {
         public override void SetStaticDefaults()

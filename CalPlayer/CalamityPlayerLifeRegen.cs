@@ -601,7 +601,7 @@ namespace CalamityMod.CalPlayer
                     Player.mount.Dismount(Player);
             }
 
-            if (lol || (silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodSlayerDash.ID && Player.dashDelay < 0))
+            if ((silvaCountdown > 0 && hasSilvaEffect && silvaSet) || (DashID == GodSlayerDash.ID && Player.dashDelay < 0))
             {
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen = 0;
@@ -871,24 +871,6 @@ namespace CalamityMod.CalPlayer
                             }
                         }
                     }
-                    else if (draedonsHeart)
-                    {
-                        boostedRegen = true;
-                        if (Player.lifeRegen > 0 && Player.statLife < actualMaxLife)
-                        {
-                            if (Main.rand.Next(30000) < Player.lifeRegenTime || Main.rand.NextBool(2))
-                            {
-                                int regen = Dust.NewDust(Player.position, Player.width, Player.height, 107, 0f, 0f, 200, default, 1f);
-                                Main.dust[regen].noGravity = true;
-                                Main.dust[regen].fadeIn = 1.3f;
-                                Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
-                                Main.dust[regen].velocity = velocity;
-                                velocity.Normalize();
-                                velocity *= 34f;
-                                Main.dust[regen].position = Player.Center - velocity;
-                            }
-                        }
-                    }
                     else if (photosynthesis)
                     {
                         boostedRegen = true;
@@ -962,8 +944,8 @@ namespace CalamityMod.CalPlayer
             if (Player.statLife < actualMaxLife)
             {
                 // The soft cap doesn't apply if the player is not moving and not using a weapon while having any of the following:
-                // Shiny Stone, Draedon's Heart, Cosmic Freeze buff from the Cosmic Discharge, Demonshade Armor, Photosynthesis Potion buff or The Camper.
-                bool noLifeRegenCap = (Player.shinyStone || draedonsHeart || cFreeze || shadeRegen || photosynthesis || camper) &&
+                // Shiny Stone, Cosmic Freeze buff from the Cosmic Discharge, Demonshade Armor, Photosynthesis Potion buff or The Camper.
+                bool noLifeRegenCap = (Player.shinyStone || cFreeze || shadeRegen || photosynthesis || camper) &&
                     Player.StandingStill() && Player.itemAnimation == 0;
 
                 if (!noLifeRegenCap)
@@ -971,8 +953,15 @@ namespace CalamityMod.CalPlayer
                     // Calculate the % of HP the player has left.
                     float maxLifeRatio = Player.statLife / (float)actualMaxLife;
 
+                    // Calculate the ratio of the player's current max life relative to the starting HP of 100.
+                    // This makes the soft cap far less harsh at lower amounts of max life.
+                    // Ranges from 10 (at 100 max life) to 2 (at 500 max life) to 1 (at 1000 max life) to 0 (at greater than 2000 max life).
+                    int lifeRegenSoftCapMin = (int)Math.Round(100f / actualMaxLife * 10f);
+                    int lifeRegenSoftCapMax = 10;
+
                     // The soft cap for life regen which ranges from 10 (at less than 5% HP) to 0 (at greater than or equal to 95% HP).
-                    int lifeRegenSoftCap = (int)Math.Round((1f - maxLifeRatio) * 10f);
+                    // This value is capped at a min and max amount.
+                    int lifeRegenSoftCap = (int)MathHelper.Clamp((int)Math.Round((1f - maxLifeRatio) * 10f), lifeRegenSoftCapMin, lifeRegenSoftCapMax);
 
                     // If life regen is greater than the calculated soft cap, reduce it.
                     if (Player.lifeRegen > lifeRegenSoftCap)

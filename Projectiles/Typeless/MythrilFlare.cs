@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.tileCollide = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = Projectile.MaxUpdates * 210;
-            Projectile.DamageType = RogueDamageClass.Instance;
         }
 
         public override void AI()

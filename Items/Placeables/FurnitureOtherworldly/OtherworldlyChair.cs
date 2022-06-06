@@ -2,6 +2,7 @@
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultChair")]
     public class OtherworldlyChair : ModItem
     {
         public override void SetStaticDefaults()

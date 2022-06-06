@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -18,19 +18,22 @@ namespace CalamityMod.Projectiles.Enemy
             Projectile.height = 10;
             Projectile.hostile = true;
             Projectile.timeLeft = 600;
-            Projectile.tileCollide = true;
             Projectile.ignoreWater = false;
         }
+
         public override void AI()
         {
             if (Projectile.velocity.Y < 10f)
-                Projectile.velocity.Y += 0.25f;
+                Projectile.velocity.Y += 0.1f;
+
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i <= 2; i++)

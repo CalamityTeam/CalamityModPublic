@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Ammo
 {
+    [LegacyName("AcidBullet")]
     public class AcidRound : ModItem
     {
         public override void SetStaticDefaults()

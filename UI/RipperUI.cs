@@ -96,10 +96,6 @@ namespace CalamityMod.UI
 
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
-            // If Revengeance isn't on, or Rage and Adrenaline are turned off, don't draw anything.
-            if (!CalamityWorld.revenge)
-                return;
-
             // If for some reason either of the bars has been thrown into the corner (likely to 0,0 by default), put them at their default positions
             CheckGarbageCornerPos();
 
@@ -111,8 +107,10 @@ namespace CalamityMod.UI
 
             // Grab the ModPlayer object and then start drawing
             CalamityPlayer modPlayer = player.Calamity();
-            DrawRageBar(spriteBatch, modPlayer);
-            DrawAdrenalineBar(spriteBatch, modPlayer);
+            if (modPlayer.RageEnabled)
+                DrawRageBar(spriteBatch, modPlayer);
+            if (modPlayer.AdrenalineEnabled)
+                DrawAdrenalineBar(spriteBatch, modPlayer);
 
             HandleMouseInteraction(modPlayer, rageBorderTex.Size(), adrenBorderTex.Size());
         }
@@ -150,7 +148,7 @@ namespace CalamityMod.UI
             // The amount of the bar to draw depends on the player's current Rage level
             // offset calculates the deadspace that is the border and not the bar. Bar is 24 pixels tall
             int barWidth = rageBarTex.Width;
-			float offset = (rageBorderTex.Width - rageBarTex.Width) * 0.5f;
+            float offset = (rageBorderTex.Width - rageBarTex.Width) * 0.5f;
             Rectangle cropRect = new Rectangle(0, 0, (int)(barWidth * rageRatio), rageBarTex.Height);
             spriteBatch.Draw(rageBarTex, rageDrawPos + shakeOffset + new Vector2(offset * uiScale, 0), cropRect, Color.White, 0f, rageBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
@@ -216,7 +214,7 @@ namespace CalamityMod.UI
             // The amount of the bar to draw depends on the player's current Adrenaline level
             // offset calculates the deadspace that is the border and not the bar. Bar is 24 pixels tall
             int barWidth = adrenBarTex.Width;
-			float offset = (adrenBorderTex.Width - adrenBarTex.Width) * 0.5f;
+            float offset = (adrenBorderTex.Width - adrenBarTex.Width) * 0.5f;
             Rectangle cropRect = new Rectangle(0, 0, (int)(barWidth * adrenRatio), adrenBarTex.Height);
             spriteBatch.Draw(adrenBarTex, adrenDrawPos + shakeOffset + new Vector2(offset * uiScale, 0), cropRect, Color.White, 0f, adrenBorderTex.Size() * 0.5f, uiScale, SpriteEffects.None, 0);
 
@@ -254,8 +252,8 @@ namespace CalamityMod.UI
             Rectangle rageBar = Utils.CenteredRectangle(rageDrawPos, rageBarSize * uiScale);
             Rectangle adrenBar = Utils.CenteredRectangle(adrenDrawPos, adrenBarSize * uiScale);
 
-            bool rageHover = mouse.Intersects(rageBar);
-            bool adrenHover = mouse.Intersects(adrenBar);
+            bool rageHover = mouse.Intersects(rageBar) && modPlayer.RageEnabled;
+            bool adrenHover = mouse.Intersects(adrenBar) && modPlayer.AdrenalineEnabled;
 
             MouseState mouseInput = Mouse.GetState();
             Vector2 mousePos = Main.MouseScreen;
@@ -282,8 +280,9 @@ namespace CalamityMod.UI
                 // Add hover text if the mouse is over the bar
                 if (!CalamityConfig.Instance.MeterPosLock)
                     Main.LocalPlayer.mouseInterface = true;
-                string adrenStr = MakeRipperPercentString(modPlayer.adrenaline, modPlayer.adrenalineMax);
-                Main.instance.MouseText($"Adrenaline: {adrenStr}");
+                string adrenNameStr = modPlayer.draedonsHeart ? "Nanomachines" : "Adrenaline";
+                string adrenAmountStr = MakeRipperPercentString(modPlayer.adrenaline, modPlayer.adrenalineMax);
+                Main.instance.MouseText($"{adrenNameStr}: {adrenAmountStr}");
 
                 // The bar is draggable if enabled in config.
                 if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)

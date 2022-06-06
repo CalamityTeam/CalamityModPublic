@@ -446,14 +446,7 @@ namespace CalamityMod.Projectiles
 
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
-            {
-                ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);
-                return false;
-            }
-
-            // WHY DOES THE CYRSTAL STILL SHOOT THESE FUCKING THINGS???
-            if (projectile.type == ProjectileID.CrystalLeafShot)
-                projectile.Kill();
+                return ChlorophyteCrystalAI.DoChlorophyteCrystalAI(projectile);
 
             if (projectile.minion && ExplosiveEnchantCountdown > 0)
             {
@@ -2036,7 +2029,7 @@ namespace CalamityMod.Projectiles
                 }
                 else
                 {
-                    if (modPlayer.artemisEmblem && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
+                    if (modPlayer.deadshotBrooch && projectile.CountsAsClass<RangedDamageClass>() && player.heldProj != projectile.whoAmI)
                         projectile.extraUpdates += 1;
 
                     if (modPlayer.camper && !player.StandingStill())

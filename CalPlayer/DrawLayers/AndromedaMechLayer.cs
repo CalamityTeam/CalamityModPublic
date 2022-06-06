@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using CalamityMod.Items.Dyes;
-using CalamityMod.Projectiles.Summon;
+﻿using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -11,7 +9,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 {
     public class AndromedaMechLayer : PlayerDrawLayer
     {
-        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Skin);
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.BackAcc);
 
         public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {

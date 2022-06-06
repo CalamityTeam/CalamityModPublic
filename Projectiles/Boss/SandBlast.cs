@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -43,19 +42,6 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 Projectile.ai[1] = 1f;
-            }
-
-            if (Projectile.ai[0] == 1f)
-            {
-                int num103 = Player.FindClosest(Projectile.Center, 1, 1);
-                float inertia = 60f;
-                float scaleFactor2 = Projectile.velocity.Length();
-                Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                vector11.Normalize();
-                vector11 *= scaleFactor2;
-                Projectile.velocity = (Projectile.velocity * (inertia - 1f) + vector11) / inertia;
-                Projectile.velocity.Normalize();
-                Projectile.velocity *= scaleFactor2;
             }
 
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;

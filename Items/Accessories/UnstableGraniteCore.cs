@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("UnstablePrism")]
     public class UnstableGraniteCore : ModItem
     {
         public override void SetStaticDefaults()

@@ -8,6 +8,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
+    [LegacyName("ProfanedBasin")]
     public class ProfanedCrucible : ModTile
     {
         public override void SetStaticDefaults()

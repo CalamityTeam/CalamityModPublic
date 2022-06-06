@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultSofa")]
     public class OtherworldlySofa : ModTile
     {
         public override void SetStaticDefaults()

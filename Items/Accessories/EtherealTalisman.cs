@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<SigilofCalamitas>().
-                AddIngredient(ItemID.ManaFlower).
+                AddRecipeGroup("ManaFlowersGroup"). //Any mana flower accessory
                 AddIngredient(ItemID.LunarBar, 8).
                 AddIngredient<GalacticaSingularity>(4).
                 AddIngredient<AscendantSpiritEssence>(4).

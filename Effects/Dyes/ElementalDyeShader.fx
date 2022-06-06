@@ -21,11 +21,11 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 color = tex2D(uImage0, coords);
-    float time = (sin(uTime + framedCoords.x * cos(uTime + 3.141 * framedCoords.x) + 1.5707 * framedCoords.y) * 0.5 + 0.5) * 6;
+    float time = (sin(uTime + framedCoords.x * sin(uTime + 3.141 * framedCoords.x) + 1.5707 * framedCoords.y) * 0.5 + 0.5) * 6;
     float timeFloored = floor(time);
     
     float3 colors[6] =
@@ -40,12 +40,12 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     
     // Use a multi-lerp to fade between colors and then base them on a trig-based time step.
     color.rgb *= lerp(colors[timeFloored] / 255.0, colors[(timeFloored + 1) % 6] / 255.0, time / 6) * 1.6;
-    return color;
+    return color * sampleColor;
 }
 technique Technique1
 {
     pass DyePass
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }

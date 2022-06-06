@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.Cryogen
                     for (int k = 0; k < totalProjectiles; k++)
                     {
                         Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
-                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, vector255, type, damage2, 0f, Main.myPlayer);
+                        int proj = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(vector255) * 30f, vector255, type, damage2, 0f, Main.myPlayer);
                         Main.projectile[proj].timeLeft = 300;
                     }
                 }

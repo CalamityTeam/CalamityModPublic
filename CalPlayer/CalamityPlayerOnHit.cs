@@ -63,11 +63,13 @@ namespace CalamityMod.CalPlayer
             if (flamingItemEnchant)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 
-            target.Calamity().IncreasedHeatEffects = fireball || cinnamonRoll || hellfireTreads;
+            target.Calamity().IncreasedHeatEffects_Fireball = fireball;
+            target.Calamity().IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
+            target.Calamity().IncreasedHeatEffects_HellfireTreads = hellfireTreads;
 
-            target.Calamity().IncreasedColdEffects = eskimoSet;
+            target.Calamity().IncreasedColdEffects_EskimoSet = eskimoSet;
 
-            target.Calamity().IncreasedSicknessAndWaterEffects = evergreenGin;
+            target.Calamity().IncreasedSicknessAndWaterEffects_EvergreenGin = evergreenGin;
 
             switch (item.type)
             {
@@ -204,9 +206,13 @@ namespace CalamityMod.CalPlayer
             if (witheringWeaponEnchant)
                 witheringDamageDone += (int)(damage * (crit ? 2D : 1D));
 
-            cgn.IncreasedHeatEffects = fireball || cinnamonRoll || hellfireTreads;
-            cgn.IncreasedColdEffects = eskimoSet;
-            cgn.IncreasedSicknessAndWaterEffects = evergreenGin;
+            cgn.IncreasedHeatEffects_Fireball = fireball;
+            cgn.IncreasedHeatEffects_CinnamonRoll = cinnamonRoll;
+            cgn.IncreasedHeatEffects_HellfireTreads = hellfireTreads;
+
+            cgn.IncreasedColdEffects_EskimoSet = eskimoSet;
+
+            cgn.IncreasedSicknessAndWaterEffects_EvergreenGin = evergreenGin;
 
             switch (proj.type)
             {

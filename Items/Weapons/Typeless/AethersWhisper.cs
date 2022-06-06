@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 "Right click to change from magic to ranged damage\n" +
                 "Right click consumes no mana");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

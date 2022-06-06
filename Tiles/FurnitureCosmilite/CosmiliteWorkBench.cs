@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
+    [LegacyName("CosmiliteWorkbench")]
     public class CosmiliteWorkBench : ModTile
     {
         public override void SetStaticDefaults()

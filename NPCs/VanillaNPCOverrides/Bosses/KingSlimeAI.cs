@@ -238,7 +238,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 {
                     npc.ai[0] += 2f;
                     if (malice)
+                    {
                         npc.ai[0] += 9f;
+                    }
                     else
                     {
                         if (lifeRatio < 0.8f)

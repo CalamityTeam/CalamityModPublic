@@ -359,7 +359,8 @@ namespace CalamityMod
             // Rage and Adrenaline now stack additively with no special cases.
             if (mp.rageModeActive)
                 damageMult += trueMelee ? mp.RageDamageBoost * rageAndAdrenalineTrueMeleeDamageMult : mp.RageDamageBoost;
-            if (mp.adrenalineModeActive)
+            // Draedon's Heart disables Adrenaline damage.
+            if (mp.adrenalineModeActive && !mp.draedonsHeart)
                 damageMult += trueMelee ? mp.GetAdrenalineDamage() * rageAndAdrenalineTrueMeleeDamageMult : mp.GetAdrenalineDamage();
         }
         #endregion

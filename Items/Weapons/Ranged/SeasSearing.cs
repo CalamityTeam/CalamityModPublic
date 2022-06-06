@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Tooltip.SetDefault("Fires a string of bubbles summoning a shower of bubbles on hit\n" +
                 "Right click to fire a slower, larger water blast that summons a water spout");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

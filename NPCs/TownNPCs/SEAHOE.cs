@@ -9,6 +9,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -45,6 +46,17 @@ namespace CalamityMod.NPCs.TownNPCs
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.knockBackResist = 0.65f;
             AnimationType = NPCID.Guide;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                
+                //Change the info part in his entry when we do the critter barter
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The Sea King of an ancient civilization long lost to the sands of time— and the desert. He is able to give useful advice on the world around you, having lived for so long. He also used to like clams.")
+            });
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -368,13 +380,13 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.LocalPlayer.discount)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
             nextSlot++;
-            if (NPC.downedFishron)
+            if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-                if (Main.LocalPlayer.discount)
-                  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
+            if (Main.LocalPlayer.discount)
+                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
+            nextSlot++;
             }
             if (DownedBossSystem.downedBoomerDuke)
             {

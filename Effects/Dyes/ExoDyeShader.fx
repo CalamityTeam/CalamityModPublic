@@ -56,7 +56,7 @@ float2 InverseLerp(float2 start, float2 end, float2 x)
     return saturate((x - start) / (end - start));
 }
 
-float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float2 framedCoords = (coords * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     float4 noiseColor = tex2D(uImage1, float2(framedCoords.x, framedCoords.y - uTime * 0.45) * 0.1);
@@ -66,12 +66,12 @@ float4 PixelShaderFunction(float4 sampleColor : TEXCOORD, float2 coords : TEXCOO
     float brightness = (blendFactor * 0.4 + noiseColor.r * 0.9) * 1.2;
     
     float4 colorBlendMultiplier = lerp(float4(blendColor, 1), float4(1, 1, 1, 1), saturate(blendFactor * 1.5));
-    return (lerp(color, float4(blendColor, 1), blendFactor * 0.5 + 0.2) * color.a) * colorBlendMultiplier * (1 + brightness);
+    return (lerp(color, float4(blendColor, 1), blendFactor * 0.5 + 0.2) * color.a) * sampleColor * colorBlendMultiplier * (1 + brightness);
 }
 technique Technique1
 {
     pass DyePass
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }

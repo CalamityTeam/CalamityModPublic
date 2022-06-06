@@ -2,6 +2,7 @@
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +10,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
+    [LegacyName("DiscordianWings")]
     public class HadalMantle : ModItem
     {
         public override void SetStaticDefaults()
@@ -21,6 +23,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Average vertical speed\n" +
                 "Flight time: 180\n" +
                 "5% increased damage while wearing the Hydrothermic Armor");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(180, 7.75f, 1.5f);
         }
 
         public override void SetDefaults()
@@ -34,10 +37,10 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<AtaxiaHeadgear>() || player.armor[0].type == ModContent.ItemType<AtaxiaHelm>() ||
-                player.armor[0].type == ModContent.ItemType<AtaxiaHelmet>() || player.armor[0].type == ModContent.ItemType<AtaxiaHood>() ||
-                player.armor[0].type == ModContent.ItemType<AtaxiaMask>()) &&
-                player.armor[1].type == ModContent.ItemType<AtaxiaArmor>() && player.armor[2].type == ModContent.ItemType<AtaxiaSubligar>())
+            if ((player.armor[0].type == ModContent.ItemType<HydrothermicHeadRanged>() || player.armor[0].type == ModContent.ItemType<HydrothermicHeadMelee>() ||
+                player.armor[0].type == ModContent.ItemType<HydrothermicHeadSummon>() || player.armor[0].type == ModContent.ItemType<HydrothermicHeadRogue>() ||
+                player.armor[0].type == ModContent.ItemType<HydrothermicHeadMagic>()) &&
+                player.armor[1].type == ModContent.ItemType<HydrothermicArmor>() && player.armor[2].type == ModContent.ItemType<HydrothermicSubligar>())
             {
                 player.GetDamage<GenericDamageClass>() += 0.05f;
             }
@@ -58,7 +61,6 @@ namespace CalamityMod.Items.Accessories.Wings
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 180;
             player.noFallDmg = true;
         }
 
@@ -69,12 +71,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 0.7f;
             maxAscentMultiplier = 1.75f;
             constantAscend = 0.11f;
-        }
-
-        public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
-        {
-            speed = 7.75f;
-            acceleration *= 1.5f;
         }
 
         public override void AddRecipes()

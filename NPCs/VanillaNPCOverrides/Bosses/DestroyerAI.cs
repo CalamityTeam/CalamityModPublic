@@ -173,32 +173,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             if (calamityGlobalNPC.newAI[0] % 30f == 0f)
                             {
-                                Vector2 vectorCenter = npc.Center;
-                                float num742 = npc.velocity.Length() * 0.33f + 1f;
-                                float num743 = player.position.X + player.width * 0.5f - vectorCenter.X;
-                                float num744 = player.position.Y + player.height * 0.5f - vectorCenter.Y;
-                                float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-                                num745 = num742 / num745;
-                                num743 *= num745;
-                                num744 *= num745;
-                                vectorCenter.X += num743 * 5f;
-                                vectorCenter.Y += num744 * 5f;
-
+                                float velocity = malice ? 6f : death ? 5.333f : 5f;
                                 int type = ProjectileID.DeathLaser;
                                 int damage = npc.GetProjectileDamage(type);
+                                Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                                 int numProj = calamityGlobalNPC.newAI[0] % 60f == 0f ? 7 : 4;
                                 int spread = 54;
                                 float rotation = MathHelper.ToRadians(spread);
-                                float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-                                double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                                double deltaAngle = rotation / numProj;
-                                double offsetAngle;
-
                                 for (int i = 0; i < numProj; i++)
                                 {
-                                    offsetAngle = startAngle + deltaAngle * i;
-                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 1f, 0f);
+                                    Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                    int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer, 1f, 0f);
                                     Main.projectile[proj].timeLeft = 900;
                                 }
                             }

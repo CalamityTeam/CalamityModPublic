@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [LegacyName("Sponge")]
     public class TheSponge : ModItem
     {
         public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/TheSpongeReal" : "CalamityMod/Items/Accessories/TheSponge";
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("The Sponge");
-            Tooltip.SetDefault("7% increased damage reduction\n" +
+            Tooltip.SetDefault("10% increased damage reduction\n" +
                 "+30 max life and mana\n" +
                 "5% increased movement and jump speed\n" +
                 "Standing still boosts life and mana regen\n" +

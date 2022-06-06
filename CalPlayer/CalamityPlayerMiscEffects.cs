@@ -1,4 +1,7 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
@@ -9,6 +12,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.CustomRecipes;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
+using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
@@ -42,22 +46,17 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ProvidenceBoss = CalamityMod.NPCs.Providence.Providence;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using CalamityMod.EntitySources;
-using ReLogic.Content;
-using Terraria.GameContent;
-using CalamityMod.Systems;
 
 namespace CalamityMod.CalPlayer
 {
@@ -127,7 +126,7 @@ namespace CalamityMod.CalPlayer
             Limits();
 
             // This is used to increase horizontal velocity based on the player's movement speed stat.
-            moveSpeedStat = (int)((Player.moveSpeed - 1f) * 100f);
+            moveSpeedBonus = Player.moveSpeed - 1f;
 
             // Double Jumps
             DoubleJumps();
@@ -172,8 +171,8 @@ namespace CalamityMod.CalPlayer
             {
                 // player.rangedCrit already contains the crit stat of the held item, no need to grab it separately.
                 // Don't store the base 4% because you're not removing it.
-                spiritOriginConvertedCrit = (int)(Player.GetCritChance<RangedDamageClass>() - 4);
-                Player.GetCritChance<RangedDamageClass>() = 4;
+                spiritOriginConvertedCrit = (int)(Player.GetTotalCritChance<RangedDamageClass>() - 4);
+                Player.GetCritChance<RangedDamageClass>() = -spiritOriginConvertedCrit;
             }
 
             if (Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
@@ -191,7 +190,7 @@ namespace CalamityMod.CalPlayer
         #region Revengeance Effects
         private void RevengeanceModeMiscEffects()
         {
-            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
+            if (CalamityWorld.revenge)
             {
                 // Adjusts the life steal cap in rev/death
                 float lifeStealCap = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 30f : CalamityWorld.death ? 45f : 60f;
@@ -221,23 +220,16 @@ namespace CalamityMod.CalPlayer
                         if (Player.hurtCooldowns[k] > immuneTimeLimit)
                             Player.hurtCooldowns[k] = immuneTimeLimit;
                     }
-
-                    // Adrenaline and Rage
-                    if (CalamityWorld.revenge)
-                        UpdateRippers();
                 }
             }
 
-            // If Revengeance Mode is not active, then set rippers to zero
-            else if (Player.whoAmI == Main.myPlayer)
-            {
-                rage = 0;
-                adrenaline = 0;
-            }
+            // Adrenaline and Rage
+            UpdateRippers();
         }
 
         private void UpdateRippers()
         {
+            #region Rage
             // Figure out Rage's current duration based on boosts.
             if (rageBoostOne)
                 RageDuration += RageDurationPerBooster;
@@ -364,31 +356,37 @@ namespace CalamityMod.CalPlayer
                 rageDiff -= rageMax / RageFadeTime;
 
             // Apply the rage change and cap rage in both directions.
-            rage += rageDiff;
-            if (rage < 0)
-                rage = 0;
-
-            if (rage >= rageMax)
+            // Changes are only applied if the Rage mechanic is available.
+            if (RageEnabled)
             {
-                // If Rage is not active, it is capped at 100%.
-                if (!rageModeActive)
-                    rage = rageMax;
+                rage += rageDiff;
+                if (rage < 0)
+                    rage = 0;
 
-                // If using the Shattered Community, Rage is capped at 200% while it's active.
-                // This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
-                else if (shatteredCommunity && rage >= 2f * rageMax)
-                    rage = 2f * rageMax;
-
-                // Play a sound when the Rage Meter is full
-                if (playFullRageSound)
+                if (rage >= rageMax)
                 {
-                    playFullRageSound = false;
-                    SoundEngine.PlaySound(RageFilledSound, Player.position);
-                }
-            }
-            else
-                playFullRageSound = true;
+                    // If Rage is not active, it is capped at 100%.
+                    if (!rageModeActive)
+                        rage = rageMax;
 
+                    // If using the Shattered Community, Rage is capped at 200% while it's active.
+                    // This prevents infinitely stacking rage before a fight by standing on spikes/lava with a regen build or the Nurse handy.
+                    else if (shatteredCommunity && rage >= 2f * rageMax)
+                        rage = 2f * rageMax;
+
+                    // Play a sound when the Rage Meter is full
+                    if (playFullRageSound)
+                    {
+                        playFullRageSound = false;
+                        SoundEngine.PlaySound(RageFilledSound, Player.position);
+                    }
+                }
+                else
+                    playFullRageSound = true;
+            }
+            #endregion
+
+            #region Adrenaline
             // This is how much Adrenaline will be changed by this frame.
             float adrenalineDiff = 0;
             bool SCalAlive = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>());
@@ -396,7 +394,30 @@ namespace CalamityMod.CalPlayer
 
             // If Adrenaline Mode is currently active, you smoothly lose all adrenaline over the duration.
             if (adrenalineModeActive)
+            {
                 adrenalineDiff = -adrenalineMax / AdrenalineDuration;
+
+                // If using Draedon's Heart, you get healing instead of damage.
+                if (draedonsHeart)
+                {
+                    Player.statLife += DraedonsHeart.NanomachinesHeal / DraedonsHeart.NanomachinesDuration;
+                    if (Player.statLife >= Player.statLifeMax2)
+                        Player.statLife = Player.statLifeMax2;
+
+                    // Old Draedon's Heart dust effect from its standing still regen. Works just fine.
+                    int dustID = DustID.TerraBlade;
+                    {
+                        int regen = Dust.NewDust(Player.position, Player.width, Player.height, dustID, 0f, 0f, 200, default, 1f);
+                        Main.dust[regen].noGravity = true;
+                        Main.dust[regen].fadeIn = 1.3f;
+                        Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+                        Main.dust[regen].velocity = velocity;
+                        velocity.Normalize();
+                        velocity *= 34f;
+                        Main.dust[regen].position = Player.Center - velocity;
+                    }
+                }
+            }
             else
             {
                 // If any boss is alive (or you are between DoG phases or Boss Rush is active), you gain adrenaline smoothly.
@@ -414,28 +435,35 @@ namespace CalamityMod.CalPlayer
                 adrenalineDiff *= 0.67f;
 
             // Apply the adrenaline change and cap adrenaline in both directions.
-            adrenaline += adrenalineDiff;
-            if (adrenaline < 0)
-                adrenaline = 0;
-
-            if (adrenaline >= adrenalineMax)
+            // Changes are only applied if the Adrenaline mechanic is available.
+            if (AdrenalineEnabled && nanomachinesLockoutTimer == 0)
             {
-                adrenaline = adrenalineMax;
+                adrenaline += adrenalineDiff;
+                if (adrenaline < 0)
+                    adrenaline = 0;
 
-                // Play a sound when the Adrenaline Meter is full
-                if (playFullAdrenalineSound)
+                if (adrenaline >= adrenalineMax)
                 {
-                    playFullAdrenalineSound = false;
-                    SoundEngine.PlaySound(AdrenalineFilledSound, Player.position);
+                    adrenaline = adrenalineMax;
+
+                    // Play a sound when the Adrenaline Meter is full
+                    if (playFullAdrenalineSound)
+                    {
+                        playFullAdrenalineSound = false;
+                        SoundEngine.PlaySound(AdrenalineFilledSound, Player.position);
+                    }
                 }
+                else
+                    playFullAdrenalineSound = true;
             }
-            else
-                playFullAdrenalineSound = true;
+
+            if (nanomachinesLockoutTimer > 0)
+                nanomachinesLockoutTimer--;
+            #endregion
         }
         #endregion
 
         #region Misc Effects
-
         private void HandleBlazingMouseEffects()
         {
             // The sigil's brightness slowly fades away every frame if not incinerating anything.
@@ -809,10 +837,7 @@ namespace CalamityMod.CalPlayer
                         case 17:
                             Player.AddBuff(BuffID.Poisoned, 300, false);
                             break;
-                        case 40:
-                            Player.AddBuff(BuffID.Bleeding, 300, false);
-                            break;
-                        case 60:
+                        case 80:
                             Player.AddBuff(BuffID.Venom, 300, false);
                             break;
                         default:
@@ -1361,7 +1386,7 @@ namespace CalamityMod.CalPlayer
                 Player.moveSpeed += 0.05f;
                 Player.jumpSpeedBoost += 0.25f;
                 Player.thorns += 0.5f;
-                Player.endurance += sponge ? 0.07f : 0.05f;
+                Player.endurance += sponge ? 0.1f : 0.07f;
 
                 if (Player.StandingStill() && Player.itemAnimation == 0)
                     Player.manaRegenBonus += 4;
@@ -1480,8 +1505,8 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            // Remove Purified Jam and Lul accessory thorn damage exploits
-            if (invincible || lol)
+            // Remove Purified Jam thorn damage exploits
+            if (invincible)
             {
                 Player.thorns = 0f;
                 Player.turtleThorns = false;
@@ -2433,12 +2458,12 @@ namespace CalamityMod.CalPlayer
             if (yPower)
             {
                 Player.endurance += 0.04f;
-                Player.statDefense += 8;
-                Player.pickSpeed -= 0.05f;
-                Player.GetDamage<GenericDamageClass>() += 0.06f;
+                Player.statDefense += 10;
+                Player.pickSpeed -= 0.1f;
+                Player.GetDamage<GenericDamageClass>() += 0.05f;
                 Player.GetCritChance<GenericDamageClass>() += YharimsStimulants.CritBoost;
                 Player.GetKnockback<SummonDamageClass>() += 1f;
-                Player.moveSpeed += 0.06f;
+                Player.moveSpeed += 0.075f;
             }
 
             if (tScale)
@@ -3683,13 +3708,6 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-            }
-
-            // Draedon's Heart bonus
-            if (draedonsHeart)
-            {
-                if (Player.StandingStill() && Player.itemAnimation == 0)
-                    Player.statDefense += (int)(Player.statDefense * 0.75);
             }
 
             // Endurance reductions

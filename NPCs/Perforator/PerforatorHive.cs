@@ -312,11 +312,11 @@ namespace CalamityMod.NPCs.Perforator
                                 blobVelocity.Normalize();
                                 blobVelocity *= Main.rand.Next(400, 801) * (malice ? 0.02f : 0.01f);
 
-                                float sporeVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
+                                float blobVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
                                 if (blobVelocity.Y < 2f)
-                                    blobVelocity.Y = 2f + sporeVelocityYAdd;
+                                    blobVelocity.Y = 2f + blobVelocityYAdd;
 
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.UnitY * 50f, blobVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                             }
                         }
 
@@ -369,17 +369,17 @@ namespace CalamityMod.NPCs.Perforator
 
                     int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
                     int damage = NPC.GetProjectileDamage(type);
-                    int totalProjectiles = death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
-                    float maxVelocity = 8f;
-                    float velocityAdjustment = maxVelocity * 1.5f / totalProjectiles;
-                    Vector2 start = new Vector2(NPC.Center.X, NPC.Center.Y + 30f);
-                    Vector2 destination = wormsAlive > 0 ? new Vector2(Vector2.Normalize(player.Center - start).X, 0f) * maxVelocity * 0.4f : Vector2.Zero;
-                    Vector2 velocity = destination + Vector2.UnitY * -maxVelocity;
-                    for (int i = 0; i < totalProjectiles + 1; i++)
+                    int numProj = death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
+                    int spread = 75;
+                    float velocity = 8f;
+                    Vector2 destination = wormsAlive > 0 ? player.Center : NPC.Center - Vector2.UnitY * 100f;
+                    Vector2 projectileVelocity = new Vector2(Vector2.Normalize(destination - NPC.Center).X * velocity, -velocity);
+                    float rotation = MathHelper.ToRadians(spread);
+                    for (int i = 0; i < numProj; i++)
                     {
+                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                         Vector2 randomVelocity = new Vector2(Main.rand.NextFloat() - 0.5f, Main.rand.NextFloat() - 0.5f);
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), start, velocity + randomVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
-                        velocity.X += velocityAdjustment * NPC.direction;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 50f, perturbedSpeed + randomVelocity, type, damage, 0f, Main.myPlayer, 0f, player.Center.Y);
                     }
                 }
             }

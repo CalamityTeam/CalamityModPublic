@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultLamp")]
     public class OtherworldlyLamp : ModTile
     {
         public override void SetStaticDefaults()

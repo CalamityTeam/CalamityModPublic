@@ -1,11 +1,12 @@
 ﻿using CalamityMod.Events;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -58,7 +59,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Flanking their creator and serving as its body, these are concentrated, swirling masses of the world’s evils, each utilizing the rot and corrosion to eat away and assimilate those who oppose it")
+				new FlavorTextBestiaryInfoElement("Flanking their creator and serving as its body, these are concentrated, swirling masses of the world’s evils, each utilizing the rot and corrosion to eat away and assimilate those who oppose it.")
             });
         }
 
@@ -116,84 +117,51 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.ai[0] = 4f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
                     NPC.netUpdate = true;
                 }
             }
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            bool flag100 = false;
+            bool enraged = true;
             bool hyperMode = NPC.localAI[1] == 1f;
             if (CalamityGlobalNPC.slimeGodRed != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
                 {
-                    flag100 = true;
+                    enraged = false;
                 }
             }
             if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
                 NPC.localAI[1] = 0f;
                 hyperMode = true;
-                flag100 = false;
+                enraged = true;
             }
             if (malice)
             {
-                flag100 = false;
+                enraged = true;
                 hyperMode = true;
             }
 
-            float distanceSpeedBoost = Vector2.Distance(player.Center, NPC.Center) * ((malice || hyperMode) ? 0.008f : 0.005f);
-
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                NPC.localAI[0] += flag100 ? 0.5f : 1f;
-                if (revenge)
-                    NPC.localAI[0] += 0.5f;
-                if (malice)
-                    NPC.localAI[0] += 1f;
-
-                if (NPC.localAI[0] >= 600f && Vector2.Distance(player.Center, NPC.Center) > 160f)
-                {
-                    NPC.localAI[0] = 0f;
-                    float num179 = 5f;
-                    Vector2 value9 = new Vector2(NPC.position.X + (float)NPC.width * 0.5f, NPC.position.Y + (float)NPC.height * 0.5f);
-                    float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                    float num181 = Math.Abs(num180) * 0.1f;
-                    float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                    float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                    num183 = num179 / num183;
-                    num180 *= num183;
-                    num182 *= num183;
-                    int type = ModContent.ProjectileType<AbyssBallVolley>();
-                    int damage = NPC.GetProjectileDamage(type);
-                    value9.X += num180;
-                    value9.Y += num182;
-                    int totalProjectiles = expertMode ? 3 : 2;
-                    int spread = expertMode ? 45 : 30;
-                    for (int num186 = 0; num186 < totalProjectiles; num186++)
-                    {
-                        num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                        num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                        num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                        num183 = num179 / num183;
-                        num180 += (float)Main.rand.Next(-spread, spread + 1);
-                        num182 += (float)Main.rand.Next(-spread, spread + 1);
-                        num180 *= num183;
-                        num182 *= num183;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), value9.X, value9.Y, num180, num182, type, damage, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
-            }
+            float distanceSpeedBoost = Vector2.Distance(player.Center, NPC.Center) * (malice ? 0.008f : 0.005f);
 
             if (NPC.ai[0] == 0f)
             {
+                bool phaseThroughTilesToReachTarget = Vector2.Distance(player.Center, NPC.Center) > 2400f || !Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height);
+                if (Main.netMode != NetmodeID.MultiplayerClient && phaseThroughTilesToReachTarget)
+                {
+                    NPC.ai[0] = 5f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.netUpdate = true;
+                }
+
                 if (NPC.velocity.Y == 0f)
                 {
                     NPC.TargetClosest();
                     NPC.velocity.X *= 0.8f;
-                    NPC.ai[1] += (!flag100 || hyperMode) ? 2f : 1f;
+                    NPC.ai[1] += hyperMode ? 2f : 1f;
 
                     float jumpGateValue = 40f;
                     float velocityX = death ? 10f : revenge ? 9f : expertMode ? 8f : 6f;
@@ -273,7 +241,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
                             NPC.ai[1] = 0f;
                             NPC.ai[2] = 0f;
-                            NPC.ai[3] = 0f;
                             NPC.netUpdate = true;
                         }
                     }
@@ -283,11 +250,10 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             else if (NPC.ai[0] == 1f)
             {
-                NPC.localAI[0] += 6f;
-                NPC.velocity.X *= 0.85f;
+                NPC.velocity.X *= 0.8f;
 
                 NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= 40f)
+                if (NPC.ai[1] >= 15f)
                 {
                     NPC.localAI[2] = NPC.ai[0];
                     NPC.ai[0] = 0f;
@@ -355,11 +321,52 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.ai[1] += 1f;
                     if (NPC.ai[1] > 10f)
                     {
+                        SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        {
+                            // Eruption of slime balls
+                            float projectileVelocity = 4f;
+                            int type = ModContent.ProjectileType<AbyssBallVolley>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
+                            destination.Normalize();
+                            destination *= projectileVelocity;
+                            int numProj = 7;
+                            float rotation = MathHelper.ToRadians(90);
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                // Spawn projectiles 0, 1, 5 and 6
+                                if (i < 2 || i > 4)
+                                {
+                                    Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 30f * NPC.scale, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                                }
+                            }
+
+                            // Fire slime balls directly at players with a max of 2
+                            if (enraged && expertMode)
+                            {
+                                List<int> targets = new List<int>();
+                                for (int p = 0; p < Main.maxPlayers; p++)
+                                {
+                                    if (Main.player[p].active && !Main.player[p].dead)
+                                        targets.Add(p);
+
+                                    if (targets.Count > 1)
+                                        break;
+                                }
+                                foreach (int t in targets)
+                                {
+                                    Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - NPC.Center) * projectileVelocity;
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(velocity2) * 30f * NPC.scale, velocity2, type, damage, 0f, Main.myPlayer);
+                                }
+                            }
+                        }
+
                         NPC.localAI[2] = NPC.ai[0] - 0.1f;
                         NPC.ai[0] = 0f;
                         NPC.ai[1] = 0f;
                         NPC.ai[2] = 0f;
-                        NPC.ai[3] = 0f;
                         NPC.netUpdate = true;
                     }
                 }
@@ -385,7 +392,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         NPC.ai[1] = 0f;
 
-                        NPC.velocity.Y -= 3f;
+                        NPC.velocity.Y -= 6f;
                         if (player.position.Y + player.height < NPC.Center.Y)
                             NPC.velocity.Y -= 1.2f;
                         if (player.position.Y + player.height < NPC.Center.Y - 40f)
@@ -401,7 +408,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         if (!Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1))
                             NPC.velocity.Y -= 2f;
 
-                        NPC.velocity.X = ((death ? 12f : revenge ? 11f : expertMode ? 10f : 9f) + distanceSpeedBoost) * NPC.direction;
+                        NPC.velocity.X = ((death ? 11f : revenge ? 10f : expertMode ? 9f : 8f) + distanceSpeedBoost) * NPC.direction;
                         NPC.ai[2] += 1f;
                     }
                     else
@@ -410,7 +417,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 else
                 {
                     NPC.velocity.X *= 0.98f;
-                    float velocityLimit = (death ? 6.5f : revenge ? 6f : expertMode ? 5.5f : 5f) + distanceSpeedBoost;
+                    float velocityLimit = (death ? 6.5f : revenge ? 6f : expertMode ? 5.5f : 5f);
                     if (NPC.direction < 0 && NPC.velocity.X > -velocityLimit)
                         NPC.velocity.X = -velocityLimit;
                     if (NPC.direction > 0 && NPC.velocity.X < velocityLimit)
@@ -423,7 +430,6 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;
                     NPC.ai[2] = 0f;
-                    NPC.ai[3] = 0f;
                     NPC.netUpdate = true;
                 }
             }
@@ -440,10 +446,36 @@ namespace CalamityMod.NPCs.SlimeGod
 
                 NPC.velocity.X *= 0.98f;
             }
+            else if (NPC.ai[0] == 5f)
+            {
+                if (NPC.velocity.X > 0f)
+                    NPC.direction = 1;
+                else
+                    NPC.direction = -1;
 
-            int num244 = Dust.NewDust(NPC.position, NPC.width, NPC.height, 173, NPC.velocity.X, NPC.velocity.Y, 255, new Color(0, 80, 255, 80), NPC.scale * 1.2f);
-            Main.dust[num244].noGravity = true;
-            Main.dust[num244].velocity *= 0.5f;
+                NPC.spriteDirection = NPC.direction;
+                NPC.noTileCollide = true;
+                NPC.noGravity = true;
+                NPC.knockBackResist = 0f;
+                Vector2 distanceFromTarget = player.Center - NPC.Center;
+                distanceFromTarget.Y -= 16f;
+                if (Main.netMode != NetmodeID.MultiplayerClient && distanceFromTarget.Length() < 500f && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) &&
+                    Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                {
+                    NPC.ai[0] = 0f;
+                    NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
+                    NPC.netUpdate = true;
+                }
+
+                if (distanceFromTarget.Length() > 12f)
+                {
+                    distanceFromTarget.Normalize();
+                    distanceFromTarget *= 12f;
+                }
+
+                NPC.velocity = (NPC.velocity * 4f + distanceFromTarget) / 5f;
+            }
 
             if (bossLife == 0f && NPC.life > 0)
                 bossLife = NPC.lifeMax;
@@ -524,7 +556,7 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
             }
             if (NPC.life <= 0)
             {
@@ -536,7 +568,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.position.Y = NPC.position.Y - (float)(NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, Color.Lavender, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -546,10 +578,10 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, Color.Lavender, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, 4, 0f, 0f, NPC.alpha, Color.Lavender, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

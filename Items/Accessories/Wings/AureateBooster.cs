@@ -1,5 +1,4 @@
-﻿using CalamityMod.Items.Armor;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -11,6 +10,7 @@ using Terraria.DataStructures;
 namespace CalamityMod.Items.Accessories.Wings
 {
     [AutoloadEquip(EquipType.Wings)]
+    [LegacyName("AureateWings")]
     public class AureateBooster : ModItem
     {
         public override void SetStaticDefaults()

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Bloody Worm Scarf");
-            Tooltip.SetDefault("10% increased damage reduction\n" +
+            Tooltip.SetDefault("7% increased damage reduction\n" +
                 "7% increased melee damage and speed");
         }
 
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodyWormTooth = true;
-            player.endurance += 0.1f;
+            player.endurance += 0.07f;
         }
 
         public override void AddRecipes()

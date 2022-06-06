@@ -1,11 +1,12 @@
 ﻿using Terraria;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Walls
 {
+    [LegacyName("AstralFossilWall")]
     public class CelestialRemainsWall : ModWall
     {
-
         public override void SetStaticDefaults()
         {
             DustType = ModContent.DustType<Dusts.AstralBasic>();

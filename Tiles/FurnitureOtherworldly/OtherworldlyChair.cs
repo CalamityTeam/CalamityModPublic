@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOtherworldly
 {
+    [LegacyName("OccultChair")]
     public class OtherworldlyChair : ModTile
     {
         public const int NextStyleHeight = 40;

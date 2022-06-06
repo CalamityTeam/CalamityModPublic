@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Fires plasma orbs that linger and emit massive explosions\n" +
                 "Right click to fire powerful energy beams");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -62,11 +63,11 @@ namespace CalamityMod.Items.Weapons.Magic
                 mult *= 0.3f;
         }
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseTimeMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
                 return 1f;
-            return 0.14f;
+            return 7.14f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

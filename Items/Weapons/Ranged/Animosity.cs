@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 Fires a powerful sniper round
 Right click to fire a burst of bullets");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

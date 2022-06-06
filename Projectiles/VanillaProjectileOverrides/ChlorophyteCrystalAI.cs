@@ -10,6 +10,7 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 {
+    // TODO -- Finish this armor rework eventually.
     public static class ChlorophyteCrystalAI
     {
         public const int AmountToHealPerPulse = 10;
@@ -17,6 +18,8 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
         public const int DelayBetweenHeals = 150;
         public static bool DoChlorophyteCrystalAI(Projectile projectile)
         {
+            return true;
+
             Player owner = Main.player[projectile.owner];
             ref float timer = ref projectile.ai[1];
 
@@ -58,7 +61,9 @@ namespace CalamityMod.Projectiles.VanillaProjectileOverrides
 
         public static bool DoChlorophyteCrystalDrawing(SpriteBatch spriteBatch, Projectile projectile)
         {
-            //Why doesn't this work? How does one access the texture path of a vanilla projectile? Left bugged for someone else to figure out :)
+            return true;
+
+            // Why doesn't this work? How does one access the texture path of a vanilla projectile? Left bugged for someone else to figure out :)
             // It's me. I was that someone - Dominic
             // TextureAssets is the answer, along with Main.instance.LoadProjectile(projID), to ensure that the texture is loaded into memory.
             // In this instance, however, that should happen already on vanilla's end.

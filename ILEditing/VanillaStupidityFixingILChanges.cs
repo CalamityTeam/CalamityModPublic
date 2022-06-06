@@ -1,8 +1,8 @@
 ﻿using CalamityMod.Balancing;
-using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +11,21 @@ namespace CalamityMod.ILEditing
 {
     public partial class ILChanges
     {
+        #region Decrease Sandstorm Wind Speed Requirement
+        private static void DecreaseSandstormWindSpeedRequirement(ILContext il)
+        {
+            // Sandstorms don't rapidly diminish unless the wind speed is less than 0.2f instead of 0.6f.
+            var cursor = new ILCursor(il);
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdcR4(0.6f))) // The 0.6f wind speed check.
+            {
+                LogFailure("Decrease Sandstorm Wind Speed Requirement", "Could not locate the wind speed variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.2f); // Change to 0.2f.
+        }
+        #endregion Decrease Sandstorm Wind Speed Requirement
+
         #region Reforge Requirement Relaxation
         private static void RelaxPrefixRequirements(ILContext il)
         {
@@ -192,6 +207,34 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4, TileID.HellstoneBrick); // Change to Hellstone Brick. They're made of Hellstone, so it makes sense they can't be exploded until Hardmode starts :^)
         }
         #endregion
+
+        #region Make Windy Day Music Play Less Often
+        private static void MakeWindyDayMusicPlayLessOften(ILContext il)
+        {
+            // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f and make it stop when the wind dies down to below 0.54f instead of 0.34f.
+            var cursor = new ILCursor(il);
+
+            FieldInfo _minWindField = typeof(Main).GetField("_minWind", BindingFlags.NonPublic | BindingFlags.Static);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(_minWindField))) // The min wind speed check that stops the windy day theme when the wind dies down enough.
+            {
+                LogFailure("Make Windy Day Music Play Less Often", "Could not locate the _minWind variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.54f); // Change to 0.54f.
+
+            FieldInfo _maxWindField = typeof(Main).GetField("_maxWind", BindingFlags.NonPublic | BindingFlags.Static);
+
+            if (!cursor.TryGotoNext(MoveType.Before, i => i.MatchLdsfld(_maxWindField))) // The max wind speed check that causes the windy day theme to play.
+            {
+                LogFailure("Make Windy Day Music Play Less Often", "Could not locate the _maxWind variable.");
+                return;
+            }
+            cursor.Remove();
+            cursor.Emit(OpCodes.Ldc_R4, 0.6f); // Change to 0.6f.
+        }
+        #endregion Make Windy Day Music Play Less Often
 
         #region Change Blood Moon Max HP Requirements
         private static void BloodMoonsRequire200MaxLife(ILContext il)

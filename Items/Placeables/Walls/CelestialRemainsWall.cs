@@ -4,6 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Walls
 {
+    [LegacyName("AstralFossilWall")]
     public class CelestialRemainsWall : ModItem
     {
         public override void SetStaticDefaults()

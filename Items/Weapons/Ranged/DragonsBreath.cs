@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 "This weapon has no randomness to its spread pattern\n" +
                 "66% chance to not consume ammo");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

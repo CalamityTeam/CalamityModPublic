@@ -23,6 +23,7 @@ namespace CalamityMod.DataStructures
             Damage = damage;
             AIValues = aiValues;
             OriginalKnockback = originalKnockback;
+            OriginalDamage = originalDamage;
         }
 
         public virtual void SummonCopy(int ownerIndex)

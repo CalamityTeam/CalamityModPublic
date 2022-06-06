@@ -65,7 +65,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Malevolence>(w),
                 DropHelper.WeightStack<PestilentDefiler>(w),
                 DropHelper.WeightStack<TheHive>(w),
-                DropHelper.WeightStack<MepheticSprayer>(w), // Blight Spewer
+                DropHelper.WeightStack<BlightSpewer>(w), // Blight Spewer
                 DropHelper.WeightStack<PlagueStaff>(w),
                 DropHelper.WeightStack<FuelCellBundle>(w),
                 DropHelper.WeightStack<InfectedRemote>(w),

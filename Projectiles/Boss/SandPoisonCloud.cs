@@ -77,11 +77,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => CalamityUtils.CircularHitboxCollision(Projectile.Center, 20f, targetHitbox);
 
-        public override bool CanHitPlayer(Player target) => Projectile.Opacity == 0.9f;
+        public override bool CanHitPlayer(Player target) => Projectile.Opacity >= 0.9f;
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (Projectile.Opacity == 0.9f)
+            if (Projectile.Opacity >= 0.9f)
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 240, true);
         }
     }

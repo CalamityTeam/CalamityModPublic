@@ -2,6 +2,7 @@
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
 {
+    [LegacyName("MonolithCrafting")]
     public class MonolithAmalgam : ModItem
     {
         public override void SetStaticDefaults()

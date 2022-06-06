@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Events;
+using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -22,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.hostile = true;
             Projectile.coldDamage = true;
             Projectile.penetrate = -1;
-            Projectile.timeLeft = 300;
+            Projectile.timeLeft = 600;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -56,7 +58,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             else if (Projectile.ai[0] == 1f)
             {
-                Projectile.aiStyle = 1;
+                if (Projectile.velocity.Length() < 10f)
+                    Projectile.velocity *= (CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 1.03f : 1.025f;
+
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
 
                 for (int num322 = 0; num322 < 2; num322++)
                 {

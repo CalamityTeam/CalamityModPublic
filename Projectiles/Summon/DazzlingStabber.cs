@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Summon
                 // As well as how close the projectile is to pointing away from its rotation.
                 color *= Utils.GetLerpValue(0.65f, 0.45f, Projectile.velocity.AngleBetween(-(Projectile.rotation + MathHelper.PiOver2).ToRotationVector2()) / MathHelper.Pi, true);
 
-                Main.spriteBatch.Draw(trailSegmentTexture,
+                Main.EntitySpriteDraw(trailSegmentTexture,
                                  Projectile.oldPos[i] + Projectile.Size * 0.5f + new Vector2(0f, 8f).RotatedBy(Projectile.rotation) - Main.screenPosition,
                                  null,
                                  color,
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Summon
                                  trailSegmentTexture.Size() * 0.5f,
                                  scale,
                                  SpriteEffects.None,
-                                 0f);
+                                 0);
             }
         }
 

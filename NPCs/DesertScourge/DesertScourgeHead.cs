@@ -206,48 +206,37 @@ namespace CalamityMod.NPCs.DesertScourge
                     TailSpawned = true;
                 }
 
-                if (NPC.Calamity().newAI[2] < 300f)
-                    NPC.Calamity().newAI[2] += 1f;
-
-                if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
-                    NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 480f &&
-                    Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
+                if (expertMode)
                 {
-                    if (NPC.Calamity().newAI[2] % 30f == 0f)
+                    if (NPC.Calamity().newAI[2] < 300f)
+                        NPC.Calamity().newAI[2] += 1f;
+
+                    if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
+                        NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 480f &&
+                        Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                     {
-                        SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
-                        Vector2 vectorCenter = NPC.Center;
-                        float num742 = NPC.velocity.Length() + 2f;
-                        float num743 = player.position.X + player.width * 0.5f - vectorCenter.X;
-                        float num744 = player.position.Y + player.height * 0.5f - vectorCenter.Y;
-                        float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-                        num745 = num742 / num745;
-                        num743 *= num745;
-                        num744 *= num745;
-                        vectorCenter.X += num743 * 5f;
-                        vectorCenter.Y += num744 * 5f;
-
-                        int type = ModContent.ProjectileType<SandBlast>();
-                        int damage = NPC.GetProjectileDamage(type);
-                        int numProj = NPC.Calamity().newAI[2] % 60f == 0f ? 3 : 2;
-                        int spread = 28;
-                        float rotation = MathHelper.ToRadians(spread);
-                        float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-                        double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                        double deltaAngle = rotation / numProj;
-                        double offsetAngle;
-
-                        for (int i = 0; i < numProj; i++)
+                        if (NPC.Calamity().newAI[2] % 30f == 0f)
                         {
-                            offsetAngle = startAngle + deltaAngle * i;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer);
+                            SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
+                            float velocity = malice ? 12f : death ? 10f : 9f;
+                            int type = ModContent.ProjectileType<SandBlast>();
+                            int damage = NPC.GetProjectileDamage(type);
+                            Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
+                            int baseProjectileAmt = malice ? 6 : death ? 4 : revenge ? 3 : 2;
+                            int numProj = NPC.Calamity().newAI[2] % 60f == 0f ? (int)(baseProjectileAmt * 1.5) : baseProjectileAmt;
+                            int spread = malice ? 18 : death ? 14 : revenge ? 12 : 10;
+                            float rotation = MathHelper.ToRadians(spread);
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
+                            }
                         }
-                    }
 
-                    NPC.Calamity().newAI[2] += 1f;
-                    if (NPC.Calamity().newAI[2] > 360f)
-                        NPC.Calamity().newAI[2] = 0f;
+                        NPC.Calamity().newAI[2] += 1f;
+                        if (NPC.Calamity().newAI[2] > 360f)
+                            NPC.Calamity().newAI[2] = 0f;
+                    }
                 }
             }
 
@@ -373,6 +362,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (burrow && NPC.Center.Y >= burrowTarget - 16f)
             {
                 NPC.Calamity().newAI[1] = 1f;
+                NPC.Calamity().newAI[2] = 0f;
                 if (!playRoarSound)
                 {
                     SoundEngine.PlaySound(RoarSound, player.Center);
@@ -385,40 +375,24 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 // Spit a huge spread of sand upwards that falls down
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
-                if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Vector2 vectorCenter = NPC.Center;
-                    float num742 = 6f;
-                    float num743 = NPC.Center.X + NPC.velocity.X * 10f - vectorCenter.X;
-                    float num744 = NPC.Center.Y + NPC.velocity.Y * 10f - vectorCenter.Y;
-                    float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-                    num745 = num742 / num745;
-                    num743 *= num745;
-                    num744 *= num745;
-                    vectorCenter.X += num743 * 5f;
-                    vectorCenter.Y += num744 * 5f;
-
+                    float velocity = malice ? 9f : death ? 7f : 6f;
                     int type = ModContent.ProjectileType<GreatSandBlast>();
                     int damage = NPC.GetProjectileDamage(type);
-                    int numProj = 24;
+                    Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
+                    int numProj = malice ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
                     int spread = 90;
                     float rotation = MathHelper.ToRadians(spread);
-                    float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-                    double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                    double deltaAngle = rotation / numProj;
-                    double offsetAngle;
-
                     for (int i = 0; i < numProj; i++)
                     {
-                        offsetAngle = startAngle + deltaAngle * i;
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vectorCenter.X, vectorCenter.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer);
+                        Vector2 perturbedSpeed = projectileVelocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 5f, perturbedSpeed, type, damage, 0f, Main.myPlayer);
                     }
                 }
 
                 NPC.TargetClosest();
                 NPC.Calamity().newAI[1] = 2f;
-                NPC.Calamity().newAI[2] = 0f;
                 playRoarSound = false;
             }
 

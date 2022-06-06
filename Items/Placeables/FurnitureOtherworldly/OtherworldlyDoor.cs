@@ -1,8 +1,9 @@
-using CalamityMod.Tiles.FurnitureOtherworldly;
+﻿using CalamityMod.Tiles.FurnitureOtherworldly;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureOtherworldly
 {
+    [LegacyName("OccultDoor")]
     public class OtherworldlyDoor : ModItem
     {
         public override void SetStaticDefaults()

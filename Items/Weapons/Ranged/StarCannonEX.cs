@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.StarCannon).
+                AddIngredient(ItemID.SuperStarCannon).
                 AddIngredient<AstralJelly>(10).
                 AddIngredient<Stardust>(25).
                 AddTile(TileID.MythrilAnvil).
