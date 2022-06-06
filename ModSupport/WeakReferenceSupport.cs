@@ -213,6 +213,24 @@ namespace CalamityMod
         // Wrapper function to add summon items to other mods' bosses for Boss Checklist.
         private static void AddSummons(Mod bossChecklist, string mod, string bossName, List<int> summons) => bossChecklist.Call("AddToBossSpawnItems", mod, bossName, summons);
 
+        // Wrapper function to detect if a subworld is in use for Subworld Library.
+        internal static bool InAnySubworld()
+        {
+            if (CalamityMod.Instance.subworldLibrary is null)
+                return false;
+
+            foreach (Mod mod in ModLoader.Mods)
+            {
+                if (mod.Name.Equals(CalamityMod.Instance.subworldLibrary.Name))
+                    continue;
+
+                bool anySubworldForMod = (CalamityMod.Instance.subworldLibrary.Call("AnyActive", mod) as bool?) ?? false;
+                if (anySubworldForMod)
+                    return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// 1.0 = King Slime<br />
         /// 2.0 = Eye of Cthulhu<br />
