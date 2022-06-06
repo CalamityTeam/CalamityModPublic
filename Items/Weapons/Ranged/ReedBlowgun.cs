@@ -16,9 +16,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reed Blowgun");
-            Tooltip.SetDefault("Fires a high-pressure stream of bubbles");
-            //Lore about how the sea kingdom always had the advantage over any attempts at invasions thanks to their armament specifically crafted to work underwater through looking at sealife (Pistol shrimps in this case)
-            //..That is, until most of the underwater got hellfired away.
+            Tooltip.SetDefault("Fires a high-pressure stream of bubbles\n" +
+                //Lore tooltip time. King's field
+                "[c/5C95A1:The Old Sea Kingdom never truly sought to expand beyond its initial borders.]\n" +
+                "[c/5C95A1:However, they had a perfect track record of repelling any invasions, thanks to their insurmountable advantage in the water.]"
+                );
+
             SacrificeTotal = 1;
         }
 

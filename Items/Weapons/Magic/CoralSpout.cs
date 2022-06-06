@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.Magic
             Tooltip.SetDefault("Casts a shotgun-like blast of coral shards\n" +
                                "Keep the attack button held down to narrow the spread\n" +
                                "Fully charging the attack releases a single, bigger chunk of coral that sticks to enemies\n" +
-                               "Grabbing the chunk of coral after it falls from the enemy replenishes 80 mana"
-                
+                               "Grabbing the chunk of coral after it falls from the enemy replenishes 100 mana\n" +
+                               //Lore tooltip time. Sekiro.
+                               "[c/5C95A1:Knowledge is important, and the Old Sea Kingdom’s many scribes knew it had to be preserved at any cost.]\n" +
+                               "[c/5C95A1:Their libraries were much larger than most, because of the water-proof stone tablets occupying them.]"
                 );
-            //Lore about stone tablets being used since paper couldn't be brought underwater.
-            //Maybe something something, the sea kingdom had to have a large amount of scribes to rewrite books into tablets
             SacrificeTotal = 1;
         }
 
