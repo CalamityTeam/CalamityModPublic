@@ -51,17 +51,19 @@ namespace CalamityMod.UI
 
             void SavePosition()
             {
+                bool changed = false;
                 if (CalamityConfig.Instance.ChargeMeterPosX != screenRatioPosition.X)
                 {
                     CalamityConfig.Instance.ChargeMeterPosX = screenRatioPosition.X;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    changed = true;
                 }
                 if (CalamityConfig.Instance.ChargeMeterPosY != screenRatioPosition.Y)
                 {
                     CalamityConfig.Instance.ChargeMeterPosY = screenRatioPosition.Y;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    changed = true;
                 }
-                return;
+                if (changed)
+                    CalamityMod.SaveConfig(CalamityConfig.Instance);
             }
 
             // If the Charge Meter is turned off or the player is not holding an item, stop.

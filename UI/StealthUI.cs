@@ -55,17 +55,19 @@ namespace CalamityMod.UI
             // If not drawing the stealth meter, save its latest position to config and leave.
             if (modPlayer.stealthUIAlpha <= 0f || !CalamityConfig.Instance.StealthMeter || modPlayer.rogueStealthMax <= 0f || !modPlayer.wearingRogueArmor)
             {
+                bool changed = false;
                 if (CalamityConfig.Instance.StealthMeterPosX != screenRatioPosition.X)
                 {
                     CalamityConfig.Instance.StealthMeterPosX = screenRatioPosition.X;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    changed = true;
                 }
                 if (CalamityConfig.Instance.StealthMeterPosY != screenRatioPosition.Y)
                 {
                     CalamityConfig.Instance.StealthMeterPosY = screenRatioPosition.Y;
-                    CalamityMod.SaveConfig(CalamityConfig.Instance);
+                    changed = true;
                 }
-                return;
+                if (changed)
+                    CalamityMod.SaveConfig(CalamityConfig.Instance);
             }
 
             float offset = (edgeTexture.Width - barTexture.Width) * 0.5f;
