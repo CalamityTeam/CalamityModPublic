@@ -131,6 +131,7 @@ namespace CalamityMod
         internal Mod summonersAssociation = null;
         internal Mod thorium = null;
         internal Mod varia = null;
+        internal Mod subworldLibrary = null;
 
         #region Load
         public override void Load()
@@ -172,6 +173,8 @@ namespace CalamityMod
             ModLoader.TryGetMod("ThoriumMod", out thorium);
             varia = null;
             ModLoader.TryGetMod("Varia", out varia);
+            subworldLibrary = null;
+            ModLoader.TryGetMod("SubworldLibrary", out subworldLibrary);
 
             // Initialize the EnemyStats struct as early as it is safe to do so
             NPCStats.Load();

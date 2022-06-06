@@ -431,7 +431,7 @@ namespace CalamityMod.Items
                 { ItemID.SlapHand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(120)) },
                 { ItemID.SlimeCrown, nonConsumableBossSummon },
                 { ItemID.SlimeStaff, Do(AutoReuse, UseExact(30)) },
-                { ItemID.Smolstar, Do(AutoReuse, UseExact(25)) },
+                { ItemID.Smolstar, Do(DamageExact(9), AutoReuse, UseExact(25)) },
                 { ItemID.SniperRifle, pointBlank },
                 { ItemID.SnowballCannon, pointBlank },
                 { ItemID.SnowGlobe, nonConsumableBossSummon },

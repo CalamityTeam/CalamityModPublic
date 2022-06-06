@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.GameContent.Bestiary;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -79,10 +80,11 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 PortraitPositionYOverride = 30f,
                 Scale = 0.7f,
-                PortraitScale = 0.85f
+                PortraitScale = 0.85f,
             };
             value.Position.Y += 45f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            NPCID.Sets.ShouldBeCountedAsBoss[NPC.type] = true;
         }
 
         public override void SetDefaults()
@@ -98,6 +100,17 @@ namespace CalamityMod.NPCs.ExoMechs
             NPC.knockBackResist = 0f;
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.Calamity().DoesNotGenerateRage = true;
+        }
+
+        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
+        {
+            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+                //We'll probably want a custom background for Exos like ML has.
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
+
+				// Will move to localization whenever that is cleaned up.
+				new FlavorTextBestiaryInfoElement("The esteemed scientist himself. His AI is uploaded into a database, far from harm, and thus destroying his recon bodies achieves nothing.")
+            });
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -486,7 +499,10 @@ namespace CalamityMod.NPCs.ExoMechs
             {
                 HologramEffectTimer = MathHelper.Clamp(HologramEffectTimer - 1f, 0f, HologramFadeinTime);
                 if (HologramEffectTimer <= 0f)
+                {
+                    Main.BestiaryTracker.Kills.RegisterKill(NPC);
                     NPC.active = false;
+                }
             }
 
             // Fade back in as a hologram if the player tried to kill Draedon.
