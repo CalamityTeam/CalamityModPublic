@@ -1465,13 +1465,6 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<CoreofCinder>());
             r.AddTile(TileID.LihzahrdFurnace);
             r.Register();
-
-            // Truffle Worm
-            r = CreateRecipe(ItemID.TruffleWorm);
-            r.AddIngredient(ItemID.GlowingMushroom, 15);
-            r.AddIngredient(ItemID.Worm);
-            r.AddTile(TileID.Autohammer);
-            r.Register();
         }
         #endregion
 

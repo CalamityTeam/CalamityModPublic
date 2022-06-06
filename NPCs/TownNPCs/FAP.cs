@@ -355,6 +355,10 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<Margarita>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 8, 0, 0);
                 nextSlot++;
+
+                shop.item[nextSlot].SetDefaults(ItemID.EmpressButterfly);
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
+                nextSlot++;
             }
 
             if (DownedBossSystem.downedAstrumAureus)
@@ -417,12 +421,6 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
             nextSlot++;
 
-            if (NPC.downedEmpressOfLight)
-            {
-                shop.item[nextSlot].SetDefaults(ItemID.EmpressButterfly);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-                nextSlot++;
-            }
         }
 
         // Make this Town NPC teleport to the Queen statue when triggered.

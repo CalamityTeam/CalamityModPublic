@@ -380,13 +380,13 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.LocalPlayer.discount)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
             nextSlot++;
-            if (NPC.downedFishron)
+            if (Main.hardMode)
             {
-                shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
-                if (Main.LocalPlayer.discount)
-                  shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
-                nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
+            if (Main.LocalPlayer.discount)
+                shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
+            nextSlot++;
             }
             if (DownedBossSystem.downedBoomerDuke)
             {
