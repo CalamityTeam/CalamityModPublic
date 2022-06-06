@@ -1,17 +1,16 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using static Terraria.ModLoader.ModContent;
-using CalamityMod.Particles;
-using Terraria.Audio;
 using static CalamityMod.CalamityUtils;
-using System.IO;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Melee
 {

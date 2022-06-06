@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Utilities;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Audio;
-using System;
-using CalamityMod.Particles;
 using static CalamityMod.CalamityUtils;
-using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {

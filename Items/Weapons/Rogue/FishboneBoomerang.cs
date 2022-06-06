@@ -1,11 +1,11 @@
-﻿using Terraria.DataStructures;
+﻿using System.Linq;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {

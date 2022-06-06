@@ -1,11 +1,11 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System.Linq;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Magic
 {

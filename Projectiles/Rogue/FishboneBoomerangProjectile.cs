@@ -1,14 +1,10 @@
-﻿using CalamityMod.Projectiles.Typeless;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.GameContent;
-using Terraria.Graphics.Shaders;
 using static CalamityMod.CalamityUtils;
-using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
