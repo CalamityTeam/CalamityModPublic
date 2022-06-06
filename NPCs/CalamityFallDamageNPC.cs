@@ -80,13 +80,13 @@ namespace CalamityMod.NPCs
         /// </summary>
         private int potentialEnergyDamage = 0;
         /// <summary>
-        /// This keeps track of the last recorded vertical velocity, so that we can dispel the potential fall damage if the enemy slows their fall down by any means
+        /// This keeps track of the last recorded velocity, so that we can dispel the potential fall damage if the enemy slows their fall down by any means
         /// </summary>
-        private float lastRecordedVerticalVelocity = 0;
+        private Vector2 OldVelocity = Vector2.Zero;
         /// <summary>
-        /// This keeps track of the last recorded vertical velocity, because terraria is dumb and we need two of them
+        /// This keeps track of the last recorded velocity, because terraria is dumb and we need two of them
         /// </summary>
-        private float previousLastRecordedVerticalVelocity = 0;
+        private Vector2 OlderVelocity = Vector2.Zero;
         private float terminalVelocityForFullFallDamage = 0;
 
         public int PotentialEnergyDamage
@@ -112,8 +112,8 @@ namespace CalamityMod.NPCs
             CalamityFallDamageNPC myClone = (CalamityFallDamageNPC)base.Clone(npc, npcClone);
 
             myClone.potentialEnergyDamage = potentialEnergyDamage;
-            myClone.lastRecordedVerticalVelocity = lastRecordedVerticalVelocity;
-            myClone.previousLastRecordedVerticalVelocity = previousLastRecordedVerticalVelocity;
+            myClone.OldVelocity = OldVelocity;
+            myClone.OlderVelocity = OlderVelocity;
             myClone.terminalVelocityForFullFallDamage = terminalVelocityForFullFallDamage;
 
             return myClone;
@@ -122,7 +122,8 @@ namespace CalamityMod.NPCs
         public override void SetDefaults(NPC npc)
         {
             PotentialEnergyDamage = 0;
-            lastRecordedVerticalVelocity = 0f;
+            OldVelocity = Vector2.Zero;
+            OlderVelocity = Vector2.Zero;
         }
 
         /// <summary>
@@ -138,8 +139,8 @@ namespace CalamityMod.NPCs
                 return;
 
             PotentialEnergyDamage = potentialDamage;
-            lastRecordedVerticalVelocity = npc.velocity.Y;
-            previousLastRecordedVerticalVelocity = npc.velocity.Y;
+            OldVelocity = npc.velocity;
+            OlderVelocity = npc.velocity;
             terminalVelocityForFullFallDamage = terminalVelocityForFullDamage;
         }
 
@@ -148,26 +149,28 @@ namespace CalamityMod.NPCs
             if (FallDamageSusceptible)
             {
                 float newVerticalVelocity = npc.velocity.Y;
+                float oldVerticalVelocity = OldVelocity.Y;
+                float olderVerticalVelocity = OlderVelocity.Y;
 
                 //If the thing flies back up, cancel the fall dmg
-                if (newVerticalVelocity < 0 && lastRecordedVerticalVelocity >= 0)
+                if (newVerticalVelocity < 0 && oldVerticalVelocity >= 0)
                     PotentialEnergyDamage = 0;
 
                 //Same goes for if it slows its fall. 
                 //We use 3 variables cuz there is a frame inbetween the fall and the landing where the velocity is still set to something.
-                if (newVerticalVelocity > 0 && previousLastRecordedVerticalVelocity > 0 && lastRecordedVerticalVelocity < previousLastRecordedVerticalVelocity)
+                if (newVerticalVelocity > 0 && olderVerticalVelocity > 0 && oldVerticalVelocity < olderVerticalVelocity)
                     PotentialEnergyDamage = 0;
 
                 //If the npc hit a tile/Came to a stop after falling
-                if (newVerticalVelocity == 0 && lastRecordedVerticalVelocity > 0)
+                if (newVerticalVelocity == 0 && oldVerticalVelocity > 0)
                 {
                     //I don't think a tile check below the npc is necessary but if we find weird edge cases ill add it
-                    npc.StrikeNPC((int)(PotentialEnergyDamage * Math.Clamp(previousLastRecordedVerticalVelocity / terminalVelocityForFullFallDamage, 0f, 1f)), 0f, 1, fromNet: true);
+                    npc.StrikeNPC((int)(PotentialEnergyDamage * Math.Clamp(olderVerticalVelocity / terminalVelocityForFullFallDamage, 0f, 1f)), 0f, 1, fromNet: true);
                     PotentialEnergyDamage = 0;
                 }
 
-                previousLastRecordedVerticalVelocity = lastRecordedVerticalVelocity;
-                lastRecordedVerticalVelocity = newVerticalVelocity;
+                OlderVelocity = OldVelocity;
+                OldVelocity = npc.velocity;
             }
         }
     }
