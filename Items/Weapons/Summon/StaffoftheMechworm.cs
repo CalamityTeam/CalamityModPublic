@@ -65,6 +65,8 @@ namespace CalamityMod.Items.Weapons.Summon
                 return;
 
             int curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormHead>(), damage, knockback, owner.whoAmI, 0f, 0f);
+            if (Main.projectile.IndexInRange(curr))
+                Main.projectile[curr].originalDamage = damage;
             curr = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<MechwormBody>(), damage, knockback, owner.whoAmI, Main.projectile[curr].identity, 0f);
             if (Main.projectile.IndexInRange(curr))
                 Main.projectile[curr].originalDamage = damage;

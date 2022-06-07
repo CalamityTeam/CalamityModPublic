@@ -122,12 +122,14 @@ namespace CalamityMod.Projectiles.Summon
 
             // Produce some dust when the worm is summoned.
             if (Time < 3 && !Main.dedServ)
+            {
                 for (int i = 0; i < 50; i++)
                 {
                     Dust purpleElectricity = Dust.NewDustDirect(Projectile.position + Vector2.UnitY * 16f, Projectile.width, Projectile.height - 16, 234, 0f, 0f, 0, default, 1f);
                     purpleElectricity.velocity *= 2f;
                     purpleElectricity.scale *= 1.15f;
                 }
+            }
             CalamityPlayer modPlayer = owner.Calamity();
 
             // Maintain or remove the Mechworm buff from the owner.
@@ -208,19 +210,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        private bool TailExists()
-        {
-            int tailType = ModContent.ProjectileType<MechwormTail>();
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                if (Main.projectile[i].type != tailType || !Main.projectile[i].active || Main.projectile[i].owner != Projectile.owner)
-                    continue;
-                return true;
-            }
-            return false;
-        }
-
-        private bool TargetInSafeBoundaries(NPC target) => target?.Center.Between(WorldTopLeft(), WorldBottomRight()) ?? true;
+        private static bool TargetInSafeBoundaries(NPC target) => target?.Center.Between(WorldTopLeft(), WorldBottomRight()) ?? true;
 
         private void PlayerFollowMovement(Player owner)
         {
