@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Armor
                 "+1 max minion";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.victideSet = true;
-            modPlayer.urchin = true;
+            modPlayer.victideSummoner = true;
             player.maxMinions++;
             if (player.whoAmI == Main.myPlayer)
             {
@@ -54,11 +54,11 @@ namespace CalamityMod.Items.Armor
                     player.AddBuff(ModContent.BuffType<VictideSummonSetBuff>(), 3600, true);
                 }
                 var source = player.GetSource_ItemUse(Item);
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<Urchin>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<VictideSeaSnail>()] < 1)
                 {
                     int baseDamage = 7;
                     int minionDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<SummonDamageClass>()).ApplyTo(baseDamage);
-                    int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Urchin>(), minionDamage, 0f, Main.myPlayer, 0f, 0f);
+                    int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<VictideSeaSnail>(), minionDamage, 0f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;
                 }

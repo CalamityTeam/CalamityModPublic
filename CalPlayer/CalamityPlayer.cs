@@ -625,6 +625,7 @@ namespace CalamityMod.CalPlayer
         public bool eskimoSet = false; //vanilla armor
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
+        public bool victideSummoner = false;
         public bool sulfurSet = false;
         public bool sulfurJump = false;
         public bool jumpAgainSulfur = false;
@@ -723,7 +724,6 @@ namespace CalamityMod.CalPlayer
         public bool omegaBlueChestplate = false;
         public bool omegaBlueSet = false;
         public bool omegaBlueHentai = false;
-        public bool urchin = false;
         public bool valkyrie = false;
         public bool slimeGod = false;
         public bool molluskSet = false;
@@ -949,7 +949,7 @@ namespace CalamityMod.CalPlayer
         public bool hauntedDishes = false;
         public bool stormjaw = false;
         public bool sGod = false;
-        public bool vUrchin = false;
+        public bool victideSnail = false;
         public bool cSpirit = false;
         public bool rOrb = false;
         public bool dCrystal = false;
@@ -1780,6 +1780,7 @@ namespace CalamityMod.CalPlayer
             meteorSet = false; //vanilla armor, for Space Gun nerf
 
             victideSet = false;
+            victideSummoner = false;
 
             sulfurSet = false;
             sulfurJump = false;
@@ -2023,7 +2024,7 @@ namespace CalamityMod.CalPlayer
             sandnado = false;
             plantera = false;
             aProbe = false;
-            vUrchin = false;
+            victideSnail = false;
             cSpirit = false;
             rOrb = false;
             dCrystal = false;
@@ -2040,7 +2041,6 @@ namespace CalamityMod.CalPlayer
             redDevil = false;
             valkyrie = false;
             slimeGod = false;
-            urchin = false;
             chaosSpirit = false;
             daedalusCrystal = false;
             shellfish = false;
