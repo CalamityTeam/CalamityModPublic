@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Fishbone Boomerang");
             Tooltip.SetDefault("Stealth strikes make the boomerang ricochet between enemies\n" +
                 //lore tooltip u get the thing
-                "[c/5C95A1:Even as their home slowly evaporated during their war against the Tyrant, those of the Sea Kingdom did not go down without a fight.]\n" +
+                "[c/5C95A1:Though the evaporating Sea Kingdom fought a losing battle, its proud inhabitants did not go down easily.]\n" +
                 "[c/5C95A1:As a last resort, they had to fashion weapons from the skeletons of dead animals.]"
                 );
             SacrificeTotal = 1;
