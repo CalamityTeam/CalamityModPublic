@@ -15,7 +15,7 @@ namespace CalamityMod.FluidSimulation
             return field;
         }
 
-        public static void AdjustSizeRelativeToGraphicsQuality(ref int size, int min = 325, int max = 725)
+        public static void AdjustSizeRelativeToGraphicsQuality(ref int size, int min = 255, int max = 550)
         {
             float graphicsQuality = MathHelper.Clamp(Main.gfxQuality, 0f, 1f);
 
