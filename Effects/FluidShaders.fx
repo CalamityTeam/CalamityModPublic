@@ -43,7 +43,7 @@ float4 CalculateDiffusion(float4 sampleColor : TEXCOORD, float2 coords : TEXCOOR
     float step = 1.0 / size;
     float4 currentValue = 0;
     float4 previousValue = tex2D(previousStates, coords);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 2; i++)
     {
         float4 leftState = tex2D(nextStates, clamp(coords - float2(step, 0), step, 1 - step));
         float4 rightState = tex2D(nextStates, clamp(coords + float2(step, 0), step, 1 - step));
