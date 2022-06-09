@@ -379,12 +379,10 @@ namespace CalamityMod
                 new("BossRushIFrameCurse", ItemID.Shackle),
             };
 
-            // TODO -- Next month's TML Stable will have this function be public
-            MethodInfo getTrans = typeof(LocalizationLoader).GetMethod("GetOrCreateTranslation", BindingFlags.Static | BindingFlags.NonPublic, new[] { typeof(string), typeof(bool) });
             foreach (KeyValuePair<string, int> kv in configLabelItemEmbeds)
             {
                 string localizationKey = $"Mods.CalamityMod.Config.EntryTitle.{kv.Key}";
-                ModTranslation trans = getTrans.Invoke(null, new object[] { localizationKey, true }) as ModTranslation;
+                ModTranslation trans = LocalizationLoader.GetOrCreateTranslation(CalamityMod.Instance, localizationKey, true);
                 var culture = Language.ActiveCulture;
                 trans.AddTranslation(culture, EmbedItem(kv.Value, trans.GetTranslation(culture)));
             }
