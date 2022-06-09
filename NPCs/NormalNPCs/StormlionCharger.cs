@@ -43,8 +43,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundDesert,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("What these appear to feed on are the electric storms that brew over deserts. When the skies darken, they reach upwards with their mandibles that act as lightning rods.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("What these appear to feed on are the electric storms that brew over deserts. When the skies darken, they reach upwards with their mandibles that act as lightning rods.")
             });
         }
 

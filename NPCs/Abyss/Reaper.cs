@@ -30,15 +30,6 @@ namespace CalamityMod.NPCs.Abyss
         {
             DisplayName.SetDefault("Reaper Shark");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
-            {
-                Scale = 0.3f,
-                PortraitPositionXOverride = -34f,
-                PortraitPositionYOverride = -10f,
-            };
-            value.Position.X -= 12f;
-            value.Position.Y -= 50f;
-            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -634,6 +625,16 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.3f,
+                PortraitPositionXOverride = 54f,
+                PortraitPositionYOverride = -10f,
+                SpriteDirection = 1
+            };
+            value.Position.X += 12f;
+            value.Position.Y -= 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             NPC.frameCounter += hasBeenHit || NPC.IsABestiaryIconDummy ? 0.15f : 0.075f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;

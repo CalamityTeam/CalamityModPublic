@@ -198,7 +198,12 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void FindFrame(int frameHeight)
         {
-            if (!Flying)
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            if (!Flying && !NPC.IsABestiaryIconDummy)
                 NPC.frame.Y = 0;
             else
             {
@@ -215,8 +220,11 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value, true);
-            CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, Color.Transparent, directioning: true, invertedDirection: true);
+            if (!NPC.IsABestiaryIconDummy)
+            {
+                CalamityGlobalNPC.DrawAfterimage(NPC, spriteBatch, drawColor, Color.Transparent, directioning: true, invertedDirection: true);
+                CalamityGlobalNPC.DrawGlowmask(NPC, spriteBatch, ModContent.Request<Texture2D>(Texture + "Glow").Value, true);
+            }
         }
 
         public override void HitEffect(int hitDirection, double damage)

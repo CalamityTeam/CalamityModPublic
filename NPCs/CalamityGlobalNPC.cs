@@ -2346,7 +2346,7 @@ namespace CalamityMod.NPCs
                              npc.frame,
                              Color.White,
                              npc.rotation,
-                             npc.Size / 2f,
+                             npc.frame.Size() * 0.5f,
                              npc.scale,
                              effects,
                              0f);
@@ -2379,7 +2379,6 @@ namespace CalamityMod.NPCs
 
             Color drawColor = npc.GetAlpha(startingColor);
             Texture2D npcTexture = texture ?? TextureAssets.Npc[npc.type].Value;
-            Vector2 origin = npc.Size * 0.5f;
             Vector2 screenOffset = npc.IsABestiaryIconDummy ? Vector2.Zero : Main.screenPosition;
             int afterimageCounter = 1;
             while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityConfig.Instance.Afterimages)
@@ -2391,7 +2390,7 @@ namespace CalamityMod.NPCs
                                  npc.frame,
                                  colorToDraw,
                                  rotationCalculation.Invoke(npc, afterimageCounter),
-                                 origin,
+                                 npc.frame.Size() * 0.5f,
                                  npc.scale,
                                  spriteEffects,
                                  0f);

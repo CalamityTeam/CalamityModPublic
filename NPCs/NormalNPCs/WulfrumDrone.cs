@@ -51,6 +51,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Wulfrum Drone");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -80,8 +85,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Rotating their small frames, they swoop at potential intruders into a predefined territory that no longer exists. They wander without purpose.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Rotating their small frames, they swoop at potential intruders into a predefined territory that no longer exists. They wander without purpose.")
             });
         }
 

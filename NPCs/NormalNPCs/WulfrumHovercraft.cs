@@ -59,6 +59,11 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Wulfrum Hovercraft");
             Main.npcFrameCount[NPC.type] = 12;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -87,8 +92,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Traveling with propulsion that carries them over the ground with ease, they seek out trespassers, though their analysis likely has grown imperceptive with age.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Traveling with propulsion that carries them over the ground with ease, they seek out trespassers, though their analysis likely has grown imperceptive with age.")
             });
         }
 
@@ -110,7 +115,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             int frame = (int)(NPC.frameCounter / 5) % (Main.npcFrameCount[NPC.type] / 2);
             if (Supercharged)
                 frame += Main.npcFrameCount[NPC.type] / 2;
-
             NPC.frame.Y = frame * frameHeight;
         }
 
