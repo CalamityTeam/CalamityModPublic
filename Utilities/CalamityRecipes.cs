@@ -1978,6 +1978,13 @@ namespace CalamityMod
             r.AddIngredient(ItemID.ShroomiteBar, 16);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
+
+            // Sergeant United Shield
+            r = CreateRecipe(ItemID.BouncingShield);
+            r.AddRecipeGroup("AnyCobaltBar", 12);
+            r.AddIngredient(ItemID.SoulofLight, 4);
+            r.AddTile(TileID.Anvils);
+            r.Register();
         }
         #endregion
     }
