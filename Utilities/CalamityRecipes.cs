@@ -534,12 +534,9 @@ namespace CalamityMod
             EditBeetleArmorRecipes();
             EditGoblinArmySummonRecipe();
             EditEvilBossSummonRecipes();
-            EditEarlyHardmodeRecipes();
-            EditMechBossSummonRecipes();
+            MoveHardmodeItemsToAnvils();
             EditPumpkinMoonSummonRecipe();
             EditFrostMoonSummonRecipe();
-            EditWingRecipes();
-            EditEvilBulletRecipes();
             EditPhasesaberRecipes();
             EditOpticStaffRecipe();
             EditShroomiteBarRecipe();
@@ -875,7 +872,7 @@ namespace CalamityMod
             });
         }
 
-        private static void EditEvilBossSummonRecipes() // Evil Mushroom spawns are inconsistent and it bothers me. - Merkalto
+        private static void EditEvilBossSummonRecipes()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.BloodySpine || x.createItem.type == ItemID.WormFood).ToList().ForEach(s =>
@@ -884,19 +881,20 @@ namespace CalamityMod
                 s.requiredItem[1].stack = 10;
             });
         }
-        private static void EditEarlyHardmodeRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.DaoofPow || x.createItem.type == ItemID.Chik || x.createItem.type == ItemID.MeteorStaff).ToList().ForEach(s =>
-            {
-                s.requiredTile[0] = TileID.Anvils;
-            });
-        }
 
-        private static void EditMechBossSummonRecipes()
+        /* This houses all Hardmode items that are moved to Anvils in Calamity:
+        FIRST ROW: Boss Summons
+        SECOND ROW: Weapons
+        THIRD ROW: Accessories
+        FOURTH ROW: Ammo */
+        public static void MoveHardmodeItemsToAnvils()
         {
             List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull).ToList().ForEach(s =>
+            rec.Where(x => x.createItem.type == ItemID.MechanicalWorm || x.createItem.type == ItemID.MechanicalEye || x.createItem.type == ItemID.MechanicalSkull ||
+            x.createItem.type == ItemID.DaoofPow || x.createItem.type == ItemID.Chik || x.createItem.type == ItemID.MeteorStaff || x.createItem.type == ItemID.CoolWhip ||
+            x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings || x.createItem.type == ItemID.FairyWings ||
+            x.createItem.type == ItemID.IchorBullet || x.createItem.type == ItemID.IchorArrow || x.createItem.type == ItemID.CursedBullet || x.createItem.type == ItemID.CursedArrow
+            ).ToList().ForEach(s =>
             {
                 s.requiredTile[0] = TileID.Anvils;
             });
@@ -944,24 +942,6 @@ namespace CalamityMod
             r.Register();
         }
 
-        private static void EditWingRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.AngelWings || x.createItem.type == ItemID.DemonWings || x.createItem.type == ItemID.FairyWings).ToList().ForEach(s =>
-            {
-                s.requiredTile[0] = TileID.Anvils;
-            });
-        }
-
-        // Change Ichor, and Cursed Bullets/Arrows to be pre-Hardmode Boss
-        private static void EditEvilBulletRecipes()
-        {
-            List<Recipe> rec = Main.recipe.ToList();
-            rec.Where(x => x.createItem.type == ItemID.IchorBullet || x.createItem.type == ItemID.IchorArrow || x.createItem.type == ItemID.CursedBullet || x.createItem.type == ItemID.CursedArrow).ToList().ForEach(s =>
-            {
-                s.requiredTile[0] = TileID.Anvils;
-            });
-        }
 
         // Change Phasesaber recipes to require 20 Crystal Shards
         private static void EditPhasesaberRecipes()
