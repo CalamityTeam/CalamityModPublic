@@ -2136,6 +2136,13 @@ namespace CalamityMod.Projectiles
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.DamageType = DamageClass.Magic;
 
+            // Accelerate for 1.5 seconds to full velocity
+            if (projectile.type == ProjectileID.HallowBossLastingRainbow && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+            {
+                if (projectile.timeLeft > 570)
+                    projectile.velocity *= 1.015525f;
+            }
+
             if (projectile.type == ProjectileID.OrnamentFriendly && lineColor == 1) //spawned by Festive Wings
             {
                 Vector2 center = projectile.Center;

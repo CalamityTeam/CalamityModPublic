@@ -388,22 +388,22 @@ namespace CalamityMod.NPCs.Perforator
             {
                 if (wormsAlive == 1)
                 {
-                    Movement(player, 4f + velocityEnrageIncrease, 0.1f, 350f);
+                    Movement(player, 6f + velocityEnrageIncrease, 0.15f, 350f);
                 }
                 else
                 {
                     if (large || death)
-                        Movement(player, 5.5f + velocityEnrageIncrease, death ? 0.075f : 0.065f, 20f);
+                        Movement(player, 11f + velocityEnrageIncrease, death ? 0.1125f : 0.0975f, 20f);
                     else if (medium)
-                        Movement(player, 5f + velocityEnrageIncrease, death ? 0.07f : 0.06f, 30f);
+                        Movement(player, 10f + velocityEnrageIncrease, death ? 0.105f : 0.09f, 30f);
                     else if (small)
-                        Movement(player, 4.5f + velocityEnrageIncrease, death ? 0.065f : 0.055f, 40f);
+                        Movement(player, 9f + velocityEnrageIncrease, death ? 0.0975f : 0.0825f, 40f);
                     else
-                        Movement(player, 4f + velocityEnrageIncrease, death ? 0.06f : 0.05f, 50f);
+                        Movement(player, 8f + velocityEnrageIncrease, death ? 0.09f : 0.075f, 50f);
                 }
             }
             else
-                Movement(player, 4f + velocityEnrageIncrease, 0.05f, 350f);
+                Movement(player, 6f + velocityEnrageIncrease, 0.075f, 350f);
         }
 
         private void Movement(Player target, float velocity, float acceleration, float y)

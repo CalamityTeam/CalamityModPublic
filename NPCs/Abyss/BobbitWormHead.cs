@@ -82,9 +82,7 @@ namespace CalamityMod.NPCs.Abyss
                     if (NPC.ai[1] >= 60f)
                     {
                         NPC.TargetClosest(true);
-                        //if (npc.Center.Y + ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-                        //    Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 50f : 100f) > Main.player[npc.target].Center.Y &&
-                        if (NPC.Center.Y + Main.player[NPC.target].Calamity().GetAbyssAggro(100f, 50f) > Main.player[NPC.target].Center.Y &&
+                        if (NPC.Center.Y > Main.player[NPC.target].Center.Y && (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(480f) &&
                             Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                         {
                             NPC.ai[1] = 0f;

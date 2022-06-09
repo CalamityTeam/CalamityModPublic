@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void AI()
         {
-            CalamityAI.PassiveSwimmingAI(NPC, Mod, 0, Main.player[NPC.target].Calamity().GetAbyssAggro(200f, 150f), 0.25f, 0.15f, 8f, 8f, 0.1f);
+            CalamityAI.PassiveSwimmingAI(NPC, Mod, 0, Main.player[NPC.target].Calamity().GetAbyssAggro(160f), 0.25f, 0.15f, 8f, 8f, 0.1f);
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)

@@ -83,10 +83,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            //if ((Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-            //    Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 100f : 600f) *
-            //    (Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) ||
-            if ((Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(600f, 100f) ||
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
+            {
+                NPC.TargetClosest(true);
+            }
+            if ((Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f) ||
                 NPC.justHit)
             {
                 detectsPlayer = true;
@@ -95,10 +96,6 @@ namespace CalamityMod.NPCs.Abyss
             if (NPC.ai[2] > 0f)
             {
                 NPC.realLife = (int)NPC.ai[2];
-            }
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
-            {
-                NPC.TargetClosest(true);
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

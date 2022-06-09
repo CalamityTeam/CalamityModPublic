@@ -427,6 +427,12 @@ namespace CalamityMod
                 { NPCID.PlanterasTentacle, new int[] { 60, 138, 161, 207, 276 } },
                 { NPCID.Spore, new int[] { 70, 140, 160, 170, 210 } },
 
+                { NPCID.HallowBoss, new int[] { 80, // 120 during charge
+                    110, // 165 during charge
+                    143, // 214 during charge
+                    154, // 231 during charge
+                    198 } }, // 297 during charge
+
                 { ModContent.NPCType<Leviathan>(), new int[] { 90, 216, 240, 252, 324 } },
                 { ModContent.NPCType<Siren>(), new int[] {
                     70, // 105 during charge
@@ -643,6 +649,11 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.Plantera, ProjectileID.PoisonSeedPlantera), new int[] { 54, 96, 136, 152, 210 } }, // 144 in non-rev master mode
                 { new Tuple<int, int>(NPCID.Plantera, ProjectileID.ThornBall), new int[] { 62, 108, 160, 176, 234 } }, // 162 in non-rev master mode
                 { new Tuple<int, int>(NPCID.Plantera, ModContent.ProjectileType<SporeGasPlantera>()), new int[] { 80, 140, 160, 176, 234 } },
+
+                { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.HallowBossRainbowStreak), new int[] { 90, 120, 160, 176, 234 } },
+                { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.FairyQueenSunDance), new int[] { 100, 140, 184, 200, 270 } },
+                { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.HallowBossLastingRainbow), new int[] { 90, 120, 160, 176, 234 } },
+                { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.FairyQueenLance), new int[] { 100, 120, 160, 176, 234 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Leviathan>(), ModContent.ProjectileType<LeviathanBomb>()), new int[] { 100, 172, 208, 228, 300 } },
                 { new Tuple<int, int>(ModContent.NPCType<Siren>(), ModContent.ProjectileType<WaterSpear>()), new int[] { 80, 140, 160, 176, 234 } },

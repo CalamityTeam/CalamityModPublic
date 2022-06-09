@@ -1452,16 +1452,19 @@ namespace CalamityMod.CalPlayer
                 (dFruit ? 25 : 0);
             if (fleshKnuckles)
                 Player.statLifeMax2 += 45;
+
+            int percentMaxLifeIncrease = 0;
             if (ZoneAbyss && abyssalAmulet)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
+                percentMaxLifeIncrease += lumenousAmulet ? 25 : 10;
             if (coreOfTheBloodGod)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 15;
+                percentMaxLifeIncrease += 15;
             if (bloodPact)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 100;
+                percentMaxLifeIncrease += 100;
             if (affliction || afflicted)
-                Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * 10;
+                percentMaxLifeIncrease += 10;
             if (cadence)
-                Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * 25;
+                percentMaxLifeIncrease += 25;
+
             if (community)
             {
                 float floatTypeBoost = 0.05f +
@@ -1481,11 +1484,14 @@ namespace CalamityMod.CalPlayer
                     (DownedBossSystem.downedDoG ? 0.01f : 0f) +
                     (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
-                Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * integerTypeBoost;
+                percentMaxLifeIncrease += integerTypeBoost;
             }
+
             // Shattered Community gives the same max health boost as normal full-power Community (10%)
             if (shatteredCommunity)
-                Player.statLifeMax2 += (Player.statLifeMax / 5 / 10) * 5;
+                percentMaxLifeIncrease += 10;
+
+            Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * percentMaxLifeIncrease;
 
             // Max health reductions
             if (crimEffigy)
@@ -5267,6 +5273,33 @@ namespace CalamityMod.CalPlayer
                     damage = bossRushDamage;
             }
 
+            // Reduce damage dealt by rainbow trails depending on how faded they are.
+            if (proj.type == ProjectileID.HallowBossLastingRainbow)
+            {
+                // Find the oldPos of the projectile that is intersecting the player hitbox.
+                Rectangle hitbox = proj.Hitbox;
+                int trailLength = 80;
+                int startOfDamageFalloff = 20;
+                for (int k = 0; k < trailLength; k += 2)
+                {
+                    Vector2 trailHitbox = proj.oldPos[k];
+                    if (!(trailHitbox == Vector2.Zero))
+                    {
+                        hitbox.X = (int)trailHitbox.X;
+                        hitbox.Y = (int)trailHitbox.Y;
+
+                        // Adjust damage based on what part of the trail intersected the player hitbox.
+                        if (hitbox.Intersects(Player.Hitbox))
+                        {
+                            if (k > startOfDamageFalloff)
+                                damage = (int)(damage * MathHelper.Lerp(0.4f, 1f, 1f - (k - startOfDamageFalloff) / (float)(trailLength - startOfDamageFalloff)));
+
+                            break;
+                        }
+                    }
+                }
+            }
+
             // Check if the player has iframes for the sake of avoiding defense damage.
             bool hasIFrames = false;
             for (int i = 0; i < Player.hurtCooldowns.Length; i++)
@@ -8125,18 +8158,13 @@ namespace CalamityMod.CalPlayer
         /// <summary>
         /// Returns the range at which an abyss enemy can detect the player
         /// </summary>
-        /// <param name="defaultRange">The default detection range</param>
-        /// <param name="anechoicRange">The detection range set by the player having anechoic plating/coating</param>
+        /// <param name="range">The default detection range</param>
         /// <returns></returns>
-        public float GetAbyssAggro(float defaultRange, float anechoicRange)
+        public float GetAbyssAggro(float range)
         {
-            /* ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-                    Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 200f : 600f) *
-                    (Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) *
-                    (Main.player[npc.target].GetCalamityPlayer().abyssalMirror ? 0.7f : 1f) *
-                    (Main.player[npc.target].GetCalamityPlayer().eclipseMirror ? 0.3f : 1f) */
-            float range = anechoicPlating || anechoicCoating ? anechoicRange : defaultRange;
             range *= fishAlert ? 3f : 1f;
+            range *= anechoicCoating ? 0.5f : 1f;
+            range *= anechoicPlating ? 0.5f : 1f;
             range *= abyssalMirror ? 0.65f : 1f;
             range *= eclipseMirror ? 0.3f : 1f;
             range *= reaverExplore ? 0.9f : 1f;

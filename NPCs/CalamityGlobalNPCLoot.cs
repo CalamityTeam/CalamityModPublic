@@ -920,6 +920,9 @@ namespace CalamityMod.NPCs
                 case NPCID.QueenSlimeBoss:
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.VolatileGelatin));
+
+                    // Queen Slime drops the Hallowed Key
+                    npcLoot.Add(ItemID.HallowedKey, 3);
                     break;
 
                 case NPCID.TheDestroyer:

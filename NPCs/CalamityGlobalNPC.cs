@@ -2849,6 +2849,9 @@ namespace CalamityMod.NPCs
                     case NPCID.PlanterasTentacle:
                         return PlanteraAI.BuffedPlanterasTentacleAI(npc, Mod);
 
+                    case NPCID.HallowBoss:
+                        return EmpressofLightAI.BuffedEmpressofLightAI(npc, Mod);
+
                     case NPCID.Golem:
                         return GolemAI.BuffedGolemAI(npc, Mod);
                     case NPCID.GolemFistLeft:
@@ -4311,11 +4314,12 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Cap lance damage.
+            // Lance damage edit.
             if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
             {
-                if (damage > 1000)
-                    damage = 1000;
+                float baseVelocityDamageMultiplier = 0.01f + Main.player[projectile.owner].velocity.Length() * 0.002f;
+                float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
+                damage = (int)(Main.player[projectile.owner].ActiveItem().damage * calamityVelocityDamageMultiplier);
             }
 
             // Apply balancing resists/vulnerabilities.
@@ -4708,7 +4712,7 @@ namespace CalamityMod.NPCs
             if (!Main.dayTime && Main.time < 16200D && Main.hardMode && (spawnInfo.Player.ZoneOverworldHeight || spawnInfo.Player.ZoneSkyHeight))
             {
                 if (!NPC.AnyNPCs(NPCID.EmpressButterfly))
-                    pool[NPCID.TruffleWorm] = SpawnCondition.OverworldHallow.Chance * 0.1f;
+                    pool[NPCID.EmpressButterfly] = SpawnCondition.OverworldHallow.Chance * 0.1f;
             }
 
             // Increase fairy spawn rates while wearing Fairy Boots
