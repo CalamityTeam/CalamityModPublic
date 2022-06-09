@@ -1316,6 +1316,11 @@ namespace CalamityMod
             r.AddTile(TileID.CookingPots);
             r.Register();
 
+            r = CreateRecipe(ItemID.CookedFish);
+            r.AddIngredient(ModContent.ItemType<SeaMinnowItem>());
+            r.AddTile(TileID.CookingPots);
+            r.Register();
+
             r = CreateRecipe(ItemID.CookedShrimp);
             r.AddIngredient(ModContent.ItemType<ProcyonidPrawn>());
             r.AddTile(TileID.CookingPots);
