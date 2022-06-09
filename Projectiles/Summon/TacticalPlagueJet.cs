@@ -156,18 +156,13 @@ namespace CalamityMod.Projectiles.Summon
 
                 if (Projectile.ai[0]++ % 75f == 24f)
                 {
-                    int projID = ProjectileID.Bullet;
-                    float shootSpeed = FalseGun.shootSpeed;
-                    bool canShoot = true;
-                    int damage = FalseGun.damage = Projectile.damage;
-                    float kb = Projectile.knockBack;
                     bool shootRocket = ++Projectile.ai[1] % 20f == 0f;
                     // Rockets never consume ammo.
                     bool dontConsumeAmmo = Main.rand.NextBool() || shootRocket;
                     int projIndex;
 
                     // Vanilla function tricked into using a fake gun item with the appropriate base damage as the "firing item".
-                    player.PickAmmo(FalseGun, out projID, out shootSpeed, out damage, out kb, out _);
+                    player.PickAmmo(FalseGun, out int projID, out float shootSpeed, out int damage, out float kb, out _, dontConsumeAmmo);
 
                     // One in every 20 shots is a rocket which deals 1.5x total damage and extreme knockback.
                     if (shootRocket)
@@ -178,8 +173,8 @@ namespace CalamityMod.Projectiles.Summon
                     }
 
                     // Fire the selected bullet, nothing special.
-                    else
-                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);
+                    else { 
+                        projIndex = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Projectile.SafeDirectionTo(potentialTarget.Center) * shootSpeed, projID, damage, kb, Projectile.owner);}
 
                     // Regardless of what was fired, force it to be a summon projectile so that summon accessories work.
                     if (projIndex.WithinBounds(Main.maxProjectiles))

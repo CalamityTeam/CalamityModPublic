@@ -821,7 +821,7 @@ namespace CalamityMod.CalPlayer
         public bool omniscience = false;
         public bool zerg = false;
         public bool zen = false;
-        public bool bossZen = false;
+        public bool isNearbyBoss = false;
         public bool yPower = false;
         public bool aWeapon = false;
         public bool tScale = false;
@@ -1911,7 +1911,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
-            bossZen = false;
+            isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -2151,7 +2151,7 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
-            if (CalamityConfig.Instance.DisableScreenShakes)
+            if (!CalamityConfig.Instance.Screenshake)
                 return;
 
             if (GeneralScreenShakePower > 0f)
@@ -2333,7 +2333,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
-            bossZen = false;
+            isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -3443,15 +3443,7 @@ namespace CalamityMod.CalPlayer
                     Player.buffImmune[BuffID.WindPushed] = true;
             }
 
-            if (CalamityConfig.Instance.BossHealthBar)
-            {
-                drawBossHPBar = true;
-            }
-            else
-            {
-                drawBossHPBar = false;
-            }
-
+            // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             // Increase tile placement speed to speed up early game a bit and make building more fun
@@ -5870,10 +5862,10 @@ namespace CalamityMod.CalPlayer
             if (totalMoonlightDyes > 0)
             {
                 // Initialize the aurora drawer.
-                int size = 455;
+                int size = 425;
                 FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
-                float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
+                float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size * 0.4f;
                 if (ProfanedMoonlightAuroraDrawer is null || ProfanedMoonlightAuroraDrawer.Size != size)
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
@@ -5891,7 +5883,7 @@ namespace CalamityMod.CalPlayer
 
                         Vector2 auroraVelocity = (offsetAngle / 3f + Main.GlobalTimeWrappedHourly * 0.32f).ToRotationVector2();
                         auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
-                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.03f;
+                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.07f;
 
                         Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
                         Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
@@ -6415,7 +6407,7 @@ namespace CalamityMod.CalPlayer
                 else
                     Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
 
-                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
+                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
 
                 if (aeroSet && damage > 25)

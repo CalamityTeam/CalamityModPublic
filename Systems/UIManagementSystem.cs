@@ -64,6 +64,13 @@ namespace CalamityMod.Systems
                     return true;
                 }, InterfaceScaleType.None));
 
+                // Speedrun Timer
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Speedrun Timer", delegate ()
+                {
+                    SpeedrunTimerUI.Draw(Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
                 // Rage and Adrenaline bars
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Rage and Adrenaline UI", delegate ()
                 {

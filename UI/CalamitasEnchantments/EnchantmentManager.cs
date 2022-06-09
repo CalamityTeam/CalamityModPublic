@@ -292,7 +292,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                             CalamityNetcode.NewNPC_ClientSide(player.Center, orbType, player);
                         }
                     },
-                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.CountsAsClass<SummonDamageClass>()),
+                    item => item.IsEnchantable() && item.damage > 0 && item.shoot > ProjectileID.None && !item.CountsAsClass<SummonDamageClass>() && !item.Calamity().trueMelee),
             };
 
             // Special disenchantment thing. This is separated from the list on purpose.

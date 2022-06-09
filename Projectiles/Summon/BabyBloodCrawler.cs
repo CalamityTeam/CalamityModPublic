@@ -116,7 +116,9 @@ namespace CalamityMod.Projectiles.Summon
                 var source = Projectile.GetSource_FromThis();
                 for (int n = 0; n < projAmt; n++)
                 {
-                    CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(Projectile.damage * Main.rand.NextFloat(0.7f, 1f)), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner);
+                    float damageFactor = Main.rand.NextFloat(0.7f, 1f);
+                    Projectile rain = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<BloodRain>(), (int)(Projectile.damage * damageFactor), Projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), Projectile.owner);
+                    rain.originalDamage = (int)(Projectile.originalDamage * damageFactor);
                 }
             }
         }

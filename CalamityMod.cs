@@ -75,7 +75,6 @@ namespace CalamityMod
     public class CalamityMod : Mod
     {
         // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
-        // TODO -- 1.4 fixes the crit reforge price calculation bug, so GetWeaponCrit everywhere can go.
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -207,7 +206,7 @@ namespace CalamityMod
             SetupBossKillTimes();
             SetupBossVelocityScalingValues();
             CalamityLocalization.AddLocalizations();
-            CalamityConfig.LoadConfigLabels(ModContent.GetInstance<CalamityMod>());
+            CalamityConfig.RegisterDynamicLocalization();
             SchematicManager.Load();
             CustomLavaManagement.Load();
             Attunement.Load();
@@ -268,6 +267,8 @@ namespace CalamityMod
             });
 
             RipperUI.Load();
+            StealthUI.Load();
+            ChargeMeterUI.Load();
             AstralArcanumUI.Load(this);
 
             Apollo.LoadHeadIcons();
@@ -345,6 +346,8 @@ namespace CalamityMod
             });
 
             RipperUI.Unload();
+            StealthUI.Unload();
+            ChargeMeterUI.Unload();
             AstralArcanumUI.Unload();
 
             if (!Main.dedServ)

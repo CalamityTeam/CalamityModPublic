@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs
                 }
 
                 Item heldItem = Main.player[owner].ActiveItem();
-                int totalDamage = (int)(150 * Main.player[owner].GetDamage<SummonDamageClass>().Base);
+                int totalDamage = (int)Main.player[owner].GetDamage<SummonDamageClass>().ApplyTo(150f);
                 bool forbidden = Main.player[owner].head == ArmorIDs.Head.AncientBattleArmor && Main.player[owner].body == ArmorIDs.Body.AncientBattleArmor && Main.player[owner].legs == ArmorIDs.Legs.AncientBattleArmor;
                 bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>());
 
@@ -4608,12 +4608,12 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-            if (player.Calamity().zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
+            if (player.Calamity().zen || (CalamityConfig.Instance.ForceTownSafety && player.townNPCs > 1f && Main.expertMode))
             {
                 spawnRate = (int)(spawnRate * 2.5);
                 maxSpawns = (int)(maxSpawns * 0.3f);
             }
-            if (player.Calamity().bossZen && CalamityConfig.Instance.BossZen)
+            if (player.Calamity().isNearbyBoss && CalamityConfig.Instance.BossZen)
             {
                 spawnRate *= 5;
                 maxSpawns = (int)(maxSpawns * 0.001f);

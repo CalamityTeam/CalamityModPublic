@@ -284,6 +284,7 @@ namespace CalamityMod.Projectiles.Summon
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
                                 Main.projectile[spark].Calamity().forceMinion = true;
+                                Main.projectile[spark].originalDamage = Projectile.originalDamage;
                                 Main.projectile[spark].timeLeft = 120;
                                 Main.projectile[spark].penetrate = 3;
                                 Main.projectile[spark].usesIDStaticNPCImmunity = true;
@@ -327,6 +328,7 @@ namespace CalamityMod.Projectiles.Summon
                                         if (spark.WithinBounds(Main.maxProjectiles))
                                         {
                                             Main.projectile[spark].Calamity().forceMinion = true;
+                                            Main.projectile[spark].originalDamage = Projectile.originalDamage;
                                             Main.projectile[spark].timeLeft = 120;
                                             Main.projectile[spark].penetrate = 3;
                                             Main.projectile[spark].usesIDStaticNPCImmunity = true;

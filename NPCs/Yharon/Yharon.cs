@@ -71,9 +71,10 @@ namespace CalamityMod.NPCs.Yharon
             {
                 Scale = 0.3f,
                 PortraitScale = 0.4f,
-                PortraitPositionYOverride = -16f
+                PortraitPositionYOverride = -16f,
+                SpriteDirection = 1
             };
-            value.Position.X -= 26f;
+            value.Position.X += 26f;
             value.Position.Y -= 14f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
