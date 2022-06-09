@@ -38,7 +38,6 @@ namespace CalamityMod.Items.Potions
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.LovePotion).
                 AddIngredient(ItemID.HeartreachPotion).
                 AddIngredient(ItemID.LifeforcePotion).
                 AddIngredient(ItemID.RegenerationPotion).
