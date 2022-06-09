@@ -16,6 +16,11 @@ namespace CalamityMod.NPCs.NormalNPCs
             Main.npcFrameCount[NPC.type] = 5;
             Main.npcCatchable[NPC.type] = true;
             NPCID.Sets.CountsAsCritter[NPC.type] = true;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -45,8 +50,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Times.DayTime,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Pigs are greedy little beasts. If they come across anything they could barely fathom as food, they will scarf it down in a blink.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Pigs are greedy little beasts. If they come across anything they could barely fathom as food, they will scarf it down in a blink.")
             });
         }
 
@@ -63,21 +68,25 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (NPC.velocity.Y == 0f)
             {
-                if (NPC.direction == 1)
+                if (!NPC.IsABestiaryIconDummy)
                 {
-                    NPC.spriteDirection = -1;
+                    if (NPC.direction == 1)
+                    {
+                        NPC.spriteDirection = -1;
+                    }
+                    if (NPC.direction == -1)
+                    {
+                        NPC.spriteDirection = 1;
+                    }
+
+                    if (NPC.velocity.X == 0f)
+                    {
+                        NPC.frame.Y = 0;
+                        NPC.frameCounter = 0.0;
+                        return;
+                    }
                 }
-                if (NPC.direction == -1)
-                {
-                    NPC.spriteDirection = 1;
-                }
-                if (NPC.velocity.X == 0f)
-                {
-                    NPC.frame.Y = 0;
-                    NPC.frameCounter = 0.0;
-                    return;
-                }
-                NPC.frameCounter += (double)(Math.Abs(NPC.velocity.X) * 0.25f);
+                NPC.frameCounter += NPC.IsABestiaryIconDummy ? 0.6f : Math.Abs(NPC.velocity.X) * 0.25f;
                 NPC.frameCounter += 1.0;
                 if (NPC.frameCounter > 12.0)
                 {

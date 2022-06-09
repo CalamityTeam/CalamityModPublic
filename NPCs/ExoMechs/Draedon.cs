@@ -78,9 +78,10 @@ namespace CalamityMod.NPCs.ExoMechs
             Main.npcFrameCount[NPC.type] = 12;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                PortraitPositionYOverride = 30f,
+                PortraitPositionYOverride = 40f,
                 Scale = 0.7f,
                 PortraitScale = 0.85f,
+                SpriteDirection = 1
             };
             value.Position.Y += 45f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;

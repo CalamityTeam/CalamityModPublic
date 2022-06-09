@@ -52,9 +52,10 @@ namespace CalamityMod.NPCs.AcidRain
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.425f,
-                PortraitScale = 0.9f
+                PortraitScale = 0.9f,
+                SpriteDirection = 1
             };
-            value.Position.X -= 10f;
+            value.Position.X += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -88,8 +89,8 @@ namespace CalamityMod.NPCs.AcidRain
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier3,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Sharks are perhaps one of the most resilient and well-adapted species in our planet’s history. It is no surprise that one of these apex predators has come to thrive in these seas.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Sharks are perhaps one of the most resilient and well-adapted species in our planet’s history. It is no surprise that one of these apex predators has come to thrive in these seas.")
             });
         }
 

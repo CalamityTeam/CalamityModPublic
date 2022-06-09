@@ -61,11 +61,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 Scale = 0.4f,
                 PortraitScale = 0.5f,
-                PortraitPositionXOverride = -80f,
+                PortraitPositionXOverride = -56f,
                 PortraitPositionYOverride = -8f,
-                SpriteDirection = 1
+                SpriteDirection = -1
             };
-            value.Position.X -= 92f;
+            value.Position.X -= 48f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -101,8 +101,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Machinery and nanobots have nearly entirely eaten away at the form of this Queen Bee. One wonders if it would simply be more efficient to create one from the ground up.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Machinery and nanobots have nearly entirely eaten away at the form of this Queen Bee. One wonders if it would simply be more efficient to create one from the ground up.")
             });
         }
 

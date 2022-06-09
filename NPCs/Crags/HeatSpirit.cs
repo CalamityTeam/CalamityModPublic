@@ -15,6 +15,13 @@ namespace CalamityMod.NPCs.Crags
         {
             DisplayName.SetDefault("Heat Spirit");
             Main.npcFrameCount[NPC.type] = 4;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = -1,
+                PortraitPositionYOverride = -16f
+            };
+            value.Position.X += 8f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -41,8 +48,8 @@ namespace CalamityMod.NPCs.Crags
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Crags,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A human spirit, its mind lost to the blazing orange fires of its dwelling. It seeks out and attempts to eliminate any source of moisture it can detect entering the hellscape.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A human spirit, its mind lost to the blazing orange fires of its dwelling. It seeks out and attempts to eliminate any source of moisture it can detect entering the hellscape.")
             });
         }
 
@@ -53,23 +60,26 @@ namespace CalamityMod.NPCs.Crags
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.velocity.X < 0f)
+            if (!NPC.IsABestiaryIconDummy)
             {
-                NPC.direction = -1;
+                if (NPC.velocity.X < 0f)
+                {
+                    NPC.direction = -1;
+                }
+                else
+                {
+                    NPC.direction = 1;
+                }
+                if (NPC.direction == 1)
+                {
+                    NPC.spriteDirection = 1;
+                }
+                if (NPC.direction == -1)
+                {
+                    NPC.spriteDirection = -1;
+                }
+                NPC.rotation = (float)Math.Atan2((double)(NPC.velocity.Y * (float)NPC.direction), (double)(NPC.velocity.X * (float)NPC.direction));
             }
-            else
-            {
-                NPC.direction = 1;
-            }
-            if (NPC.direction == 1)
-            {
-                NPC.spriteDirection = 1;
-            }
-            if (NPC.direction == -1)
-            {
-                NPC.spriteDirection = -1;
-            }
-            NPC.rotation = (float)Math.Atan2((double)(NPC.velocity.Y * (float)NPC.direction), (double)(NPC.velocity.X * (float)NPC.direction));
             NPC.frameCounter += 0.15f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
