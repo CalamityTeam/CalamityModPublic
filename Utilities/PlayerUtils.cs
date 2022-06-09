@@ -333,15 +333,33 @@ namespace CalamityMod
         /// <returns>Adrenaline damage multiplier. 1.0 would be no change.</returns>
         public static float GetAdrenalineDamage(this CalamityPlayer mp)
         {
-            float adrenalineBoost = CalamityPlayer.AdrenalineDamageBoost;
+            float adrenalineBoost = BalancingConstants.AdrenalineDamageBoost;
             if (mp.adrenalineBoostOne)
-                adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+                adrenalineBoost += BalancingConstants.AdrenalineDamagePerBooster;
             if (mp.adrenalineBoostTwo)
-                adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+                adrenalineBoost += BalancingConstants.AdrenalineDamagePerBooster;
             if (mp.adrenalineBoostThree)
-                adrenalineBoost += CalamityPlayer.AdrenalineDamagePerBooster;
+                adrenalineBoost += BalancingConstants.AdrenalineDamagePerBooster;
 
             return adrenalineBoost;
+        }
+
+        /// <summary>
+        /// Returns the damage reduction that holding full Adrenaline provides for the given player.
+        /// </summary>
+        /// <param name="mp">The player whose Adrenaline DR should be calculated.</param>
+        /// <returns>Adrenaline DR. 0f is no DR.</returns>
+        public static float GetAdrenalineDR(this CalamityPlayer mp)
+        {
+            float dr = BalancingConstants.FullAdrenalineDR;
+            if (mp.adrenalineBoostOne)
+                dr += BalancingConstants.AdrenalineDRPerBooster;
+            if (mp.adrenalineBoostTwo)
+                dr += BalancingConstants.AdrenalineDRPerBooster;
+            if (mp.adrenalineBoostThree)
+                dr += BalancingConstants.AdrenalineDRPerBooster;
+
+            return dr;
         }
 
         /// <summary>

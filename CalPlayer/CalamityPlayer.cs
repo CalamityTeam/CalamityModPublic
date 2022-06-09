@@ -109,6 +109,7 @@ namespace CalamityMod.CalPlayer
         public bool finalTierAccessoryReforge = false;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
         public bool disablePerfCystSpawns = false;
         public bool disableHiveCystSpawns = false;
@@ -340,16 +341,10 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
-        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
-        public int RageDuration = DefaultRageDuration;
+        public int RageDuration = BalancingConstants.DefaultRageDuration;
         public int rageGainCooldown = 0;
-        public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
         public int rageCombatFrames = 0;
-        public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly float DefaultRageDamageBoost = 0.35f; // +35%
-        public float RageDamageBoost = DefaultRageDamageBoost;
+        public float RageDamageBoost = BalancingConstants.DefaultRageDamageBoost;
         #endregion
 
         #region Adrenaline
@@ -360,8 +355,6 @@ namespace CalamityMod.CalPlayer
         public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
         public int AdrenalineChargeTime = CalamityUtils.SecondsToFrames(30);
         public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
-        public static readonly float AdrenalineDamageBoost = 2f; // +200%
-        public static readonly float AdrenalineDamagePerBooster = 0.15f; // +15%
         #endregion
 
         #region Defense Damage
@@ -2121,8 +2114,8 @@ namespace CalamityMod.CalPlayer
 
             rageModeActive = false;
             adrenalineModeActive = false;
-            RageDuration = DefaultRageDuration;
-            RageDamageBoost = DefaultRageDamageBoost;
+            RageDuration = BalancingConstants.DefaultRageDuration;
+            RageDamageBoost = BalancingConstants.DefaultRageDamageBoost;
 
             cursedSummonsEnchant = false;
             flamingItemEnchant = false;
@@ -5080,20 +5073,13 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            // Full Adrenaline DR does not apply when using Draedon's Heart
-            // Instead, nanomachine accumulation is stopped for a while
+            // Apply Adrenaline DR if available
             if (AdrenalineEnabled)
             {
-                if (draedonsHeart)
-                    nanomachinesLockoutTimer = DraedonsHeart.NanomachinePauseAfterDamage;
-                else if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                {
-                    double adrenalineDRBoost = 0D +
-                        (adrenalineBoostOne ? 0.05 : 0D) +
-                        (adrenalineBoostTwo ? 0.05 : 0D) +
-                        (adrenalineBoostThree ? 0.05 : 0D);
-                    contactDamageReduction += 0.5 + adrenalineDRBoost;
-                }
+                bool fullAdrenWithoutDH = !draedonsHeart && (adrenaline == adrenalineMax) && !adrenalineModeActive;
+                bool usingNanomachinesWithDH = draedonsHeart && adrenalineModeActive;
+                if (fullAdrenWithoutDH || usingNanomachinesWithDH)
+                    contactDamageReduction += this.GetAdrenalineDR();
             }
 
             if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
@@ -5355,17 +5341,13 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            // Full Adrenaline DR does not apply when using Draedon's Heart
-            if (AdrenalineEnabled && !draedonsHeart)
+            // Apply Adrenaline DR if available
+            if (AdrenalineEnabled)
             {
-                if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                {
-                    double adrenalineDRBoost = 0D +
-                        (adrenalineBoostOne ? 0.05 : 0D) +
-                        (adrenalineBoostTwo ? 0.05 : 0D) +
-                        (adrenalineBoostThree ? 0.05 : 0D);
-                    projectileDamageReduction += 0.5 + adrenalineDRBoost;
-                }
+                bool fullAdrenWithoutDH = !draedonsHeart && (adrenaline == adrenalineMax) && !adrenalineModeActive;
+                bool usingNanomachinesWithDH = draedonsHeart && adrenalineModeActive;
+                if (fullAdrenWithoutDH || usingNanomachinesWithDH)
+                    projectileDamageReduction += this.GetAdrenalineDR();
             }
 
             if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
@@ -6044,7 +6026,7 @@ namespace CalamityMod.CalPlayer
                     rageConversionRatio *= 3f / (3f + rage / rageMax);
 
                 rage += rageMax * HPRatio * rageConversionRatio;
-                rageGainCooldown = DefaultRageGainCooldown;
+                rageGainCooldown = BalancingConstants.DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
             }
 
@@ -6063,7 +6045,7 @@ namespace CalamityMod.CalPlayer
 
             // Give Rage combat frames because being hurt counts as combat.
             if (RageEnabled)
-                rageCombatFrames = RageCombatDelayTime;
+                rageCombatFrames = BalancingConstants.RageCombatDelayTime;
 
             if (Player.whoAmI == Main.myPlayer)
             {
@@ -6115,14 +6097,20 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Lose adrenaline on hit, unless using Draedon's Heart.
-                if (AdrenalineEnabled && !draedonsHeart)
+                if (AdrenalineEnabled)
                 {
-                    if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
+                    // Being hit for zero from Paladin's Shield damage share does not cancel Adrenaline.
+                    // Adrenaline is not lost when hit if using Draedon's Heart.
+                    if (!draedonsHeart && !adrenalineModeActive && damage > 0)
                     {
                         adrenaline -= stressPills ? adrenalineMax / 2 : adrenalineMax;
                         if (adrenaline < 0)
                             adrenaline = 0;
                     }
+
+                    // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
+                    if (draedonsHeart && !adrenalineModeActive)
+                        nanomachinesLockoutTimer = DraedonsHeart.NanomachinePauseAfterDamage;
                 }
 
                 if (evilSmasherBoost > 0)
@@ -6355,7 +6343,6 @@ namespace CalamityMod.CalPlayer
             // Handle hit effects from the gem tech armor set.
             Player.Calamity().GemTechState.PlayerOnHitEffects((int)damage);
 
-            bool hardMode = Main.hardMode;
             if (Player.whoAmI == Main.myPlayer)
             {
                 int iFramesToAdd = 0;
