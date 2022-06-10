@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -99,7 +98,11 @@ namespace CalamityMod.NPCs.Abyss
                 if (Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active)
                     adultWyrmAlive = true;
             }
-            if (NPC.justHit || detectsPlayer || Main.player[NPC.target].chaosState || adultWyrmAlive)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
+            {
+                NPC.TargetClosest(true);
+            }
+            if (NPC.justHit || detectsPlayer || Main.player[NPC.target].chaosState || adultWyrmAlive || (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f))
             {
                 detectsPlayer = true;
                 NPC.damage = Main.expertMode ? 340 : 170;
@@ -127,10 +130,6 @@ namespace CalamityMod.NPCs.Abyss
             if (NPC.ai[2] > 0f)
             {
                 NPC.realLife = (int)NPC.ai[2];
-            }
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
-            {
-                NPC.TargetClosest(true);
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

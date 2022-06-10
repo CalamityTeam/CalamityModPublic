@@ -77,12 +77,17 @@ namespace CalamityMod.CalPlayer
             if (fearmongerRegenFrames > 0)
                 fearmongerRegenFrames--;
 
-            // Reduce the expert debuff time multiplier to the normal mode multiplier
+            // Reduce the expert+ debuff time multiplier to the normal mode multiplier
+            // TODO -- This should be a ModSystem, why is this in CalamityPlayer
             if (CalamityConfig.Instance.NerfExpertDebuffs)
             {
                 var copy = Main.RegisteredGameModes[GameModeID.Expert];
                 copy.DebuffTimeMultiplier = 1f;
                 Main.RegisteredGameModes[GameModeID.Expert] = copy;
+
+                copy = Main.RegisteredGameModes[GameModeID.Master];
+                copy.DebuffTimeMultiplier = 1f;
+                Main.RegisteredGameModes[GameModeID.Master] = copy;
             }
 
             // Go through the old positions for the player.
@@ -184,6 +189,13 @@ namespace CalamityMod.CalPlayer
                 heldGaelsLastFrame = false;
                 rage = 0f;
             }
+
+            // De-equipping Draedon's Heart deletes all Adrenaline.
+            if (!draedonsHeart && hadNanomachinesLastFrame)
+            {
+                hadNanomachinesLastFrame = false;
+                adrenaline = 0f;
+            }
         }
         #endregion
 
@@ -232,11 +244,11 @@ namespace CalamityMod.CalPlayer
             #region Rage
             // Figure out Rage's current duration based on boosts.
             if (rageBoostOne)
-                RageDuration += RageDurationPerBooster;
+                RageDuration += BalancingConstants.RageDurationPerBooster;
             if (rageBoostTwo)
-                RageDuration += RageDurationPerBooster;
+                RageDuration += BalancingConstants.RageDurationPerBooster;
             if (rageBoostThree)
-                RageDuration += RageDurationPerBooster;
+                RageDuration += BalancingConstants.RageDurationPerBooster;
 
             // Tick down "Rage Combat Frames". When they reach zero, Rage begins fading away.
             if (rageCombatFrames > 0)
@@ -353,7 +365,7 @@ namespace CalamityMod.CalPlayer
 
             // If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
             else if (!rageModeActive && rageFading)
-                rageDiff -= rageMax / RageFadeTime;
+                rageDiff -= rageMax / BalancingConstants.RageFadeTime;
 
             // Apply the rage change and cap rage in both directions.
             // Changes are only applied if the Rage mechanic is available.
@@ -745,7 +757,7 @@ namespace CalamityMod.CalPlayer
             {
                 Player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
             }
-            if (CalamityConfig.Instance.ReworkChilledWater)
+            if (CalamityConfig.Instance.ChilledWaterRework)
             {
                 if (Main.expertMode && Player.ZoneSnow && Player.wet && !Player.lavaWet && !Player.honeyWet)
                 {

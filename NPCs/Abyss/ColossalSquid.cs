@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -16,7 +15,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.Abyss
 {
@@ -337,18 +335,19 @@ namespace CalamityMod.NPCs.Abyss
                         }
                     }
                 }
+
                 NPC.TargetClosest(false);
+
                 if ((Main.player[NPC.target].wet && !Main.player[NPC.target].dead &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) &&
-                    //(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-                    //Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 300f) *
-                    //(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f)) ||
-                    (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(300f, 150f)) ||
+                    (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(240f)) ||
                     NPC.justHit)
                 {
                     hasBeenHit = true;
                 }
+
                 NPC.chaseable = hasBeenHit;
+
                 if (hasBeenHit)
                 {
                     if (Main.rand.NextBool(300))

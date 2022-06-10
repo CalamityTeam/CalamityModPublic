@@ -6,7 +6,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
-using System.Linq;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor

@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.knockBack = 5f;
             Item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             Item.rare = 10;
+            Item.UseSound = SoundID.Item71;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<ViridVanguardBlade>();
             Item.Calamity().customRarity = CalamityRarity.Turquoise;

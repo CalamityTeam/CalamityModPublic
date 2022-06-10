@@ -627,6 +627,30 @@ namespace CalamityMod.NPCs.DevourerofGods
                             {
                                 NPC.Opacity = 1f;
                                 laserWallPhase = (int)LaserWallPhase.SetUp;
+
+                                // Enter final phase
+                                if (!spawnedGuardians3 && phase6)
+                                {
+                                    // Reset laser wall timers to 0
+                                    calamityGlobalNPC.newAI[1] = 0f;
+                                    calamityGlobalNPC.newAI[3] = 0f;
+
+                                    // Anger message
+                                    string key = "Mods.CalamityMod.EdgyBossText11";
+                                    Color messageColor = Color.Cyan;
+                                    CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                                    // Summon Cosmic Guardians
+                                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                                    {
+                                        SoundEngine.PlaySound(AttackSound, player.position);
+
+                                        for (int i = 0; i < 3; i++)
+                                            NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
+                                    }
+
+                                    spawnedGuardians3 = true;
+                                }
                             }
                         }
                     }
@@ -643,34 +667,6 @@ namespace CalamityMod.NPCs.DevourerofGods
                             NPC.Opacity += 0.024f;
                             if (NPC.Opacity > 1f)
                                 NPC.Opacity = 1f;
-                        }
-
-                        // Reset laser wall phase
-                        if (laserWallPhase > (int)LaserWallPhase.SetUp)
-                            laserWallPhase = (int)LaserWallPhase.SetUp;
-
-                        // Enter final phase
-                        if (!spawnedGuardians3 && phase6)
-                        {
-                            // Reset laser wall timers to 0
-                            calamityGlobalNPC.newAI[1] = 0f;
-                            calamityGlobalNPC.newAI[3] = 0f;
-
-                            // Anger message
-                            string key = "Mods.CalamityMod.EdgyBossText11";
-                            Color messageColor = Color.Cyan;
-                            CalamityUtils.DisplayLocalizedText(key, messageColor);
-
-                            // Summon Cosmic Guardians
-                            if (Main.netMode != NetmodeID.MultiplayerClient)
-                            {
-                                SoundEngine.PlaySound(AttackSound, player.position);
-
-                                for (int i = 0; i < 3; i++)
-                                    NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
-                            }
-
-                            spawnedGuardians3 = true;
                         }
                     }
 

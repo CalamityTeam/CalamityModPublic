@@ -1,9 +1,5 @@
-﻿using CalamityMod.Backgrounds;
-using CalamityMod.Systems;
-using CalamityMod.Waters;
-using CalamityMod.World;
+﻿using CalamityMod.Systems;
 using Terraria;
-using Terraria.Graphics.Capture;
 using Terraria.ID;
 using Terraria.ModLoader;
 

@@ -57,7 +57,6 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Audio;
 using CalamityMod.BiomeManagers;
-using CalamityMod.CalPlayer.DrawLayers;
 using Terraria.Chat;
 using CalamityMod.EntitySources;
 using CalamityMod.CalPlayer.Dashes;
@@ -109,6 +108,7 @@ namespace CalamityMod.CalPlayer
         public bool finalTierAccessoryReforge = false;
         public float rangedAmmoCost = 1f;
         public bool heldGaelsLastFrame = false;
+        internal bool hadNanomachinesLastFrame = false;
         public bool disableVoodooSpawns = false;
         public bool disablePerfCystSpawns = false;
         public bool disableHiveCystSpawns = false;
@@ -340,16 +340,10 @@ namespace CalamityMod.CalPlayer
         public bool rageModeActive = false;
         public float rage = 0f;
         public float rageMax = 100f; // 0 to 100% by default
-        public static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
-        public static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
-        public int RageDuration = DefaultRageDuration;
+        public int RageDuration = BalancingConstants.DefaultRageDuration;
         public int rageGainCooldown = 0;
-        public static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
         public int rageCombatFrames = 0;
-        public static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
-        public static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
-        public static readonly float DefaultRageDamageBoost = 0.35f; // +35%
-        public float RageDamageBoost = DefaultRageDamageBoost;
+        public float RageDamageBoost = BalancingConstants.DefaultRageDamageBoost;
         #endregion
 
         #region Adrenaline
@@ -360,8 +354,6 @@ namespace CalamityMod.CalPlayer
         public int AdrenalineDuration = CalamityUtils.SecondsToFrames(5);
         public int AdrenalineChargeTime = CalamityUtils.SecondsToFrames(30);
         public int AdrenalineFadeTime = CalamityUtils.SecondsToFrames(2);
-        public static readonly float AdrenalineDamageBoost = 2f; // +200%
-        public static readonly float AdrenalineDamagePerBooster = 0.15f; // +15%
         #endregion
 
         #region Defense Damage
@@ -821,7 +813,7 @@ namespace CalamityMod.CalPlayer
         public bool omniscience = false;
         public bool zerg = false;
         public bool zen = false;
-        public bool bossZen = false;
+        public bool isNearbyBoss = false;
         public bool yPower = false;
         public bool aWeapon = false;
         public bool tScale = false;
@@ -1452,16 +1444,19 @@ namespace CalamityMod.CalPlayer
                 (dFruit ? 25 : 0);
             if (fleshKnuckles)
                 Player.statLifeMax2 += 45;
+
+            int percentMaxLifeIncrease = 0;
             if (ZoneAbyss && abyssalAmulet)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
+                percentMaxLifeIncrease += lumenousAmulet ? 25 : 10;
             if (coreOfTheBloodGod)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 15;
+                percentMaxLifeIncrease += 15;
             if (bloodPact)
-                Player.statLifeMax2 += Player.statLifeMax2 / 5 / 20 * 100;
+                percentMaxLifeIncrease += 100;
             if (affliction || afflicted)
-                Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * 10;
+                percentMaxLifeIncrease += 10;
             if (cadence)
-                Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * 25;
+                percentMaxLifeIncrease += 25;
+
             if (community)
             {
                 float floatTypeBoost = 0.05f +
@@ -1481,11 +1476,14 @@ namespace CalamityMod.CalPlayer
                     (DownedBossSystem.downedDoG ? 0.01f : 0f) +
                     (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
-                Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * integerTypeBoost;
+                percentMaxLifeIncrease += integerTypeBoost;
             }
+
             // Shattered Community gives the same max health boost as normal full-power Community (10%)
             if (shatteredCommunity)
-                Player.statLifeMax2 += (Player.statLifeMax / 5 / 10) * 5;
+                percentMaxLifeIncrease += 10;
+
+            Player.statLifeMax2 += Player.statLifeMax / 5 / 20 * percentMaxLifeIncrease;
 
             // Max health reductions
             if (crimEffigy)
@@ -1906,7 +1904,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
-            bossZen = false;
+            isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -2115,8 +2113,8 @@ namespace CalamityMod.CalPlayer
 
             rageModeActive = false;
             adrenalineModeActive = false;
-            RageDuration = DefaultRageDuration;
-            RageDamageBoost = DefaultRageDamageBoost;
+            RageDuration = BalancingConstants.DefaultRageDuration;
+            RageDamageBoost = BalancingConstants.DefaultRageDamageBoost;
 
             cursedSummonsEnchant = false;
             flamingItemEnchant = false;
@@ -2145,7 +2143,7 @@ namespace CalamityMod.CalPlayer
         #region Screen Position Movements
         public override void ModifyScreenPosition()
         {
-            if (CalamityConfig.Instance.DisableScreenShakes)
+            if (!CalamityConfig.Instance.Screenshake)
                 return;
 
             if (GeneralScreenShakePower > 0f)
@@ -2327,7 +2325,7 @@ namespace CalamityMod.CalPlayer
             omniscience = false;
             zerg = false;
             zen = false;
-            bossZen = false;
+            isNearbyBoss = false;
             permafrostsConcoction = false;
             armorCrumbling = false;
             armorShattering = false;
@@ -3437,15 +3435,7 @@ namespace CalamityMod.CalPlayer
                     Player.buffImmune[BuffID.WindPushed] = true;
             }
 
-            if (CalamityConfig.Instance.BossHealthBar)
-            {
-                drawBossHPBar = true;
-            }
-            else
-            {
-                drawBossHPBar = false;
-            }
-
+            // TODO -- why is boss health bar code in Player.UpdateEquips and not a ModSystem
             CalamityConfig.Instance.BossHealthBarExtraInfo = shouldDrawSmallText;
 
             // Increase tile placement speed to speed up early game a bit and make building more fun
@@ -5082,20 +5072,13 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            // Full Adrenaline DR does not apply when using Draedon's Heart
-            // Instead, nanomachine accumulation is stopped for a while
+            // Apply Adrenaline DR if available
             if (AdrenalineEnabled)
             {
-                if (draedonsHeart)
-                    nanomachinesLockoutTimer = DraedonsHeart.NanomachinePauseAfterDamage;
-                else if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                {
-                    double adrenalineDRBoost = 0D +
-                        (adrenalineBoostOne ? 0.05 : 0D) +
-                        (adrenalineBoostTwo ? 0.05 : 0D) +
-                        (adrenalineBoostThree ? 0.05 : 0D);
-                    contactDamageReduction += 0.5 + adrenalineDRBoost;
-                }
+                bool fullAdrenWithoutDH = !draedonsHeart && (adrenaline == adrenalineMax) && !adrenalineModeActive;
+                bool usingNanomachinesWithDH = draedonsHeart && adrenalineModeActive;
+                if (fullAdrenWithoutDH || usingNanomachinesWithDH)
+                    contactDamageReduction += this.GetAdrenalineDR();
             }
 
             if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
@@ -5267,6 +5250,33 @@ namespace CalamityMod.CalPlayer
                     damage = bossRushDamage;
             }
 
+            // Reduce damage dealt by rainbow trails depending on how faded they are.
+            if (proj.type == ProjectileID.HallowBossLastingRainbow)
+            {
+                // Find the oldPos of the projectile that is intersecting the player hitbox.
+                Rectangle hitbox = proj.Hitbox;
+                int trailLength = 80;
+                int startOfDamageFalloff = 20;
+                for (int k = 0; k < trailLength; k += 2)
+                {
+                    Vector2 trailHitbox = proj.oldPos[k];
+                    if (!(trailHitbox == Vector2.Zero))
+                    {
+                        hitbox.X = (int)trailHitbox.X;
+                        hitbox.Y = (int)trailHitbox.Y;
+
+                        // Adjust damage based on what part of the trail intersected the player hitbox.
+                        if (hitbox.Intersects(Player.Hitbox))
+                        {
+                            if (k > startOfDamageFalloff)
+                                damage = (int)(damage * MathHelper.Lerp(0.4f, 1f, 1f - (k - startOfDamageFalloff) / (float)(trailLength - startOfDamageFalloff)));
+
+                            break;
+                        }
+                    }
+                }
+            }
+
             // Check if the player has iframes for the sake of avoiding defense damage.
             bool hasIFrames = false;
             for (int i = 0; i < Player.hurtCooldowns.Length; i++)
@@ -5330,17 +5340,13 @@ namespace CalamityMod.CalPlayer
                 theBeeCooldown = 600;
             }
 
-            // Full Adrenaline DR does not apply when using Draedon's Heart
-            if (AdrenalineEnabled && !draedonsHeart)
+            // Apply Adrenaline DR if available
+            if (AdrenalineEnabled)
             {
-                if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                {
-                    double adrenalineDRBoost = 0D +
-                        (adrenalineBoostOne ? 0.05 : 0D) +
-                        (adrenalineBoostTwo ? 0.05 : 0D) +
-                        (adrenalineBoostThree ? 0.05 : 0D);
-                    projectileDamageReduction += 0.5 + adrenalineDRBoost;
-                }
+                bool fullAdrenWithoutDH = !draedonsHeart && (adrenaline == adrenalineMax) && !adrenalineModeActive;
+                bool usingNanomachinesWithDH = draedonsHeart && adrenalineModeActive;
+                if (fullAdrenWithoutDH || usingNanomachinesWithDH)
+                    projectileDamageReduction += this.GetAdrenalineDR();
             }
 
             if (Player.mount.Active && (Player.mount.Type == ModContent.MountType<RimehoundMount>() || Player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(Player.velocity.X) > Player.mount.RunSpeed / 2f)
@@ -5852,10 +5858,10 @@ namespace CalamityMod.CalPlayer
             if (totalMoonlightDyes > 0)
             {
                 // Initialize the aurora drawer.
-                int size = 455;
+                int size = 425;
                 FluidFieldManager.AdjustSizeRelativeToGraphicsQuality(ref size);
 
-                float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size;
+                float scale = MathHelper.Max(Main.screenWidth, Main.screenHeight) / size * 0.4f;
                 if (ProfanedMoonlightAuroraDrawer is null || ProfanedMoonlightAuroraDrawer.Size != size)
                     ProfanedMoonlightAuroraDrawer = FluidFieldManager.CreateField(size, scale, 0.1f, 50f, 0.992f);
 
@@ -5873,7 +5879,7 @@ namespace CalamityMod.CalPlayer
 
                         Vector2 auroraVelocity = (offsetAngle / 3f + Main.GlobalTimeWrappedHourly * 0.32f).ToRotationVector2();
                         auroraVelocity.Y = -Math.Abs(auroraVelocity.Y);
-                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.03f;
+                        auroraVelocity = (auroraVelocity * new Vector2(0.15f, 1f) - Vector2.UnitX * Player.velocity.X / 9f).SafeNormalize(Vector2.UnitY) * 0.07f;
 
                         Vector2 drawPosition = Main.LocalPlayer.Center - Main.screenPosition;
                         Vector2 auroraSpawnPosition = drawPosition - Vector2.UnitY * 15f;
@@ -6034,7 +6040,7 @@ namespace CalamityMod.CalPlayer
                     rageConversionRatio *= 3f / (3f + rage / rageMax);
 
                 rage += rageMax * HPRatio * rageConversionRatio;
-                rageGainCooldown = DefaultRageGainCooldown;
+                rageGainCooldown = BalancingConstants.DefaultRageGainCooldown;
                 // Rage capping is handled in MiscEffects
             }
 
@@ -6053,7 +6059,7 @@ namespace CalamityMod.CalPlayer
 
             // Give Rage combat frames because being hurt counts as combat.
             if (RageEnabled)
-                rageCombatFrames = RageCombatDelayTime;
+                rageCombatFrames = BalancingConstants.RageCombatDelayTime;
 
             if (Player.whoAmI == Main.myPlayer)
             {
@@ -6105,14 +6111,20 @@ namespace CalamityMod.CalPlayer
                 }
 
                 // Lose adrenaline on hit, unless using Draedon's Heart.
-                if (AdrenalineEnabled && !draedonsHeart)
+                if (AdrenalineEnabled)
                 {
-                    if (!adrenalineModeActive && damage > 0) // To prevent paladin's shield ruining adren even with 0 dmg taken
+                    // Being hit for zero from Paladin's Shield damage share does not cancel Adrenaline.
+                    // Adrenaline is not lost when hit if using Draedon's Heart.
+                    if (!draedonsHeart && !adrenalineModeActive && damage > 0)
                     {
                         adrenaline -= stressPills ? adrenalineMax / 2 : adrenalineMax;
                         if (adrenaline < 0)
                             adrenaline = 0;
                     }
+
+                    // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
+                    if (draedonsHeart && !adrenalineModeActive)
+                        nanomachinesLockoutTimer = DraedonsHeart.NanomachinePauseAfterDamage;
                 }
 
                 if (evilSmasherBoost > 0)
@@ -6345,7 +6357,6 @@ namespace CalamityMod.CalPlayer
             // Handle hit effects from the gem tech armor set.
             Player.Calamity().GemTechState.PlayerOnHitEffects((int)damage);
 
-            bool hardMode = Main.hardMode;
             if (Player.whoAmI == Main.myPlayer)
             {
                 int iFramesToAdd = 0;
@@ -6397,7 +6408,7 @@ namespace CalamityMod.CalPlayer
                 else
                     Player.GiveIFrames(Player.immuneTime + iFramesToAdd, true);
 
-                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
+                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushIFrameCurse)
                     bossRushImmunityFrameCurseTimer = 180 + Player.immuneTime;
 
                 if (aeroSet && damage > 25)
@@ -8140,18 +8151,13 @@ namespace CalamityMod.CalPlayer
         /// <summary>
         /// Returns the range at which an abyss enemy can detect the player
         /// </summary>
-        /// <param name="defaultRange">The default detection range</param>
-        /// <param name="anechoicRange">The detection range set by the player having anechoic plating/coating</param>
+        /// <param name="range">The default detection range</param>
         /// <returns></returns>
-        public float GetAbyssAggro(float defaultRange, float anechoicRange)
+        public float GetAbyssAggro(float range)
         {
-            /* ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-                    Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 200f : 600f) *
-                    (Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) *
-                    (Main.player[npc.target].GetCalamityPlayer().abyssalMirror ? 0.7f : 1f) *
-                    (Main.player[npc.target].GetCalamityPlayer().eclipseMirror ? 0.3f : 1f) */
-            float range = anechoicPlating || anechoicCoating ? anechoicRange : defaultRange;
             range *= fishAlert ? 3f : 1f;
+            range *= anechoicCoating ? 0.5f : 1f;
+            range *= anechoicPlating ? 0.5f : 1f;
             range *= abyssalMirror ? 0.65f : 1f;
             range *= eclipseMirror ? 0.3f : 1f;
             range *= reaverExplore ? 0.9f : 1f;

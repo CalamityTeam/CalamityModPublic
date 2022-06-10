@@ -1,6 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;

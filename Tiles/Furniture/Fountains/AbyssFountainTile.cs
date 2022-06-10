@@ -1,7 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Furniture.Fountains;
 using Microsoft.Xna.Framework;
-using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.ObjectInteractions;

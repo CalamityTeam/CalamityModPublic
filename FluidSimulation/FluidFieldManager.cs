@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -15,7 +16,7 @@ namespace CalamityMod.FluidSimulation
             return field;
         }
 
-        public static void AdjustSizeRelativeToGraphicsQuality(ref int size, int min = 325, int max = 725)
+        public static void AdjustSizeRelativeToGraphicsQuality(ref int size, int min = 245, int max = 530)
         {
             float graphicsQuality = MathHelper.Clamp(Main.gfxQuality, 0f, 1f);
 
@@ -23,6 +24,7 @@ namespace CalamityMod.FluidSimulation
             // require the creation of a new field altogether.
             if (Main.qaStyle == 0)
                 graphicsQuality = 0.5f;
+            graphicsQuality = (float)Math.Pow(graphicsQuality, 2.3);
 
             int lowerBound = (int)MathHelper.Lerp(size, min, 1f - graphicsQuality);
             int upperBound = (int)MathHelper.Lerp(size, max, graphicsQuality);

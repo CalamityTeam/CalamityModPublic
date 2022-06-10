@@ -27,7 +27,6 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.NPCs.ExoMechs.Apollo;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Sounds;
 

@@ -22,7 +22,6 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Sounds;
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -1345,6 +1344,49 @@ namespace CalamityMod.Projectiles
                     return false;
                 }
 
+                else if (projectile.type == ProjectileID.HallowBossRainbowStreak && projectile.hostile)
+                {
+                    bool spreadOut = false;
+                    bool homeIn = false;
+                    float spreadOutCutoffTime = 140f;
+                    float homeInCutoffTime = 80f;
+                    float spreadDeceleration = 0.98f;
+                    float minAcceleration = 0.05f;
+                    float maxAcceleration = 0.1f;
+                    float homingVelocity = 30f;
+
+                    if (projectile.timeLeft > spreadOutCutoffTime)
+                        spreadOut = true;
+                    else if (projectile.timeLeft > homeInCutoffTime)
+                        homeIn = true;
+
+                    if (spreadOut)
+                    {
+                        float spreadVelocity = (float)Math.Cos(projectile.whoAmI % 6f / 6f + projectile.position.X / 320f + projectile.position.Y / 160f);
+                        projectile.velocity *= spreadDeceleration;
+                        projectile.velocity = projectile.velocity.RotatedBy(spreadVelocity * ((float)Math.PI * 2f) * 0.125f * 1f / 30f);
+                    }
+
+                    if (homeIn)
+                    {
+                        int playerIndex = (int)projectile.ai[0];
+                        Vector2 velocity = projectile.velocity;
+                        if (Main.player.IndexInRange(playerIndex))
+                        {
+                            Player player = Main.player[playerIndex];
+                            velocity = projectile.DirectionTo(player.Center) * homingVelocity;
+                        }
+
+                        float amount = MathHelper.Lerp(minAcceleration, maxAcceleration, Utils.GetLerpValue(spreadOutCutoffTime, 30f, projectile.timeLeft, clamped: true));
+                        projectile.velocity = Vector2.SmoothStep(projectile.velocity, velocity, amount);
+                    }
+
+                    projectile.Opacity = Utils.GetLerpValue(240f, 220f, projectile.timeLeft, clamped: true);
+                    projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2f;
+
+                    return false;
+                }
+
                 // Phase 1 sharknado
                 else if (projectile.type == ProjectileID.SharknadoBolt)
                 {
@@ -2135,6 +2177,13 @@ namespace CalamityMod.Projectiles
             }
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.DamageType = DamageClass.Magic;
+
+            // Accelerate for 1.5 seconds to full velocity
+            if (projectile.type == ProjectileID.HallowBossLastingRainbow && (CalamityWorld.revenge || BossRushEvent.BossRushActive))
+            {
+                if (projectile.timeLeft > 570)
+                    projectile.velocity *= 1.015525f;
+            }
 
             if (projectile.type == ProjectileID.OrnamentFriendly && lineColor == 1) //spawned by Festive Wings
             {

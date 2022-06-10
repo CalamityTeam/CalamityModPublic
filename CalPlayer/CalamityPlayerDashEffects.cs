@@ -1,20 +1,10 @@
 ﻿using CalamityMod.Balancing;
-using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer.Dashes;
-using CalamityMod.Cooldowns;
-using CalamityMod.Dusts;
 using CalamityMod.Enums;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Mounts;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.Audio;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer

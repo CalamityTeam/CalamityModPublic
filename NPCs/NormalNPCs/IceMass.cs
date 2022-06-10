@@ -14,7 +14,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Aurora Spirit");
             Main.npcFrameCount[NPC.type] = 5;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = -1,
+                PortraitPositionYOverride = -20f
+            };
+            value.Position.X += 4f;
+            value.Position.Y -= 4f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -41,8 +48,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The souls of those who passed on in the heart of a blizzard. They now seek out others to freeze to death, to die as they did.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The souls of those who passed on in the heart of a blizzard. They now seek out others to freeze to death, to die as they did.")
             });
         }
 
@@ -55,15 +62,20 @@ namespace CalamityMod.NPCs.NormalNPCs
                     return;
                 num1 = TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type];
             }
-            if (NPC.velocity.X < 0f)
-                NPC.direction = -1;
-            else
-                NPC.direction = 1;
-            if (NPC.direction == 1)
-                NPC.spriteDirection = 1;
-            if (NPC.direction == -1)
-                NPC.spriteDirection = -1;
-            NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y * (double)NPC.direction, (double)NPC.velocity.X * (double)NPC.direction);
+
+            if (!NPC.IsABestiaryIconDummy)
+            {
+                if (NPC.velocity.X < 0f)
+                    NPC.direction = -1;
+                else
+                    NPC.direction = 1;
+                if (NPC.direction == 1)
+                    NPC.spriteDirection = 1;
+                if (NPC.direction == -1)
+                    NPC.spriteDirection = -1;
+                NPC.rotation = (float)Math.Atan2((double)NPC.velocity.Y * (double)NPC.direction, (double)NPC.velocity.X * (double)NPC.direction);
+            }
+
             NPC.frameCounter++;
             if (NPC.frameCounter > 4)
             {

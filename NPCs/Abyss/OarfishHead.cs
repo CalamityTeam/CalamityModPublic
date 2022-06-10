@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -80,16 +79,16 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if ((Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(250f, 150f) || NPC.justHit)
+            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
+                NPC.TargetClosest(true);
+
+            if ((Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f) || NPC.justHit)
                 detectsPlayer = true;
 
             NPC.chaseable = detectsPlayer;
 
             if (NPC.ai[2] > 0f)
                 NPC.realLife = (int)NPC.ai[2];
-
-            if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead)
-                NPC.TargetClosest(true);
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

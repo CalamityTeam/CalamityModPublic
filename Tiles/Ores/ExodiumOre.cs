@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithSet(Type, TileID.LunarOre);
 
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Exodium Ore");
+            name.SetDefault("Exodium");
             AddMapEntry(new Color(51, 48, 68), name);
             MineResist = 5f;
             MinPick = 225;

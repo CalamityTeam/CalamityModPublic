@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

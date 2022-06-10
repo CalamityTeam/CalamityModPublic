@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.UseSound = SlimeGodCore.PossessionSound;
             Item.shoot = ModContent.ProjectileType<SlimePuppet>();
             Item.shootSpeed = 10f;
+            Item.autoReuse = true;
             Item.DamageType = DamageClass.Summon;
         }
 

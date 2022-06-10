@@ -1,5 +1,4 @@
 ﻿using CalamityMod.UI.CalamitasEnchants;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;

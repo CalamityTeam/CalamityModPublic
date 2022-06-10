@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Polterghast
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
             NPC.damage = 0;
-            NPC.LifeMaxNERB(Main.expertMode ? 11250 : 8750, CalamityWorld.death ? 22500 : 18750, 15000);
+            NPC.LifeMaxNERB(Main.expertMode ? 22500 : 17500, CalamityWorld.death ? 45000 : 37500, 30000);
             NPC.HitSound = SoundID.NPCHit36;
             NPC.DeathSound = SoundID.NPCDeath39;
             NPC.Calamity().VulnerableToSickness = false;

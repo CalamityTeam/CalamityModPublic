@@ -2,7 +2,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.GameContent.Bestiary;

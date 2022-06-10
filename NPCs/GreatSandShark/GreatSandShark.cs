@@ -12,7 +12,6 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.GreatSandShark
 {
@@ -625,6 +624,9 @@ namespace CalamityMod.NPCs.GreatSandShark
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.AncientBattleArmorMaterial);
+
+            // Great Sand Shark drops the Desert Key
+            npcLoot.Add(ItemID.DungeonDesertKey, 3);
 
             // 1 Grand Scale guaranteed; on Expert, 33% chance of getting a second one
             npcLoot.Add(ModContent.ItemType<GrandScale>());

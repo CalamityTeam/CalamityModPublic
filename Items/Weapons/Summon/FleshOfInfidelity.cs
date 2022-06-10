@@ -1,11 +1,9 @@
 ﻿using Terraria.ModLoader;
 using Terraria.ID;
-using TerrariaAudio = Terraria.Audio;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Summon
 {

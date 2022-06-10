@@ -24,18 +24,28 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.timeLeft = 480;
+            Projectile.Opacity = 0f;
             CooldownSlot = 1;
         }
 
         public override void AI()
         {
+            Projectile.Opacity = MathHelper.Lerp(0f, 1f, Projectile.velocity.Length() / Projectile.ai[0]);
+
             if (Projectile.velocity.Length() < Projectile.ai[0])
+            {
                 Projectile.velocity *= Projectile.ai[1];
+                if (Projectile.velocity.Length() > Projectile.ai[0])
+                {
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= Projectile.ai[0];
+                }
+            }
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(200, 200, 200, Projectile.alpha);
+            return new Color((byte)(200 * Projectile.Opacity), (byte)(200 * Projectile.Opacity), (byte)(200 * Projectile.Opacity), Projectile.alpha);
         }
 
         public override bool CanHitPlayer(Player target) => Projectile.velocity.Length() >= Projectile.ai[0];

@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -30,15 +29,6 @@ namespace CalamityMod.NPCs.Abyss
         {
             DisplayName.SetDefault("Reaper Shark");
             Main.npcFrameCount[NPC.type] = 4;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
-            {
-                Scale = 0.3f,
-                PortraitPositionXOverride = -34f,
-                PortraitPositionYOverride = -10f,
-            };
-            value.Position.X -= 12f;
-            value.Position.Y -= 50f;
-            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -168,18 +158,17 @@ namespace CalamityMod.NPCs.Abyss
                     if (NPC.wet || NPC.noTileCollide)
                     {
                         bool flag14 = hasBeenHit;
+
                         NPC.TargetClosest(false);
+
                         if ((!Main.player[NPC.target].dead &&
                             Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) &&
-                            //(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-                            //Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 300f : 500f) *
-                            //(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
-                            (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(500f, 300f)) ||
+                            (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(360f)) ||
                             NPC.justHit)
-
                         {
                             hasBeenHit = true;
                         }
+
                         if (!flag14)
                         {
                             if (!Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
@@ -635,6 +624,16 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.3f,
+                PortraitPositionXOverride = 54f,
+                PortraitPositionYOverride = -10f,
+                SpriteDirection = 1
+            };
+            value.Position.X += 12f;
+            value.Position.Y -= 50f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             NPC.frameCounter += hasBeenHit || NPC.IsABestiaryIconDummy ? 0.15f : 0.075f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;

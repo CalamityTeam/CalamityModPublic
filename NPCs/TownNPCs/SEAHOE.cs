@@ -6,7 +6,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;

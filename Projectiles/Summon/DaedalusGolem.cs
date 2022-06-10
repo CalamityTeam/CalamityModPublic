@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;

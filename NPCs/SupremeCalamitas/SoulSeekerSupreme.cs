@@ -31,10 +31,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                Scale = 0.5f,
+                Scale = 0.6f,
                 PortraitPositionXOverride = -5f,
+                SpriteDirection = 1
             };
-            value.Position.Y += 10f;
+            value.Position.X += 12f;
+            value.Position.Y -= 4f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -65,8 +67,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //We'll probably want a custom background SCal her like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It’s likely each yearns for a soul of their own to be complete, whether it’s given by Calamitas or ripped from the foe they kill.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Incomplete, ghoulish skulls, their forms are limited but their devotion boundless. It’s likely each yearns for a soul of their own to be complete, whether it’s given by Calamitas or ripped from the foe they kill.")
             });
         }
 

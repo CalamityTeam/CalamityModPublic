@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.lifeMax = 110;
             NPC.aiStyle = -1;
             AIType = -1;
+            NPC.alpha = 150;
             NPC.value = Item.buyPrice(0, 0, 1, 0);
             NPC.HitSound = SoundID.NPCHit33;
             NPC.DeathSound = SoundID.NPCDeath28;
@@ -60,12 +61,12 @@ namespace CalamityMod.NPCs.Abyss
         public override void AI()
         {
             NPC.spriteDirection = (NPC.direction > 0) ? 1 : -1;
-            int num = 200;
+            int num = 150;
             if (NPC.ai[2] == 0f)
             {
                 NPC.alpha = num;
                 NPC.TargetClosest(true);
-                if (!Main.player[NPC.target].dead && (Main.player[NPC.target].Center - NPC.Center).Length() < 170f &&
+                if (!Main.player[NPC.target].dead && (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f) &&
                     Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height))
                 {
                     NPC.ai[2] = -16f;
@@ -230,7 +231,7 @@ namespace CalamityMod.NPCs.Abyss
                         }
                         else
                         {
-                            NPC.alpha = 200;
+                            NPC.alpha = 150;
                             NPC.noTileCollide = true;
                         }
                         NPC.TargetClosest(true);

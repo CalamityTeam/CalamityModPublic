@@ -980,18 +980,15 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushRegenCurse)
             {
-                if (CalamityConfig.Instance.BossRushHealthCurse)
-                {
-                    if (Player.lifeRegen > 0)
-                        Player.lifeRegen = 0;
+                if (Player.lifeRegen > 0)
+                    Player.lifeRegen = 0;
 
-                    Player.lifeRegenTime = 0;
+                Player.lifeRegenTime = 0;
 
-                    if (Player.lifeRegenCount > 0)
-                        Player.lifeRegenCount = 0;
-                }
+                if (Player.lifeRegenCount > 0)
+                    Player.lifeRegenCount = 0;
             }
         }
         #endregion

@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -10,7 +9,6 @@ using System.IO;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -118,10 +116,7 @@ namespace CalamityMod.NPCs.Abyss
             NPC.TargetClosest(false);
             if ((Main.player[NPC.target].wet && !Main.player[NPC.target].dead &&
                 Collision.CanHit(NPC.position, NPC.width, NPC.height, Main.player[NPC.target].position, Main.player[NPC.target].width, Main.player[NPC.target].height) &&
-                //(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-                //Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 300f : 500f) *
-                //(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f)) ||
-                (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(500f, 300f)) ||
+                (Main.player[NPC.target].Center - NPC.Center).Length() < Main.player[NPC.target].Calamity().GetAbyssAggro(160f)) ||
                 NPC.justHit)
             {
                 hasBeenHit = true;

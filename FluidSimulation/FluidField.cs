@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using CalamityMod.Effects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -50,7 +48,7 @@ namespace CalamityMod.FluidSimulation
 
         public const float DeltaTime = 0.016666f;
 
-        public const int GaussSeidelIterations = 3;
+        public const int GaussSeidelIterations = 2;
 
         internal static BasicEffect basicShader = null;
 

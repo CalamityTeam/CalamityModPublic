@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Melee
 {

@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Cooldowns;
 using CalamityMod.CalPlayer.Dashes;
 
 namespace CalamityMod.Items.Armor

@@ -358,9 +358,6 @@ namespace CalamityMod.NPCs.AstrumAureus
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());
-
-            // Other
-            npcLoot.Add(ItemID.HallowedKey, 3);
         }
 
         public override void OnKill()

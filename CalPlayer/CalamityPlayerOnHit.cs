@@ -1,8 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System.Collections.Generic;
+using CalamityMod.Balancing;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
+using CalamityMod.EntitySources;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.VanillaArmorChanges;
@@ -18,14 +21,11 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using Terraria.Audio;
-using CalamityMod.EntitySources;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.CalPlayer
 {
@@ -34,7 +34,7 @@ namespace CalamityMod.CalPlayer
         #region On Hit Anything
         public override void OnHitAnything(float x, float y, Entity victim)
         {
-            rageCombatFrames = RageCombatDelayTime;
+            rageCombatFrames = BalancingConstants.RageCombatDelayTime;
 
             if (AdamantiteSet)
             {

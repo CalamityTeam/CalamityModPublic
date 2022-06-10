@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs
                 }
 
                 Item heldItem = Main.player[owner].ActiveItem();
-                int totalDamage = (int)(150 * Main.player[owner].GetDamage<SummonDamageClass>().Base);
+                int totalDamage = (int)Main.player[owner].GetDamage<SummonDamageClass>().ApplyTo(150f);
                 bool forbidden = Main.player[owner].head == ArmorIDs.Head.AncientBattleArmor && Main.player[owner].body == ArmorIDs.Body.AncientBattleArmor && Main.player[owner].legs == ArmorIDs.Legs.AncientBattleArmor;
                 bool reducedNerf = Main.player[owner].Calamity().fearmongerSet || (forbidden && heldItem.CountsAsClass<MagicDamageClass>());
 
@@ -2346,7 +2346,7 @@ namespace CalamityMod.NPCs
                              npc.frame,
                              Color.White,
                              npc.rotation,
-                             npc.Size / 2f,
+                             npc.frame.Size() * 0.5f,
                              npc.scale,
                              effects,
                              0f);
@@ -2379,7 +2379,6 @@ namespace CalamityMod.NPCs
 
             Color drawColor = npc.GetAlpha(startingColor);
             Texture2D npcTexture = texture ?? TextureAssets.Npc[npc.type].Value;
-            Vector2 origin = npc.Size * 0.5f;
             Vector2 screenOffset = npc.IsABestiaryIconDummy ? Vector2.Zero : Main.screenPosition;
             int afterimageCounter = 1;
             while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityConfig.Instance.Afterimages)
@@ -2391,7 +2390,7 @@ namespace CalamityMod.NPCs
                                  npc.frame,
                                  colorToDraw,
                                  rotationCalculation.Invoke(npc, afterimageCounter),
-                                 origin,
+                                 npc.frame.Size() * 0.5f,
                                  npc.scale,
                                  spriteEffects,
                                  0f);
@@ -2848,6 +2847,9 @@ namespace CalamityMod.NPCs
                         return PlanteraAI.BuffedPlanterasHookAI(npc, Mod);
                     case NPCID.PlanterasTentacle:
                         return PlanteraAI.BuffedPlanterasTentacleAI(npc, Mod);
+
+                    case NPCID.HallowBoss:
+                        return EmpressofLightAI.BuffedEmpressofLightAI(npc, Mod);
 
                     case NPCID.Golem:
                         return GolemAI.BuffedGolemAI(npc, Mod);
@@ -4311,11 +4313,12 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Cap lance damage.
+            // Lance damage edit.
             if (projectile.type == ProjectileID.JoustingLance || projectile.type == ProjectileID.HallowJoustingLance || projectile.type == ProjectileID.ShadowJoustingLance)
             {
-                if (damage > 1000)
-                    damage = 1000;
+                float baseVelocityDamageMultiplier = 0.01f + Main.player[projectile.owner].velocity.Length() * 0.002f;
+                float calamityVelocityDamageMultiplier = 100f * (1f - (1f / (1f + baseVelocityDamageMultiplier)));
+                damage = (int)(Main.player[projectile.owner].ActiveItem().damage * calamityVelocityDamageMultiplier);
             }
 
             // Apply balancing resists/vulnerabilities.
@@ -4604,12 +4607,12 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-            if (player.Calamity().zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
+            if (player.Calamity().zen || (CalamityConfig.Instance.ForceTownSafety && player.townNPCs > 1f && Main.expertMode))
             {
                 spawnRate = (int)(spawnRate * 2.5);
                 maxSpawns = (int)(maxSpawns * 0.3f);
             }
-            if (player.Calamity().bossZen && CalamityConfig.Instance.BossZen)
+            if (player.Calamity().isNearbyBoss && CalamityConfig.Instance.BossZen)
             {
                 spawnRate *= 5;
                 maxSpawns = (int)(maxSpawns * 0.001f);
@@ -4702,6 +4705,13 @@ namespace CalamityMod.NPCs
             {
                 if (NPC.CountNPCS(NPCID.TruffleWorm) < 2)
                     pool[NPCID.TruffleWorm] = SpawnCondition.OverworldMushroom.Chance * 0.5f;
+            }
+
+            // Add Prismatic Lacewing spawns to surface hallow from dusk to midnight
+            if (!Main.dayTime && Main.time < 16200D && Main.hardMode && (spawnInfo.Player.ZoneOverworldHeight || spawnInfo.Player.ZoneSkyHeight))
+            {
+                if (!NPC.AnyNPCs(NPCID.EmpressButterfly))
+                    pool[NPCID.EmpressButterfly] = SpawnCondition.OverworldHallow.Chance * 0.1f;
             }
 
             // Increase fairy spawn rates while wearing Fairy Boots

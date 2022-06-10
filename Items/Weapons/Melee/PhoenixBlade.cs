@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;

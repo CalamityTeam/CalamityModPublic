@@ -5,7 +5,6 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
 using Terraria.Audio;
 
 namespace CalamityMod.Items.Armor

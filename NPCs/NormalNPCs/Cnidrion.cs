@@ -99,22 +99,22 @@ namespace CalamityMod.NPCs.NormalNPCs
             bool flag51 = false;
             int offsetX = 80;
             int projectileDamage = expertMode ? 9 : 12;
-            if (NPC.life < NPC.lifeMax * 0.33 || (CalamityWorld.death && NPC.life < NPC.lifeMax * 0.6))
+            if (NPC.life < NPC.lifeMax * 0.33 && CalamityWorld.death)
             {
                 num823 = 2f;
             }
-            if (NPC.life < NPC.lifeMax * 0.1)
+            if (NPC.life < NPC.lifeMax * 0.1 && CalamityWorld.death)
             {
                 num823 = 4f;
             }
             if (NPC.ai[0] == 0f)
             {
                 NPC.ai[1] += 1f;
-                if (NPC.life < NPC.lifeMax * 0.33 || (CalamityWorld.death && NPC.life < NPC.lifeMax * 0.6))
+                if (NPC.life < NPC.lifeMax * 0.33 && CalamityWorld.death)
                 {
                     NPC.ai[1] += 1f;
                 }
-                if (NPC.life < NPC.lifeMax * 0.1)
+                if (NPC.life < NPC.lifeMax * 0.1 && CalamityWorld.death)
                 {
                     NPC.ai[1] += 1f;
                 }
@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num845 *= num846;
                     num844 *= 1f + Main.rand.Next(-10, 11) * 0.001f;
                     num845 *= 1f + Main.rand.Next(-10, 11) * 0.001f;
-                    int num848 = Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num844, num845, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector18.X, vector18.Y, num844, num845, ModContent.ProjectileType<HorsWaterBlast>(), projectileDamage, 0f, Main.myPlayer);
                 }
                 if (NPC.ai[1] >= 120f)
                 {
@@ -237,62 +237,62 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
 
-            if (Math.Abs(NPC.Center.X - Main.player[NPC.target].Center.X) < 50f)
+            if (Math.Abs(NPC.Center.X - player.Center.X) < 50f)
                 flag51 = true;
 
             if (flag51)
             {
-                NPC.velocity.X = NPC.velocity.X * 0.9f;
+                NPC.velocity.X *= 0.9f;
                 if (NPC.velocity.X > -0.1 && NPC.velocity.X < 0.1)
                     NPC.velocity.X = 0f;
             }
             else
             {
+                float playerLocation = NPC.Center.X - player.Center.X;
+                NPC.direction = playerLocation < 0 ? 1 : -1;
+
                 if (NPC.direction > 0)
                     NPC.velocity.X = (NPC.velocity.X * 20f + num823) / 21f;
-
                 if (NPC.direction < 0)
                     NPC.velocity.X = (NPC.velocity.X * 20f - num823) / 21f;
             }
 
-            int num854 = 80;
-            int num855 = 20;
-            Vector2 position2 = new Vector2(NPC.Center.X - (num854 / 2), NPC.position.Y + NPC.height - num855);
-            bool flag52 = false;
-            if (NPC.position.X < Main.player[NPC.target].position.X && NPC.position.X + NPC.width > Main.player[NPC.target].position.X + Main.player[NPC.target].width && NPC.position.Y + NPC.height < Main.player[NPC.target].position.Y + Main.player[NPC.target].height - 16f)
-                flag52 = true;
-
-            if (flag52)
+            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height) && player.position.Y <= NPC.position.Y + NPC.height && !NPC.collideX)
             {
-                NPC.velocity.Y += 0.5f;
-                if (NPC.velocity.Y > 10f)
-                    NPC.velocity.Y = 10f;
-            }
-            else if (Collision.SolidCollision(position2, num854, num855))
-            {
-                if (NPC.velocity.Y > 0f)
-                    NPC.velocity.Y = 0f;
-
-                if (NPC.velocity.Y > -0.2f)
-                    NPC.velocity.Y -= 0.025f;
-                else
-                    NPC.velocity.Y -= 0.2f;
-
-                if (NPC.velocity.Y < -2f)
-                    NPC.velocity.Y = -2f;
+                NPC.noGravity = false;
+                NPC.noTileCollide = false;
             }
             else
             {
-                if (NPC.velocity.Y < 0f)
-                    NPC.velocity.Y = 0f;
+                NPC.noGravity = true;
+                NPC.noTileCollide = true;
 
-                if (NPC.velocity.Y < 0.5)
-                    NPC.velocity.Y += 0.025f;
+                int num854 = 80;
+                int num855 = 20;
+                Vector2 position2 = new Vector2(NPC.Center.X - (num854 / 2), NPC.position.Y + NPC.height - num855);
+                if (Collision.SolidCollision(position2, num854, num855))
+                {
+                    if (NPC.velocity.Y > 0f)
+                        NPC.velocity.Y = 0f;
+
+                    if (NPC.velocity.Y > -0.2f)
+                        NPC.velocity.Y -= 0.025f;
+                    else
+                        NPC.velocity.Y -= 0.2f;
+
+                    if (NPC.velocity.Y < -2f)
+                        NPC.velocity.Y = -2f;
+                }
                 else
-                    NPC.velocity.Y += 0.25f;
+                {
+                    if (NPC.velocity.Y < 0f)
+                        NPC.velocity.Y = 0f;
 
-                if (NPC.velocity.Y > 2f)
-                    NPC.velocity.Y = 2f;
+                    if (NPC.velocity.Y < 0.5f)
+                        NPC.velocity.Y += 0.025f;
+                    else
+                        NPC.velocity.Y += 0.25f;
+                }
             }
         }
 
