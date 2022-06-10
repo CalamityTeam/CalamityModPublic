@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Spears;
 using Microsoft.Xna.Framework;

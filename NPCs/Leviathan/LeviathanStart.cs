@@ -1,6 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;

@@ -10,7 +10,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
-using Microsoft.Xna.Framework.Audio;
 using Terraria.Audio;
 using CalamityMod.Tiles.Astral;
 

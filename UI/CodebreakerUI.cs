@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 using Terraria.UI.Chat;
 using Terraria.Audio;
 using Terraria.GameContent;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.UI
 {

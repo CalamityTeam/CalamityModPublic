@@ -13,8 +13,6 @@ using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Sounds;
-using Terraria.Utilities;
 
 namespace CalamityMod.NPCs
 {

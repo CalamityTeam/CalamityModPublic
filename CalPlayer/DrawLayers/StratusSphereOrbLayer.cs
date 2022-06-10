@@ -1,11 +1,9 @@
 ﻿using System;
 using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer.DrawLayers

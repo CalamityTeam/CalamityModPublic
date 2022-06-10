@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Projectiles.Melee;
+﻿using CalamityMod.Projectiles.Melee;
 using System;
 using Terraria;
 using Terraria.ID;

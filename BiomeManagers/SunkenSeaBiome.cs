@@ -1,5 +1,4 @@
 ﻿using CalamityMod.Systems;
-using CalamityMod.Waters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

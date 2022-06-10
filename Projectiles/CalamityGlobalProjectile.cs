@@ -22,7 +22,6 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Sounds;
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 using Terraria.Audio;
 using Terraria.GameContent;

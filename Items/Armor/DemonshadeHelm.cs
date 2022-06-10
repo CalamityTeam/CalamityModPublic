@@ -6,7 +6,6 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using System.Linq;
 using Terraria.DataStructures;
 using Terraria.Audio;
 

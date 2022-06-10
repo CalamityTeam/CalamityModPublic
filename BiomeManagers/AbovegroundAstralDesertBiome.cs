@@ -1,6 +1,4 @@
-﻿using CalamityMod.Backgrounds;
-using CalamityMod.Systems;
-using CalamityMod.Waters;
+﻿using CalamityMod.Systems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

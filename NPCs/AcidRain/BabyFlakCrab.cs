@@ -2,7 +2,6 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Pets;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

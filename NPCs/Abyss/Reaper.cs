@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;

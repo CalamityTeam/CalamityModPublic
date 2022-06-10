@@ -21,7 +21,6 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.World;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Events;
 using Terraria.Audio;

@@ -57,7 +57,6 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.Audio;
 using CalamityMod.BiomeManagers;
-using CalamityMod.CalPlayer.DrawLayers;
 using Terraria.Chat;
 using CalamityMod.EntitySources;
 using CalamityMod.CalPlayer.Dashes;

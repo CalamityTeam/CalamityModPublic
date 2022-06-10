@@ -1,12 +1,10 @@
 ﻿using CalamityMod.NPCs.Crags;
-using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
-using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.VanillaNPCOverrides.RegularEnemies
 {

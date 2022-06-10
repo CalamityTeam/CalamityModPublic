@@ -1,10 +1,4 @@
-﻿using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Tiles.Astral;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using ReLogic.Content;
 

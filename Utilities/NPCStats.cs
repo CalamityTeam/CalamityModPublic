@@ -1,5 +1,4 @@
-﻿using CalamityMod.NPCs;
-using CalamityMod.NPCs.AdultEidolonWyrm;
+﻿using CalamityMod.NPCs.AdultEidolonWyrm;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
