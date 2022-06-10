@@ -791,7 +791,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<SupremeCatastropheSlash>()), new int[] { 360, 540, 568, 584, 858 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaserBeamStart>()), new int[] { 360, 540, 568, 584, 858 } },
+                { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisSpinLaserbeam>()), new int[] { 360, 540, 568, 584, 858 } },
                 { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaser>()), new int[] { 288, 432, 454, 478, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloFireball>()), new int[] { 288, 432, 454, 478, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloRocket>()), new int[] { 360, 540, 568, 584, 858 } },

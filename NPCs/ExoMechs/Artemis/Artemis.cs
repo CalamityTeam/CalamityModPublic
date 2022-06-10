@@ -1000,7 +1000,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 // Fire deathray
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
+                                    int type = ModContent.ProjectileType<ArtemisSpinLaserbeam>();
                                     SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
