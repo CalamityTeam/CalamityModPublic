@@ -1,5 +1,4 @@
-﻿using CalamityMod.Events;
-using CalamityMod.NPCs.ExoMechs;
+﻿using CalamityMod.NPCs.ExoMechs;
 using CalamityMod.NPCs.ExoMechs.Apollo;
 using CalamityMod.NPCs.ExoMechs.Ares;
 using CalamityMod.NPCs.ExoMechs.Artemis;

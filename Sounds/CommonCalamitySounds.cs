@@ -1,9 +1,8 @@
-﻿using System;
-using Terraria.Audio;
+﻿using Terraria.Audio;
 
 namespace CalamityMod.Sounds
 {
-	public static class CommonCalamitySounds
+    public static class CommonCalamitySounds
 	{
         public static readonly SoundStyle OtherwordlyHitSound = new("CalamityMod/Sounds/NPCHit/OtherworldlyHit");
 

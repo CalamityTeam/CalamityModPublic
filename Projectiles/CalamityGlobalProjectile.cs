@@ -22,7 +22,6 @@ using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Sounds;
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -2938,12 +2937,12 @@ namespace CalamityMod.Projectiles
                     {
                         int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
-                        if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
+                        if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[projectile2].Calamity().forceMelee = true;
 
-                        if (projectile.type == ProjectileType<SeashellBoomerangProjectile>())
+                        if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[projectile2].Calamity().forceRogue = true;
                     }

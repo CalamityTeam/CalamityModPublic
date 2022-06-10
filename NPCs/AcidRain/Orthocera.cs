@@ -4,7 +4,6 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
 using System;
 using Terraria;
 using Terraria.GameContent.Bestiary;

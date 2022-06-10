@@ -379,10 +379,24 @@ namespace CalamityMod
                 new("BossRushIFrameCurse", ItemID.Shackle),
             };
 
+            // TODO -- Next month's TML Stable will have this function be public
+            MethodInfo getTrans = typeof(LocalizationLoader).GetMethod("GetOrCreateTranslation", BindingFlags.Static | BindingFlags.NonPublic, new[] { typeof(string), typeof(bool) });
+            
+            // Stopgap for if the function becomes public sooner
+            if (getTrans is null)
+                getTrans = typeof(LocalizationLoader).GetMethod("GetOrCreateTranslation", BindingFlags.Static | BindingFlags.Public, new[] { typeof(string), typeof(bool) });
+
+            // If the reflection STILL somehow doesn't work, just give up and log an error
+            if (getTrans is null)
+            {
+                CalamityMod.Instance.Logger.Error("LocalizationLoader reflection failed. Config will not contain icons!");
+                return;
+            }
+
             foreach (KeyValuePair<string, int> kv in configLabelItemEmbeds)
             {
                 string localizationKey = $"Mods.CalamityMod.Config.EntryTitle.{kv.Key}";
-                ModTranslation trans = LocalizationLoader.GetOrCreateTranslation(CalamityMod.Instance, localizationKey, true);
+                ModTranslation trans = getTrans.Invoke(null, new object[] { localizationKey, true }) as ModTranslation;
                 var culture = Language.ActiveCulture;
                 trans.AddTranslation(culture, EmbedItem(kv.Value, trans.GetTranslation(culture)));
             }

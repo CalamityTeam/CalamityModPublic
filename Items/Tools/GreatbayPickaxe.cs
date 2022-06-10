@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(3).
+                AddIngredient<SeaRemains>(3).
                 AddTile(TileID.Anvils).
                 Register();
         }

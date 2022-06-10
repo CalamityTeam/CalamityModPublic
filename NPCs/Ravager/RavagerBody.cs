@@ -834,6 +834,7 @@ namespace CalamityMod.NPCs.Ravager
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
                 normalOnly.Add(ModContent.ItemType<Vesuvius>(), 10);
+                normalOnly.Add(ModContent.ItemType<CorpusAvertor>(), 20);
 
                 // Materials
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedProvidence), ModContent.ItemType<FleshyGeodeT1>()));

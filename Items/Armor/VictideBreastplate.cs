@@ -6,14 +6,32 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
-    public class VictideBreastplate : ModItem
+    public class VictideBreastplate : ModItem, IBulkyArmor
     {
+        public string BulkTexture => "CalamityMod/Items/Armor/VictideBreastplate_Bulk";
+
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                //register the faulds texture. This appears either when the leggings  or the chestplate is equipped (both works)
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/VictideFaulds_Waist", EquipType.Waist, name: "VictideFaulds");
+            }
+        }
+		
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Victide Breastplate");
             Tooltip.SetDefault("5% increased damage reduction and critical strike chance\n" +
                 "+5 defense and 10% increased damage reduction while submerged in liquid");
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            }
         }
 
         public override void SetDefaults()
@@ -39,7 +57,7 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(5).
+                AddIngredient<SeaRemains>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }

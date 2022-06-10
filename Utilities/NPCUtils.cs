@@ -21,7 +21,6 @@ using Terraria.ModLoader;
 using Terraria.Localization;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Chat;
-using Terraria.DataStructures;
 
 namespace CalamityMod
 {

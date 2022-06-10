@@ -189,6 +189,13 @@ namespace CalamityMod.CalPlayer
                 heldGaelsLastFrame = false;
                 rage = 0f;
             }
+
+            // De-equipping Draedon's Heart deletes all Adrenaline.
+            if (!draedonsHeart && hadNanomachinesLastFrame)
+            {
+                hadNanomachinesLastFrame = false;
+                adrenaline = 0f;
+            }
         }
         #endregion
 
@@ -237,11 +244,11 @@ namespace CalamityMod.CalPlayer
             #region Rage
             // Figure out Rage's current duration based on boosts.
             if (rageBoostOne)
-                RageDuration += RageDurationPerBooster;
+                RageDuration += BalancingConstants.RageDurationPerBooster;
             if (rageBoostTwo)
-                RageDuration += RageDurationPerBooster;
+                RageDuration += BalancingConstants.RageDurationPerBooster;
             if (rageBoostThree)
-                RageDuration += RageDurationPerBooster;
+                RageDuration += BalancingConstants.RageDurationPerBooster;
 
             // Tick down "Rage Combat Frames". When they reach zero, Rage begins fading away.
             if (rageCombatFrames > 0)
@@ -358,7 +365,7 @@ namespace CalamityMod.CalPlayer
 
             // If out of combat and NOT using Heart of Darkness or Shattered Community, Rage fades away.
             else if (!rageModeActive && rageFading)
-                rageDiff -= rageMax / RageFadeTime;
+                rageDiff -= rageMax / BalancingConstants.RageFadeTime;
 
             // Apply the rage change and cap rage in both directions.
             // Changes are only applied if the Rage mechanic is available.

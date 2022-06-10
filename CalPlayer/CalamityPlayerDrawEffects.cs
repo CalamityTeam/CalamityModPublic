@@ -530,7 +530,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if ((calamityPlayer.cadence || calamityPlayer.ladHearts > 0) && !Player.loveStruck && Main.netMode != NetmodeID.Server)
+            if ((calamityPlayer.ladHearts > 0) && !Player.loveStruck && Main.netMode != NetmodeID.Server)
             {
                 if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
                 {

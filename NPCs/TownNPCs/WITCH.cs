@@ -3,7 +3,6 @@ using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.UI.CalamitasEnchants;
-using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;

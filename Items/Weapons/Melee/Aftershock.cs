@@ -1,5 +1,4 @@
-﻿using Terraria.DataStructures;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;

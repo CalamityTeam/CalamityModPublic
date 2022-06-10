@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Cooldowns;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;

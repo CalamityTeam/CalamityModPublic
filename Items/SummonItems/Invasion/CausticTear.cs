@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

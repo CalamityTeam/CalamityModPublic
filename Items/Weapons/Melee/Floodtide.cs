@@ -1,5 +1,4 @@
 ﻿using Terraria.DataStructures;
-using Terraria.DataStructures;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
@@ -67,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictideBar>(5).
+                AddIngredient<SeaRemains>(5).
                 AddIngredient(ItemID.SharkFin, 2).
                 AddRecipeGroup("AnyAdamantiteBar", 5).
                 AddIngredient<DepthCells>(10).

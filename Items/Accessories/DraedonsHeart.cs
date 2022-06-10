@@ -1,11 +1,12 @@
-﻿using CalamityMod.CalPlayer;
-using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using CalamityMod.Balancing;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Accessories
                 "Reduces defense damage taken by 50%\n" + "Replaces Adrenaline with the Nanomachines meter\n" +
                 $"Unlike Adrenaline, you lose no Nanomachines when you take damage, but they stop accumulating for {NanomachinePauseAfterDamage / 60} seconds\n" +
                 $"With full Nanomachines, press & to heal {NanomachinesHeal} health over {NanomachinesDuration / 60} seconds\n" +
-                "While healing, wings are disabled and your mobility is crippled\n" +
+                "While healing, you take &% less damage\n" +
                 "'Nanomachines, son.'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
         }
@@ -45,12 +46,17 @@ namespace CalamityMod.Items.Accessories
             Item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
-        // TODO -- If you unequip Draedon's Heart, you should lose all Adrenaline.
-        // TODO -- You should not be able to equip or unequip Draedon's Heart while Adrenaline is active.
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+            // On the first frame of equipping Draedon's Heart, lose all adrenaline.
+            // This occurs because you didn't have nanomachines LAST frame.
+            if (!modPlayer.hadNanomachinesLastFrame)
+                modPlayer.adrenaline = 0f;
+
             modPlayer.draedonsHeart = true;
+            modPlayer.hadNanomachinesLastFrame = true;
             modPlayer.AdrenalineDuration = NanomachinesDuration;
             modPlayer.contactDamageReduction += ContactDamageReduction;
         }
@@ -75,6 +81,15 @@ namespace CalamityMod.Items.Accessories
             {
                 string tooltipWithHotkey = hotkeyLine.Text.Replace("&", adrenKey);
                 hotkeyLine.Text = tooltipWithHotkey;
+            }
+
+            // The 6th tooltip line "While healing..." has the & replaced with full adrenaline DR.
+            string fullAdrenDRString = (100f * BalancingConstants.FullAdrenalineDR).ToString("n0");
+            TooltipLine healingDRLine = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip5");
+            if (healingDRLine != null)
+            {
+                string tooltipWithDR = fullAdrenDRString.Replace("&", fullAdrenDRString);
+                healingDRLine.Text = tooltipWithDR;
             }
         }
     }

@@ -6,7 +6,6 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Particles;
-using CalamityMod.Projectiles;
 using CalamityMod.UI;
 using CalamityMod.UI.CalamitasEnchants;
 using CalamityMod.World;
@@ -545,7 +544,7 @@ namespace CalamityMod
 
             // Victide
             if (setBonus == "victide_summon" || setBonus == "victide summon")
-                return mp.urchin; // the bool set directly by VictideHelmet.UpdateArmorSet
+                return mp.victideSummoner; // the bool set directly by VictideHelmet.UpdateArmorSet
             else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))
                 return mp.victideSet;
 
@@ -863,7 +862,7 @@ namespace CalamityMod
             if (setBonus == "victide_summon" || setBonus == "victide summon")
             {
                 mp.victideSet = enabled;
-                mp.urchin = enabled; // LATER -- remove this when player.urchin actually controls victide summoner
+                mp.victideSummoner = enabled; 
                 return true;
             }
             else if (setBonus == "victide" || setBonus.StartsWith("victide_") || setBonus.StartsWith("victide "))

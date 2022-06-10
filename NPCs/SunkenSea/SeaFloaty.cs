@@ -15,6 +15,11 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Sea Floaty");
             Main.npcFrameCount[NPC.type] = 6;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                SpriteDirection = 1
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -38,10 +43,10 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Strange but mesmerizing creatures, they hide immediately at the sight of any predator. They do not seem to be fully developed.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Strange but mesmerizing creatures, they hide immediately at the sight of any predator. They do not seem to be fully developed.")
             });
         }
 

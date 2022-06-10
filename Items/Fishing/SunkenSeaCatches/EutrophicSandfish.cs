@@ -1,7 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.Systems;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {

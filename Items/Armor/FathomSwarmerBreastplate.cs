@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Armor
         {
             CreateRecipe().
                 AddIngredient(ItemID.SpiderBreastplate).
-                AddIngredient<VictideBar>(12).
+                AddIngredient<SeaRemains>(12).
                 AddIngredient<PlantyMush>(10).
                 AddIngredient<AbyssGravel>(18).
                 AddIngredient<DepthCells>(5).
