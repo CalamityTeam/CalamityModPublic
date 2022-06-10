@@ -129,7 +129,7 @@ namespace CalamityMod.Items.Accessories
                     damageClassName = "Classless";
                 else if (dc == AverageDamageClass.Instance)
                     damageClassName = "Averaged";
-                else if (dc == DamageClass.Melee)
+                else if (dc == DamageClass.Melee || dc == DamageClass.MeleeNoSpeed)
                     damageClassName = "Melee";
                 else if (dc == DamageClass.Ranged)
                     damageClassName = "Ranged";
