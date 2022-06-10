@@ -250,9 +250,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 float velocity = (malice || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
-                float phaseGateValue = (malice || biomeEnraged) ? 60f : death ? 80f : revenge ? 90f : expertMode ? 100f : 120f;
+                float phaseGateValue = (malice || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
                 if (defenderAlive)
-                    phaseGateValue *= 1.25f;
+                    phaseGateValue *= 1.5f;
 
                 if (NPC.ai[3] < phaseGateValue || healerAlive)
                 {
@@ -261,9 +261,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float divisor = (malice || biomeEnraged) ? 15f : death ? 20f : revenge ? 22f : expertMode ? 25f : 30f;
-                        if (phase1)
-                            divisor *= 2f;
+                        float divisor = (malice || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
+                        if (!phase1)
+                            divisor = (float)Math.Round(divisor * 0.8f);
 
                         if (NPC.ai[3] % divisor == 0f)
                         {
@@ -271,15 +271,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             int type = ModContent.ProjectileType<FlareDust>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
-
                             int numProj = death ? 3 : 2;
-                            int spread = death ? 30 : 20;
-                            if (!phase1)
-                            {
-                                numProj *= 2;
-                                spread *= 2;
-                            }
-
+                            int spread = !phase1 ? 15 : death ? 30 : 20;
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < numProj; i++)
                             {
@@ -381,7 +374,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;
-                    NPC.ai[1] = 24f;
+                    NPC.ai[1] = phase1 ? 24f : 6f;
                     NPC.ai[2] = 0f;
                     NPC.ai[3] = 0f;
                     NPC.velocity /= 2f;
@@ -412,7 +405,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.netUpdate = true;
                 }
 
-                NPC.velocity *= 0.9f;
+                NPC.velocity *= phase1 ? 0.9f : 0.66f;
             }
         }
 
