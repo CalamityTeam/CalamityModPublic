@@ -1409,39 +1409,35 @@ namespace CalamityMod
         #region Summoner Cross Class Nerf Disabling
         public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
         {
-            var calPlayer = Main.LocalPlayer.Calamity();
-
-            if (disableNerf && !calPlayer.disabledSummonerNerfMinions.Contains(type))
+            if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
             {
-                calPlayer.disabledSummonerNerfMinions.Add(type);
+                CalamityLists.DisabledSummonerNerfMinions.Add(type);
                 return true;
             }
             else if (!disableNerf)
             {
-                return calPlayer.disabledSummonerNerfMinions.Remove(type);
+                return CalamityLists.DisabledSummonerNerfMinions.Remove(type);
             }
 
             return false;
         }
         public static bool SetSummonerNerfDisabledByItem(int type, bool disableNerf)
         {
-            var calPlayer = Main.LocalPlayer.Calamity();
-
-            if (disableNerf && !calPlayer.disabledSummonerNerfItems.Contains(type))
+            if (disableNerf && !CalamityLists.DisabledSummonerNerfItems.Contains(type))
             {
-                calPlayer.disabledSummonerNerfItems.Add(type);
+                CalamityLists.DisabledSummonerNerfItems.Add(type);
                 return true;
             }
             else if (!disableNerf)
             {
-                return calPlayer.disabledSummonerNerfItems.Remove(type);
+                return CalamityLists.DisabledSummonerNerfItems.Remove(type);
             }
 
             return false;
         }
 
-        public static bool GetSummonerNerfDisabledByMinion(int type) => Main.LocalPlayer.Calamity().disabledSummonerNerfMinions.Contains(type);
-        public static bool GetSummonerNerfDisabledByItem(int type) => Main.LocalPlayer.Calamity().disabledSummonerNerfItems.Contains(type);
+        public static bool GetSummonerNerfDisabledByMinion(int type) => CalamityLists.DisabledSummonerNerfMinions.Contains(type);
+        public static bool GetSummonerNerfDisabledByItem(int type) => CalamityLists.DisabledSummonerNerfItems.Contains(type);
         #endregion
 
         #region Call
