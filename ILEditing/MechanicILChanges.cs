@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.ForegroundDrawing;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Dyes;
 using CalamityMod.NPCs.Astral;
@@ -31,6 +32,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
+
 
 namespace CalamityMod.ILEditing
 {
@@ -876,8 +878,8 @@ namespace CalamityMod.ILEditing
                 c.EmitDelegate<Func<short[], short[]>>(arr =>
                 {
                     // resize the array and add our custom firefly
-                    Array.Resize(ref arr, arr.Length+1);
-                    arr[arr.Length-1] = (short)ModContent.NPCType<Twinkler>();
+                    Array.Resize(ref arr, arr.Length + 1);
+                    arr[arr.Length - 1] = (short)ModContent.NPCType<Twinkler>();
                     return arr;
                 });
 
@@ -889,5 +891,14 @@ namespace CalamityMod.ILEditing
             throw new Exception("Hook location not found, switch(*) { case 54: ...");
         }
         #endregion Statue Additions
+
+        #region Foreground tiles drawing
+        private static void DrawForegroundStuff(On.Terraria.Main.orig_DrawGore orig, Main self)
+        {
+            orig(self);
+            if (Main.PlayerLoaded && !Main.gameMenu)
+                ForegroundManager.DrawTiles();
+        }
+        #endregion
     }
 }

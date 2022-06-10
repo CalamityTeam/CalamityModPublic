@@ -194,6 +194,7 @@ namespace CalamityMod
             {
                 LoadClient();
                 GeneralParticleHandler.Load();
+                ForegroundDrawing.ForegroundManager.Load();
             }
 
             CooldownRegistry.Load();
