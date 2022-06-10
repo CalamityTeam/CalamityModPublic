@@ -2340,26 +2340,6 @@ namespace CalamityMod.NPCs
                 npc.damage = 0;
             }
 
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
-
-            // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-
-            float shootTimer = 1f;
-            if (expertMode)
-                shootTimer += death ? (float)Math.Round(3f * (1f - lifeRatio)) : (float)Math.Round(2f * (1f - lifeRatio));
-
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (Main.dayTime || malice)
-            {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
-                enrageScale += 1f;
-            }
-
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest();
@@ -2370,14 +2350,47 @@ namespace CalamityMod.NPCs
 
             Player player = Main.player[npc.target];
 
-            // Direction
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+
+            // Variables
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+
+            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
+            if (Main.dayTime || malice)
+            {
+                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                enrageScale += 1f;
+            }
 
             // Phases
             bool phase2 = lifeRatio < (revenge ? 0.85f : expertMode ? 0.8f : 0.75f);
             bool phase3 = lifeRatio < (revenge ? 0.7f : expertMode ? 0.6f : 0.5f);
             bool phase4 = lifeRatio < (revenge ? 0.5f : 0.4f) && expertMode;
             bool phase5 = lifeRatio < 0.3f && revenge;
+
+            float astralFlameBarrageTimerIncrement = 1f;
+            if (expertMode)
+                astralFlameBarrageTimerIncrement += death ? (float)Math.Round(3f * (1f - lifeRatio)) : (float)Math.Round(2f * (1f - lifeRatio));
+
+            float walkingVelocity = death ? 6f : 5f;
+            walkingVelocity += 3f * enrageScale;
+            if (phase5)
+                walkingVelocity += 2f;
+            if (expertMode)
+                walkingVelocity += 1.5f * (1f - lifeRatio);
+            if (revenge)
+                walkingVelocity += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
+
+            float walkingProjectileVelocity = walkingVelocity - (1.5f * enrageScale);
+
+            // Direction
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+
+            // Used to reduce Aureus' fall speed when the bottom of his hitbox is below the top of his target's hitbox
             bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
 
             // Despawn
@@ -2424,10 +2437,10 @@ namespace CalamityMod.NPCs
             // Fire projectiles while walking, teleporting, or falling
             if (npc.ai[0] == 2f || npc.ai[0] >= 5f)
             {
-                npc.localAI[0] += npc.ai[0] == 2f ? 4f : shootTimer;
+                npc.localAI[0] += npc.ai[0] == 2f ? 1f : astralFlameBarrageTimerIncrement;
 
-                float astralFlameGateValue = phase4 ? 30f : 60f;
-                if (npc.localAI[0] >= astralFlameGateValue)
+                float astralFlameBarrageGateValue = phase4 ? 30f : 60f;
+                if (npc.localAI[0] >= astralFlameBarrageGateValue)
                 {
                     // Fire astral flames while teleporting
                     if (npc.ai[0] >= 5f && npc.ai[0] != 7)
@@ -2452,7 +2465,8 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                if (npc.localAI[0] >= 240f)
+                float laserBarrageGateValue = phase5 ? 160f : phase3 ? 120f : phase2 ? 80f : 60f;
+                if (npc.localAI[0] >= laserBarrageGateValue)
                 {
                     // Fire astral lasers while walking
                     if (npc.ai[0] == 2f)
@@ -2463,7 +2477,6 @@ namespace CalamityMod.NPCs
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            float laserVelocity = death ? 7f : 6f;
                             if (calamityGlobalNPC.newAI[2] == 0f)
                             {
                                 calamityGlobalNPC.newAI[2] = 1f;
@@ -2476,7 +2489,7 @@ namespace CalamityMod.NPCs
                                 if (postMoonLordBuff)
                                     damage *= 2;
 
-                                Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * laserVelocity;
+                                Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * walkingProjectileVelocity;
                                 float rotation = MathHelper.ToRadians(spread);
                                 for (int i = 0; i < maxProjectiles; i++)
                                 {
@@ -2486,7 +2499,7 @@ namespace CalamityMod.NPCs
 
                                 if (phase3)
                                 {
-                                    float flameVelocity = laserVelocity * 2f;
+                                    float flameVelocity = walkingProjectileVelocity * 2f;
                                     maxProjectiles = 2;
                                     spread = 45;
 
@@ -2518,7 +2531,7 @@ namespace CalamityMod.NPCs
 
                                 int centralLaser = maxProjectiles / 2;
                                 int[] lasersToNotFire = new int[6] { centralLaser - 3, centralLaser - 2, centralLaser - 1, centralLaser + 1, centralLaser + 2, centralLaser + 3 };
-                                Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * laserVelocity;
+                                Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * walkingProjectileVelocity;
                                 float rotation = MathHelper.ToRadians(spread);
                                 for (int i = 0; i < maxProjectiles; i++)
                                 {
@@ -2570,14 +2583,6 @@ namespace CalamityMod.NPCs
             // Walk
             else if (npc.ai[0] == 2f)
             {
-                // Set walking speed
-                float num823 = 6f;
-                num823 += 4f * enrageScale;
-                if (expertMode)
-                    num823 += death ? 3f * (1f - lifeRatio) : 2f * (1f - lifeRatio);
-                if (revenge)
-                    num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
-
                 // Set walking direction
                 if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
                 {
@@ -2591,9 +2596,9 @@ namespace CalamityMod.NPCs
                     npc.direction = playerLocation < 0 ? 1 : -1;
 
                     if (npc.direction > 0)
-                        npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
+                        npc.velocity.X = (npc.velocity.X * 20f + walkingVelocity) / 21f;
                     if (npc.direction < 0)
-                        npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
+                        npc.velocity.X = (npc.velocity.X * 20f - walkingVelocity) / 21f;
                 }
 
                 if (Collision.CanHit(npc.position, npc.width, npc.height, player.Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height) && player.position.Y <= npc.position.Y + npc.height && !npc.collideX)
@@ -2745,7 +2750,7 @@ namespace CalamityMod.NPCs
                     // Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
                     npc.TargetClosest();
                     npc.ai[2] += 1f;
-                    float maxStompAmt = phase5 ? 5f : 3f;
+                    float maxStompAmt = phase5 ? 5f : phase3 ? 2f : 3f;
                     if (npc.ai[2] >= maxStompAmt)
                     {
                         npc.ai[0] = phase2 ? (Main.rand.NextBool() ? (phase3 ? 2f : 1f) : 5f) : (Main.rand.NextBool() ? 2f : 1f);
@@ -2784,9 +2789,9 @@ namespace CalamityMod.NPCs
                         {
                             calamityGlobalNPC.newAI[3] = 1f;
 
-                            float flameVelocity = 9f;
-                            int maxProjectiles = !phase2 ? (malice ? 4 : death ? 3 : 2) : (malice ? 5 : death ? 4 : 3);
-                            int spread = !phase2 ? (malice ? 56 : death ? 44 : 32) : (malice ? 72 : death ? 56 : 40);
+                            float flameVelocity = 12f;
+                            int maxProjectiles = !phase2 ? (malice ? 3 : death ? 2 : 1) : (malice ? 4 : death ? 3 : 2);
+                            int spread = !phase2 ? (malice ? 28 : death ? 22 : 16) : (malice ? 36 : death ? 28 : 20);
 
                             int type = ModContent.ProjectileType<AstralFlame>();
                             int damage = npc.GetProjectileDamage(type);

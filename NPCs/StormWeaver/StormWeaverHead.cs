@@ -474,8 +474,8 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             int projectileType = ModContent.ProjectileType<StormMarkHostile>();
                             int tornadoDamage = NPC.GetProjectileDamage(projectileType);
-                            int totalTornadoes = revenge ? 5 : 3;
-                            float spawnDistance = revenge ? 720f : 960f;
+                            int totalTornadoes = revenge ? 7 : expertMode ? 5 : 3;
+                            float spawnDistance = revenge ? 600f : expertMode ? 720f : 840f;
                             for (int i = 0; i < totalTornadoes; i++)
                             {
                                 Vector2 spawnPosition = Main.player[NPC.target].Center + Vector2.UnitX * spawnDistance * (i - totalTornadoes / 2);

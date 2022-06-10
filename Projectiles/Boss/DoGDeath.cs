@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Boss
         }
 
         public Vector2 OldVelocity;
-        public const float TelegraphTotalTime = 75f;
-        public const float TelegraphFadeTime = 15f;
+        public const float TelegraphTotalTime = 150f;
+        public const float TelegraphFadeTime = 30f;
         public const float TelegraphWidth = 4200f;
 
         public override void SetStaticDefaults()
@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.penetrate = -1;
-            Projectile.extraUpdates = 1;
-            Projectile.timeLeft = 390;
+            Projectile.extraUpdates = 3;
+            Projectile.timeLeft = 780;
             CooldownSlot = 1;
         }
 
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Projectile.alpha > 0)
                 {
-                    Projectile.alpha -= 25;
+                    Projectile.alpha -= 12;
                 }
                 if (Projectile.alpha < 0)
                 {
@@ -116,16 +116,15 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (TelegraphDelay >= TelegraphTotalTime)
                 return true;
+
             Texture2D laserTelegraph = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/LaserWallTelegraphBeam").Value;
+
             float yScale = 2f;
             if (TelegraphDelay < TelegraphFadeTime)
-            {
-                yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / 15f);
-            }
+                yScale = MathHelper.Lerp(0f, 2f, TelegraphDelay / TelegraphFadeTime);
             if (TelegraphDelay > TelegraphTotalTime - TelegraphFadeTime)
-            {
-                yScale = MathHelper.Lerp(2f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / 15f);
-            }
+                yScale = MathHelper.Lerp(2f, 0f, (TelegraphDelay - (TelegraphTotalTime - TelegraphFadeTime)) / TelegraphFadeTime);
+
             Vector2 scaleInner = new Vector2(TelegraphWidth / laserTelegraph.Width, yScale);
             Vector2 origin = laserTelegraph.Size() * new Vector2(0f, 0.5f);
             Vector2 scaleOuter = scaleInner * new Vector2(1f, 1.6f);
