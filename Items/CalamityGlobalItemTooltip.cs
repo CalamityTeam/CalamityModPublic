@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -336,6 +337,11 @@ namespace CalamityMod.Items
             // Aerial Bane is no longer the real bane of aerial enemies (50% dmg bonus removed)
             if (item.type == ItemID.DD2BetsyBow)
                 EditTooltipByNum(0, (line) => line.Text = "Shoots splitting arrows");
+            
+            // Modify item speed tooltips to use a new scale designed to more accurately reflect practical distributions of item speeds.
+            // Due to the higher complexity of the action, the actual logic is delegated to its own method.
+            // I think this fits the miscellaneous category? Not seeing anything like this elsewhere. - Tomat
+            EditTooltipByName("Speed", (line) => RedistributeSpeedTooltips(item, line));
             #endregion
 
             // For boss summon item clarity
@@ -1111,6 +1117,57 @@ namespace CalamityMod.Items
                 };
                 tooltips.Add(StealthGen);
             }
+        }
+        #endregion
+
+        #region A
+        
+        // TODO: Investigate using a SortedDictionary instead? May be slower, but removes the need for carefully adding KVPs.
+        /// <summary>
+        /// This dictionary handles easily retrieving tooltip text based on a numerical threshold. <br />
+        /// As items are added to the dictionary, the keys should only increase as they go down. <br />
+        /// For example: <code>{ 2, x }, { 4, y }, { 7, z }, ...</code>. <br />
+        /// In practice, this essentially equates to: <br />
+        /// <code>
+        /// if (foo &lt;= 2) bar = x;
+        /// else if (foo &lt;= 4) bar = y;
+        /// else if (foo &lt;= 7) bar = z;
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// Currently, the dictionary functions as follows: <br />
+        /// 1-5   insanely fast <br />
+        /// 6-9   very fast <br />
+        /// 10-14 fast <br />
+        /// 15-22 average <br />
+        /// 23-29 slow <br />
+        /// 30-37 very slow <br />
+        /// 38-45 extremely slow <br />
+        /// 46+   snail
+        /// </remarks>
+        private static readonly Dictionary<int, LocalizedText> SpeedTooltips = new Dictionary<int, LocalizedText>()
+        {
+            { 5, Language.GetText("LegacyTooltip.6") },
+            { 9, Language.GetText("LegacyTooltip.7") },
+            { 14, Language.GetText("LegacyTooltip.8") },
+            { 22, Language.GetText("LegacyTooltip.9") },
+            { 29, Language.GetText("LegacyTooltip.10") },
+            { 37, Language.GetText("LegacyTooltip.11") },
+            { 45, Language.GetText("LegacyTooltip.12") },
+            // TODO: Using int.MaxValue here may be considered kind of strange - only alternatives I can think of require hardcoding.
+            { int.MaxValue, Language.GetText("LegacyTooltip.13") }
+        };
+
+        private static void RedistributeSpeedTooltips(Item item, TooltipLine line)
+        {
+            // Iterate through each KeyValuePair in this dictionary.
+            // See the summary of SpeedTooltips to understand the purpose and logic of this loop.
+            foreach ((int threshold, LocalizedText tooltip) in SpeedTooltips)
+                if (item.useAnimation <= threshold)
+                {
+                    line.Text = tooltip.Value;
+                    break;
+                }
         }
         #endregion
 
