@@ -20,7 +20,6 @@ namespace CalamityMod.ForegroundDrawing
     {
         private static List<Point> _foregroundElements;
         private static int _foregroundElementCount;
-        public static bool drawToScreenLastFrame = false;
 
         internal static void Load()
         {
@@ -28,31 +27,29 @@ namespace CalamityMod.ForegroundDrawing
             _foregroundElementCount = 0;
         }
 
+        private static bool DrawToScreen() => Lighting.UpdateEveryFrame || Main.drawToScreen;
+
         public static void AddForegroundDrawingPoint(int x, int y)
         {
-            if (drawToScreenLastFrame)
-            {
-                _foregroundElements.Add(new Point(x, y));
-                _foregroundElementCount++;
-            }
+            _foregroundElements.Add(new Point(x, y));
+            _foregroundElementCount++;
         }
 
 
         public static void DrawTiles()
         {
-            drawToScreenLastFrame = Main.drawToScreen;
-
             for (int i = 0; i < _foregroundElementCount; i++)
             {
                 ushort type = Main.tile[_foregroundElements[i]].TileType;
                 if (TileLoader.GetTile(type) is IForegroundTile fgTile)
                     fgTile.ForegroundDraw(_foregroundElements[i].X, _foregroundElements[i].Y, Main.spriteBatch);
             }
+        }
 
-            if (!Main.drawToScreen) return;
-            _foregroundElementCount = 0;
+        public static void ClearTiles()
+        {
             _foregroundElements.Clear();
-
+            _foregroundElementCount = 0;
         }
     }
 }

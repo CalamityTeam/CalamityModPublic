@@ -55,6 +55,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             On.Terraria.Main.DrawGore += DrawForegroundStuff;
+            //On.Terraria.GameContent.Drawing.TileDrawing.ClearLegacyCachedDraws += ClearForegroundStuff;
+            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles += ClearForegroundStuff;
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
             // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
@@ -152,6 +154,8 @@ namespace CalamityMod.ILEditing
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
             On.Terraria.Main.DrawGore -= DrawForegroundStuff;
+            //On.Terraria.GameContent.Drawing.TileDrawing.ClearLegacyCachedDraws -= ClearForegroundStuff;
+            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles -= ClearForegroundStuff;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;

@@ -899,6 +899,14 @@ namespace CalamityMod.ILEditing
             if (Main.PlayerLoaded && !Main.gameMenu)
                 ForegroundManager.DrawTiles();
         }
+        
+        private static void ClearForegroundStuff(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
+        {
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets);
+            
+            if (!solidLayer && (intoRenderTargets || Lighting.UpdateEveryFrame))
+                ForegroundManager.ClearTiles();
+        }
         #endregion
     }
 }
