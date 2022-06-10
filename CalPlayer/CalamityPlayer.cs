@@ -3003,7 +3003,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound(RageActivationSound, Player.position);
+                    SoundEngine.PlaySound(RageActivationSound);
 
                     // TODO -- Rage should provide glowy red afterimages to the player for the duration.
                     // If Shattered Community is equipped, the afterimages are magenta instead.
@@ -3031,7 +3031,7 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
                     // Play Adrenaline Activation sound
-                    SoundEngine.PlaySound(AdrenalineActivationSound, Player.position);
+                    SoundEngine.PlaySound(AdrenalineActivationSound);
 
                     // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
                     int dustPerSegment = 96;

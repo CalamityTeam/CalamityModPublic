@@ -620,7 +620,7 @@ namespace CalamityMod
                 ProjectileType<AresDeathBeamStart>(),
                 ProjectileType<AresGaussNukeProjectileBoom>(),
                 ProjectileType<AresLaserBeamStart>(),
-                ProjectileType<ArtemisLaserBeamStart>(),
+                ProjectileType<ArtemisSpinLaserbeam>(),
                 ProjectileType<BirbAura>(),
                 ProjectileType<ThanatosBeamStart>()
             };

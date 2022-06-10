@@ -24,6 +24,7 @@ using CalamityMod.Dusts;
 using Terraria.GameContent.ItemDropRules;
 using CalamityMod.Events;
 using Terraria.Audio;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -33,6 +34,8 @@ namespace CalamityMod.NPCs.OldDuke
         public static readonly SoundStyle HuffSound = new("CalamityMod/Sounds/Custom/OldDukeHuff");
         public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/OldDukeRoar");
         public static readonly SoundStyle VomitSound = new("CalamityMod/Sounds/Custom/OldDukeVomit");
+
+        public SlotId RoarSoundSlot; 
 
         public override void SetStaticDefaults()
         {

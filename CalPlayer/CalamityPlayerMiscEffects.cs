@@ -390,7 +390,7 @@ namespace CalamityMod.CalPlayer
                     if (playFullRageSound)
                     {
                         playFullRageSound = false;
-                        SoundEngine.PlaySound(RageFilledSound, Player.position);
+                        SoundEngine.PlaySound(RageFilledSound);
                     }
                 }
                 else
@@ -462,7 +462,7 @@ namespace CalamityMod.CalPlayer
                     if (playFullAdrenalineSound)
                     {
                         playFullAdrenalineSound = false;
-                        SoundEngine.PlaySound(AdrenalineFilledSound, Player.position);
+                        SoundEngine.PlaySound(AdrenalineFilledSound);
                     }
                 }
                 else
