@@ -339,25 +339,26 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         if (player.HeldItem.CountsAsClass<MagicDamageClass>())
                         {
-                            damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(damage);
+                            damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(damage);
                         }
                         else if (player.HeldItem.CountsAsClass<MeleeDamageClass>())
                         {
-                            damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(damage);
+                            damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(damage);
                         }
                         else if (player.HeldItem.CountsAsClass<RangedDamageClass>())
                         {
-                            damage = (int)player.GetDamage<RangedDamageClass>().ApplyTo(damage);
+                            damage = (int)player.GetTotalDamage<RangedDamageClass>().ApplyTo(damage);
                         }
                         else if (player.HeldItem.CountsAsClass<SummonDamageClass>())
                         {
-                            damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(damage);
+                            damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(damage);
                         }
-                        // TODO -- also allow other mod throwing
                         else if (player.HeldItem.CountsAsClass<ThrowingDamageClass>())
                         {
-                            damage = (int)player.GetDamage<ThrowingDamageClass>().ApplyTo(damage);
+                            damage = (int)player.GetTotalDamage<ThrowingDamageClass>().ApplyTo(damage);
                         }
+                        
+                        // If we can't tell what you are using, it scales with your best class.
                         else
                         {
                             damage = (int)player.GetBestClassDamage().ApplyTo(damage);
