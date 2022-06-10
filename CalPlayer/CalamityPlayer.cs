@@ -148,6 +148,8 @@ namespace CalamityMod.CalPlayer
         public bool externalHeatImmunity = false;
         // NOTE -- With the Armageddon item removed from Calamity, this bool can only be set by other mods
         public bool disableAllDodges = false;
+        public List<int> disabledSummonerNerfItems = new();
+        public List<int> disabledSummonerNerfMinions = new();
         #endregion
 
         #region Town NPC Shop Variables
@@ -4742,7 +4744,8 @@ namespace CalamityMod.CalPlayer
                 bool toolCheck = heldItem.pick == 0 && heldItem.axe == 0 && heldItem.hammer == 0;
                 bool itemCanBeUsed = heldItem.useStyle != ItemUseStyleID.None;
                 bool notAccessoryOrAmmo = !heldItem.accessory && heldItem.ammo == AmmoID.None;
-                if (classCheck && itemCanBeUsed && toolCheck && notAccessoryOrAmmo)
+                bool nerfNotDisabledByCalls = !disabledSummonerNerfItems.Contains(heldItem.type) && !disabledSummonerNerfMinions.Contains(proj.type);
+                if (classCheck && itemCanBeUsed && toolCheck && notAccessoryOrAmmo && nerfNotDisabledByCalls)
                     damage = (int)(damage * summonNerfMult);
             }
 
