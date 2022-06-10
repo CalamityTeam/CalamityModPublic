@@ -16,6 +16,7 @@ using Terraria.ModLoader;
 using CalamityMod.Skies;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
@@ -28,6 +29,8 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 
         public static readonly SoundStyle VentSound = new("CalamityMod/Sounds/Custom/ThanatosVent");
         public static readonly SoundStyle LaserSound = new("CalamityMod/Sounds/Custom/THanosLaser");
+
+        public SlotId LaserSoundSlot;
 
         internal static void LoadHeadIcons()
         {
@@ -847,10 +850,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                             // Fire deathray telegraph beams
                             if (calamityGlobalNPC.newAI[2] == 1f)
                             {
-                                if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
-                                {
-                                    SoundEngine.PlaySound(LaserSound, Main.player[Main.myPlayer].position);
-                                }
+                                //Commented out in case we decide its better for it to simply play from anywhere in range
+                                //if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, NPC.Center) < soundDistance)
+                                LaserSoundSlot = SoundEngine.PlaySound(LaserSound, NPC.Center);
 
                                 // Create a bunch of lightning bolts in the sky
                                 ExoMechsSky.CreateLightningBolt(12);
@@ -970,6 +972,12 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             // Velocity upper limit
             if (NPC.velocity.Length() > baseVelocity)
                 NPC.velocity = NPC.velocity.SafeNormalize(Vector2.Zero) * baseVelocity;
+
+            //Update the laser sound if it's being done.
+            if (SoundEngine.TryGetActiveSound(LaserSoundSlot, out var laserSound) && laserSound.IsPlaying)
+            {
+                laserSound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

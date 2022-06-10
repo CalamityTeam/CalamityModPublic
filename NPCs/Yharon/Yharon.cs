@@ -31,6 +31,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.Yharon
 {
@@ -59,6 +60,8 @@ namespace CalamityMod.NPCs.Yharon
         public static readonly SoundStyle RoarSound = new("CalamityMod/Sounds/Custom/YharonRoar");
         public static readonly SoundStyle ShortRoarSound = new("CalamityMod/Sounds/Custom/YharonRoarShort");
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Custom/YharonFire");
+
+        public SlotId RoarSoundSlot;
 
         public override void SetStaticDefaults()
         {
@@ -485,7 +488,7 @@ namespace CalamityMod.NPCs.Yharon
                         Main.dust[num1470].velocity = Vector2.Normalize(value16) * 3f;
                     }
 
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
                 }
 
                 NPC.ai[2] += 1f;
@@ -600,7 +603,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         if (doFastCharge)
                         {
@@ -662,7 +665,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -729,7 +732,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -909,7 +912,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         if (doFastCharge)
                         {
@@ -979,7 +982,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 8f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
 
@@ -1033,7 +1036,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1069,7 +1072,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 12f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
 
@@ -1252,7 +1255,7 @@ namespace CalamityMod.NPCs.Yharon
                     else if (aiState == 5)
                     {
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         if (doFastCharge)
                         {
@@ -1329,7 +1332,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 15f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] % flareDustSpawnDivisor3 == 0f)
@@ -1384,7 +1387,7 @@ namespace CalamityMod.NPCs.Yharon
                 NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, 0f, 0.02f);
 
                 if (NPC.ai[2] == newPhaseTimer - 60)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
                 if (NPC.ai[2] >= newPhaseTimer)
@@ -1421,7 +1424,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 19f)
             {
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[2] += 1f;
 
@@ -1469,7 +1472,7 @@ namespace CalamityMod.NPCs.Yharon
                     NPC.velocity *= 0.98f;
 
                 if (NPC.ai[2] == 0f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 if (NPC.ai[2] % flareBombSpawnDivisor == 0f)
                 {
@@ -1922,7 +1925,7 @@ namespace CalamityMod.NPCs.Yharon
                             NPC.rotation = NPC.rotation.AngleTowards(newRotation, amount);
 
                         if (playFastChargeRoarSound)
-                            SoundEngine.PlaySound(RoarSound, NPC.position);
+                            RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                         NPC.localAI[1] += 1f;
 
@@ -2180,7 +2183,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (NPC.ai[0] == 5f)
             {
                 if (NPC.ai[1] == 1f)
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
 
                 NPC.ai[1] += 1f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2386,7 +2389,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                     }
 
-                    SoundEngine.PlaySound(RoarSound, NPC.position);
+                    RoarSoundSlot = SoundEngine.PlaySound(RoarSound, NPC.position);
                 }
 
                 NPC.ai[2] += 1f;
@@ -3064,6 +3067,17 @@ namespace CalamityMod.NPCs.Yharon
                 // Turn into dust on death.
                 if (NPC.life <= 0)
                     DeathAshParticle.CreateAshesFromNPC(NPC);
+            }
+        }
+        #endregion
+
+        #region Sound tracking
+        public override void PostAI()
+        {
+            //Update the roar sound if it's being done.
+            if (SoundEngine.TryGetActiveSound(RoarSoundSlot, out var roarSound) && roarSound.IsPlaying)
+            {
+                roarSound.Position = NPC.Center;
             }
         }
         #endregion

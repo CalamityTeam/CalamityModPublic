@@ -17,16 +17,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public int Timer => Lifetime - Projectile.timeLeft;
 
         private SlotId ChargeWindSoundSlot;
-        public ActiveSound ChargeWindSound
-        {
-            get
-            {
-                ActiveSound sound;
-                if (SoundEngine.TryGetActiveSound(ChargeWindSoundSlot, out sound))
-                    return sound;
-                return null;
-            }
-        }
 
 
         public int ChargeDirection => Math.Sign(Projectile.velocity.X);

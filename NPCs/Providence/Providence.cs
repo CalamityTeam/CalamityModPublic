@@ -1358,7 +1358,7 @@ namespace CalamityMod.NPCs.Providence
             if (DeathAnimationTimer == 1f)
             {
                 if (Main.netMode != NetmodeID.Server && Main.LocalPlayer.WithinRange(NPC.Center, 4800f))
-                    SoundEngine.PlaySound(DeathAnimationSound with { Volume = 1.65f }, Main.LocalPlayer.Center);
+                    SoundEngine.PlaySound(DeathAnimationSound with { Volume = 1.65f });
 
                 DespawnSpecificProjectiles();
 
