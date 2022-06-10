@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.ai[1] += 1f;
             if (Projectile.ai[1] < 150f && Projectile.ai[1] > 30f)
             {
-                float inertia = 20f;
+                float inertia = 30f;
                 float scaleFactor2 = Projectile.velocity.Length();
                 Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
                 vector11.Normalize();

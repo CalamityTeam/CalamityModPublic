@@ -112,18 +112,20 @@ namespace CalamityMod.NPCs
             }
 
             // Circular movement
+            float colorFadeTimeAfterSpiral = 90f;
+            float spiralGateValue = 480f;
             bool doSpiral = false;
             if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
             {
-                bool doNotSpiral = !Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height);
-                float ai3 = 660f;
-                calamityGlobalNPC.newAI[3] += 1f;
-                doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
+                if (Vector2.Distance(npc.Center, player.Center) < 1000f)
+                    calamityGlobalNPC.newAI[3] += 1f;
+
+                doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= spiralGateValue;
                 if (doSpiral)
                 {
-                    npc.localAI[3] = 90f;
-                    float acidMistBarfDivisor = malice ? 2f : expertMode ? 3f : 5f;
-                    float toxicCloudBarfDivisor = malice ? 30f : expertMode ? 40f : 60f;
+                    npc.localAI[3] = colorFadeTimeAfterSpiral;
+                    float acidMistBarfDivisor = malice ? 2f : death ? 3f : 4f;
+                    float toxicCloudBarfDivisor = malice ? 20f : death ? 30f : 40f;
 
                     // Vomit acid mist
                     if (calamityGlobalNPC.newAI[3] % acidMistBarfDivisor == 0f)
@@ -147,7 +149,7 @@ namespace CalamityMod.NPCs
                         {
                             int type = ModContent.ProjectileType<ToxicCloud>();
                             int damage = npc.GetProjectileDamage(type);
-                            int totalProjectiles = (phase4 ? 6 : 9) + (int)((calamityGlobalNPC.newAI[3] - ai3) / toxicCloudBarfDivisor) * (phase4 ? 2 : 3);
+                            int totalProjectiles = (phase4 ? 6 : 9) + (int)((calamityGlobalNPC.newAI[3] - spiralGateValue) / toxicCloudBarfDivisor) * (phase4 ? 2 : 3);
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             float cloudVelocity = 1f + enrageScale;
                             Vector2 spinningPoint = new Vector2(0f, -cloudVelocity);
@@ -160,7 +162,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Velocity boost
-                    if (calamityGlobalNPC.newAI[3] == ai3)
+                    if (calamityGlobalNPC.newAI[3] == spiralGateValue)
                     {
                         npc.velocity.Normalize();
                         npc.velocity *= 24f;
@@ -172,7 +174,7 @@ namespace CalamityMod.NPCs
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
                     // Reset and charge at target
-                    if (calamityGlobalNPC.newAI[3] >= ai3 + 120f)
+                    if (calamityGlobalNPC.newAI[3] >= spiralGateValue + 120f)
                     {
                         calamityGlobalNPC.newAI[3] = 0f;
                         npc.TargetClosest();
@@ -180,7 +182,7 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    if (doNotSpiral && calamityGlobalNPC.newAI[3] > 0f)
+                    if (!Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height) && calamityGlobalNPC.newAI[3] > 300f)
                         calamityGlobalNPC.newAI[3] -= 2f;
 
                     if (npc.localAI[3] > 0f)
@@ -416,6 +418,14 @@ namespace CalamityMod.NPCs
                         num189 -= 0.03f;
                         num188 += Vector2.Distance(player.Center, npc.Center) * 0.0015f;
                         num189 += Vector2.Distance(player.Center, npc.Center) * 0.00003f;
+                    }
+
+                    // Increase velocity and acceleration after spiral attack
+                    if (npc.localAI[3] > 0f)
+                    {
+                        float velocityMultiplier = MathHelper.Lerp(1f, 2f, npc.localAI[3] / colorFadeTimeAfterSpiral);
+                        num188 *= velocityMultiplier;
+                        num189 *= velocityMultiplier;
                     }
                 }
 

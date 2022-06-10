@@ -91,6 +91,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity >= 0.9f)
             {
                 target.AddBuff(BuffID.Poisoned, 240);
+                target.AddBuff(BuffID.Venom, 240);
                 target.AddBuff(ModContent.BuffType<Irradiated>(), 240);
             }
         }

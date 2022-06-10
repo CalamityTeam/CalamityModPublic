@@ -122,7 +122,6 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             bool enraged = true;
-            bool hyperMode = NPC.localAI[1] == 1f;
             if (CalamityGlobalNPC.slimeGodPurple != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
@@ -133,13 +132,11 @@ namespace CalamityMod.NPCs.SlimeGod
             if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
                 NPC.localAI[1] = 0f;
-                hyperMode = true;
                 enraged = true;
             }
             if (malice)
             {
                 enraged = true;
-                hyperMode = true;
             }
 
             if (NPC.localAI[1] != 1f)
@@ -166,7 +163,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     NPC.TargetClosest();
                     NPC.velocity.X *= 0.8f;
-                    NPC.ai[1] += hyperMode ? 2f : 1f;
+                    NPC.ai[1] += 1f;
 
                     float jumpGateValue = 50f;
                     float velocityX = death ? 10f : revenge ? 9f : expertMode ? 8f : 6f;
@@ -196,7 +193,6 @@ namespace CalamityMod.NPCs.SlimeGod
                         if (NPC.ai[3] >= 2f)
                         {
                             NPC.ai[3] = 0f;
-                            velocityY *= 0.75f;
                             velocityX *= 1.25f;
                         }
 

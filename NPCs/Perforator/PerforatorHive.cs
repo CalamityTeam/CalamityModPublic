@@ -386,20 +386,39 @@ namespace CalamityMod.NPCs.Perforator
 
             if (revenge)
             {
+                switch (wormsAlive)
+                {
+                    case 0:
+                        if (large || death)
+                            Movement(player, 11f + velocityEnrageIncrease, death ? 0.1125f : 0.0975f, 20f);
+                        else if (medium)
+                            Movement(player, 10f + velocityEnrageIncrease, death ? 0.105f : 0.09f, 30f);
+                        else if (small)
+                            Movement(player, 9f + velocityEnrageIncrease, death ? 0.0975f : 0.0825f, 40f);
+                        else
+                            Movement(player, 8f + velocityEnrageIncrease, death ? 0.09f : 0.075f, 50f);
+                        break;
+
+                    case 1:
+                        Movement(player, 6f + velocityEnrageIncrease, 0.15f, 350f);
+                        break;
+
+                    case 2:
+                        Movement(player, 6f + velocityEnrageIncrease, 0.15f, 275f);
+                        break;
+
+                    case 3:
+                        Movement(player, 6f + velocityEnrageIncrease, 0.15f, 200f);
+                        break;
+                }
+
                 if (wormsAlive == 1)
                 {
                     Movement(player, 6f + velocityEnrageIncrease, 0.15f, 350f);
                 }
                 else
                 {
-                    if (large || death)
-                        Movement(player, 11f + velocityEnrageIncrease, death ? 0.1125f : 0.0975f, 20f);
-                    else if (medium)
-                        Movement(player, 10f + velocityEnrageIncrease, death ? 0.105f : 0.09f, 30f);
-                    else if (small)
-                        Movement(player, 9f + velocityEnrageIncrease, death ? 0.0975f : 0.0825f, 40f);
-                    else
-                        Movement(player, 8f + velocityEnrageIncrease, death ? 0.09f : 0.075f, 50f);
+                    
                 }
             }
             else

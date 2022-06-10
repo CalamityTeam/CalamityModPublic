@@ -361,8 +361,8 @@ namespace CalamityMod.NPCs.SlimeGod
                                 NPC.Opacity = 0f;
                                 NPC.velocity.Normalize();
 
-                                int teleportX = player.velocity.X < 0f ? -20 : 20;
-                                int teleportY = player.velocity.Y < 0f ? -10 : 10;
+                                int teleportX = player.velocity.X < 0f ? -40 : 40;
+                                int teleportY = player.velocity.Y < 0f ? -20 : 20;
                                 int playerPosX = (int)player.Center.X / 16 + teleportX;
                                 int playerPosY = (int)player.Center.Y / 16 - teleportY;
 

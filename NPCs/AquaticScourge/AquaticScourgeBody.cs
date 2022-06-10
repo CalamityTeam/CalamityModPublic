@@ -101,8 +101,8 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] > 480f)
-                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] - 480f) / 180f, 0f, 1f));
+                if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] > 300f)
+                    color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp((Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] - 300f) / 180f, 0f, 1f));
                 else if (Main.npc[(int)NPC.ai[2]].localAI[3] > 0f)
                     color = Color.Lerp(color, Color.SandyBrown, MathHelper.Clamp(Main.npc[(int)NPC.ai[2]].localAI[3] / 90f, 0f, 1f));
             }

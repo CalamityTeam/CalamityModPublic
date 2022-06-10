@@ -537,7 +537,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 float velocity = 9f + enrageScale;
                                 for (int i = 0; i < 3; i++)
                                 {
-                                    int totalProjectiles = 8;
+                                    int totalProjectiles = calamityGlobalNPC.newAI[1] == 0f ? 8 : 4;
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     float newVelocity = velocity - (velocity * 0.33f * i);
                                     double angleA = radians * 0.5;

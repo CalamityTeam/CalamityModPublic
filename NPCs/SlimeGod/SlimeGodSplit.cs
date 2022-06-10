@@ -188,7 +188,6 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (NPC.ai[1] > jumpGateValue)
                     {
                         velocityY *= 1.25f;
-                        velocityX *= 0.75f;
                         NPC.ai[1] = 0f;
                         NPC.velocity.Y -= velocityY * speedMult;
                         NPC.velocity.X = (velocityX + distanceSpeedBoost) * NPC.direction;
@@ -310,7 +309,7 @@ namespace CalamityMod.NPCs.SlimeGod
             else if (NPC.ai[0] == 2.1f)
             {
                 bool atTargetPosition = NPC.position.Y + NPC.height >= player.position.Y;
-                if (NPC.ai[2] == 0f && (atTargetPosition || NPC.localAI[1] == 0f) && Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
+                if (NPC.ai[2] == 0f && atTargetPosition && Collision.CanHit(NPC.Center, 1, 1, player.Center, 1, 1) && !Collision.SolidCollision(NPC.position, NPC.width, NPC.height))
                 {
                     NPC.ai[2] = 1f;
                     NPC.netUpdate = true;
@@ -331,12 +330,12 @@ namespace CalamityMod.NPCs.SlimeGod
                             Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
                             destination.Normalize();
                             destination *= projectileVelocity;
-                            int numProj = 7;
+                            int numProj = 9;
                             float rotation = MathHelper.ToRadians(90);
                             for (int i = 0; i < numProj; i++)
                             {
-                                // Spawn projectiles 0, 1, 5 and 6
-                                if (i < 2 || i > 4)
+                                // Spawn projectiles 0, 1, 2, 6, 7 and 8
+                                if (i < 3 || i > 5)
                                 {
                                     Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center + Vector2.Normalize(perturbedSpeed) * 30f * NPC.scale, perturbedSpeed, type, damage, 0f, Main.myPlayer);

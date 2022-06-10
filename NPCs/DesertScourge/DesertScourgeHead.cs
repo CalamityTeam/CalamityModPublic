@@ -212,13 +212,13 @@ namespace CalamityMod.NPCs.DesertScourge
                         NPC.Calamity().newAI[2] += 1f;
 
                     if (NPC.SafeDirectionTo(player.Center).AngleBetween((NPC.rotation - MathHelper.PiOver2).ToRotationVector2()) < MathHelper.ToRadians(18f) &&
-                        NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 480f &&
+                        NPC.Calamity().newAI[2] >= 300f && Vector2.Distance(NPC.Center, player.Center) > 300f &&
                         Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                     {
                         if (NPC.Calamity().newAI[2] % 30f == 0f)
                         {
                             SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                            float velocity = malice ? 12f : death ? 10f : 9f;
+                            float velocity = malice ? 6f : death ? 5.5f : 5f;
                             int type = ModContent.ProjectileType<SandBlast>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
