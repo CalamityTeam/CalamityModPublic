@@ -23,8 +23,8 @@ namespace CalamityMod
 
         public static StatModifier GetBestClassDamage(this Player player)
         {
-            StatModifier ret = new();
-            StatModifier classless = player.GetDamage<GenericDamageClass>();
+            StatModifier ret = StatModifier.Default;
+            StatModifier classless = player.GetTotalDamage<GenericDamageClass>();
 
             // Atypical damage stats are copied from "classless", like Avenger Emblem. This prevents stacking flat damage effects repeatedly.
             ret.Base = classless.Base;
@@ -32,25 +32,25 @@ namespace CalamityMod
             ret.Flat = classless.Flat;
 
             // Check the five Calamity classes to see what the strongest one is, and use that for the typical damage stat.
-            float best = 0f;
+            float best = 1f;
 
-            float melee = player.GetDamage<MeleeDamageClass>().Additive;
+            float melee = player.GetTotalDamage<MeleeDamageClass>().Additive;
             if (melee > best) best = melee;
-            float ranged = player.GetDamage<RangedDamageClass>().Additive;
+            float ranged = player.GetTotalDamage<RangedDamageClass>().Additive;
             if (ranged > best) best = ranged;
-            float magic = player.GetDamage<MagicDamageClass>().Additive;
+            float magic = player.GetTotalDamage<MagicDamageClass>().Additive;
             if (magic > best) best = magic;
 
             // Summoner intentionally has a reduction. As the only class with no crit, it tends to have higher raw damage than other classes.
-            float summon = player.GetDamage<SummonDamageClass>().Additive * BalancingConstants.SummonAllClassScalingFactor;
+            float summon = player.GetTotalDamage<SummonDamageClass>().Additive * BalancingConstants.SummonAllClassScalingFactor;
             if (summon > best) best = summon;
             // We intentionally don't check whip class, because it inherits 100% from Summon
 
-            float rogue = player.GetDamage<RogueDamageClass>().Additive;
+            float rogue = player.GetTotalDamage<RogueDamageClass>().Additive;
             if (rogue > best) best = rogue;
 
             // Add the best typical damage stat, then return the full modifier.
-            ret += best;
+            ret += best - 1f;
             return ret;
         }
 
