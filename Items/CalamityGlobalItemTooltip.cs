@@ -1127,7 +1127,7 @@ namespace CalamityMod.Items
         /// This dictionary handles easily retrieving tooltip text based on a numerical threshold. <br />
         /// As items are added to the dictionary, the keys should only increase as they go down. <br />
         /// For example: <code>{ 2, x }, { 4, y }, { 7, z }, ...</code>. <br />
-        /// In practice, this essentially equates to: <br />
+        /// When iterating with the threshold in mind, this essentially equates to: <br />
         /// <code>
         /// if (foo &lt;= 2) bar = x;
         /// else if (foo &lt;= 4) bar = y;
