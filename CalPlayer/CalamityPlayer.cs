@@ -5523,7 +5523,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
                 }
-                else if (proj.type == ProjectileID.FairyQueenLance || proj.type == ProjectileID.FairyQueenHymn || proj.type == ProjectileID.HallowBossRainbowStreak || proj.type == ProjectileID.HallowBossSplitShotCore)
+                else if (proj.type == ProjectileID.FairyQueenLance || proj.type == ProjectileID.HallowBossRainbowStreak || proj.type == ProjectileID.HallowBossSplitShotCore)
                 {
                     Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
                 }

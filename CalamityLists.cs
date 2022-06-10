@@ -2282,7 +2282,8 @@ namespace CalamityMod
                 NPCID.GolemHeadFree,
                 NPCID.MoonLordFreeEye,
                 NPCID.BloodSquid,
-                NPCID.PlanterasHook
+                NPCID.PlanterasHook,
+                NPCID.Dandelion
             };
 
             // Reduce contact damage by 25%
