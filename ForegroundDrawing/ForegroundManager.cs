@@ -27,8 +27,6 @@ namespace CalamityMod.ForegroundDrawing
             _foregroundElementCount = 0;
         }
 
-        private static bool DrawToScreen() => Lighting.UpdateEveryFrame || Main.drawToScreen;
-
         public static void AddForegroundDrawingPoint(int x, int y)
         {
             _foregroundElements.Add(new Point(x, y));
