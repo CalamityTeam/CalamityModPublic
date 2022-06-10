@@ -5273,6 +5273,7 @@ namespace CalamityMod.NPCs
         public static void OldDukeAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+            OldDuke.OldDuke modNPC = npc.ModNPC<OldDuke.OldDuke>();
 
             npc.Calamity().canBreakPlayerDefense = true;
 
@@ -5638,7 +5639,7 @@ namespace CalamityMod.NPCs
                         Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
                     }
 
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
                 }
 
                 npc.ai[2] += 1f;
@@ -5803,7 +5804,7 @@ namespace CalamityMod.NPCs
 
                 // Play sounds and spawn Tooth Balls
                 if (npc.ai[2] == 0f)
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
 
                 if (npc.ai[2] % toothBallBelchPhaseDivisor == 0f)
                 {
@@ -5882,7 +5883,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6067,7 +6068,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6169,7 +6170,7 @@ namespace CalamityMod.NPCs
 
                 // Sound
                 if (npc.ai[2] == num10 - 60)
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
 
                 if (npc.ai[2] >= num10 - 60)
                 {
@@ -6380,7 +6381,7 @@ namespace CalamityMod.NPCs
 
                 // Play sound
                 if (npc.ai[2] == num12 / 2)
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == num12 / 2)
                 {
@@ -6481,7 +6482,7 @@ namespace CalamityMod.NPCs
                 // Play sounds and spawn Tooth Balls and a Vortex
                 if (npc.ai[2] == 0f)
                 {
-                    SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
+                    modNPC.RoarSoundSlot = SoundEngine.PlaySound(OldDuke.OldDuke.RoarSound, npc.position);
 
                     int type = ModContent.ProjectileType<OldDukeVortex>();
                     int damage = npc.GetProjectileDamage(type);
@@ -6522,6 +6523,11 @@ namespace CalamityMod.NPCs
                     npc.TargetClosest();
                     npc.netUpdate = true;
                 }
+            }
+
+            if (SoundEngine.TryGetActiveSound(modNPC.RoarSoundSlot, out var roarSound) && roarSound.IsPlaying)
+            {
+                roarSound.Position = npc.Center;
             }
         }
         #endregion

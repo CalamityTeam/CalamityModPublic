@@ -17,6 +17,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Artemis
 {
@@ -130,6 +131,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
         // Primitive trail drawer for the ribbon things
         public PrimitiveTrail RibbonTrail = null;
+
+        //This stores the sound slot of the ML laser sound it makes, so it may be properly updated in terms of position.
+        private SlotId DeathraySoundSlot;
 
         public const string NameToDisplay = "XS-01 Artemis";
 
@@ -1001,7 +1005,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
                                     int type = ModContent.ProjectileType<ArtemisLaserBeamStart>();
-                                    SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
+                                    DeathraySoundSlot = SoundEngine.PlaySound(SoundID.Zombie104, NPC.Center);
                                     int damage = NPC.GetProjectileDamage(type);
                                     int laser = Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, Vector2.Zero, type, damage, 0f, Main.myPlayer, NPC.whoAmI);
                                     if (Main.projectile.IndexInRange(laser))
@@ -1117,6 +1121,12 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
             // Update the charge flash variable
             ChargeFlash = MathHelper.Clamp(ChargeFlash + shouldDoChargeFlash.ToDirectionInt() * 0.08f, 0f, 1f);
+
+            //Update the deathray sound if it's being done.
+            if (DeathraySoundSlot != null && SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+            {
+                deathraySound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

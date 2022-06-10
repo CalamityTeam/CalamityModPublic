@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
 using CalamityMod.Items.Tools;
+using ReLogic.Utilities;
 
 namespace CalamityMod.NPCs.ExoMechs.Ares
 {
@@ -58,6 +59,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
 
         // Total duration of the deathray
         private const float deathrayDuration = 60f;
+
+        //This stores the sound slot of the crystyl crusher sound it makes, so it may be properly updated in terms of position.
+        private SlotId DeathraySoundSlot;
 
         public override void SetStaticDefaults()
         {
@@ -399,7 +403,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     {
                         // Play a charge up sound so that the player knows when it's about to fire the deathray
                         if (calamityGlobalNPC.newAI[2] == deathrayTelegraphDuration - 100f && !fireNormalLasers)
-                            SoundEngine.PlaySound(CrystylCrusher.ChargeSound, NPC.Center);
+                            DeathraySoundSlot = SoundEngine.PlaySound(CrystylCrusher.ChargeSound, NPC.Center);
 
                         // Smooth movement towards the location Ares Laser Cannon is meant to be at
                         CalamityUtils.SmoothMovement(NPC, movementDistanceGateValue, distanceFromDestination, baseVelocity, 0f, false);
@@ -506,6 +510,12 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             EnergyDrawer.Update();
+
+            //Update the deathray sound if it's being done.
+            if (DeathraySoundSlot != null && SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+            {
+                deathraySound.Position = NPC.Center;
+            }
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false;

@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Charge == (int)(MaxCharge * 1.5f) && Owner.whoAmI == Main.myPlayer)
             {
-                SoundEngine.PlaySound(SoundID.MaxMana, Owner.MountedCenter);
+                SoundEngine.PlaySound(SoundID.Item30 with { Volume = SoundID.Item30.Volume * 0.5f }, Owner.MountedCenter);
             }
 
             Charge++;
