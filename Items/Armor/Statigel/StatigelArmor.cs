@@ -14,6 +14,14 @@ namespace CalamityMod.Items.Armor.Statigel
             SacrificeTotal = 1;
             DisplayName.SetDefault("Statigel Armor");
             Tooltip.SetDefault("5% increased critical strike chance");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

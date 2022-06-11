@@ -7,11 +7,28 @@ namespace CalamityMod.Items.Armor.SnowRuffian
     [AutoloadEquip(EquipType.Body)]
     public class SnowRuffianChestplate : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/SnowRuffian/SnowRuffianChestplate_Back", EquipType.Back, this);
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/SnowRuffian/SnowRuffianChestplate_Neck", EquipType.Neck, this);
+        }
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Snow Ruffian Chestplate");
             Tooltip.SetDefault("3% increased rogue critical strike chance");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

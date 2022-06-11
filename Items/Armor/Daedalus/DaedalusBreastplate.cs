@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor.Daedalus
             if (Main.netMode == NetmodeID.Server)
                 return;
 
-            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/DaedalusBreastplate_Waist", EquipType.Waist, this);
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Daedalus/DaedalusBreastplate_Waist", EquipType.Waist, this);
         }
 
         public override void SetStaticDefaults()

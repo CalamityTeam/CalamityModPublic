@@ -15,6 +15,14 @@ namespace CalamityMod.Items.Armor.TitanHeart
             DisplayName.SetDefault("Titan Heart Mantle");
             Tooltip.SetDefault("45% chance to not consume rogue items\n" +
             "5% boosted rogue knockback but 15% lowered rogue attack speed");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

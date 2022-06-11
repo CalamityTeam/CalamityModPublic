@@ -5803,10 +5803,16 @@ namespace CalamityMod.CalPlayer
                 Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "AuricTeslaBodyArmor", EquipType.Back);
             }
 
-            if (Player.body == EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Body) && !meldTransformationPower && !meldTransformationForce)
+            if (Player.body == EquipLoader.GetEquipSlot(Mod, "SnowRuffianChestplate", EquipType.Body))
             {
-                Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Back);
-                Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Neck);
+                Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "SnowRuffianChestplate", EquipType.Back);
+                Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "SnowRuffianChestplate", EquipType.Neck);
+            }
+
+            if (Player.body == EquipLoader.GetEquipSlot(Mod, "EmpyreanCloak", EquipType.Body) && !meldTransformationPower && !meldTransformationForce)
+            {
+                Player.back = (sbyte)EquipLoader.GetEquipSlot(Mod, "EmpyreanCloak", EquipType.Back);
+                Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "EmpyreanCloak", EquipType.Neck);
             }
 
             if (Player.body == EquipLoader.GetEquipSlot(Mod, "DaedalusBreastplate", EquipType.Body))
