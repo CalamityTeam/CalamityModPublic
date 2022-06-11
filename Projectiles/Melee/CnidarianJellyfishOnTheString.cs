@@ -205,6 +205,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public void SimulateSegments()
         {
+            // TODO -- Ozzatron put this here to stop multiplayer errors.
+            if (Segments is null)
+            {
+                Segments = new List<VerletSimulatedSegment>(SegmentCount);
+                for (int i = 0; i < SegmentCount; ++i)
+                    Segments[i] = new VerletSimulatedSegment(Projectile.Center, false);
+            }
+
             Segments[0].oldPosition = Segments[0].position;
             Segments[0].position = Projectile.Center;
 
@@ -327,7 +335,17 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            Segments[SegmentCount - 1].position = reader.ReadVector2();
+            Vector2 sentPos = reader.ReadVector2();
+            if (Segments is not null)
+            {
+                try
+                {
+                    Segments[SegmentCount - 1].position = sentPos;
+                }
+                catch (Exception) {
+                    CalamityMod.Instance.Logger.Warn("IbanPlay Victide Cnidarian Position Netcode failed safely");
+                }
+            }
         }
     }
 }

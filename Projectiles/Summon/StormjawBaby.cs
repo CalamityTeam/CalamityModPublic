@@ -464,7 +464,7 @@ namespace CalamityMod.Projectiles.Summon
                     int x = xPos + direction + (int) Projectile.velocity.X;
                     for (int y = yPos; y < yPos + Projectile.height / 16 + 1; ++y)
                     {
-                        if (WorldGen.SolidTile(x, y))
+                        if (WorldGen.InWorld(x, y) && WorldGen.SolidTile(x, y))
                             flag3 = true;
                     }
                 }
@@ -480,7 +480,7 @@ namespace CalamityMod.Projectiles.Summon
                             x = (int)Projectile.Right.X / 16;
                         int y = (int)Projectile.Bottom.Y / 16;
                         Tile tile = Main.tile[x, y];
-                        if (WorldGen.SolidTile(x, y) || tile.IsHalfBlock || tile.Slope > 0 || TileID.Sets.Platforms[tile.TileType] && tile.HasTile && !tile.HasActuator)
+                        if ((WorldGen.InWorld(x, y) && WorldGen.SolidTile(x, y)) || tile.IsHalfBlock || tile.Slope > 0 || TileID.Sets.Platforms[tile.TileType] && tile.HasTile && !tile.HasActuator)
                         {
                             try
                             {

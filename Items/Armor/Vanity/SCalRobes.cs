@@ -1,5 +1,6 @@
 ﻿using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria;
 
 namespace CalamityMod.Items.Armor.Vanity
 {
@@ -10,6 +11,13 @@ namespace CalamityMod.Items.Armor.Vanity
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Calamitous Robes");
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                var equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            }
         }
 
         public override void SetDefaults()

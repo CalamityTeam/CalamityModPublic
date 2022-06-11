@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Other
             NPC.netAlways = true;
             NPC.aiStyle = -1;
             NPC.canGhostHeal = false;
-            NPC.Calamity().DoesNotGenerateRage = true;
+            NPC.Calamity().ProvidesProximityRage = false;
             NPC.Calamity().DoesNotDisappearInBossRush = true;
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
