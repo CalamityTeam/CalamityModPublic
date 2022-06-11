@@ -25,7 +25,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
             int dyeShader = drawPlayer.dye?[2].dye ?? 0;
             int frameSizeY = texture.Height / 4;
             int drawX = (int)(drawInfo.Center.X - Main.screenPosition.X - (3 * drawPlayer.direction));
-            int drawY = (int)(drawInfo.Center.Y - Main.screenPosition.Y);
+            int drawY = (int)(drawInfo.Center.Y - Main.screenPosition.Y - 4f);
             DrawData tailDrawData = new DrawData(texture, new Vector2(drawX, drawY), frame, drawInfo.colorPants, 0f, new Vector2(texture.Width / 2f, frameSizeY / 2f), 1f, drawInfo.playerEffect, 0)
             {
                 shader = dyeShader

@@ -17,6 +17,14 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault(@"12% increased damage and 8% increased critical strike chance
 Your attacks inflict Crush Depth
 No positive life regen");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

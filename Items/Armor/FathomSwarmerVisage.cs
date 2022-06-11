@@ -32,6 +32,11 @@ namespace CalamityMod.Items.Armor
             return body.type == ModContent.ItemType<FathomSwarmerBreastplate>() && legs.type == ModContent.ItemType<FathomSwarmerBoots>();
         }
 
+        public override void PreUpdateVanitySet(Player player)
+        {
+            player.Calamity().fathomSwarmerTail = true;
+        }
+
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "10% increased minion damage and +2 max minions\n" +

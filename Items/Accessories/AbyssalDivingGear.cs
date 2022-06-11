@@ -62,6 +62,8 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override bool IsVanitySet(int head, int body, int legs) => true;
+
         public override void PreUpdateVanitySet(Player player)
         {
             player.Calamity().abyssDivingGear = true;
