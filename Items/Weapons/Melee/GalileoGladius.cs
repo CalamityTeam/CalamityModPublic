@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.Gladius). //This may be too rare for this recipe, we'll see I guess. - Merkalto
-                AddIngredient<Lumenite>(8).
+                AddIngredient<Lumenyl>(8).
                 AddIngredient<RuinousSoul>(5).
                 AddIngredient<ExodiumClusterOre>(15).
                 AddTile(TileID.LunarCraftingStation).

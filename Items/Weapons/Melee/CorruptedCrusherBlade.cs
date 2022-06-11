@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EbonianGel>(15).
+                AddIngredient<BlightedGel>(15).
                 AddIngredient(ItemID.EbonstoneBlock, 50).
                 AddIngredient(ItemID.ShadowScale, 5).
                 AddIngredient(ItemID.IronBar, 4).

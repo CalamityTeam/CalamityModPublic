@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>(12).
+                AddIngredient<CryonicBar>(12).
                 AddIngredient(ItemID.FallenStar, 5).
                 AddIngredient(ItemID.SoulofNight).
                 AddIngredient(ItemID.SoulofLight).

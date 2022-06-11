@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 1, 2, 2, 3));
-            postClone.Add(ModContent.ItemType<Lumenite>(), 4);
+            postClone.Add(ModContent.ItemType<Lumenyl>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

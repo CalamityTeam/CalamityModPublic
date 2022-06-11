@@ -352,7 +352,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             aewMinionCondition.Add(notDuringCultistFight);
 
             LeadingConditionRule postClone = new LeadingConditionRule(DropHelper.If(() => DownedBossSystem.downedCalamitas));
-            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenite>(), 1, 8, 10, 10, 14));
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 8, 10, 10, 14));
             aewMinionCondition.Add(postClone);
 
             LeadingConditionRule postPlant = new LeadingConditionRule(new Conditions.DownedPlantera());

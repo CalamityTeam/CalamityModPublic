@@ -211,12 +211,12 @@ namespace CalamityMod.NPCs.Calamitas
 
                 // Materials
                 normalOnly.Add(ModContent.ItemType<EssenceofChaos>(), 1, 4, 8);
-                normalOnly.Add(ModContent.ItemType<CalamityDust>(), 1, 9, 14);
+                normalOnly.Add(ModContent.ItemType<AshesofCalamity>(), 1, 9, 14);
                 postProvidence.Add(ModContent.ItemType<Bloodstone>(), 1, 30, 40);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<CalamityHood>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<CalamityRobes>())));
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>())));
             }
 
             npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);

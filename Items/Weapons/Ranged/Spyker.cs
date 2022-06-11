@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<Needler>().
                 AddIngredient(ItemID.Stynger).
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

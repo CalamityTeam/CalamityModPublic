@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpPlatform(true);
             AddMapEntry(new Color(191, 142, 111));
-            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlatePlatform>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlatePlatform>();
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Platforms };
         }

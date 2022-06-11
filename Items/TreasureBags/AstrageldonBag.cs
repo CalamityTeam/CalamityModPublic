@@ -70,12 +70,12 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<SquishyBeanMount>(), NPC.downedMoonlord);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<SuspiciousLookingJellyBean>(), NPC.downedMoonlord);
             DropHelper.DropItem(s, player, ModContent.ItemType<GravistarSabaton>());
             DropHelper.DropItemChance(s, player, ModContent.ItemType<LeonidProgenitor>(), 0.1f);
 
             // Vanity
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<AureusMask>(), 7);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<AstrumAureusMask>(), 7);
 
             // Other
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<StarlightFuelCell>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostTwo);

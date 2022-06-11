@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient<FlakToxicannon>().
                 AddIngredient<DepthCells>(20).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -66,8 +66,8 @@ namespace CalamityMod.Items.Tools
                 AddIngredient<InfernaCutter>().
                 AddRecipeGroup("LunarHamaxe").
                 AddIngredient<MolluskHusk>(10).
-                AddIngredient<DraedonBar>(5).
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<PerennialBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

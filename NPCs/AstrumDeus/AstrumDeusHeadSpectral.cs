@@ -299,7 +299,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HideofAstrumDeus>()));
                 normalOnly.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 

@@ -367,7 +367,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
             //:BearWatchingYou:
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearEye>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BearsEye>());
             shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
             nextSlot++;
         }

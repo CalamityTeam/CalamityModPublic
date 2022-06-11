@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(30).
+                AddIngredient<Lumenyl>(30).
                 AddIngredient<Tenebris>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();

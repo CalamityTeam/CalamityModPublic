@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Dyes
                 AddIngredient(ItemID.BottledWater, 2).
                 AddIngredient<RuinousSoul>().
                 AddIngredient<ExodiumClusterOre>().
-                AddIngredient<Lumenite>().
+                AddIngredient<Lumenyl>().
                 AddTile(TileID.DyeVat).
                 Register();
         }

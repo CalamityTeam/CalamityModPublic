@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     ModContent.ItemType<GildedProboscis>(),
                     ModContent.ItemType<GoldenEagle>(),
                     ModContent.ItemType<RougeSlash>(),
-                    ModContent.ItemType<BirdSeed>(),
+                    ModContent.ItemType<FollyFeed>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<Swordsplosion>(), 10);
@@ -434,10 +434,10 @@ namespace CalamityMod.NPCs.Bumblebirb
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<DragonfollyTrophy>(), 10);
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeDragonfolly>());
         }
 
         public override void OnKill()

@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.HellwingBow).
-                AddIngredient<EssenceofCinder>(5).
+                AddIngredient<EssenceofSunlight>(5).
                 AddIngredient(ItemID.LivingFireBlock, 50).
                 AddIngredient(ItemID.Obsidian, 10).
                 AddTile(TileID.MythrilAnvil).

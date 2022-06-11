@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<ReaperTooth>(6).
                 AddIngredient(ItemID.SharkFin, 2).
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

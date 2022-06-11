@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Dyes
         {
             CreateRecipe(3).
                 AddIngredient(ItemID.BottledWater, 3).
-                AddIngredient<CalamitousEssence>().
+                AddIngredient<AshesofAnnihilation>().
                 AddTile(TileID.DyeVat).
                 Register();
         }

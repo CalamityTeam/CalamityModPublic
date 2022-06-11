@@ -87,7 +87,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TEPowerCellFactory factory = CalamityUtils.FindTileEntity<TEPowerCellFactory>(i, j, Width, Height, SheetSquare);
             int numCells = factory?.CellStack ?? 0;
             if (numCells > 0)
-                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, ModContent.ItemType<PowerCell>(), numCells);
+                Item.NewItem(new EntitySource_TileBreak(i, j), new Vector2(i, j) * 16f, ModContent.ItemType<DraedonPowerCell>(), numCells);
 
             factory?.Kill(left, top);
         }

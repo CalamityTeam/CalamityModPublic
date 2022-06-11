@@ -72,7 +72,7 @@ namespace CalamityMod.TileEntities
         public override void Update()
         {
             ++Time;
-            int maxCellStack = ModContent.GetModItem(ModContent.ItemType<PowerCell>()).Item.maxStack;
+            int maxCellStack = ModContent.GetModItem(ModContent.ItemType<DraedonPowerCell>()).Item.maxStack;
             if (IsCellFrame && CellStack < maxCellStack)
                 // The property setter will automatically send the necessary packet.
                 CellStack++;

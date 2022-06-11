@@ -124,7 +124,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.Starfish, 3).
                 AddIngredient(ItemID.Seashell, 3).
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<PurifiedGel>(2).
-                AddIngredient<EbonianGel>(2).
+                AddIngredient<BlightedGel>(2).
                 AddIngredient(ItemID.PinkGel).
                 AddIngredient(ItemID.Daybloom).
                 AddTile(TileID.AlchemyTable).

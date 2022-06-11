@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>(15).
+                AddIngredient<CryonicBar>(15).
                 AddIngredient<SeaPrism>(15).
                 AddIngredient(ItemID.Ectoplasm, 5).
                 AddTile(TileID.IceMachine).

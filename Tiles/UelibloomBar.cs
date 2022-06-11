@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles
         {
             this.SetUpBar(new Color(134, 209, 102));
             DustType = ModContent.DustType<BloomTileLeaves>();
-            ItemDrop = ModContent.ItemType<UeliaceBar>();
+            ItemDrop = ModContent.ItemType<Items.Materials.UelibloomBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

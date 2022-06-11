@@ -49,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PlagueCellCluster>(20).
+                AddIngredient<PlagueCellCanister>(20).
                 AddIngredient(ItemID.IronBar, 8).
                 AddIngredient(ItemID.Stinger, 5).
                 AddIngredient(ItemID.Obsidian, 3).

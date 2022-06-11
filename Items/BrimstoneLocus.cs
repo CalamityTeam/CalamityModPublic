@@ -27,7 +27,7 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CalamitousEssence>().
+                AddIngredient<AshesofAnnihilation>().
                 AddIngredient<BloodstoneCore>(3).
                 Register();
         }

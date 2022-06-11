@@ -83,6 +83,6 @@ namespace CalamityMod.NPCs.PlagueEnemies
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 1, 2);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 1, 2);
     }
 }

@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.CrystalStorm).
-                AddIngredient<VerstaltiteBar>(6).
+                AddIngredient<CryonicBar>(6).
                 AddTile(TileID.Bookcases).
                 Register();
         }

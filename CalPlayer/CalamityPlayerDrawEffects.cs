@@ -665,7 +665,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                     else if (drawPlayer.Calamity().plaguebringerCarapace)
-                        thingToDraw = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/PlaguebringerCarapace_Back").Value;
+                        thingToDraw = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/Plaguebringer/PlaguebringerCarapace_Back").Value;
 
                     if (thingToDraw is null)
                         return;

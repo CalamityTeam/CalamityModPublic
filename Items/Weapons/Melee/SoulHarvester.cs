@@ -108,7 +108,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.DeathSickle).
-                AddIngredient<PlagueCellCluster>(10).
+                AddIngredient<PlagueCellCanister>(10).
                 AddIngredient(ItemID.CursedFlame, 20).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient(ItemID.SharkFin, 2).
                 AddRecipeGroup("AnyAdamantiteBar", 5).
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

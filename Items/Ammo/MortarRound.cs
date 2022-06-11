@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Ammo
         {
             CreateRecipe(100).
                 AddIngredient(ItemID.RocketIV, 100).
-                AddIngredient<UeliaceBar>().
+                AddIngredient<UelibloomBar>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

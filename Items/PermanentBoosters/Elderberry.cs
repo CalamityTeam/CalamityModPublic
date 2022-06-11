@@ -60,7 +60,7 @@ namespace CalamityMod.Items.PermanentBoosters
             CreateRecipe().
                 AddIngredient(ItemID.LifeFruit, 5).
                 AddIngredient(ItemID.BlueBerries).
-                AddIngredient<UeliaceBar>(10).
+                AddIngredient<UelibloomBar>(10).
                 AddIngredient<DivineGeode>(10).
                 AddIngredient<UnholyEssence>(20).
                 AddTile(TileID.LunarCraftingStation).

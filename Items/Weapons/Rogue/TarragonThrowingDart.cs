@@ -56,7 +56,7 @@ Stealth strikes erupt into thorns on enemy hits");
         public override void AddRecipes()
         {
             CreateRecipe(333).
-                AddIngredient<UeliaceBar>().
+                AddIngredient<UelibloomBar>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

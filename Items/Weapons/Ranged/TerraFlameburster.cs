@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.Flamethrower).
                 AddIngredient<LivingShard>(7).
-                AddIngredient<EssenceofCinder>(5).
+                AddIngredient<EssenceofSunlight>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

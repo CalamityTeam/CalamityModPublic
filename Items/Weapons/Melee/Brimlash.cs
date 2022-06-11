@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<UnholyCore>(4).
                 AddIngredient<EssenceofChaos>(3).
-                AddIngredient<CalamityDust>(5).
+                AddIngredient<AshesofCalamity>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

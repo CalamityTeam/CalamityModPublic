@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient<ArchAmaryllis>().
-                AddIngredient<UeliaceBar>(10).
+                AddIngredient<UelibloomBar>(10).
                 AddIngredient<UnholyEssence>(10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

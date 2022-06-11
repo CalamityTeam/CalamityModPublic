@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<BlackHawkRemote>().
                 AddIngredient<InfectedRemote>().
                 AddIngredient<FuelCellBundle>().
-                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<PlagueCellCanister>(15).
                 AddIngredient<InfectedArmorPlating>(8).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.BlueMoon).
                 AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

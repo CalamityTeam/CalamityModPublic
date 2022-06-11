@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<RoverDrive>().
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddIngredient<MolluskHusk>(5).
                 AddTile(TileID.LunarCraftingStation).
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<GiantTortoiseShell>().
                 AddIngredient<RoverDrive>().
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddIngredient<MolluskHusk>(5).
                 AddTile(TileID.LunarCraftingStation).

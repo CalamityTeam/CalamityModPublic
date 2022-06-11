@@ -52,7 +52,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PlagueCellCanister>(), 13, 17);
             DropHelper.DropItem(s, player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
             DropHelper.DropItem(s, player, ItemID.Stinger, 4, 8);
 

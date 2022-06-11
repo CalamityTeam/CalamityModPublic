@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             CreateRecipe().
                 AddIngredient<Cinquedea>().
                 AddRecipeGroup("AnyMythrilBar", 6).
-                AddIngredient<EssenceofCinder>(4).
+                AddIngredient<EssenceofSunlight>(4).
                 AddIngredient<SeaPrism>(15).
                 AddIngredient<StormlionMandible>(2).
                 AddTile(TileID.MythrilAnvil).

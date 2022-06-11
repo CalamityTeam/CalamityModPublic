@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.RottenChunk, 3).
                 AddIngredient(ItemID.DemoniteBar, 7).
-                AddIngredient<TrueShadowScale>(10).
+                AddIngredient<RottenMatter>(10).
                 AddTile(TileID.DemonAltar).
                 Register();
         }

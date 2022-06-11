@@ -44,7 +44,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<SulfuricScale>(5).
+                AddIngredient<SulphuricScale>(5).
                 Register();
         }
     }

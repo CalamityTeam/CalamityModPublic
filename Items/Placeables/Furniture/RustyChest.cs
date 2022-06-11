@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.Chest).AddIngredient(ModContent.ItemType<SulfuricScale>(), 5).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).AddIngredient(ItemID.Chest).AddIngredient(ModContent.ItemType<SulphuricScale>(), 5).AddTile(TileID.Anvils).Register();
         }
     }
 }

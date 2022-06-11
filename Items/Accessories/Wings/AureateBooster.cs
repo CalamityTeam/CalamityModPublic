@@ -100,8 +100,8 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DraedonBar>(5).
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<PerennialBar>(5).
+                AddIngredient<EssenceofSunlight>().
                 AddIngredient(ItemID.SoulofFlight, 20).
                 AddTile(TileID.MythrilAnvil).
                 Register();

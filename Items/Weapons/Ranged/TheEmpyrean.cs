@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MeldiateBar>(12).
+                AddIngredient<MeldConstruct>(12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

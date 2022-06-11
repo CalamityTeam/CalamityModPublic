@@ -1,7 +1,7 @@
 ﻿using CalamityMod.Balancing;
 using CalamityMod.CustomRecipes;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Demonshade;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Magic;

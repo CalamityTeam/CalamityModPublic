@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<PlagueCellCluster>(), 1, 2, 3);
+            npcLoot.Add(ModContent.ItemType<PlagueCellCanister>(), 1, 2, 3);
             npcLoot.Add(ItemDropRule.NormalvsExpert(ItemID.Stinger, 4, 2));
         }
 

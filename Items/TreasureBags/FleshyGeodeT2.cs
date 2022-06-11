@@ -38,14 +38,14 @@ namespace CalamityMod.Items.TreasureBags
             int bloodstoneMax = !Main.expertMode ? 60 : 70;
             int lifeAlloyChance = !Main.expertMode ? 2 : 1;
             int coreofCalChance = !Main.expertMode ? 3 : 2;
-            DropHelper.DropItem(s, player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CryonicBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PerennialBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<ScoriaBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofSunlight>(), coreMin, coreMax);
             DropHelper.DropItem(s, player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
             DropHelper.DropItem(s, player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
             DropHelper.DropItem(s, player, ModContent.ItemType<Bloodstone>(), bloodstoneMin, bloodstoneMax);
-            DropHelper.DropItemChance(s, player, ModContent.ItemType<BarofLife>(), lifeAlloyChance, 1, 1);
+            DropHelper.DropItemChance(s, player, ModContent.ItemType<LifeAlloy>(), lifeAlloyChance, 1, 1);
             DropHelper.DropItemChance(s, player, ModContent.ItemType<CoreofCalamity>(), coreofCalChance, 1, 1);
         }
     }
