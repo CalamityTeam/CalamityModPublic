@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.SpectreBar, 8).
                 AddIngredient<SeaPrism>(10).
                 AddIngredient<DepthCells>(5).
-                AddIngredient<Lumenite>(5).
+                AddIngredient<Lumenyl>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

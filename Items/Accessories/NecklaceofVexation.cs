@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.AvengerEmblem).
-                AddIngredient<DraedonBar>(2).
+                AddIngredient<PerennialBar>(2).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

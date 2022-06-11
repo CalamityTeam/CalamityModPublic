@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor.Plaguebringer
             CreateRecipe().
                 AddIngredient(ItemID.BeeBreastplate).
                 AddIngredient<AlchemicalFlask>(2).
-                AddIngredient<PlagueCellCluster>(7).
+                AddIngredient<PlagueCellCanister>(7).
                 AddIngredient<InfectedArmorPlating>(7).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -5,7 +5,8 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Materials
 {
-    public class CalamityDust : ModItem
+    [LegacyName("CalamityDust")]
+    public class AshesofCalamity : ModItem
     {
         public override void SetStaticDefaults()
         {

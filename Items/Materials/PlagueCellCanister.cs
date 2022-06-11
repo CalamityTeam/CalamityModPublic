@@ -4,12 +4,13 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class SulfuricScale : ModItem
+    [LegacyName("PlagueCellCluster")]
+    public class PlagueCellCanister : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
-            DisplayName.SetDefault("Sulphuric Scale");
+            DisplayName.SetDefault("Plague Cell Canister");
         }
 
         public override void SetDefaults()
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Materials
             Item.width = 20;
             Item.height = 20;
             Item.maxStack = 999;
-            Item.value = Item.sellPrice(silver: 3);
-            Item.rare = ItemRarityID.Green;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
         }    }
 }

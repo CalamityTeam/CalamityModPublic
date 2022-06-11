@@ -50,7 +50,7 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EbonianGel>(40).
+                AddIngredient<BlightedGel>(40).
                 AddRecipeGroup("AnyEvilBlock", 40).
                 AddTile(TileID.DemonAltar).
                 Register();

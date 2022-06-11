@@ -305,7 +305,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("HiveMind", out float order);
                 int type = NPCType<HiveMind>();
                 int summon = ItemType<Teratoma>();
-                List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<TrueShadowScale>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CorruptSeeds, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemID.LesserHealingPotion };
+                List<int> loot = new List<int>() { ItemType<HiveMindBag>(), ItemType<RottenMatter>(), ItemID.DemoniteBar, ItemID.RottenChunk, ItemID.CorruptSeeds, ItemID.CursedFlame, ItemType<PerfectDark>(), ItemType<LeechingDagger>(), ItemType<Shadethrower>(), ItemType<ShadowdropStaff>(), ItemType<ShaderainStaff>(), ItemType<DankStaff>(), ItemType<RotBall>(), ItemType<FilthyGlove>(), ItemType<RottenBrain>(), ItemID.LesserHealingPotion };
                 List<int> collection = new List<int>() { ItemType<HiveMindTrophy>(), ItemType<HiveMindMask>(), ItemType<KnowledgeHiveMind>(), ItemType<RottingEyeball>() };
                 string instructions = $"Kill a Cyst in the Corruption or use a [i:{summon}] in the Corruption";
                 string despawn = CalamityUtils.ColorMessage("The corrupted colony began searching for a new breeding ground.", new Color(0x94, 0x00, 0xD3));
@@ -379,7 +379,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Calamitas", out float order);
                 int type = NPCType<CalamitasRun3>();
                 int summon = ItemType<BlightedEyeball>();
-                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<CalamityDust>(), ItemType<Bloodstone>(), ItemType<CalamitasInferno>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<AshesofCalamity>(), ItemType<Bloodstone>(), ItemType<CalamitasInferno>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<KnowledgeCalamitasClone>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
@@ -403,7 +403,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Leviathan", out float order);
                 List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Siren>() };
                 List<int> loot = new List<int>() { ItemType<LeviathanBag>(), ItemType<Greentide>(), ItemType<Leviatitan>(), ItemType<SirensSong>(), ItemType<Atlantis>(), ItemType<GastricBelcherStaff>(), ItemType<BrackishFlask>(), ItemType<LeviathanTeeth>(), ItemType<LureofEnthrallment>(), ItemType<LeviathanAmbergris>(), ItemType<TheCommunity>(), ItemID.HotlineFishingHook, ItemID.BottomlessBucket, ItemID.SuperAbsorbantSponge, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GreaterHealingPotion };
-                List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanandSiren>() };
+                List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanAnahita>() };
                 string instructions = "By killing an unknown entity in the Ocean Biome";
                 string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
                 string bossLogTex = "CalamityMod/NPCs/Leviathan/SirenandLevi_BossChecklist";
@@ -428,7 +428,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("PlaguebringerGoliath", out float order);
                 int type = NPCType<PlaguebringerGoliath>();
                 int summon = ItemType<Abomination>();
-                List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<InfectedArmorPlating>(), ItemID.Stinger, ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<BlightSpewer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCanister>(), ItemType<InfectedArmorPlating>(), ItemID.Stinger, ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<BlightSpewer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<PlaguebringerGoliathTrophy>(), ItemType<PlaguebringerGoliathMask>(), ItemType<KnowledgePlaguebringerGoliath>(), ItemType<PlagueCaller>() };
                 string instructions = $"Use an [i:{summon}] in the Jungle Biome";
                 string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));
@@ -484,7 +484,7 @@ namespace CalamityMod
                 int type = NPCType<Bumblefuck>();
                 int summon = ItemType<BirbPheromones>();
                 List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<BirdSeed>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemType<SupremeHealingPotion>() };
-                List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeBumblebirb>() };
+                List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeDragonfolly>() };
                 string instructions = $"Use [i:{summon}] in the Jungle Biome";
                 string despawn = CalamityUtils.ColorMessage("The failed experiment returns to its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
                 AddBoss(bossChecklist, calamity, "Dragonfolly", order, type, DownedBirb, summon, loot, collection, instructions, despawn);
@@ -610,11 +610,11 @@ namespace CalamityMod
             {
                 BossDifficulty.TryGetValue("SupremeCalamitas", out float order);
                 int type = NPCType<SupremeCalamitas>();
-                int summon1 = ItemType<CalamityDust>();
+                int summon1 = ItemType<AshesofCalamity>();
                 int summon2 = ItemType<EyeofExtinction>();
                 int altar = ItemType<SCalAltarItem>();
                 List<int> summons = new List<int>() { summon1, summon2 };
-                List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<CalamitousEssence>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<Condemnation>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
+                List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<AshesofAnnihilation>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<Condemnation>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
                 List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<SupremeCataclysmTrophy>(), ItemType<SupremeCatastropheTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
                 string instructions = $"Use [i:{summon1}] or a [i:{summon2}] as offering at an [i:{altar}]";
                 string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
@@ -627,7 +627,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
                 int type = NPCType<EidolonWyrmHeadHuge>();
                 int summon = ItemID.RodofDiscord;
-                List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenite>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>(), ItemType<HalibutCannon>(), ItemType<OmegaHealingPotion>() };
+                List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenyl>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>(), ItemType<HalibutCannon>(), ItemType<OmegaHealingPotion>() };
                 List<int> collection = new List<int>() { };
                 string instructions = $"While in the Abyss, use an item that inflicts Chaos State";
                 string despawn = CalamityUtils.ColorMessage("...", new Color(0x7F, 0xFF, 0xD4));
@@ -643,7 +643,7 @@ namespace CalamityMod
                 InvasionDifficulty.TryGetValue("Acid Rain Initial", out float order);
                 List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Key).ToList();
                 int summon = ItemType<CausticTear>();
-                List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<ParasiticSceptor>(), ItemType<CausticCroakerStaff>() };
+                List<int> loot = new List<int>() { ItemType<SulphuricScale>(), ItemType<ParasiticSceptor>(), ItemType<CausticCroakerStaff>() };
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
                 string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the ocean.", new Color(146, 183, 116));
@@ -658,7 +658,7 @@ namespace CalamityMod
                 enemies.Add(ModContent.NPCType<IrradiatedSlime>());
                 enemies.AddRange(AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Key));
                 List<int> summons = new List<int>() { ItemType<CausticTear>() };
-                List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<NuclearRod>(), ItemType<ParasiticSceptor>(), ItemType<CausticCroakerStaff>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>() };
+                List<int> loot = new List<int>() { ItemType<SulphuricScale>(), ItemType<CorrodedFossil>(), ItemType<NuclearRod>(), ItemType<ParasiticSceptor>(), ItemType<CausticCroakerStaff>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>() };
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
                 string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
@@ -672,7 +672,7 @@ namespace CalamityMod
                 List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Key).ToList();
                 enemies.AddRange(AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Key));
                 List<int> summons = new List<int>() { ItemType<CausticTear>() };
-                List<int> loot = new List<int>() { ItemID.SharkFin, ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<NuclearRod>(), ItemType<ParasiticSceptor>(), ItemType<CausticCroakerStaff>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>(), ItemType<GammaHeart>(), ItemType<PhosphorescentGauntlet>(), ItemType<SulphuricAcidCannon>() };
+                List<int> loot = new List<int>() { ItemID.SharkFin, ItemType<SulphuricScale>(), ItemType<CorrodedFossil>(), ItemType<NuclearRod>(), ItemType<ParasiticSceptor>(), ItemType<CausticCroakerStaff>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>(), ItemType<GammaHeart>(), ItemType<PhosphorescentGauntlet>(), ItemType<SulphuricAcidCannon>() };
                 List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
                 string instructions = $"Use a [i:{ItemType<CausticTear>()}] or wait for the invasion to occur naturally after the Polterghast is defeated";
                 string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
@@ -757,7 +757,7 @@ namespace CalamityMod
 
             // Golem
             AddLoot(bossChecklist, "Golem",
-                new List<int>() { ItemType<EssenceofCinder>(), ItemType<AegisBlade>() },
+                new List<int>() { ItemType<EssenceofSunlight>(), ItemType<AegisBlade>() },
                 new List<int>() { ItemType<KnowledgeGolem>() }
             );
             AddSummons(bossChecklist, "Golem", new List<int>() { ItemType<OldPowerCell>() });

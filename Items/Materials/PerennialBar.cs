@@ -6,17 +6,18 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class VerstaltiteBar : ModItem
+    [LegacyName("DraedonBar")]
+    public class PerennialBar : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
-            DisplayName.SetDefault("Cryonic Bar");
+            DisplayName.SetDefault("Perennial Bar");
         }
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<CryonicBar>();
+            Item.createTile = ModContent.TileType<Tiles.PerennialBar>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
@@ -26,13 +27,13 @@ namespace CalamityMod.Items.Materials
             Item.width = 30;
             Item.height = 24;
             Item.maxStack = 999;
-            Item.value = Item.sellPrice(silver: 60);
-            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(gold: 1);
+            Item.rare = ItemRarityID.Lime;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CryonicOre>(5).
+                AddIngredient<PerennialOre>(5).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

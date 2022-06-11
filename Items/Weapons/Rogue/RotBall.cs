@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe(100).
-                AddIngredient<TrueShadowScale>().
+                AddIngredient<RottenMatter>().
                 AddIngredient(ItemID.RottenChunk).
                 AddIngredient(ItemID.DemoniteBar).
                 AddTile(TileID.DemonAltar).

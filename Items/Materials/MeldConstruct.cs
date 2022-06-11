@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class MeldiateBar : ModItem
+    [LegacyName("MeldiateBar")]
+    public class MeldConstruct : ModItem
     {
         public override void SetStaticDefaults()
         {

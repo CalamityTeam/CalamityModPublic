@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe(100).
-                AddIngredient<MeldiateBar>().
+                AddIngredient<MeldConstruct>().
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

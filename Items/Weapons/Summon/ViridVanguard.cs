@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<IgneousExaltation>().
-                AddIngredient<UeliaceBar>(8).
+                AddIngredient<UelibloomBar>(8).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

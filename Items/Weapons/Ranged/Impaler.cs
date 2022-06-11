@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.StakeLauncher).
                 AddIngredient(ItemID.ExplosivePowder, 100).
-                AddIngredient<CruptixBar>(5).
+                AddIngredient<ScoriaBar>(5).
                 AddIngredient(ItemID.LivingFireBlock, 75).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.DraedonLabThings
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<PowerCell>(), 2, 2, 4);
+            npcLoot.Add(ModContent.ItemType<DraedonPowerCell>(), 2, 2, 4);
         }
 
         public override void FindFrame(int frameHeight)

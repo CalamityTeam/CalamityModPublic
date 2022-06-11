@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>(6).
+                AddIngredient<CryonicBar>(6).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

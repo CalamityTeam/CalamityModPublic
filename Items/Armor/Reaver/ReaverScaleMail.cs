@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Armor.Reaver
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DraedonBar>(15).
+                AddIngredient<PerennialBar>(15).
                 AddIngredient(ItemID.JungleSpores, 12).
-                AddIngredient<EssenceofCinder>(3).
+                AddIngredient<EssenceofSunlight>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

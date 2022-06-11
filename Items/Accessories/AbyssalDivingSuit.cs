@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient<AnechoicPlating>().
                 AddIngredient<IronBoots>().
                 AddIngredient<MolluskHusk>(15).
-                AddIngredient<Lumenite>(40).
+                AddIngredient<Lumenyl>(40).
                 AddIngredient<DepthCells>(40).
                 AddIngredient<Tenebris>(15).
                 AddIngredient(ItemID.LunarBar, 5).

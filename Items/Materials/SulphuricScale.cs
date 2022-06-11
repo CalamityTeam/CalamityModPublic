@@ -4,20 +4,22 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class TrueShadowScale : ModItem
+    [LegacyName("SulfuricScale")]
+    public class SulphuricScale : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
-            DisplayName.SetDefault("Rotten Matter");
+            DisplayName.SetDefault("Sulphuric Scale");
         }
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 32;
+            Item.width = 20;
+            Item.height = 20;
             Item.maxStack = 999;
-            Item.value = Item.buyPrice(0, 0, 50, 0);
-            Item.rare = ItemRarityID.Orange;
-        }    }
+            Item.value = Item.sellPrice(silver: 3);
+            Item.rare = ItemRarityID.Green;
+        }
+    }
 }

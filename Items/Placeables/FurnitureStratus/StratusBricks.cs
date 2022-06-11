@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 
         public override void AddRecipes()
         {
-            CreateRecipe(50).AddRecipeGroup("AnyStoneBlock", 50).AddIngredient(ModContent.ItemType<Lumenite>(), 3).AddIngredient(ModContent.ItemType<RuinousSoul>(), 1).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(50).AddRecipeGroup("AnyStoneBlock", 50).AddIngredient(ModContent.ItemType<Lumenyl>(), 3).AddIngredient(ModContent.ItemType<RuinousSoul>(), 1).AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1).AddTile(TileID.LunarCraftingStation).Register();
             CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusWall>(), 4).AddTile(TileID.WorkBenches).Register();
             CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusPlatform>(), 2).AddTile(TileID.LunarCraftingStation).Register();
             CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusStarPlatformItem>(), 2).AddTile(TileID.LunarCraftingStation).Register();

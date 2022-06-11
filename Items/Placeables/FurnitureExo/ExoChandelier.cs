@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPlating>(), 4).AddIngredient(ModContent.ItemType<PowerCell>(), 4).AddIngredient(ItemID.Chain).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ExoPlating>(), 4).AddIngredient(ModContent.ItemType<DraedonPowerCell>(), 4).AddIngredient(ItemID.Chain).AddTile(ModContent.TileType<DraedonsForge>()).Register();
         }
     }
 }

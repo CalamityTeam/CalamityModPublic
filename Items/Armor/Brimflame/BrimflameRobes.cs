@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor.Brimflame
         {
             CreateRecipe().
                 AddIngredient(ItemID.ObsidianRose).
-                AddIngredient<CalamityDust>(8).
+                AddIngredient<AshesofCalamity>(8).
                 AddIngredient<UnholyCore>(4).
                 AddTile(TileID.MythrilAnvil).
                 Register();

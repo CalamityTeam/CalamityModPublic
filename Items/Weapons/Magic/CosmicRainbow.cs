@@ -111,9 +111,9 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.RainbowGun).
                 AddIngredient(ItemID.PearlwoodBow).
-                AddIngredient<MeldiateBar>(5).
+                AddIngredient<MeldConstruct>(5).
                 AddIngredient<CoreofCalamity>().
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

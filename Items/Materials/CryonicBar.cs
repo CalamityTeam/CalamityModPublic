@@ -6,34 +6,34 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class UeliaceBar : ModItem
+    [LegacyName("VerstaltiteBar")]
+    public class CryonicBar : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
-            DisplayName.SetDefault("Uelibloom Bar");
+            DisplayName.SetDefault("Cryonic Bar");
         }
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<UelibloomBar>();
-            Item.width = 15;
-            Item.height = 12;
-            Item.maxStack = 999;
-            Item.rare = ItemRarityID.Red;
-            Item.value = Item.sellPrice(gold: 3);
-            Item.Calamity().customRarity = CalamityRarity.Turquoise;
+            Item.createTile = ModContent.TileType<CryonicBar>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
+            Item.width = 30;
+            Item.height = 24;
+            Item.maxStack = 999;
+            Item.value = Item.sellPrice(silver: 60);
+            Item.rare = ItemRarityID.Pink;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UelibloomOre>(5).
+                AddIngredient<CryonicOre>(5).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

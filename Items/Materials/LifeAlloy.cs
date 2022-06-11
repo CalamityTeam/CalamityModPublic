@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class BarofLife : ModItem
+    [LegacyName("BarofLife")]
+    public class LifeAlloy : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,9 +24,9 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>().
-                AddIngredient<DraedonBar>().
-                AddIngredient<CruptixBar>().
+                AddIngredient<CryonicBar>().
+                AddIngredient<PerennialBar>().
+                AddIngredient<ScoriaBar>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

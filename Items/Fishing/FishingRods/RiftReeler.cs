@@ -8,7 +8,8 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class ChaoticSpreadRod : ModItem
+    [LegacyName("ChaoticSpreadRod")]
+    public class RiftReeler : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -49,7 +50,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
         {
             CreateRecipe().
                 AddIngredient(ItemID.HotlineFishingHook).
-                AddIngredient<CruptixBar>(8).
+                AddIngredient<ScoriaBar>(8).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

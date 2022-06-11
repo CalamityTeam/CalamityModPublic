@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor.Empyrean
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MeldiateBar>(22).
+                AddIngredient<MeldConstruct>(22).
                 AddIngredient(ItemID.LunarBar, 16).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

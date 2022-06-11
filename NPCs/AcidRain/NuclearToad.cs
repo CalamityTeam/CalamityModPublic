@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            npcLoot.Add(ModContent.ItemType<SulphuricScale>(), 2, 1, 3);
             npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<CausticCroakerStaff>(), 20);
             npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<CausticCroakerStaff>(), 100);
         }

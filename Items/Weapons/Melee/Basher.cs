@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe(1).
-                AddIngredient<SulfuricScale>(12).
+                AddIngredient<SulphuricScale>(12).
                 AddIngredient<Acidwood>(30).
                 AddTile(TileID.Anvils).
                 Register();

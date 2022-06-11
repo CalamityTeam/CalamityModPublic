@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor.PlagueReaper
         {
             CreateRecipe().
                 AddIngredient(ItemID.NecroBreastplate).
-                AddIngredient<PlagueCellCluster>(29).
+                AddIngredient<PlagueCellCanister>(29).
                 AddIngredient(ItemID.Nanites, 19).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient<MeldiateBar>(2)
+                .AddIngredient<MeldConstruct>(2)
                 .AddIngredient(ItemID.LunarBar, 10)
                 .AddTile(TileID.LunarCraftingStation)
                 .Register();

@@ -58,7 +58,7 @@ namespace CalamityMod.UI
             }
 
             // What item is currently in the UI item slot? It's normally nothing, but it could be power cells.
-            int powercellID = ModContent.ItemType<PowerCell>();
+            int powercellID = ModContent.ItemType<DraedonPowerCell>();
             Item powercell = new Item();
             powercell.TurnToAir();
             if (factory.CellStack > 0)

@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UeliaceBar>(10).
+                AddIngredient<UelibloomBar>(10).
                 AddIngredient<DarksunFragment>(20).
                 AddTile<CosmicAnvil>().
                 Register();

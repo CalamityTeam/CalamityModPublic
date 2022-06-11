@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor.Hydrothermic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CruptixBar>(15).
+                AddIngredient<ScoriaBar>(15).
                 AddIngredient(ItemID.HellstoneBar, 8).
                 AddIngredient<CoreofChaos>(3).
                 AddTile(TileID.MythrilAnvil).

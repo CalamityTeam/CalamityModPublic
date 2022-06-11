@@ -85,19 +85,19 @@ namespace CalamityMod.NPCs
                 // Essence of Cinder @ 50% IF Hardmode and not statue spawned
                 case NPCID.Harpy:
                     npcLoot.AddIf(() => NPC.downedBoss1, ModContent.ItemType<SkyGlaze>(), 30);
-                    npcLoot.AddIf(() => Main.hardMode && !npc.SpawnedFromStatue, ModContent.ItemType<EssenceofCinder>(), 2);
+                    npcLoot.AddIf(() => Main.hardMode && !npc.SpawnedFromStatue, ModContent.ItemType<EssenceofSunlight>(), 2);
                     break;
 
                 // Angry Nimbus
                 // Essence of Cinder @ 50% Normal, 100% Expert+
                 case NPCID.AngryNimbus:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofCinder>(), 2, 1));
+                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<EssenceofSunlight>(), 2, 1));
                     break;
 
                 // Wyvern Head
                 // 1-2 Essence of Cinder @ 100%
                 case NPCID.WyvernHead:
-                    npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 1, 1, 2);
+                    npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 1, 2);
                     break;
                 #endregion
 
@@ -1111,7 +1111,7 @@ namespace CalamityMod.NPCs
                     normalOnly.Add(DropHelper.PerPlayer(ItemID.ShinyStone));
 
                     // Would be in the bag otherwise
-                    normalOnly.Add(ModContent.ItemType<EssenceofCinder>(), 1, 5, 10);
+                    normalOnly.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 5, 10);
                     normalOnly.Add(ModContent.ItemType<AegisBlade>(), 10);
 
                     // If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.

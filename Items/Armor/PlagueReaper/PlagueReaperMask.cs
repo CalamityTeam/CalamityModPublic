@@ -89,14 +89,14 @@ namespace CalamityMod.Items.Armor.PlagueReaper
         {
             CreateRecipe().
                 AddIngredient(ItemID.NecroHelmet).
-                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<PlagueCellCanister>(15).
                 AddIngredient(ItemID.Nanites, 11).
                 AddTile(TileID.MythrilAnvil).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.AncientNecroHelmet).
-                AddIngredient<PlagueCellCluster>(15).
+                AddIngredient<PlagueCellCanister>(15).
                 AddIngredient(ItemID.Nanites, 11).
                 AddTile(TileID.MythrilAnvil).
                 Register();

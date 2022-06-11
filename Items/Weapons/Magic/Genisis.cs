@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.LaserMachinegun).
                 AddIngredient(ItemID.LunarBar, 5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

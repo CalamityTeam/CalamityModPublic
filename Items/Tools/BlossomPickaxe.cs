@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UeliaceBar>(7).
+                AddIngredient<UelibloomBar>(7).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

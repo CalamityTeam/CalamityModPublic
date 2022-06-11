@@ -42,7 +42,7 @@ No positive life regen");
         {
             CreateRecipe().
                 AddIngredient<ReaperTooth>(12).
-                AddIngredient<Lumenite>(8).
+                AddIngredient<Lumenyl>(8).
                 AddIngredient<Tenebris>(8).
                 AddIngredient<RuinousSoul>(4).
                 AddTile(TileID.LunarCraftingStation).

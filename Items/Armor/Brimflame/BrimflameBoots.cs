@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor.Brimflame
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CalamityDust>(5).
+                AddIngredient<AshesofCalamity>(5).
                 AddIngredient<UnholyCore>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

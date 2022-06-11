@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Potions
                 AddIngredient(ItemID.HolyWater, 5).
                 AddIngredient<Stardust>(20).
                 AddIngredient(ItemID.CrystalShard, 5).
-                AddIngredient<EssenceofCinder>(3).
+                AddIngredient<EssenceofSunlight>(3).
                 AddIngredient<ScarredAngelfish>().
                 AddTile(TileID.AlchemyTable).
                 Register();

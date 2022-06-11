@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class CoreofCinder : ModItem
+    [LegacyName("CoreofCinder")]
+    public class CoreofSunlight : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Materials
         }
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CoreofCinderGlow").Value);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Materials/CoreofSunlightGlow").Value);
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe(3).
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<EssenceofSunlight>().
                 AddIngredient(ItemID.Ectoplasm).
                 AddTile(TileID.MythrilAnvil).
                 Register();

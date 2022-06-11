@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class CalamitousEssence : ModItem
+    [LegacyName("CalamitousEssence")]
+    public class AshesofAnnihilation : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<DepthBlade>().
                 AddIngredient(ItemID.BrokenHeroSword).
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();

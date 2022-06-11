@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<RuinousSoul>(5).
                 AddIngredient<Phantoplasm>(5).
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

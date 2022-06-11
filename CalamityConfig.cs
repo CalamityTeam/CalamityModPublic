@@ -349,7 +349,7 @@ namespace CalamityMod
                 new("StealthMeterPosX", ItemID.LaserRuler),
                 new("StealthMeterPosY", ItemID.LaserRuler),
 
-                new("ChargeMeter", ModContent.ItemType<PowerCell>()),
+                new("ChargeMeter", ModContent.ItemType<DraedonPowerCell>()),
                 new("ChargeMeterPosX", ItemID.LaserRuler),
                 new("ChargeMeterPosY", ItemID.LaserRuler),
 

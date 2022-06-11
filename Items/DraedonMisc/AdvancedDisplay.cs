@@ -59,7 +59,7 @@ namespace CalamityMod.Items.DraedonMisc
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(10).
                 AddIngredient<DubiousPlating>(10).
-                AddIngredient<BarofLife>(3).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient(ItemID.Glass, 20).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(3, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.MythrilAnvil).

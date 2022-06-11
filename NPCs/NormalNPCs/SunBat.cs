@@ -98,6 +98,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 3);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 3);
     }
 }

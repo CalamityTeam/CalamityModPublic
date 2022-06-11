@@ -62,9 +62,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<Mariana>().
-                AddIngredient<UeliaceBar>(7).
-                AddIngredient<BarofLife>(2).
-                AddIngredient<Lumenite>(20).
+                AddIngredient<UelibloomBar>(7).
+                AddIngredient<LifeAlloy>(2).
+                AddIngredient<Lumenyl>(20).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

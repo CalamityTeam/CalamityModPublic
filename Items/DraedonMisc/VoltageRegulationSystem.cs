@@ -60,7 +60,7 @@ namespace CalamityMod.Items.DraedonMisc
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(10).
                 AddIngredient<DubiousPlating>(10).
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddCondition(ArsenalTierGatedRecipe.ConstructRecipeCondition(4, out Predicate<Recipe> condition), condition).
                 AddTile(TileID.LunarCraftingStation).

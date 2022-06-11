@@ -251,7 +251,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<TrueArkoftheAncients>().
                 AddIngredient<GalacticaSingularity>(5).
                 AddIngredient<CoreofCalamity>(5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

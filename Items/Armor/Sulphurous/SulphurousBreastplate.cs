@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor.Sulphurous
                 AddIngredient<UrchinStinger>(50).
                 AddIngredient<Acidwood>(20).
                 AddIngredient<SulphurousSand>(20).
-                AddIngredient<SulfuricScale>(20).
+                AddIngredient<SulphuricScale>(20).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient<CoreofCalamity>(3).
                 AddTile(TileID.MythrilAnvil).
                 Register();

@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LabFinders
 {
-    public class MysteriousMechanism : ModItem
+    [LegacyName("MysteriousMechanism")]
+    public class LabSeekingMechanism : ModItem
     {
         public override void SetStaticDefaults()
         {

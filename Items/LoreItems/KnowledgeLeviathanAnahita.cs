@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeLeviathanandSiren : LoreItem
+    [LegacyName("KnowledgeLeviathanandSiren")]
+    public class KnowledgeLeviathanAnahita : LoreItem
     {
         public override void SetStaticDefaults()
         {

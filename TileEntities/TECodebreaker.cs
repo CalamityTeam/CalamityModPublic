@@ -167,7 +167,7 @@ namespace CalamityMod.TileEntities
                 if (totalCellsToDrop > 999)
                     totalCellsToDrop = 999;
                 InputtedCellCount -= totalCellsToDrop;
-                Item.NewItem(new EntitySource_TileEntity(this), x * 16, y * 16, 32, 32, ModContent.ItemType<PowerCell>(), totalCellsToDrop);
+                Item.NewItem(new EntitySource_TileEntity(this), x * 16, y * 16, 32, 32, ModContent.ItemType<DraedonPowerCell>(), totalCellsToDrop);
             }
         }
 

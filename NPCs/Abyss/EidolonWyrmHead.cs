@@ -515,7 +515,7 @@ namespace CalamityMod.NPCs.Abyss
             // Post-Clone: 6-8 Lumenyl (8-11 on Expert)
             LeadingConditionRule postClone = new(DropHelper.If(() => DownedBossSystem.downedCalamitas));
             aewMinionCondition.Add(postClone);
-            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenite>(), 1, 6, 8, 8, 11));
+            postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<Lumenyl>(), 1, 6, 8, 8, 11));
 
             // Post-Plantera: 8-12 Ectoplasm
             aewMinionCondition.Add(ItemDropRule.ByCondition(new Conditions.DownedPlantera(), ItemID.Ectoplasm, 1, 8, 12));

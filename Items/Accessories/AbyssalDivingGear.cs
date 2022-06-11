@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Accessories
                 AddIngredient(ItemID.ArcticDivingGear).
                 AddIngredient<DepthCharm>().
                 AddIngredient<DepthCells>(10).
-                AddIngredient<Lumenite>(10).
+                AddIngredient<Lumenyl>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

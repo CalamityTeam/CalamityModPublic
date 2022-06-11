@@ -1,11 +1,12 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DraedonMisc
 {
-    public class PowerCell : ModItem
+    [LegacyName("PowerCell")]
+    public class DraedonPowerCell : ModItem
     {
         // This is how much Charge each Power Cell is worth when charging. Leave this at 1.
         public const float ChargeValue = 1f;

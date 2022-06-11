@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient<EffulgentFeather>(15).
-                AddIngredient<BarofLife>(15).
+                AddIngredient<LifeAlloy>(15).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

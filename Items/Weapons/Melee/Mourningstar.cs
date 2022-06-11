@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.SolarEruption).
                 AddIngredient<CoreofChaos>(6).
-                AddIngredient<CoreofCinder>(6).
+                AddIngredient<CoreofSunlight>(6).
                 AddIngredient<DivineGeode>(6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

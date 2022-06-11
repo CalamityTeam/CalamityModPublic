@@ -38,14 +38,14 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(5).
                 AddIngredient(ItemID.BottledWater, 5).
                 AddIngredient<AncientBoneDust>().
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
                 Register();
 
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(20).
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<EssenceofSunlight>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

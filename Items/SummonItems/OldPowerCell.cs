@@ -57,7 +57,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.LunarTabletFragment, 20).
-                AddIngredient<EssenceofCinder>(10).
+                AddIngredient<EssenceofSunlight>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

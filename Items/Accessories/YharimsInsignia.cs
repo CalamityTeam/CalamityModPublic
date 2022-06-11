@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient(ItemID.WarriorEmblem).
                 AddIngredient<NecklaceofVexation>().
-                AddIngredient<CoreofCinder>(5).
+                AddIngredient<CoreofSunlight>(5).
                 AddIngredient<DivineGeode>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

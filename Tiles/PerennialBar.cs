@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles
         {
             this.SetUpBar(new Color(157, 255, 0));
             DustType = 44;
-            ItemDrop = ModContent.ItemType<DraedonBar>();
+            ItemDrop = ModContent.ItemType<Items.Materials.PerennialBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

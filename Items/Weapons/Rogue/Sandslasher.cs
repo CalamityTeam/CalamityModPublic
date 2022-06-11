@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient<GrandScale>().
-                AddIngredient<CoreofCinder>(6).
+                AddIngredient<CoreofSunlight>(6).
                 AddRecipeGroup("AnyGoldBar", 10).
                 AddIngredient(ItemID.HardenedSand, 25).
                 AddTile(TileID.MythrilAnvil).

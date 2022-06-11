@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<FrigidflashBolt>().
                 AddIngredient(ItemID.WaterBolt).
                 AddIngredient<SeaPrism>(15).
-                AddIngredient<CoreofCinder>(5).
+                AddIngredient<CoreofSunlight>(5).
                 AddTile(TileID.Bookcases).
                 Register();
         }

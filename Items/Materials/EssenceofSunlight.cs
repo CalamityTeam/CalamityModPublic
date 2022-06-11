@@ -7,7 +7,8 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Items.Materials
 {
-    public class EssenceofCinder : ModItem
+    [LegacyName("EssenceofCinder")]
+    public class EssenceofSunlight : ModItem
     {
         public override void SetStaticDefaults()
         {

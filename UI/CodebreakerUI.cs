@@ -132,7 +132,7 @@ namespace CalamityMod.UI
             // Create a temporary item for drawing purposes.
             // If cells are present, make the item reflect that.
             Item temporaryPowerCell = new Item();
-            temporaryPowerCell.SetDefaults(ModContent.ItemType<PowerCell>());
+            temporaryPowerCell.SetDefaults(ModContent.ItemType<DraedonPowerCell>());
             temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
 
             CalamityUtils.DrawPowercellSlot(spriteBatch, temporaryPowerCell, cellDrawCenter, GeneralScale);
@@ -154,7 +154,7 @@ namespace CalamityMod.UI
 
             if (Main.mouseLeft && Main.mouseLeftRelease && codebreakerTileEntity.DecryptionCountdown <= 0)
             {
-                int powerCellID = ModContent.ItemType<PowerCell>();
+                int powerCellID = ModContent.ItemType<DraedonPowerCell>();
                 short cellStackDiff = 0;
                 bool shouldPlaySound = true;
 

@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             TEChargingStation charger = CalamityUtils.FindTileEntity<TEChargingStation>(i, j, Width, Height, SheetSquare);
             int numCells = charger?.CellStack ?? 0;
             if (numCells > 0)
-                Item.NewItem(new EntitySource_TileBreak(i, j), dropPos, ModContent.ItemType<PowerCell>(), numCells);
+                Item.NewItem(new EntitySource_TileBreak(i, j), dropPos, ModContent.ItemType<DraedonPowerCell>(), numCells);
 
             // Netcode check is required because otherwise this will spawn two items.
             // Force cloning items into the Main item array is weird.

@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VerstaltiteBar>(5).
+                AddIngredient<CryonicBar>(5).
                 AddIngredient<EssenceofEleum>().
                 AddIngredient(ItemID.SoulofFlight, 20).
                 AddTile(TileID.MythrilAnvil).

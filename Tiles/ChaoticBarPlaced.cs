@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles
         {
             this.SetUpBar(new Color(255, 165, 0));
             DustType = 87;
-            ItemDrop = ModContent.ItemType<CruptixBar>();
+            ItemDrop = ModContent.ItemType<ScoriaBar>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)

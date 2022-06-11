@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<Purge>().
                 AddIngredient<PurgeGuzzler>().
                 AddIngredient<AuricBar>(5).
-                AddIngredient<UeliaceBar>(12).
+                AddIngredient<UelibloomBar>(12).
                 AddIngredient<DivineGeode>(8).
                 AddTile<CosmicAnvil>().
                 Register();

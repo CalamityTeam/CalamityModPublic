@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 10).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 2).AddIngredient(ItemID.Wire, 5).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 10).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddIngredient(ItemID.Wire, 5).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
         }
     }
 }

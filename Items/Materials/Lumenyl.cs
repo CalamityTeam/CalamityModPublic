@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class Lumenite : ModItem
+    [LegacyName("Lumenite")]
+    public class Lumenyl : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,5 +29,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(silver: 80);
             Item.rare = ItemRarityID.Lime;
-        }    }
+        }
+    }
 }

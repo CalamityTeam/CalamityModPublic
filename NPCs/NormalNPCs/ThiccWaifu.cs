@@ -430,7 +430,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<EssenceofCinder>(), 1, 2, 3);
+            npcLoot.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 2, 3);
             npcLoot.Add(ModContent.ItemType<EyeoftheStorm>(), 3);
             npcLoot.Add(ModContent.ItemType<StormSaber>(), 5);
         }

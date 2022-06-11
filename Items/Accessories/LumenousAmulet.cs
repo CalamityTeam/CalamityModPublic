@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<AbyssalAmulet>().
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<Tenebris>(5).
                 AddIngredient<SeaPrism>(10).
                 AddTile(TileID.MythrilAnvil).

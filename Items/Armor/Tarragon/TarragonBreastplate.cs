@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor.Tarragon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UeliaceBar>(15).
+                AddIngredient<UelibloomBar>(15).
                 AddIngredient<DivineGeode>(18).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

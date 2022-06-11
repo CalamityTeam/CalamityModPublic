@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
 {
-    public class KnowledgeBumblebirb : LoreItem
+    [LegacyName("KnowledgeBumblebirb")]
+    public class KnowledgeDragonfolly : LoreItem
     {
         public override void SetStaticDefaults()
         {

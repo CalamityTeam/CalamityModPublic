@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
 
             // Lore
-            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeBumblebirb>());
+            npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeDragonfolly>());
         }
 
         public override void OnKill()

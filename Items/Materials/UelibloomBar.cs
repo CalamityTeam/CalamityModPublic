@@ -6,33 +6,35 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class DraedonBar : ModItem
+    [LegacyName("UeliaceBar")]
+    public class UelibloomBar : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
-            DisplayName.SetDefault("Perennial Bar");
+            DisplayName.SetDefault("Uelibloom Bar"); // Yoo-luh Bloom
         }
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<PerennialBar>();
+            Item.createTile = ModContent.TileType<Tiles.UelibloomBar>();
+            Item.width = 15;
+            Item.height = 12;
+            Item.maxStack = 999;
+            Item.rare = ItemRarityID.Red;
+            Item.value = Item.sellPrice(gold: 3);
+            Item.Calamity().customRarity = CalamityRarity.Turquoise;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
             Item.useTime = 10;
             Item.autoReuse = true;
             Item.consumable = true;
-            Item.width = 30;
-            Item.height = 24;
-            Item.maxStack = 999;
-            Item.value = Item.sellPrice(gold: 1);
-            Item.rare = ItemRarityID.Lime;
         }
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<PerennialOre>(5).
+                AddIngredient<UelibloomOre>(5).
                 AddTile(TileID.AdamantiteForge).
                 Register();
         }

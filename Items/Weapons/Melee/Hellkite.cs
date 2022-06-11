@@ -94,7 +94,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.FieryGreatsword).
-                AddIngredient<DraedonBar>(8).
+                AddIngredient<PerennialBar>(8).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
