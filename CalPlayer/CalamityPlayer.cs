@@ -5192,6 +5192,10 @@ namespace CalamityMod.CalPlayer
                 auralisAuroraCooldown = CalamityUtils.SecondsToFrames(30f);
             }
 
+            // Torch God does 1 damage but inflicts a random fire debuff
+            if (proj.type == ProjectileID.TorchGod)
+                damage = 1;
+
             // Reduce damage from vanilla traps
 
             // Explosives
@@ -5467,7 +5471,41 @@ namespace CalamityMod.CalPlayer
 
             if (proj.hostile)
             {
-                if (proj.type == ProjectileID.Explosives)
+                if (proj.type == ProjectileID.TorchGod)
+                {
+                    int fireDebuffTypes = 7;
+                    switch (Main.rand.Next(fireDebuffTypes))
+                    {
+                        case 0:
+                            Player.AddBuff(BuffID.OnFire, 600);
+                            break;
+
+                        case 1:
+                            Player.AddBuff(BuffID.CursedInferno, 300);
+                            break;
+
+                        case 2:
+                            Player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+                            break;
+
+                        case 3:
+                            Player.AddBuff(ModContent.BuffType<Shadowflame>(), 150);
+                            break;
+
+                        case 4:
+                            Player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 150);
+                            break;
+
+                        case 5:
+                            Player.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                            break;
+
+                        case 6:
+                            Player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 150);
+                            break;
+                    }
+                }
+                else if (proj.type == ProjectileID.Explosives)
                 {
                     Player.AddBuff(BuffID.OnFire, 600);
                 }
