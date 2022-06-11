@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Accessories
 
             var source = player.GetSource_Accessory(Item);
             Vector2 velocity = new Vector2(0f, -1f);
-            int elementalDmg = (int)player.GetDamage<SummonDamageClass>().ApplyTo(90);
+            int elementalDmg = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(90);
             float kBack = 2f + player.GetKnockback<SummonDamageClass>().Additive;
 
             if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||

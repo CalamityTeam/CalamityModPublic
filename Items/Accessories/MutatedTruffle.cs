@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
                     const int baseDamage = 1200;
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(baseDamage);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     var duke = Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero,
                         ModContent.ProjectileType<YoungDuke>(),
                         damage,

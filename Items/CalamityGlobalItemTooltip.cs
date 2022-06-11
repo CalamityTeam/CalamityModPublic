@@ -1088,8 +1088,9 @@ namespace CalamityMod.Items
             StringBuilder sb = new StringBuilder(64);
             sb.Append(line.Text).Append(" : ");
 
+            // TODO -- True Melee should be its own class that extends Melee, so we can give people True Melee specific stats!
             Player p = Main.LocalPlayer;
-            float itemCurrentDamage = p.GetDamage<MeleeDamageClass>().ApplyTo(item.damage);
+            float itemCurrentDamage = p.GetTotalDamage<MeleeDamageClass>().ApplyTo(item.damage);
             double trueMeleeBoost = 1D + p.Calamity().trueMeleeDamage;
             double imprecisionRoundingCorrection = 5E-06D;
             int damageToDisplay = (int)(itemCurrentDamage * trueMeleeBoost + imprecisionRoundingCorrection);

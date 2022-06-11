@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] < 1)
                 {
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(45);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
                     Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalMinion>(), damage, 2f, Main.myPlayer, 0f, 0f);
                 }
             }

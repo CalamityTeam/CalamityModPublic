@@ -53,6 +53,7 @@ namespace CalamityMod.Projectiles.Melee
         public override Texture2D LaserBeginTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayStart", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserMiddleTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayMid", AssetRequestMode.ImmediateLoad).Value;
         public override Texture2D LaserEndTexture => ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Lasers/UltimaRayEnd", AssetRequestMode.ImmediateLoad).Value;
+        private const float AimResponsiveness = 0.8f; // Last Prism is 0.92f. Lower makes the laser turn faster.
 
         public override void SetStaticDefaults()
         {
@@ -90,7 +91,8 @@ namespace CalamityMod.Projectiles.Melee
             // Multiplayer support here, only run this code if the client running it is the owner of the projectile
             if (Projectile.owner == Main.myPlayer)
             {
-                Projectile.velocity = (Main.MouseWorld - Owner.Center).SafeNormalize(Vector2.UnitX * Owner.direction);
+                Vector2 rrp = Owner.RotatedRelativePoint(Owner.MountedCenter, true);
+                UpdateAim(rrp);
                 Projectile.direction = Main.MouseWorld.X > Owner.Center.X ? 1 : -1;
                 Projectile.netUpdate = true;
             }
@@ -102,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.heldProj = Projectile.whoAmI;
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
-            Owner.itemRotation = CalamityUtils.WrapAngle90Degrees(Projectile.rotation - MathHelper.PiOver2);
+            Owner.itemRotation = ((Projectile.rotation + MathHelper.PiOver2).ToRotationVector2() * -Owner.direction).ToRotation();
 
             if (!Owner.channel)
             {
@@ -136,6 +138,19 @@ namespace CalamityMod.Projectiles.Melee
                 PlayedSound = true;
             }
             return true;
+        }
+
+        // Gently adjusts the aim vector of the laser to point towards the mouse.
+        private void UpdateAim(Vector2 source)
+        {
+            Vector2 aimVector = Vector2.Normalize(Main.MouseWorld - source);
+            if (aimVector.HasNaNs())
+                aimVector = -Vector2.UnitY;
+            aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(Projectile.velocity), AimResponsiveness));
+
+            if (aimVector != Projectile.velocity)
+                Projectile.netUpdate = true;
+            Projectile.velocity = aimVector;
         }
 
         public override bool ShouldUpdatePosition() => false;

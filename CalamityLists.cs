@@ -171,6 +171,9 @@ namespace CalamityMod
 
         public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
+        public static List<int> DisabledSummonerNerfItems;
+        public static List<int> DisabledSummonerNerfMinions;
+
         public static void LoadLists()
         {
             donatorList = new List<string>()
@@ -2755,6 +2758,9 @@ namespace CalamityMod
                 [3] = ItemType<EncryptedSchematicHell>(),
                 [4] = ItemType<EncryptedSchematicIce>(),
             };
+
+            DisabledSummonerNerfItems = new();
+            DisabledSummonerNerfMinions = new();
         }
 
         public static void UnloadLists()
@@ -2854,6 +2860,9 @@ namespace CalamityMod
             DontCopyOriginalMinionAIList = null;
 
             EncryptedSchematicIDRelationship = null;
+
+            DisabledSummonerNerfItems = null;
+            DisabledSummonerNerfMinions = null;
         }
     }
 }

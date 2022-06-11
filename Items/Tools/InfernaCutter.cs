@@ -122,7 +122,7 @@ namespace CalamityMod.Items.Tools
                     num342 *= (float)player.direction;
                     num341 *= player.gravDir;
                     var source = player.GetSource_ItemUse(Item);
-                    int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
+                    int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage * 0.2f);
                     int spark = Projectile.NewProjectile(source, (float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Spark, damage, 0f, player.whoAmI);
                     if (spark.WithinBounds(Main.maxProjectiles))
                         Main.projectile[spark].Calamity().forceMelee = true;

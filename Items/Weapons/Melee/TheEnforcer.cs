@@ -71,6 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             int num107 = 5;
+            int essenceDamage = player.CalcIntDamage<MeleeDamageClass>(0.25f * Item.damage);
             for (int num108 = 0; num108 < num107; num108++)
             {
                 vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
@@ -88,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), essenceDamage, 0f, i, 0f, Main.rand.Next(3));
             }
         }
 
@@ -119,6 +120,7 @@ namespace CalamityMod.Items.Weapons.Melee
             }
 
             int num107 = 5;
+            int essenceDamage = player.CalcIntDamage<MeleeDamageClass>(0.25f * Item.damage);
             for (int num108 = 0; num108 < num107; num108++)
             {
                 vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(401) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
@@ -136,7 +138,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 num80 = (float)Math.Sqrt(num78 * num78 + num79 * num79);
                 num80 = num72 / num80;
-                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f) * 0.25f), 0f, i, 0f, Main.rand.Next(3));
+                Projectile.NewProjectile(source, vector2, Vector2.Zero, ModContent.ProjectileType<EssenceFlame2>(), essenceDamage, 0f, i, 0f, Main.rand.Next(3));
             }
         }
 

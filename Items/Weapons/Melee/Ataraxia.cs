@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
             int numSplits = 5;
             int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
-            int trueMeleeDamage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(0.1f * Item.damage);
+            int trueMeleeDamage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(0.1f * Item.damage);
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
             var source = player.GetSource_ItemUse(Item);

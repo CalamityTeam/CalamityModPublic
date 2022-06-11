@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.ai[0] > 480f)
                 num26 = 5f;
 
-            Projectile.damage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(player.ActiveItem().damage);
+            Projectile.damage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(player.ActiveItem().damage);
 
             Projectile.ai[0] += 1f;
             Projectile.ai[1] += 1f;

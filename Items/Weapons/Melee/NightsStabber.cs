@@ -43,13 +43,15 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, Main.myPlayer);
+            int stabDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), stabDamage, knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             var source = player.GetSource_ItemUse(Item);
-            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, Main.myPlayer);
+            int stabDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+            Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<NightStabber>(), stabDamage, Item.knockBack, Main.myPlayer);
         }
 
         public override void AddRecipes()

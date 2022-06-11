@@ -469,7 +469,7 @@ namespace CalamityMod.Projectiles
 
                 if (ExplosiveEnchantCountdown % 40 == 39 && Main.rand.NextBool(12))
                 {
-                    int damage = (int)Main.player[projectile.owner].GetDamage<SummonDamageClass>().ApplyTo(2000);
+                    int damage = (int)Main.player[projectile.owner].GetTotalDamage<SummonDamageClass>().ApplyTo(2000);
                     Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosionSmall>(), damage, 0f, projectile.owner);
                 }
 
@@ -480,7 +480,7 @@ namespace CalamityMod.Projectiles
                     {
                         if (projectile.minionSlots > 0f)
                         {
-                            int damage = (int)Main.player[projectile.owner].GetDamage<SummonDamageClass>().ApplyTo(6000);
+                            int damage = (int)Main.player[projectile.owner].GetTotalDamage<SummonDamageClass>().ApplyTo(6000);
                             Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<SummonBrimstoneExplosion>(), damage, 0f, projectile.owner);
                         }
                         projectile.Kill();
@@ -2256,7 +2256,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<NanotechProjectile>()] < 5)
                             {
-                                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(60);
+                                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(60);
                                 Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NanotechProjectile>(), damage, 0f, projectile.owner);
                             }
                         }
@@ -2267,7 +2267,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<MoonSigil>()] < 5)
                             {
-                                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(45);
+                                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
                                 int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
                                     Main.projectile[proj].Calamity().forceClassless = true;
@@ -2281,7 +2281,7 @@ namespace CalamityMod.Projectiles
                         {
                             if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileType<DragonShit>()] < 5)
                             {
-                                int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
+                                int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(DragonScales.ShitBaseDamage);
                                 int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
                                     damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
@@ -2700,7 +2700,7 @@ namespace CalamityMod.Projectiles
                         for (int i = 0; i < 2; i++)
                         {
                             Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-                            int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(25);
+                            int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(25);
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
@@ -2710,7 +2710,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.scuttlersJewel && stealthStrike)
                     {
-                        int damage = (int)player.GetDamage<RogueDamageClass>().ApplyTo(15);
+                        int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))

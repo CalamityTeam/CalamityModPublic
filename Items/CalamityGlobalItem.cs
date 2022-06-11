@@ -232,8 +232,8 @@ namespace CalamityMod.Items
             bool belowHalfMana = player.statMana < player.statManaMax2 * 0.5f;
             if (Main.myPlayer == player.whoAmI && player.Calamity().manaMonsterEnchant && Main.rand.NextBool(12) && player.ownedProjectileCounts[ModContent.ProjectileType<ManaMonster>()] <= 0 && belowHalfMana)
             {
-                // TODO -- 165,000 base damage? seriously? what is this thing
-                int monsterDamage = (int)player.GetDamage<MagicDamageClass>().ApplyTo(165000);
+                // TODO -- 165,000 base damage? seriously? there's no way that can be right
+                int monsterDamage = (int)player.GetTotalDamage<MagicDamageClass>().ApplyTo(165000);
                 Vector2 shootVelocity = player.SafeDirectionTo(Main.MouseWorld, -Vector2.UnitY).RotatedByRandom(0.07f) * Main.rand.NextFloat(4f, 5f);
                 Projectile.NewProjectile(source, player.Center + shootVelocity, shootVelocity, ModContent.ProjectileType<ManaMonster>(), monsterDamage, 0f, player.whoAmI);
             }
@@ -752,8 +752,10 @@ namespace CalamityMod.Items
                         {
                             if (Main.projectile.Length == Main.maxProjectiles)
                                 break;
-                            int coldDivinityDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(80);
+                            int coldDivinityDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(80);
                             int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), coldDivinityDamage, 1f, player.whoAmI, angle, 2f);
+                            Main.projectile[projj].originalDamage = 80;
+
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {

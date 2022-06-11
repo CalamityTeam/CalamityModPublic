@@ -230,7 +230,7 @@ namespace CalamityMod.UI.CalamitasEnchants
                             // Yes, this is a LOT of damage but given the limited range of this thing it needs to be extremely powerful when it does actually hit.
                             var source = player.GetSource_ItemUse(player.ActiveItem());
                             float taintedRatio = 5f;
-                            int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(player.ActiveItem().damage * taintedRatio);
+                            int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(player.ActiveItem().damage * taintedRatio);
                             int blade = Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<TaintedBladeSlasher>(), damage, 0f, player.whoAmI, 0f, player.ActiveItem().type);
                             if (Main.projectile.IndexInRange(blade))
                                 Main.projectile[blade].localAI[0] = 0f;

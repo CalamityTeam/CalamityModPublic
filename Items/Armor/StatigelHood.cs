@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Armor
 
                 int minionID = -1;
                 int baseDamage = 33;
-                int minionDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<SummonDamageClass>()).ApplyTo(baseDamage);
+                int minionDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                 if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                     minionID = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), minionDamage, 0f, Main.myPlayer);
                 else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] < 1)

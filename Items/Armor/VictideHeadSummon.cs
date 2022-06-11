@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "+3 life regen and 10% increased minion damage while submerged in liquid\n" +
-                "Summons a sea urchin to protect you\n" +
+                "Summons a sea snail to protect you\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
                 "Provides increased underwater mobility and slightly reduces breath loss in the abyss\n" +
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<VictideSeaSnail>()] < 1)
                 {
                     int baseDamage = 7;
-                    int minionDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<SummonDamageClass>()).ApplyTo(baseDamage);
+                    int minionDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<VictideSeaSnail>(), minionDamage, 0f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;

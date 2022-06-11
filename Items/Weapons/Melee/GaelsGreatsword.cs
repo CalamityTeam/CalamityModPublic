@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                         if (Main.rand.NextBool(100))
                         {
-                            int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(Item.damage);
+                            int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(Item.damage);
                             Projectile.NewProjectile(source, player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
                                                      Vector2.Zero,
                                                      ModContent.ProjectileType<GaelExplosion>(),

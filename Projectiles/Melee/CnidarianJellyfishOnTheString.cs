@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.height = 28;
             Projectile.scale = 1.15f;
             Projectile.friendly = true;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.penetrate = -1;
             Projectile.MaxUpdates = 2;
             Projectile.usesLocalNPCImmunity = true;
@@ -248,10 +248,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            //Play a wet slap sound if you hit an enemy fast enough
+            //Play a wet slap sound if you hit an enemy fast enough. Also make the players minions target the slapped npc.
             float centrifugalForce = Math.Clamp((Segments[SegmentCount - 1].position - Segments[SegmentCount - 1].oldPosition).Length() * 2f, 0f, 130f) / 130f;
             if (centrifugalForce > 0.2f)
-                SoundEngine.PlaySound(SlapSound with { Volume = SlapSound.Volume * centrifugalForce + 0.8f}, target.position);
+            {
+                SoundEngine.PlaySound(SlapSound with { Volume = SlapSound.Volume * centrifugalForce + 0.8f }, target.position);
+                Owner.MinionAttackTargetNPC = target.whoAmI;
+            }
 
         }
 

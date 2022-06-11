@@ -15,6 +15,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
@@ -75,10 +76,10 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("This oversized clam is large enough to entrap a person or two whole. Thankfully, it has only taken turf in the lowest regions of the sunken sea.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("This oversized clam is large enough to entrap a person or two whole. Thankfully, it has only taken turf in the lowest regions of the sunken sea.")
             });
         }
 
@@ -448,9 +449,12 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
+            var hardmode = npcLoot.DefineConditionalDropSet(new Conditions.IsHardmode());
+            var postDesertScourge = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedDesertScourge);
+
             // Materials
             npcLoot.Add(ModContent.ItemType<Navystone>(), 1, 25, 35);
-            npcLoot.AddIf(() => Main.hardMode, ModContent.ItemType<MolluskHusk>(), 1, 6, 11);
+            hardmode.Add(ModContent.ItemType<MolluskHusk>(), 1, 6, 11);
 
             // Weapons
             int[] weapons = new int[]
@@ -460,11 +464,14 @@ namespace CalamityMod.NPCs.SunkenSea
                 ModContent.ItemType<Poseidon>(),
                 ModContent.ItemType<ShellfishStaff>(),
             };
-            npcLoot.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
+            hardmode.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
             // Equipment
-            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<GiantPearl>(), 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<AmidiasPendant>(), 3);
+            postDesertScourge.Add(ModContent.ItemType<GiantPearl>(), 3);
+            postDesertScourge.Add(ModContent.ItemType<AmidiasPendant>(), 3);
+
+            npcLoot.Add(postDesertScourge);
+            npcLoot.Add(hardmode);
         }
     }
 }

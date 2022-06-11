@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
                 {
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(HowlDamage);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(HowlDamage);
                     Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ProjectileType<HowlsHeartHowl>(), damage, 1f, player.whoAmI, 0f, 1f);
                     // TODO -- no originalDamage
                 }

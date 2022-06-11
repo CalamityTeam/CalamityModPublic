@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
             // Recalculate damage every frame for balance reasons, as this is a long-lasting holdout.
             // This is important because you could start using it while benefitting from Auric Tesla standstill bonus, for example.
             float baseDamage = Owner.ActiveItem()?.damage ?? 0f;
-            Projectile.damage = (int)Owner.GetDamage<MeleeDamageClass>().ApplyTo(baseDamage);
+            Projectile.damage = (int)Owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(baseDamage);
             DetermineDamage();
 
             PlayChainsawSounds();

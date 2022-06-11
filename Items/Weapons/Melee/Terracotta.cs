@@ -47,7 +47,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
-            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), knockback, player.whoAmI);
+            int blastDamage = player.CalcIntDamage<MeleeDamageClass>(Item.damage);
+            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), blastDamage, knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -61,7 +62,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
                 Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<TerracottaProj>(), 0, 0f, player.whoAmI, player.whoAmI);
             }
-            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), (int)(Item.damage * (player.GetDamage<GenericDamageClass>().Additive + player.GetDamage<MeleeDamageClass>().Additive - 2f)), Item.knockBack, player.whoAmI);
+            int blastDamage = player.CalcIntDamage<MeleeDamageClass>(0.5f * Item.damage);
+            Projectile.NewProjectile(source, target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<TerracottaExplosion>(), blastDamage, Item.knockBack, player.whoAmI);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

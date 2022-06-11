@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Accessories
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] < 1)
                 {
                     var source = player.GetSource_Accessory(Item);
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(45);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
                     Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalHealer>(), damage, 2f, Main.myPlayer, 0f, 0f);
                     // TODO -- doesn't set originalDamage
                 }
