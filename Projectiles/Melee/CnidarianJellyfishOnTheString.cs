@@ -343,7 +343,7 @@ namespace CalamityMod.Projectiles.Melee
                     Segments[SegmentCount - 1].position = sentPos;
                 }
                 catch (Exception) {
-                    CalamityMod.Instance.Warn("IbanPlay Victide Cnidarian Position Netcode failed safely");
+                    CalamityMod.Instance.Logger.Warn("IbanPlay Victide Cnidarian Position Netcode failed safely");
                 }
             }
         }
