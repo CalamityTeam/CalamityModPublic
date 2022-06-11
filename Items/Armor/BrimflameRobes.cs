@@ -14,6 +14,14 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Brimflame Robes");
             Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
                 "Reduces damage from touching lava");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

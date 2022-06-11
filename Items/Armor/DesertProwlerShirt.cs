@@ -13,6 +13,14 @@ namespace CalamityMod.Items.Armor
             SacrificeTotal = 1;
             DisplayName.SetDefault("Desert Prowler Shirt");
             Tooltip.SetDefault("5% increased ranged critical strike chance");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

@@ -8,6 +8,14 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Body)]
     public class DaedalusBreastplate : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/DaedalusBreastplate_Waist", EquipType.Waist, this);
+        }
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;

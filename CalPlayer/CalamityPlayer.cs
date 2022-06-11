@@ -5807,6 +5807,12 @@ namespace CalamityMod.CalPlayer
                 Player.neck = (sbyte)EquipLoader.GetEquipSlot(Mod, "XerocPlateMail", EquipType.Neck);
             }
 
+            if (Player.body == EquipLoader.GetEquipSlot(Mod, "DaedalusBreastplate", EquipType.Body))
+            {
+                //Put the faulds on the chestplate
+                Player.waist = (sbyte)EquipLoader.GetEquipSlot(Mod, "DaedalusBreastplate", EquipType.Waist);
+            }
+
             bool victideBreastplateVisible = Player.body == EquipLoader.GetEquipSlot(Mod, "VictideBreastplate", EquipType.Body);
             //Give the player faulds if either the body armor or the leggings are equipped
             if (victideBreastplateVisible || Player.legs == EquipLoader.GetEquipSlot(Mod, "VictideGreaves", EquipType.Legs))
