@@ -3,12 +3,21 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Armor.Demonshade
 {
     [AutoloadEquip(EquipType.Body)]
     public class DemonshadeBreastplate : ModItem
     {
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Demonshade/DemonshadeBreastplate_Arms", EquipType.Front, this);
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
