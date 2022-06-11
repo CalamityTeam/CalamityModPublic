@@ -44,8 +44,13 @@ namespace CalamityMod.Systems
 
             // Player variable, always finds the closest player relative to the center of the map
             int closestPlayer = Player.FindClosest(new Vector2(Main.maxTilesX / 2, (float)Main.worldSurface / 2f) * 16f, 0, 0);
-            Player player = Main.player[closestPlayer];
-            CalamityPlayer modPlayer = player.Calamity();
+            Player player = null;
+            CalamityPlayer modPlayer = null;
+            if (closestPlayer > -1)
+            {
+                player = Main.player[closestPlayer];
+                modPlayer = player.Calamity();
+            }
 
             // Force boss rush to off if necessary.
             if (!BossRushEvent.DeactivateStupidFuckingBullshit)
@@ -75,9 +80,12 @@ namespace CalamityMod.Systems
             BossRushEvent.Update();
 
             // Handle conditional summons.
-            TrySpawnArmoredDigger(player, modPlayer);
-            TrySpawnDungeonGuardian(player);
-            TrySpawnAEoW(player, modPlayer);
+            if (player is not null)
+            {
+                TrySpawnArmoredDigger(player, modPlayer);
+                TrySpawnDungeonGuardian(player);
+                TrySpawnAEoW(player, modPlayer);
+            }
 
             // Very, very, very rarely display a Lorde joke text if the system clock is set to April Fools Day.
             if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
