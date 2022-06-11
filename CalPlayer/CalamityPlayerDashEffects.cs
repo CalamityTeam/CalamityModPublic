@@ -394,7 +394,7 @@ namespace CalamityMod.CalPlayer
 
                 damageHitbox.Width = 2;
                 damageHitbox.Inflate(6, 12);
-                float damage = Player.GetDamage<SummonDamageClass>().ApplyTo(800f);
+                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(800f);
                 float knockback = 10f;
                 int NPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -410,7 +410,7 @@ namespace CalamityMod.CalPlayer
 
                 damageHitbox.Width = 2;
                 damageHitbox.Inflate(6, 12);
-                float damage = Player.GetDamage<SummonDamageClass>().ApplyTo(50f);
+                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(50f);
                 float knockback2 = 8f;
                 int NPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -426,7 +426,7 @@ namespace CalamityMod.CalPlayer
 
                 damageHitbox.Width = 2;
                 damageHitbox.Inflate(6, 12);
-                float damage = Player.GetDamage<SummonDamageClass>().ApplyTo(25f);
+                float damage = Player.GetTotalDamage<SummonDamageClass>().ApplyTo(25f);
                 float knockback2 = 5f;
                 int NPCImmuneTime = 30;
                 int playerImmuneTime = 6;

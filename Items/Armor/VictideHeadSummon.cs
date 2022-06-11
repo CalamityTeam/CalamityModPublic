@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<VictideSeaSnail>()] < 1)
                 {
                     int baseDamage = 7;
-                    int minionDamage = (int)player.GetDamage<GenericDamageClass>().CombineWith(player.GetDamage<SummonDamageClass>()).ApplyTo(baseDamage);
+                    int minionDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage);
                     int p = Projectile.NewProjectile(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<VictideSeaSnail>(), minionDamage, 0f, Main.myPlayer, 0f, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = baseDamage;

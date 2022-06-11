@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (75f +
                         (modPlayer.profanedCrystalBuffs ? 420f : 0f));
-            Projectile.damage = baseDamage == 0 ? 0 : (int)player.GetDamage<SummonDamageClass>().ApplyTo(baseDamage * 0.7f);
+            Projectile.damage = baseDamage == 0 ? 0 : (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(baseDamage * 0.7f);
             ai = type;
             if (baseDamage >= 420f)
             {

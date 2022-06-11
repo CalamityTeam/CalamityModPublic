@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Item heldItem = Owner.ActiveItem();
             Vector2 shootVelocity = Projectile.velocity * heldItem.shootSpeed;
-            int damage = (int)Owner.GetDamage<MagicDamageClass>().ApplyTo(heldItem.damage);
+            int damage = (int)Owner.GetTotalDamage<MagicDamageClass>().ApplyTo(heldItem.damage);
             Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, shootVelocity, ModContent.ProjectileType<Vehemence>(), damage, heldItem.knockBack, Projectile.owner);
         }
 

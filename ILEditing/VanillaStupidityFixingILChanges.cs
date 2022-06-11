@@ -339,7 +339,7 @@ namespace CalamityMod.ILEditing
             cursor.EmitDelegate<Func<Projectile, int>>(projectile =>
             {
                 int damage = (int)(Main.player[projectile.owner].ActiveItem().damage * BalancingConstants.FirecrackerExplosionDamageMultiplier);
-                damage = (int)Main.player[projectile.owner].GetDamage<SummonDamageClass>().ApplyTo(damage);
+                damage = (int)Main.player[projectile.owner].GetTotalDamage<SummonDamageClass>().ApplyTo(damage);
                 return damage;
             });
             cursor.Emit(OpCodes.Stloc, 64);

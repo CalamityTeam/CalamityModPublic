@@ -548,7 +548,7 @@ namespace CalamityMod.DataStructures
             if (UseTimer % 30 == 29 && Main.rand.Next(2) == 0)
             {
                 SoundEngine.PlaySound(SoundID.Item78);
-                int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage);
+                int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.WhirlwindAttunement_PassiveBaseDamage);
                 Projectile beamSword = Projectile.NewProjectileDirect(source, player.Center, player.SafeDirectionTo(Main.MouseWorld, Vector2.One) * 15f, ProjectileType<SwordsmithsPrideBeam>(), damage, 10f, player.whoAmI, 1f);
                 beamSword.timeLeft = 50;
                 UseTimer++;
@@ -662,7 +662,7 @@ namespace CalamityMod.DataStructures
         {
             if (UseTimer % 120 == 119)
             {
-                int damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage);
+                int damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(OmegaBiomeBlade.ShockwaveAttunement_PassiveBaseDamage);
                 Projectile.NewProjectile(source, player.Center, Vector2.Zero, ProjectileType<MercurialTidesBlast>(), damage, 10f, player.whoAmI, 1f);
                 UseTimer++;
             }

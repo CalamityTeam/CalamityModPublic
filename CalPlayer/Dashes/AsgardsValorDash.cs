@@ -68,7 +68,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.HitDirection = hitDirection;
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardsValor.ShieldSlamIFrames;
-            hitContext.Damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(100f);
+            hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(100f);
 
             int holyExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(60);
             Projectile.NewProjectile(source, player.Center, Vector2.Zero, ModContent.ProjectileType<HolyExplosion>(), holyExplosionDamage, 15f, Main.myPlayer, 0f, 0f);

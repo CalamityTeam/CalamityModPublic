@@ -23,6 +23,9 @@ namespace CalamityMod
             return player.statDefense + (accountForDefenseDamage ? 0 : mp.CurrentDefenseDamage);
         }
 
+        public static float CalcDamage<T>(this Player player, float baseDamage) where T : DamageClass => player.GetTotalDamage<T>().ApplyTo(baseDamage);
+        public static int CalcIntDamage<T>(this Player player, float baseDamage) where T : DamageClass => (int)player.CalcDamage<T>(baseDamage);
+
         public static StatModifier GetBestClassDamage(this Player player)
         {
             StatModifier ret = StatModifier.Default;

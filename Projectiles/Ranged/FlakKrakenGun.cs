@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 num26 = 5f;
             }
-            Projectile.damage = (int)player.GetDamage<RangedDamageClass>().ApplyTo(player.ActiveItem().damage);
+            Projectile.damage = (int)player.GetTotalDamage<RangedDamageClass>().ApplyTo(player.ActiveItem().damage);
             Projectile.ai[0] += 1f;
             Projectile.ai[1] += 1f;
             int num27 = 10;

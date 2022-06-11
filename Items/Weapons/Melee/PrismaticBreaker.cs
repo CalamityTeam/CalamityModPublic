@@ -48,6 +48,9 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = Item.useAnimation = 13;
             Item.useTurn = true;
+            // TODO -- Prismatic Breaker should have its own damage type which is half Ranged, half Melee.
+            // Right now, it uses a hacky damage formula, see below.
+            // Its custom damage class should CountAs both melee AND ranged for the sake of effects.
             Item.DamageType = DamageClass.Melee;
             Item.knockBack = 7f;
             Item.UseSound = SoundID.Item1;
@@ -64,11 +67,10 @@ namespace CalamityMod.Items.Weapons.Melee
         // Terraria seems to really dislike high crit values in SetDefaults
         public override void ModifyWeaponCrit(Player player, ref float crit) => crit += 8;
 
-        //Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
-        //all damage boosts should still apply
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
-            damage = player.GetDamage<MeleeDamageClass>().CombineWith(player.GetDamage<RangedDamageClass>()) * 0.5f;
+            StatModifier halfMelee = damage.Scale(0.5f);
+            return halfMelee.CombineWith(player.GetTotalDamage<RangedDamageClass>().Scale(0.5f));
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

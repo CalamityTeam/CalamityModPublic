@@ -1628,7 +1628,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         lightningVel.Normalize();
                         lightningVel *= Main.rand.NextFloat(1f, 2f);
-                        int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(30);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
                         int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), damage, 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
@@ -1652,7 +1652,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
                         cloudVelocity.Normalize();
                         cloudVelocity *= Main.rand.NextFloat(0f, 1f);
-                        int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(20);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), damage, 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
@@ -3022,7 +3022,7 @@ namespace CalamityMod.CalPlayer
                     for (int I = 0; I < 3; I++)
                     {
                         float ai1 = I * 120;
-                        int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(3750);
+                        int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(3750);
                         int projectile = Projectile.NewProjectile(source, Player.Center.X + (float)(Math.Sin(I * 120) * 550), Player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
                             ModContent.ProjectileType<GhostlyMine>(), damage, 1f, Player.whoAmI, ai1, 0f);
                         if (projectile.WithinBounds(Main.maxProjectiles))
@@ -3084,7 +3084,7 @@ namespace CalamityMod.CalPlayer
                 if (tarraLifeAuraTimer == 0 && Player.whoAmI == Main.myPlayer)
                 {
                     const int BaseDamage = 120;
-                    int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(BaseDamage);
+                    int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(BaseDamage);
                     var source = new ProjectileSource_TarragonSummonAura(Player);
                     float range = 300f;
 
@@ -3328,7 +3328,7 @@ namespace CalamityMod.CalPlayer
                             ++beeCount;
                         if (Player.strongBees && Main.rand.NextBool(3))
                             ++beeCount;
-                        int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(30);
+                        int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
                         var source = new ProjectileSource_PlaguebringerSetBoost(Player);
                         for (int index = 0; index < beeCount; ++index)
                         {
@@ -3382,7 +3382,7 @@ namespace CalamityMod.CalPlayer
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<BlunderBooster>()));
-                    int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(30);
+                    int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
                     if (Player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
                         Projectile.NewProjectile(source, Player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), damage, 0f, Player.whoAmI, 0f, 0f);
                 }
@@ -3462,7 +3462,7 @@ namespace CalamityMod.CalPlayer
             if (prismaticLasers > 1800 && Player.whoAmI == Main.myPlayer)
             {
                 float shootSpeed = 18f;
-                int dmg = (int)Player.GetDamage<MagicDamageClass>().ApplyTo(30);
+                int dmg = (int)Player.GetTotalDamage<MagicDamageClass>().ApplyTo(30);
                 Vector2 startPos = Player.RotatedRelativePoint(Player.MountedCenter, true);
                 Vector2 velocity = Main.MouseWorld - startPos;
                 if (Player.gravDir == -1f)

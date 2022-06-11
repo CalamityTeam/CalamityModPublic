@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    int damage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(140);
+                    int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(140);
                     Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), damage, 0f, player.whoAmI);
                     // TODO -- doesn't set originalDamage
                 }

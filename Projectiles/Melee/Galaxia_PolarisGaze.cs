@@ -171,9 +171,10 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (Owner.whoAmI == Main.myPlayer)
                 {
+                    int blastDamage = Owner.CalcIntDamage<MeleeDamageClass>(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage);
                     for (int i = 0; i < 5; i++)
                     {
-                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage<MeleeDamageClass>().Base), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
+                        Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Main.rand.NextVector2CircularEdge(15, 15), ProjectileType<GalaxiaBolt>(), blastDamage, 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.02f);
                         {
                             blast.timeLeft = 100;
                         }

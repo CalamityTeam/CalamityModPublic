@@ -146,7 +146,7 @@ namespace CalamityMod.DataStructures
             if (!Owner.Calamity().GemTechSet || !IsYellowGemActive || Main.myPlayer != OwnerIndex || MeleeCrystalCountdown > 0)
                 return;
 
-            int damage = (int)Owner.GetDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.MeleeShardBaseDamage);
+            int damage = (int)Owner.GetTotalDamage<MeleeDamageClass>().ApplyTo(GemTechHeadgear.MeleeShardBaseDamage);
             for (int i = 0; i < 14; i++)
             {
                 Vector2 shootVelocity = Main.rand.NextVector2Unit() * Main.rand.NextFloat(0.5f, 3.25f);

@@ -79,7 +79,7 @@ namespace CalamityMod.CalPlayer.Dashes
             hitContext.HitDirection = hitDirection;
             hitContext.KnockbackFactor = kbFactor;
             hitContext.PlayerImmunityFrames = AsgardianAegis.ShieldSlamIFrames;
-            hitContext.Damage = (int)player.GetDamage<MeleeDamageClass>().ApplyTo(300f);
+            hitContext.Damage = (int)player.GetTotalDamage<MeleeDamageClass>().ApplyTo(300f);
 
             int supremeExplosionDamage = (int)player.GetBestClassDamage().ApplyTo(135);
             int holyEruptionDamage = (int)player.GetBestClassDamage().ApplyTo(90);

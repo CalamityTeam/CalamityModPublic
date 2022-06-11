@@ -638,7 +638,7 @@ namespace CalamityMod.CalPlayer
                 if (item.CountsAsClass<MeleeDamageClass>() && aBulwarkRare && aBulwarkRareTimer == 0)
                 {
                     aBulwarkRareTimer = 10;
-                    int bulwarkStarDamage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(320);
+                    int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
                 }
@@ -685,7 +685,9 @@ namespace CalamityMod.CalPlayer
                     {
                         double useTimeMultiplier = 0.85 + (item.useTime * item.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                         double wingTimeFraction = Player.wingTimeMax / 20D;
-                        double meleeStatMultiplier = (double)(Player.GetDamage<MeleeDamageClass>().Additive * (float)(Player.GetCritChance<MeleeDamageClass>() / 10D));
+
+                        // TODO -- this scaling function is probably totally screwed. What is it supposed to do?
+                        double meleeStatMultiplier = (double)(Player.GetTotalDamage<MeleeDamageClass>().Additive * (float)(Player.GetTotalCritChance<MeleeDamageClass>() / 10f));
 
                         if (Player.wingTime < Player.wingTimeMax)
                             Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -781,7 +783,9 @@ namespace CalamityMod.CalPlayer
                 {
                     double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                     double wingTimeFraction = Player.wingTimeMax / 20D;
-                    double meleeStatMultiplier = Player.GetDamage<MeleeDamageClass>().Additive * (float)(Player.GetCritChance<MeleeDamageClass>() / 10D);
+
+                    // TODO -- this scaling function is probably totally screwed. What is it supposed to do?
+                    double meleeStatMultiplier = (double)(Player.GetTotalDamage<MeleeDamageClass>().Additive * (float)(Player.GetTotalCritChance<MeleeDamageClass>() / 10f));
 
                     if (Player.wingTime < Player.wingTimeMax)
                         Player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -792,7 +796,7 @@ namespace CalamityMod.CalPlayer
                 if (aBulwarkRare && aBulwarkRareTimer == 0)
                 {
                     aBulwarkRareTimer = 10;
-                    int bulwarkStarDamage = (int)Player.GetDamage<MeleeDamageClass>().ApplyTo(320);
+                    int bulwarkStarDamage = (int)Player.GetTotalDamage<MeleeDamageClass>().ApplyTo(320);
                     for (int n = 0; n < 3; n++)
                         CalamityUtils.ProjectileRain(source, Player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileType<AstralStar>(), bulwarkStarDamage, 5f, Player.whoAmI);
                 }
@@ -936,7 +940,7 @@ namespace CalamityMod.CalPlayer
                     {
                         if (Player.ownedProjectileCounts[ProjectileType<PhantomicDagger>()] < 3 && Main.rand.NextBool(10))
                         {
-                            int damage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(75);
+                            int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(75);
                             int dagger = Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI, 0f);
                             if (dagger.WithinBounds(Main.maxProjectiles))
                                 Main.projectile[dagger].Calamity().forceClassless = true;
@@ -994,7 +998,7 @@ namespace CalamityMod.CalPlayer
                 {
                     if (nucleogenesis)
                     {
-                        int apparatusDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(60);
+                        int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceClassless = true;
@@ -1002,7 +1006,7 @@ namespace CalamityMod.CalPlayer
                     }
                     else if (starbusterCore)
                     {
-                        int starburstDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(40);
+                        int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(40);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceClassless = true;
@@ -1010,7 +1014,7 @@ namespace CalamityMod.CalPlayer
                     }
                     else if (nuclearRod)
                     {
-                        int nuclearDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(20);
+                        int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceClassless = true;
@@ -1018,7 +1022,7 @@ namespace CalamityMod.CalPlayer
                     }
                     else if (jellyChargedBattery)
                     {
-                        int batteryDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(15);
+                        int batteryDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(15);
                         CalamityGlobalProjectile.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
                         jellyDmg = 60f;
                     }
@@ -1031,7 +1035,7 @@ namespace CalamityMod.CalPlayer
                         hallowedRuneCooldown = 180;
                         Vector2 spawnPosition = position - new Vector2(0f, 920f).RotatedByRandom(0.3f);
                         float speed = Main.rand.NextFloat(17f, 23f);
-                        int hallowedDamage = (int)Player.GetDamage<SummonDamageClass>().ApplyTo(30);
+                        int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
                         int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceClassless = true;
@@ -1075,7 +1079,7 @@ namespace CalamityMod.CalPlayer
                         break;
                     }
                 }
-                int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(550);
+                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(550);
                 int projectileIndex = Projectile.NewProjectile(spawnSource, projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 16f, 16f);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {
@@ -1139,13 +1143,13 @@ namespace CalamityMod.CalPlayer
                     {
                         Vector2 source = new Vector2(position.X + Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
                         Vector2 velocity = (position - source) / 40f;
-                        int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(120);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(120);
                         Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<NanoFlare>(), damage, 3f, proj.owner);
                     }
                 }
                 else if (moonCrown)
                 {
-                    int lunarFlareDamage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(MoonstoneCrown.BaseDamage);
+                    int lunarFlareDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(MoonstoneCrown.BaseDamage);
                     float lunarFlareKB = 3f;
                     for (int i = 0; i < 3; i++)
                     {
@@ -1164,7 +1168,7 @@ namespace CalamityMod.CalPlayer
                         float speedX = (position.X - source.X) / 30f;
                         float speedY = (position.Y - source.Y) * 8;
                         Vector2 velocity = new Vector2(speedX, speedY);
-                        int featherDamage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(15);
+                        int featherDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int feather = Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
                         if (feather.WithinBounds(Main.maxProjectiles))
                             Main.projectile[feather].Calamity().forceClassless = true;
@@ -1182,7 +1186,7 @@ namespace CalamityMod.CalPlayer
                     float yVector = Main.rand.Next(-35, 36) * 0.02f;
                     xVector *= 10f;
                     yVector *= 10f;
-                    int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(40);
+                    int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(40);
                     int eater = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, xVector, yVector, ProjectileType<ForbiddenCircletEater>(), damage, proj.knockBack, proj.owner);
                     if (eater.WithinBounds(Main.maxProjectiles))
                         Main.projectile[eater].Calamity().forceClassless = true;
@@ -1192,7 +1196,7 @@ namespace CalamityMod.CalPlayer
 
             if (titanHeartSet && modProj.stealthStrike && titanCooldown <= 0 && modProj.stealthStrikeHitCount < 5)
             {
-                int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(50);
+                int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(50);
                 Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), damage, proj.knockBack, proj.owner, 1f, 0f);
                 SoundEngine.PlaySound(SoundID.Item14, proj.Center);
                 for (int dustexplode = 0; dustexplode < 360; dustexplode++)
@@ -1228,7 +1232,7 @@ namespace CalamityMod.CalPlayer
 
                         if (type != -1)
                         {
-                            int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(30);
+                            int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(30);
                             float speed = Main.rand.NextFloat(5f, 11f);
                             int cloud = Projectile.NewProjectile(spawnSource, position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, damage, proj.knockBack, Player.whoAmI);
                             if (cloud.WithinBounds(Main.maxProjectiles))
@@ -1311,7 +1315,7 @@ namespace CalamityMod.CalPlayer
                     for (int s = 0; s < 3; s++)
                     {
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
-                        int damage = (int)Player.GetDamage<RogueDamageClass>().ApplyTo(20);
+                        int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(20);
                         int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<Spark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {

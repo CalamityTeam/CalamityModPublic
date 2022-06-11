@@ -54,9 +54,10 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //Explode into cosmic bolts
+            int blastDamage = Owner.CalcIntDamage<MeleeDamageClass>(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage);
             for (int i = 0; i < 3; i++)
             {
-                Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(target.Center, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), (int)(FourSeasonsGalaxia.PolarisAttunement_SlashBoltsDamage * Owner.GetDamage<MeleeDamageClass>().Base), 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
+                Projectile blast = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Owner.Center, Owner.SafeDirectionTo(target.Center, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4) * 30f, ProjectileType<GalaxiaBolt>(), blastDamage, 0f, Owner.whoAmI, 0.55f, MathHelper.Pi * 0.01f);
                 {
                     blast.timeLeft = 100;
                 }

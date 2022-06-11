@@ -164,7 +164,7 @@ namespace CalamityMod.Items.Accessories
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
                                 int spearBaseDamage = shouldNerf ? 175 : 350;
-                                int spearDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                                int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
                                 Projectile.NewProjectile(source, player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 SoundEngine.PlaySound(SoundID.Item20, player.Center);
@@ -174,7 +174,7 @@ namespace CalamityMod.Items.Accessories
                         else
                         {
                             int spearBaseDamage = shouldNerf ? 125 : 250;
-                            int spearDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
+                            int spearDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(spearBaseDamage);
                             Projectile.NewProjectile(source, player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), spearDamage, 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         }
@@ -193,7 +193,7 @@ namespace CalamityMod.Items.Accessories
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
                         int boomBaseDamage = shouldNerf ? 100 : 200;
-                        int boomDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
+                        int boomDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(boomBaseDamage);
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -241,7 +241,7 @@ namespace CalamityMod.Items.Accessories
                         correctedVelocity *= 25f;
                         SoundEngine.PlaySound(SoundID.Item20, player.Center);
                         int magefireBaseDamage = shouldNerf ? 450 : 900;
-                        int magefireDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
+                        int magefireDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(magefireBaseDamage);
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(magefireDamage * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
@@ -271,7 +271,7 @@ namespace CalamityMod.Items.Accessories
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
                             int shardBaseDamage = shouldNerf ? 88 : 176;
-                            int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                            int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
                             int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 0f, 0f);
                             if (proj.WithinBounds(Main.maxProjectiles))
                             {
@@ -286,7 +286,7 @@ namespace CalamityMod.Items.Accessories
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
                         int shardBaseDamage = shouldNerf ? 110 : 220;
-                        int shardDamage = (int)player.GetDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
+                        int shardDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(shardBaseDamage);
                         int proj = Projectile.NewProjectile(source, player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), shardDamage, 1f, player.whoAmI, 1f, 0f);
                         if (proj.WithinBounds(Main.maxProjectiles))
                         {
