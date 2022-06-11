@@ -22,16 +22,16 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 9.00\n" +
                 "Acceleration multiplier: 1.75\n" +
                 "Good vertical speed\n" +
-                "Flight time: 120");
-            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 9f, 1.75f);
+                "Flight time: 90");
+            ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(90, 9f, 1.75f);
         }
 
         public override void SetDefaults()
         {
             Item.width = 24;
             Item.height = 36;
-            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
-            Item.rare = ItemRarityID.Cyan;
+            Item.value = CalamityGlobalItem.Rarity7BuyPrice;
+            Item.rare = ItemRarityID.Lime;
             Item.accessory = true;
         }
 
@@ -75,16 +75,6 @@ namespace CalamityMod.Items.Accessories.Wings
             maxCanAscendMultiplier = 1.05f;
             maxAscentMultiplier = 2.55f;
             constantAscend = 0.13f;
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient<AstralBar>(8).
-                AddIngredient<HadarianMembrane>(8).
-                AddIngredient(ItemID.SoulofFlight, 20).
-                AddTile(TileID.LunarCraftingStation).
-                Register();
         }
     }
 }
