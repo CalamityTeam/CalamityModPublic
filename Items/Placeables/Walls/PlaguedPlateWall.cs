@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.FurniturePlaguedPlate;
+using CalamityMod.Items.Placeables.FurniturePlagued;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;

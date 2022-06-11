@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {
-    public class BearEye : ModItem
+    [LegacyName("BearEye")]
+    public class BearsEye : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -899,10 +899,10 @@ namespace CalamityMod.NPCs
 
                     // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
                     LeadingConditionRule firstWoFKill = new(DropHelper.If(() => !Main.hardMode));
-                    firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<IbarakiBox>()));
+                    firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>()));
                     npcLoot.AddNormalOnly(firstWoFKill);
                     LeadingConditionRule subsequentWoFKills = new(DropHelper.If(() => Main.hardMode));
-                    subsequentWoFKills.Add(DropHelper.PerPlayer(ModContent.ItemType<IbarakiBox>(), 10));
+                    subsequentWoFKills.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>(), 10));
                     npcLoot.AddNormalOnly(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal

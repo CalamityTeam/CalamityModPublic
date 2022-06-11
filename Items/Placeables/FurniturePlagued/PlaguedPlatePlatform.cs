@@ -1,7 +1,7 @@
 ﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
+namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
     public class PlaguedPlatePlatform : ModItem
     {

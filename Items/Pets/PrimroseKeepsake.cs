@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Pets
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BearEye>().
+                AddIngredient<BearsEye>().
                 AddIngredient<RomajedaOrchid>().
                 AddIngredient(ItemID.LovePotion).
                 AddTile(TileID.TinkerersWorkbench).

@@ -2,14 +2,14 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
+namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
-    public class PlaguedPlateSofa : ModItem
+    public class PlaguedPlateChair : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued Sofa");
+            DisplayName.SetDefault("Plagued Chair");
         }
 
         public override void SetDefaults()
@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateSofa>();
+            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateChair>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 5).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddIngredient(ItemID.Silk, 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 4).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
         }
     }
 }

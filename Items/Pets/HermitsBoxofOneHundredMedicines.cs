@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {
-    public class IbarakiBox : ModItem
+    [LegacyName("IbarakiBox")]
+    public class HermitsBoxofOneHundredMedicines : ModItem
     {
         public override void SetStaticDefaults()
         {

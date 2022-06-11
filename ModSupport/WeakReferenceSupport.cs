@@ -416,7 +416,7 @@ namespace CalamityMod
                 int type = NPCType<AstrumAureus>();
                 int summon = ItemType<AstralChunk>();
                 List<int> loot = new List<int>() { ItemType<AstrageldonBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<Nebulash>(), ItemType<AuroraBlazer>(), ItemType<AlulaAustralis>(), ItemType<BorealisBomber>(), ItemType<AuroradicalThrow>(), ItemType<LeonidProgenitor>(), ItemType<GravistarSabaton>(), ItemType<AstralJelly>(), ItemType<StarlightFuelCell>(), ItemID.GreaterHealingPotion };
-                List<int> collection = new List<int>() { ItemType<AstrageldonTrophy>(), ItemType<AstrumAureusMask>(), ItemType<KnowledgeAstrumAureus>() };
+                List<int> collection = new List<int>() { ItemType<AstrumAureusTrophy>(), ItemType<AstrumAureusMask>(), ItemType<KnowledgeAstrumAureus>() };
                 string instructions = $"Use an [i:{summon}] at Night in the Astral Biome";
                 string despawn = CalamityUtils.ColorMessage("Astrum Aureus’ program has been executed. Initiate recall.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumAureus/AstrumAureus_BossChecklist";
@@ -484,7 +484,7 @@ namespace CalamityMod
                 int type = NPCType<Bumblefuck>();
                 int summon = ItemType<BirbPheromones>();
                 List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<FollyFeed>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemType<SupremeHealingPotion>() };
-                List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeDragonfolly>() };
+                List<int> collection = new List<int>() { ItemType<DragonfollyTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeDragonfolly>() };
                 string instructions = $"Use [i:{summon}] in the Jungle Biome";
                 string despawn = CalamityUtils.ColorMessage("The failed experiment returns to its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
                 AddBoss(bossChecklist, calamity, "Dragonfolly", order, type, DownedBirb, summon, loot, collection, instructions, despawn);
@@ -612,7 +612,7 @@ namespace CalamityMod
                 int type = NPCType<SupremeCalamitas>();
                 int summon1 = ItemType<AshesofCalamity>();
                 int summon2 = ItemType<EyeofExtinction>();
-                int altar = ItemType<SCalAltarItem>();
+                int altar = ItemType<AltarOfTheAccursedItem>();
                 List<int> summons = new List<int>() { summon1, summon2 };
                 List<int> loot = new List<int>() { ItemType<SCalBag>(), ItemType<AshesofAnnihilation>(), ItemType<Vehemenc>(), ItemType<Heresy>(), ItemType<Perdition>(), ItemType<Vigilance>(), ItemType<Sacrifice>(), ItemType<Violence>(), ItemType<Condemnation>(), ItemType<GaelsGreatsword>(), ItemType<OmegaHealingPotion>() };
                 List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<SupremeCataclysmTrophy>(), ItemType<SupremeCatastropheTrophy>(), ItemType<AshenHorns>(), ItemType<SCalMask>(), ItemType<SCalRobes>(), ItemType<SCalBoots>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
@@ -723,7 +723,7 @@ namespace CalamityMod
             // Wall of Flesh
             AddLoot(bossChecklist, "WallofFlesh",
                 new List<int>() { ItemType<Meowthrower>(), ItemType<BlackHawkRemote>(), ItemType<BlastBarrel>(), ItemType<RogueEmblem>(), ItemType<Carnage>(), ItemID.CorruptionKey, ItemID.CrimsonKey },
-                new List<int>() { ItemType<KnowledgeWallofFlesh>(), ItemType<KnowledgeUnderworld>(), ItemType<IbarakiBox>() }
+                new List<int>() { ItemType<KnowledgeWallofFlesh>(), ItemType<KnowledgeUnderworld>(), ItemType<HermitsBoxofOneHundredMedicines>() }
             );
 
             // Queen Slime

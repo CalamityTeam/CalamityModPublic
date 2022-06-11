@@ -2,14 +2,14 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
+namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
-    public class PlaguedPlateClock : ModItem
+    public class PlaguedPlateDresser : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued Clock");
+            DisplayName.SetDefault("Plagued Dresser");
         }
 
         public override void SetDefaults()
@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateClock>();
+            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateDresser>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 10).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddIngredient(ItemID.Glass, 6).AddIngredient(ItemID.IronBar, 3).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 16).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
         }
     }
 }

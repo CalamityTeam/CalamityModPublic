@@ -1,15 +1,16 @@
-using CalamityMod.Tiles.Furniture;
+﻿using CalamityMod.Tiles.Furniture;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
-    public class AstrageldonTrophy : ModItem
+    [LegacyName("BumblebirbTrophy")]
+    public class DragonfollyTrophy : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Astrum Aureus Trophy");
+            DisplayName.SetDefault("Dragonfolly Trophy");
         }
 
         public override void SetDefaults()
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
             Item.value = 50000;
             Item.rare = ItemRarityID.Blue;
             Item.createTile = ModContent.TileType<BossTrophy>();
-            Item.placeStyle = 19;
+            Item.placeStyle = 18;
         }
     }
 }

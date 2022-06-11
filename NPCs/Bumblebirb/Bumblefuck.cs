@@ -434,7 +434,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 normalOnly.Add(ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            npcLoot.Add(ModContent.ItemType<BumblebirbTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<DragonfollyTrophy>(), 10);
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedDragonfolly, ModContent.ItemType<KnowledgeDragonfolly>());
