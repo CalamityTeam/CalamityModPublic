@@ -754,6 +754,8 @@ namespace CalamityMod.Items
                                 break;
                             int coldDivinityDamage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(80);
                             int projj = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), coldDivinityDamage, 1f, player.whoAmI, angle, 2f);
+                            Main.projectile[projj].originalDamage = 80;
+
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {
