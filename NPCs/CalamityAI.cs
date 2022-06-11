@@ -2333,11 +2333,20 @@ namespace CalamityMod.NPCs
             bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
             npc.damage = postMoonLordBuff ? npc.defDamage * 2 : npc.defDamage;
 
+            // Don't fire projectiles and don't increment phase timers for 6 seconds after the teleport phase to avoid cheap bullshit
+            float noProjectileOrPhaseIncrementTime = 360f;
+
             // Don't deal contact damage for 2 seconds after the teleport phase to avoid cheap bullshit
-            if (npc.localAI[3] > 0f)
+            float noContactDamageTime = 120f;
+
+            bool dontDealContactDamage = npc.localAI[3] > noProjectileOrPhaseIncrementTime - noContactDamageTime;
+            bool dontAttack = npc.localAI[3] > 0f;
+            if (dontAttack)
             {
                 npc.localAI[3] -= 1f;
-                npc.damage = 0;
+
+                if (dontDealContactDamage)
+                    npc.damage = 0;
             }
 
             // Get a target
@@ -2437,7 +2446,8 @@ namespace CalamityMod.NPCs
             // Fire projectiles while walking, teleporting, or falling
             if (npc.ai[0] == 2f || npc.ai[0] >= 5f)
             {
-                npc.localAI[0] += npc.ai[0] == 2f ? 1f : astralFlameBarrageTimerIncrement;
+                if (!dontAttack)
+                    npc.localAI[0] += npc.ai[0] == 2f ? 1f : astralFlameBarrageTimerIncrement;
 
                 float astralFlameBarrageGateValue = phase4 ? 30f : 60f;
                 if (npc.localAI[0] >= astralFlameBarrageGateValue)
@@ -2649,7 +2659,9 @@ namespace CalamityMod.NPCs
                 }
 
                 // Walk for a maximum of 6 seconds
-                npc.ai[1] += 1f;
+                if (!dontAttack)
+                    npc.ai[1] += 1f;
+
                 if (npc.ai[1] >= ((malice ? 270f : 360f) - (death ? 90f * (1f - lifeRatio) : 0f)))
                 {
                     // Collide with tiles again
@@ -2678,7 +2690,9 @@ namespace CalamityMod.NPCs
                     npc.velocity.X *= 0.8f;
 
                     // Half second delay before jumping
-                    npc.ai[1] += 1f;
+                    if (!dontAttack)
+                        npc.ai[1] += 1f;
+
                     if (npc.ai[1] >= 30f)
                     {
                         npc.ai[1] = -20f;
@@ -3062,7 +3076,7 @@ namespace CalamityMod.NPCs
                     npc.alpha = 0;
                     npc.ai[0] = phase3 ? (Main.rand.NextBool() ? 3f : 2f) : (Main.rand.NextBool() ? 1f : 2f);
                     npc.ai[2] = 0f;
-                    npc.localAI[3] = 120f;
+                    npc.localAI[3] = noProjectileOrPhaseIncrementTime;
                     npc.netUpdate = true;
                 }
 
