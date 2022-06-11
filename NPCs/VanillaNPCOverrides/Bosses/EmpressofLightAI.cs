@@ -24,6 +24,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Reset damage every frame.
             npc.damage = npc.defDamage;
 
+            // Reset DR every frame.
+            calamityGlobalNPC.DR = 0.15f;
+
             // Percent life remaining.
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -556,6 +559,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     // Avoid cheap bullshit.
                     npc.damage = 0;
+
+                    // Increase durability.
+                    calamityGlobalNPC.DR = 0.575f;
 
                     int totalSunDances = 3;
                     float sunDanceGateValue = death ? 40f : 50f;
