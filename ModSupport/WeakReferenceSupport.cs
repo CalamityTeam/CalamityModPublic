@@ -379,7 +379,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Calamitas", out float order);
                 int type = NPCType<CalamitasRun3>();
                 int summon = ItemType<EyeofDesolation>();
-                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<AshesofCalamity>(), ItemType<Bloodstone>(), ItemType<LashesofChaos>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<AshesofCalamity>(), ItemType<Bloodstone>(), ItemType<LashesofChaos>(), ItemType<Oblivion>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<KnowledgeCalamitasClone>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
@@ -428,7 +428,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("PlaguebringerGoliath", out float order);
                 int type = NPCType<PlaguebringerGoliath>();
                 int summon = ItemType<Abombination>();
-                List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCanister>(), ItemType<InfectedArmorPlating>(), ItemID.Stinger, ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<BlightSpewer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCanister>(), ItemType<InfectedArmorPlating>(), ItemID.Stinger, ItemType<Virulence>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<BlightSpewer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<PlaguebringerGoliathTrophy>(), ItemType<PlaguebringerGoliathMask>(), ItemType<KnowledgePlaguebringerGoliath>(), ItemType<PlagueCaller>() };
                 string instructions = $"Use an [i:{summon}] in the Jungle Biome";
                 string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));

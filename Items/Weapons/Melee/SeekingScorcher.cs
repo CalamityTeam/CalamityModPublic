@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DivineHatchet : ModItem
+    [LegacyName("DivineHatchet")]
+    public class SeekingScorcher : ModItem
     {
         public override void SetStaticDefaults()
         {

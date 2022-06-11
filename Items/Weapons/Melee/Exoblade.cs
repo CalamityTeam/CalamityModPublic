@@ -9,7 +9,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DraedonsExoblade : ModItem
+    [LegacyName("DraedonsExoblade")]
+    public class Exoblade : ModItem
     {
         public override void SetStaticDefaults()
         {

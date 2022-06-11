@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Whirlpool : ModItem
+    [LegacyName("Whirlpool")]
+    public class Riptide : ModItem
     {
         public override void SetStaticDefaults()
         {

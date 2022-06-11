@@ -4,10 +4,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class StellarContemptMelee : ModItem
+    [LegacyName("StellarContemptMelee", "StellarContemptRogue")]
+    public class StellarContempt : ModItem
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/StellarContempt";
-
         public static int BaseDamage = 300;
         public static float Speed = 18f;
 
@@ -44,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<TruePaladinsHammerMelee>().
+                AddIngredient<FallenPaladinsHammer>().
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddIngredient(ItemID.FragmentNebula, 10).

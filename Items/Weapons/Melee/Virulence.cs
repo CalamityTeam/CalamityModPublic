@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class VirulentKatana : ModItem
+    [LegacyName("VirulentKatana")]
+    public class Virulence : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GalacticaBlade : ModItem
+    [LegacyName("GalacticaBlade")]
+    public class GalactusBlade : ModItem
     {
         public override void SetStaticDefaults()
         {

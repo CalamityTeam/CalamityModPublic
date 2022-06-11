@@ -125,7 +125,7 @@ namespace CalamityMod.Items
                 nameLine.OverrideColor = new Color(207, 17, 117);
             if (item.type == ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>())
                 nameLine.OverrideColor = new Color(227, 226, 180);
-            if (item.type == ModContent.ItemType<RoyalKnivesMelee>())
+            if (item.type == ModContent.ItemType<IllustriousKnives>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(154, 255, 151), new Color(228, 151, 255), 4f);
             if (item.type == ModContent.ItemType<DemonshadeHelm>() || item.type == ModContent.ItemType<DemonshadeBreastplate>() || item.type == ModContent.ItemType<DemonshadeGreaves>())
                 nameLine.OverrideColor = CalamityUtils.ColorSwap(new Color(255, 132, 22), new Color(221, 85, 7), 4f);

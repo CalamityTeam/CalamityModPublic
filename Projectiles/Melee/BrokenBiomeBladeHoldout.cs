@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         private Player Owner => Main.player[Projectile.owner];
 
-        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as BiomeBlade).CanUseItem(Owner) : false;
+        public bool OwnerCanUseItem => Owner.HeldItem == associatedItem ? (Owner.HeldItem.ModItem as BrokenBiomeBlade).CanUseItem(Owner) : false;
         public bool OwnerMayChannel => Owner.itemAnimation == 0 && OwnerCanUseItem && Owner.Calamity().mouseRight && Owner.active && !Owner.dead && Owner.StandingStill() && !Owner.mount.Active && Owner.CheckSolidGround(1, 3);
         public ref float ChanneledState => ref Projectile.ai[0];
         public ref float ChannelTimer => ref Projectile.ai[1];
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             DisplayName.SetDefault("Broken Biome Blade");
         }
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/BiomeBlade";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/BrokenBiomeBlade";
         public bool drawIndrawHeldProjInFrontOfHeldItemAndArms = true;
         public override void SetDefaults()
         {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
             if (Initialized == 0f)
             {
                 //If dropped, kill it instantly
-                if (Owner.HeldItem.type != ItemType<BiomeBlade>())
+                if (Owner.HeldItem.type != ItemType<BrokenBiomeBlade>())
                 {
                     Projectile.Kill();
                     return;
@@ -67,9 +67,9 @@ namespace CalamityMod.Projectiles.Melee
 
                 associatedItem = Owner.HeldItem;
                 //Switch up the attunements
-                Attunement temporaryAttunementStorage = (associatedItem.ModItem as BiomeBlade).mainAttunement;
-                (associatedItem.ModItem as BiomeBlade).mainAttunement = (associatedItem.ModItem as BiomeBlade).secondaryAttunement;
-                (associatedItem.ModItem as BiomeBlade).secondaryAttunement = temporaryAttunementStorage;
+                Attunement temporaryAttunementStorage = (associatedItem.ModItem as BrokenBiomeBlade).mainAttunement;
+                (associatedItem.ModItem as BrokenBiomeBlade).mainAttunement = (associatedItem.ModItem as BrokenBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as BrokenBiomeBlade).secondaryAttunement = temporaryAttunementStorage;
                 Initialized = 1f;
             }
 
@@ -92,11 +92,11 @@ namespace CalamityMod.Projectiles.Melee
 
                 if (ChannelTimer >= ChannelTime)
                 {
-                    Attune((BiomeBlade)associatedItem.ModItem);
+                    Attune((BrokenBiomeBlade)associatedItem.ModItem);
                     Projectile.timeLeft = 120;
                     ChanneledState = 2f; //State where it stays invisible doing nothing. Acts as a cooldown
 
-                    Color particleColor = (associatedItem.ModItem as BiomeBlade).mainAttunement.tooltipColor;
+                    Color particleColor = (associatedItem.ModItem as BrokenBiomeBlade).mainAttunement.tooltipColor;
 
                     for (int i = 0; i <= 5; i++)
                     {
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.position += Vector2.UnitY * -0.3f * (1f + Projectile.timeLeft / 60f);
         }
 
-        public void Attune(BiomeBlade item)
+        public void Attune(BrokenBiomeBlade item)
         {
             bool jungle = Owner.ZoneJungle;
             bool snow = Owner.ZoneSnow;
@@ -166,10 +166,10 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             //If we swapped out the main attunement for the second one despite the second attunement being empty at the time, unswap them.
-            if ((associatedItem.ModItem as BiomeBlade).mainAttunement == null && (associatedItem.ModItem as BiomeBlade).secondaryAttunement != null)
+            if ((associatedItem.ModItem as BrokenBiomeBlade).mainAttunement == null && (associatedItem.ModItem as BrokenBiomeBlade).secondaryAttunement != null)
             {
-                (associatedItem.ModItem as BiomeBlade).mainAttunement = (associatedItem.ModItem as BiomeBlade).secondaryAttunement;
-                (associatedItem.ModItem as BiomeBlade).secondaryAttunement = null;
+                (associatedItem.ModItem as BrokenBiomeBlade).mainAttunement = (associatedItem.ModItem as BrokenBiomeBlade).secondaryAttunement;
+                (associatedItem.ModItem as BrokenBiomeBlade).secondaryAttunement = null;
             }
 
             //Cool particles

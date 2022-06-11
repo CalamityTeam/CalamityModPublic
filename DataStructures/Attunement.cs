@@ -94,7 +94,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(200, 184, 136);
         }
 
-        public override float DamageMultiplier => BiomeBlade.DefaultAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.DefaultAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -120,7 +120,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(209, 154, 0);
         }
 
-        public override float DamageMultiplier => BiomeBlade.HotAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.HotAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -146,7 +146,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(58, 110, 141);
         }
 
-        public override float DamageMultiplier => BiomeBlade.ColdAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.ColdAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -195,7 +195,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(131, 173, 39);
         }
 
-        public override float DamageMultiplier => BiomeBlade.TropicalAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.TropicalAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {
@@ -222,7 +222,7 @@ namespace CalamityMod.DataStructures
             energyParticleCenterColor = new Color(195, 42, 200);
         }
 
-        public override float DamageMultiplier => BiomeBlade.EvilAttunement_BaseDamage / (float)BiomeBlade.BaseDamage;
+        public override float DamageMultiplier => BrokenBiomeBlade.EvilAttunement_BaseDamage / (float)BrokenBiomeBlade.BaseDamage;
 
         public override void ApplyStats(Item item)
         {

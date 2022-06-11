@@ -1238,7 +1238,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 // Weapons
                 int[] weapons = new int[]
                 {
-                    ModContent.ItemType<VirulentKatana>(), // Virulence
+                    ModContent.ItemType<Virulence>(), // Virulence
                     ModContent.ItemType<DiseasedPike>(),
                     ModContent.ItemType<ThePlaguebringer>(), // Pandemic
                     ModContent.ItemType<Malevolence>(),

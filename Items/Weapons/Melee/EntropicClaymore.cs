@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class XerocsGreatsword : ModItem
+    [LegacyName("XerocsGreatsword")]
+    public class EntropicClaymore : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -57,7 +57,7 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<TheEyeofCalamitas>(w),
+                DropHelper.WeightStack<Oblivion>(w),
                 DropHelper.WeightStack<Animosity>(w),
                 DropHelper.WeightStack<LashesofChaos>(w),
                 DropHelper.WeightStack<BlightedEyeStaff>(w),

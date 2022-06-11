@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GalaxySmasherMelee : ModItem
+    [LegacyName("GalaxySmasherMelee", "GalaxySmasherRogue")]
+    public class GalaxySmasher : ModItem
     {
         public static int BaseDamage = 264;
         public static float Speed = 18f;
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<StellarContemptMelee>().
+                AddIngredient<StellarContempt>().
                 AddIngredient<CosmiliteBar>(10).
                 AddTile<CosmicAnvil>().
                 Register();

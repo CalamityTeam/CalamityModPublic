@@ -1,17 +1,17 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee.Yoyos;
+﻿using CalamityMod.Projectiles.Melee.Yoyos;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Chaotrix : ModItem
+    [LegacyName("TheEyeofCalamitas")]
+    public class Oblivion : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fault Line");
-            Tooltip.SetDefault("Explodes on enemy hits\n" +
+            DisplayName.SetDefault("Oblivion");
+            Tooltip.SetDefault("Fires brimstone lasers when enemies are near\n" +
             "A very agile yoyo");
             ItemID.Sets.Yoyo[Item.type] = true;
             ItemID.Sets.GamepadExtraRange[Item.type] = 15;
@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            Item.width = 30;
-            Item.height = 26;
+            Item.width = 28;
+            Item.height = 38;
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 88; // 110 pre-nerf
+            Item.damage = 55;
             Item.knockBack = 4f;
             Item.useTime = 22;
             Item.useAnimation = 22;
@@ -36,19 +36,11 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.noMelee = true;
 
-            Item.shoot = ModContent.ProjectileType<ChaotrixYoyo>();
+            Item.shoot = ModContent.ProjectileType<OblivionYoyo>();
             Item.shootSpeed = 14f;
 
-            Item.rare = ItemRarityID.Yellow;
-            Item.value = Item.buyPrice(gold: 80);
-        }
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient<ScoriaBar>(6).
-                AddTile(TileID.MythrilAnvil).
-                Register();
+            Item.rare = ItemRarityID.Lime;
+            Item.value = Item.buyPrice(gold: 60);
         }
     }
 }

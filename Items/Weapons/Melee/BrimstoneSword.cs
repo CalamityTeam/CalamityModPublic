@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ProfanedSword : ModItem
+    [LegacyName("ProfanedSword")]
+    public class BrimstoneSword : ModItem
     {
         public override void SetStaticDefaults()
         {

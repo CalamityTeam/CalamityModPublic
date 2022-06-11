@@ -14,7 +14,8 @@ using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ArkoftheAncients : ModItem
+    [LegacyName("ArkoftheAncients")]
+    public class FracturedArk : ModItem
     {
         public float Combo = 1f;
         public float Charge = 0f;
@@ -111,7 +112,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            if (clone is ArkoftheAncients a && item.ModItem is ArkoftheAncients a2)
+            if (clone is FracturedArk a && item.ModItem is FracturedArk a2)
                 a.Charge = a2.Charge;
 
             return clone;

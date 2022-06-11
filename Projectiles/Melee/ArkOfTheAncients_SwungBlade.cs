@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheAncientsSwungBlade : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncients";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/FracturedArk";
 
         private bool initialized = false;
         Vector2 direction = Vector2.Zero;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (Owner.whoAmI == Main.myPlayer && SwingRatio() > 0.5f && HasFired == 0f && Charge > 0)
             {
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + direction * 30f, Projectile.velocity * 1.25f, ProjectileType<AncientBeam>(), (int)(Projectile.damage * ArkoftheAncients.beamDamageMultiplier), 2f, Owner.whoAmI) ;
+                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Owner.Center + direction * 30f, Projectile.velocity * 1.25f, ProjectileType<AncientBeam>(), (int)(Projectile.damage * FracturedArk.beamDamageMultiplier), 2f, Owner.whoAmI) ;
                 HasFired = 1f;
             }
 
@@ -119,8 +119,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncients").Value;
-            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow").Value;
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/FracturedArk").Value;
+            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/FracturedArkGlow").Value;
 
             SpriteEffects flip = Owner.direction < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             float extraAngle = Owner.direction < 0 ? MathHelper.PiOver2 : 0f;

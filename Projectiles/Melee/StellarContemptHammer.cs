@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
             else
             {
                 Projectile.tileCollide = false;
-                float returnSpeed = StellarContemptMelee.Speed;
+                float returnSpeed = StellarContempt.Speed;
                 float acceleration = 3.2f;
                 Player owner = Main.player[Projectile.owner];
 

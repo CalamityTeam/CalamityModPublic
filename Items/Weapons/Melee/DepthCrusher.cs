@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class DepthBlade : ModItem
+    [LegacyName("DepthBlade")]
+    public class DepthCrusher : ModItem
     {
         private const int HammerPower = 70;
 

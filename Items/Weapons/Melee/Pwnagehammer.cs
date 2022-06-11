@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class PwnagehammerMelee : ModItem
+    [LegacyName("PwnagehammerMelee", "PwnagehammerRogue")]
+    public class Pwnagehammer : ModItem
     {
         public override void SetStaticDefaults()
         {

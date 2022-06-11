@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class TruePaladinsHammerMelee : ModItem
+    [LegacyName("TruePaladinsHammer", "TruePaladinsHammerMelee", "TruePaladinsHammerRogue")]
+    public class FallenPaladinsHammer : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient(ItemID.PaladinsHammer).
-                AddIngredient<PwnagehammerMelee>().
+                AddIngredient<Pwnagehammer>().
                 AddIngredient<AshesofCalamity>(5).
                 AddIngredient<CoreofChaos>(5).
                 AddIngredient<ScoriaBar>(5).

@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class RoyalKnivesMelee : ModItem
+    [LegacyName("RoyalKnives", "RoyalKnivesMelee", "RoyalKnivesRogue")]
+    public class IllustriousKnives : ModItem
     {
         public override void SetStaticDefaults()
         {

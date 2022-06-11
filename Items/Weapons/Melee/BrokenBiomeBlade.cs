@@ -18,7 +18,8 @@ using Terraria.GameContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class BiomeBlade : ModItem
+    [LegacyName("BiomeBlade")]
+    public class BrokenBiomeBlade : ModItem
     {
         public Attunement mainAttunement = null;
         public Attunement secondaryAttunement = null;
@@ -143,10 +144,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             var clone = base.Clone(item);
 
-            if (Main.mouseItem.type == ItemType<BiomeBlade>())
+            if (Main.mouseItem.type == ItemType<BrokenBiomeBlade>())
                 item.ModItem?.HoldItem(Main.player[Main.myPlayer]);
 
-            if (clone is BiomeBlade a && item.ModItem is BiomeBlade a2)
+            if (clone is BrokenBiomeBlade a && item.ModItem is BrokenBiomeBlade a2)
             {
                 a.mainAttunement = a2.mainAttunement;
                 a.secondaryAttunement = a2.secondaryAttunement;

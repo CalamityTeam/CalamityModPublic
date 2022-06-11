@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ExsanguinationLance : ModItem
+    [LegacyName("ExsanguinationLance")]
+    public class VulcaniteLance : ModItem
     {
         public override void SetStaticDefaults()
         {

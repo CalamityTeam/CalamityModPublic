@@ -18,6 +18,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
+    // TODO -- CANNOT RENAME this and True Biome Blade to "TrueBiomeBlade" and "BiomeBlade" internally without corrupting existing items
     public class OmegaBiomeBlade : ModItem
     {
         public Attunement mainAttunement = null;
