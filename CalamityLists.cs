@@ -1742,7 +1742,7 @@ namespace CalamityMod
                 ItemType<Greentide>(),
                 ItemType<Leviatitan>(),
                 ItemType<Atlantis>(),
-                ItemType<SirensSong>(),
+                ItemType<AnahitasArpeggio>(),
                 ItemType<BrackishFlask>(),
                 ItemType<LeviathanTeeth>(),
                 ItemType<GastricBelcherStaff>(),

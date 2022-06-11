@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Vehemenc : ModItem
+    [LegacyName("Vehemenc")]
+    public class Vehemence : ModItem
     {
         public const int BaseDamage = 5185;
         public const float SkullRatio = 0.08f;

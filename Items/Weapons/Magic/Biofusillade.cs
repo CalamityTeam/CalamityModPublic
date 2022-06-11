@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class GammaFusillade : ModItem
+    [LegacyName("GammaFusillade")]
+    public class Biofusillade : ModItem
     {
         public override void SetStaticDefaults()
         {

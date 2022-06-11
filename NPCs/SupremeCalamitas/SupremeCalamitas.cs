@@ -2510,7 +2510,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     ModContent.ItemType<Violence>(),
                     ModContent.ItemType<Condemnation>(),
                     ModContent.ItemType<Heresy>(),
-                    ModContent.ItemType<Vehemenc>(),
+                    ModContent.ItemType<Vehemence>(),
                     ModContent.ItemType<Perdition>(),
                     ModContent.ItemType<Vigilance>(),
                     ModContent.ItemType<Sacrifice>(),

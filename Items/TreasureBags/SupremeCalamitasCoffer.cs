@@ -62,7 +62,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Violence>(w),
                 DropHelper.WeightStack<Condemnation>(w),
                 DropHelper.WeightStack<Heresy>(w),
-                DropHelper.WeightStack<Vehemenc>(w),
+                DropHelper.WeightStack<Vehemence>(w),
                 DropHelper.WeightStack<Perdition>(w),
                 DropHelper.WeightStack<Vigilance>(w),
                 DropHelper.WeightStack<Sacrifice>(w)

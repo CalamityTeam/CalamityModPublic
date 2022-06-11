@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class CalamitasInferno : ModItem
+    [LegacyName("CalamitasInferno")]
+    public class LashesofChaos : ModItem
     {
         public override void SetStaticDefaults()
         {

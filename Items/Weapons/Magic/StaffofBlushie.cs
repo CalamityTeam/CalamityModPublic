@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class BlushieStaff : ModItem
+    [LegacyName("BlushieStaff")]
+    public class StaffofBlushie : ModItem
     {
         public override void SetStaticDefaults()
         {

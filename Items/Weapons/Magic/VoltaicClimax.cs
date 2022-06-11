@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Climax : ModItem
+    [LegacyName("Climax")]
+    public class VoltaicClimax : ModItem
     {
         public const int OrbFireRate = 10;
 

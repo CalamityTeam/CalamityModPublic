@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DeathValley>().
+                AddIngredient<DeathValleyDuster>().
                 AddIngredient(ItemID.AncientBattleArmorMaterial, 3).
                 AddIngredient(ItemID.MeteoriteBar, 5).
                 AddIngredient(ItemID.Ectoplasm, 5).

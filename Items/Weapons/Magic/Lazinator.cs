@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Zapper : ModItem
+    [LegacyName("Zapper")]
+    public class Lazinator : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class DeathValley : ModItem
+    [LegacyName("DeathValley")]
+    public class DeathValleyDuster : ModItem
     {
         public override void SetStaticDefaults()
         {

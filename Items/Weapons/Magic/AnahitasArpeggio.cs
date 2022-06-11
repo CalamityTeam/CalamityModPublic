@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SirensSong : ModItem
+    [LegacyName("SirensSong")]
+    public class AnahitasArpeggio : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class T1000 : ModItem
+    [LegacyName("T1000")]
+    public class AetherfluxCannon : ModItem
     {
         public const int UseTime = 36;
 

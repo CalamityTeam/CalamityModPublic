@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.Calamitas
                 {
                     ModContent.ItemType<TheEyeofCalamitas>(),
                     ModContent.ItemType<Animosity>(),
-                    ModContent.ItemType<CalamitasInferno>(),
+                    ModContent.ItemType<LashesofChaos>(),
                     ModContent.ItemType<BlightedEyeStaff>(),
                     ModContent.ItemType<ChaosStone>(),
                 };
