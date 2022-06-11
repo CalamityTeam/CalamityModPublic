@@ -17,7 +17,8 @@ using SCalBoss = CalamityMod.NPCs.SupremeCalamitas.SupremeCalamitas;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class SCalBag : ModItem
+    [LegacyName("SCalBag")]
+    public class SupremeCalamitasCoffer : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<SCalBoss>();
 

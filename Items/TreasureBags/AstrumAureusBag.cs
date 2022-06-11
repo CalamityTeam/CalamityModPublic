@@ -19,7 +19,8 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class AstrageldonBag : ModItem
+    [LegacyName("AstrageldonBag")]
+    public class AstrumAureusBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<AstrumAureus>();
 

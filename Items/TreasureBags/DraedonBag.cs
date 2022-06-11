@@ -14,7 +14,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class DraedonTreasureBag : ModItem
+    [LegacyName("DraedonTreasureBag")]
+    public class DraedonBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<AresBody>();
 

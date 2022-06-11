@@ -16,7 +16,8 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class BumblebirbBag : ModItem
+    [LegacyName("BumblebirbBag")]
+    public class DragonfollyBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Bumblefuck>();
 

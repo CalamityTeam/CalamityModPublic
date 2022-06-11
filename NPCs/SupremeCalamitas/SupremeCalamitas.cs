@@ -2499,7 +2499,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SCalBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<SupremeCalamitasCoffer>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

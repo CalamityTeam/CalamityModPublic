@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Boss bag
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrageldonBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrumAureusBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();

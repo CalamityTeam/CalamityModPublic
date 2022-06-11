@@ -5,7 +5,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class FleshyGeodeT1 : ModItem
+    [LegacyName("FleshyGeodeT1")]
+    public class FleshyGeode : ModItem
     {
         public override void SetStaticDefaults()
         {
