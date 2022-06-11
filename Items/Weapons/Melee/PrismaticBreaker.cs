@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage)
         {
             StatModifier halfMelee = damage.Scale(0.5f);
-            return halfMelee.CombineWith(player.GetTotalDamage<RangedDamageClass>().Scale(0.5f));
+            damage = halfMelee.CombineWith(player.GetTotalDamage<RangedDamageClass>().Scale(0.5f));
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
