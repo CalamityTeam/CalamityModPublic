@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class MLGRune2 : ModItem
+    [LegacyName("MLGRune2")]
+    public class CelestialOnion : ModItem
     {
         public override void SetStaticDefaults()
         {

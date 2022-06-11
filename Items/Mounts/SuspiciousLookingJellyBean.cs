@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class SquishyBeanMount : ModItem
+    [LegacyName("SquishyBeanMount")]
+    public class SuspiciousLookingJellyBean : ModItem
     {
         public override void SetStaticDefaults()
         {

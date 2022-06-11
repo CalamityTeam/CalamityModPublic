@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class BirdSeed : ModItem
+    [LegacyName("BirdSeed")]
+    public class FollyFeed : ModItem
     {
         public override void SetStaticDefaults()
         {

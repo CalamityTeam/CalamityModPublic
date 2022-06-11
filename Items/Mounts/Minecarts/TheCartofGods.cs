@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts.Minecarts
 {
-    public class DoGCart : ModItem
+    [LegacyName("DoGCart")]
+    public class TheCartofGods : ModItem
     {
         public override void SetStaticDefaults() => DisplayName.SetDefault("The Cart of Gods");
 

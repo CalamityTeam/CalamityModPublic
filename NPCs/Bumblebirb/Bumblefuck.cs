@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                     ModContent.ItemType<GildedProboscis>(),
                     ModContent.ItemType<GoldenEagle>(),
                     ModContent.ItemType<RougeSlash>(),
-                    ModContent.ItemType<BirdSeed>(),
+                    ModContent.ItemType<FollyFeed>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
                 normalOnly.Add(ModContent.ItemType<Swordsplosion>(), 10);

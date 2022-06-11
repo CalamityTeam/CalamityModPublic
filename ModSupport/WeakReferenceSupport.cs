@@ -483,7 +483,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Dragonfolly", out float order);
                 int type = NPCType<Bumblefuck>();
                 int summon = ItemType<BirbPheromones>();
-                List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<BirdSeed>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemType<SupremeHealingPotion>() };
+                List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<FollyFeed>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemType<SupremeHealingPotion>() };
                 List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeDragonfolly>() };
                 string instructions = $"Use [i:{summon}] in the Jungle Biome";
                 string despawn = CalamityUtils.ColorMessage("The failed experiment returns to its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
@@ -783,7 +783,7 @@ namespace CalamityMod
 
             // Moon Lord
             AddLoot(bossChecklist, "MoonLord",
-                new List<int>() { ItemType<UtensilPoker>(), ItemType<MLGRune2>() },
+                new List<int>() { ItemType<UtensilPoker>(), ItemType<CelestialOnion>() },
                 new List<int>() { ItemType<KnowledgeMoonLord>() }
             );
         }

@@ -238,7 +238,7 @@ namespace CalamityMod.Items
                     DropHelper.BlockDrops(moonLordWeapons);
 
                     // The Celestial Onion only drops if the player hasn't used one and doesn't have one in their inventory.
-                    int celestialOnion = ModContent.ItemType<MLGRune2>();
+                    int celestialOnion = ModContent.ItemType<CelestialOnion>();
                     DropHelper.DropItemCondition(s, player, celestialOnion, !player.Calamity().extraAccessoryML && !player.InventoryHas(celestialOnion));
                     break;
             }
