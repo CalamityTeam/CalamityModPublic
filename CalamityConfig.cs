@@ -368,7 +368,7 @@ namespace CalamityMod
                 new("ChilledWaterRework", ItemID.ArcticDivingGear),
                 new("ForceTownSafety", ItemID.Sunflower),
 
-                new("RipperMeterShake", ModContent.ItemType<Revenge>()),
+                new("RipperMeterShake", ModContent.ItemType<RevengeanceModeItem>()),
                 new("RageMeterPosX", ItemID.LaserRuler),
                 new("RageMeterPosY", ItemID.LaserRuler),
                 new("AdrenalineMeterPosX", ItemID.LaserRuler),

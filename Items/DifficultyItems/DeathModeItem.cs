@@ -8,12 +8,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DifficultyItems
 {
-    public class Death : ModItem
+    [LegacyName("Death")]
+    public class DeathModeItem : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Death");
+            DisplayName.SetDefault("Satanic Scepter of Death");
             Tooltip.SetDefault("Enables/disables Death Mode, can only be used in Revengeance Mode.\n" +
 
                 // Rev Mode line

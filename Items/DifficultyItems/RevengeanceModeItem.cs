@@ -10,12 +10,13 @@ using System.Linq;
 
 namespace CalamityMod.Items.DifficultyItems
 {
-    public class Revenge : ModItem
+    [LegacyName("Revenge")]
+    public class RevengeanceModeItem : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Revengeance");
+            DisplayName.SetDefault("Blood Fountain of Revengeance");
             Tooltip.SetDefault("Enables/disables Revengeance Mode, can only be used in Expert Mode.\n" +
 
                 // Rage and Adrenaline lines
