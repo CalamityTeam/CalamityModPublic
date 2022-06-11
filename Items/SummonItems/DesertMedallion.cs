@@ -9,7 +9,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class DriedSeafood : ModItem
+    [LegacyName("DriedSeafood")]
+    public class DesertMedallion : ModItem
     {
         public override void SetStaticDefaults()
         {

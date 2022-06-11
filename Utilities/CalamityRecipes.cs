@@ -98,7 +98,7 @@ namespace CalamityMod
                 ItemID.PumpkinPie,
                 ModContent.ItemType<Baguette>(),
                 ModContent.ItemType<DeliciousMeat>(),
-                ModContent.ItemType<SunkenStew>()
+                ModContent.ItemType<HadalStew>()
             });
             RecipeGroup.RegisterGroup("AnyFood", group);
         }

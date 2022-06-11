@@ -8,7 +8,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class ChickenEgg : ModItem
+    [LegacyName("ChickenEgg")]
+    public class JungleDragonEgg : ModItem
     {
         public override void SetStaticDefaults()
         {

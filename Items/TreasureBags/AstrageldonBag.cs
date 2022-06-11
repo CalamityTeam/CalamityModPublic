@@ -55,7 +55,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<AstralJelly>(), 12, 16);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AureusCell>(), 12, 16);
             DropHelper.DropItem(s, player, ModContent.ItemType<Stardust>(), 30, 40);
             DropHelper.DropItem(s, player, ItemID.FallenStar, 20, 30);
 

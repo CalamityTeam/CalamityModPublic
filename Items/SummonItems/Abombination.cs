@@ -1,6 +1,6 @@
 ﻿using CalamityMod.Events;
 using CalamityMod.Items.Materials;
-using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.PlaguebringerGoliath;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,14 +8,15 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BlightedEyeball : ModItem
+    [LegacyName("Abomination")]
+    public class Abombination : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Eye of Desolation");
-            Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
-                "Summons Calamitas when used during nighttime\n" +
+            DisplayName.SetDefault("Abombination");
+            Tooltip.SetDefault("Calls in the airborne abomination\n" +
+                "Summons the Plaguebringer Goliath when used in the jungle\n" +
                 "Not consumable");
         }
 
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.SummonItems
         {
             Item.width = 28;
             Item.height = 18;
-            Item.rare = ItemRarityID.LightPurple;
+            Item.rare = ItemRarityID.Yellow;
             Item.useAnimation = 10;
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.HoldUp;
@@ -32,16 +33,16 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>()) && !BossRushEvent.BossRushActive;
+            return player.ZoneJungle && !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
         {
             SoundEngine.PlaySound(SoundID.Roar, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasRun3>());
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CalamitasRun3>());
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<PlaguebringerGoliath>());
 
             return true;
         }
@@ -49,8 +50,10 @@ namespace CalamityMod.Items.SummonItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.HellstoneBar, 10).
-                AddIngredient<EssenceofChaos>(7).
+                AddIngredient<PlagueCellCanister>(20).
+                AddIngredient(ItemID.IronBar, 8).
+                AddIngredient(ItemID.Stinger, 5).
+                AddIngredient(ItemID.Obsidian, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

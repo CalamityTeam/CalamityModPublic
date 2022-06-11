@@ -10,7 +10,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class RuneofCos : ModItem
+    [LegacyName("RuneofCos")]
+    public class RuneofKos : ModItem
     {
         public override void SetStaticDefaults()
         {

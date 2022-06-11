@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralJelly>(), 5).AddIngredient(ModContent.ItemType<Stardust>(), 20).AddIngredient(ModContent.ItemType<AstralStone>(), 30).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<AureusCell>(), 5).AddIngredient(ModContent.ItemType<Stardust>(), 20).AddIngredient(ModContent.ItemType<AstralStone>(), 30).AddTile(TileID.LunarCraftingStation).Register();
         }
     }
 }

@@ -8,7 +8,8 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class AncientMedallion : ModItem
+    [LegacyName("AncientMedallion")]
+    public class DeathWhistle : ModItem
     {
         public override void SetStaticDefaults()
         {

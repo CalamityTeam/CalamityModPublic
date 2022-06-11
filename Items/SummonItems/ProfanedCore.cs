@@ -8,7 +8,8 @@ using Terraria.DataStructures;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class ProfanedCoreUnlimited : ModItem
+    [LegacyName("ProfanedCoreUnlimited")]
+    public class ProfanedCore : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -146,7 +146,7 @@ namespace CalamityMod.World
                     chestType = 51;
                     break;
                 case UndergroundShrineType.Abyss:
-                    item = ModContent.ItemType<BossRush>();
+                    item = ModContent.ItemType<Terminus>();
                     chestType = 4;
                     break;
             }

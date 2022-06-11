@@ -8,7 +8,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BirbPheromones : ModItem
+    [LegacyName("BirbPheromones")]
+    public class ExoticPheromones : ModItem
     {
         public override void SetStaticDefaults()
         {

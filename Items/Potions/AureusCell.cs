@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class AstralJelly : ModItem
+    [LegacyName("AstralJelly")]
+    public class AureusCell : ModItem
     {
         public override void SetStaticDefaults()
         {

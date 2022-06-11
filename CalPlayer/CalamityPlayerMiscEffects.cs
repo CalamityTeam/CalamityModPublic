@@ -4086,8 +4086,8 @@ namespace CalamityMod.CalPlayer
                     if (item is null || item.stack <= 0)
                         continue;
 
-                    if (item.type == ModContent.ItemType<SunkenStew>())
-                        CalamityUtils.ConsumeItemViaQuickBuff(Player, item, SunkenStew.BuffType, SunkenStew.BuffDuration, true);
+                    if (item.type == ModContent.ItemType<HadalStew>())
+                        CalamityUtils.ConsumeItemViaQuickBuff(Player, item, HadalStew.BuffType, HadalStew.BuffDuration, true);
                     if (item.type == ModContent.ItemType<Margarita>())
                         CalamityUtils.ConsumeItemViaQuickBuff(Player, item, Margarita.BuffType, Margarita.BuffDuration, false);
                     if (item.type == ModContent.ItemType<Bloodfin>())

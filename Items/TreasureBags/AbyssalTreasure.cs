@@ -72,7 +72,7 @@ namespace CalamityMod.Items.TreasureBags
                             DropHelper.DropItem(s, player, ItemID.HellfireArrow, 10, 20);
                             break;
                         case 2:
-                            DropHelper.DropItem(s, player, ModContent.ItemType<SunkenStew>());
+                            DropHelper.DropItem(s, player, ModContent.ItemType<HadalStew>());
                             break;
                         case 3:
                             DropHelper.DropItem(s, player, ItemID.StickyDynamite);

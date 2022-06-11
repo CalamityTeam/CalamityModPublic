@@ -110,7 +110,7 @@ namespace CalamityMod.World
             if (type == ModContent.TileType<AstralChestLocked>())
             {
                 PutItemInChest(ref chest, ModContent.ItemType<Stardust>(), 30, 80);
-                PutItemInChest(ref chest, ModContent.ItemType<AstralJelly>(), 10, 14);
+                PutItemInChest(ref chest, ModContent.ItemType<AureusCell>(), 10, 14);
                 PutItemInChest(ref chest, ModContent.ItemType<ZergPotion>(), 8);
                 PutItemInChest(ref chest, ModContent.ItemType<ZenPotion>(), 3, 5);
                 PutItemInChest(ref chest, ItemID.FallenStar, 12, 30);
@@ -132,7 +132,7 @@ namespace CalamityMod.World
                 // 50% chance of 1 or 2 of the following potions
                 int[] potions = new int[]
                 {
-                    ModContent.ItemType<SunkenStew>(), ItemID.WaterWalkingPotion, ItemID.ShinePotion, ItemID.GillsPotion, ItemID.FlipperPotion
+                    ModContent.ItemType<HadalStew>(), ItemID.WaterWalkingPotion, ItemID.ShinePotion, ItemID.GillsPotion, ItemID.FlipperPotion
                 };
                 PutItemInChest(ref chest, ModContent.ItemType<SulphurskinPotion>(), 4, 7, WorldGen.genRand.NextBool());
                 PutItemInChest(ref chest, WorldGen.genRand.Next(potions), 1, 2, WorldGen.genRand.NextBool());

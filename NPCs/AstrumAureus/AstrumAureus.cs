@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<GravistarSabaton>()));
 
                 // Other
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AstralJelly>(), 1, 9, 12));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AureusCell>(), 1, 9, 12));
                 normalOnly.Add(ModContent.ItemType<LeonidProgenitor>(), 10);
 
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => NPC.downedMoonlord), ModContent.ItemType<SuspiciousLookingJellyBean>()));

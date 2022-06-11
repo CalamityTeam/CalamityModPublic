@@ -62,7 +62,7 @@ namespace CalamityMod.Tiles.Furniture
             int top = j - tile.TileFrameY / 18;
 
             if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AshesofCalamity>()) &&
-                !Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
+                !Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
             {
                 return true;
             }
@@ -73,7 +73,7 @@ namespace CalamityMod.Tiles.Furniture
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<SCalRitualDrama>()) > 0)
                 return true;
 
-            bool usingSpecialItem = Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>());
+            bool usingSpecialItem = Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>());
 
             Vector2 ritualSpawnPosition = new Vector2(left + Width / 2, top).ToWorldCoordinates();
             ritualSpawnPosition += new Vector2(-10f, -24f);
@@ -89,8 +89,8 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void MouseOver(int i, int j)
         {
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<EyeofExtinction>();
+            if (Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CeremonialUrn>();
             else
                 Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
 
@@ -100,8 +100,8 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void MouseOverFar(int i, int j)
         {
-            if (Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<EyeofExtinction>();
+            if (Main.LocalPlayer.HasItem(ModContent.ItemType<CeremonialUrn>()))
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CeremonialUrn>();
             else
                 Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
 

@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BossRush : ModItem
+    [LegacyName("BossRush")]
+    public class Terminus : ModItem
     {
         public override void SetStaticDefaults()
         {

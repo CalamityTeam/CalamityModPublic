@@ -4,7 +4,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class EyeofExtinction : ModItem
+    [LegacyName("EyeofExtinction")]
+    public class CeremonialUrn : ModItem
     {
         public override void SetStaticDefaults()
         {

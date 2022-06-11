@@ -53,14 +53,14 @@ namespace CalamityMod.Items.Potions
             CreateRecipe(4).
                 AddIngredient(ItemID.BottledWater, 4).
                 AddIngredient<Stardust>(4).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
                 Register();
 
             CreateRecipe(8).
                 AddIngredient(ItemID.BottledWater, 4).
                 AddIngredient<BloodOrb>(5).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

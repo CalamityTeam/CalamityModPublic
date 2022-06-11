@@ -7,7 +7,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BulbofDoom : ModItem
+    [LegacyName("BulbofDoom")]
+    public class Portabulb : ModItem
     {
         public override void SetStaticDefaults()
         {

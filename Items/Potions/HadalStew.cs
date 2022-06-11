@@ -8,7 +8,8 @@ using System.Linq;
 
 namespace CalamityMod.Items.Potions
 {
-    public class SunkenStew : ModItem
+    [LegacyName("SunkenStew")]
+    public class HadalStew : ModItem
     {
         public static int BuffType = BuffID.WellFed2;
         public static int BuffDuration = 216000;
