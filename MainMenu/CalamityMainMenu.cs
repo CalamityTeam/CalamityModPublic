@@ -107,6 +107,8 @@ namespace CalamityMod.MainMenu
                 Vector2 drawPosition = Cinders[i].Center;
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale, 0, 0f);
             }
+
+            drawColor = Color.White;
             return true;
         }
     }

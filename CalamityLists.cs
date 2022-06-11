@@ -171,6 +171,9 @@ namespace CalamityMod
 
         public static Dictionary<int, int> EncryptedSchematicIDRelationship;
 
+        public static List<int> DisabledSummonerNerfItems;
+        public static List<int> DisabledSummonerNerfMinions;
+
         public static void LoadLists()
         {
             donatorList = new List<string>()
@@ -620,7 +623,7 @@ namespace CalamityMod
                 ProjectileType<AresDeathBeamStart>(),
                 ProjectileType<AresGaussNukeProjectileBoom>(),
                 ProjectileType<AresLaserBeamStart>(),
-                ProjectileType<ArtemisLaserBeamStart>(),
+                ProjectileType<ArtemisSpinLaserbeam>(),
                 ProjectileType<BirbAura>(),
                 ProjectileType<ThanatosBeamStart>()
             };
@@ -2282,7 +2285,8 @@ namespace CalamityMod
                 NPCID.GolemHeadFree,
                 NPCID.MoonLordFreeEye,
                 NPCID.BloodSquid,
-                NPCID.PlanterasHook
+                NPCID.PlanterasHook,
+                NPCID.Dandelion
             };
 
             // Reduce contact damage by 25%
@@ -2754,6 +2758,9 @@ namespace CalamityMod
                 [3] = ItemType<EncryptedSchematicHell>(),
                 [4] = ItemType<EncryptedSchematicIce>(),
             };
+
+            DisabledSummonerNerfItems = new();
+            DisabledSummonerNerfMinions = new();
         }
 
         public static void UnloadLists()
@@ -2853,6 +2860,9 @@ namespace CalamityMod
             DontCopyOriginalMinionAIList = null;
 
             EncryptedSchematicIDRelationship = null;
+
+            DisabledSummonerNerfItems = null;
+            DisabledSummonerNerfMinions = null;
         }
     }
 }

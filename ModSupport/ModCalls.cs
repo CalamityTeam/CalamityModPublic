@@ -1406,6 +1406,40 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Summoner Cross Class Nerf Disabling
+        public static bool SetSummonerNerfDisabledByMinion(int type, bool disableNerf)
+        {
+            if (disableNerf && !CalamityLists.DisabledSummonerNerfMinions.Contains(type))
+            {
+                CalamityLists.DisabledSummonerNerfMinions.Add(type);
+                return true;
+            }
+            else if (!disableNerf)
+            {
+                return CalamityLists.DisabledSummonerNerfMinions.Remove(type);
+            }
+
+            return false;
+        }
+        public static bool SetSummonerNerfDisabledByItem(int type, bool disableNerf)
+        {
+            if (disableNerf && !CalamityLists.DisabledSummonerNerfItems.Contains(type))
+            {
+                CalamityLists.DisabledSummonerNerfItems.Add(type);
+                return true;
+            }
+            else if (!disableNerf)
+            {
+                return CalamityLists.DisabledSummonerNerfItems.Remove(type);
+            }
+
+            return false;
+        }
+
+        public static bool GetSummonerNerfDisabledByMinion(int type) => CalamityLists.DisabledSummonerNerfMinions.Contains(type);
+        public static bool GetSummonerNerfDisabledByItem(int type) => CalamityLists.DisabledSummonerNerfItems.Contains(type);
+        #endregion
+
         #region Call
 
         public static object Call(params object[] args)
@@ -1832,6 +1866,29 @@ namespace CalamityMod
                     CooldownRegistry.RegisterModCooldowns(args[1] as Mod);
                     return null;
 
+                case "GetSummonerNerfDisabledByItem":
+                    if (args.Length != 2 || !isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: Must specify a valid item to check status of.");
+                    return GetSummonerNerfDisabledByItem(castItem(args[1]).type);
+
+                case "GetSummonerNerfDisabledByMinion":
+                    if (args.Length != 2 || !isValidProjectileArg(args[1]))
+                        return new ArgumentException("ERROR: Must specify a valid projectile to check status of.");
+                    return GetSummonerNerfDisabledByMinion(castProjectile(args[1]).type);
+
+                case "SetSummonerNerfDisabledByItem":
+                    if (args.Length < 2 || !isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: Must specify a valid item to set the status of.");
+                    if (args.Length != 3 || args[2] is not bool disableNerf)
+                        return new ArgumentException("ERROR: Must specify a bool that determines whether the summoner nerf is disabled.");
+                    return SetSummonerNerfDisabledByItem(castItem(args[1]).type, disableNerf);
+
+                case "SetSummonerNerfDisabledByMinion":
+                    if (args.Length < 2 || !isValidItemArg(args[1]))
+                        return new ArgumentException("ERROR: Must specify a valid projectile to set the status of.");
+                    if (args.Length != 3 || args[2] is not bool disableNerf2)
+                        return new ArgumentException("ERROR: Must specify a bool that determines whether the summoner nerf is disabled.");
+                    return SetSummonerNerfDisabledByItem(castItem(args[1]).type, disableNerf2);
 
                 default:
                     return new ArgumentException("ERROR: Invalid method name.");

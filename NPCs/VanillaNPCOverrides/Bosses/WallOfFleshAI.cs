@@ -272,7 +272,31 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             // Set X velocity
             if (npc.velocity.X == 0f)
+            {
+                npc.TargetClosest();
+                if (Main.player[npc.target].dead)
+                {
+                    float num359 = float.PositiveInfinity;
+                    int direction2 = 0;
+                    for (int num360 = 0; num360 < Main.maxPlayers; num360++)
+                    {
+                        Player player = Main.player[npc.target];
+                        if (player.active)
+                        {
+                            float num361 = npc.Distance(player.Center);
+                            if (num359 > num361)
+                            {
+                                num359 = num361;
+                                direction2 = (npc.Center.X < player.Center.X) ? 1 : -1;
+                            }
+                        }
+                    }
+
+                    npc.direction = direction2;
+                }
+
                 npc.velocity.X = npc.direction;
+            }
 
             if (npc.velocity.X < 0f)
             {
@@ -283,6 +307,28 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             {
                 npc.velocity.X = velocityX;
                 npc.direction = 1;
+            }
+
+            if (Main.player[npc.target].dead || !Main.player[npc.target].gross)
+                npc.TargetClosest_WOF();
+
+            if (Main.player[npc.target].dead)
+            {
+                npc.localAI[1] += 0.0055555557f;
+                if (npc.localAI[1] >= 1f)
+                {
+                    SoundEngine.PlaySound(SoundID.NPCDeath10, npc.position);
+                    npc.life = 0;
+                    npc.active = false;
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        NetMessage.SendData(MessageID.DamageNPC, -1, -1, null, npc.whoAmI, -1f);
+
+                    return false;
+                }
+            }
+            else
+            {
+                npc.localAI[1] = MathHelper.Clamp(npc.localAI[1] - 71f / (678f * (float)Math.PI), 0f, 1f);
             }
 
             // Direction

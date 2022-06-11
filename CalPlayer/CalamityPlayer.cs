@@ -4742,7 +4742,8 @@ namespace CalamityMod.CalPlayer
                 bool toolCheck = heldItem.pick == 0 && heldItem.axe == 0 && heldItem.hammer == 0;
                 bool itemCanBeUsed = heldItem.useStyle != ItemUseStyleID.None;
                 bool notAccessoryOrAmmo = !heldItem.accessory && heldItem.ammo == AmmoID.None;
-                if (classCheck && itemCanBeUsed && toolCheck && notAccessoryOrAmmo)
+                bool nerfNotDisabledByCalls = !CalamityLists.DisabledSummonerNerfItems.Contains(heldItem.type) && !CalamityLists.DisabledSummonerNerfMinions.Contains(proj.type);
+                if (classCheck && itemCanBeUsed && toolCheck && notAccessoryOrAmmo && nerfNotDisabledByCalls)
                     damage = (int)(damage * summonNerfMult);
             }
 
@@ -5523,7 +5524,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Player.AddBuff(ModContent.BuffType<Nightwither>(), 600);
                 }
-                else if (proj.type == ProjectileID.FairyQueenLance || proj.type == ProjectileID.FairyQueenHymn || proj.type == ProjectileID.HallowBossRainbowStreak || proj.type == ProjectileID.HallowBossSplitShotCore)
+                else if (proj.type == ProjectileID.FairyQueenLance || proj.type == ProjectileID.HallowBossRainbowStreak || proj.type == ProjectileID.HallowBossSplitShotCore)
                 {
                     Player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
                 }
