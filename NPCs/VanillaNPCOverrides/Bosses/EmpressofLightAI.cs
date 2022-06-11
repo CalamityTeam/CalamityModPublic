@@ -797,8 +797,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.velocity *= 0.92f;
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = 30f * lessTimeSpentPerPhaseMultiplier;
-                    if (npc.ai[1] >= 90f + extraPhaseTime)
+                    extraPhaseTime = 60f * lessTimeSpentPerPhaseMultiplier;
+                    if (npc.ai[1] >= 180f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;

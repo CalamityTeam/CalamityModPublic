@@ -213,12 +213,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             return false;
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
-
         public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ModContent.ItemType<RelicOfConvergence>(), 4);
 
         public override void BossLoot(ref string name, ref int potionType)

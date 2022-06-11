@@ -256,6 +256,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 NPC.localAI[1] = 0f;
                 calamityGlobalNPC.newAI[0] = 0f;
+                calamityGlobalNPC.newAI[2] = 0f;
                 NPC.TargetClosest(false);
 
                 NPC.velocity.Y -= 3f;
@@ -391,8 +392,10 @@ namespace CalamityMod.NPCs.StormWeaver
                         }
                     }
 
-                    if (calamityGlobalNPC.newAI[2] == projectileGateValue)
+                    if (calamityGlobalNPC.newAI[2] >= projectileGateValue)
                     {
+                        calamityGlobalNPC.newAI[2] = 0f;
+
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
                             calamityGlobalNPC.newAI[3] += 1f;
@@ -465,8 +468,10 @@ namespace CalamityMod.NPCs.StormWeaver
                 // Summon tornadoes
                 if (useTornadoes)
                 {
-                    if (calamityGlobalNPC.newAI[2] == projectileGateValue)
+                    if (calamityGlobalNPC.newAI[2] >= projectileGateValue)
                     {
+                        calamityGlobalNPC.newAI[2] = 0f;
+
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         calamityGlobalNPC.newAI[3] += 1f;
 
@@ -818,12 +823,6 @@ namespace CalamityMod.NPCs.StormWeaver
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             return false;
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

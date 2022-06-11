@@ -111,12 +111,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             CalamityAI.BumblebirbAI(NPC, Mod);
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
-
         public override void FindFrame(int frameHeight)
         {
             CalamityGlobalNPC calamityGlobalNPC = NPC.Calamity();

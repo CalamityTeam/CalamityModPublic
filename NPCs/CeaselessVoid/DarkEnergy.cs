@@ -273,8 +273,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            cooldownSlot = 1;
-
             Rectangle targetHitbox = target.Hitbox;
 
             float dist1 = Vector2.Distance(NPC.Center, targetHitbox.TopLeft());

@@ -117,17 +117,16 @@ namespace CalamityMod.NPCs
             bool doSpiral = false;
             if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
             {
-                if (Vector2.Distance(npc.Center, player.Center) < 1000f)
+                doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= spiralGateValue;
+                if (Vector2.Distance(npc.Center, player.Center) < 1000f || doSpiral)
                     calamityGlobalNPC.newAI[3] += 1f;
 
-                doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= spiralGateValue;
                 if (doSpiral)
                 {
                     npc.localAI[3] = colorFadeTimeAfterSpiral;
-                    float acidMistBarfDivisor = malice ? 2f : death ? 3f : 4f;
-                    float toxicCloudBarfDivisor = malice ? 20f : death ? 30f : 40f;
 
                     // Vomit acid mist
+                    float acidMistBarfDivisor = (float)Math.Floor(malice ? 4f : death ? 5f : 6f) * (phase3 ? 1.5f : 1f);
                     if (calamityGlobalNPC.newAI[3] % acidMistBarfDivisor == 0f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -143,6 +142,7 @@ namespace CalamityMod.NPCs
                     }
 
                     // Vomit circular spreads of acid clouds while in phase 3
+                    float toxicCloudBarfDivisor = malice ? 20f : death ? 30f : 40f;
                     if (calamityGlobalNPC.newAI[3] % toxicCloudBarfDivisor == 0f && phase3)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)

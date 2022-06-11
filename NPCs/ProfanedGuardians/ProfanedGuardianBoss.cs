@@ -466,12 +466,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             return false;
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
-
         public override void BossLoot(ref string name, ref int potionType)
         {
             name = "A Profaned Guardian";
