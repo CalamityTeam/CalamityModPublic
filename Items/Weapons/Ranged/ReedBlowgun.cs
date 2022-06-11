@@ -43,7 +43,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<PressurizedBubbleStream>();
             Item.shootSpeed = 16f;
-            Item.Calamity().canFirePointBlankShots = true;
         }
 
         public override void HoldItem(Player player)
