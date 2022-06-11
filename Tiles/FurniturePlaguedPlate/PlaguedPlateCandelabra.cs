@@ -4,6 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlateCandelabra : ModTile
@@ -47,7 +48,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateCandelabra>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 16, ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateCandelabra>());
         }
 
         public override void HitWire(int i, int j)

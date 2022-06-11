@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Dressers };
             ContainerName.SetDefault("Plagued Dresser");
-            DresserDrop = ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
+            DresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>();
         }
 
         public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
@@ -41,12 +41,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.DresserMouseFar<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseFar<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName.GetDefault());
         }
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.DresserMouseOver<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName.GetDefault());
+            CalamityUtils.DresserMouseOver<Items.Placeables.FurniturePlagued.PlaguedPlateDresser>(ContainerName.GetDefault());
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

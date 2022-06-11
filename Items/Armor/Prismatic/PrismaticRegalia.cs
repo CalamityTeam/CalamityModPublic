@@ -17,6 +17,14 @@ namespace CalamityMod.Items.Armor.Prismatic
                 "20% decreased non-magic damage\n" +
                 "+20 max life and +40 max mana\n" +
                 "Magic attacks occasionally fire a pair of homing rockets");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

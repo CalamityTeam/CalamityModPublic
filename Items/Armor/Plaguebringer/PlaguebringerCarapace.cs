@@ -17,6 +17,14 @@ namespace CalamityMod.Items.Armor.Plaguebringer
             Tooltip.SetDefault("Grants immunity to the Plague\n" +
                 "12% increased minion damage\n" +
                 "Friendly bees inflict the plague");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+
+            ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
         }
 
         public override void SetDefaults()

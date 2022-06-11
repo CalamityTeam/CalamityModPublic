@@ -1,11 +1,11 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-    public class CryonicBar : ModTile
+    public class CryonicBarTile : ModTile
     {
         public override void SetStaticDefaults()
         {

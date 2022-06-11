@@ -35,7 +35,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateChair>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateChair>());
         }
 
         public override void ModifySittingTargetInfo(int i, int j, ref TileRestingInfo info)
@@ -80,7 +80,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateChair>();
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateChair>();
 
             if (Main.tile[i, j].TileFrameX / 18 < 1)
             {

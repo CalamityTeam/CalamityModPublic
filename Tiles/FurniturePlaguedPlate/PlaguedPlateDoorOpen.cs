@@ -34,7 +34,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateDoor>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 32, 48, ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDoor>());
         }
 
         public override void MouseOver(int i, int j)
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.cursorItemIconEnabled = true;
-            player.cursorItemIconID = ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateDoor>();
+            player.cursorItemIconID = ModContent.ItemType<Items.Placeables.FurniturePlagued.PlaguedPlateDoor>();
         }
     }
 }

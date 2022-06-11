@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Materials
 
         public override void SetDefaults()
         {
-            Item.createTile = ModContent.TileType<CryonicBar>();
+            Item.createTile = ModContent.TileType<CryonicBarTile>();
             Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
             Item.useAnimation = 15;
