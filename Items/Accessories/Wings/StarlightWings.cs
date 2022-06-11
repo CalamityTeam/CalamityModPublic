@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor.Daedalus;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;

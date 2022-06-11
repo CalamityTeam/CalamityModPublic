@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Armor;
+﻿using CalamityMod.Items.Armor.Empyrean;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.armor[0].type == ModContent.ItemType<XerocMask>() && player.armor[1].type == ModContent.ItemType<XerocPlateMail>() && player.armor[2].type == ModContent.ItemType<XerocCuisses>())
+            if (player.armor[0].type == ModContent.ItemType<EmpyreanMask>() && player.armor[1].type == ModContent.ItemType<EmpyreanCloak>() && player.armor[2].type == ModContent.ItemType<EmpyreanCuisses>())
             {
                 player.GetDamage<ThrowingDamageClass>() += 0.05f;
                 player.GetCritChance<ThrowingDamageClass>() += 5;

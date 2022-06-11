@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Armor.Silva;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 

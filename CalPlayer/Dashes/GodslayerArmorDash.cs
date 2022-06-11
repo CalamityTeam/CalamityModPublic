@@ -2,7 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Enums;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.GodSlayer;
 using CalamityMod.NPCs.DevourerofGods;
 using Microsoft.Xna.Framework;
 using Terraria;

@@ -7,7 +7,7 @@ using CalamityMod.Cooldowns;
 using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Reaver;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs;
@@ -1468,8 +1468,8 @@ namespace CalamityMod.CalPlayer
             }
             if (vexation)
             {
-                if ((Player.armor[0].type == ItemType<ReaverHelm>() || Player.armor[0].type == ItemType<ReaverHeadgear>() ||
-                    Player.armor[0].type == ItemType<ReaverVisage>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
+                if ((Player.armor[0].type == ItemType<ReaverHeadTank>() || Player.armor[0].type == ItemType<ReaverHeadExplore>() ||
+                    Player.armor[0].type == ItemType<ReaverHeadMobility>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
                     Player.armor[2].type == ItemType<ReaverCuisses>())
                 {
                     target.AddBuff(BuffID.CursedInferno, 90, false);
@@ -1604,8 +1604,8 @@ namespace CalamityMod.CalPlayer
             }
             if (vexation)
             {
-                if ((Player.armor[0].type == ItemType<ReaverHelm>() || Player.armor[0].type == ItemType<ReaverHeadgear>() ||
-                    Player.armor[0].type == ItemType<ReaverVisage>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
+                if ((Player.armor[0].type == ItemType<ReaverHeadTank>() || Player.armor[0].type == ItemType<ReaverHeadExplore>() ||
+                    Player.armor[0].type == ItemType<ReaverHeadMobility>()) && Player.armor[1].type == ItemType<ReaverScaleMail>() &&
                     Player.armor[2].type == ItemType<ReaverCuisses>())
                 {
                     target.AddBuff(BuffID.CursedInferno, 90, false);

@@ -1,9 +1,9 @@
 ﻿using CalamityMod.Items.Materials;
-using CalamityMod.Items.Armor;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.Items.Armor.Daedalus;
 
 namespace CalamityMod.Items.Accessories
 {

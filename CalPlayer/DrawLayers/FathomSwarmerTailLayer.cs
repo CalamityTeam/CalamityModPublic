@@ -19,7 +19,7 @@ namespace CalamityMod.CalPlayer.DrawLayers
 
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Items/Armor/FathomSwarmer/FathomSwarmerArmor_Tail").Value;
             Player drawPlayer = drawInfo.drawPlayer;
             Rectangle frame = texture.Frame(1, 4, 0, drawPlayer.Calamity().tailFrame);
             int dyeShader = drawPlayer.dye?[2].dye ?? 0;
