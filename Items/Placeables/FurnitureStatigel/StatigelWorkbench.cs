@@ -1,8 +1,9 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
+    // TODO -- StatigelWorkBench. I do not want to deal with capitalization issues.
     public class StatigelWorkbench : ModItem
     {
         public override void SetStaticDefaults()

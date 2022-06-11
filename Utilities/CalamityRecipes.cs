@@ -98,7 +98,7 @@ namespace CalamityMod
                 ItemID.PumpkinPie,
                 ModContent.ItemType<Baguette>(),
                 ModContent.ItemType<DeliciousMeat>(),
-                ModContent.ItemType<SunkenStew>()
+                ModContent.ItemType<HadalStew>()
             });
             RecipeGroup.RegisterGroup("AnyFood", group);
         }
@@ -333,7 +333,7 @@ namespace CalamityMod
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
                 ItemID.StardustPickaxe,
-                ModContent.ItemType<GallantPickaxe>()
+                ModContent.ItemType<GenesisPickaxe>()
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 

@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Ores
             CalamityUtils.MergeWithAbyss(Type);
 
             DustType = 105;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.ChaoticOre>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Ores.ScoriaOre>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Scoria");
             AddMapEntry(new Color(255, 0, 0), name);

@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.TheAxe).
                 AddIngredient(ItemID.MagicalHarp).
-                AddIngredient<SirensSong>().
+                AddIngredient<AnahitasArpeggio>().
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<NightmareFuel>(20).
                 AddTile<CosmicAnvil>().

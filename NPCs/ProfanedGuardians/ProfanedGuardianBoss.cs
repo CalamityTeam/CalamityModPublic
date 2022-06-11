@@ -478,7 +478,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianMask>(), 7);
             npcLoot.Add(ModContent.ItemType<WarbanneroftheSun>(), 10);
             npcLoot.Add(ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
-            npcLoot.Add(ModContent.ItemType<ProfanedCoreUnlimited>());
+            npcLoot.Add(ModContent.ItemType<ProfanedCore>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedGuardians, ModContent.ItemType<KnowledgeProfanedGuardians>());

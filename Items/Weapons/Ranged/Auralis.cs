@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.SniperRifle).
                 AddIngredient<UelibloomBar>(5).
-                AddIngredient<AstralJelly>(5).
+                AddIngredient<AureusCell>(5).
                 AddIngredient<Stardust>(50).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

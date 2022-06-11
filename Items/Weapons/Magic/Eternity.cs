@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient<SeethingDischarge>().
                 AddIngredient<SlitheringEels>().
-                AddIngredient<GammaFusillade>().
+                AddIngredient<Biofusillade>().
                 AddIngredient<PrimordialAncient>().
                 AddIngredient<Heresy>().
                 AddIngredient<DarkPlasma>(20).

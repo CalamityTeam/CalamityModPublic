@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Potions
         {
             CreateRecipe().
                 AddIngredient(ItemID.GravitationPotion).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddIngredient<AldebaranAlewife>().
                 AddTile(TileID.AlchemyTable).
                 Register();
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Potions
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
                 AddIngredient<BloodOrb>(10).
-                AddIngredient<AstralJelly>().
+                AddIngredient<AureusCell>().
                 AddTile(TileID.AlchemyTable).
                 Register();
         }

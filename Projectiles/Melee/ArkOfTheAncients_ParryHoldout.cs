@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ArkoftheAncientsParryHoldout : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/ArkoftheAncients";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/FracturedArk";
 
         private bool initialized = false;
         const float MaxTime = 340;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public void GeneralParryEffects()
         {
-            ArkoftheAncients sword = (Owner.HeldItem.ModItem as ArkoftheAncients);
+            FracturedArk sword = (Owner.HeldItem.ModItem as FracturedArk);
             if (sword != null)
                 sword.Charge = 10f;
 
@@ -173,8 +173,8 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 return false;
             }
-            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncients").Value;
-            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/ArkoftheAncientsGlow").Value;
+            Texture2D sword = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/FracturedArk").Value;
+            Texture2D glowmask = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/FracturedArkGlow").Value;
 
             float drawRotation = Projectile.rotation + MathHelper.PiOver4;
             Vector2 drawOrigin = new Vector2(0f, sword.Height);

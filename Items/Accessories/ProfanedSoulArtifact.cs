@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ExodiumClusterOre>(25).
+                AddIngredient<ExodiumCluster>(25).
                 AddIngredient<Chaosplate>(25).
                 AddIngredient<DivineGeode>(5).
                 AddTile(TileID.DemonAltar).

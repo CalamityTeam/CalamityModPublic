@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Boss bag
-            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrageldonBag>()));
+            npcLoot.Add(ItemDropRule.BossBag(ModContent.ItemType<AstrumAureusBag>()));
 
             // Normal drops: Everything that would otherwise be in the bag
             var normalOnly = npcLoot.DefineNormalOnlyDropSet();
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<GravistarSabaton>()));
 
                 // Other
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AstralJelly>(), 1, 9, 12));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<AureusCell>(), 1, 9, 12));
                 normalOnly.Add(ModContent.ItemType<LeonidProgenitor>(), 10);
 
                 normalOnly.Add(ItemDropRule.ByCondition(DropHelper.If(() => NPC.downedMoonlord), ModContent.ItemType<SuspiciousLookingJellyBean>()));

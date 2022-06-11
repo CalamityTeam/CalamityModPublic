@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
             else
             {
                 Projectile.tileCollide = false;
-                float returnSpeed = GalaxySmasherMelee.Speed;
+                float returnSpeed = GalaxySmasher.Speed;
                 float acceleration = 3.2f;
                 Player owner = Main.player[Projectile.owner];
 

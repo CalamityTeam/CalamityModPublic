@@ -755,7 +755,7 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     ModContent.ItemType<Greentide>(),
                     ModContent.ItemType<Leviatitan>(),
-                    ModContent.ItemType<SirensSong>(),
+                    ModContent.ItemType<AnahitasArpeggio>(),
                     ModContent.ItemType<Atlantis>(),
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),

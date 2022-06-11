@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<CrownJewel>().
                 AddIngredient(ItemID.TeleportationPotion, 3).
-                AddIngredient<AstralJelly>(15).
+                AddIngredient<AureusCell>(15).
                 AddIngredient<SeaPrism>(15).
                 AddTile(TileID.MythrilAnvil).
                 Register();

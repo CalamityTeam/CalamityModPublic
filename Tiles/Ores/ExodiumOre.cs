@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.Ores
             HitSound = SoundID.Tink;
             Main.tileOreFinderPriority[Type] = 760;
             Main.tileSpelunker[Type] = true;
-            ItemDrop = ModContent.ItemType<ExodiumClusterOre>();
+            ItemDrop = ModContent.ItemType<ExodiumCluster>();
             base.SetStaticDefaults();
 
             TileID.Sets.ChecksForMerge[Type] = true;

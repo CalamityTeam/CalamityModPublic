@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DepthBlade>().
+                AddIngredient<DepthCrusher>().
                 AddIngredient(ItemID.BrokenHeroSword).
                 AddIngredient<DepthCells>(15).
                 AddIngredient<Lumenyl>(10).

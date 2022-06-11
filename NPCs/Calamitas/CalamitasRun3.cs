@@ -197,9 +197,9 @@ namespace CalamityMod.NPCs.Calamitas
                 // Items
                 int[] items = new int[]
                 {
-                    ModContent.ItemType<TheEyeofCalamitas>(),
+                    ModContent.ItemType<Oblivion>(),
                     ModContent.ItemType<Animosity>(),
-                    ModContent.ItemType<CalamitasInferno>(),
+                    ModContent.ItemType<LashesofChaos>(),
                     ModContent.ItemType<BlightedEyeStaff>(),
                     ModContent.ItemType<ChaosStone>(),
                 };

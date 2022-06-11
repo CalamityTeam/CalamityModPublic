@@ -1,8 +1,9 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
+    // TODO -- ProfanedWorkBench. I do not want to deal with capitalization issues
     public class ProfanedWorkbench : ModItem
     {
         public override void SetStaticDefaults()

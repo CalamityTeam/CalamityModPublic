@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Mounts
                 AddIngredient(ItemID.DD2PetDragon).
                 AddIngredient(ItemID.SoulofNight, 100).
                 AddIngredient<DarksunFragment>(10).
-                AddIngredient<ExodiumClusterOre>(25).
+                AddIngredient<ExodiumCluster>(25).
                 AddTile<CosmicAnvil>().
                 Register();
         }

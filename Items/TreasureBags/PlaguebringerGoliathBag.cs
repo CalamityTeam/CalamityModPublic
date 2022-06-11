@@ -59,7 +59,7 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(s, player,
-                DropHelper.WeightStack<VirulentKatana>(w), // Virulence
+                DropHelper.WeightStack<Virulence>(w), // Virulence
                 DropHelper.WeightStack<DiseasedPike>(w),
                 DropHelper.WeightStack<ThePlaguebringer>(w), // Pandemic
                 DropHelper.WeightStack<Malevolence>(w),

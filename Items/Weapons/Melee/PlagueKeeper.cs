@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VirulentKatana>().
+                AddIngredient<Virulence>().
                 AddIngredient(ItemID.BeeKeeper).
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddIngredient<InfectedArmorPlating>(5).

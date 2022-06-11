@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 1;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = BiomeBlade.HotAttunement_LocalIFrames;
-            Projectile.timeLeft = BiomeBlade.HotAttunement_LocalIFrames;
+            Projectile.localNPCHitCooldown = BrokenBiomeBlade.HotAttunement_LocalIFrames;
+            Projectile.timeLeft = BrokenBiomeBlade.HotAttunement_LocalIFrames;
         }
 
         public override bool? CanDamage()
@@ -89,8 +89,8 @@ namespace CalamityMod.Projectiles.Melee
                     GeneralParticleHandler.SpawnParticle(Rock);
                 }
 
-                if (Owner.HeldItem.type == ItemType<BiomeBlade>())
-                    (Owner.HeldItem.ModItem as BiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
+                if (Owner.HeldItem.type == ItemType<BrokenBiomeBlade>())
+                    (Owner.HeldItem.ModItem as BrokenBiomeBlade).CanLunge = 1; // Reset the lunge counter on pogo. This should make for more interesting and fun synergies
             }
         }
 
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.Center = Owner.Center + (direction * 60);
 
             //Scaling based on shred
-            Projectile.localNPCHitCooldown = BiomeBlade.HotAttunement_LocalIFrames - (int)(MathHelper.Lerp(0, BiomeBlade.HotAttunement_LocalIFrames - BiomeBlade.HotAttunement_LocalIFramesCharged, ShredRatio)); //Increase the hit frequency
+            Projectile.localNPCHitCooldown = BrokenBiomeBlade.HotAttunement_LocalIFrames - (int)(MathHelper.Lerp(0, BrokenBiomeBlade.HotAttunement_LocalIFrames - BrokenBiomeBlade.HotAttunement_LocalIFramesCharged, ShredRatio)); //Increase the hit frequency
             Projectile.scale = 1f + (ShredRatio * 1f); //SWAGGER
 
 
@@ -145,7 +145,7 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
 
-            Shred -= BiomeBlade.HotAttunement_ShredDecayRate;
+            Shred -= BrokenBiomeBlade.HotAttunement_ShredDecayRate;
             PogoCooldown--;
             if (Projectile.timeLeft <= 2)
                 Projectile.timeLeft = 2;
@@ -154,22 +154,22 @@ namespace CalamityMod.Projectiles.Melee
         //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            float deviationFromBaseDamage = damage / (float)BiomeBlade.HotAttunement_BaseDamage;
-            float currentDamage = (int)(MathHelper.Lerp(BiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, BiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+            float deviationFromBaseDamage = damage / (float)BrokenBiomeBlade.HotAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(BrokenBiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, BrokenBiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
 
             //Adjust the damage to make it constant based on the local iframes
-            float damageReduction = Projectile.localNPCHitCooldown / (float)BiomeBlade.HotAttunement_LocalIFrames;
+            float damageReduction = Projectile.localNPCHitCooldown / (float)BrokenBiomeBlade.HotAttunement_LocalIFrames;
 
             damage = (int)(currentDamage * damageReduction);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            float deviationFromBaseDamage = damage / (float)BiomeBlade.HotAttunement_BaseDamage;
-            float currentDamage = (int)(MathHelper.Lerp(BiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, BiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
+            float deviationFromBaseDamage = damage / (float)BrokenBiomeBlade.HotAttunement_BaseDamage;
+            float currentDamage = (int)(MathHelper.Lerp(BrokenBiomeBlade.HotAttunement_BaseDamage * deviationFromBaseDamage, BrokenBiomeBlade.HotAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
 
             //Adjust the damage to make it constant based on the local iframes
-            float damageReduction = Projectile.localNPCHitCooldown / (float)BiomeBlade.HotAttunement_LocalIFrames;
+            float damageReduction = Projectile.localNPCHitCooldown / (float)BrokenBiomeBlade.HotAttunement_LocalIFrames;
 
             damage = (int)(currentDamage * damageReduction);
         }
@@ -188,7 +188,7 @@ namespace CalamityMod.Projectiles.Melee
                 Shred += 62; //Augment the shredspeed
                 if (Owner.velocity.Y > 0)
                     Owner.velocity.Y = -2f; //Get "stuck" into the enemy partly
-                Owner.GiveIFrames(BiomeBlade.HotAttunement_ShredIFrames); // i framez.
+                Owner.GiveIFrames(BrokenBiomeBlade.HotAttunement_ShredIFrames); // i framez.
                 PogoCooldown = 20;
             }
         }
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BiomeBlade").Value;
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BrokenBiomeBlade").Value;
             Texture2D blade = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_AridGrandeur").Value;
 
             int bladeAmount = 4;

@@ -23,10 +23,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.position.X < 160f || npc.position.X > ((Main.maxTilesX - 10) * 16))
                 npc.active = false;
 
-            // Get a target
-            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
-                npc.TargetClosest();
-
             // Set Wall of Flesh variables
             if (npc.localAI[0] == 0f)
             {
@@ -106,7 +102,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             int num334 = (int)((npc.position.Y + (npc.height / 2)) / 16f);
             int num335 = 0;
             int num336 = num334 + 7;
-            while (num335 < 15 && num336 > Main.maxTilesY - 200)
+            while (num335 < 15 && num336 > Main.UnderworldLayer)
             {
                 num336++;
                 int num;
@@ -249,7 +245,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // Return to normal if very close to target
                 if (distanceFromTarget < distanceBeforeSlowingDown)
                 {
-                    npc.TargetClosest();
                     calamityGlobalNPC.newAI[0] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
                     npc.ai[3] = 0f;
@@ -328,7 +323,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
             else
             {
-                npc.localAI[1] = MathHelper.Clamp(npc.localAI[1] - 71f / (678f * (float)Math.PI), 0f, 1f);
+                npc.localAI[1] = MathHelper.Clamp(npc.localAI[1] - 1f / 30f, 0f, 1f);
             }
 
             // Direction
@@ -414,7 +409,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                         if (num348 >= 0)
                         {
-                            int num353 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                            int num353 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.position.X, (int)num339, NPCID.TheHungry, npc.whoAmI);
                             Main.npc[num353].ai[0] = num348 * 0.1f - 0.05f;
                         }
                     }

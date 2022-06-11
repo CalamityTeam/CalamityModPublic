@@ -58,7 +58,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Greentide>(w),
                 DropHelper.WeightStack<Leviatitan>(w),
-                DropHelper.WeightStack<SirensSong>(w),
+                DropHelper.WeightStack<AnahitasArpeggio>(w),
                 DropHelper.WeightStack<Atlantis>(w),
                 DropHelper.WeightStack<GastricBelcherStaff>(w),
                 DropHelper.WeightStack<BrackishFlask>(w),

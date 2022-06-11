@@ -104,8 +104,8 @@ namespace CalamityMod.Projectiles.Melee
 
             if (!cannotLifesteal) //trolled
             {
-                Owner.statLife += BiomeBlade.EvilAttunement_Lifesteal;
-                Owner.HealEffect(BiomeBlade.EvilAttunement_Lifesteal); //Idk if its too much or what but at the same time its close range as fuck
+                Owner.statLife += BrokenBiomeBlade.EvilAttunement_Lifesteal;
+                Owner.HealEffect(BrokenBiomeBlade.EvilAttunement_Lifesteal); //Idk if its too much or what but at the same time its close range as fuck
             }
 
             // Bounce off
@@ -113,12 +113,12 @@ namespace CalamityMod.Projectiles.Melee
             bounceStrength *= Owner.velocity.Y == 0 ? 0.2f : 1f; //Reduce the bounce if the player is on the ground
             Owner.velocity = -direction.SafeNormalize(Vector2.Zero) * MathHelper.Clamp(bounceStrength, 0f, 22f);
             CanBounce = 0f;
-            Owner.GiveIFrames(BiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!
+            Owner.GiveIFrames(BrokenBiomeBlade.EvilAttunement_BounceIFrames); // i frames for free!
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BiomeBlade").Value;
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BrokenBiomeBlade").Value;
             Texture2D tex = Request<Texture2D>("CalamityMod/Projectiles/Melee/BrokenBiomeBlade_DecaysRetort").Value;
 
             float drawAngle = direction.ToRotation();

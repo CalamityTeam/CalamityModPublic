@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.NebulaArcanum).
                 AddIngredient<Lumenyl>(5).
                 AddIngredient<RuinousSoul>(4).
-                AddIngredient<ExodiumClusterOre>(12).
+                AddIngredient<ExodiumCluster>(12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

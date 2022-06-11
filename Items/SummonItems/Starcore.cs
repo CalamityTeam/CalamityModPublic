@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient<Stardust>(25).
-                AddIngredient<AstralJelly>(8).
+                AddIngredient<AureusCell>(8).
                 AddIngredient<AstralBar>(4).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
