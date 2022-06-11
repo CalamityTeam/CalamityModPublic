@@ -5,7 +5,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
-    public class PlaguedPlate : ModItem
+    [LegacyName("PlaguedPlate")]
+    public class PlaguedContainmentBrick : ModItem
     {
         public override void SetStaticDefaults()
         {

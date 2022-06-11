@@ -1,15 +1,16 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurniturePlagued
 {
-    public class PlaguedPlateWorkbench : ModItem
+    [LegacyName("PlaguedPlateBasin")]
+    public class BrokenPlaguedBed : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Plagued Work Bench");
+            DisplayName.SetDefault("Broken Plagued 'Bed'");
         }
 
         public override void SetDefaults()
@@ -23,12 +24,12 @@ namespace CalamityMod.Items.Placeables.FurniturePlagued
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateWorkbench>();
+            Item.createTile = ModContent.TileType<Tiles.FurniturePlaguedPlate.PlaguedPlateBasin>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedPlate>(), 10).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<PlaguedContainmentBrick>(), 10).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 2).AddIngredient(ItemID.Wire, 5).AddTile(ModContent.TileType<PlagueInfuser>()).Register();
         }
     }
 }
