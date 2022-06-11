@@ -1252,13 +1252,8 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             // Calculate the new total time of all sessions at the instant of this player save.
-            TimeSpan newSessionTotal;
-            long totalTicks = 0L;
-            if (previousSessionTotal != null)
-            {
-                newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
-                totalTicks = newSessionTotal.Ticks;
-            }
+            TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+            long totalTicks = newSessionTotal.Ticks;
 
             // Save all cooldowns which are marked as persisting through save/load.
             TagCompound cooldownsTag = new TagCompound();
@@ -1369,7 +1364,7 @@ namespace CalamityMod.CalPlayer
                 {
                     adrenaline = tag.GetFloat("adrenaline");
                 }
-                catch (Exception _) { failedToLoadFloatAdrenaline = true; }
+                catch (Exception) { failedToLoadFloatAdrenaline = true; }
 
                 if (failedToLoadFloatAdrenaline)
                     adrenaline = tag.GetInt("adrenaline") / (10000 / 100f);

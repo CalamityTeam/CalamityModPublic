@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Armor.OmegaBlue
             mp.omegaBlueSet = true;
             mp.WearingPostMLSummonerSet = true;
 
-            var hasOmegaBlueCooldown = mp.cooldowns.TryGetValue(OmegaBlue.ID, out var cd);
+            var hasOmegaBlueCooldown = mp.cooldowns.TryGetValue(Cooldowns.OmegaBlue.ID, out var cd);
             if (hasOmegaBlueCooldown && cd.timeLeft > 1500)
             {
                 var d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 1.6f);

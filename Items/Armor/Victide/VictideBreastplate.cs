@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor.Victide
             if (Main.netMode != NetmodeID.Server)
             {
                 //register the faulds texture. This appears either when the leggings  or the chestplate is equipped (both works)
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Victide/Victide/VictideFaulds_Waist", EquipType.Waist, name: "VictideFaulds");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Victide/VictideFaulds_Waist", EquipType.Waist, name: "VictideFaulds");
             }
         }
 
