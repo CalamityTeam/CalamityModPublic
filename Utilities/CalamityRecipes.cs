@@ -333,7 +333,7 @@ namespace CalamityMod
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
                 ItemID.StardustPickaxe,
-                ModContent.ItemType<GallantPickaxe>()
+                ModContent.ItemType<GenesisPickaxe>()
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 

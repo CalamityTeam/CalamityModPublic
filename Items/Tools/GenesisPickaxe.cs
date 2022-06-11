@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class GallantPickaxe : ModItem
+    [LegacyName("GallantPickaxe")]
+    public class GenesisPickaxe : ModItem
     {
         public override void SetStaticDefaults()
         {

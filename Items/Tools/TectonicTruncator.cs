@@ -6,32 +6,26 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class FlamebeakHampick : ModItem
+    [LegacyName("ChaoswarpedSlashaxe")]
+    public class TectonicTruncator : ModItem
     {
-        private const int PickPower = 210;
-        private const int HammerPower = 95;
-
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Seismic Hampick");
-            Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
-Left click to use as a pickaxe
-Right click to use as a hammer");
+            DisplayName.SetDefault("Tectonic Truncator");
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 58;
-            Item.knockBack = 8f;
+            Item.damage = 68;
+            Item.knockBack = 7f;
             Item.useTime = 6;
-            Item.useAnimation = 15;
-            Item.pick = PickPower;
-            Item.hammer = HammerPower;
+            Item.useAnimation = 17;
+            Item.axe = 190 / 5;
             Item.tileBoost += 2;
 
             Item.DamageType = DamageClass.Melee;
-            Item.width = 52;
+            Item.width = 50;
             Item.height = 50;
             Item.useTurn = true;
             Item.useStyle = ItemUseStyleID.Swing;
@@ -41,30 +35,10 @@ Right click to use as a hammer");
             Item.autoReuse = true;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                Item.pick = 0;
-                Item.hammer = HammerPower;
-            }
-            else
-            {
-                Item.pick = PickPower;
-                Item.hammer = 0;
-            }
-            return base.CanUseItem(player);
-        }
-
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ScoriaBar>(7).
+                AddIngredient<ScoriaBar>(9).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

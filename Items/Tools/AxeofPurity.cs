@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class PurityAxe : ModItem
+    [LegacyName("PurityAxe")]
+    public class AxeofPurity : ModItem
     {
         private static int AxePower = 125 / 5;
         private static float PowderSpeed = 21f;
