@@ -72,8 +72,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(s, player, ModContent.ItemType<CalamitasMask>(), 7);
             if (Main.rand.NextBool(10))
             {
-                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityHood>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityRobes>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<HoodOfCalamity>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<RobesOfCalamity>());
             }
         }
     }

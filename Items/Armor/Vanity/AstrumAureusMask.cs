@@ -5,7 +5,8 @@ using Terraria.ID;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AureusMask : ModItem
+    [LegacyName("AureusMask")]
+    public class AstrumAureusMask : ModItem
     {
         public override void SetStaticDefaults()
         {

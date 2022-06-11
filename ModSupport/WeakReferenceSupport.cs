@@ -380,7 +380,7 @@ namespace CalamityMod
                 int type = NPCType<CalamitasRun3>();
                 int summon = ItemType<BlightedEyeball>();
                 List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<CalamityDust>(), ItemType<Bloodstone>(), ItemType<CalamitasInferno>(), ItemType<TheEyeofCalamitas>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
-                List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<CalamityHood>(), ItemType<CalamityRobes>(), ItemType<KnowledgeCalamitasClone>() };
+                List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<KnowledgeCalamitasClone>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
                 AddBoss(bossChecklist, calamity, "Calamitas", order, type, DownedCalamitas, summon, loot, collection, instructions, despawn);
@@ -416,7 +416,7 @@ namespace CalamityMod
                 int type = NPCType<AstrumAureus>();
                 int summon = ItemType<AstralChunk>();
                 List<int> loot = new List<int>() { ItemType<AstrageldonBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<Nebulash>(), ItemType<AuroraBlazer>(), ItemType<AlulaAustralis>(), ItemType<BorealisBomber>(), ItemType<AuroradicalThrow>(), ItemType<LeonidProgenitor>(), ItemType<GravistarSabaton>(), ItemType<AstralJelly>(), ItemType<StarlightFuelCell>(), ItemID.GreaterHealingPotion };
-                List<int> collection = new List<int>() { ItemType<AstrageldonTrophy>(), ItemType<AureusMask>(), ItemType<KnowledgeAstrumAureus>() };
+                List<int> collection = new List<int>() { ItemType<AstrageldonTrophy>(), ItemType<AstrumAureusMask>(), ItemType<KnowledgeAstrumAureus>() };
                 string instructions = $"Use an [i:{summon}] at Night in the Astral Biome";
                 string despawn = CalamityUtils.ColorMessage("Astrum Aureus’ program has been executed. Initiate recall.", new Color(0xFF, 0xD7, 0x00));
                 string bossLogTex = "CalamityMod/NPCs/AstrumAureus/AstrumAureus_BossChecklist";

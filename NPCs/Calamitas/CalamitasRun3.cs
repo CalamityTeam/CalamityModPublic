@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.Calamitas
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<CalamitasMask>(), 7);
-                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<CalamityHood>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<CalamityRobes>())));
+                normalOnly.Add(ItemDropRule.Common(ModContent.ItemType<HoodOfCalamity>(), 10).OnSuccess(ItemDropRule.Common(ModContent.ItemType<RobesOfCalamity>())));
             }
 
             npcLoot.Add(ModContent.ItemType<CalamitasTrophy>(), 10);

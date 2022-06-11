@@ -5,13 +5,14 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Body)]
-    public class CalamityRobes : ModItem
+    [LegacyName("CalamityRobes")]
+    public class RobesOfCalamity : ModItem
     {
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Vanity/CalamityRobes_Legs", EquipType.Legs, this);
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Vanity/RobesOfCalamity_Legs", EquipType.Legs, this);
             }
         }
 

@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Body)]
-    public class ApronOfAffection : ModItem
+    [LegacyName("ApronOfAffection")]
+    public class AcesApronOfAffection : ModItem
     {
         public override void SetStaticDefaults()
         {

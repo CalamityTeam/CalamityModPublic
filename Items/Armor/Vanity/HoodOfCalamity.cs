@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    public class CalamityHood : ModItem
+    [LegacyName("CalamityHood")]
+    public class HoodOfCalamity : ModItem
     {
         public override void SetStaticDefaults()
         {

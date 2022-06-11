@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Vanity
-                normalOnly.Add(ModContent.ItemType<AureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<GravistarSabaton>()));
