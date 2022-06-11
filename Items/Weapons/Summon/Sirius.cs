@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<SunGodStaff>().
                 AddIngredient<Lumenyl>(5).
                 AddIngredient<RuinousSoul>(2).
-                AddIngredient<ExodiumClusterOre>(12).
+                AddIngredient<ExodiumCluster>(12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

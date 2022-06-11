@@ -1,9 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables.FurnitureVoid
+namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
-    public class VoidBath : ModItem
+    [LegacyName("ProfanedBath")]
+    public class ProfanedBathtub : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 
         public override void SetDefaults()
         {
-            Item.SetNameOverride("Void Bathtub");
+            Item.SetNameOverride("Profaned Bathtub");
             Item.width = 28;
             Item.height = 20;
             Item.maxStack = 999;
@@ -22,12 +23,12 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             Item.useTime = 10;
             Item.useStyle = ItemUseStyleID.Swing;
             Item.consumable = true;
-            Item.createTile = ModContent.TileType<Tiles.FurnitureVoid.VoidBath>();
+            Item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedBath>();
         }
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 14).AddTile(ModContent.TileType<VoidCondenser>()).Register();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<ProfanedRock>(), 14).AddTile(ModContent.TileType<ProfanedCrucible>()).Register();
         }
     }
 }

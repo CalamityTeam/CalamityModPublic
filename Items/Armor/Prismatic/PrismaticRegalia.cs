@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor.Prismatic
         {
             CreateRecipe().
                 AddIngredient<ArmoredShell>(3).
-                AddIngredient<ExodiumClusterOre>(5).
+                AddIngredient<ExodiumCluster>(5).
                 AddIngredient<DivineGeode>(8).
                 AddIngredient(ItemID.Nanites, 300).
                 AddTile(TileID.LunarCraftingStation).

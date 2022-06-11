@@ -1,9 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
-    public class VoidClock : ModItem
+    [LegacyName("VoidClock")]
+    public class VoidObelisk : ModItem
     {
         public override void SetStaticDefaults()
         {

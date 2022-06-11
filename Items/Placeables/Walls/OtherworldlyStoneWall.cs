@@ -1,9 +1,10 @@
-using CalamityMod.Items.Placeables.FurnitureOtherworldly;
+﻿using CalamityMod.Items.Placeables.FurnitureOtherworldly;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Walls
 {
+    [LegacyName("OccultStoneWall")]
     public class OtherworldlyStoneWall : ModItem
     {
         public override void SetStaticDefaults()

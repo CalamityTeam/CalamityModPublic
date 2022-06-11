@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls;
+﻿using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Plates
 {
-    public class PlagueContainmentCells : ModItem
+    [LegacyName("PlagueContainmentCells")]
+    public class Plagueplate : ModItem
     {
         public override void SetStaticDefaults()
         {

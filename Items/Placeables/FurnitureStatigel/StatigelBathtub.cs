@@ -1,9 +1,10 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
-    public class StatigelBath : ModItem
+    [LegacyName("StatigelBath")]
+    public class StatigelBathtub : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ChaoticOre>(), 1, 10, 26);
+            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaOre>(), 1, 10, 26);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

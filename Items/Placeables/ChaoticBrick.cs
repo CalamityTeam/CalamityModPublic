@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables
         {
             CreateRecipe(10).
                 AddRecipeGroup("AnyStoneBlock").
-                AddIngredient<ChaoticOre>().
+                AddIngredient<ScoriaOre>().
                 AddTile(TileID.Furnaces).
                 Register();
 

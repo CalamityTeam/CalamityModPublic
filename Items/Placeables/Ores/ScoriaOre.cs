@@ -1,10 +1,11 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
-    public class ChaoticOre : ModItem
+    [LegacyName("ChaoticOre")]
+    public class ScoriaOre : ModItem
     {
         public override void SetStaticDefaults()
         {

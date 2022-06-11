@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<AquashardShotgun>().
                 AddIngredient<Starfleet>().
                 AddIngredient<StarSputter>().
-                AddIngredient<ExodiumClusterOre>(15).
+                AddIngredient<ExodiumCluster>(15).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<DarksunFragment>(8).
                 AddTile(ModContent.TileType<CosmicAnvil>()).

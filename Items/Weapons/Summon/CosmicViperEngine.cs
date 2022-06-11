@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<TacticalPlagueEngine>().
-                AddIngredient<ExodiumClusterOre>(20).
+                AddIngredient<ExodiumCluster>(20).
                 AddIngredient<CosmiliteBar>(10).
                 AddTile<CosmicAnvil>().
                 Register();

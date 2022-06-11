@@ -1,11 +1,12 @@
-using CalamityMod.Tiles.Ores;
+﻿using CalamityMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
 {
-    public class ExodiumClusterOre : ModItem
+    [LegacyName("ExodiumClusterOre")]
+    public class ExodiumCluster : ModItem
     {
         public override void SetStaticDefaults()
         {
