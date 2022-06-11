@@ -328,7 +328,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
             else
             {
-                npc.localAI[1] = MathHelper.Clamp(npc.localAI[1] - 71f / (678f * (float)Math.PI), 0f, 1f);
+                npc.localAI[1] = MathHelper.Clamp(npc.localAI[1] - 1f / 30f, 0f, 1f);
             }
 
             // Direction
