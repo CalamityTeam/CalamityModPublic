@@ -1123,7 +1123,7 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             ChargeFlash = MathHelper.Clamp(ChargeFlash + shouldDoChargeFlash.ToDirectionInt() * 0.08f, 0f, 1f);
 
             //Update the deathray sound if it's being done.
-            if (DeathraySoundSlot != null && SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
+            if (SoundEngine.TryGetActiveSound(DeathraySoundSlot, out var deathraySound) && deathraySound.IsPlaying)
             {
                 deathraySound.Position = NPC.Center;
             }

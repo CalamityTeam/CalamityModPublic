@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 30;
             Item.height = 26;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = DamageClass.Summon;
             Item.damage = 11;
             Item.knockBack = 3f;
             Item.useTime = 25;
@@ -41,7 +41,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item1;
             Item.channel = true;
-            //Item.noUseGraphic = true;
             Item.noMelee = true;
 
             Item.shoot = ModContent.ProjectileType<CnidarianJellyfishOnTheString>();
