@@ -51,7 +51,7 @@ namespace CalamityMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<SCalAltarItem>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AltarOfTheAccursedItem>());
         }
 
         public override bool RightClick(int i, int j)
@@ -61,7 +61,7 @@ namespace CalamityMod.Tiles.Furniture
             int left = i - tile.TileFrameX / 18;
             int top = j - tile.TileFrameY / 18;
 
-            if (!Main.LocalPlayer.HasItem(ModContent.ItemType<CalamityDust>()) &&
+            if (!Main.LocalPlayer.HasItem(ModContent.ItemType<AshesofCalamity>()) &&
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
             {
                 return true;
@@ -82,7 +82,7 @@ namespace CalamityMod.Tiles.Furniture
             Projectile.NewProjectile(new EntitySource_WorldEvent(), ritualSpawnPosition, Vector2.Zero, ModContent.ProjectileType<SCalRitualDrama>(), 0, 0f, Main.myPlayer);
 
             if (!usingSpecialItem)
-                Main.LocalPlayer.ConsumeItem(ModContent.ItemType<CalamityDust>(), true);
+                Main.LocalPlayer.ConsumeItem(ModContent.ItemType<AshesofCalamity>(), true);
 
             return true;
         }
@@ -92,7 +92,7 @@ namespace CalamityMod.Tiles.Furniture
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
                 Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<EyeofExtinction>();
             else
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CalamityDust>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
 
             Main.LocalPlayer.noThrow = 2;
             Main.LocalPlayer.cursorItemIconEnabled = true;
@@ -103,7 +103,7 @@ namespace CalamityMod.Tiles.Furniture
             if (Main.LocalPlayer.HasItem(ModContent.ItemType<EyeofExtinction>()))
                 Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<EyeofExtinction>();
             else
-                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<CalamityDust>();
+                Main.LocalPlayer.cursorItemIconID = ModContent.ItemType<AshesofCalamity>();
 
             Main.LocalPlayer.noThrow = 2;
             Main.LocalPlayer.cursorItemIconEnabled = true;

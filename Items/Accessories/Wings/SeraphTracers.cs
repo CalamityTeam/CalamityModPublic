@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 AddIngredient<AngelTreads>().
                 AddRecipeGroup("WingsGroup").
                 AddIngredient<CoreofCalamity>(3).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

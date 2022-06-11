@@ -35,10 +35,10 @@ namespace CalamityMod.Items.TreasureBags
             int barMax = 3;
             int coreMin = 1;
             int coreMax = !Main.expertMode ? 2 : 3;
-            DropHelper.DropItem(s, player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CryonicBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<PerennialBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<ScoriaBar>(), barMin, barMax);
+            DropHelper.DropItem(s, player, ModContent.ItemType<CoreofSunlight>(), coreMin, coreMax);
             DropHelper.DropItem(s, player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
             DropHelper.DropItem(s, player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
         }

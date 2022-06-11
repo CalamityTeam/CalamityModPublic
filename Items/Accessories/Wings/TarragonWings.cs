@@ -1,5 +1,5 @@
 ﻿using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Tarragon;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if ((player.armor[0].type == ModContent.ItemType<TarragonHelm>() || player.armor[0].type == ModContent.ItemType<TarragonHelmet>() ||
-                player.armor[0].type == ModContent.ItemType<TarragonHornedHelm>() || player.armor[0].type == ModContent.ItemType<TarragonMask>() ||
-                player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
+            if ((player.armor[0].type == ModContent.ItemType<TarragonHeadMelee>() || player.armor[0].type == ModContent.ItemType<TarragonHeadRogue>() ||
+                player.armor[0].type == ModContent.ItemType<TarragonHeadSummon>() || player.armor[0].type == ModContent.ItemType<TarragonHeadMagic>() ||
+                player.armor[0].type == ModContent.ItemType<TarragonHeadRanged>()) &&
                 player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
             {
                 player.statDefense += 15;
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UeliaceBar>(5).
+                AddIngredient<UelibloomBar>(5).
                 AddIngredient(ItemID.SoulofFlight, 30).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

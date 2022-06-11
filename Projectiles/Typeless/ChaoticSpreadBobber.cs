@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Lighting.AddLight(Projectile.Center, 0.5f, 0.25f, 0f);
             else
                 Lighting.AddLight(Projectile.Center, 0f, 0.45f, 0.46f);
-            return Projectile.DrawFishingLine(ModContent.ItemType<ChaoticSpreadRod>(), fishingLineColor, 65, 30f);
+            return Projectile.DrawFishingLine(ModContent.ItemType<RiftReeler>(), fishingLineColor, 65, 30f);
         }
     }
 }

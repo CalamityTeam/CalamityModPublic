@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Ammo
         public override void AddRecipes()
         {
             CreateRecipe(250).
-                AddIngredient<VerstaltiteBar>().
+                AddIngredient<CryonicBar>().
                 AddTile(TileID.IceMachine).
                 Register();
         }

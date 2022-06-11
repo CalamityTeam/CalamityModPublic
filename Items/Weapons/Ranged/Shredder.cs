@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<FrostbiteBlaster>().
                 AddIngredient(ItemID.Shotgun).
                 AddIngredient<GalacticaSingularity>(5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

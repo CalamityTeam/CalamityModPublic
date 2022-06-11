@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.PossessedHatchet).
                 AddIngredient<DivineGeode>(5).
-                AddIngredient<UeliaceBar>(9).
+                AddIngredient<UelibloomBar>(9).
                 AddIngredient<UnholyEssence>(8).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

@@ -54,13 +54,13 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItem(s, player, ModContent.ItemType<SulphurousSandstone>(), 5, 10);
             DropHelper.DropItem(s, player, ModContent.ItemType<HardenedSulphurousSandstone>(), 5, 10);
             DropHelper.DropItem(s, player, ModContent.ItemType<Acidwood>(), 5, 10);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<SulfuricScale>(), DownedBossSystem.downedEoCAcidRain, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<SulphuricScale>(), DownedBossSystem.downedEoCAcidRain, 0.1f, 1, 3);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<CorrodedFossil>(), DownedBossSystem.downedAquaticScourgeAcidRain, 0.1f, 1, 3);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<DepthCells>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Lumenite>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<Lumenyl>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<PlantyMush>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Tenebris>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<CruptixBar>(), NPC.downedGolemBoss, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<ScoriaBar>(), NPC.downedGolemBoss, 0.1f, 1, 3);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<ReaperTooth>(), DownedBossSystem.downedPolterghast && DownedBossSystem.downedBoomerDuke, 0.1f, 1, 5);
 
             // Weapons

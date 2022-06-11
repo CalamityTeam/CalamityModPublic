@@ -317,8 +317,8 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<ProfanedSoulArtifact>().
                 AddIngredient(ItemID.ObsidianRose).
-                AddIngredient<CoreofCinder>(5).
-                AddIngredient<UeliaceBar>(25).
+                AddIngredient<CoreofSunlight>(5).
+                AddIngredient<UelibloomBar>(25).
                 AddIngredient<DivineGeode>(50).
                 AddIngredient<UnholyEssence>(100).
                 AddIngredient<ShadowspecBar>(5).

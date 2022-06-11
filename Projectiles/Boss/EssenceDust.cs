@@ -23,12 +23,10 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 60;
-            CooldownSlot = 1;
         }
 
         public override void AI()
         {
-            Projectile.velocity *= 0.985f;
             Lighting.AddLight(Projectile.Center, 0.45f, 0f, 0.55f);
             for (int num468 = 0; num468 < 5; num468++)
             {

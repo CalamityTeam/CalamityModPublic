@@ -1638,10 +1638,10 @@ namespace CalamityMod
             {
                 ItemType<AuricBar>(),
                 ItemType<EssenceofChaos>(),
-                ItemType<EssenceofCinder>(),
+                ItemType<EssenceofSunlight>(),
                 ItemType<EssenceofEleum>(),
                 ItemType<CoreofChaos>(),
-                ItemType<CoreofCinder>(),
+                ItemType<CoreofSunlight>(),
                 ItemType<CoreofEleum>(),
                 ItemType<CoreofCalamity>(),
                 ItemType<HellcasterFragment>(),
@@ -1663,7 +1663,7 @@ namespace CalamityMod
                 ItemType<KnowledgeBrainofCthulhu>(),
                 ItemType<KnowledgeBrimstoneCrag>(),
                 ItemType<KnowledgeBrimstoneElemental>(),
-                ItemType<KnowledgeBumblebirb>(),
+                ItemType<KnowledgeDragonfolly>(),
                 ItemType<KnowledgeCalamitas>(),
                 ItemType<KnowledgeCalamitasClone>(),
                 ItemType<KnowledgeCorruption>(),
@@ -1680,7 +1680,7 @@ namespace CalamityMod
                 ItemType<KnowledgeGolem>(),
                 ItemType<KnowledgeHiveMind>(),
                 ItemType<KnowledgeKingSlime>(),
-                ItemType<KnowledgeLeviathanandSiren>(),
+                ItemType<KnowledgeLeviathanAnahita>(),
                 ItemType<KnowledgeLunaticCultist>(),
                 ItemType<KnowledgeMechs>(),
                 ItemType<KnowledgeMoonLord>(),
@@ -1708,7 +1708,7 @@ namespace CalamityMod
             lavaFishList = new List<int>()
             {
                 ItemType<SlurperPole>(),
-                ItemType<ChaoticSpreadRod>(),
+                ItemType<RiftReeler>(),
                 ItemType<TheDevourerofCods>()
             };
 
@@ -1757,7 +1757,7 @@ namespace CalamityMod
                 ItemType<LeviathanTrophy>(),
                 ItemType<AquaticScourgeTrophy>(),
                 ItemType<KnowledgeAquaticScourge>(),
-                ItemType<KnowledgeLeviathanandSiren>(),
+                ItemType<KnowledgeLeviathanAnahita>(),
                 ItemType<KnowledgeSulphurSea>(),
                 ItemType<KnowledgeOcean>(),
                 ItemType<KnowledgeOldDuke>(),

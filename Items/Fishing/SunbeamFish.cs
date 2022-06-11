@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Fishing
         {
             // IEntitySource my beloathed
             var s = player.GetSource_OpenItem(Item.type);
-            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofCinder>(), 5, 10);
+            DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofSunlight>(), 5, 10);
         }
     }
 }

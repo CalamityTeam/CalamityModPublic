@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient(ItemID.FrostStaff).
                 AddIngredient(ItemID.FrostCore).
                 AddIngredient<CoreofEleum>(3).
-                AddIngredient<VerstaltiteBar>(8).
+                AddIngredient<CryonicBar>(8).
                 AddIngredient<SeaPrism>(10).
                 AddTile(TileID.IceMachine).Register();
         }

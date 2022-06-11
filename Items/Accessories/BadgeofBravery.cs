@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient(ItemID.FeralClaws).
-                AddIngredient<UeliaceBar>(2).
+                AddIngredient<UelibloomBar>(2).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

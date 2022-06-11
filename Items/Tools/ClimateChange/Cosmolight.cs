@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
                 AddIngredient(ItemID.FallenStar, 10).
                 AddIngredient(ItemID.SoulofLight, 7).
                 AddIngredient(ItemID.SoulofNight, 7).
-                AddIngredient<EssenceofCinder>(5).
+                AddIngredient<EssenceofSunlight>(5).
                 AddTile(TileID.Anvils).
                 Register();
         }

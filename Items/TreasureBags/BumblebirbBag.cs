@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GildedProboscis>(w),
                 DropHelper.WeightStack<GoldenEagle>(w),
                 DropHelper.WeightStack<RougeSlash>(w),
-                DropHelper.WeightStack<BirdSeed>(w)
+                DropHelper.WeightStack<FollyFeed>(w)
             );
 
             // Equipment

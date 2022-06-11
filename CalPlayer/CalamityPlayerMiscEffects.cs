@@ -16,7 +16,8 @@ using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Brimflame;
+using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Fishing.AstralCatches;
@@ -1238,7 +1239,7 @@ namespace CalamityMod.CalPlayer
                 silvaCountdown -= 1;
                 if (silvaCountdown <= 0)
                 {
-                    SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
+                    SoundEngine.PlaySound(SilvaHeadSummon.DispelSound, Player.Center);
                     Player.AddCooldown(SilvaRevive.ID, CalamityUtils.SecondsToFrames(5 * 60));
                 }
 

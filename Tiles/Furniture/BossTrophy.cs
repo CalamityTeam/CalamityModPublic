@@ -86,10 +86,10 @@ namespace CalamityMod.Tiles.Furniture
                     item = ModContent.ItemType<PolterghastTrophy>();
                     break;
                 case 18:
-                    item = ModContent.ItemType<BumblebirbTrophy>();
+                    item = ModContent.ItemType<DragonfollyTrophy>();
                     break;
                 case 19:
-                    item = ModContent.ItemType<AstrageldonTrophy>();
+                    item = ModContent.ItemType<AstrumAureusTrophy>();
                     break;
                 case 20:
                     item = ModContent.ItemType<AstrumDeusTrophy>();

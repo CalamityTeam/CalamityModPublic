@@ -759,7 +759,7 @@ namespace CalamityMod
                 s.requiredItem[0].stack = 1;
                 s.requiredItem[1].SetDefaults(ItemID.MechanicalGlove, false);
                 s.requiredItem[1].stack = 1;
-                s.requiredItem[2].SetDefaults(ModContent.ItemType<CruptixBar>(), false);
+                s.requiredItem[2].SetDefaults(ModContent.ItemType<ScoriaBar>(), false);
                 s.requiredItem[2].stack = 5;
 
                 s.createItem.SetDefaults(ItemID.FireGauntlet, false);
@@ -1447,7 +1447,7 @@ namespace CalamityMod
             // Lihzahrd Power Cell (NOT Calamity's Old Power Cell)
             r = CreateRecipe(ItemID.LihzahrdPowerCell);
             r.AddIngredient(ItemID.LihzahrdBrick, 15);
-            r.AddIngredient(ModContent.ItemType<CoreofCinder>());
+            r.AddIngredient(ModContent.ItemType<CoreofSunlight>());
             r.AddTile(TileID.LihzahrdFurnace);
             r.Register();
         }

@@ -61,6 +61,13 @@ using Terraria.Chat;
 using CalamityMod.EntitySources;
 using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.FluidSimulation;
+using CalamityMod.Items.Armor.Bloodflare;
+using CalamityMod.Items.Armor.Brimflame;
+using CalamityMod.Items.Armor.Demonshade;
+using CalamityMod.Items.Armor.GemTech;
+using CalamityMod.Items.Armor.OmegaBlue;
+using CalamityMod.Items.Armor.PlagueReaper;
+using CalamityMod.Items.Armor.Silva;
 
 namespace CalamityMod.CalPlayer
 {
@@ -1245,13 +1252,8 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("GivenBrimstoneLocus", GivenBrimstoneLocus);
 
             // Calculate the new total time of all sessions at the instant of this player save.
-            TimeSpan newSessionTotal;
-            long totalTicks = 0L;
-            if (previousSessionTotal != null)
-            {
-                newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
-                totalTicks = newSessionTotal.Ticks;
-            }
+            TimeSpan newSessionTotal = previousSessionTotal.Add(CalamityMod.SpeedrunTimer.Elapsed);
+            long totalTicks = newSessionTotal.Ticks;
 
             // Save all cooldowns which are marked as persisting through save/load.
             TagCompound cooldownsTag = new TagCompound();
@@ -1362,7 +1364,7 @@ namespace CalamityMod.CalPlayer
                 {
                     adrenaline = tag.GetFloat("adrenaline");
                 }
-                catch (Exception _) { failedToLoadFloatAdrenaline = true; }
+                catch (Exception) { failedToLoadFloatAdrenaline = true; }
 
                 if (failedToLoadFloatAdrenaline)
                     adrenaline = tag.GetInt("adrenaline") / (10000 / 100f);
@@ -2780,7 +2782,7 @@ namespace CalamityMod.CalPlayer
                     if (Player.whoAmI == Main.myPlayer)
                         Player.AddCooldown(BloodflareRangedSet.ID, 1800);
 
-                    SoundEngine.PlaySound(BloodflareHornedHelm.ActivationSound, Player.Center);
+                    SoundEngine.PlaySound(BloodflareHeadRanged.ActivationSound, Player.Center);
                     for (int d = 0; d < 64; d++)
                     {
                         int dust = Dust.NewDust(new Vector2(Player.position.X, Player.position.Y + 16f), Player.width, Player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
@@ -2955,7 +2957,7 @@ namespace CalamityMod.CalPlayer
                 // Gael's Greatsword replaces Rage Mode with an uber skull attack
                 if (gaelRageAttackCooldown == 0 && Player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() && rage > 0f)
                 {
-                    SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
+                    SoundEngine.PlaySound(SilvaHeadSummon.DispelSound, Player.Center);
 
                     for (int i = 0; i < 3; i++)
                         Dust.NewDust(Player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
@@ -3840,7 +3842,7 @@ namespace CalamityMod.CalPlayer
                 Main.dust[sVeilDustIndex2].noLight = false;
             }
 
-            SoundEngine.PlaySound(SilvaHelmet.DispelSound, Player.Center);
+            SoundEngine.PlaySound(SilvaHeadSummon.DispelSound, Player.Center);
 
             NetMessage.SendData(MessageID.Dodge, -1, -1, null, Player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
         }
@@ -3914,7 +3916,7 @@ namespace CalamityMod.CalPlayer
 
                 Player.GiveIFrames(Player.longInvince ? 100 : 60, true);
                 rogueStealth += 0.5f;
-                SoundEngine.PlaySound(SilvaHelmet.ActivationSound, Player.Center);
+                SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.Center);
 
                 var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<EclipseMirror>()));
                 for (int i = 0; i < 10; i++)
@@ -4093,7 +4095,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (silvaCountdown == silvaReviveDuration && !hasSilvaEffect)
                 {
-                    SoundEngine.PlaySound(SilvaHelmet.ActivationSound, Player.position);
+                    SoundEngine.PlaySound(SilvaHeadSummon.ActivationSound, Player.position);
 
                     Player.AddBuff(ModContent.BuffType<SilvaRevival>(), silvaReviveDuration);
 

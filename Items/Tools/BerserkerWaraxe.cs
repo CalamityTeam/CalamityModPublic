@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<DraedonBar>(9).
+                AddIngredient<PerennialBar>(9).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

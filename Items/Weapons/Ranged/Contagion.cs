@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<Phangasm>().
-                AddIngredient<PlagueCellCluster>(20).
+                AddIngredient<PlagueCellCanister>(20).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().
                 Register();

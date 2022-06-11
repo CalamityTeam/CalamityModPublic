@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Placeables.Plates
 
         public override void AddRecipes()
         {
-            CreateRecipe(3).AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 1).AddIngredient(ItemID.Obsidian, 3).AddTile(TileID.Hellforge).Register();
+            CreateRecipe(3).AddIngredient(ModContent.ItemType<PlagueCellCanister>(), 1).AddIngredient(ItemID.Obsidian, 3).AddTile(TileID.Hellforge).Register();
             CreateRecipe(1).AddIngredient(ModContent.ItemType<PlagueContainmentCellsWall>(), 4).AddTile(TileID.WorkBenches).Register();
         }
     }

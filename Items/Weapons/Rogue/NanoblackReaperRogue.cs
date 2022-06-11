@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<GhoulishGouger>().
                 AddIngredient<MoltenAmputator>().
                 AddIngredient<EndothermicEnergy>(40).
-                AddIngredient<PlagueCellCluster>(20).
+                AddIngredient<PlagueCellCanister>(20).
                 AddIngredient(ItemID.Nanites, 400).
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().

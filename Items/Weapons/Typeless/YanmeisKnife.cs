@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Typeless
                 AddIngredient(ItemID.PsychoKnife).
                 AddIngredient(ItemID.Obsidian, 10).
                 AddIngredient(ItemID.IronBar, 20).
-                AddIngredient<PlagueCellCluster>(50).
+                AddIngredient<PlagueCellCanister>(50).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<UeliaceBar>(6).
+                AddIngredient<UelibloomBar>(6).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

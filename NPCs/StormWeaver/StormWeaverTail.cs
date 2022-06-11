@@ -304,12 +304,6 @@ namespace CalamityMod.NPCs.StormWeaver
             return false;
         }
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
-        }
-
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;

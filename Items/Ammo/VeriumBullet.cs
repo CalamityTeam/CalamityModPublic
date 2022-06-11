@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Ammo
         {
             CreateRecipe(100).
                 AddIngredient(ItemID.MusketBall, 100).
-                AddIngredient<VerstaltiteBar>().
+                AddIngredient<CryonicBar>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

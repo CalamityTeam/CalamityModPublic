@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.Gel, 1, 10, 14);
-            npcLoot.Add(ModContent.ItemType<EbonianGel>(), 1, 15, 21);
+            npcLoot.Add(ModContent.ItemType<BlightedGel>(), 1, 15, 21);
         }
     }
 }

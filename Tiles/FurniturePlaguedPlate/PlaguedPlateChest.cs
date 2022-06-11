@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileID.Sets.DisableSmartCursor[Type] = true;
             AdjTiles = new int[] { TileID.Containers };
             ContainerName.SetDefault("Plagued Chest");
-            ChestDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>();
+            ChestDrop = ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateChest>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -49,12 +49,12 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void MouseOver(int i, int j)
         {
-            CalamityUtils.ChestMouseOver<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("Plagued Chest", i, j);
+            CalamityUtils.ChestMouseOver<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateChest>("Plagued Chest", i, j);
         }
 
         public override void MouseOverFar(int i, int j)
         {
-            CalamityUtils.ChestMouseFar<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateChest>("Plagued Chest", i, j);
+            CalamityUtils.ChestMouseFar<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateChest>("Plagued Chest", i, j);
         }
     }
 }

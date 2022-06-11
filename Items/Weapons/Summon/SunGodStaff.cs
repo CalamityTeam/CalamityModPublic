@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CreateRecipe().
                 AddIngredient<SunSpiritStaff>().
-                AddIngredient<EssenceofCinder>(5).
+                AddIngredient<EssenceofSunlight>(5).
                 AddIngredient(ItemID.SoulofMight, 3).
                 AddIngredient(ItemID.SoulofSight, 3).
                 AddIngredient(ItemID.SoulofFright, 3).

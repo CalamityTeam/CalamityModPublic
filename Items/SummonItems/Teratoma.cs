@@ -49,7 +49,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient(ItemID.RottenChunk, 13).
-                AddIngredient<TrueShadowScale>(7).
+                AddIngredient<RottenMatter>(7).
                 AddIngredient(ItemID.DemoniteBar, 3).
                 AddTile(TileID.DemonAltar).
                 Register();

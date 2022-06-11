@@ -50,7 +50,7 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItem(s, player, ModContent.ItemType<CalamityDust>(), 14, 18);
+            DropHelper.DropItem(s, player, ModContent.ItemType<AshesofCalamity>(), 14, 18);
             DropHelper.DropItem(s, player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Bloodstone>(), DownedBossSystem.downedProvidence, 35, 45);
 
@@ -72,8 +72,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(s, player, ModContent.ItemType<CalamitasMask>(), 7);
             if (Main.rand.NextBool(10))
             {
-                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityHood>());
-                DropHelper.DropItem(s, player, ModContent.ItemType<CalamityRobes>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<HoodOfCalamity>());
+                DropHelper.DropItem(s, player, ModContent.ItemType<RobesOfCalamity>());
             }
         }
     }

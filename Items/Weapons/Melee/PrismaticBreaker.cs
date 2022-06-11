@@ -142,7 +142,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<CosmicRainbow>().
                 AddIngredient<SolsticeClaymore>().
-                AddIngredient<BarofLife>(3).
+                AddIngredient<LifeAlloy>(3).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(20).
                 AddTile(ModContent.TileType<CosmicAnvil>()).

@@ -64,7 +64,7 @@ Right click to use as a hammer");
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<CruptixBar>(7).
+                AddIngredient<ScoriaBar>(7).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

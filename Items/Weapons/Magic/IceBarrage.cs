@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<IcicleStaff>().
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<EndothermicEnergy>(40).
-                AddIngredient<VerstaltiteBar>(18).
+                AddIngredient<CryonicBar>(18).
                 AddTile(TileID.IceMachine).
                 Register();
         }

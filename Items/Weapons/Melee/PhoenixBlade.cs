@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient(ItemID.BreakerBlade).
                 AddIngredient(ItemID.HellstoneBar, 10).
-                AddIngredient<EssenceofCinder>().
+                AddIngredient<EssenceofSunlight>().
                 AddIngredient(ItemID.SoulofMight, 3).
                 AddIngredient(ItemID.SoulofSight, 3).
                 AddIngredient(ItemID.SoulofFright, 3).

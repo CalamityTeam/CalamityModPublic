@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<SandSharkToothNecklace>().
                 AddIngredient<ReaperTooth>(6).
-                AddIngredient<Lumenite>(15).
+                AddIngredient<Lumenyl>(15).
                 AddIngredient<DepthCells>(15).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.TinkerersWorkbench).

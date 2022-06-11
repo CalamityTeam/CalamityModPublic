@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe().
                 AddIngredient(ItemID.SpellTome).
-                AddIngredient<UeliaceBar>(8).
+                AddIngredient<UelibloomBar>(8).
                 AddTile(TileID.Bookcases).
                 Register();
         }

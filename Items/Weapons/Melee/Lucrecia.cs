@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<CoreofCalamity>().
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.SoulofLight, 5).
                 AddIngredient(ItemID.SoulofNight, 5).
                 AddTile(TileID.MythrilAnvil).

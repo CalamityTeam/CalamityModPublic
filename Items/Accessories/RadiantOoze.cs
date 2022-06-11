@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<EbonianGel>(45).
+                AddIngredient<BlightedGel>(45).
                 AddIngredient<PurifiedGel>(15).
                 AddTile(TileID.Anvils).
                 Register();

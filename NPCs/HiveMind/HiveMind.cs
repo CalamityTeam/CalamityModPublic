@@ -1132,7 +1132,7 @@ namespace CalamityMod.NPCs.HiveMind
                 normalOnly.Add(ItemID.DemoniteBar, 1, 12, 15);
                 normalOnly.Add(ItemID.RottenChunk, 1, 12, 15);
                 normalOnly.Add(ItemID.CorruptSeeds, 1, 12, 15);
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<TrueShadowScale>(), 1, 25, 30));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<RottenMatter>(), 1, 25, 30));
                 normalOnly.Add(ItemDropRule.ByCondition(new Conditions.IsHardmode(), ItemID.CursedFlame, 1, 10, 20));
 
                 // Equipment

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Ammo
         {
             CreateRecipe(150).
                 AddIngredient(ItemID.MusketBall, 150).
-                AddIngredient<PlagueCellCluster>().
+                AddIngredient<PlagueCellCanister>().
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

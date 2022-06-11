@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<EidolicWail>().
                 AddIngredient<ReaperTooth>(20).
                 AddIngredient<DepthCells>(20).
-                AddIngredient<Lumenite>(20).
+                AddIngredient<Lumenyl>(20).
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();

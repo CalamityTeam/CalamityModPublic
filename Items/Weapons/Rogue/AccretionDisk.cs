@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 AddIngredient<FlameScythe>().
                 AddIngredient<TerraDisk>().
                 AddIngredient<GalacticaSingularity>(5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();

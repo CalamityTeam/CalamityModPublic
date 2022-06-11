@@ -59,7 +59,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateBasin>());
+            Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 16, 32, ModContent.ItemType<CalamityMod.Items.Placeables.FurniturePlagued.PlaguedPlateBasin>());
         }
 
         public override void HitWire(int i, int j)

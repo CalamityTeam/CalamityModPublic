@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient(ItemID.BottledWater).
-                AddIngredient<SulfuricScale>(10).
+                AddIngredient<SulphuricScale>(10).
                 AddTile(TileID.Bottles).
                 Register();
         }

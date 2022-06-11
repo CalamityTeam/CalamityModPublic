@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 AddIngredient<ViralSprout>().
                 AddIngredient(ItemID.LunarBar, 5).
                 AddIngredient<GalacticaSingularity>(5).
-                AddIngredient<BarofLife>(5).
+                AddIngredient<LifeAlloy>(5).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

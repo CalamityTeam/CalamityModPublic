@@ -34,7 +34,7 @@ namespace CalamityMod.Items.LabFinders
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<MysteriousMechanism>().
+                AddIngredient<LabSeekingMechanism>().
                 AddIngredient(ItemID.HellstoneBar, 4).
                 AddTile(TileID.Anvils).
                 Register();

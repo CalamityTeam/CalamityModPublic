@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient<Dualpoon>().
                 AddIngredient(ItemID.Harpoon).
                 AddIngredient<DepthCells>(15).
-                AddIngredient<Lumenite>(5).
+                AddIngredient<Lumenyl>(5).
                 AddIngredient<Tenebris>(5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
