@@ -102,5 +102,10 @@
              RogueDamageClass: "rogue damage",
              AverageDamageClass: "average damage",
         }
+        
+        UI:
+        {
+            SmallWorldWarning: "[c/ff00000:SMALL WORLDS NOT SUPPORTED BY CALAMITY]"
+        }
     }
 }

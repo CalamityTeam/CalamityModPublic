@@ -183,5 +183,28 @@ namespace CalamityMod.ILEditing
             c.Emit<UIWorldCreation>(OpCodes.Call, "UpdatePreviewPlate"); // UIWorldCreation.UpdatePreviewPlate
         }
         #endregion
+
+        #region Change Small World Description
+        /// <summary>
+        /// Changes the description of Small worlds to serve as a warning.
+        /// </summary>
+        private static void SwapSmallDescriptionKey(ILContext il)
+        {
+            // Objective: Swap the string "UI.WorldDescriptionSizeSmall" with "Mods.CalamityMod.UI.SmallWorldWarning".
+            var c = new ILCursor(il);
+
+            // Position ourselves after "UI.WorldDescriptionSizeSmall".
+            if (!c.TryGotoNext(MoveType.After, x => x.MatchLdstr("UI.WorldDescriptionSizeSmall")))
+            {
+                LogFailure("Change Small World Description", "Could not match string \"UI.WorldDescriptionSizeSmall\".");
+                return;
+            }
+            // Pop original value off.
+            c.Emit(OpCodes.Pop);
+            
+            // Emit our new string "Mods.CalamityMod.UI.SmallWorldWarning".
+            c.Emit(OpCodes.Ldstr, "Mods.CalamityMod.UI.SmallWorldWarning");
+        }
+        #endregion
     }
 }
