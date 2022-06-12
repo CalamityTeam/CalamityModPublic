@@ -296,6 +296,14 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("AnyWoodenSword", group);
 
+            // Zapinators
+            group = new RecipeGroup(() => "Any Zapinator", new int[]
+            {
+                ItemID.ZapinatorGray,
+                ItemID.ZapinatorOrange
+            });
+            RecipeGroup.RegisterGroup("AnyZapinator", group);
+
             // Hallowed Helmets
             group = new RecipeGroup(() => "Any Hallowed Helmet", new int[]
             {
