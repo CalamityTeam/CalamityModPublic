@@ -5144,9 +5144,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (phantomicArtifact && Player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] != 0)
+            if (phantomicArtifact && Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.PhantomicShield>()] != 0)
             {
-                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == Player.whoAmI && projectile.type == ModContent.ProjectileType<PhantomicShield>()).First();
+                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == Player.whoAmI && projectile.type == ModContent.ProjectileType<Projectiles.Summon.PhantomicShield>()).First();
                 phantomicBulwarkCooldown = 1800; // 30 second cooldown
                 pro.Kill();
                 projectileDamageReduction += 0.2;
