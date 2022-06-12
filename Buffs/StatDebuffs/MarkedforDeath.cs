@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Marked");
+            DisplayName.SetDefault("Marked for Death");
             Description.SetDefault("Damage reduction reduced");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

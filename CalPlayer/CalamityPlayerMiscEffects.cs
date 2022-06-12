@@ -741,13 +741,6 @@ namespace CalamityMod.CalPlayer
 
             ProvidenceBurnEffectDrawer.Update();
 
-            // Immunity to most debuffs
-            if (invincible)
-            {
-                foreach (int debuff in CalamityLists.debuffList)
-                    Player.buffImmune[debuff] = true;
-            }
-
             // Transformer immunity to Electrified
             if (aSparkRare)
                 Player.buffImmune[BuffID.Electrified] = true;
@@ -782,7 +775,7 @@ namespace CalamityMod.CalPlayer
             if (Player.lavaWet)
             {
                 if (ZoneCalamity && !abaddon)
-                    Player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
+                    Player.AddBuff(ModContent.BuffType<SearingLava>(), 2, false);
             }
             else
             {
@@ -1405,18 +1398,6 @@ namespace CalamityMod.CalPlayer
                     Player.manaRegenBonus += 4;
             }
 
-            // Sea Shell bonus
-            if (seaShell)
-            {
-                if (Player.IsUnderwater())
-                {
-                    Player.statDefense += 3;
-                    Player.endurance += 0.05f;
-                    Player.moveSpeed += 0.1f;
-                    Player.ignoreWater = true;
-                }
-            }
-
             // Affliction bonus
             if (affliction || afflicted)
             {
@@ -1516,13 +1497,6 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-            }
-
-            // Remove Purified Jam thorn damage exploits
-            if (invincible)
-            {
-                Player.thorns = 0f;
-                Player.turtleThorns = false;
             }
 
             // Vortex Armor nerf
@@ -2115,84 +2089,7 @@ namespace CalamityMod.CalPlayer
                 Player.moveSpeed -= (1f - aquaticBoost * 0.0001f) * 0.1f;
             }
             else
-                aquaticBoost = aquaticBoostMax;
-
-            // Auric bonus
-            if (auricBoost)
-            {
-                if (Player.itemAnimation > 0)
-                    modStealthTimer = 5;
-
-                if (Player.StandingStill(0.1f) && !Player.mount.Active)
-                {
-                    if (modStealthTimer == 0 && modStealth > 0f)
-                    {
-                        modStealth -= 0.015f;
-                        if (modStealth <= 0f)
-                        {
-                            modStealth = 0f;
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-                else
-                {
-                    float playerVel = Math.Abs(Player.velocity.X) + Math.Abs(Player.velocity.Y);
-                    modStealth += playerVel * 0.0075f;
-                    if (modStealth > 1f)
-                        modStealth = 1f;
-                    if (Player.mount.Active)
-                        modStealth = 1f;
-                }
-
-                float damageBoost = (1f - modStealth) * 0.2f;
-                Player.GetDamage<GenericDamageClass>() += damageBoost;
-
-                int critBoost = (int)((1f - modStealth) * 10f);
-                Player.GetCritChance<GenericDamageClass>() += critBoost;
-
-                if (modStealthTimer > 0)
-                    modStealthTimer--;
-            }
-
-            // Psychotic Amulet bonus
-            else if (pAmulet)
-            {
-                if (Player.itemAnimation > 0)
-                    modStealthTimer = 5;
-
-                if (Player.StandingStill(0.1f) && !Player.mount.Active)
-                {
-                    if (modStealthTimer == 0 && modStealth > 0f)
-                    {
-                        modStealth -= 0.015f;
-                        if (modStealth <= 0f)
-                        {
-                            modStealth = 0f;
-                            if (Main.netMode == NetmodeID.MultiplayerClient)
-                                NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, Player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
-                else
-                {
-                    float playerVel = Math.Abs(Player.velocity.X) + Math.Abs(Player.velocity.Y);
-                    modStealth += playerVel * 0.0075f;
-                    if (modStealth > 1f)
-                        modStealth = 1f;
-                    if (Player.mount.Active)
-                        modStealth = 1f;
-                }
-
-                Player.GetDamage<RogueDamageClass>() += (1f - modStealth) * 0.2f;
-                Player.GetCritChance<RogueDamageClass>() += (int)((1f - modStealth) * 10f);
-                Player.aggro -= (int)((1f - modStealth) * 750f);
-                if (modStealthTimer > 0)
-                    modStealthTimer--;
-            }
-            else
-                modStealth = 1f;
+                aquaticBoost = aquaticBoostMax;modStealth = 1f;
 
             if (Player.ActiveItem().type == ModContent.ItemType<Auralis>() && Player.StandingStill(0.1f))
             {
@@ -2660,11 +2557,6 @@ namespace CalamityMod.CalPlayer
                 if (Player.ActiveItem().type != ModContent.ItemType<PridefulHuntersPlanarRipper>())
                     planarSpeedBoost = 0;
             }
-            if (brimlashBusterBoost)
-            {
-                if (Player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
-                    brimlashBusterBoost = false;
-            }
             if (evilSmasherBoost > 0)
             {
                 if (Player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
@@ -2681,11 +2573,6 @@ namespace CalamityMod.CalPlayer
                     searedPanTimer++;
                 else
                     searedPanCounter = 0;
-            }
-            if (animusBoost > 1f)
-            {
-                if (Player.ActiveItem().type != ModContent.ItemType<Animus>())
-                    animusBoost = 1f;
             }
 
             // Flight time boosts
@@ -2885,12 +2772,6 @@ namespace CalamityMod.CalPlayer
             {
                 Player.statDefense -= ArmorCrunch.DefenseReduction;
                 Player.endurance *= 0.33f;
-            }
-
-            if (wCleave && !laudanum)
-            {
-                Player.statDefense -= WarCleave.DefenseReduction;
-                Player.endurance *= 0.75f;
             }
 
             if (wither)
@@ -3186,7 +3067,7 @@ namespace CalamityMod.CalPlayer
                 Player.npcTypeNoAggro[ModContent.NPCType<EbonianBlightSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<IrradiatedSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
-                Player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
+                Player.npcTypeNoAggro[ModContent.NPCType<PestilentSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
             }
@@ -3231,7 +3112,7 @@ namespace CalamityMod.CalPlayer
                 Player.maxMinions += 2;
             }
 
-            if (gArtifact && Player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) != -1)
+            if (gArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
                 Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()];
 
             if (pArtifact)
@@ -3601,17 +3482,18 @@ namespace CalamityMod.CalPlayer
             {
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
+                    // TODO -- What the FUCK is this conditional chain?
                     int hasBuff = Player.buffType[l];
                     if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed ||
                         hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) ||
                         (hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
                         hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
                         hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
-                        hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<Cadence>() ||
+                        hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<CadancesGrace>() ||
                         hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
                         hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
                         hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
-                        hasBuff == ModContent.BuffType<Revivify>() || hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
+                        hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
                         hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
                         hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
                         hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||
@@ -3651,7 +3533,7 @@ namespace CalamityMod.CalPlayer
                     for (int l = 0; l < Player.MaxBuffs; l++)
                     {
                         int hasBuff = Player.buffType[l];
-                        if (hasBuff == ModContent.BuffType<ArmorCrunch>() || hasBuff == ModContent.BuffType<WarCleave>() || hasBuff == BuffID.Obstructed ||
+                        if (hasBuff == ModContent.BuffType<ArmorCrunch>() || hasBuff == BuffID.Obstructed ||
                             hasBuff == BuffID.Ichor || hasBuff == BuffID.Chilled || hasBuff == BuffID.BrokenArmor || hasBuff == BuffID.Weak ||
                             hasBuff == BuffID.Slow || hasBuff == BuffID.Confused || hasBuff == BuffID.Blackout || hasBuff == BuffID.Darkness)
                         {
@@ -3665,11 +3547,6 @@ namespace CalamityMod.CalPlayer
                         {
                             // +15 defense
                             Player.statDefense += ArmorCrunch.DefenseReduction;
-                        }
-                        if (hasBuff == ModContent.BuffType<WarCleave>())
-                        {
-                            // +10% damage reduction
-                            Player.endurance += 0.1f;
                         }
 
                         switch (hasBuff)

@@ -158,8 +158,8 @@ namespace CalamityMod
                 return true;
             if (npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsTail)
                 return true;
-            return npc.type == NPCType<SlimeGod>() || npc.type == NPCType<SlimeGodRun>() ||
-                npc.type == NPCType<SlimeGodSplit>() || npc.type == NPCType<SlimeGodRunSplit>();
+            return npc.type == NPCType<EbonianSlimeGod>() || npc.type == NPCType<CrimulanSlimeGod>() ||
+                npc.type == NPCType<SplitEbonianSlimeGod>() || npc.type == NPCType<SplitCrimulanSlimeGod>();
         }
 
         public static bool AnyBossNPCS(bool checkForMechs = false)

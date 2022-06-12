@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Mounts.Minecarts
             MountID.Sets.Cart[ModContent.MountType<DoGCartMount>()] = true;
 
             MountData.spawnDust = 173;
-            MountData.buff = ModContent.BuffType<DoGCartBuff>();
+            MountData.buff = ModContent.BuffType<TheCartofGodsBuff>();
 
             // Movement fields.
             MountData.flightTimeMax = 0;

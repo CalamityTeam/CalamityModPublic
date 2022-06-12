@@ -465,12 +465,10 @@ namespace CalamityMod.CalPlayer
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
-        public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
         public bool sponge = false;
         public bool rOoze = false;
-        public bool pAmulet = false;
         public bool fBarrier = false;
         public bool aBrain = false;
         public bool amalgam = false;
@@ -773,7 +771,6 @@ namespace CalamityMod.CalPlayer
         public bool irradiated = false;
         public bool bFlames = false;
         public bool weakBrimstoneFlames = false;
-        public bool aFlames = false;
         public bool gsInferno = false;
         public bool astralInfection = false;
         public bool pFlames = false;
@@ -792,7 +789,6 @@ namespace CalamityMod.CalPlayer
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eFreeze = false;
-        public bool wCleave = false;
         public bool eutrophication = false;
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
@@ -830,11 +826,9 @@ namespace CalamityMod.CalPlayer
         public bool molten = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
-        public bool invincible = false;
         public bool shine = false;
         public bool anechoicCoating = false;
         public bool enraged = false;
-        public bool revivify = false;
         public bool permafrostsConcoction = false;
         public bool armorCrumbling = false;
         public bool armorShattering = false;
@@ -1640,12 +1634,10 @@ namespace CalamityMod.CalPlayer
             dAmulet = false;
             fCarapace = false;
             gShell = false;
-            seaShell = false;
             absorber = false;
             aAmpoule = false;
             sponge = false;
             rOoze = false;
-            pAmulet = false;
             fBarrier = false;
             aBrain = false;
             amalgam = false;
@@ -1861,7 +1853,6 @@ namespace CalamityMod.CalPlayer
             bFlames = false;
             witheredDebuff = false;
             weakBrimstoneFlames = false;
-            aFlames = false;
             gsInferno = false;
             astralInfection = false;
             pFlames = false;
@@ -1881,7 +1872,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
@@ -1891,7 +1881,6 @@ namespace CalamityMod.CalPlayer
             wither = false;
             ManaBurn = false;
 
-            revivify = false;
             trinketOfChiBuff = false;
             corrEffigy = false;
             crimEffigy = false;
@@ -1933,7 +1922,6 @@ namespace CalamityMod.CalPlayer
             aWeapon = false;
             tScale = false;
             fabsolVodka = false;
-            invincible = false;
             shine = false;
             anechoicCoating = false;
             mushy = false;
@@ -2251,7 +2239,6 @@ namespace CalamityMod.CalPlayer
             bFlames = false;
             witheredDebuff = false;
             weakBrimstoneFlames = false;
-            aFlames = false;
             gsInferno = false;
             astralInfection = false;
             pFlames = false;
@@ -2271,7 +2258,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
@@ -2354,7 +2340,6 @@ namespace CalamityMod.CalPlayer
             tScale = false;
             titanBoost = 0;
             fabsolVodka = false;
-            invincible = false;
             shine = false;
             anechoicCoating = false;
             mushy = false;
@@ -2398,7 +2383,6 @@ namespace CalamityMod.CalPlayer
             polarisBoostThree = false;
             bloodfinBoost = false;
             bloodfinTimer = 0;
-            revivify = false;
             healCounter = 300;
             danceOfLightCharge = 0;
             bloodPactBoost = false;
@@ -3392,8 +3376,8 @@ namespace CalamityMod.CalPlayer
                     spiritOriginVanity = true;
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        if (Player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
-                            Player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+                        if (Player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                            Player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
                     }
                 }
                 if (item.type == ModContent.ItemType<HowlsHeart>())
@@ -3779,12 +3763,6 @@ namespace CalamityMod.CalPlayer
 
                 if (HasCustomDash)
                     ModDashMovement();
-
-                if (pAmulet && modStealth < 1f)
-                {
-                    Player.maxRunSpeed -= Player.maxRunSpeed / 2f * (1f - modStealth);
-                    Player.accRunSpeed = Player.maxRunSpeed;
-                }
             }
             #endregion
         }
@@ -4039,14 +4017,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (invincible && Player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
-            {
-                if (Player.statLife <= 0)
-                    Player.statLife = 1;
-
-                return false;
-            }
-
             if (hInferno)
             {
                 for (int x = 0; x < Main.maxNPCs; x++)
@@ -4222,7 +4192,7 @@ namespace CalamityMod.CalPlayer
                     else
                         damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s lungs collapsed.");
                 }
-                if (bFlames || aFlames || weakBrimstoneFlames)
+                if (bFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was consumed by the black flames.");
                 }
@@ -4975,8 +4945,8 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If this NPC deals defense damage with contact damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes or is otherwise invincible.
-            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible)
+            // Defense damage is not applied if the player has iframes.
+            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames)
                 DealDefenseDamage(damage);
 
             if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
@@ -5103,9 +5073,6 @@ namespace CalamityMod.CalPlayer
                 if (aCrunch)
                     contactDamageReduction *= 0.33;
 
-                if (wCleave)
-                    contactDamageReduction *= 0.75;
-
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
                 if (totalDefenseDamage > 0 && currentDefense > 0)
@@ -5177,9 +5144,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (phantomicArtifact && Player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] != 0)
+            if (phantomicArtifact && Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.PhantomicShield>()] != 0)
             {
-                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == Player.whoAmI && projectile.type == ModContent.ProjectileType<PhantomicShield>()).First();
+                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == Player.whoAmI && projectile.type == ModContent.ProjectileType<Projectiles.Summon.PhantomicShield>()).First();
                 phantomicBulwarkCooldown = 1800; // 30 second cooldown
                 pro.Kill();
                 projectileDamageReduction += 0.2;
@@ -5289,8 +5256,8 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If this projectile is capable of dealing defense damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes or is otherwise invincible.
-            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible)
+            // Defense damage is not applied if the player has iframes.
+            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames)
                 DealDefenseDamage(damage);
 
             if (projRefRare)
@@ -5374,9 +5341,6 @@ namespace CalamityMod.CalPlayer
             {
                 if (aCrunch)
                     projectileDamageReduction *= 0.33;
-
-                if (wCleave)
-                    projectileDamageReduction *= 0.75;
 
                 // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
@@ -5628,12 +5592,12 @@ namespace CalamityMod.CalPlayer
             if (bladeArmEnchant)
                 return false;
 
-            if (rottenDogTooth && item.CountsAsClass<RogueDamageClass>() && item.type != ModContent.ItemType<SylvanSlasher>())
+            if (rottenDogTooth && item.CountsAsClass<RogueDamageClass>())
                 damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
 
             if (veneratedLocket)
             {
-                if (item.CountsAsClass<RogueDamageClass>() && item.type != ModContent.ItemType<SylvanSlasher>())
+                if (item.CountsAsClass<RogueDamageClass>())
                 {
                     float num72 = item.shootSpeed;
                     Vector2 vector2 = Player.RotatedRelativePoint(Player.MountedCenter, true);
@@ -6000,10 +5964,6 @@ namespace CalamityMod.CalPlayer
             if (HandleDodges())
                 return false;
 
-            // Unless holding Coldheart Icicle, the Purified Jam makes you completely invincible.
-            if (invincible && Player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
-                return false;
-
             // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.
             if (CalamityWorld.armageddon || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
@@ -6134,13 +6094,6 @@ namespace CalamityMod.CalPlayer
                     CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
                 }
 
-                if (revivify)
-                {
-                    int healAmt = (int)(damage / 15D);
-                    Player.statLife += healAmt;
-                    Player.HealEffect(healAmt);
-                }
-
                 if (daedalusAbsorb && Main.rand.NextBool(10))
                 {
                     int healAmt = (int)(damage / 2D);
@@ -6266,8 +6219,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (xerocSet)
                 {
-                    Player.AddBuff(ModContent.BuffType<XerocRage>(), 240);
-                    Player.AddBuff(ModContent.BuffType<XerocWrath>(), 240);
+                    Player.AddBuff(ModContent.BuffType<EmpyreanRage>(), 240);
+                    Player.AddBuff(ModContent.BuffType<EmpyreanWrath>(), 240);
                 }
                 else if (reaverDefense)
                 {

@@ -2329,7 +2329,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     spawnX = spawnXReset;
                     spawnX2 = spawnXReset2;
                     spawnY = spawnYReset;
-                    NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SCalWormHead>());
+                    NPC.SpawnOnPlayer(NPC.FindClosestPlayer(), ModContent.NPCType<SepulcherHead>());
                     NPC.netUpdate = true;
                 }
 

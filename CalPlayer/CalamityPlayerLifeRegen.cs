@@ -83,15 +83,6 @@ namespace CalamityMod.CalPlayer
                 Player.lifeRegenTime = 0;
             }
 
-            if (aFlames)
-            {
-                if (Player.lifeRegen > 0)
-                    Player.lifeRegen = 0;
-
-                Player.lifeRegenTime = 0;
-                lifeRegenLost += 16;
-            }
-
             if (weakBrimstoneFlames)
             {
                 if (Player.lifeRegen > 0)

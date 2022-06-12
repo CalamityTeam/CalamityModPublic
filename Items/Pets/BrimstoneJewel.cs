@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Pets
         {
             Item.CloneDefaults(ItemID.ZephyrFish);
             Item.shoot = ModContent.ProjectileType<SCalPet>();
-            Item.buffType = ModContent.BuffType<SCalPetBuff>();
+            Item.buffType = ModContent.BuffType<ClassicSCalPetBuff>();
 
             Item.value = Item.sellPrice(gold: 40);
             Item.Calamity().customRarity = CalamityRarity.Violet;

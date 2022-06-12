@@ -119,7 +119,6 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ItemID.CrystalShard, 1, 2, 4);
-            npcLoot.Add(ModContent.ItemType<CrystalBlade>(), 5);
             npcLoot.Add(ModContent.ItemType<ScuttlersJewel>(), 10);
         }
     }

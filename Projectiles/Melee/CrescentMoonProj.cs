@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CrescentMoonProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Magic/Crescent";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crescent Moon");

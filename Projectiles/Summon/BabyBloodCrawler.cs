@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
                 dust += 1f;
             }
             bool flag64 = Projectile.type == ModContent.ProjectileType<BabyBloodCrawler>();
-            player.AddBuff(ModContent.BuffType<ScabRipperBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<BabyBloodCrawlerBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

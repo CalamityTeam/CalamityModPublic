@@ -41,7 +41,7 @@ namespace CalamityMod.Tiles.Furniture
             if (player is null)
                 return;
             if (!player.dead && player.active)
-                player.AddBuff(ModContent.BuffType<PurpleDefenseCandle>(), 20);
+                player.AddBuff(ModContent.BuffType<CirrusPurpleCandleBuff>(), 20);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

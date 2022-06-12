@@ -323,7 +323,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            bool instakill = target.type == ModContent.NPCType<SCalWormHead>() || target.type == ModContent.NPCType<SCalWormBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SCalWormTail>();
+            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SepulcherTail>();
             if (!instakill && this.target != null && target != this.target)
             {
                 if (Projectile.getRect().Intersects(target.getRect()))
@@ -721,7 +721,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool? CanHitNPC(NPC target)
         {
-            bool instakill = target.type == ModContent.NPCType<SCalWormHead>() || target.type == ModContent.NPCType<SCalWormBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SCalWormTail>();
+            bool instakill = target.type == ModContent.NPCType<SepulcherHead>() || target.type == ModContent.NPCType<SepulcherBody>() || target.type == ModContent.NPCType<SCalWormBodyWeak>() || target.type == ModContent.NPCType<SepulcherTail>();
             if (!instakill && this.target != null && target != this.target)
                 return false;
             return null;

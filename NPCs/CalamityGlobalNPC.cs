@@ -201,7 +201,6 @@ namespace CalamityMod.NPCs
         public int electrified = 0;
         public int yellowCandle = 0;
         public int pearlAura = 0;
-        public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
         public int marked = 0;
@@ -221,7 +220,6 @@ namespace CalamityMod.NPCs
         public int cDepth = 0;
         public int gsInferno = 0;
         public int astralInfection = 0;
-        public int aFlames = 0;
         public int wDeath = 0;
         public int nightwither = 0;
         public int enraged = 0;
@@ -391,7 +389,6 @@ namespace CalamityMod.NPCs
             myClone.electrified = electrified;
             myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
-            myClone.wCleave = wCleave;
             myClone.bBlood = bBlood;
             myClone.dFlames = dFlames;
             myClone.marked = marked;
@@ -408,7 +405,6 @@ namespace CalamityMod.NPCs
             myClone.cDepth = cDepth;
             myClone.gsInferno = gsInferno;
             myClone.astralInfection = astralInfection;
-            myClone.aFlames = aFlames;
             myClone.wDeath = wDeath;
             myClone.nightwither = nightwither;
             myClone.enraged = enraged;
@@ -470,8 +466,8 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
-            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.SlimeGod>(), NPCType<SlimeGodSplit>());
-            ResetSavedIndex(ref slimeGodRed, NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>());
+            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>());
+            ResetSavedIndex(ref slimeGodRed, NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>());
             ResetSavedIndex(ref slimeGod, NPCType<SlimeGodCore>());
             ResetSavedIndex(ref laserEye, NPCID.Retinazer);
             ResetSavedIndex(ref fireEye, NPCID.Spazmatism);
@@ -480,16 +476,16 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref primeVice, NPCID.PrimeVice);
             ResetSavedIndex(ref primeSaw, NPCID.PrimeSaw);
             ResetSavedIndex(ref brimstoneElemental, NPCType<BrimstoneElemental.BrimstoneElemental>());
-            ResetSavedIndex(ref cataclysm, NPCType<CalamitasRun>());
-            ResetSavedIndex(ref catastrophe, NPCType<CalamitasRun2>());
-            ResetSavedIndex(ref calamitas, NPCType<CalamitasRun3>());
+            ResetSavedIndex(ref cataclysm, NPCType<Cataclysm>());
+            ResetSavedIndex(ref catastrophe, NPCType<Catastrophe>());
+            ResetSavedIndex(ref calamitas, NPCType<CalamitasClone>());
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
-            ResetSavedIndex(ref siren, NPCType<Siren>());
+            ResetSavedIndex(ref siren, NPCType<Anahita>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
-            ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
-            ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianBoss2>());
-            ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianBoss3>());
+            ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianCommander>());
+            ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianDefender>());
+            ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianHealer>());
             ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
             ResetSavedIndex(ref holyBossDefender, NPCType<ProvSpawnDefense>());
             ResetSavedIndex(ref holyBossHealer, NPCType<ProvSpawnHealer>());
@@ -502,7 +498,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalCataclysm, NPCType<SupremeCataclysm>());
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
-            ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
+            ResetSavedIndex(ref SCalWorm, NPCType<SepulcherHead>());
 
             ResetSavedIndex(ref draedon, NPCType<Draedon>());
             ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
@@ -511,7 +507,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
             ResetSavedIndex(ref draedonExoMechPrimePlasmaCannon, NPCType<AresPlasmaFlamethrower>());
 
-            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
+            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<AdultEidolonWyrmHead>());
 
             // Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
             CurrentlyEnraged = false;
@@ -843,13 +839,6 @@ namespace CalamityMod.NPCs
             {
                 int baseGodSlayerInfernoDoTValue = (int)((npc.oiled ? 500 : 250) * heatDamageMult);
                 ApplyDPSDebuff(baseGodSlayerInfernoDoTValue, baseGodSlayerInfernoDoTValue / 5, ref npc.lifeRegen, ref damage);
-            }
-
-            // Abyssal Flames
-            if (aFlames > 0)
-            {
-                int baseAbyssalFlamesDoTValue = (int)((npc.oiled ? 150 : 75) * heatDamageMult);
-                ApplyDPSDebuff(baseAbyssalFlamesDoTValue, baseAbyssalFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Demon Flames
@@ -2496,7 +2485,6 @@ namespace CalamityMod.NPCs
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
             int effectiveDefense = npc.defense -
-                    (wCleave > 0 ? WarCleave.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
                     (wither > 0 ? WitherDebuff.DefenseReduction : 0) -
@@ -2600,10 +2588,8 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.5f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
-            if (wCleave > 0)
-                calcDR *= 0.75f;
             if (npc.Calamity().kamiFlu > 0)
-                calcDR *= KamiDebuff.MultiplicativeDamageReduction;
+                calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.onFire2)
                 calcDR *= 0.8f;
 
@@ -2729,7 +2715,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.Server)
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
-                            Main.player[Main.myPlayer].AddBuff(BuffType<BossZen>(), 2);
+                            Main.player[Main.myPlayer].AddBuff(BuffType<BossEffects>(), 2);
                     }
                 }
 
@@ -2768,7 +2754,7 @@ namespace CalamityMod.NPCs
             // Adult Wyrm Ancient Doom
             if (npc.type == NPCID.AncientDoom)
             {
-                if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
+                if (Main.npc[(int)npc.ai[0]].type == NPCType<AdultEidolonWyrmHead>())
                     return CultistAI.BuffedAncientDoomAI(npc, Mod);
             }
 
@@ -3263,7 +3249,7 @@ namespace CalamityMod.NPCs
                         }
                         break;
                     case 14:
-                        if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<PlaguedFlyingFox>() || npc.type == NPCType<AeroSlime>() || npc.type == NPCType<SunBat>())
+                        if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<Melter>() || npc.type == NPCType<AeroSlime>())
                         {
                             return CalamityGlobalAI.BuffedBatAI(npc, Mod);
                         }
@@ -3390,7 +3376,7 @@ namespace CalamityMod.NPCs
                         }
                         break;
                     case 39:
-                        if (npc.type == NPCType<PlaguedTortoise>())
+                        if (npc.type == NPCType<Plagueshell>())
                         {
                             return CalamityGlobalAI.BuffedTortoiseAI(npc, Mod);
                         }
@@ -3653,7 +3639,7 @@ namespace CalamityMod.NPCs
 
             // Most bosses and boss servants are not immune to Kami Flu.
             if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
-                npc.buffImmune[BuffType<KamiDebuff>()] = false;
+                npc.buffImmune[BuffType<KamiFlu>()] = false;
 
             // Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
@@ -3963,8 +3949,6 @@ namespace CalamityMod.NPCs
                 yellowCandle--;
             if (pearlAura > 0)
                 pearlAura--;
-            if (wCleave > 0)
-                wCleave--;
             if (bBlood > 0)
                 bBlood--;
             if (dFlames > 0)
@@ -3981,8 +3965,6 @@ namespace CalamityMod.NPCs
                 hFlames--;
             if (pFlames > 0)
                 pFlames--;
-            if (aFlames > 0)
-                aFlames--;
             // Soma Prime's Shred stacks have a unique falloff mechanic in the debuff's own file.
             if (aCrunch > 0)
                 aCrunch--;
@@ -4070,7 +4052,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (kamiFlu > 420)
                     {
-                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
+                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiFlu.MaxNPCSpeed), new Vector2(KamiFlu.MaxNPCSpeed));
                     }
                 }
             }
@@ -4128,7 +4110,7 @@ namespace CalamityMod.NPCs
                     case NPCID.AngryBonesBig:
                     case NPCID.AngryBonesBigMuscle:
                     case NPCID.AngryBonesBigHelmet:
-                        target.AddBuff(BuffType<WarCleave>(), 60);
+                        target.AddBuff(BuffType<ArmorCrunch>(), 60);
                         break;
 
                     default:
@@ -4186,7 +4168,7 @@ namespace CalamityMod.NPCs
             if (CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
                 CalamityLists.PerforatorIDs.Contains(npc.type) || CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.DestroyerIDs.Contains(npc.type) ||
                 CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type) || CalamityLists.ThanatosIDs.Contains(npc.type) ||
-                npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>())
+                npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<Crabulon.Crabulon>())
             {
                 double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
                 if (item.CountsAsClass<MeleeDamageClass>() && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
@@ -4459,7 +4441,7 @@ namespace CalamityMod.NPCs
                         break;
                 }
 
-                if (npc.type == NPCType<PlaguedTortoise>())
+                if (npc.type == NPCType<Plagueshell>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
                         npc.justHit = false;
@@ -4890,23 +4872,6 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight(npc.position, 0.05f, 0.01f, 0.01f);
             }
 
-            if (aFlames > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustType<BrimstoneFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.25f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.35f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.025f, 0f, 0f);
-            }
-
             // Enemies suffering from Soma Prime's Shred spray blood like Violence
             if (somaShredStacks > 0 && Main.netMode != NetmodeID.Server)
             {
@@ -5183,8 +5148,6 @@ namespace CalamityMod.NPCs
                     IList<Texture2D> buffTextureList = new List<Texture2D>();
 
                     // Damage over time debuffs
-                    if (aFlames > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AbyssalFlames").Value);
                     if (astralInfection > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff").Value);
                     if (bFlames > 0)
@@ -5243,8 +5206,6 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TeslaFreeze").Value);
                     if (timeSlow > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeSlow").Value);
-                    if (wCleave > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WarCleave").Value);
                     if (wDeath > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WhisperingDeath").Value);
                     if (wither > 0)
@@ -5681,7 +5642,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedDesertScourge;
             }
-            else if (type == NPCType<CrabulonIdle>())
+            else if (type == NPCType<Crabulon.Crabulon>())
             {
                 return DownedBossSystem.downedCrabulon;
             }
@@ -5693,7 +5654,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedPerforator;
             }
-            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.SlimeGod>() || type == NPCType<SlimeGodRun>() || type == NPCType<SlimeGodSplit>() || type == NPCType<SlimeGodRunSplit>())
+            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.EbonianSlimeGod>() || type == NPCType<CrimulanSlimeGod>() || type == NPCType<SplitEbonianSlimeGod>() || type == NPCType<SplitCrimulanSlimeGod>())
             {
                 return DownedBossSystem.downedSlimeGod;
             }
@@ -5709,11 +5670,11 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedBrimstoneElemental;
             }
-            else if (type == NPCType<CalamitasRun3>())
+            else if (type == NPCType<CalamitasClone>())
             {
                 return DownedBossSystem.downedCalamitas;
             }
-            else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Siren>())
+            else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Anahita>())
             {
                 return DownedBossSystem.downedLeviathan;
             }
@@ -5721,7 +5682,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedAstrumAureus;
             }
-            else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
+            else if (type == NPCType<AstrumDeusHead>() || type == NPCType<AstrumDeusBody>() || type == NPCType<AstrumDeusTail>())
             {
                 return DownedBossSystem.downedAstrumDeus;
             }
@@ -5733,7 +5694,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedRavager;
             }
-            else if (type == NPCType<ProfanedGuardianBoss>())
+            else if (type == NPCType<ProfanedGuardianCommander>())
             {
                 return DownedBossSystem.downedGuardians;
             }
@@ -5781,7 +5742,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedSCal;
             }
-            else if (type == NPCType<EidolonWyrmHeadHuge>())
+            else if (type == NPCType<AdultEidolonWyrmHead>())
             {
                 return DownedBossSystem.downedAdultEidolonWyrm;
             }
@@ -5851,8 +5812,8 @@ namespace CalamityMod.NPCs
 
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCType<RavagerClawRight>() &&
-                target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
-                target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
+                target.type != NPCType<ReaperShark>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
+                target.type != NPCType<AdultEidolonWyrmHead>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
             }

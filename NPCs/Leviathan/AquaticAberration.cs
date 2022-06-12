@@ -56,8 +56,8 @@ namespace CalamityMod.NPCs.Leviathan
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
             BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("All head and stomach, they will gorge and guzzle upon vast schools of fish on their own.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("All head and stomach, they will gorge and guzzle upon vast schools of fish on their own.")
             });
         }
 
@@ -251,15 +251,6 @@ namespace CalamityMod.NPCs.Leviathan
                 if (Main.rand.NextBool(4) && Main.player[closestPlayer].statLife < Main.player[closestPlayer].statLifeMax2)
                     Item.NewItem(NPC.GetSource_Loot(), (int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemID.Heart);
             }
-        }
-
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSulphur || (!NPC.downedPlantBoss && !DownedBossSystem.downedCalamitas))
-            {
-                return 0f;
-            }
-            return SpawnCondition.OceanMonster.Chance * 0.02f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

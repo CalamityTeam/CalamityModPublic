@@ -84,10 +84,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (Projectile.ai[0] == 0f)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
-            }
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }

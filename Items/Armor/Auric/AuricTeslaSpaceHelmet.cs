@@ -19,8 +19,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Space Helmet");
-            Tooltip.SetDefault("15% increased minion damage\n" +
-                    "Not moving boosts all damage and critical strike chance");
+            Tooltip.SetDefault("15% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -66,9 +65,9 @@ namespace CalamityMod.Items.Armor.Auric
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_ItemUse(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<SilvaCrystalBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<SilvaSummonSetBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<SilvaCrystalBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {
@@ -93,7 +92,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<SilvaHeadSummon>().
                 AddIngredient<BloodflareHeadSummon>().
                 AddIngredient<TarragonHeadSummon>().
-                AddIngredient<PsychoticAmulet>().
                 AddIngredient<AuricBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();

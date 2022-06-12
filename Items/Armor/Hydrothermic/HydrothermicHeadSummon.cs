@@ -52,9 +52,9 @@ namespace CalamityMod.Items.Armor.Hydrothermic
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_ItemUse(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<AtaxiaSummonSetBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<HydrothermicVentBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<AtaxiaSummonSetBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<HydrothermicVentBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
                 {

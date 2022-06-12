@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Plumed Helm");
-            Tooltip.SetDefault("20% increased rogue damage, critical strike chance and 5% increased movement speed\n" +
-                               "Not moving boosts all damage and critical strike chance");
+            Tooltip.SetDefault("20% increased rogue damage, critical strike chance and 5% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -82,7 +81,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<GodSlayerHeadRogue>().
                 AddIngredient<BloodflareHeadRogue>().
                 AddIngredient<TarragonHeadRogue>().
-                AddIngredient<PsychoticAmulet>().
                 AddIngredient<AuricBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();

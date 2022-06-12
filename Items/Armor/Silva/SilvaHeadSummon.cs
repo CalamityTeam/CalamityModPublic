@@ -60,9 +60,9 @@ namespace CalamityMod.Items.Armor.Silva
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_ItemUse(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<SilvaSummonSetBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<SilvaCrystalBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<SilvaSummonSetBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<SilvaCrystalBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<SilvaCrystal>()] < 1)
                 {

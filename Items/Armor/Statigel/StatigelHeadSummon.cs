@@ -53,9 +53,9 @@ namespace CalamityMod.Items.Armor.Statigel
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_Accessory(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<StatigelSummonSetBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<BabySlimeGodBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<StatigelSummonSetBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<BabySlimeGodBuff>(), 3600, true);
                 }
 
                 var minionID = -1;

@@ -50,9 +50,9 @@ namespace CalamityMod.Items.Armor.Aerospec
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_ItemUse(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<AerospecSummonSetBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<ValkyrieBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<AerospecSummonSetBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<ValkyrieBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Valkyrie>()] < 1)
                 {

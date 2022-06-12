@@ -19,8 +19,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Royal Helm");
-            Tooltip.SetDefault("20% increased melee damage and critical strike chance\n" +
-                               "Not moving boosts all damage and critical strike chance");
+            Tooltip.SetDefault("20% increased melee damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -79,7 +78,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<GodSlayerHeadMelee>().
                 AddIngredient<BloodflareHeadMelee>().
                 AddIngredient<TarragonHeadMelee>().
-                AddIngredient<PsychoticAmulet>().
                 AddIngredient<AuricBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();

@@ -91,7 +91,7 @@ namespace CalamityMod.Balancing
             #region Crabulon
 
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<CrabulonIdle>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Crabulon>(), new TrueMeleeResistBalancingRule(0.5f)));
 
             #endregion
 
@@ -272,9 +272,6 @@ namespace CalamityMod.Balancing
 
             // 65% resist to true melee.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new TrueMeleeResistBalancingRule(0.35f))));
-
-            // 65% resist to Hadopelagic Echo.
-            NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.35f, ProjectileType<HadopelagicEchoSoundwave>(), ProjectileType<HadopelagicEcho2>()))));
 
             // 50% resist to Chicken Cannon.
             NPCSpecificBalancingChanges.AddRange(Bundle(CalamityLists.ThanatosIDs, Do(new ProjectileResistBalancingRule(0.5f, ProjectileType<ChickenExplosion>()))));

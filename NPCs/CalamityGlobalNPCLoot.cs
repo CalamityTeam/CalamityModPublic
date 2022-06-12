@@ -66,12 +66,6 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ModContent.ItemType<PineapplePet>(), 500);
                     break;
 
-                // Possessed Armor
-                // Psychotic Amulet @ 2.5% Normal, 5% Expert+
-                case NPCID.PossessedArmor:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<PsychoticAmulet>(), 40, 20));
-                    break;
-
                 // Werewolf
                 // Moon Charm @ 5% INSTEAD OF 1.67%
                 case NPCID.Werewolf:
@@ -163,28 +157,10 @@ namespace CalamityMod.NPCs
                     npcLoot.Add(ModContent.ItemType<DesertFeather>(), 1, 1, 2);
                     break;
 
-                // Antlion, Antlion Charger, Giant Antlion Charger, Antlion Swarmer, Giant Antlion Swarmer
-                // Mandible Claws @ 2% Normal, 3.33% Expert+
-                // Mandible Bow @ 2% Normal, 3.33% Expert+
-                case NPCID.Antlion:
-                case NPCID.WalkingAntlion:
-                case NPCID.GiantWalkingAntlion:
-                case NPCID.FlyingAntlion:
-                case NPCID.GiantFlyingAntlion:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MandibleClaws>(), 50, 30));
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<MandibleBow>(), 50, 30));
-                    break;
-
                 // Tomb Crawler
                 // Burnt Sienna @ 4% Normal, 6.67% Expert+
                 case NPCID.TombCrawlerHead:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BurntSienna>(), 25, 15));
-                    break;
-
-                // Dune Splicer
-                // Terra-cotta @ 6.67%
-                case NPCID.DuneSplicerHead:
-                    npcLoot.AddIf(() => NPC.downedPlantBoss, ModContent.ItemType<Terracotta>(), 15);
                     break;
 
                 // Sand Elemental
@@ -254,12 +230,6 @@ namespace CalamityMod.NPCs
                 // Vital Jelly @ 14.29% Normal, 25% Expert+
                 case NPCID.GreenJellyfish:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<VitalJelly>(), 7, 4));
-                    break;
-
-                // Sea Snail
-                // Sea Shell @ 100%
-                case NPCID.SeaSnail:
-                    npcLoot.Add(ModContent.ItemType<SeaShell>());
                     break;
 
                 // Shark
@@ -346,11 +316,9 @@ namespace CalamityMod.NPCs
 
                 #region Dungeon
                 // Dark Caster
-                // Ancient Shiv @ 4% Normal, 6.67% Expert+
                 // Shinobi Blade @ 4% Normal, 6.67% Expert+
                 // Staff of Necrosteocytes @ 4% Normal, 6.67% Expert+
                 case NPCID.DarkCaster:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<AncientShiv>(), 25, 15));
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ShinobiBlade>(), 25, 15));
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<StaffOfNecrosteocytes>(), 25, 15));
                     break;
@@ -462,12 +430,6 @@ namespace CalamityMod.NPCs
                 #endregion
 
                 #region Goblin Army
-                // Goblin Warrior
-                // Warblade @ 4% Normal, 6.67% Expert+
-                case NPCID.GoblinWarrior:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<Warblade>(), 25, 15));
-                    break;
-
                 // Goblin Sorcerer
                 // Plasma Rod @ 4% Normal, 6.67% Expert+
                 case NPCID.GoblinSorcerer:
@@ -480,20 +442,6 @@ namespace CalamityMod.NPCs
                 case NPCID.GoblinSummoner:
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<BurningStrife>(), 5, 3));
                     npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<TheFirstShadowflame>(), 5, 3));
-                    break;
-                #endregion
-
-                #region Pirates
-                // Pirate Crossbower
-                // Raider's Glory @ 4% Normal, 6.67% Expert+
-                case NPCID.PirateCrossbower:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<RaidersGlory>(), 25, 15));
-                    break;
-
-                // Pirate Deadeye
-                // Proporse Pistol @ 4% Normal, 6.67% Expert+
-                case NPCID.PirateDeadeye:
-                    npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<ProporsePistol>(), 25, 15));
                     break;
                 #endregion
 
@@ -1261,13 +1209,9 @@ namespace CalamityMod.NPCs
             }
 
             // All Skeletons
-            // Waraxe @ 6.67% IF Not Hardmode
             // Ancient Bone Dust @ 20% Normal, 33.33% Expert+
             if (CalamityLists.skeletonList.Contains(npc.type))
-            {
-                npcLoot.AddIf(() => !Main.hardMode, ModContent.ItemType<Waraxe>(), 15);
                 npcLoot.Add(ItemDropRule.NormalvsExpert(ModContent.ItemType<AncientBoneDust>(), 5, 3));
-            }
         }
         #endregion
 

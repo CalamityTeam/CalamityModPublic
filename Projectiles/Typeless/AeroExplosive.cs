@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class AeroExplosive : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Typeless/AeroDynamite";
+        public override string Texture => "CalamityMod/Items/Weapons/Typeless/Skynamite";
 
         public override void SetStaticDefaults()
         {

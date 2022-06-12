@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Tools
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<GraxDefense>(), 600);
+            player.AddBuff(ModContent.BuffType<GraxBoost>(), 600);
         }
     }
 }

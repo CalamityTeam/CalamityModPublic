@@ -135,8 +135,8 @@ namespace CalamityMod.NPCs.SlimeGod
             if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
             {
                 slimesSpawned = true;
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlimeGod>());
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<SlimeGodRun>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<EbonianSlimeGod>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CrimulanSlimeGod>());
             }
 
             NPC.dontTakeDamage = false;
@@ -203,8 +203,8 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         for (int x = 0; x < Main.maxNPCs; x++)
                         {
-                            if (Main.npc[x].type == ModContent.NPCType<SlimeGod>() || Main.npc[x].type == ModContent.NPCType<SlimeGodSplit>() ||
-                                Main.npc[x].type == ModContent.NPCType<SlimeGodRun>() || Main.npc[x].type == ModContent.NPCType<SlimeGodRunSplit>())
+                            if (Main.npc[x].type == ModContent.NPCType<EbonianSlimeGod>() || Main.npc[x].type == ModContent.NPCType<SplitEbonianSlimeGod>() ||
+                                Main.npc[x].type == ModContent.NPCType<CrimulanSlimeGod>() || Main.npc[x].type == ModContent.NPCType<SplitCrimulanSlimeGod>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -536,10 +536,10 @@ namespace CalamityMod.NPCs.SlimeGod
             // If they are far apart, try to stay towards the closest slime.
             // If no slimes exist, or they are all extremely far away, try to stay near the target player instead.
             // TODO -- Consider renaming the big slime god's internal names to be more intuitive?
-            int crimulanSlimeID = ModContent.NPCType<SlimeGodRun>();
-            int crimulanSlimeSplitID = ModContent.NPCType<SlimeGodRunSplit>();
-            int ebonianSlimeID = ModContent.NPCType<SlimeGod>();
-            int ebonianSlimeSplitID = ModContent.NPCType<SlimeGodSplit>();
+            int crimulanSlimeID = ModContent.NPCType<CrimulanSlimeGod>();
+            int crimulanSlimeSplitID = ModContent.NPCType<SplitCrimulanSlimeGod>();
+            int ebonianSlimeID = ModContent.NPCType<EbonianSlimeGod>();
+            int ebonianSlimeSplitID = ModContent.NPCType<SplitEbonianSlimeGod>();
             List<NPC> largeSlimes = new();
 
             float ignoreGeneralAreaDistanceThreshold = 750f;
@@ -654,10 +654,10 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public static bool LastSlimeGodStanding()
         {
-            int slimeGodCount = NPC.CountNPCS(ModContent.NPCType<SlimeGod>()) +
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodRun>()) +
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) +
-                NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) +
+            int slimeGodCount = NPC.CountNPCS(ModContent.NPCType<EbonianSlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<CrimulanSlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) +
+                NPC.CountNPCS(ModContent.NPCType<SplitCrimulanSlimeGod>()) +
                 NPC.CountNPCS(ModContent.NPCType<SlimeGodCore>());
 
             return slimeGodCount <= 1;
@@ -670,21 +670,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
             var mainDrops = npcLoot.DefineConditionalDropSet(LastSlimeGodStanding);
             mainDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<SlimeGodBag>()));
-
-            // Purified Jam is once per player, but drops for all players.
-            npcLoot.AddIf(() =>
-            {
-                if (!LastSlimeGodStanding())
-                    return false;
-
-                CalamityPlayer mp = Main.LocalPlayer.Calamity();
-                if (!mp.revJamDrop)
-                {
-                    mp.revJamDrop = true;
-                    return !DownedBossSystem.downedSlimeGod;
-                }
-                return false;
-            }, ModContent.ItemType<PurifiedJam>(), 1, 6, 8);
 
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());

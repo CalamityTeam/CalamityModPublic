@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<SolarSpiritGod>(), 3600);
+            player.AddBuff(ModContent.BuffType<SolarGodSpiritBuff>(), 3600);
             bool correctMinion = Projectile.type == ModContent.ProjectileType<SolarGod>();
             if (correctMinion)
             {

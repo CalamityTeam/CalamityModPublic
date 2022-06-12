@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<StarCannonEX>().
+                AddIngredient(ItemID.SuperStarCannon).
                 AddIngredient(ItemID.ElectrosphereLauncher).
                 AddIngredient(ItemID.LunarBar, 5).
                 AddTile(TileID.LunarCraftingStation).

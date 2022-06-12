@@ -131,16 +131,6 @@ namespace CalamityMod.CalPlayer
                 _ => heartOriginal,
             };
             TextureAssets.Heart = heartOriginal2;
-            if (calamityPlayer.revivify)
-            {
-                if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
-                {
-                    int dust = Dust.NewDust(drawInfo.Position - new Vector2(2f), Player.width + 4, Player.height + 4, 91, Player.velocity.X * 0.2f, Player.velocity.Y * 0.2f, 100, default, 1f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity.Y -= 0.5f;
-                    drawInfo.DustCache.Add(dust);
-                }
-            }
             if (calamityPlayer.tRegen)
             {
                 if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
@@ -239,7 +229,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.bFlames || calamityPlayer.aFlames)
+            if (calamityPlayer.bFlames)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
@@ -614,7 +604,6 @@ namespace CalamityMod.CalPlayer
                 {
                     ModContent.ItemType<FlurrystormCannon>(),
                     ModContent.ItemType<BlightSpewer>(),
-                    ModContent.ItemType<BrimstoneFlameblaster>(),
                     ModContent.ItemType<BrimstoneFlamesprayer>(),
                     ModContent.ItemType<SparkSpreader>(),
                     ModContent.ItemType<HalleysInferno>(),
@@ -634,7 +623,6 @@ namespace CalamityMod.CalPlayer
                 {
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno").Value,

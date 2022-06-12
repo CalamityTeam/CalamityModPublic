@@ -27,7 +27,7 @@ Reduces life regen by 1 and defense by 5%");
             Item.rare = ItemRarityID.LightPurple;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.buffType = ModContent.BuffType<VodkaBuff>();

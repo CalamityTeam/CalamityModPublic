@@ -72,14 +72,14 @@ namespace CalamityMod.Items.Accessories
             // If visibility is disabled, despawn the pet.
             if (hideVisual)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) != -1)
-                    player.ClearBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>());
+                if (player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) != -1)
+                    player.ClearBuff(ModContent.BuffType<ArcherofLunamoon>());
             }
             // If visibility is enabled, spawn the pet.
             else if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
-                    player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+                if (player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                    player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
             }
         }
 

@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
-            Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage\n" +
-                               "Not moving boosts all damage and critical strike chance");
+            Tooltip.SetDefault("30% increased magic damage, 20% increased magic critical strike chance, +100 max mana and 20% reduced mana usage");
         }
 
         public override void SetDefaults()
@@ -75,7 +74,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<SilvaHeadMagic>().
                 AddIngredient<BloodflareHeadMagic>().
                 AddIngredient<TarragonHeadMagic>().
-                AddIngredient<PsychoticAmulet>().
                 AddIngredient<AuricBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();

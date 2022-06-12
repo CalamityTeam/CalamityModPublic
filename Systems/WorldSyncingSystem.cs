@@ -139,7 +139,7 @@ namespace CalamityMod.Systems
 
             RecipeUnlockHandler.SendData(writer);
 
-            writer.Write(Abyss.AtLeftSideOfWorld);
+            writer.Write(Abyss.AbyssChasmBottom);
             writer.Write(AcidRainEvent.AccumulatedKillPoints);
             writer.Write(Reforges);
             writer.Write(MoneyStolenByBandit);

@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Pets
             }
 
             //Delete the projectile if the player doesnt have the buff
-            if (!player.HasBuff(ModContent.BuffType<HiveMindPet>()))
+            if (!player.HasBuff(ModContent.BuffType<MiniMindBuff>()))
             {
                 Projectile.Kill();
             }

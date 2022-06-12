@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.localAI[0] = 1f;
 
                 if (Projectile.ai[0] == 0f)
-                    Projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? Projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : Projectile.GetProjectileDamage(ModContent.NPCType<CalamitasRun3>());
+                    Projectile.damage = NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) ? Projectile.GetProjectileDamage(ModContent.NPCType<SupremeCalamitas>()) : Projectile.GetProjectileDamage(ModContent.NPCType<CalamitasClone>());
             }
 
             Lighting.AddLight(Projectile.Center, 0.75f * Projectile.Opacity, 0f, 0f);
@@ -97,10 +97,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
 
             if (Projectile.ai[0] == 0f)
-            {
-                target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
-            }
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
         }

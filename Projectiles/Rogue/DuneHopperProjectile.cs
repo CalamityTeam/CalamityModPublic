@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,7 +6,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DuneHopperProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/DuneHopper";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/WaveSkipper";
 
         public override void SetStaticDefaults()
         {

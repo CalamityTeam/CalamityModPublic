@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class GalaxySmasherHammer : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxySmasherMelee";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/GalaxySmasher";
 
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;

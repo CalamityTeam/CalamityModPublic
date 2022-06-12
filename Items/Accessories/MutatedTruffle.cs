@@ -35,9 +35,9 @@ namespace CalamityMod.Items.Accessories
             if (player.whoAmI == Main.myPlayer)
             {
                 var source = player.GetSource_Accessory(Item);
-                if (player.FindBuffIndex(ModContent.BuffType<MutatedTruffleBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<MiniOldDukeBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<MutatedTruffleBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<MiniOldDukeBuff>(), 3600, true);
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {

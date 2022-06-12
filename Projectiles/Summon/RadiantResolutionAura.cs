@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void VerifyIdentityOfCaller()
         {
-            Owner.AddBuff(ModContent.BuffType<RadiantResolutionBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<SarosPossessionBuff>(), 3600);
             bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<RadiantResolutionAura>();
             if (isCorrectProjectile)
             {

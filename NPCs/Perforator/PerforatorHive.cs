@@ -505,7 +505,6 @@ namespace CalamityMod.NPCs.Perforator
                 int[] items = new int[]
                 {
                     ModContent.ItemType<VeinBurster>(),
-                    ModContent.ItemType<BloodyRupture>(),
                     ModContent.ItemType<SausageMaker>(),
                     ModContent.ItemType<Aorta>(),
                     ModContent.ItemType<Eviscerator>(),

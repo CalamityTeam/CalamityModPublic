@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Summon
         public void PerformMinionChecks()
         {
             bool correctMinion = Projectile.type == ModContent.ProjectileType<SonOfYharon>();
-            Owner.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<FieryDraconidBuff>(), 3600);
             if (!correctMinion)
                 return;
 

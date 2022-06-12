@@ -309,15 +309,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedMechBossAny)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BouncingBetty>());
-                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<LatcherMine>());
-                shop.item[nextSlot].shopCustomPrice = shop.item[nextSlot].value;
-                nextSlot++;
-            }
             if (DownedBossSystem.downedCalamitas)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DeepWounder>());
@@ -346,12 +337,6 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<CelestialReaper>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-                nextSlot++;
-            }
-            if (DownedBossSystem.downedProvidence)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<SylvanSlasher>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
                 nextSlot++;
             }
             if (DownedBossSystem.downedDoG)

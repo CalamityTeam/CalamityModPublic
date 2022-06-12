@@ -93,6 +93,8 @@ namespace CalamityMod.ILEditing
             On.Terraria.WorldGen.SmashAltar += PreventSmashAltarCode;
             IL.Terraria.WorldGen.hardUpdateWorld += AdjustChlorophyteSpawnRate;
             IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
+            IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions += ChangeDefaultWorldSize;
+            IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldSizeOptions += SwapSmallDescriptionKey;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
@@ -183,6 +185,8 @@ namespace CalamityMod.ILEditing
             On.Terraria.WorldGen.SmashAltar -= PreventSmashAltarCode;
             IL.Terraria.WorldGen.hardUpdateWorld -= AdjustChlorophyteSpawnRate;
             IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
+            IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions -= ChangeDefaultWorldSize;
+            IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldSizeOptions -= SwapSmallDescriptionKey;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind -= DecreaseSandstormWindSpeedRequirement;

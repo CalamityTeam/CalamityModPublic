@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AccretionDiskProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AccretionDisk";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ElementalDisk";
         private int Lifetime = 400;
         private int ReboundTime = 30;
 

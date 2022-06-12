@@ -1,4 +1,4 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
     public class CryonicShield : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
-        public override string Texture => "CalamityMod/NPCs/Cryogen/CryogenIce";
+        public override string Texture => "CalamityMod/NPCs/Cryogen/CryogenShield";
 
         public override void SetStaticDefaults()
         {

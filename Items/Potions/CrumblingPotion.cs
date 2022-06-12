@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Potions
             Item.maxStack = 30;
             Item.useAnimation = 17;
             Item.useTime = 17;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.LightRed;
