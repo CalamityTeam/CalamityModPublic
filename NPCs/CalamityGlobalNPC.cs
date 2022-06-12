@@ -201,7 +201,6 @@ namespace CalamityMod.NPCs
         public int electrified = 0;
         public int yellowCandle = 0;
         public int pearlAura = 0;
-        public int wCleave = 0;
         public int bBlood = 0;
         public int dFlames = 0;
         public int marked = 0;
@@ -390,7 +389,6 @@ namespace CalamityMod.NPCs
             myClone.electrified = electrified;
             myClone.yellowCandle = yellowCandle;
             myClone.pearlAura = pearlAura;
-            myClone.wCleave = wCleave;
             myClone.bBlood = bBlood;
             myClone.dFlames = dFlames;
             myClone.marked = marked;
@@ -2487,7 +2485,6 @@ namespace CalamityMod.NPCs
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
             int effectiveDefense = npc.defense -
-                    (wCleave > 0 ? WarCleave.DefenseReduction : 0) -
                     (aCrunch > 0 ? ArmorCrunch.DefenseReduction : 0) -
                     (marked > 0 && DR <= 0f ? MarkedforDeath.DefenseReduction : 0) -
                     (wither > 0 ? WitherDebuff.DefenseReduction : 0) -
@@ -2591,8 +2588,6 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.5f;
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
-            if (wCleave > 0)
-                calcDR *= 0.75f;
             if (npc.Calamity().kamiFlu > 0)
                 calcDR *= KamiDebuff.MultiplicativeDamageReduction;
             if (npc.onFire2)
@@ -3954,8 +3949,6 @@ namespace CalamityMod.NPCs
                 yellowCandle--;
             if (pearlAura > 0)
                 pearlAura--;
-            if (wCleave > 0)
-                wCleave--;
             if (bBlood > 0)
                 bBlood--;
             if (dFlames > 0)
@@ -4117,7 +4110,7 @@ namespace CalamityMod.NPCs
                     case NPCID.AngryBonesBig:
                     case NPCID.AngryBonesBigMuscle:
                     case NPCID.AngryBonesBigHelmet:
-                        target.AddBuff(BuffType<WarCleave>(), 60);
+                        target.AddBuff(BuffType<ArmorCrunch>(), 60);
                         break;
 
                     default:
@@ -5213,8 +5206,6 @@ namespace CalamityMod.NPCs
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TeslaFreeze").Value);
                     if (timeSlow > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeSlow").Value);
-                    if (wCleave > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WarCleave").Value);
                     if (wDeath > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WhisperingDeath").Value);
                     if (wither > 0)

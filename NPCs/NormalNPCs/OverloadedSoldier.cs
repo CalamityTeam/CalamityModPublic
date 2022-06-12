@@ -367,7 +367,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<WarCleave>(), 120);
+            player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -789,7 +789,6 @@ namespace CalamityMod.CalPlayer
         public bool sulphurPoison = false;
         public bool nightwither = false;
         public bool eFreeze = false;
-        public bool wCleave = false;
         public bool eutrophication = false;
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
@@ -1873,7 +1872,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
@@ -2260,7 +2258,6 @@ namespace CalamityMod.CalPlayer
             sulphurPoison = false;
             nightwither = false;
             eFreeze = false;
-            wCleave = false;
             eutrophication = false;
             iCantBreathe = false;
             cragsLava = false;
@@ -5076,9 +5073,6 @@ namespace CalamityMod.CalPlayer
                 if (aCrunch)
                     contactDamageReduction *= 0.33;
 
-                if (wCleave)
-                    contactDamageReduction *= 0.75;
-
                 // Contact damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);
                 if (totalDefenseDamage > 0 && currentDefense > 0)
@@ -5347,9 +5341,6 @@ namespace CalamityMod.CalPlayer
             {
                 if (aCrunch)
                     projectileDamageReduction *= 0.33;
-
-                if (wCleave)
-                    projectileDamageReduction *= 0.75;
 
                 // Projectile damage reduction is reduced by DR Damage, which itself is proportional to defense damage
                 int currentDefense = Player.GetCurrentDefense(false);

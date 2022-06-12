@@ -2774,12 +2774,6 @@ namespace CalamityMod.CalPlayer
                 Player.endurance *= 0.33f;
             }
 
-            if (wCleave && !laudanum)
-            {
-                Player.statDefense -= WarCleave.DefenseReduction;
-                Player.endurance *= 0.75f;
-            }
-
             if (wither)
             {
                 Player.statDefense -= WitherDebuff.DefenseReduction;
@@ -3539,7 +3533,7 @@ namespace CalamityMod.CalPlayer
                     for (int l = 0; l < Player.MaxBuffs; l++)
                     {
                         int hasBuff = Player.buffType[l];
-                        if (hasBuff == ModContent.BuffType<ArmorCrunch>() || hasBuff == ModContent.BuffType<WarCleave>() || hasBuff == BuffID.Obstructed ||
+                        if (hasBuff == ModContent.BuffType<ArmorCrunch>() || hasBuff == BuffID.Obstructed ||
                             hasBuff == BuffID.Ichor || hasBuff == BuffID.Chilled || hasBuff == BuffID.BrokenArmor || hasBuff == BuffID.Weak ||
                             hasBuff == BuffID.Slow || hasBuff == BuffID.Confused || hasBuff == BuffID.Blackout || hasBuff == BuffID.Darkness)
                         {
@@ -3553,11 +3547,6 @@ namespace CalamityMod.CalPlayer
                         {
                             // +15 defense
                             Player.statDefense += ArmorCrunch.DefenseReduction;
-                        }
-                        if (hasBuff == ModContent.BuffType<WarCleave>())
-                        {
-                            // +10% damage reduction
-                            Player.endurance += 0.1f;
                         }
 
                         switch (hasBuff)

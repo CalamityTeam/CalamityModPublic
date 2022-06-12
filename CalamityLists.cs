@@ -977,7 +977,6 @@ namespace CalamityMod
                 BuffType<Plague>(),
                 BuffType<CrushDepth>(),
                 BuffType<MarkedforDeath>(),
-                BuffType<WarCleave>(),
                 BuffType<ArmorCrunch>(),
                 BuffType<Vaporfied>(),
                 BuffType<Eutrophication>(),
