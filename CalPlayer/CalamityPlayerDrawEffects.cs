@@ -239,7 +239,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (calamityPlayer.bFlames || calamityPlayer.aFlames)
+            if (calamityPlayer.bFlames)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {

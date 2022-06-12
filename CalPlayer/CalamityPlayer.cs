@@ -771,7 +771,6 @@ namespace CalamityMod.CalPlayer
         public bool irradiated = false;
         public bool bFlames = false;
         public bool weakBrimstoneFlames = false;
-        public bool aFlames = false;
         public bool gsInferno = false;
         public bool astralInfection = false;
         public bool pFlames = false;
@@ -1857,7 +1856,6 @@ namespace CalamityMod.CalPlayer
             bFlames = false;
             witheredDebuff = false;
             weakBrimstoneFlames = false;
-            aFlames = false;
             gsInferno = false;
             astralInfection = false;
             pFlames = false;
@@ -2247,7 +2245,6 @@ namespace CalamityMod.CalPlayer
             bFlames = false;
             witheredDebuff = false;
             weakBrimstoneFlames = false;
-            aFlames = false;
             gsInferno = false;
             astralInfection = false;
             pFlames = false;
@@ -4212,7 +4209,7 @@ namespace CalamityMod.CalPlayer
                     else
                         damageSource = PlayerDeathReason.ByCustomReason(Player.name + "'s lungs collapsed.");
                 }
-                if (bFlames || aFlames || weakBrimstoneFlames)
+                if (bFlames || weakBrimstoneFlames)
                 {
                     damageSource = PlayerDeathReason.ByCustomReason(Player.name + " was consumed by the black flames.");
                 }

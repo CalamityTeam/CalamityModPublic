@@ -1356,7 +1356,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aWeapon)
                 {
-                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<AbyssalFlames>());
+                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
                 }
             }
             if (armorCrumbling || armorShattering)
@@ -1402,7 +1402,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aWeapon)
                 {
-                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<AbyssalFlames>());
+                    CalamityUtils.Inflict246DebuffsNPC(target, BuffType<BrimstoneFlames>());
                 }
             }
             if (summon)
@@ -1491,7 +1491,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aWeapon)
                 {
-                    CalamityUtils.Inflict246DebuffsPvp(target, BuffType<AbyssalFlames>());
+                    CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
                 }
                 if (cryogenSoul || frostFlare)
                 {
@@ -1546,7 +1546,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aWeapon)
                 {
-                    CalamityUtils.Inflict246DebuffsPvp(target, BuffType<AbyssalFlames>());
+                    CalamityUtils.Inflict246DebuffsPvp(target, BuffType<BrimstoneFlames>());
                 }
             }
             if (summon)

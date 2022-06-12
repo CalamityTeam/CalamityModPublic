@@ -70,7 +70,6 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.Opacity != 1f)
                 return;
 
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120, true);
         }
 

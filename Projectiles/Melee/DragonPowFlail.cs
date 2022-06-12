@@ -145,7 +145,6 @@ namespace CalamityMod.Projectiles.Melee
 
             // Inflicts Daybroken, Abyssal Flames and Holy Flames for 3 seconds on-hit
             target.AddBuff(BuffID.Daybreak, 180);
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
             Projectile.ai[0] = 1f;
@@ -162,7 +161,6 @@ namespace CalamityMod.Projectiles.Melee
                 return;
 
             // Inflicts Abyssal Flames and Holy Flames for 8 seconds on-hit
-            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
 
             Projectile.ai[0] = 1f;

@@ -978,7 +978,6 @@ namespace CalamityMod
                 BuffType<HolyFlames>(),
                 BuffType<Irradiated>(),
                 BuffType<Plague>(),
-                BuffType<AbyssalFlames>(),
                 BuffType<CrushDepth>(),
                 BuffType<MarkedforDeath>(),
                 BuffType<WarCleave>(),

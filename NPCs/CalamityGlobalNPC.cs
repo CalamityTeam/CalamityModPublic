@@ -221,7 +221,6 @@ namespace CalamityMod.NPCs
         public int cDepth = 0;
         public int gsInferno = 0;
         public int astralInfection = 0;
-        public int aFlames = 0;
         public int wDeath = 0;
         public int nightwither = 0;
         public int enraged = 0;
@@ -408,7 +407,6 @@ namespace CalamityMod.NPCs
             myClone.cDepth = cDepth;
             myClone.gsInferno = gsInferno;
             myClone.astralInfection = astralInfection;
-            myClone.aFlames = aFlames;
             myClone.wDeath = wDeath;
             myClone.nightwither = nightwither;
             myClone.enraged = enraged;
@@ -843,13 +841,6 @@ namespace CalamityMod.NPCs
             {
                 int baseGodSlayerInfernoDoTValue = (int)((npc.oiled ? 500 : 250) * heatDamageMult);
                 ApplyDPSDebuff(baseGodSlayerInfernoDoTValue, baseGodSlayerInfernoDoTValue / 5, ref npc.lifeRegen, ref damage);
-            }
-
-            // Abyssal Flames
-            if (aFlames > 0)
-            {
-                int baseAbyssalFlamesDoTValue = (int)((npc.oiled ? 150 : 75) * heatDamageMult);
-                ApplyDPSDebuff(baseAbyssalFlamesDoTValue, baseAbyssalFlamesDoTValue / 5, ref npc.lifeRegen, ref damage);
             }
 
             // Demon Flames
@@ -3981,8 +3972,6 @@ namespace CalamityMod.NPCs
                 hFlames--;
             if (pFlames > 0)
                 pFlames--;
-            if (aFlames > 0)
-                aFlames--;
             // Soma Prime's Shred stacks have a unique falloff mechanic in the debuff's own file.
             if (aCrunch > 0)
                 aCrunch--;
@@ -4890,23 +4879,6 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight(npc.position, 0.05f, 0.01f, 0.01f);
             }
 
-            if (aFlames > 0)
-            {
-                if (Main.rand.Next(5) < 4)
-                {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, DustType<BrimstoneFlame>(), npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 3.5f);
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 1.8f;
-                    Main.dust[dust].velocity.Y -= 0.25f;
-                    if (Main.rand.NextBool(4))
-                    {
-                        Main.dust[dust].noGravity = false;
-                        Main.dust[dust].scale *= 0.35f;
-                    }
-                }
-                Lighting.AddLight(npc.position, 0.025f, 0f, 0f);
-            }
-
             // Enemies suffering from Soma Prime's Shred spray blood like Violence
             if (somaShredStacks > 0 && Main.netMode != NetmodeID.Server)
             {
@@ -5183,8 +5155,6 @@ namespace CalamityMod.NPCs
                     IList<Texture2D> buffTextureList = new List<Texture2D>();
 
                     // Damage over time debuffs
-                    if (aFlames > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AbyssalFlames").Value);
                     if (astralInfection > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/AstralInfectionDebuff").Value);
                     if (bFlames > 0)
