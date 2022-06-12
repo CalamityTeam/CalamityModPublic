@@ -1,15 +1,15 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Placeables
 {
-    public class PinkHealthCandle : ModBuff
+    public class CirrusBlueCandleBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vigor");
-            Description.SetDefault("Its brilliant light suffuses those nearby with hope");
+            DisplayName.SetDefault("Limber");
+            Description.SetDefault("The floating flame seems to uplift your very spirit");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Placeables
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().pinkCandle = true;
+            player.Calamity().blueCandle = true;
         }
     }
 }
