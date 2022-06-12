@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AntumbraShardProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/XerocPitchfork";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ShardofAntumbra";
 
         public override void SetStaticDefaults()
         {
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (Main.rand.NextBool(2))
             {
-                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<XerocPitchfork>());
+                Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<ShardofAntumbra>());
             }
         }
 

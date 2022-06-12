@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Purge>().
+                AddIngredient<NanoPurge>().
                 AddIngredient<PurgeGuzzler>().
                 AddIngredient<AuricBar>(5).
                 AddIngredient<UelibloomBar>(12).

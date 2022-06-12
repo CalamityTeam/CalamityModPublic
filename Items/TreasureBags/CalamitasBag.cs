@@ -16,7 +16,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CalamitasBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CalamitasRun3>();
+        public override int BossBagNPC => ModContent.NPCType<CalamitasClone>();
 
         public override void SetStaticDefaults()
         {
@@ -60,7 +60,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<Oblivion>(w),
                 DropHelper.WeightStack<Animosity>(w),
                 DropHelper.WeightStack<LashesofChaos>(w),
-                DropHelper.WeightStack<BlightedEyeStaff>(w),
+                DropHelper.WeightStack<EntropysVigil>(w),
                 DropHelper.WeightStack<ChaosStone>(w)
             );
 

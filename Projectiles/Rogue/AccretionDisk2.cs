@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AccretionDisk2 : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/AccretionDisk";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/ElementalDisk";
 
         public override void SetStaticDefaults()
         {

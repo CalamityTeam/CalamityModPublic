@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.damage = (int)Owner.GetTotalDamage<MagicDamageClass>().ApplyTo(weaponItem?.damage ?? 0);
 
             // Get the original weapon's use time.
-            int itemUseTime = weaponItem?.useAnimation ?? Purge.UseTime;
+            int itemUseTime = weaponItem?.useAnimation ?? NanoPurge.UseTime;
 
             // Update time.
             DeployedFrames += 1f;

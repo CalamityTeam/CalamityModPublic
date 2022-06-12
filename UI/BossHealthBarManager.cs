@@ -189,8 +189,8 @@ namespace CalamityMod.UI
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<DesertScourgeBody>(),
                 NPCType<DesertScourgeTail>(),
                 NPCType<StormWeaverBody>(),
@@ -256,8 +256,8 @@ namespace CalamityMod.UI
                 NPCType<GreatSandShark>(),
                 NPCType<PlaguebringerShade>(),
                 NPCType<ArmoredDiggerHead>(),
-                NPCType<CalamitasRun>(), //Clone's brothers
-                NPCType<CalamitasRun2>(),
+                NPCType<Cataclysm>(), //Clone's brothers
+                NPCType<Catastrophe>(),
 
                 // Post-ML Modded.
                 NPCType<SupremeCataclysm>(),

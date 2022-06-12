@@ -14,11 +14,20 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
     {
         public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
+            // Percent life remaining
+            float lifeRatio = npc.life / (float)npc.lifeMax;
+
             // Variables
             float num234 = 1f;
             bool teleporting = false;
             bool flag9 = false;
             npc.aiAction = 0;
+            float num237 = 2f;
+            if (Main.getGoodWorld)
+            {
+                num237 -= 1f - lifeRatio;
+                num234 *= num237;
+            }
 
             // Reset damage
             npc.damage = npc.defDamage;
@@ -34,9 +43,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Despawn safety, make sure to target another player if the current player target is too far away
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
-
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.75f;
@@ -155,6 +161,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[0] += 1f;
                 num234 = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
                 num234 = 0.5f + num234 * 0.5f;
+                if (Main.getGoodWorld)
+                    num234 *= num237;
 
                 if (npc.ai[0] >= 60f)
                     flag9 = true;
@@ -199,6 +207,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 npc.ai[0] += 1f;
                 num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
                 num234 = 0.5f + num234 * 0.5f;
+                if (Main.getGoodWorld)
+                    num234 *= num237;
 
                 if (npc.ai[0] >= 30f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -307,12 +317,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Change jump velocity
-            else if (npc.target < Main.maxPlayers && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
+            else if (npc.target < Main.maxPlayers)
             {
-                if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
-                    npc.velocity.X += (malice ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
-                else
-                    npc.velocity.X *= malice ? 0.9f : death ? 0.92f : 0.93f;
+                float num252 = 3f;
+                if (Main.getGoodWorld)
+                    num252 = 6f;
+
+                if ((npc.direction == 1 && npc.velocity.X < num252) || (npc.direction == -1 && npc.velocity.X > 0f - num252))
+                {
+                    if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
+                        npc.velocity.X += (malice ? 0.4f : death ? 0.25f : 0.2f) * npc.direction;
+                    else
+                        npc.velocity.X *= malice ? 0.9f : death ? 0.92f : 0.93f;
+                }
             }
 
             // Spawn dust

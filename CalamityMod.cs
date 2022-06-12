@@ -570,7 +570,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertScourgeHead>(), 3600 }, // 1:00 (60 seconds)
                 { ModContent.NPCType<DesertScourgeBody>(), 3600 },
                 { ModContent.NPCType<DesertScourgeTail>(), 3600 },
-                { ModContent.NPCType<CrabulonIdle>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<Crabulon>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
@@ -584,13 +584,13 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<CalamitasRun3>(), 14400 }, // 4:00 (240 seconds)
+                { ModContent.NPCType<CalamitasClone>(), 14400 }, // 4:00 (240 seconds)
                 { ModContent.NPCType<Siren>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
+                { ModContent.NPCType<AstrumDeusHead>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
+                { ModContent.NPCType<AstrumDeusBody>(), 7200 },
+                { ModContent.NPCType<AstrumDeusTail>(), 7200 },
                 { ModContent.NPCType<PlaguebringerGoliath>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<RavagerBody>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 }, // 1:30 (90 seconds)
@@ -620,7 +620,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), 21600 },
                 { ModContent.NPCType<ThanatosTail>(), 21600 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 }, // 5:00 (300 seconds)
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 } // 5:00 (300 seconds)
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), 18000 } // 5:00 (300 seconds)
             };
         }
         #endregion
@@ -669,7 +669,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertNuisanceHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DesertNuisanceBody>(), velocityScaleMin },
                 { ModContent.NPCType<DesertNuisanceTail>(), velocityScaleMin },
-                { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Crabulon>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<HiveMind>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
@@ -693,15 +693,15 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
                 { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-                { ModContent.NPCType<CalamitasRun>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<CalamitasRun2>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+                { ModContent.NPCType<Cataclysm>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Catastrophe>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CalamitasClone>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<Siren>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
                 { ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerBody>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
@@ -738,7 +738,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), bitingEnemeyVelocityScale }
             };
         }
         #endregion

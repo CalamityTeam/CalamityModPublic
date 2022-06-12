@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DivineHatchetBoomerang : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/DivineHatchet";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/SeekingScorcher";
 
         private bool hasHitEnemy = false;
         private static int Lifetime = 300;

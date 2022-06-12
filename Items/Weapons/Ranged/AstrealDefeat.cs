@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             CreateRecipe().
                 AddIngredient(ItemID.SpiritFlame).
                 AddIngredient(ItemID.ShadowFlameBow).
-                AddIngredient<GreatbowofTurmoil>().
+                AddIngredient<ContinentalGreatbow>().
                 AddIngredient<BladedgeGreatbow>().
                 AddIngredient<DarkechoGreatbow>().
                 AddIngredient<GalacticaSingularity>(5).

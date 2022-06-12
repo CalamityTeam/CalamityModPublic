@@ -480,9 +480,9 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref primeVice, NPCID.PrimeVice);
             ResetSavedIndex(ref primeSaw, NPCID.PrimeSaw);
             ResetSavedIndex(ref brimstoneElemental, NPCType<BrimstoneElemental.BrimstoneElemental>());
-            ResetSavedIndex(ref cataclysm, NPCType<CalamitasRun>());
-            ResetSavedIndex(ref catastrophe, NPCType<CalamitasRun2>());
-            ResetSavedIndex(ref calamitas, NPCType<CalamitasRun3>());
+            ResetSavedIndex(ref cataclysm, NPCType<Cataclysm>());
+            ResetSavedIndex(ref catastrophe, NPCType<Catastrophe>());
+            ResetSavedIndex(ref calamitas, NPCType<CalamitasClone>());
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
             ResetSavedIndex(ref siren, NPCType<Siren>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
             ResetSavedIndex(ref draedonExoMechPrimePlasmaCannon, NPCType<AresPlasmaFlamethrower>());
 
-            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
+            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<AdultEidolonWyrmHead>());
 
             // Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
             CurrentlyEnraged = false;
@@ -2768,7 +2768,7 @@ namespace CalamityMod.NPCs
             // Adult Wyrm Ancient Doom
             if (npc.type == NPCID.AncientDoom)
             {
-                if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
+                if (Main.npc[(int)npc.ai[0]].type == NPCType<AdultEidolonWyrmHead>())
                     return CultistAI.BuffedAncientDoomAI(npc, Mod);
             }
 
@@ -4186,7 +4186,7 @@ namespace CalamityMod.NPCs
             if (CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
                 CalamityLists.PerforatorIDs.Contains(npc.type) || CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.DestroyerIDs.Contains(npc.type) ||
                 CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type) || CalamityLists.ThanatosIDs.Contains(npc.type) ||
-                npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>())
+                npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<Crabulon>())
             {
                 double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
                 if (item.CountsAsClass<MeleeDamageClass>() && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
@@ -5681,7 +5681,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedDesertScourge;
             }
-            else if (type == NPCType<CrabulonIdle>())
+            else if (type == NPCType<Crabulon>())
             {
                 return DownedBossSystem.downedCrabulon;
             }
@@ -5709,7 +5709,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedBrimstoneElemental;
             }
-            else if (type == NPCType<CalamitasRun3>())
+            else if (type == NPCType<CalamitasClone>())
             {
                 return DownedBossSystem.downedCalamitas;
             }
@@ -5721,7 +5721,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedAstrumAureus;
             }
-            else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
+            else if (type == NPCType<AstrumDeusHead>() || type == NPCType<AstrumDeusBody>() || type == NPCType<AstrumDeusTail>())
             {
                 return DownedBossSystem.downedAstrumDeus;
             }
@@ -5781,7 +5781,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedSCal;
             }
-            else if (type == NPCType<EidolonWyrmHeadHuge>())
+            else if (type == NPCType<AdultEidolonWyrmHead>())
             {
                 return DownedBossSystem.downedAdultEidolonWyrm;
             }
@@ -5851,8 +5851,8 @@ namespace CalamityMod.NPCs
 
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCType<RavagerClawRight>() &&
-                target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
-                target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
+                target.type != NPCType<ReaperShark>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
+                target.type != NPCType<AdultEidolonWyrmHead>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
             }

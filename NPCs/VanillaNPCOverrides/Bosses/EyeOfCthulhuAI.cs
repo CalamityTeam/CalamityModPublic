@@ -121,6 +121,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         hoverAcceleration += 0.17f * (1f - lifeRatio);
                     }
 
+                    if (Main.getGoodWorld)
+                    {
+                        hoverSpeed += 1f;
+                        hoverAcceleration += 0.05f;
+                    }
+
                     Vector2 hoverDestination = Main.player[npc.target].Center - Vector2.UnitY * 200f;
                     Vector2 idealVelocity = npc.SafeDirectionTo(hoverDestination) * hoverSpeed;
                     npc.SimpleFlyMovement(idealVelocity, hoverAcceleration);
@@ -140,7 +146,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (!Main.player[npc.target].dead)
                             npc.ai[3] += 1f;
 
-                        if (npc.ai[3] >= 40f)
+                        float servantSpawnGateValue = 40f;
+                        if (Main.getGoodWorld)
+                            servantSpawnGateValue *= 0.8f;
+
+                        if (npc.ai[3] >= servantSpawnGateValue)
                         {
                             npc.ai[3] = 0f;
                             npc.rotation = num8;
@@ -174,6 +184,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     chargeSpeed += 5f * enrageScale;
                     if (death)
                         chargeSpeed += 8.5f * (1f - lifeRatio);
+                    if (Main.getGoodWorld)
+                        chargeSpeed += 1f;
+
                     npc.velocity = npc.SafeDirectionTo(Main.player[npc.target].Center) * chargeSpeed;
 
                     npc.ai[1] = 2f;
@@ -188,6 +201,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[2] >= 40f)
                     {
                         npc.velocity *= 0.975f;
+                        if (Main.getGoodWorld)
+                            npc.velocity *= 0.99f;
+
                         if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
                             npc.velocity.X = 0f;
                         if (npc.velocity.Y > -0.1 && npc.velocity.Y < 0.1)
@@ -199,6 +215,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int num28 = 90;
                     if (death)
                         num28 -= (int)Math.Round(120f * (1f - lifeRatio));
+                    if (Main.getGoodWorld)
+                        num28 -= 15;
 
                     if (npc.ai[2] >= num28)
                     {
@@ -349,6 +367,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                     }
 
+                    if (Main.getGoodWorld)
+                    {
+                        hoverSpeed += 1f;
+                        hoverAcceleration += 0.1f;
+                    }
+
                     Vector2 idealHoverVelocity = npc.SafeDirectionTo(hoverDestination) * hoverSpeed;
                     npc.SimpleFlyMovement(idealHoverVelocity, hoverAcceleration);
 
@@ -381,6 +405,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         chargeSpeed *= 1.15f;
                     if (npc.ai[3] == 2f)
                         chargeSpeed *= 1.3f;
+                    if (Main.getGoodWorld)
+                        chargeSpeed *= 1.2f;
 
                     npc.velocity = npc.SafeDirectionTo(Main.player[npc.target].Center) * chargeSpeed;
                     npc.ai[1] = 2f;
