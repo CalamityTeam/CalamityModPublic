@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
         public ref float Time => ref Projectile.ai[0];
         public ref float ChargeTime => ref Projectile.ai[1];
 
-        public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemenc";
+        public override string Texture => "CalamityMod/Items/Weapons/Magic/Vehemence";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vehemence");
