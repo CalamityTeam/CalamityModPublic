@@ -466,8 +466,8 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
-            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.SlimeGod>(), NPCType<SlimeGodSplit>());
-            ResetSavedIndex(ref slimeGodRed, NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>());
+            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>());
+            ResetSavedIndex(ref slimeGodRed, NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>());
             ResetSavedIndex(ref slimeGod, NPCType<SlimeGodCore>());
             ResetSavedIndex(ref laserEye, NPCID.Retinazer);
             ResetSavedIndex(ref fireEye, NPCID.Spazmatism);
@@ -5654,7 +5654,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedPerforator;
             }
-            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.SlimeGod>() || type == NPCType<SlimeGodRun>() || type == NPCType<SlimeGodSplit>() || type == NPCType<SlimeGodRunSplit>())
+            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.EbonianSlimeGod>() || type == NPCType<CrimulanSlimeGod>() || type == NPCType<SplitEbonianSlimeGod>() || type == NPCType<SplitCrimulanSlimeGod>())
             {
                 return DownedBossSystem.downedSlimeGod;
             }

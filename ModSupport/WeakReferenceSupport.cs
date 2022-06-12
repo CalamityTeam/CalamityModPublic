@@ -327,7 +327,7 @@ namespace CalamityMod
             // Slime God
             {
                 BossDifficulty.TryGetValue("SlimeGod", out float order);
-                List<int> bosses = new List<int>() { NPCType<SlimeGodCore>(), NPCType<SlimeGod>(), NPCType<SlimeGodRun>() };
+                List<int> bosses = new List<int>() { NPCType<SlimeGodCore>(), NPCType<EbonianSlimeGod>(), NPCType<CrimulanSlimeGod>() };
                 int summon = ItemType<OverloadedSludge>();
                 List<int> loot = new List<int>() { ItemType<SlimeGodBag>(), ItemID.Gel, ItemType<PurifiedGel>(), ItemType<OverloadedBlaster>(), ItemType<AbyssalTome>(), ItemType<EldritchTome>(), ItemType<CorroslimeStaff>(), ItemType<CrimslimeStaff>(), ItemType<SlimePuppetStaff>(), ItemType<ManaOverloader>(), ItemType<ElectrolyteGelPack>(), ItemID.HealingPotion };
                 List<int> collection = new List<int>() { ItemType<SlimeGodTrophy>(), ItemType<SlimeGodMask>(), ItemType<SlimeGodMask2>(), ItemType<KnowledgeSlimeGod>() };

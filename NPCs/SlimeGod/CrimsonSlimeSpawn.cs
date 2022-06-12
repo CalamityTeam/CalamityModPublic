@@ -8,11 +8,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
-    public class SlimeSpawnCorrupt2 : ModNPC
+    public class CrimsonSlimeSpawn : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corrupt Slime Spawn");
+            DisplayName.SetDefault("Crimson Slime Spawn");
             Main.npcFrameCount[NPC.type] = 2;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
@@ -24,10 +24,10 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.width = 40;
             NPC.height = 30;
             NPC.defense = 4;
-            NPC.lifeMax = 90;
+            NPC.lifeMax = 110;
             if (BossRushEvent.BossRushActive)
             {
-                NPC.lifeMax = 5000;
+                NPC.lifeMax = 10000;
             }
             NPC.knockBackResist = 0f;
             AnimationType = NPCID.CorruptSlime;
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<SlimeGod>();
+            int associatedNPCType = ModContent.NPCType<SplitCrimulanSlimeGod>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -60,13 +60,13 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
+                Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Crimson, 1f);
             }
             if (NPC.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Lavender, 1f);
+                    Dust.NewDust(NPC.position, NPC.width, NPC.height, 4, hitDirection, -1f, NPC.alpha, Color.Crimson, 1f);
                 }
             }
         }
@@ -81,11 +81,11 @@ namespace CalamityMod.NPCs.SlimeGod
             }
         }
 
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Vitamins, 50);
+        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.Add(ItemID.Blindfold, 50);
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Weak, 90, true);
+            player.AddBuff(BuffID.Darkness, 90, true);
         }
     }
 }

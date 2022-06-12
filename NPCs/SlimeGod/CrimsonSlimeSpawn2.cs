@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
-    public class SlimeSpawnCrimson2 : ModNPC
+    public class CrimsonSlimeSpawn2 : ModNPC
     {
         public float spikeTimer = 60f;
 
@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<SlimeGodRunSplit>();
+            int associatedNPCType = ModContent.NPCType<SplitCrimulanSlimeGod>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {

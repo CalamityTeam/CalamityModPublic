@@ -268,8 +268,8 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(boomerDuke);
                 }, permittedNPCs: new int[] { ModContent.NPCType<OldDukeToothBall>(), ModContent.NPCType<SulphurousSharkron>() }),
 
-                new Boss(ModContent.NPCType<SlimeGodCore>(), permittedNPCs: new int[] { ModContent.NPCType<SlimeGod>(), ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodSplit>(), ModContent.NPCType<SlimeGodRunSplit>(),
-                    ModContent.NPCType<SlimeSpawnCorrupt>(), ModContent.NPCType<SlimeSpawnCorrupt2>(), ModContent.NPCType<SlimeSpawnCrimson>(), ModContent.NPCType<SlimeSpawnCrimson2>() }),
+                new Boss(ModContent.NPCType<SlimeGodCore>(), permittedNPCs: new int[] { ModContent.NPCType<EbonianSlimeGod>(), ModContent.NPCType<CrimulanSlimeGod>(), ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.NPCType<SplitCrimulanSlimeGod>(),
+                    ModContent.NPCType<CorruptSlimeSpawn>(), ModContent.NPCType<CorruptSlimeSpawn2>(), ModContent.NPCType<CrimsonSlimeSpawn>(), ModContent.NPCType<CrimsonSlimeSpawn2>() }),
 
                 new Boss(ModContent.NPCType<Providence>(), TimeChangeContext.Day, type =>
                 {
@@ -563,24 +563,24 @@ namespace CalamityMod.Events
             }
 
             // All Slime God entities must be killed to progress to the next stage.
-            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
+            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SplitEbonianSlimeGod>() || npc.type == ModContent.NPCType<SplitCrimulanSlimeGod>())
             {
-                if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
-                    !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SplitEbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitCrimulanSlimeGod>()) &&
+                    !NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()))
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
                     HostileProjectileKillCounter = 3;
                 }
-                else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
+                else if (npc.type == ModContent.NPCType<SplitEbonianSlimeGod>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitCrimulanSlimeGod>()) &&
+                    NPC.CountNPCS(ModContent.NPCType<SplitEbonianSlimeGod>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<CrimulanSlimeGod>()))
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();
                     HostileProjectileKillCounter = 3;
                 }
-                else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
-                    NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod>()))
+                else if (npc.type == ModContent.NPCType<SplitCrimulanSlimeGod>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SplitEbonianSlimeGod>()) &&
+                    NPC.CountNPCS(ModContent.NPCType<SplitCrimulanSlimeGod>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<EbonianSlimeGod>()))
                 {
                     BossRushStage++;
                     CalamityUtils.KillAllHostileProjectiles();

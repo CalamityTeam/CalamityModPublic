@@ -13,7 +13,7 @@ using Terraria.Audio;
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
-    public class SlimeGodRun : ModNPC
+    public class CrimulanSlimeGod : ModNPC
     {
         private float bossLife;
 
@@ -114,8 +114,8 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 SoundEngine.PlaySound(SoundID.NPCDeath1, NPC.position);
                 Vector2 spawnAt = NPC.Center + new Vector2(0f, NPC.height / 2f);
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodRunSplit>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SplitCrimulanSlimeGod>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SplitCrimulanSlimeGod>());
                 NPC.active = false;
                 NPC.netUpdate = true;
                 return;
@@ -497,10 +497,10 @@ namespace CalamityMod.NPCs.SlimeGod
                         bossLife = (float)NPC.life;
                         int x = (int)(NPC.position.X + (float)Main.rand.Next(NPC.width - 32));
                         int y = (int)(NPC.position.Y + (float)Main.rand.Next(NPC.height - 32));
-                        int num663 = ModContent.NPCType<SlimeSpawnCrimson>();
+                        int num663 = ModContent.NPCType<CrimsonSlimeSpawn>();
                         if (Main.rand.NextBool(3))
                         {
-                            num663 = ModContent.NPCType<SlimeSpawnCrimson2>();
+                            num663 = ModContent.NPCType<CrimsonSlimeSpawn2>();
                         }
                         int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                         Main.npc[num664].SetDefaults(num663);
