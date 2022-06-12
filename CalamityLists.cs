@@ -774,7 +774,7 @@ namespace CalamityMod
                 NPCType<BobbitWormHead>(),
                 NPCType<Mauler>(),
                 NPCType<ColossalSquid>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<EidolonWyrmHead>(),
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
@@ -1210,7 +1210,7 @@ namespace CalamityMod
                 NPCType<EidolonWyrmHead>(),
                 NPCType<GulperEelHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>()
+                NPCType<ReaperShark>()
             };
 
             revengeanceProjectileBuffList25Percent = new List<int>()
@@ -1947,7 +1947,7 @@ namespace CalamityMod
             {
                 NPCType<EidolonWyrmHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<ColossalSquid>(),
                 NPCType<GreatSandShark>(),
                 NPCType<GiantClam>(),

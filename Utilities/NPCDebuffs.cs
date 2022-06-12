@@ -258,7 +258,7 @@ namespace CalamityMod
                 { ModContent.NPCType<EidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<EidolonWyrmTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<ColossalSquid>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<Reaper>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+                { ModContent.NPCType<ReaperShark>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 
                 { ModContent.NPCType<HeatSpirit>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<Scryllar>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },

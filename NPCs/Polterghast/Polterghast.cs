@@ -988,7 +988,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (!DownedBossSystem.downedPolterghast)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    SoundEngine.PlaySound(Reaper.SearchRoarSound, Main.player[Main.myPlayer].position);
+                    SoundEngine.PlaySound(ReaperShark.SearchRoarSound, Main.player[Main.myPlayer].position);
 
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;

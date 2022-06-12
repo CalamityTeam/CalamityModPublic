@@ -16,7 +16,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class Reaper : ModNPC
+    public class ReaperShark : ModNPC
     {
         public static readonly SoundStyle SearchRoarSound = new("CalamityMod/Sounds/Custom/ReaperSearchRoar");
         public static readonly SoundStyle EnragedRoarSound = new("CalamityMod/Sounds/Custom/ReaperEnragedRoar");
@@ -647,12 +647,12 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<Reaper>()) &&
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer3 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<ReaperShark>()) &&
                 !NPC.AnyNPCs(ModContent.NPCType<ColossalSquid>()) && !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHead>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
-            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<Reaper>()))
+            if (spawnInfo.Player.Calamity().ZoneAbyssLayer4 && spawnInfo.Water && !NPC.AnyNPCs(ModContent.NPCType<ReaperShark>()))
             {
                 return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }

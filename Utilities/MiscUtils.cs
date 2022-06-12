@@ -972,7 +972,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<CultistAssassin>();
                     break;
                 case 96:
-                    npc = ModContent.NPCType<Reaper>();
+                    npc = ModContent.NPCType<ReaperShark>();
                     break;
                 case 97:
                     npc = ModContent.NPCType<IrradiatedSlime>();
