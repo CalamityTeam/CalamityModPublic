@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Potions
             Item.useTime = 17;
             Item.value = Item.buyPrice(0, 2, 0, 0);
             Item.rare = ItemRarityID.Green;
-            Item.useStyle = ItemUseStyleID.EatFood;
+            Item.useStyle = ItemUseStyleID.DrinkLiquid;
             Item.UseSound = SoundID.Item3;
             Item.consumable = true;
             Item.potion = true;
