@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class SpatialLance : ModItem
+    [LegacyName("SpatialLance")]
+    public class ElementalLance : ModItem
     {
         public override void SetStaticDefaults()
         {
