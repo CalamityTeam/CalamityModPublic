@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.damage = 171;
             Item.knockBack = 4f;
             Item.useTime = Item.useAnimation = 10;
-            Item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
+            Item.shoot = ModContent.ProjectileType<SarosAura>();
             Item.shootSpeed = 10f;
 
             Item.value = CalamityGlobalItem.Rarity14BuyPrice;

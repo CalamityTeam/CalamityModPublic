@@ -942,7 +942,7 @@ namespace CalamityMod
             RegisterSummon(ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
             RegisterSummon(ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
             RegisterSummon(ItemType<CosmicViperEngine>(), BuffType<CosmicViperEngineBuff>(), ProjectileType<CosmicViperSummon>());
-            RegisterSummon(ItemType<YharonsKindleStaff>(), BuffType<FieryDraconidBuff>(), ProjectileType<SonOfYharon>());
+            RegisterSummon(ItemType<YharonsKindleStaff>(), BuffType<FieryDraconidBuff>(), ProjectileType<FieryDraconid>());
             RegisterSummon(ItemType<MidnightSunBeacon>(), BuffType<MidnightSunBuff>(), ProjectileType<MidnightSunUFO>());
             RegisterSummon(ItemType<PoleWarper>(), BuffType<PoleWarperBuff>(), ProjectileType<PoleWarperSummon>());
             RegisterSummon(ItemType<Vigilance>(), BuffType<SoulSeekerBuff>(), ProjectileType<SeekerSummonProj>());

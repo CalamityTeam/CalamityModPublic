@@ -1,4 +1,4 @@
-using CalamityMod.Dusts;
+﻿using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RadiantResolutionFire : ModProjectile
+    public class SarosSunfire : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire");
+            DisplayName.SetDefault("Saros Sunfire");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

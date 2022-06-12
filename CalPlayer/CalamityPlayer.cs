@@ -6562,7 +6562,7 @@ namespace CalamityMod.CalPlayer
                         SoundEngine.PlaySound(SoundID.Item74, Player.position);
                         int eDamage = (int)Player.GetBestClassDamage().ApplyTo(100);
                         if (Player.whoAmI == Main.myPlayer)
-                            Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(fuckYouBitch, Player.Center, Vector2.Zero, ModContent.ProjectileType<DeepseaBlaze>(), eDamage, 1f, Player.whoAmI, 0f, 0f);
                     }
                 }
                 else if (daedalusShard) // Daedalus Ranged helm

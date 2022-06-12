@@ -5,13 +5,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ChaosFlame : ModProjectile
+    public class VolcanicFireballSummon : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/ChaosFlameSmall";
+        public override string Texture => "CalamityMod/Projectiles/Melee/VolcanicFireball";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaos Flame");
+            DisplayName.SetDefault("Volcanic Fireball");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

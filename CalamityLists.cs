@@ -1361,8 +1361,8 @@ namespace CalamityMod
 
             boomerangProjList = new List<int>()
             {
-                ProjectileType<AccretionDiskProj>(),
-                ProjectileType<AccretionDisk2>(),
+                ProjectileType<ElementalDiskProj>(),
+                ProjectileType<ElementalDiskSplit>(),
                 ProjectileType<BlazingStarProj>(),
                 ProjectileType<CelestusBoomerang>(),
                 ProjectileType<BrimbladeProj>(),
@@ -1371,7 +1371,7 @@ namespace CalamityMod
                 ProjectileType<EpidemicShredderProjectile>(),
                 ProjectileType<EquanimityProj>(),
                 ProjectileType<EradicatorProjectile>(),
-                ProjectileType<FlameScytheProjectile>(),
+                ProjectileType<SubductionSlicerProj>(),
                 ProjectileType<GhoulishGougerBoomerang>(),
                 ProjectileType<GlaiveProj>(),
                 ProjectileType<KylieBoomerang>(),

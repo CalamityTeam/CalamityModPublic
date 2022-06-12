@@ -1,16 +1,16 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChaosFlare2 : ModProjectile
+    public class HydrothermicFlareRogue : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flare");
+            DisplayName.SetDefault("Hydrothermic Flare");
         }
 
         public override void SetDefaults()

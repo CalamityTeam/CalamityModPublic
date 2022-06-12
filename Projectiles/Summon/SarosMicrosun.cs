@@ -1,13 +1,13 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RadiantResolutionOrb : ModProjectile
+    public class SarosMicrosun : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sun");
+            DisplayName.SetDefault("Saros Microsun");
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }

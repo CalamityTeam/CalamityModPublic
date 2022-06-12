@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-    public class SirenYoung : ModProjectile
+    public class OceanSpirit : ModProjectile
     {
         private bool underwater = false;
         private int sleepyTimer = 0;

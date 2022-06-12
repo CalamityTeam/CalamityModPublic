@@ -7,7 +7,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ChaosSpirit : ModProjectile
+    public class HydrothermicVent : ModProjectile
     {
         public int dust = 3;
 
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = Projectile.type == ModContent.ProjectileType<ChaosSpirit>();
+            bool flag64 = Projectile.type == ModContent.ProjectileType<HydrothermicVent>();
             Player player = Main.player[Projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.chaosSpirit)
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
                 float yAdjust = player.gravDir == -1f ? 0f : 10f;
                 if (foundTarget && targetIndex != -1)
                 {
-                    int projectileType = ModContent.ProjectileType<ChaosFlame>();
+                    int projectileType = ModContent.ProjectileType<VolcanicFireballSummon>();
                     //If the target is above the minion, fire directly at it at double speed
                     if (reversedGravity ? (Main.npc[targetIndex].Bottom.Y > Projectile.Top.Y) : (Main.npc[targetIndex].Bottom.Y < Projectile.Top.Y))
                     {

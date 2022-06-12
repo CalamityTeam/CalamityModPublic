@@ -1,17 +1,17 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChaosFlare : ModProjectile
+    public class HydrothermicFlare : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flare");
+            DisplayName.SetDefault("Hydrothermic Flare");
         }
 
         public override void SetDefaults()

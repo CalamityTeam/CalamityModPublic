@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.height = 38;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
-            Item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
+            Item.shoot = ModContent.ProjectileType<ElementalDiskProj>();
             Item.shootSpeed = 13f;
             Item.DamageType = RogueDamageClass.Instance;
         }

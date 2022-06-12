@@ -1,16 +1,16 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class XerocOrb : ModProjectile
+    public class EmpyreanMarble : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Healing/XerocHealOrb";
+        public override string Texture => "CalamityMod/Projectiles/Healing/EmpyreanHealOrb";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Orb");
+            DisplayName.SetDefault("Empyrean Marble");
         }
 
         public override void SetDefaults()

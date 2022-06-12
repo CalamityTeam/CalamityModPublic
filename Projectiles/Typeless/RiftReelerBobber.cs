@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Fishing.FishingRods;
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChaoticSpreadBobber : ModProjectile
+    public class RiftReelerBobber : ModProjectile
     {
         private bool initialized = false;
         private Color fishingLineColor;

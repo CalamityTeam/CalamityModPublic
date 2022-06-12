@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AccretionDisk2 : ModProjectile
+    public class ElementalDiskSplit : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ElementalDisk";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Accretion Disk");
+            DisplayName.SetDefault("Elemental Disk");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }

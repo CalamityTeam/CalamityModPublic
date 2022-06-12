@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,11 +6,11 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class Minibirb : ModProjectile
+    public class MiniatureFolly : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Minibirb");
+            DisplayName.SetDefault("Miniature Folly");
             Main.projFrames[Projectile.type] = 2;
         }
 

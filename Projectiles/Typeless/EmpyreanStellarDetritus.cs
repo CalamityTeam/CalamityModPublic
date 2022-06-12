@@ -1,15 +1,15 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class XerocStar : ModProjectile
+    public class EmpyreanStellarDetritus : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Star");
+            DisplayName.SetDefault("Empyrean Stellar Detritus");
         }
 
         public override void SetDefaults()

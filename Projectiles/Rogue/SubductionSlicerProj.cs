@@ -8,13 +8,13 @@ using Terraria.WorldBuilding;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FlameScytheProjectile : ModProjectile
+    public class SubductionSlicerProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SubductionSlicer";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scythe");
+            DisplayName.SetDefault("Subduction Slicer");
         }
 
         public override void SetDefaults()

@@ -352,7 +352,7 @@ namespace CalamityMod.Items
                     if (player.whoAmI == Main.myPlayer)
                     {
                         int ataxiaFlareDamage = (int)(damage * 0.25);
-                        Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<ChaosFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
+                        Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<HydrothermicFlare>(), ataxiaFlareDamage, 2f, player.whoAmI);
                     }
                 }
             }
@@ -374,7 +374,7 @@ namespace CalamityMod.Items
                 if (item.CountsAsClass<ThrowingDamageClass>())
                 {
                     modPlayer.canFireAtaxiaRogueProjectile = false;
-                    int flareID = ModContent.ProjectileType<ChaosFlare2>();
+                    int flareID = ModContent.ProjectileType<HydrothermicFlareRogue>();
 
                     // Ataxia Rogue Flares: 8 x 50%, soft cap starts at 200 base damage
                     int flareDamage = CalamityUtils.DamageSoftCap(damage * 0.5, 100);
@@ -420,7 +420,7 @@ namespace CalamityMod.Items
 
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<Minibirb>(), newDamage, 2f, player.whoAmI);
+                        int projectile = Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<MiniatureFolly>(), newDamage, 2f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
                             Main.projectile[projectile].Calamity().forceClassless = true;
                     }

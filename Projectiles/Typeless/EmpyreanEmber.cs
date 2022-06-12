@@ -1,14 +1,14 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class XerocFire : ModProjectile
+    public class EmpyreanEmber : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fire");
+            DisplayName.SetDefault("Empyrean Ember");
         }
 
         public override void SetDefaults()

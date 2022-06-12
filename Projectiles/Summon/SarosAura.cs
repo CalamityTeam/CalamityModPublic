@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RadiantResolutionAura : ModProjectile
+    public class SarosAura : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
         public ref float AllocatedSlots => ref Projectile.ai[0];
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
         public const int RadiantOrbDamageUpperBound = 10000;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Radiant Aura");
+            DisplayName.SetDefault("Saros Aura");
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Summon
         public void VerifyIdentityOfCaller()
         {
             Owner.AddBuff(ModContent.BuffType<SarosPossessionBuff>(), 3600);
-            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<RadiantResolutionAura>();
+            bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<SarosAura>();
             if (isCorrectProjectile)
             {
                 if (Owner.dead)
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 15f;
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<SarosSunfire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = radiantOrbDamage / 2;
                 }
@@ -110,14 +110,14 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Vector2 spawnPosition = Projectile.Center + Main.rand.NextVector2Unit() * Main.rand.NextFloat(100f, 360f);
                 Vector2 bootlegRadianceOrbVelocity = Projectile.SafeDirectionTo(target.Center) * 2f;
-                int p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
+                int p2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), spawnPosition, bootlegRadianceOrbVelocity, ModContent.ProjectileType<SarosMicrosun>(), radiantOrbDamage, Projectile.knockBack * 4f, Projectile.owner);
                 if (Main.projectile.IndexInRange(p2))
                     Main.projectile[p2].originalDamage = radiantOrbDamage;
                 for (int i = 0; i < 3; i++)
                 {
                     float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
                     Vector2 fireVelocity = Projectile.SafeDirectionTo(target.Center).RotatedBy(angle) * 19f;
-                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
+                    int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, fireVelocity, ModContent.ProjectileType<SarosSunfire>(), radiantOrbDamage / 2, Projectile.knockBack, Projectile.owner);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = radiantOrbDamage / 2;
                 }

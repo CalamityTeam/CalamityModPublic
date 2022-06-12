@@ -56,10 +56,10 @@ namespace CalamityMod.Items.Armor.Hydrothermic
                 {
                     player.AddBuff(ModContent.BuffType<HydrothermicVentBuff>(), 3600, true);
                 }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<HydrothermicVent>()] < 1)
                 {
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(190);
-                    var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), damage, 0f, Main.myPlayer, 38f, 0f);
+                    var p = Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<HydrothermicVent>(), damage, 0f, Main.myPlayer, 38f, 0f);
                     if (Main.projectile.IndexInRange(p))
                         Main.projectile[p].originalDamage = 190;
                 }

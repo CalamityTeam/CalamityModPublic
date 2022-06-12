@@ -10,7 +10,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SonOfYharon : ModProjectile
+    public class FieryDraconid : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
         public ref float AttackTimer => ref Projectile.ai[0];
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
         public const int FireballShootRate = 20;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconid");
+            DisplayName.SetDefault("Fiery Draconid");
             Main.projFrames[Projectile.type] = 10;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void PerformMinionChecks()
         {
-            bool correctMinion = Projectile.type == ModContent.ProjectileType<SonOfYharon>();
+            bool correctMinion = Projectile.type == ModContent.ProjectileType<FieryDraconid>();
             Owner.AddBuff(ModContent.BuffType<FieryDraconidBuff>(), 3600);
             if (!correctMinion)
                 return;

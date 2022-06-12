@@ -8,7 +8,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AccretionDiskProj : ModProjectile
+    public class ElementalDiskProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/ElementalDisk";
         private int Lifetime = 400;
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int counter = Projectile.Calamity().stealthStrike ? 35 : 50;
                 if (Main.player[Projectile.owner].miscCounter % counter == 0)
                 {
-                    int splitProj = ModContent.ProjectileType<AccretionDisk2>();
+                    int splitProj = ModContent.ProjectileType<ElementalDiskSplit>();
                     if (Projectile.owner == Main.myPlayer && Main.player[Projectile.owner].ownedProjectileCounts[splitProj] < 25)
                     {
                         float spread = 45f * 0.0174f;

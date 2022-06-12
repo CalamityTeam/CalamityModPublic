@@ -6,11 +6,11 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SirenSongFriendly : ModProjectile
+    public class WaterElementalSong : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Song");
+            DisplayName.SetDefault("Siren Song");
             ProjectileID.Sets.MinionShot[Projectile.type] = true;
         }
 

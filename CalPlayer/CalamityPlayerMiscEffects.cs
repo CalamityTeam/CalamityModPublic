@@ -3113,7 +3113,7 @@ namespace CalamityMod.CalPlayer
             }
 
             if (gArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
-                Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()];
+                Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<FieryDraconid>()];
 
             if (pArtifact)
             {

@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,13 +6,13 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChaosGeyser : ModProjectile
+    public class ChaoticGeyser : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Geyser");
+            DisplayName.SetDefault("Chaotic Geyser");
         }
 
         public override void SetDefaults()

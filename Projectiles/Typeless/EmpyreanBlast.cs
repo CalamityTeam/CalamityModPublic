@@ -1,40 +1,33 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class ChaosBlaze : ModProjectile
+    public class EmpyreanBlast : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blaze");
+            DisplayName.SetDefault("Empyrean Blast");
         }
 
         public override void SetDefaults()
         {
-            Projectile.width = 250;
-            Projectile.height = 250;
+            Projectile.width = 20;
+            Projectile.height = 20;
             Projectile.friendly = true;
-            Projectile.ignoreWater = false;
+            Projectile.ignoreWater = true;
             Projectile.tileCollide = false;
-            Projectile.penetrate = -1;
-            Projectile.timeLeft = 80;
-            Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 8;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 5;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.75f / 255f, (255 - Projectile.alpha) * 0.5f / 255f, (255 - Projectile.alpha) * 0.01f / 255f);
-            if (Projectile.wet && !Projectile.lavaWet)
-            {
-                Projectile.Kill();
-            }
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.35f / 255f, (255 - Projectile.alpha) * 0.05f / 255f, (255 - Projectile.alpha) * 0.25f / 255f);
             bool flag15 = false;
             bool flag16 = false;
             if (Projectile.velocity.X < 0f && Projectile.position.X < Projectile.ai[0])
@@ -72,14 +65,14 @@ namespace CalamityMod.Projectiles.Typeless
             int num462 = 0;
             while ((float)num462 < num461)
             {
-                float num463 = (float)Main.rand.Next(-30, 31);
-                float num464 = (float)Main.rand.Next(-30, 31);
-                float num465 = (float)Main.rand.Next(9, 27);
+                float num463 = (float)Main.rand.Next(-10, 11);
+                float num464 = (float)Main.rand.Next(-10, 11);
+                float num465 = (float)Main.rand.Next(3, 9);
                 float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 127, 0f, 0f, 100, default, 1.5f);
+                int num467 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 62, 0f, 0f, 100, default, 1f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
                 dust.position.X = Projectile.Center.X;
@@ -90,16 +83,6 @@ namespace CalamityMod.Projectiles.Typeless
                 dust.velocity.Y = num464;
                 num462++;
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 300);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 300);
         }
     }
 }

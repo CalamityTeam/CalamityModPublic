@@ -1,14 +1,14 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class XerocBubble : ModProjectile
+    public class EmpyreanGlob : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble");
+            DisplayName.SetDefault("Empyeran Glob");
         }
 
         public override void SetDefaults()

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.UseSound = SoundID.Item1;
             Item.value = Item.buyPrice(gold: 80);
             Item.rare = ItemRarityID.Yellow;
-            Item.shoot = ModContent.ProjectileType<FlameScytheProjectile>();
+            Item.shoot = ModContent.ProjectileType<SubductionSlicerProj>();
             Item.shootSpeed = 16f;
             Item.DamageType = RogueDamageClass.Instance;
         }

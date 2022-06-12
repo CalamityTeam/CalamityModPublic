@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().customRarity = CalamityRarity.Violet;
             Item.UseSound = CommonCalamitySounds.FlareSound;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<SonOfYharon>();
+            Item.shoot = ModContent.ProjectileType<FieryDraconid>();
             Item.shootSpeed = 10f;
             Item.DamageType = DamageClass.Summon;
         }
