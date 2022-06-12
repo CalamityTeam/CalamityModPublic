@@ -3,6 +3,7 @@ using CalamityMod.Tiles.FurnitureExo;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -93,6 +94,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.WorldGen.SmashAltar += PreventSmashAltarCode;
             IL.Terraria.WorldGen.hardUpdateWorld += AdjustChlorophyteSpawnRate;
             IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
+            IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions += ChangeDefaultWorldSize;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
@@ -183,6 +185,7 @@ namespace CalamityMod.ILEditing
             On.Terraria.WorldGen.SmashAltar -= PreventSmashAltarCode;
             IL.Terraria.WorldGen.hardUpdateWorld -= AdjustChlorophyteSpawnRate;
             IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
+            IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions -= ChangeDefaultWorldSize;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind -= DecreaseSandstormWindSpeedRequirement;

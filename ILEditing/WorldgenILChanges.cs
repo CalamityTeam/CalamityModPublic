@@ -4,6 +4,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
 using Terraria;
+using Terraria.GameContent.UI.States;
 using Terraria.ID;
 using Terraria.WorldBuilding;
 
@@ -130,5 +131,57 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldc_I4, 200); // Increase the limit to 200.
         }
         #endregion Chlorophyte Spread Improvements
+
+        #region World Creation UI Default Size Change
+        /// <summary>
+        /// Modifies the default world size on the world creation menu to be Large instead of Small.
+        /// </summary>
+        private static void ChangeDefaultWorldSize(ILContext il)
+        {
+            // Objective 1: Pop value '0' off the stack and emit value '2'. This changes the enum used for setting the default world size.
+            // Objective 2: Invoke UpdatePreviewPlate at the end of the method and set _optionSize to Large.
+            var c = new ILCursor(il);
+            
+            // OBJECTIVE 1
+            
+            // Find and anchor ourselves at roughly the start of the first for loop of this method.
+            if (!c.TryGotoNext(x => x.MatchBr(out _)))
+            {
+                LogFailure("Change Default World Size", "Could not match start of branched for loop.");
+                return;
+            }
+            
+            // Position ourselves directly after where '0' is pushed.
+            if (!c.TryGotoNext(MoveType.After, x => x.MatchLdcI4(0)))
+            {
+                LogFailure("Change Default World Size", "Could not match '0' indicating WorldSizeId.Small.");
+                return;
+            }
+
+            // Pop original value off.
+            c.Emit(OpCodes.Pop);
+            
+            // Push '2' to the stack.
+            c.Emit(OpCodes.Ldc_I4_2);
+            
+            // OBJECTIVE 2
+
+            // Match right before the method returns.
+            if (!c.TryGotoNext(x => x.MatchRet()))
+            {
+                LogFailure("Change Default World Size", "Could not match end of method.");
+                return;
+            }
+            
+            // Set _optionSize to Large.
+            c.Emit(OpCodes.Ldarg_0); // this
+            c.Emit(OpCodes.Ldc_I4_2); // '2'
+            c.Emit<UIWorldCreation>(OpCodes.Stfld, "_optionSize"); // UIWorldCreation._optionSize
+
+            // Invoke UpdatePreviewPlate with our current instance.
+            c.Emit(OpCodes.Ldarg_0); // this
+            c.Emit<UIWorldCreation>(OpCodes.Call, "UpdatePreviewPlate"); // UIWorldCreation.UpdatePreviewPlate
+        }
+        #endregion
     }
 }
