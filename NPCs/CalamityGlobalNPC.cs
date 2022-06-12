@@ -1148,7 +1148,7 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.Mothron)
             {
-                npc.scale = 1.25f;
+                npc.scale *= 1.25f;
             }
             else if (npc.type == NPCID.MoonLordCore || npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
             {
@@ -1200,7 +1200,7 @@ namespace CalamityMod.NPCs
             else if (CalamityLists.DestroyerIDs.Contains(npc.type))
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.25);
-                npc.scale = CalamityWorld.death ? 2.5f : 1.5f;
+                npc.scale *= CalamityWorld.death ? 2.5f : 1.5f;
                 npc.npcSlots = 10f;
             }
             else if (npc.type == NPCID.Probe)
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs
                 if (CalamityWorld.death)
                     npc.lifeMax = (int)(npc.lifeMax * 2.0);
 
-                npc.scale = CalamityWorld.death ? 2f : 1.2f;
+                npc.scale *= CalamityWorld.death ? 2f : 1.2f;
             }
             else if (npc.type == NPCID.SkeletronPrime)
             {
@@ -1262,7 +1262,7 @@ namespace CalamityMod.NPCs
             else if ((npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall) && CalamityPlayer.areThereAnyDamnBosses)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 1.4);
-                npc.scale = 1.25f;
+                npc.scale *= 1.25f;
             }
             else if (npc.type == NPCID.Deerclops)
             {
@@ -1286,7 +1286,7 @@ namespace CalamityMod.NPCs
                     npc.npcSlots = 10f;
 
                 if (CalamityWorld.death)
-                    npc.scale = 1.1f;
+                    npc.scale *= 1.1f;
             }
             else if (npc.type == NPCID.EyeofCthulhu)
             {
@@ -1296,7 +1296,12 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.KingSlime)
             {
                 if (CalamityWorld.death)
-                    npc.scale = 3f;
+                    npc.scale = Main.getGoodWorld ? 6f : 3f;
+                else
+                    npc.scale = Main.getGoodWorld ? 3f : 1.25f;
+
+                if (Main.getGoodWorld)
+                    npc.lifeMax = (int)(npc.lifeMax * 1.5);
             }
             else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
             {
@@ -4385,7 +4390,7 @@ namespace CalamityMod.NPCs
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int slimeAmt = Main.rand.Next(2) + 2; //2 to 3 extra
+                                int slimeAmt = Main.getGoodWorld ? Main.rand.Next(6) + 10 : Main.rand.Next(2) + 2; // 2 to 3 extra
                                 for (int s = 0; s < slimeAmt; s++)
                                 {
                                     int slime = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)(npc.position.Y + npc.height), NPCID.BlueSlime, 0, 0f, 0f, 0f, 0f, 255);
@@ -4393,8 +4398,8 @@ namespace CalamityMod.NPCs
                                     npc2.SetDefaults(NPCID.BabySlime);
                                     npc2.velocity.X = npc.velocity.X * 2f;
                                     npc2.velocity.Y = npc.velocity.Y;
-                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + s * npc.direction * 0.3f;
-                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + s;
+                                    npc2.velocity.X += Main.rand.Next(-20, 20) * (Main.getGoodWorld ? 0.5f : 0.1f) + s * npc.direction * (Main.getGoodWorld ? 0.5f : 0.3f);
+                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * (Main.getGoodWorld ? 0.5f : 0.1f) + s;
                                     npc2.ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && slime < Main.maxNPCs)
@@ -4406,13 +4411,13 @@ namespace CalamityMod.NPCs
 
                     case NPCID.Demon:
                     case NPCID.VoodooDemon:
-                        npc.ai[0] += 1f;
+                        npc.ai[0] += Main.getGoodWorld ? 5f : 1f;
                         break;
 
                     case NPCID.CursedHammer:
                     case NPCID.EnchantedSword:
                     case NPCID.CrimsonAxe:
-                        if (npc.life <= npc.lifeMax * 0.5)
+                        if (npc.life <= npc.lifeMax * 0.5 || Main.getGoodWorld)
                             npc.justHit = false;
 
                         break;
@@ -4423,13 +4428,13 @@ namespace CalamityMod.NPCs
                     case NPCID.IceTortoise:
                     case NPCID.BlackRecluse:
                     case NPCID.BlackRecluseWall:
-                        if (npc.life <= npc.lifeMax * 0.25)
+                        if (npc.life <= npc.lifeMax * 0.25 || Main.getGoodWorld)
                             npc.justHit = false;
 
                         break;
 
                     case NPCID.Paladin:
-                        if (npc.life <= npc.lifeMax * 0.15)
+                        if (npc.life <= npc.lifeMax * 0.15 || Main.getGoodWorld)
                             npc.justHit = false;
 
                         break;
@@ -4443,7 +4448,7 @@ namespace CalamityMod.NPCs
 
                 if (npc.type == NPCType<Plagueshell>())
                 {
-                    if (npc.life <= npc.lifeMax * 0.25)
+                    if (npc.life <= npc.lifeMax * 0.25 || Main.getGoodWorld)
                         npc.justHit = false;
                 }
             }

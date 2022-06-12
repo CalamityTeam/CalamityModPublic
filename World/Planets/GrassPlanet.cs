@@ -1,10 +1,12 @@
 ﻿using CalamityMod.DataStructures;
+using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.WorldBuilding;
 
 namespace CalamityMod.World.Planets
@@ -18,10 +20,10 @@ namespace CalamityMod.World.Planets
     {
         private ushort[] oreTypes = new ushort[]
         {
-            WorldGen.copperBar == TileID.Copper ? TileID.Tin : TileID.Copper,
-            WorldGen.ironBar == TileID.Iron ? TileID.Lead : TileID.Iron,
-            WorldGen.silverBar == TileID.Silver ? TileID.Tungsten : TileID.Silver,
-            WorldGen.goldBar == TileID.Gold ? TileID.Platinum : TileID.Gold
+            WorldGen.copperBar == TileID.Copper ? (WorldGen.getGoodWorldGen ? TileID.Palladium : TileID.Tin) : (WorldGen.getGoodWorldGen ? TileID.Cobalt : TileID.Copper),
+            WorldGen.ironBar == TileID.Iron ? (WorldGen.getGoodWorldGen ? TileID.Orichalcum : TileID.Lead) : (WorldGen.getGoodWorldGen ? TileID.Mythril : TileID.Iron),
+            WorldGen.silverBar == TileID.Silver ? (WorldGen.getGoodWorldGen ? TileID.Titanium : TileID.Tungsten) : (WorldGen.getGoodWorldGen ? TileID.Adamantite : TileID.Silver),
+            WorldGen.goldBar == TileID.Gold ? (WorldGen.getGoodWorldGen ? (ushort)ModContent.TileType<HallowedOre>() : TileID.Platinum) : (WorldGen.getGoodWorldGen ? (ushort)ModContent.TileType<HallowedOre>() : TileID.Gold)
         };
 
         public override bool Place(Point origin, StructureMap structures)

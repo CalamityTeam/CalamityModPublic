@@ -273,14 +273,14 @@ namespace CalamityMod.NPCs.Crabulon
             }
             else if (NPC.ai[0] == 2f)
             {
-                float num823 = 1f;
+                float num823 = 2f;
                 if (phase2)
-                    num823 = 1.25f;
+                    num823 = 2.5f;
                 if (phase3)
-                    num823 = 1.75f;
+                    num823 = 3f;
                 if (death)
                     num823 += 2f * (1f - lifeRatio);
-                num823 += 4f * enrageScale;
+                num823 += 2.5f * enrageScale;
 
                 bool flag51 = false;
                 if (Math.Abs(NPC.Center.X - player.Center.X) < 50f)
@@ -396,7 +396,7 @@ namespace CalamityMod.NPCs.Crabulon
                             NPC.ai[1] += !revenge ? 4f : 1f;
                     }
 
-                    float jumpGateValue = (malice ? 30f : 240f) / (enrageScale + 1f);
+                    float jumpGateValue = (malice ? 40f : 120f) / (enrageScale + 1f);
                     if (NPC.ai[1] >= jumpGateValue)
                     {
                         NPC.ai[1] = -20f;

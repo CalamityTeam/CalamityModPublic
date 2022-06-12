@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 return false;
 
             // Adjust size based on HP
-            float maxScale = death ? 3f : 1.25f;
+            float maxScale = death ? (Main.getGoodWorld ? 6f : 3f) : (Main.getGoodWorld ? 3f : 1.25f);
             float minScale = 0.75f;
             lifeRatio = lifeRatio * (maxScale - minScale) + minScale;
             lifeRatio *= num234;

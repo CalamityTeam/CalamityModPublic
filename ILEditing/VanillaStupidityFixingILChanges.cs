@@ -211,7 +211,7 @@ namespace CalamityMod.ILEditing
         #region Make Windy Day Music Play Less Often
         private static void MakeWindyDayMusicPlayLessOften(ILContext il)
         {
-            // Make windy day theme only play when the wind speed is over 0.6f instead of 0.4f and make it stop when the wind dies down to below 0.54f instead of 0.34f.
+            // Make windy day theme only play when the wind speed is over 0.5f instead of 0.4f and make it stop when the wind dies down to below 0.44f instead of 0.34f.
             var cursor = new ILCursor(il);
 
             FieldInfo _minWindField = typeof(Main).GetField("_minWind", BindingFlags.NonPublic | BindingFlags.Static);
@@ -222,7 +222,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 0.54f); // Change to 0.54f.
+            cursor.Emit(OpCodes.Ldc_R4, 0.44f); // Change to 0.44f.
 
             FieldInfo _maxWindField = typeof(Main).GetField("_maxWind", BindingFlags.NonPublic | BindingFlags.Static);
 
@@ -232,7 +232,7 @@ namespace CalamityMod.ILEditing
                 return;
             }
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldc_R4, 0.6f); // Change to 0.6f.
+            cursor.Emit(OpCodes.Ldc_R4, 0.5f); // Change to 0.5f.
         }
         #endregion Make Windy Day Music Play Less Often
 

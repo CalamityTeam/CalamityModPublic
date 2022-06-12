@@ -37,6 +37,9 @@ namespace CalamityMod.World
             Rectangle[] roomBounds = new Rectangle[200];
             float worldScale = Main.maxTilesX / 4200f;
             int totalRooms = (int)(worldScale * WorldGen.genRand.Next(12, 16));
+            if (WorldGen.getGoodWorldGen)
+                totalRooms *= 3;
+
             int xDirection = WorldGen.genRand.NextBool(2).ToDirectionInt();
             int initalDirection = xDirection;
             int pathPositionX = x;
@@ -71,7 +74,7 @@ namespace CalamityMod.World
                     if (i == totalRooms - 1)
                     {
                         width = (int)FinalRoomSize.X;
-                        height = (int)FinalRoomSize.Y;
+                        height = WorldGen.getGoodWorldGen ? (int)FinalRoomSize.Y / 2 : (int)FinalRoomSize.Y;
                         roomPositionY += WorldGen.genRand.Next(6, 9);
                     }
 
@@ -164,6 +167,8 @@ namespace CalamityMod.World
                                 {
                                     Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().HasTile = true;
                                     Main.tile[roomPositionX, roomPositionY].TileType = TileID.LihzahrdBrick;
+                                    if (WorldGen.getGoodWorldGen)
+                                        Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().TileColor = 17;
                                     Main.tile[roomPositionX, roomPositionY].LiquidAmount = 0;
                                     Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                                     Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().IsHalfBlock = false;
@@ -184,6 +189,8 @@ namespace CalamityMod.World
                     {
                         Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().HasTile = true;
                         Main.tile[roomPositionX, roomPositionY].TileType = TileID.LihzahrdBrick;
+                        if (WorldGen.getGoodWorldGen)
+                            Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().TileColor = 17;
                         Main.tile[roomPositionX, roomPositionY].LiquidAmount = 0;
                         Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                         Main.tile[roomPositionX, roomPositionY].Get<TileWallWireStateData>().IsHalfBlock = false;
@@ -352,6 +359,8 @@ namespace CalamityMod.World
                     {
                         Main.tile[(int)endPathPosition.X, dy].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[(int)endPathPosition.X, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                        if (WorldGen.getGoodWorldGen)
+                            Main.tile[(int)endPathPosition.X, dy].Get<TileWallWireStateData>().WallColor = 25;
                     }
                     dy++;
                 }
@@ -377,6 +386,8 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[dx, dy].TileType = TileID.LihzahrdBrick;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[dx, dy].Get<TileWallWireStateData>().TileColor = 17;
                     Main.tile[dx, dy].LiquidAmount = 0;
                     Main.tile[dx, dy].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     Main.tile[dx, dy].Get<TileWallWireStateData>().IsHalfBlock = false;
@@ -388,6 +399,8 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = false;
                     Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[dx, dy].Get<TileWallWireStateData>().WallColor = 25;
                 }
             }
             for (int dx = doorPositionX - 1; dx <= doorPositionX + 1; dx++)
@@ -396,6 +409,8 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[dx, dy].TileType = TileID.LihzahrdBrick;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[dx, dy].Get<TileWallWireStateData>().TileColor = 17;
                     Main.tile[dx, dy].LiquidAmount = 0;
                     Main.tile[dx, dy].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                     Main.tile[dx, dy].Get<TileWallWireStateData>().IsHalfBlock = false;
@@ -407,6 +422,8 @@ namespace CalamityMod.World
                 {
                     Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = false;
                     Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[dx, dy].Get<TileWallWireStateData>().WallColor = 25;
                 }
             }
 
@@ -449,6 +466,8 @@ namespace CalamityMod.World
                     if (shouldPlaceWalls)
                     {
                         Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                        if (WorldGen.getGoodWorldGen)
+                            Main.tile[dx, dy].Get<TileWallWireStateData>().WallColor = 25;
                     }
                 }
             }
@@ -642,6 +661,8 @@ namespace CalamityMod.World
                         Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[dx, dy].LiquidAmount = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
                         Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                        if (WorldGen.getGoodWorldGen)
+                            Main.tile[dx, dy].Get<TileWallWireStateData>().WallColor = 25;
                     }
                 }
             }
@@ -671,6 +692,8 @@ namespace CalamityMod.World
                         Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = false;
                         Main.tile[dx, dy].LiquidAmount = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
                         Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                        if (WorldGen.getGoodWorldGen)
+                            Main.tile[dx, dy].Get<TileWallWireStateData>().WallColor = 25;
                     }
                 }
             }
@@ -686,6 +709,8 @@ namespace CalamityMod.World
                     Main.tile[dx, dy].Get<TileWallWireStateData>().HasTile = false;
                     Main.tile[dx, dy].LiquidAmount = 0; // Apparently this can indeed happen, and it can interfere with furniture placement.
                     Main.tile[dx, dy].WallType = WallID.LihzahrdBrickUnsafe;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[dx, dy].Get<TileWallWireStateData>().WallColor = 25;
                 }
             }
 
@@ -715,9 +740,13 @@ namespace CalamityMod.World
                 {
                     Main.tile[roomCenterX - dx, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[roomCenterX - dx, y].TileType = TileID.LihzahrdBrick;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[roomCenterX - dx, y].Get<TileWallWireStateData>().TileColor = 17;
 
                     Main.tile[roomCenterX + dx, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[roomCenterX + dx, y].TileType = TileID.LihzahrdBrick;
+                    if (WorldGen.getGoodWorldGen)
+                        Main.tile[roomCenterX - dx, y].Get<TileWallWireStateData>().TileColor = 17;
                 }
             }
 
@@ -916,6 +945,8 @@ namespace CalamityMod.World
                 Main.tile[i, NewAlterPosition.Y + 2].Get<TileWallWireStateData>().Slope = SlopeType.Solid;
                 Main.tile[i, NewAlterPosition.Y + 2].Get<TileWallWireStateData>().IsHalfBlock = false;
                 Main.tile[i, NewAlterPosition.Y + 2].TileType = TileID.LihzahrdBrick;
+                if (WorldGen.getGoodWorldGen)
+                    Main.tile[i, NewAlterPosition.Y + 2].Get<TileWallWireStateData>().TileColor = 17;
             }
         }
     }

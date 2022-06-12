@@ -18,35 +18,80 @@ namespace CalamityMod.World
             int yIslandGen;
             Rectangle potentialArea;
 
-            do
+            if (WorldGen.getGoodWorldGen)
             {
-                xIslandGen = WorldGen.crimson ?
-                    WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2)) :
-                    WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
-                yIslandGen = WorldGen.genRand.Next(95, 126);
-                yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+                do
+                {
+                    xIslandGen = WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2));
+                    yIslandGen = WorldGen.genRand.Next(95, 126);
+                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
-                int checkAreaX = 160;
-                int checkAreaY = 90;
-                potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
-            }
-            while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
+                    int checkAreaX = 160;
+                    int checkAreaY = 90;
+                    potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
+                }
+                while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
 
-            int tileXLookup = xIslandGen;
-            if (WorldGen.crimson)
-            {
+                int tileXLookup = xIslandGen;
                 while (Main.tile[tileXLookup, yIslandGen].HasTile)
                     tileXLookup++;
+
+                xIslandGen = tileXLookup;
+                EvilIsland(xIslandGen, yIslandGen);
+                EvilIslandHouse(xIslandGen, yIslandGen);
+
+                do
+                {
+                    xIslandGen = WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
+                    yIslandGen = WorldGen.genRand.Next(95, 126);
+                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
+
+                    int checkAreaX = 160;
+                    int checkAreaY = 90;
+                    potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
+                }
+                while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
+
+                tileXLookup = xIslandGen;
+                while (Main.tile[tileXLookup, yIslandGen].HasTile)
+                    tileXLookup--;
+
+                xIslandGen = tileXLookup;
+                EvilIsland(xIslandGen, yIslandGen);
+                EvilIslandHouse(xIslandGen, yIslandGen);
             }
             else
             {
-                while (Main.tile[tileXLookup, yIslandGen].HasTile)
-                    tileXLookup--;
-            }
+                do
+                {
+                    xIslandGen = WorldGen.crimson ?
+                        WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.2)) :
+                        WorldGen.genRand.Next((int)(x * 0.8), (int)(x * 0.9));
+                    yIslandGen = WorldGen.genRand.Next(95, 126);
+                    yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
-            xIslandGen = tileXLookup;
-            EvilIsland(xIslandGen, yIslandGen);
-            EvilIslandHouse(xIslandGen, yIslandGen);
+                    int checkAreaX = 160;
+                    int checkAreaY = 90;
+                    potentialArea = Utils.CenteredRectangle(new Vector2(xIslandGen, yIslandGen), new Vector2(checkAreaX, checkAreaY));
+                }
+                while (!Planetoid.InvalidSkyPlacementArea(potentialArea));
+
+                int tileXLookup = xIslandGen;
+                if (WorldGen.crimson)
+                {
+                    while (Main.tile[tileXLookup, yIslandGen].HasTile)
+                        tileXLookup++;
+                }
+                else
+                {
+                    while (Main.tile[tileXLookup, yIslandGen].HasTile)
+                        tileXLookup--;
+                }
+
+                xIslandGen = tileXLookup;
+                EvilIsland(xIslandGen, yIslandGen);
+                EvilIslandHouse(xIslandGen, yIslandGen);
+            }
         }
 
         public static void EvilIsland(int i, int j)
