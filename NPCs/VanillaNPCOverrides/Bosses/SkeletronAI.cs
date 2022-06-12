@@ -279,6 +279,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (handsDead && npc.ai[1] == 0f)
             {
                 float num158 = BossRushEvent.BossRushActive ? 10f : malice ? 15f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
+                if (Main.getGoodWorld)
+                    num158 *= 0.8f;
+
                 if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] >= num158)
                 {
                     calamityGlobalNPC.newAI[1] = 0f;
@@ -338,6 +341,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num170 = 3.5f - (death ? 1f - lifeRatio : 0f);
                 float num171 = 0.08f + (death ? 0.04f * (1f - lifeRatio) : 0f);
                 float num172 = 8.5f - (death ? 2f * (1f - lifeRatio) : 0f);
+                if (Main.getGoodWorld)
+                {
+                    num169 += 0.01f;
+                    num170 += 1f;
+                    num171 += 0.05f;
+                    num172 += 2f;
+                }
                 if (malice)
                 {
                     num169 *= 1.25f;
@@ -423,6 +433,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     float baseDistanceVelocityMult = 1f + MathHelper.Clamp((num175 - 150f) * 0.0015f, 0.05f, 1.5f);
                     num176 *= baseDistanceVelocityMult;
                 }
+
+                if (Main.getGoodWorld)
+                    num176 *= 1.3f;
 
                 num175 = num176 / num175;
                 npc.velocity.X = num173 * num175;

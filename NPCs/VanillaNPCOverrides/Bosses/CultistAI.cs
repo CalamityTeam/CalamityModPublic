@@ -75,6 +75,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 idleTime = 30;
             }
 
+            if (Main.getGoodWorld)
+            {
+                iceMistFireRate = 30;
+                iceMistSpeed = 15f;
+                fireballFireRate = 6;
+                fireballSpeed *= 1.25f;
+                lightningOrbPhaseTime = 60;
+                ancientLightSpawnRate = 10;
+                ancientLightAmt = 5;
+                idleTime = 20;
+            }
+
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Get a target

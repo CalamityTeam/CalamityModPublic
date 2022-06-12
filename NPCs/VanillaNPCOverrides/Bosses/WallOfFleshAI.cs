@@ -254,11 +254,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (malice)
                 speedMult += 0.2f;
 
-            // NOTE: Max velocity is 8 in expert mode
+            // NOTE: Max velocity is 8 in Expert Mode
+            // NOTE: Max velocity is 9 in For The Worthy
 
             float velocityBoost = 4f * (1f - lifeRatio);
             float velocityX = (BossRushEvent.BossRushActive ? 7f : death ? 3.5f : 2f) + velocityBoost;
             velocityX *= speedMult;
+
+            if (Main.getGoodWorld)
+            {
+                velocityX *= 1.1f;
+                velocityX += 0.2f;
+            }
 
             // NOTE: Values below are based on Rev Mode only!
             // Max velocity without enrage is 12
