@@ -469,7 +469,6 @@ namespace CalamityMod.CalPlayer
         public bool aAmpoule = false;
         public bool sponge = false;
         public bool rOoze = false;
-        public bool pAmulet = false;
         public bool fBarrier = false;
         public bool aBrain = false;
         public bool amalgam = false;
@@ -1643,7 +1642,6 @@ namespace CalamityMod.CalPlayer
             aAmpoule = false;
             sponge = false;
             rOoze = false;
-            pAmulet = false;
             fBarrier = false;
             aBrain = false;
             amalgam = false;
@@ -3777,12 +3775,6 @@ namespace CalamityMod.CalPlayer
 
                 if (HasCustomDash)
                     ModDashMovement();
-
-                if (pAmulet && modStealth < 1f)
-                {
-                    Player.maxRunSpeed -= Player.maxRunSpeed / 2f * (1f - modStealth);
-                    Player.accRunSpeed = Player.maxRunSpeed;
-                }
             }
             #endregion
         }

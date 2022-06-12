@@ -18,8 +18,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Hooded Facemask");
-            Tooltip.SetDefault("30% increased ranged damage and critical strike chance\n" +
-                               "Not moving boosts all damage and critical strike chance");
+            Tooltip.SetDefault("30% increased ranged damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -76,7 +75,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<GodSlayerHeadRanged>().
                 AddIngredient<BloodflareHeadRanged>().
                 AddIngredient<TarragonHeadRanged>().
-                AddIngredient<PsychoticAmulet>().
                 AddIngredient<AuricBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();

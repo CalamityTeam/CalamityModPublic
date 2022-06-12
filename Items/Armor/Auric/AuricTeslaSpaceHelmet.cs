@@ -19,8 +19,7 @@ namespace CalamityMod.Items.Armor.Auric
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Auric Tesla Space Helmet");
-            Tooltip.SetDefault("15% increased minion damage\n" +
-                    "Not moving boosts all damage and critical strike chance");
+            Tooltip.SetDefault("15% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -93,7 +92,6 @@ namespace CalamityMod.Items.Armor.Auric
                 AddIngredient<SilvaHeadSummon>().
                 AddIngredient<BloodflareHeadSummon>().
                 AddIngredient<TarragonHeadSummon>().
-                AddIngredient<PsychoticAmulet>().
                 AddIngredient<AuricBar>(12).
                 AddTile<CosmicAnvil>().
                 Register();
