@@ -265,8 +265,8 @@ namespace CalamityMod.UI
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnOffense>(),
                 NPCType<ProvSpawnHealer>(),
-                NPCType<ProfanedGuardianBoss2>(),
-                NPCType<ProfanedGuardianBoss3>()
+                NPCType<ProfanedGuardianDefender>(),
+                NPCType<ProfanedGuardianHealer>()
             };
             MinibossHPBarList.AddRange(AcidRainEvent.AllMinibosses);
         }

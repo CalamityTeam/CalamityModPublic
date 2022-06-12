@@ -2579,7 +2579,7 @@ namespace CalamityMod
                 { NPCID.CultistBoss, 27 },
                 { NPCType<AstrumDeusHead>(), 28 },
                 { NPCID.MoonLordCore, 29 },
-                { NPCType<ProfanedGuardianBoss>(), 30 },
+                { NPCType<ProfanedGuardianCommander>(), 30 },
                 { NPCType<Bumblefuck>(), 31 },
                 { NPCType<Providence>(), 32 },
                 { NPCType<CeaselessVoid>(), 33 },

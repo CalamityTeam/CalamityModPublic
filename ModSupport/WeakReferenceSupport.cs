@@ -468,7 +468,7 @@ namespace CalamityMod
             // Profaned Guardians
             {
                 BossDifficulty.TryGetValue("ProfanedGuardians", out float order);
-                int type = NPCType<ProfanedGuardianBoss>();
+                int type = NPCType<ProfanedGuardianCommander>();
                 int summon = ItemType<ProfanedShard>();
                 List<int> loot = new List<int>() { ItemType<RelicOfResilience>(), ItemType<RelicOfConvergence>(), ItemType<RelicOfDeliverance>(), ItemType<WarbanneroftheSun>(), ItemType<ProfanedCore>(), ItemID.SuperHealingPotion };
                 List<int> collection = new List<int>() { ItemType<ProfanedGuardianTrophy>(), ItemType<ProfanedGuardianMask>(), ItemType<KnowledgeProfanedGuardians>() };

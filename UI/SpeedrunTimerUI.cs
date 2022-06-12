@@ -120,7 +120,7 @@ namespace CalamityMod.UI
             27 => TextureAssets.NpcHeadBoss[31].Value, // Lunatic Cultist
             28 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHead>()]].Value,
             29 => TextureAssets.NpcHeadBoss[8].Value, // Moon Lord
-            30 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianBoss>()]].Value,
+            30 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianCommander>()]].Value,
             31 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Bumblefuck>()]].Value,
             32 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Providence>()]].Value,
             33 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CeaselessVoid>()]].Value,

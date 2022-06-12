@@ -133,9 +133,9 @@ namespace CalamityMod
                 { NPCID.MoonLordHead, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
                 { NPCID.MoonLordLeechBlob, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
 
-                { ModContent.NPCType<ProfanedGuardianBoss>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 
                 { ModContent.NPCType<Providence>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProvSpawnOffense>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },

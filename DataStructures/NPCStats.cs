@@ -259,7 +259,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusBody>(), 0.8 },
                 { ModContent.NPCType<AstrumDeusTail>(), 0.8 },
 
-                { ModContent.NPCType<ProfanedGuardianBoss>(), 0.8 },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), 0.8 },
 
                 { ModContent.NPCType<Bumblefuck>(), 0.8 },
 
@@ -484,9 +484,9 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusBody>(), new int[] { 100, 160, 192, 200, 240 } },
                 { ModContent.NPCType<AstrumDeusTail>(), new int[] { 80, 128, 160, 168, 192 } },
 
-                { ModContent.NPCType<ProfanedGuardianBoss>(), new int[] { 140, 224, 256, 280, 336 } },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), new int[] { 120, 240, 264, 278, 336 } },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), new int[] { 100, 200, 220, 232, 270 } },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), new int[] { 140, 224, 256, 280, 336 } },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), new int[] { 120, 240, 264, 278, 336 } },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), new int[] { 100, 200, 220, 232, 270 } },
 
                 { ModContent.NPCType<Bumblefuck>(), new int[] { 160, 256, 288, 304, 384 } },
                 { ModContent.NPCType<Bumblefuck2>(), new int[] { 110, 220, 242, 256, 330 } },
@@ -713,9 +713,9 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalSphere), new int[] { 110, 220, 260, 284, 390 } }, // 330 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalDeathray), new int[] { 100, 200, 260, 284, 390 } }, // 300 in non-rev master mode
 
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss>(), ModContent.ProjectileType<FlareDust>()), new int[] { 140, 220, 244, 256, 366 } },
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss2>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<FlareDust>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<RedLightningFeather>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<BirbAuraFlare>()), new int[] { 200, 300, 332, 356, 498 } },

@@ -23,7 +23,7 @@ using Terraria.Audio;
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
-    public class ProfanedGuardianBoss : ModNPC
+    public class ProfanedGuardianCommander : ModNPC
     {
         private int spearType = 0;
         private int healTimer = 0;
@@ -114,8 +114,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             if (Main.netMode != NetmodeID.MultiplayerClient && NPC.localAI[1] == 0f)
             {
                 NPC.localAI[1] = 1f;
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss2>());
-                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianBoss3>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianDefender>());
+                NPC.NewNPC(NPC.GetSource_FromAI(), (int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<ProfanedGuardianHealer>());
             }
 
             bool defenderAlive = false;
@@ -226,7 +226,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             bool phase1 = false;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if ((Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
+                if ((Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ProfanedGuardianDefender>()) || (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<ProfanedGuardianHealer>()))
                     phase1 = true;
             }
 
@@ -443,7 +443,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianCommanderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)

@@ -593,7 +593,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusTail>(), 7200 },
                 { ModContent.NPCType<PlaguebringerGoliath>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<RavagerBody>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<ProfanedGuardianCommander>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<Bumblefuck>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<Providence>(), 14400 }, // 4:00 (240 seconds)
                 { ModContent.NPCType<CeaselessVoid>(), 10800 }, // 3:00 (180 seconds)
@@ -709,9 +709,9 @@ namespace CalamityMod
                 { ModContent.NPCType<RavagerLegLeft>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerLegRight>(), velocityScaleMin },
                 { ModContent.NPCType<RockPillar>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },

@@ -130,7 +130,7 @@ namespace CalamityMod.Events
                     CalamityUtils.BossAwakenMessage(shittyStatueBoss);
                 }, permittedNPCs: new int[] { NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.GolemHeadFree }),
 
-                new Boss(ModContent.NPCType<ProfanedGuardianBoss>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianBoss2>(), ModContent.NPCType<ProfanedGuardianBoss3>() }),
+                new Boss(ModContent.NPCType<ProfanedGuardianCommander>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.NPCType<ProfanedGuardianHealer>() }),
 
                 new Boss(NPCID.EaterofWorldsHead, permittedNPCs: new int[] { NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail, NPCID.VileSpit }),
 

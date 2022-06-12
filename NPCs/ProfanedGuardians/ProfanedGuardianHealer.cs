@@ -15,7 +15,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
-    public class ProfanedGuardianBoss3 : ModNPC
+    public class ProfanedGuardianHealer : ModNPC
     {
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<ProfanedGuardianBoss>();
+            int associatedNPCType = ModContent.NPCType<ProfanedGuardianCommander>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
-            Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss3Glow2").Value;
+            Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlow2").Value;
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss3Glow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianHealerGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
             Color color42 = Color.Lerp(Color.White, Color.Violet, 0.5f);
 

@@ -18,7 +18,7 @@ using Terraria.Audio;
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
-    public class ProfanedGuardianBoss2 : ModNPC
+    public class ProfanedGuardianDefender : ModNPC
     {
         private int healTimer = 0;
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<ProfanedGuardianBoss>();
+            int associatedNPCType = ModContent.NPCType<ProfanedGuardianCommander>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss2Glow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)

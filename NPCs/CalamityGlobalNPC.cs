@@ -483,9 +483,9 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref siren, NPCType<Anahita>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
-            ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
-            ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianBoss2>());
-            ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianBoss3>());
+            ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianCommander>());
+            ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianDefender>());
+            ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianHealer>());
             ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
             ResetSavedIndex(ref holyBossDefender, NPCType<ProvSpawnDefense>());
             ResetSavedIndex(ref holyBossHealer, NPCType<ProvSpawnHealer>());
@@ -5694,7 +5694,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedRavager;
             }
-            else if (type == NPCType<ProfanedGuardianBoss>())
+            else if (type == NPCType<ProfanedGuardianCommander>())
             {
                 return DownedBossSystem.downedGuardians;
             }
