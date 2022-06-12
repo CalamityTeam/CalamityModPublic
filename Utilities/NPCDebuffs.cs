@@ -294,7 +294,6 @@ namespace CalamityMod
                 { ModContent.NPCType<ImpiousImmolator>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProfanedEnergyBody>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<Sunskater>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<SunBat>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 
                 { ModContent.NPCType<ArmoredDiggerHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<ArmoredDiggerBody>(), new Tuple<bool, int[]>(true, new int[] { }) },

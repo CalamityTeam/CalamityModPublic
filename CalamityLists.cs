@@ -805,7 +805,6 @@ namespace CalamityMod
                 NPCType<MantisShrimp>(),
                 NPCType<OverloadedSoldier>(),
                 NPCType<PerennialSlime>(),
-                NPCType<PhantomDebris>(),
                 NPCType<Rotdog>(),
                 NPCType<Scryllar>(),
                 NPCType<ScryllarRage>(),
@@ -813,7 +812,6 @@ namespace CalamityMod
                 NPCType<StellarCulex>(),
                 NPCType<StormlionCharger>(),
                 NPCType<SuperDummyNPC>(),
-                NPCType<SunBat>(),
                 NPCType<WulfrumGyrator>(),
                 NPCType<WulfrumRover>()
             };
