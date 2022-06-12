@@ -827,7 +827,6 @@ namespace CalamityMod.CalPlayer
         public bool molten = false;
         public bool shellBoost = false;
         public bool cFreeze = false;
-        public bool invincible = false;
         public bool shine = false;
         public bool anechoicCoating = false;
         public bool enraged = false;
@@ -1927,7 +1926,6 @@ namespace CalamityMod.CalPlayer
             aWeapon = false;
             tScale = false;
             fabsolVodka = false;
-            invincible = false;
             shine = false;
             anechoicCoating = false;
             mushy = false;
@@ -2347,7 +2345,6 @@ namespace CalamityMod.CalPlayer
             tScale = false;
             titanBoost = 0;
             fabsolVodka = false;
-            invincible = false;
             shine = false;
             anechoicCoating = false;
             mushy = false;
@@ -4026,14 +4023,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (invincible && Player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
-            {
-                if (Player.statLife <= 0)
-                    Player.statLife = 1;
-
-                return false;
-            }
-
             if (hInferno)
             {
                 for (int x = 0; x < Main.maxNPCs; x++)
@@ -4962,8 +4951,8 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If this NPC deals defense damage with contact damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes or is otherwise invincible.
-            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible)
+            // Defense damage is not applied if the player has iframes.
+            if (npc.Calamity().canBreakPlayerDefense && !hasIFrames)
                 DealDefenseDamage(damage);
 
             if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
@@ -5276,8 +5265,8 @@ namespace CalamityMod.CalPlayer
                     hasIFrames = true;
 
             // If this projectile is capable of dealing defense damage, then apply defense damage.
-            // Defense damage is not applied if the player has iframes or is otherwise invincible.
-            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames && !invincible)
+            // Defense damage is not applied if the player has iframes.
+            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames)
                 DealDefenseDamage(damage);
 
             if (projRefRare)
@@ -5985,10 +5974,6 @@ namespace CalamityMod.CalPlayer
             #region Ignore Incoming Hits
             // If any dodges are active which could dodge this hit, the hurting event is canceled (and the dodge is used).
             if (HandleDodges())
-                return false;
-
-            // Unless holding Coldheart Icicle, the Purified Jam makes you completely invincible.
-            if (invincible && Player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
                 return false;
 
             // If Armageddon is active or the Boss Rush Immunity Curse is triggered, instantly kill the player.

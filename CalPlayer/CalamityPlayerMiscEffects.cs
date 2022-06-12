@@ -741,13 +741,6 @@ namespace CalamityMod.CalPlayer
 
             ProvidenceBurnEffectDrawer.Update();
 
-            // Immunity to most debuffs
-            if (invincible)
-            {
-                foreach (int debuff in CalamityLists.debuffList)
-                    Player.buffImmune[debuff] = true;
-            }
-
             // Transformer immunity to Electrified
             if (aSparkRare)
                 Player.buffImmune[BuffID.Electrified] = true;
@@ -1504,13 +1497,6 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-            }
-
-            // Remove Purified Jam thorn damage exploits
-            if (invincible)
-            {
-                Player.thorns = 0f;
-                Player.turtleThorns = false;
             }
 
             // Vortex Armor nerf
