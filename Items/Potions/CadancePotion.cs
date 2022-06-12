@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    [LegacyName("CadencePotion")
+    [LegacyName("CadencePotion")]
     public class CadancePotion : ModItem
     {
         public override void SetStaticDefaults()
