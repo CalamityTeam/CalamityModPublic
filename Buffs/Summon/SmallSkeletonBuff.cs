@@ -1,29 +1,28 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class RadiantResolutionBuff : ModBuff
+    public class SmallSkeletonBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Saros Possession");
-            Description.SetDefault("A radiant aura protects you");
+            DisplayName.SetDefault("Small Skeleton");
+            Description.SetDefault("A skeleton is observing you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<RadiantResolutionAura>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SmallSkeletonMinion>()] > 0)
             {
-                modPlayer.radiantResolution = true;
+                modPlayer.necrosteocytesDudes = true;
             }
-            if (!modPlayer.radiantResolution)
+            if (!modPlayer.necrosteocytesDudes)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

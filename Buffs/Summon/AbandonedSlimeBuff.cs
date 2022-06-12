@@ -1,33 +1,28 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class StatigelSummonSetBuff : ModBuff
+    public class AbandonedSlimeBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Baby Slime God");
-            Description.SetDefault("The slime god will protect you");
+            DisplayName.SetDefault("Astral Jelly");
+            Description.SetDefault("The mini astrageldon slime will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<AstrageldonSummon>()] > 0)
             {
-                modPlayer.sGod = true;
+                modPlayer.aSlime = true;
             }
-            else if (player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] > 0)
-            {
-                modPlayer.sGod = true;
-            }
-            if (!modPlayer.sGod)
+            if (!modPlayer.aSlime)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

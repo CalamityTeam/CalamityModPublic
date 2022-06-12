@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
 
         internal void ProvidePlayerMinionBuffs()
         {
-            Owner.AddBuff(ModContent.BuffType<FleshOfInfidelityBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<FleshBallBuff>(), 3600);
 
             // Verify player/minion state integrity. The minion cannot stay alive if the
             // owner is dead or if the caller of the AI is invalid.

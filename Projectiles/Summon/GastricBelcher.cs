@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
 
             //Set up buff and timeLeft
             bool typeCheck = Projectile.type == ModContent.ProjectileType<GastricBelcher>();
-            player.AddBuff(ModContent.BuffType<GastricBelcherBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<GastricAberrationBuff>(), 3600);
             if (typeCheck)
             {
                 if (player.dead)

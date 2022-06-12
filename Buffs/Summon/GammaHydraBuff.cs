@@ -5,28 +5,24 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class VictideSummonSetBuff : ModBuff
+    public class GammaHydraBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sea Snail");
-            Description.SetDefault("Meow?");
+            DisplayName.SetDefault("Gamma Hydra");
+            Description.SetDefault("...");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-
-            
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<VictideSeaSnail>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GammaHead>()] > 0)
             {
-                modPlayer.victideSnail = true;
+                modPlayer.gammaHead = true;
             }
-
-            if (!modPlayer.victideSnail)
+            if (!modPlayer.gammaHead)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

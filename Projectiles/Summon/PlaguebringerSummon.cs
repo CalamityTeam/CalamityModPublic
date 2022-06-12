@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             bool correctMinion = Projectile.type == ModContent.ProjectileType<PlaguebringerSummon>();
-            player.AddBuff(ModContent.BuffType<PlaguebringerSummonBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<LilPlaguebringerBuff>(), 3600);
             if (correctMinion)
             {
                 if (player.dead)

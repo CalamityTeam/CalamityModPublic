@@ -1,29 +1,32 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class MutatedTruffleBuff : ModBuff
+    public class BabySlimeGodBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mini Old Duke");
-            Description.SetDefault("The young duke will protect you");
+            DisplayName.SetDefault("Baby Slime God");
+            Description.SetDefault("The slime god will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] > 0)
             {
-                modPlayer.youngDuke = true;
+                modPlayer.sGod = true;
             }
-            if (!modPlayer.youngDuke)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] > 0)
+            {
+                modPlayer.sGod = true;
+            }
+            if (!modPlayer.sGod)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

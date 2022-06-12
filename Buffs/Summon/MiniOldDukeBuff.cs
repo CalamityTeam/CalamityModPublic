@@ -5,12 +5,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class SolarSpiritGod : ModBuff
+    public class MiniOldDukeBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Solar God Spirit");
-            Description.SetDefault("The solar god spirit will protect you");
+            DisplayName.SetDefault("Mini Old Duke");
+            Description.SetDefault("The young duke will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
             //Main.persistentBuff[Type] = true;
@@ -19,11 +19,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SolarGod>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] > 0)
             {
-                modPlayer.SPG = true;
+                modPlayer.youngDuke = true;
             }
-            if (!modPlayer.SPG)
+            if (!modPlayer.youngDuke)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

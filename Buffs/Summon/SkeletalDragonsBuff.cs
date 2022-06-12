@@ -1,29 +1,28 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class StaffOfNecrosteocytesBuff : ModBuff
+    public class SkeletalDragonsBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Small Skeleton");
-            Description.SetDefault("A skeleton is observing you");
+            DisplayName.SetDefault("Skeletal Dragons");
+            Description.SetDefault("Big happy family");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SmallSkeletonMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SkeletalDragonMother>()] > 0)
             {
-                modPlayer.necrosteocytesDudes = true;
+                modPlayer.dragonFamily = true;
             }
-            if (!modPlayer.necrosteocytesDudes)
+            if (!modPlayer.dragonFamily)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

@@ -1,29 +1,28 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class CalamitasEyes : ModBuff
+    public class FieryDraconidBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blighted Eyes");
-            Description.SetDefault("Calamitas and her brothers will protect you");
+            DisplayName.SetDefault("Fiery Draconid");
+            Description.SetDefault("The fiery draconid will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Calamitamini>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] > 0)
             {
-                modPlayer.cEyes = true;
+                modPlayer.aChicken = true;
             }
-            if (!modPlayer.cEyes)
+            if (!modPlayer.aChicken)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

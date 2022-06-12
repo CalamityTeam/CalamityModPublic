@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
 
             bool isCorrectMinion = Projectile.type == ModContent.ProjectileType<DeathstareEyeball>();
             CalamityPlayer modPlayer = Owner.Calamity();
-            Owner.AddBuff(ModContent.BuffType<DeathstareBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<MiniatureEyeofCthulhu>(), 3600);
 
             // Ensure that the projectile executing this code is a valid one.
             if (isCorrectMinion)

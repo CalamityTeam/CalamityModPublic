@@ -1,29 +1,28 @@
-using CalamityMod.CalPlayer;
+﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class DormantBrimseekerBuff : ModBuff
+    public class SarosPossessionBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Brimseeker");
-            Description.SetDefault("Does it want something from you?");
+            DisplayName.SetDefault("Saros Possession");
+            Description.SetDefault("A radiant aura protects you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
-            //Main.persistentBuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<DormantBrimseekerBab>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<RadiantResolutionAura>()] > 0)
             {
-                modPlayer.brimseeker = true;
+                modPlayer.radiantResolution = true;
             }
-            if (!modPlayer.brimseeker)
+            if (!modPlayer.radiantResolution)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

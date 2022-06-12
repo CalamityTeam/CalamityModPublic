@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public void ApplyMinionBuffs()
         {
-            Owner.AddBuff(ModContent.BuffType<GammaHeadBuff>(), 3600);
+            Owner.AddBuff(ModContent.BuffType<GammaHydraBuff>(), 3600);
             if (Projectile.type == ModContent.ProjectileType<GammaHead>())
             {
                 if (Owner.dead)
