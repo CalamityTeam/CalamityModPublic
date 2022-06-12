@@ -5875,8 +5875,8 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 100f;
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                     }
                 }
 
@@ -5909,8 +5909,8 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 150f;
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, 1f, -sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, -1f, -sharkronVelocity, 255);
                     }
                 }
 
@@ -6162,8 +6162,8 @@ namespace CalamityMod.NPCs
                     {
                         calamityGlobalNPC.newAI[2] += 100f;
                         float x = 900f - calamityGlobalNPC.newAI[2];
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                     }
                 }
 
@@ -6196,8 +6196,8 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
                     {
                         calamityGlobalNPC.newAI[2] += 200f;
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, sharkronVelocity, 255);
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, 1f, sharkronVelocity, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, -1f, sharkronVelocity, 255);
                     }
                 }
 
@@ -6477,8 +6477,8 @@ namespace CalamityMod.NPCs
                     {
                         calamityGlobalNPC.newAI[2] += 150f;
                         float x = 900f - calamityGlobalNPC.newAI[2];
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<SulphurousSharkron>(), 0, 0f, 0f, npc.whoAmI, 0f, 255);
                     }
                 }
 

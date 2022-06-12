@@ -160,7 +160,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<OldDuke>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<OldDukeToothBall>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<OldDukeSharkron>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
+                { ModContent.NPCType<SulphurousSharkron>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
 
                 { ModContent.NPCType<DevourerofGodsHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<DevourerofGodsBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
@@ -282,13 +282,13 @@ namespace CalamityMod
                 { ModContent.NPCType<SmallSightseer>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<StellarCulex>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
 
-                { ModContent.NPCType<PlaguedTortoise>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlaguedDerpling>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlaguedFlyingFox>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlaguedJungleSlime>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlagueBeeLarge>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlagueBee>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
-                { ModContent.NPCType<PlaguebringerShade>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<Plagueshell>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<Viruling>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<Melter>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<PestilentSlime>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<PlagueChargerLarge>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<PlagueCharger>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
+                { ModContent.NPCType<PlaguebringerMiniboss>(), new Tuple<bool, int[]>(false, CalamityMod.plagueEnemyImmunities) },
 
                 { ModContent.NPCType<ScornEater>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ImpiousImmolator>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
@@ -313,7 +313,7 @@ namespace CalamityMod
                 { ModContent.NPCType<Cryon>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
                 { ModContent.NPCType<CryoSlime>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
                 { ModContent.NPCType<IceClasper>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<IceMass>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) }
+                { ModContent.NPCType<AuroraSpirit>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) }
             };
         }
 

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class IceMass : ModNPC
+    public class AuroraSpirit : ModNPC
     {
         public override void SetStaticDefaults()
         {

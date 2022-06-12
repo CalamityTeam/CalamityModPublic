@@ -16,7 +16,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
-    public class PlagueBeeLarge : ModNPC
+    public class PlagueChargerLarge : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.HitSound = SoundID.NPCHit4;
             NPC.noGravity = true;
             NPC.noTileCollide = false;
-            Banner = ModContent.NPCType<PlagueBee>();
+            Banner = ModContent.NPCType<PlagueCharger>();
             BannerItem = ModContent.ItemType<PlagueChargerBanner>();
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;

@@ -15,7 +15,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
-    public class PlaguedDerpling : ModNPC
+    public class Viruling : ModNPC
     {
         public override void SetStaticDefaults()
         {

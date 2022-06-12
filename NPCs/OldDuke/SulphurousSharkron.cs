@@ -16,7 +16,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.OldDuke
 {
-    public class OldDukeSharkron : ModNPC
+    public class SulphurousSharkron : ModNPC
     {
         bool spawnedProjectiles = false;
         public override void SetStaticDefaults()

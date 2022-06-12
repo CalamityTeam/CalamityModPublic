@@ -16,7 +16,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
-    public class PlaguedJungleSlime : ModNPC
+    public class PestilentSlime : ModNPC
     {
         public float spikeTimer = 60f;
 

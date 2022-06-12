@@ -897,22 +897,22 @@ namespace CalamityMod
                     npc = ModContent.NPCType<ArmoredDiggerHead>();
                     break;
                 case 78:
-                    npc = ModContent.NPCType<PlaguedFlyingFox>();
+                    npc = ModContent.NPCType<Melter>();
                     break;
                 case 79:
-                    npc = ModContent.NPCType<PlaguedJungleSlime>();
+                    npc = ModContent.NPCType<PestilentSlime>();
                     break;
                 case 80:
-                    npc = ModContent.NPCType<PlaguedTortoise>();
+                    npc = ModContent.NPCType<Plagueshell>();
                     break;
                 case 81:
-                    npc = ModContent.NPCType<PlagueBee>();
+                    npc = ModContent.NPCType<PlagueCharger>();
                     break;
                 case 82:
-                    npc = ModContent.NPCType<PlaguedDerpling>();
+                    npc = ModContent.NPCType<Viruling>();
                     break;
                 case 83:
-                    npc = ModContent.NPCType<PlaguebringerShade>();
+                    npc = ModContent.NPCType<PlaguebringerMiniboss>();
                     break;
                 case 84:
                     npc = ModContent.NPCType<PhantomSpirit>();

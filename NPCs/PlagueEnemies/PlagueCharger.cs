@@ -16,7 +16,7 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
-    public class PlagueBee : ModNPC
+    public class PlagueCharger : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -54,8 +54,8 @@ namespace CalamityMod.NPCs.PlagueEnemies
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundJungle,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("While hornets on their own are known for aggressive defense of their territory, once they have been warped by the plague, their sense of their dominion reaches ever further.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("While hornets on their own are known for aggressive defense of their territory, once they have been warped by the plague, their sense of their dominion reaches ever further.")
             });
         }
 
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/PlagueEnemies/PlagueBeeGlow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/PlagueEnemies/PlagueChargerGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)

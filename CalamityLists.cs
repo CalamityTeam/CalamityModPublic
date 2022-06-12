@@ -757,7 +757,7 @@ namespace CalamityMod
                 NPCType<GreatSandShark>(),
                 NPCType<AnahitasIceShield>(),
                 NPCType<AureusSpawn>(),
-                NPCType<PlaguebringerShade>(),
+                NPCType<PlaguebringerMiniboss>(),
                 NPCType<PlagueHomingMissile>(),
                 NPCType<PlagueMine>(),
                 NPCType<RavagerClawLeft>(),
@@ -777,7 +777,7 @@ namespace CalamityMod
                 NPCType<EidolonWyrmHead>(),
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
-                NPCType<OldDukeSharkron>(),
+                NPCType<SulphurousSharkron>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>(),
                 NPCType<SoulSeekerSupreme>()
@@ -890,9 +890,9 @@ namespace CalamityMod
                 NPCID.BeeSmall,
                 NPCID.QueenBee,
                 NPCType<PlaguebringerGoliath>(),
-                NPCType<PlaguebringerShade>(),
-                NPCType<PlagueBeeLarge>(),
-                NPCType<PlagueBee>()
+                NPCType<PlaguebringerMiniboss>(),
+                NPCType<PlagueChargerLarge>(),
+                NPCType<PlagueCharger>()
             };
 
             beeProjectileList = new List<int>()
@@ -1946,7 +1946,7 @@ namespace CalamityMod
                 NPCType<ArmoredDiggerTail>(),
                 NPCType<ThiccWaifu>(),
                 NPCType<Horse>(),
-                NPCType<PlaguebringerShade>(),
+                NPCType<PlaguebringerMiniboss>(),
                 NPCID.Pumpking,
                 NPCID.MourningWood,
                 NPCID.IceQueen,

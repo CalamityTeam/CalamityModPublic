@@ -273,7 +273,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<OldDuke>(), 0.9 },
                 { ModContent.NPCType<OldDukeToothBall>(), 0.8 },
-                { ModContent.NPCType<OldDukeSharkron>(), 0.8 },
+                { ModContent.NPCType<SulphurousSharkron>(), 0.8 },
 
                 { ModContent.NPCType<DevourerofGodsBody>(), 0.85 },
                 { ModContent.NPCType<DevourerofGodsTail>(), 0.85 },
@@ -520,7 +520,7 @@ namespace CalamityMod
                     342, // 376 in phase 2, 410 in phase 3
                     432 } }, // 475 in phase 2, 518 in phase 3
                 { ModContent.NPCType<OldDukeToothBall>(), new int[] { 180, 288, 328, 344, 432 } },
-                { ModContent.NPCType<OldDukeSharkron>(), new int[] { 180, 288, 328, 344, 432 } },
+                { ModContent.NPCType<SulphurousSharkron>(), new int[] { 180, 288, 328, 344, 432 } },
 
                 { ModContent.NPCType<DevourerofGodsHead>(), new int[] { 350, 700, 750, 780, 880 } },
                 { ModContent.NPCType<DevourerofGodsBody>(), new int[] { 220, 374, 425, 442, 561 } },
@@ -762,7 +762,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<OldDuke>(), ModContent.ProjectileType<OldDukeVortex>()), new int[] { 280, 400, 440, 464, 660 } },
                 { new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<TrilobiteSpike>()), new int[] { 170, 296, 324, 340, 462 } },
                 { new Tuple<int, int>(ModContent.NPCType<OldDukeToothBall>(), ModContent.ProjectileType<SandPoisonCloudOldDuke>()), new int[] { 180, 316, 348, 364, 492 } },
-                { new Tuple<int, int>(ModContent.NPCType<OldDukeSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 170, 296, 324, 340, 462 } },
+                { new Tuple<int, int>(ModContent.NPCType<SulphurousSharkron>(), ModContent.ProjectileType<OldDukeGore>()), new int[] { 170, 296, 324, 340, 462 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGDeath>()), new int[] { 180, 316, 348, 364, 492 } },
                 { new Tuple<int, int>(ModContent.NPCType<DevourerofGodsHead>(), ModContent.ProjectileType<DoGFire>()), new int[] { 200, 340, 376, 396, 564 } },

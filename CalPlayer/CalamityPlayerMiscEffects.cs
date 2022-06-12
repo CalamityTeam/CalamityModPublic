@@ -3067,7 +3067,7 @@ namespace CalamityMod.CalPlayer
                 Player.npcTypeNoAggro[ModContent.NPCType<EbonianBlightSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<IrradiatedSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
-                Player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
+                Player.npcTypeNoAggro[ModContent.NPCType<PestilentSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
                 Player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
             }

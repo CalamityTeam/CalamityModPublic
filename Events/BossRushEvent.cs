@@ -266,7 +266,7 @@ namespace CalamityMod.Events
                     int boomerDuke = NPC.NewNPC(Source, (int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), type, 1);
                     Main.npc[boomerDuke].timeLeft *= 20;
                     CalamityUtils.BossAwakenMessage(boomerDuke);
-                }, permittedNPCs: new int[] { ModContent.NPCType<OldDukeToothBall>(), ModContent.NPCType<OldDukeSharkron>() }),
+                }, permittedNPCs: new int[] { ModContent.NPCType<OldDukeToothBall>(), ModContent.NPCType<SulphurousSharkron>() }),
 
                 new Boss(ModContent.NPCType<SlimeGodCore>(), permittedNPCs: new int[] { ModContent.NPCType<SlimeGod>(), ModContent.NPCType<SlimeGodRun>(), ModContent.NPCType<SlimeGodSplit>(), ModContent.NPCType<SlimeGodRunSplit>(),
                     ModContent.NPCType<SlimeSpawnCorrupt>(), ModContent.NPCType<SlimeSpawnCorrupt2>(), ModContent.NPCType<SlimeSpawnCrimson>(), ModContent.NPCType<SlimeSpawnCrimson2>() }),

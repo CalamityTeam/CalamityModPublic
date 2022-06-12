@@ -3249,7 +3249,7 @@ namespace CalamityMod.NPCs
                         }
                         break;
                     case 14:
-                        if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<PlaguedFlyingFox>() || npc.type == NPCType<AeroSlime>())
+                        if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<Melter>() || npc.type == NPCType<AeroSlime>())
                         {
                             return CalamityGlobalAI.BuffedBatAI(npc, Mod);
                         }
@@ -3376,7 +3376,7 @@ namespace CalamityMod.NPCs
                         }
                         break;
                     case 39:
-                        if (npc.type == NPCType<PlaguedTortoise>())
+                        if (npc.type == NPCType<Plagueshell>())
                         {
                             return CalamityGlobalAI.BuffedTortoiseAI(npc, Mod);
                         }
@@ -4441,7 +4441,7 @@ namespace CalamityMod.NPCs
                         break;
                 }
 
-                if (npc.type == NPCType<PlaguedTortoise>())
+                if (npc.type == NPCType<Plagueshell>())
                 {
                     if (npc.life <= npc.lifeMax * 0.25)
                         npc.justHit = false;

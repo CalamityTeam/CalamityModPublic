@@ -19,7 +19,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.PlagueEnemies
 {
-    public class PlaguebringerShade : ModNPC
+    public class PlaguebringerMiniboss : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -357,13 +357,13 @@ namespace CalamityMod.NPCs.PlagueEnemies
                         int num1061;
                         if (Main.rand.NextBool(4))
                         {
-                            num1061 = ModContent.NPCType<PlagueBeeLarge>();
+                            num1061 = ModContent.NPCType<PlagueChargerLarge>();
                         }
                         else
                         {
-                            num1061 = ModContent.NPCType<PlagueBee>();
+                            num1061 = ModContent.NPCType<PlagueCharger>();
                         }
-                        if (NPC.CountNPCS(ModContent.NPCType<PlagueBee>()) < 3)
+                        if (NPC.CountNPCS(ModContent.NPCType<PlagueCharger>()) < 3)
                         {
                             int num1062 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
@@ -602,7 +602,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || !NPC.downedGolemBoss || NPC.AnyNPCs(ModContent.NPCType<PlaguebringerShade>()))
+            if (spawnInfo.PlayerSafe || !NPC.downedGolemBoss || NPC.AnyNPCs(ModContent.NPCType<PlaguebringerMiniboss>()))
             {
                 return 0f;
             }
