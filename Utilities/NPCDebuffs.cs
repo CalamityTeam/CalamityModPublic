@@ -82,14 +82,14 @@ namespace CalamityMod
                 { ModContent.NPCType<KingSlimeJewel>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<SlimeGodCore>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeGodSplit>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeGodRun>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeGodRunSplit>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeSpawnCorrupt>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeSpawnCorrupt2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeSpawnCrimson>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
-                { ModContent.NPCType<SlimeSpawnCrimson2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<EbonianSlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<CrimulanSlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<CorruptSlimeSpawn>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<CorruptSlimeSpawn2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<CrimsonSlimeSpawn>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
+                { ModContent.NPCType<CrimsonSlimeSpawn2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
 
                 { ModContent.NPCType<Cryogen>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
                 { ModContent.NPCType<CryogenShield>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
@@ -133,9 +133,9 @@ namespace CalamityMod
                 { NPCID.MoonLordHead, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
                 { NPCID.MoonLordLeechBlob, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
 
-                { ModContent.NPCType<ProfanedGuardianBoss>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 
                 { ModContent.NPCType<Providence>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
                 { ModContent.NPCType<ProvSpawnOffense>(), new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
@@ -151,7 +151,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<Signus>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<WhisperingDeath>() }) },
                 { ModContent.NPCType<CosmicLantern>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<SignusBomb>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<CosmicMine>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<Polterghast>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>(), ModContent.BuffType<WhisperingDeath>() }) },
                 { ModContent.NPCType<PolterPhantom>(), new Tuple<bool, int[]>(true, new int[] { }) },
@@ -176,10 +176,10 @@ namespace CalamityMod
                 { ModContent.NPCType<SupremeCataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SoulSeekerSupreme>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<BrimstoneHeart>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SCalWormHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<SCalWormBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<SepulcherHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<SepulcherBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<SCalWormTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<SepulcherTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<ThanatosBody1>(), new Tuple<bool, int[]>(true, new int[] { }) },

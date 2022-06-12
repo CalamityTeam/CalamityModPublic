@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Pets
             Item.damage = 0;
             Item.useTime = Item.useAnimation = 20;
             Item.shoot = ModContent.ProjectileType<RotomPet>();
-            Item.buffType = ModContent.BuffType<RotomBuff>();
+            Item.buffType = ModContent.BuffType<ElectricTroublemaker>();
 
             Item.width = 30;
             Item.height = 34;

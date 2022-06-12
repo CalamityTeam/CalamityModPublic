@@ -259,7 +259,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusBody>(), 0.8 },
                 { ModContent.NPCType<AstrumDeusTail>(), 0.8 },
 
-                { ModContent.NPCType<ProfanedGuardianBoss>(), 0.8 },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), 0.8 },
 
                 { ModContent.NPCType<Bumblefuck>(), 0.8 },
 
@@ -351,14 +351,14 @@ namespace CalamityMod
                 { NPCID.ChaosBall, new int[] { -1, -1, -1, 40, 60 } },
 
                 { ModContent.NPCType<SlimeGodCore>(), new int[] { 40, 80, 96, 104, 135 } },
-                { ModContent.NPCType<SlimeGod>(), new int[] { 45, 90, 108, 118, 150 } },
-                { ModContent.NPCType<SlimeGodSplit>(), new int[] { 40, 80, 96, 104, 135 } },
-                { ModContent.NPCType<SlimeGodRun>(), new int[] { 50, 100, 120, 130, 171 } },
-                { ModContent.NPCType<SlimeGodRunSplit>(), new int[] { 45, 90, 108, 118, 150 } },
-                { ModContent.NPCType<SlimeSpawnCorrupt>(), new int[] { 30, 60, 72, 78, 99 } },
-                { ModContent.NPCType<SlimeSpawnCorrupt2>(), new int[] { 20, 40, 48, 52, 66 } },
-                { ModContent.NPCType<SlimeSpawnCrimson>(), new int[] { 35, 70, 84, 92, 120 } },
-                { ModContent.NPCType<SlimeSpawnCrimson2>(), new int[] { 25, 50, 60, 66, 84 } },
+                { ModContent.NPCType<EbonianSlimeGod>(), new int[] { 45, 90, 108, 118, 150 } },
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), new int[] { 40, 80, 96, 104, 135 } },
+                { ModContent.NPCType<CrimulanSlimeGod>(), new int[] { 50, 100, 120, 130, 171 } },
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), new int[] { 45, 90, 108, 118, 150 } },
+                { ModContent.NPCType<CorruptSlimeSpawn>(), new int[] { 30, 60, 72, 78, 99 } },
+                { ModContent.NPCType<CorruptSlimeSpawn2>(), new int[] { 20, 40, 48, 52, 66 } },
+                { ModContent.NPCType<CrimsonSlimeSpawn>(), new int[] { 35, 70, 84, 92, 120 } },
+                { ModContent.NPCType<CrimsonSlimeSpawn2>(), new int[] { 25, 50, 60, 66, 84 } },
 
                 { NPCID.WallofFlesh, new int[] { 50, 150, 180, 195, 225 } },
                 { NPCID.WallofFleshEye, new int[] { 50, 150, 180, 195, 225 } },
@@ -484,9 +484,9 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusBody>(), new int[] { 100, 160, 192, 200, 240 } },
                 { ModContent.NPCType<AstrumDeusTail>(), new int[] { 80, 128, 160, 168, 192 } },
 
-                { ModContent.NPCType<ProfanedGuardianBoss>(), new int[] { 140, 224, 256, 280, 336 } },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), new int[] { 120, 240, 264, 278, 336 } },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), new int[] { 100, 200, 220, 232, 270 } },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), new int[] { 140, 224, 256, 280, 336 } },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), new int[] { 120, 240, 264, 278, 336 } },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), new int[] { 100, 200, 220, 232, 270 } },
 
                 { ModContent.NPCType<Bumblefuck>(), new int[] { 160, 256, 288, 304, 384 } },
                 { ModContent.NPCType<Bumblefuck2>(), new int[] { 110, 220, 242, 256, 330 } },
@@ -503,7 +503,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<Signus>(), new int[] { 175, 315, 351, 369, 459 } },
                 { ModContent.NPCType<CosmicLantern>(), new int[] { 130, 260, 288, 304, 390 } },
-                { ModContent.NPCType<SignusBomb>(), new int[] { 140, 280, 300, 320, 390 } },
+                { ModContent.NPCType<CosmicMine>(), new int[] { 140, 280, 300, 320, 390 } },
 
                 { ModContent.NPCType<Polterghast>(), new int[] {
                     150, // 180 in phase 2, 210 in phase 3
@@ -573,11 +573,11 @@ namespace CalamityMod
 
                 { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
                 { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
-                { new Tuple<int, int>(ModContent.NPCType<SlimeGod>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
-                { new Tuple<int, int>(ModContent.NPCType<SlimeGodRun>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
-                { new Tuple<int, int>(ModContent.NPCType<SlimeGodSplit>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 38, 60, 76, 84, 114 } },
-                { new Tuple<int, int>(ModContent.NPCType<SlimeGodRunSplit>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 34, 52, 68, 74, 102 } },
-                { new Tuple<int, int>(ModContent.NPCType<SlimeSpawnCrimson2>(), ModContent.ProjectileType<CrimsonSpike>()), new int[] { 24, 48, 60, 68, 90 } },
+                { new Tuple<int, int>(ModContent.NPCType<EbonianSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
+                { new Tuple<int, int>(ModContent.NPCType<CrimulanSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
+                { new Tuple<int, int>(ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 38, 60, 76, 84, 114 } },
+                { new Tuple<int, int>(ModContent.NPCType<SplitCrimulanSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 34, 52, 68, 74, 102 } },
+                { new Tuple<int, int>(ModContent.NPCType<CrimsonSlimeSpawn2>(), ModContent.ProjectileType<CrimsonSpike>()), new int[] { 24, 48, 60, 68, 90 } },
 
                 { new Tuple<int, int>(NPCID.WallofFleshEye, ProjectileID.EyeLaser), new int[] {
                     22, // 22 to 30, depending on life
@@ -713,9 +713,9 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalSphere), new int[] { 110, 220, 260, 284, 390 } }, // 330 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordFreeEye, ProjectileID.PhantasmalDeathray), new int[] { 100, 200, 260, 284, 390 } }, // 300 in non-rev master mode
 
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss>(), ModContent.ProjectileType<FlareDust>()), new int[] { 140, 220, 244, 256, 366 } },
-                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianBoss2>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianCommander>(), ModContent.ProjectileType<FlareDust>()), new int[] { 140, 220, 244, 256, 366 } },
+                { new Tuple<int, int>(ModContent.NPCType<ProfanedGuardianDefender>(), ModContent.ProjectileType<ProfanedSpear>()), new int[] { 140, 220, 244, 256, 366 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<RedLightningFeather>()), new int[] { 140, 220, 244, 256, 366 } },
                 { new Tuple<int, int>(ModContent.NPCType<Bumblefuck>(), ModContent.ProjectileType<BirbAuraFlare>()), new int[] { 200, 300, 332, 356, 498 } },

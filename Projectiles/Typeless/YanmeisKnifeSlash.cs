@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (!CanRecieveCoolEffectsFrom(target))
                 return;
-            target.AddBuff(ModContent.BuffType<KamiDebuff>(), 600);
+            target.AddBuff(ModContent.BuffType<KamiFlu>(), 600);
             if (!Main.dedServ)
             {
                 for (int i = 0; i < 60; i++)

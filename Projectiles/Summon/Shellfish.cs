@@ -426,8 +426,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.buffImmune[ModContent.BuffType<ShellfishEating>()] = target.Calamity().DR >= 0.99f;
-            target.AddBuff(ModContent.BuffType<ShellfishEating>(), 600000);
+            target.buffImmune[ModContent.BuffType<ShellfishClaps>()] = target.Calamity().DR >= 0.99f;
+            target.AddBuff(ModContent.BuffType<ShellfishClaps>(), 600000);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;

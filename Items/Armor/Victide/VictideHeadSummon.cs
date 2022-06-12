@@ -49,9 +49,9 @@ namespace CalamityMod.Items.Armor.Victide
             player.maxMinions++;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<VictideSummonSetBuff>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<SeaSnailBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<VictideSummonSetBuff>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<SeaSnailBuff>(), 3600, true);
                 }
                 var source = player.GetSource_ItemUse(Item);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<VictideSeaSnail>()] < 1)

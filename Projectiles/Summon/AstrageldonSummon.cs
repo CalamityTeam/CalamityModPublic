@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon
 
             //Bool setup
             bool flag64 = Projectile.type == ModContent.ProjectileType<AstrageldonSummon>();
-            player.AddBuff(ModContent.BuffType<AstrageldonBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<AbandonedSlimeBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

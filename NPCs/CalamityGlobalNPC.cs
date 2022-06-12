@@ -466,8 +466,8 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref DD2CrystalIndex, NPCID.DD2EterniaCrystal);
             ResetSavedIndex(ref hiveMind, NPCType<HiveMind.HiveMind>());
             ResetSavedIndex(ref perfHive, NPCType<PerforatorHive>());
-            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.SlimeGod>(), NPCType<SlimeGodSplit>());
-            ResetSavedIndex(ref slimeGodRed, NPCType<SlimeGodRun>(), NPCType<SlimeGodRunSplit>());
+            ResetSavedIndex(ref slimeGodPurple, NPCType<SlimeGod.EbonianSlimeGod>(), NPCType<SplitEbonianSlimeGod>());
+            ResetSavedIndex(ref slimeGodRed, NPCType<CrimulanSlimeGod>(), NPCType<SplitCrimulanSlimeGod>());
             ResetSavedIndex(ref slimeGod, NPCType<SlimeGodCore>());
             ResetSavedIndex(ref laserEye, NPCID.Retinazer);
             ResetSavedIndex(ref fireEye, NPCID.Spazmatism);
@@ -483,9 +483,9 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref siren, NPCType<Anahita>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
-            ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
-            ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianBoss2>());
-            ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianBoss3>());
+            ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianCommander>());
+            ResetSavedIndex(ref doughnutBossDefender, NPCType<ProfanedGuardianDefender>());
+            ResetSavedIndex(ref doughnutBossHealer, NPCType<ProfanedGuardianHealer>());
             ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
             ResetSavedIndex(ref holyBossDefender, NPCType<ProvSpawnDefense>());
             ResetSavedIndex(ref holyBossHealer, NPCType<ProvSpawnHealer>());
@@ -498,7 +498,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalCataclysm, NPCType<SupremeCataclysm>());
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
-            ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
+            ResetSavedIndex(ref SCalWorm, NPCType<SepulcherHead>());
 
             ResetSavedIndex(ref draedon, NPCType<Draedon>());
             ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());
@@ -2589,7 +2589,7 @@ namespace CalamityMod.NPCs
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)
-                calcDR *= KamiDebuff.MultiplicativeDamageReduction;
+                calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.onFire2)
                 calcDR *= 0.8f;
 
@@ -2715,7 +2715,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.Server)
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
-                            Main.player[Main.myPlayer].AddBuff(BuffType<BossZen>(), 2);
+                            Main.player[Main.myPlayer].AddBuff(BuffType<BossEffects>(), 2);
                     }
                 }
 
@@ -3639,7 +3639,7 @@ namespace CalamityMod.NPCs
 
             // Most bosses and boss servants are not immune to Kami Flu.
             if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
-                npc.buffImmune[BuffType<KamiDebuff>()] = false;
+                npc.buffImmune[BuffType<KamiFlu>()] = false;
 
             // Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
@@ -4052,7 +4052,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (kamiFlu > 420)
                     {
-                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
+                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiFlu.MaxNPCSpeed), new Vector2(KamiFlu.MaxNPCSpeed));
                     }
                 }
             }
@@ -5654,7 +5654,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedPerforator;
             }
-            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.SlimeGod>() || type == NPCType<SlimeGodRun>() || type == NPCType<SlimeGodSplit>() || type == NPCType<SlimeGodRunSplit>())
+            else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.EbonianSlimeGod>() || type == NPCType<CrimulanSlimeGod>() || type == NPCType<SplitEbonianSlimeGod>() || type == NPCType<SplitCrimulanSlimeGod>())
             {
                 return DownedBossSystem.downedSlimeGod;
             }
@@ -5694,7 +5694,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedRavager;
             }
-            else if (type == NPCType<ProfanedGuardianBoss>())
+            else if (type == NPCType<ProfanedGuardianCommander>())
             {
                 return DownedBossSystem.downedGuardians;
             }

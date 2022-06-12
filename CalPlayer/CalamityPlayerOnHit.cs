@@ -913,9 +913,9 @@ namespace CalamityMod.CalPlayer
             {
                 if (phantomicArtifact)
                 {
-                    int restoreBuff = BuffType<PhantomicRestorationBuff>();
-                    int empowerBuff = BuffType<PhantomicEmpowermentBuff>();
-                    int shieldBuff = BuffType<PhantomicArmourBuff>();
+                    int restoreBuff = BuffType<PhantomicRegen>();
+                    int empowerBuff = BuffType<PhantomicEmpowerment>();
+                    int shieldBuff = BuffType<Buffs.StatBuffs.PhantomicShield>();
                     int buffType = Utils.SelectRandom(Main.rand, new int[]
                     {
                         restoreBuff,
@@ -945,17 +945,17 @@ namespace CalamityMod.CalPlayer
                     }
                     else
                     {
-                        if (Player.ownedProjectileCounts[ProjectileType<PhantomicShield>()] == 0 && phantomicBulwarkCooldown == 0)
-                            Projectile.NewProjectile(source, Player.position, Vector2.Zero, ProjectileType<PhantomicShield>(), 0, 0f, Player.whoAmI, 0f);
+                        if (Player.ownedProjectileCounts[ProjectileType<Projectiles.Summon.PhantomicShield>()] == 0 && phantomicBulwarkCooldown == 0)
+                            Projectile.NewProjectile(source, Player.position, Vector2.Zero, ProjectileType<Projectiles.Summon.PhantomicShield>(), 0, 0f, Player.whoAmI, 0f);
                     }
                 }
                 else if (hallowedRune)
                 {
                     int buffType = Utils.SelectRandom(Main.rand, new int[]
                     {
-                        BuffType<HallowedRuneAtkBuff>(),
-                        BuffType<HallowedRuneRegenBuff>(),
-                        BuffType<HallowedRuneDefBuff>()
+                        BuffType<HallowedRunePower>(),
+                        BuffType<HallowedRuneRegeneration>(),
+                        BuffType<HallowedRuneDefense>()
                     });
                     Player.AddBuff(buffType, 60);
                 }
@@ -963,9 +963,9 @@ namespace CalamityMod.CalPlayer
                 {
                     int buffType = Utils.SelectRandom(Main.rand, new int[]
                     {
-                        BuffType<SpiritGeneratorAtkBuff>(),
-                        BuffType<SpiritGeneratorRegenBuff>(),
-                        BuffType<SpiritGeneratorDefBuff>()
+                        BuffType<SpiritPower>(),
+                        BuffType<SpiritRegen>(),
+                        BuffType<SpiritDefense>()
                     });
                     Player.AddBuff(buffType, 60);
                 }

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dragonScales = true;
-            player.buffImmune[ModContent.BuffType<LethalLavaBurn>()] = true;
+            player.buffImmune[ModContent.BuffType<Dragonfire>()] = true;
         }
     }
 }

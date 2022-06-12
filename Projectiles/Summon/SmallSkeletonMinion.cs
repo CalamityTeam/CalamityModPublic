@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             bool isCorrectProjectile = Projectile.type == ModContent.ProjectileType<SmallSkeletonMinion>();
-            player.AddBuff(ModContent.BuffType<StaffOfNecrosteocytesBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<SmallSkeletonBuff>(), 3600);
             if (isCorrectProjectile)
             {
                 if (player.dead)

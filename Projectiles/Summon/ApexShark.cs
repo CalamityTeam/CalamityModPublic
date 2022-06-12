@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Summon
             bool flag64 = Projectile.type == ModContent.ProjectileType<ApexShark>();
 
             CalamityPlayer modPlayer = player.Calamity();
-            player.AddBuff(ModContent.BuffType<ApexSharkBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<AncientMineralSharkBuff>(), 3600);
             if (flag64)
             {
                 if (player.dead)

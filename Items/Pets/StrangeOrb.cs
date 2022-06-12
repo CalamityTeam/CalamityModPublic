@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Pets
         {
             Item.CloneDefaults(ItemID.WispinaBottle);
             Item.shoot = ModContent.ProjectileType<SirenYoung>();
-            Item.buffType = ModContent.BuffType<SirenLightPetBuff>();
+            Item.buffType = ModContent.BuffType<OceanSpiritBuff>();
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

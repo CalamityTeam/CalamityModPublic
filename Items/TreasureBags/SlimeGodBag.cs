@@ -17,7 +17,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class SlimeGodBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<SlimeGodRun>();
+        public override int BossBagNPC => ModContent.NPCType<CrimulanSlimeGod>();
 
         public override void SetStaticDefaults()
         {

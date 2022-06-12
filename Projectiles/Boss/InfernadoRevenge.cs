@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 600);
+            target.AddBuff(ModContent.BuffType<Dragonfire>(), 600);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

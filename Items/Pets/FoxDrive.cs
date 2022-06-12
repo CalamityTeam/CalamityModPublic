@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Pets
         {
             Item.CloneDefaults(ItemID.ZephyrFish);
             Item.shoot = ModContent.ProjectileType<FoxPet>();
-            Item.buffType = ModContent.BuffType<Fox>();
+            Item.buffType = ModContent.BuffType<FoxPetBuff>();
             Item.expert = true;
 
             Item.value = Item.sellPrice(gold: 30);

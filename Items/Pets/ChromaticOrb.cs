@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Pets
         {
             Item.CloneDefaults(ItemID.WispinaBottle);
             Item.shoot = ModContent.ProjectileType<BendyPet>();
-            Item.buffType = ModContent.BuffType<BendyBuff>();
+            Item.buffType = ModContent.BuffType<Dreamfog>();
 
             Item.value = Item.sellPrice(gold: 3);
             Item.rare = ItemRarityID.Cyan;

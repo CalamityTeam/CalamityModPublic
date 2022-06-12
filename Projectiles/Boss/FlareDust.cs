@@ -216,7 +216,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.ai[0] == 3f)
                 target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
             else
-                target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 240);
+                target.AddBuff(ModContent.BuffType<Dragonfire>(), 240);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

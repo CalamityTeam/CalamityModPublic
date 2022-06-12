@@ -574,10 +574,10 @@ namespace CalamityMod
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
-                { ModContent.NPCType<SlimeGod>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SlimeGodRun>(), 3600 }, // 1:00 (60 seconds)
-                { ModContent.NPCType<SlimeGodSplit>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
-                { ModContent.NPCType<SlimeGodRunSplit>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<EbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<CrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), 3600 }, // 1:00 (60 seconds) -- split slimes should spawn at 1:00 and die at around 2:00
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), 3600 }, // 1:00 (60 seconds)
                 { ModContent.NPCType<Cryogen>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AquaticScourgeHead>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<AquaticScourgeBody>(), 7200 },
@@ -593,7 +593,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AstrumDeusTail>(), 7200 },
                 { ModContent.NPCType<PlaguebringerGoliath>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<RavagerBody>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<ProfanedGuardianCommander>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<Bumblefuck>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<Providence>(), 14400 }, // 4:00 (240 seconds)
                 { ModContent.NPCType<CeaselessVoid>(), 10800 }, // 3:00 (180 seconds)
@@ -682,11 +682,11 @@ namespace CalamityMod
                 { ModContent.NPCType<PerforatorBodySmall>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorTailSmall>(), velocityScaleMin },
                 { ModContent.NPCType<SlimeGodCore>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGod>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGodRun>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGodSplit>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeGodRunSplit>(), velocityScaleMin },
-                { ModContent.NPCType<SlimeSpawnCorrupt>(), velocityScaleMin },
+                { ModContent.NPCType<EbonianSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<CrimulanSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<SplitEbonianSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<SplitCrimulanSlimeGod>(), velocityScaleMin },
+                { ModContent.NPCType<CorruptSlimeSpawn>(), velocityScaleMin },
                 { ModContent.NPCType<Cryogen>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<AquaticScourgeBody>(), velocityScaleMin },
@@ -709,9 +709,9 @@ namespace CalamityMod
                 { ModContent.NPCType<RavagerLegLeft>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerLegRight>(), velocityScaleMin },
                 { ModContent.NPCType<RockPillar>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss2>(), velocityScaleMin },
-                { ModContent.NPCType<ProfanedGuardianBoss3>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianCommander>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianDefender>(), velocityScaleMin },
+                { ModContent.NPCType<ProfanedGuardianHealer>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
                 { ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
                 { ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },

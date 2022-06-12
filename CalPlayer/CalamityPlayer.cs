@@ -3376,8 +3376,8 @@ namespace CalamityMod.CalPlayer
                     spiritOriginVanity = true;
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        if (Player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
-                            Player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+                        if (Player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                            Player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
                     }
                 }
                 if (item.type == ModContent.ItemType<HowlsHeart>())
@@ -5144,9 +5144,9 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (phantomicArtifact && Player.ownedProjectileCounts[ModContent.ProjectileType<PhantomicShield>()] != 0)
+            if (phantomicArtifact && Player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Summon.PhantomicShield>()] != 0)
             {
-                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == Player.whoAmI && projectile.type == ModContent.ProjectileType<PhantomicShield>()).First();
+                Projectile pro = Main.projectile.AsEnumerable().Where(projectile => projectile.friendly && projectile.owner == Player.whoAmI && projectile.type == ModContent.ProjectileType<Projectiles.Summon.PhantomicShield>()).First();
                 phantomicBulwarkCooldown = 1800; // 30 second cooldown
                 pro.Kill();
                 projectileDamageReduction += 0.2;
@@ -6219,8 +6219,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (xerocSet)
                 {
-                    Player.AddBuff(ModContent.BuffType<XerocRage>(), 240);
-                    Player.AddBuff(ModContent.BuffType<XerocWrath>(), 240);
+                    Player.AddBuff(ModContent.BuffType<EmpyreanRage>(), 240);
+                    Player.AddBuff(ModContent.BuffType<EmpyreanWrath>(), 240);
                 }
                 else if (reaverDefense)
                 {

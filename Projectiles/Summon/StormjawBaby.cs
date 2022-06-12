@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
         private void SummonChecks()
         {
             bool projTypeCheck = Projectile.type == ModContent.ProjectileType<StormjawBaby>();
-            player.AddBuff(ModContent.BuffType<StormjawBuff>(), 3600);
+            player.AddBuff(ModContent.BuffType<BabyStormlionBuff>(), 3600);
             if (projTypeCheck)
             {
                 if (player.dead)

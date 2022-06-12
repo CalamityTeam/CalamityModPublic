@@ -292,7 +292,7 @@ namespace CalamityMod.World.Planets
             ItemID.ManaRegenerationPotion,
             ItemID.HeartreachPotion,
             ModContent.ItemType<PhotosynthesisPotion>(),
-            ModContent.ItemType<CadencePotion>()
+            ModContent.ItemType<CadancePotion>()
         };
 
         private int[] BarLootHoney = new int[]

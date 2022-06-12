@@ -775,7 +775,7 @@ namespace CalamityMod.CalPlayer
             if (Player.lavaWet)
             {
                 if (ZoneCalamity && !abaddon)
-                    Player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
+                    Player.AddBuff(ModContent.BuffType<SearingLava>(), 2, false);
             }
             else
             {
@@ -3112,7 +3112,7 @@ namespace CalamityMod.CalPlayer
                 Player.maxMinions += 2;
             }
 
-            if (gArtifact && Player.FindBuffIndex(ModContent.BuffType<YharonKindleBuff>()) != -1)
+            if (gArtifact && Player.FindBuffIndex(ModContent.BuffType<FieryDraconidBuff>()) != -1)
                 Player.maxMinions += Player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()];
 
             if (pArtifact)
@@ -3489,7 +3489,7 @@ namespace CalamityMod.CalPlayer
                         (hasBuff >= BuffID.Mining && hasBuff <= BuffID.Wrath) || (hasBuff >= BuffID.Lovestruck && hasBuff <= BuffID.Warmth) || hasBuff == BuffID.SugarRush ||
                         hasBuff == ModContent.BuffType<AbyssalWeapon>() || hasBuff == ModContent.BuffType<AnechoicCoatingBuff>() || hasBuff == ModContent.BuffType<ArmorCrumbling>() ||
                         hasBuff == ModContent.BuffType<ArmorShattering>() || hasBuff == ModContent.BuffType<AstralInjectionBuff>() || hasBuff == ModContent.BuffType<BaguetteBuff>() ||
-                        hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<Cadence>() ||
+                        hasBuff == ModContent.BuffType<BloodfinBoost>() || hasBuff == ModContent.BuffType<BoundingBuff>() || hasBuff == ModContent.BuffType<CadancesGrace>() ||
                         hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
                         hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
                         hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
