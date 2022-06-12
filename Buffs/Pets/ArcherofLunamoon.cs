@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Pets
 {
-    public class DaawnlightSpiritOriginBuff : ModBuff
+    public class ArcherofLunamoon : ModBuff
     {
         public override void SetStaticDefaults()
         {

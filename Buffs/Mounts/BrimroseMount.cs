@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    public class BrimstoneMount : ModBuff
+    public class BrimroseMount : ModBuff
     {
         public override void SetStaticDefaults()
         {

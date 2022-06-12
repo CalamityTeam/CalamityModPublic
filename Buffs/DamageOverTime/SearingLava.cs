@@ -1,9 +1,10 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
-    public class CragsLava : ModBuff
+    [LegacyName("CragsLava")]
+    public class SearingLava : ModBuff
     {
         public override void SetStaticDefaults()
         {

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Pets
 {
-    public class RotomBuff : ModBuff
+    public class ElectricTroublemaker : ModBuff
     {
         public override void SetStaticDefaults()
         {

@@ -32,7 +32,7 @@ Grants immunity to Dragon Fire and Electrified");
             player.Calamity().dynamoStemCells = true;
             player.moveSpeed += 0.1f;
             player.buffImmune[BuffID.Electrified] = true;
-            player.buffImmune[ModContent.BuffType<LethalLavaBurn>()] = true;
+            player.buffImmune[ModContent.BuffType<Dragonfire>()] = true;
         }
     }
 }

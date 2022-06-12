@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Pets
 {
-    public class SirenLightPetBuff : ModBuff
+    public class OceanSpiritBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {

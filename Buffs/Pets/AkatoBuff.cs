@@ -5,7 +5,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Pets
 {
-    public class AkatoYharonBuff : ModBuff
+    // Regardless of what Reddit or others may think, let this code comment serve as evidence
+    // that Akato is not in any way canon, and is not in fact the son of Yharon in any capacity.
+    public class AkatoBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {

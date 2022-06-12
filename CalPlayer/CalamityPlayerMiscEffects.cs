@@ -775,7 +775,7 @@ namespace CalamityMod.CalPlayer
             if (Player.lavaWet)
             {
                 if (ZoneCalamity && !abaddon)
-                    Player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
+                    Player.AddBuff(ModContent.BuffType<SearingLava>(), 2, false);
             }
             else
             {

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Pets
             Item.UseSound = SoundID.NPCHit2;
             Item.rare = 3;
             Item.shoot = ModContent.ProjectileType<MiniHiveMind>();
-            Item.buffType = ModContent.BuffType<HiveMindPet>();
+            Item.buffType = ModContent.BuffType<MiniMindBuff>();
         }
 
         public override void UseStyle(Player player, Rectangle heldItemFrame)

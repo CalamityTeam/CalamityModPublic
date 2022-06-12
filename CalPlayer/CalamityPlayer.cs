@@ -3376,8 +3376,8 @@ namespace CalamityMod.CalPlayer
                     spiritOriginVanity = true;
                     if (Player.whoAmI == Main.myPlayer)
                     {
-                        if (Player.FindBuffIndex(ModContent.BuffType<DaawnlightSpiritOriginBuff>()) == -1)
-                            Player.AddBuff(ModContent.BuffType<DaawnlightSpiritOriginBuff>(), 18000, true);
+                        if (Player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                            Player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
                     }
                 }
                 if (item.type == ModContent.ItemType<HowlsHeart>())

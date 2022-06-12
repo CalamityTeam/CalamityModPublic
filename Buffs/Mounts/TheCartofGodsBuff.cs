@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    public class DoGCartBuff : ModBuff
+    public class TheCartofGodsBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Devourer Cart");
+            DisplayName.SetDefault("The Cart of Gods");
             Description.SetDefault("Riding a cosmic terror");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;

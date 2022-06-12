@@ -1,16 +1,16 @@
-using CalamityMod.Projectiles.Pets;
+﻿using CalamityMod.Projectiles.Pets;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Pets
 {
-    public class SCalPetBuff : ModBuff
+    public class ClassicSCalPetBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Supreme Calamitas");
-            Description.SetDefault("Watching over you with supreme calamitous energy... how adorable");
+            DisplayName.SetDefault("Classic Supreme Calamitas");
+            Description.SetDefault("Her supreme powers will never be forgotten");
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
         }

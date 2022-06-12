@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
-    public class ShellfishEating : ModBuff
+    public class ShellfishClaps : ModBuff
     {
         public override void SetStaticDefaults()
         {

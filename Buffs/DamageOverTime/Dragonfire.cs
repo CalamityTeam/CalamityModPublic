@@ -1,13 +1,13 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.DamageOverTime
 {
-    public class LethalLavaBurn : ModBuff
+    public class Dragonfire : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dragon Fire");
+            DisplayName.SetDefault("Dragonfire");
             Description.SetDefault("Losing life, reduced movement speed");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;

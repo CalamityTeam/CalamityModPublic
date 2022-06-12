@@ -980,7 +980,7 @@ namespace CalamityMod
                 BuffType<ArmorCrunch>(),
                 BuffType<Vaporfied>(),
                 BuffType<Eutrophication>(),
-                BuffType<LethalLavaBurn>(),
+                BuffType<Dragonfire>(),
                 BuffType<Nightwither>(),
                 BuffType<VulnerabilityHex>()
             };
