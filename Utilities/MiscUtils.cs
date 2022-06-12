@@ -336,9 +336,6 @@ namespace CalamityMod
                 case 10:
                     item = ModContent.ItemType<AquaticAberrationBanner>();
                     break;
-                case 11:
-                    item = ModContent.ItemType<ParaseaBanner>();
-                    break;
                 case 12:
                     item = ModContent.ItemType<SeaUrchinBanner>();
                     break;
@@ -724,9 +721,6 @@ namespace CalamityMod
                     break;
                 case 10:
                     npc = ModContent.NPCType<AquaticAberration>();
-                    break;
-                case 11:
-                    npc = ModContent.NPCType<Parasea>();
                     break;
                 case 12:
                     npc = ModContent.NPCType<SeaUrchin>();
