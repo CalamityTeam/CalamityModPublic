@@ -503,7 +503,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<Signus>(), new int[] { 175, 315, 351, 369, 459 } },
                 { ModContent.NPCType<CosmicLantern>(), new int[] { 130, 260, 288, 304, 390 } },
-                { ModContent.NPCType<SignusBomb>(), new int[] { 140, 280, 300, 320, 390 } },
+                { ModContent.NPCType<CosmicMine>(), new int[] { 140, 280, 300, 320, 390 } },
 
                 { ModContent.NPCType<Polterghast>(), new int[] {
                     150, // 180 in phase 2, 210 in phase 3

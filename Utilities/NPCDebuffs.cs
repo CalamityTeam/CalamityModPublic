@@ -151,7 +151,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<Signus>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<WhisperingDeath>() }) },
                 { ModContent.NPCType<CosmicLantern>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<SignusBomb>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<CosmicMine>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<Polterghast>(), new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>(), ModContent.BuffType<WhisperingDeath>() }) },
                 { ModContent.NPCType<PolterPhantom>(), new Tuple<bool, int[]>(true, new int[] { }) },

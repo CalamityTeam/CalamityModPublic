@@ -13,7 +13,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.Signus
 {
-    public class SignusBomb : ModNPC
+    public class CosmicMine : ModNPC
     {
         public override void SetStaticDefaults()
         {

@@ -215,7 +215,7 @@ namespace CalamityMod.Events
 
                 new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
 
-                new Boss(ModContent.NPCType<Signus>(), specialSpawnCountdown: 360, permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<SignusBomb>() }),
+                new Boss(ModContent.NPCType<Signus>(), specialSpawnCountdown: 360, permittedNPCs: new int[] { ModContent.NPCType<CosmicLantern>(), ModContent.NPCType<CosmicMine>() }),
 
                 new Boss(ModContent.NPCType<RavagerBody>(), spawnContext: type =>
                 {
