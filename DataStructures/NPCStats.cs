@@ -290,7 +290,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), 0.8 },
                 { ModContent.NPCType<ThanatosTail>(), 0.8 },
 
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), 0.8 }
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), 0.8 }
             };
 
             EnemyStats.ContactDamageValues = new SortedDictionary<int, int[]>
@@ -541,7 +541,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), new int[] { 330, 528, 560, 576, 690 } },
                 { ModContent.NPCType<ThanatosTail>(), new int[] { 260, 416, 446, 464, 570 } },
 
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), new int[] { 400, 800, 850, 880, 1000 } }
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), new int[] { 400, 800, 850, 880, 1000 } }
             };
 
             EnemyStats.ProjectileDamageValues = new SortedDictionary<Tuple<int, int>, int[]>
@@ -809,10 +809,10 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 288, 432, 454, 478, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 450, 676, 710, 728, 1062 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
-                { new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },
-                { new Tuple<int, int>(ModContent.NPCType<EidolonWyrmHeadHuge>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } },
-                { new Tuple<int, int>(ModContent.NPCType<EidolonWyrmBodyAltHuge>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } }
+                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
+                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },
+                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.AncientDoomProjectile), new int[] { 400, 600, 632, 648, 948 } },
+                { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), ProjectileID.CultistBossFireBallClone), new int[] { 400, 600, 632, 648, 948 } }
             };
         }
 

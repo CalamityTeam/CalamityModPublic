@@ -620,7 +620,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), 21600 },
                 { ModContent.NPCType<ThanatosTail>(), 21600 },
                 { ModContent.NPCType<SupremeCalamitas>(), 18000 }, // 5:00 (300 seconds)
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), 18000 } // 5:00 (300 seconds)
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), 18000 } // 5:00 (300 seconds)
             };
         }
         #endregion
@@ -738,7 +738,7 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody1>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosBody2>(), velocityScaleMin },
                 { ModContent.NPCType<ThanatosTail>(), velocityScaleMin },
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), bitingEnemeyVelocityScale }
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), bitingEnemeyVelocityScale }
             };
         }
         #endregion

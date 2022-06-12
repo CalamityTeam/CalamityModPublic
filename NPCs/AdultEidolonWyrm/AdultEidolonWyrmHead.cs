@@ -23,7 +23,7 @@ using CalamityMod.Sounds;
 namespace CalamityMod.NPCs.AdultEidolonWyrm
 {
     [AutoloadBossHead]
-    public class EidolonWyrmHeadHuge : ModNPC
+    public class AdultEidolonWyrmHead : ModNPC
     {
         public enum Phase
         {
@@ -225,12 +225,12 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                         if (i >= 0 && i < minLength)
                         {
                             if (i % 2 == 0)
-                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyHuge>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AdultEidolonWyrmBody>(), NPC.whoAmI);
                             else
-                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmBodyAltHuge>(), NPC.whoAmI);
+                                lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), NPC.whoAmI);
                         }
                         else
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<EidolonWyrmTailHuge>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<AdultEidolonWyrmTail>(), NPC.whoAmI);
 
                         Main.npc[lol].realLife = NPC.whoAmI;
                         Main.npc[lol].ai[2] = NPC.whoAmI;
@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                     {
                         for (int a = 0; a < Main.maxNPCs; a++)
                         {
-                            if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAltHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTailHuge>())
+                            if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<AdultEidolonWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<AdultEidolonWyrmBody>() || Main.npc[a].type == ModContent.NPCType<AdultEidolonWyrmTail>())
                                 Main.npc[a].active = false;
                         }
                     }
@@ -1367,7 +1367,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
                 return;
             }
 
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/EidolonWyrmHeadGlowHuge").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/AdultEidolonWyrm/AdultEidolonWyrmHeadGlow").Value;
             SpriteEffects spriteEffects = NPC.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Vector2 center = NPC.Center;
             Main.spriteBatch.Draw(texture, center - screenPos, NPC.frame, Color.White, NPC.rotation, texture.Size() * 0.5f, NPC.scale, spriteEffects, 0f);

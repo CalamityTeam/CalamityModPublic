@@ -500,7 +500,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             // Never drop anything if this Eidolon Wyrm is a minion during an AEW fight.
-            var aewMinionCondition = npcLoot.DefineConditionalDropSet(EidolonWyrmHeadHuge.CanMinionsDropThings);
+            var aewMinionCondition = npcLoot.DefineConditionalDropSet(AdultEidolonWyrmHead.CanMinionsDropThings);
 
             // 30-40 Voidstone
             aewMinionCondition.Add(ModContent.ItemType<Voidstone>(), 1, 30, 40);

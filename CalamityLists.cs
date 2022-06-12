@@ -2605,7 +2605,7 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<EidolonWyrmHeadHuge>(), 42 },
+                { NPCType<AdultEidolonWyrmHead>(), 42 },
                 { NPCID.QueenSlimeBoss, 43 },
                 { NPCID.HallowBoss, 44 },
                 { NPCID.Deerclops, 45 }

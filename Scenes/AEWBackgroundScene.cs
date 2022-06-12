@@ -8,7 +8,7 @@ namespace CalamityMod.Systems
     {
         public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
 
-        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmHeadHuge>());
+        public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<AdultEidolonWyrmHead>());
 
         public override void SpecialVisuals(Player player)
         {
