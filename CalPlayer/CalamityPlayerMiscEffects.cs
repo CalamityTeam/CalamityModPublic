@@ -2819,7 +2819,7 @@ namespace CalamityMod.CalPlayer
                 Player.resistCold = true;
 
             if (shellBoost)
-                Player.moveSpeed += 0.4f;
+                Player.moveSpeed += 0.3f;
 
             if (tarraSet)
             {

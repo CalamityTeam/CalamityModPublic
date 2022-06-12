@@ -1171,7 +1171,7 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EmpressFlightBooster)
                 player.jumpSpeedBoost -= 1.9f;
 
-            if (player.frogLegJumpBoost)
+            if (item.type == ItemID.FrogLeg || item.type == ItemID.FrogFlipper || item.type == ItemID.FrogGear || item.type == ItemID.FrogWebbing || item.type == ItemID.AmphibianBoots)
                 player.jumpSpeedBoost -= 1.2f;
 
             // Arcane and Magnet Flower buffs
