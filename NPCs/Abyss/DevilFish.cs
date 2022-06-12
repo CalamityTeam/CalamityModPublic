@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs.Abyss
             var postClone = npcLoot.DefineConditionalDropSet(() => DownedBossSystem.downedCalamitas);
             postClone.Add(DropHelper.NormalVsExpertQuantity(ModContent.ItemType<DepthCells>(), 2, 1, 2, 2, 3));
             postClone.Add(ModContent.ItemType<Lumenyl>(), 2);
-            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ChaoticOre>(), 1, 3, 9);
+            npcLoot.AddIf(() => NPC.downedGolemBoss, ModContent.ItemType<ScoriaOre>(), 1, 3, 9);
         }
 
         public override void ModifyNPCLoot(NPCLoot npcLoot) => DefineDevilFishLoot(npcLoot);

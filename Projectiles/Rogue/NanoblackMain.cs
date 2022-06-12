@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             // The scythe runs its returning AI if the frame counter is greater than ReboundTime.
             if (Projectile.ai[0] >= ReboundTime)
             {
-                float returnSpeed = NanoblackReaperRogue.Speed;
+                float returnSpeed = NanoblackReaper.Speed;
                 float acceleration = 2.4f;
                 Player owner = Main.player[Projectile.owner];
 

@@ -119,12 +119,12 @@ namespace CalamityMod.Projectiles.Melee
                     case 1:
                         Projectile.width = Projectile.height = 140;
                         SoundEngine.PlaySound(SoundID.DD2_OgreSpit, Projectile.Center);
-                        Projectile.damage = (int)(Projectile.damage * BiomeBlade.ColdAttunement_SecondSwingBoost);
+                        Projectile.damage = (int)(Projectile.damage * BrokenBiomeBlade.ColdAttunement_SecondSwingBoost);
                         break;
                     case 2:
                         Projectile.width = Projectile.height = 130;
                         SoundEngine.PlaySound(SoundID.DD2_PhantomPhoenixShot, Projectile.Center);
-                        Projectile.damage = (int)(Projectile.damage * BiomeBlade.ColdAttunement_ThirdSwingBoost);
+                        Projectile.damage = (int)(Projectile.damage * BrokenBiomeBlade.ColdAttunement_ThirdSwingBoost);
                         break;
                 }
 
@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BiomeBlade").Value;
+            Texture2D handle = Request<Texture2D>("CalamityMod/Items/Weapons/Melee/BrokenBiomeBlade").Value;
 
             if (SwingMode != 2)
             {

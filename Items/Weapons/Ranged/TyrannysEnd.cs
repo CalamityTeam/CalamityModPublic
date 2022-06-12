@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<GoldenEagle>().
-                AddIngredient<AMR>().
+                AddIngredient<AntiMaterielRifle>().
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();

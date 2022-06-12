@@ -74,10 +74,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
         }
 
+        // TODO -- Shredder used to use Charged Dart Blaster. The item has been deleted.
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ChargedDartRifle>().
+                // AddIngredient<ChargedDartRifle>().
                 AddIngredient<FrostbiteBlaster>().
                 AddIngredient(ItemID.Shotgun).
                 AddIngredient<GalacticaSingularity>(5).

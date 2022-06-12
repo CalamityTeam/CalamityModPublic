@@ -163,8 +163,8 @@ namespace CalamityMod.NPCs
         public int shopAlertAnimTimer = 0;
         public int shopAlertAnimFrame = 0;
 
-        // Rage interactions
-        public bool DoesNotGenerateRage = false;
+        // Set to false for this NPC to be unable to generate proximity Rage, regardless of other factors
+        public bool ProvidesProximityRage = true;
 
         // NewAI
         internal const int maxAIMod = 4;
@@ -361,7 +361,7 @@ namespace CalamityMod.NPCs
             myClone.shopAlertAnimTimer = shopAlertAnimTimer;
             myClone.shopAlertAnimFrame = shopAlertAnimFrame;
 
-            myClone.DoesNotGenerateRage = DoesNotGenerateRage;
+            myClone.ProvidesProximityRage = ProvidesProximityRage;
 
             myClone.newAI = new float[maxAIMod];
             for (int i = 0; i < maxAIMod; ++i)

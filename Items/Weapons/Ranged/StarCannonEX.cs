@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.SuperStarCannon).
-                AddIngredient<AstralJelly>(10).
+                AddIngredient<AureusCell>(10).
                 AddIngredient<Stardust>(25).
                 AddTile(TileID.MythrilAnvil).
                 Register();

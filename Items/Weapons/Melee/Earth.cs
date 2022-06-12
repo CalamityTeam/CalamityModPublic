@@ -165,7 +165,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<GrandGuardian>().
-                AddIngredient<GalacticaBlade>().
+                AddIngredient<GalactusBlade>().
                 AddIngredient<ShadowspecBar>(5).
                 AddTile<DraedonsForge>().
                 Register();

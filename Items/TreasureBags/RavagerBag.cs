@@ -52,8 +52,8 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor(s);
 
             // Materials
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<FleshyGeodeT1>(), !DownedBossSystem.downedProvidence);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<FleshyGeodeT2>(), DownedBossSystem.downedProvidence);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<FleshyGeode>(), !DownedBossSystem.downedProvidence);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<NecromanticGeode>(), DownedBossSystem.downedProvidence);
 
             // Weapons
             float w = DropHelper.BagWeaponDropRateFloat;

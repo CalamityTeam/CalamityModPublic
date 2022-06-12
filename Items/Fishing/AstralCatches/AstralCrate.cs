@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             DropHelper.DropItem(s, player, ItemID.FallenStar, 5, 10);
             DropHelper.DropItemChance(s, player, ItemID.Meteorite, 0.2f, 10, 20);
             DropHelper.DropItemChance(s, player, ItemID.MeteoriteBar, 0.1f, 1, 3);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<AstralJelly>(), DownedBossSystem.downedAstrumAureus, 0.2f, 2, 5);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<AureusCell>(), DownedBossSystem.downedAstrumAureus, 0.2f, 2, 5);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<AstralOre>(), DownedBossSystem.downedAstrumDeus, 0.2f, 10, 20);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<AstralBar>(), DownedBossSystem.downedAstrumDeus, 0.1f, 1, 3);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<MeldBlob>(), DownedBossSystem.downedAstrumDeus, 0.25f, 5, 10);

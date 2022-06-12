@@ -197,10 +197,10 @@ namespace CalamityMod.NPCs.Calamitas
                 // Items
                 int[] items = new int[]
                 {
-                    ModContent.ItemType<TheEyeofCalamitas>(),
+                    ModContent.ItemType<Oblivion>(),
                     ModContent.ItemType<Animosity>(),
-                    ModContent.ItemType<CalamitasInferno>(),
-                    ModContent.ItemType<BlightedEyeStaff>(),
+                    ModContent.ItemType<LashesofChaos>(),
+                    ModContent.ItemType<EntropysVigil>(),
                     ModContent.ItemType<ChaosStone>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));

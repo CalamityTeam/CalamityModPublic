@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
             CreateRecipe().
                 AddIngredient<Lumenyl>(8).
                 AddIngredient<RuinousSoul>(3).
-                AddIngredient<ExodiumClusterOre>(16).
+                AddIngredient<ExodiumCluster>(16).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

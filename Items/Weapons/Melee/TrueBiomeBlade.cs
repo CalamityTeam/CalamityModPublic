@@ -384,7 +384,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<BiomeBlade>().
+                AddIngredient<BrokenBiomeBlade>().
                 AddIngredient(ItemID.SoulofFright, 1).
                 AddIngredient(ItemID.SoulofMight, 1).
                 AddIngredient(ItemID.SoulofSight, 1).

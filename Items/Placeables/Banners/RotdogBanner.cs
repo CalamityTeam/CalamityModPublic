@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Banners
 {
+    [LegacyName("PitbullBanner")]
     public class RotdogBanner : ModItem
     {
         public override void SetStaticDefaults()

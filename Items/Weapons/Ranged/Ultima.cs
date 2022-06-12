@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.LaserRifle).
                 AddIngredient<TheStorm>().
                 AddIngredient<AstralRepeater>().
-                AddIngredient<ExodiumClusterOre>(15).
+                AddIngredient<ExodiumCluster>(15).
                 AddIngredient<CosmiliteBar>(8).
                 AddIngredient<DarksunFragment>(8).
                 AddTile<CosmicAnvil>().

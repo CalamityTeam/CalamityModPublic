@@ -16,6 +16,13 @@ namespace CalamityMod.Items.Armor.OmegaBlue
             DisplayName.SetDefault("Omega Blue Tentacles");
             Tooltip.SetDefault(@"12% increased movement speed
 12% increased damage and critical strike chance");
+
+            if (Main.netMode == NetmodeID.Server)
+                return;
+
+            int equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+
+            ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlot] = true;
         }
 
         public override void SetDefaults()

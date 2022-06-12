@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 AddIngredient(ItemID.SniperScope).
                 AddIngredient<Lumenyl>(6).
                 AddIngredient<RuinousSoul>(4).
-                AddIngredient<ExodiumClusterOre>(12).
+                AddIngredient<ExodiumCluster>(12).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Plates
 
             HitSound = SoundID.Tink;
             MineResist = 1f;
-            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.PlagueContainmentCells>();
+            ItemDrop = ModContent.ItemType<Items.Placeables.Plates.Plagueplate>();
             AddMapEntry(new Color(128, 188, 67));
         }
 
