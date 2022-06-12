@@ -207,9 +207,6 @@ namespace CalamityMod
                 { ModContent.NPCType<SulphurousSkater>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<Trilobite>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<WaterLeech>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticSeekerHead>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticSeekerBody>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
-                { ModContent.NPCType<AquaticSeekerTail>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<AquaticUrchin>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<AnthozoanCrab>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<BelchingCoral>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
@@ -317,8 +314,6 @@ namespace CalamityMod
                 { ModContent.NPCType<Cryon>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
                 { ModContent.NPCType<CryoSlime>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
                 { ModContent.NPCType<IceClasper>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<Cryocore>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<Cryocore2>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
                 { ModContent.NPCType<IceMass>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) }
             };
         }
