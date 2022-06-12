@@ -480,9 +480,9 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref primeVice, NPCID.PrimeVice);
             ResetSavedIndex(ref primeSaw, NPCID.PrimeSaw);
             ResetSavedIndex(ref brimstoneElemental, NPCType<BrimstoneElemental.BrimstoneElemental>());
-            ResetSavedIndex(ref cataclysm, NPCType<CalamitasRun>());
-            ResetSavedIndex(ref catastrophe, NPCType<CalamitasRun2>());
-            ResetSavedIndex(ref calamitas, NPCType<CalamitasRun3>());
+            ResetSavedIndex(ref cataclysm, NPCType<Cataclysm>());
+            ResetSavedIndex(ref catastrophe, NPCType<Catastrophe>());
+            ResetSavedIndex(ref calamitas, NPCType<CalamitasClone>());
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
             ResetSavedIndex(ref siren, NPCType<Siren>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
@@ -5709,7 +5709,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedBrimstoneElemental;
             }
-            else if (type == NPCType<CalamitasRun3>())
+            else if (type == NPCType<CalamitasClone>())
             {
                 return DownedBossSystem.downedCalamitas;
             }

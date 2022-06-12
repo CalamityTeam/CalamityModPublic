@@ -16,7 +16,7 @@ using System.IO;
 namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
-    public class CalamitasRun : ModNPC
+    public class Cataclysm : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<CalamitasRun3>();
+            int associatedNPCType = ModContent.NPCType<CalamitasClone>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Calamitas
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CalamitasRunGlow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CataclysmGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)

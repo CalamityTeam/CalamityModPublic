@@ -1201,8 +1201,8 @@ namespace CalamityMod.NPCs
                         }
                         else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
                         {
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Cataclysm>(), npc.whoAmI);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Catastrophe>(), npc.whoAmI);
 
                             string key = "Mods.CalamityMod.CalamitasBossText2";
                             Color messageColor = Color.Orange;
@@ -1957,7 +1957,7 @@ namespace CalamityMod.NPCs
                         if (npc.localAI[1] > 12f)
                         {
                             npc.localAI[1] = 0f;
-                            float num867 = NPC.AnyNPCs(ModContent.NPCType<CalamitasRun2>()) ? 4f : 6f;
+                            float num867 = NPC.AnyNPCs(ModContent.NPCType<Catastrophe>()) ? 4f : 6f;
                             num867 += enrageScale;
                             int type = ModContent.ProjectileType<BrimstoneFire>();
                             int damage = npc.GetProjectileDamage(type);
@@ -2265,7 +2265,7 @@ namespace CalamityMod.NPCs
                     SoundEngine.PlaySound(SoundID.Roar, npc.position);
                     npc.rotation = num842;
 
-                    float num870 = (NPC.AnyNPCs(ModContent.NPCType<CalamitasRun>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
+                    float num870 = (NPC.AnyNPCs(ModContent.NPCType<Cataclysm>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
                     num870 += 4f * enrageScale;
                     if (expertMode)
                         num870 += 2f;

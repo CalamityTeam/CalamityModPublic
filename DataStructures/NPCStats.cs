@@ -221,7 +221,7 @@ namespace CalamityMod
                 { NPCID.PrimeSaw, 0.85 },
                 { NPCID.PrimeVice, 0.85 },
 
-                { ModContent.NPCType<CalamitasRun3>(), 0.8 },
+                { ModContent.NPCType<CalamitasClone>(), 0.8 },
 
                 { NPCID.Plantera, 1.15 },
                 { NPCID.PlanterasTentacle, 1.15 },
@@ -413,9 +413,9 @@ namespace CalamityMod
                 { NPCID.PrimeCannon, new int[] { 30, 51, 68, 85, 102 } },
                 { NPCID.PrimeLaser, new int[] { 30, 51, 68, 85, 102 } },
 
-                { ModContent.NPCType<CalamitasRun3>(), new int[] { 90, 144, 168, 176, 240 } },
-                { ModContent.NPCType<CalamitasRun>(), new int[] { 60, 120, 138, 148, 198 } },
-                { ModContent.NPCType<CalamitasRun2>(), new int[] { 65, 130, 150, 162, 216 } },
+                { ModContent.NPCType<CalamitasClone>(), new int[] { 90, 144, 168, 176, 240 } },
+                { ModContent.NPCType<Cataclysm>(), new int[] { 60, 120, 138, 148, 198 } },
+                { ModContent.NPCType<Catastrophe>(), new int[] { 65, 130, 150, 162, 216 } },
 
                 { NPCID.Plantera, new int[] {
                     50, // 70 in phase 2, vanilla is retarded and doesn't use the expert multiplier for plantera's damage
@@ -635,13 +635,13 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.PrimeCannon, ProjectileID.BombSkeletronPrime), new int[] { 80, 160, 0, 0, 240 } },
                 { new Tuple<int, int>(NPCID.PrimeLaser, ProjectileID.DeathLaser), new int[] { 50, 100, 124, 136, 186 } }, // 150 in non-rev master mode
 
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun3>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 70, 112, 128, 140, 192 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun>(), ModContent.ProjectileType<BrimstoneFire>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasRun2>(), ModContent.ProjectileType<BrimstoneBall>()), new int[] { 70, 112, 128, 140, 192 } },
+                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 70, 112, 128, 140, 192 } },
+                { new Tuple<int, int>(ModContent.NPCType<Cataclysm>(), ModContent.ProjectileType<BrimstoneFire>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<Catastrophe>(), ModContent.ProjectileType<BrimstoneBall>()), new int[] { 70, 112, 128, 140, 192 } },
                 { new Tuple<int, int>(ModContent.NPCType<SoulSeeker>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 70, 112, 128, 140, 192 } },
 
                 { new Tuple<int, int>(NPCID.Plantera, ProjectileID.SeedPlantera), new int[] { 44, 76, 128, 140, 186 } }, // 114 in non-rev master mode

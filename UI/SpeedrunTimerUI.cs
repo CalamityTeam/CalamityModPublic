@@ -109,7 +109,7 @@ namespace CalamityMod.UI
             16 => TextureAssets.NpcHeadBoss[25].Value, // The Destroyer
             17 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<BrimstoneElemental>()]].Value,
             18 => TextureAssets.NpcHeadBoss[18].Value, // Skeletron Prime
-            19 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasRun3>()]].Value,
+            19 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CalamitasClone>()]].Value,
             20 => TextureAssets.NpcHeadBoss[12].Value, // Plantera
             21 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Leviathan>()]].Value,
             22 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumAureus>()]].Value,

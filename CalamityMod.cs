@@ -584,7 +584,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<CalamitasRun3>(), 14400 }, // 4:00 (240 seconds)
+                { ModContent.NPCType<CalamitasClone>(), 14400 }, // 4:00 (240 seconds)
                 { ModContent.NPCType<Siren>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 }, // 3:00 (180 seconds)
@@ -693,9 +693,9 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
                 { ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
                 { ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
-                { ModContent.NPCType<CalamitasRun>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<CalamitasRun2>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+                { ModContent.NPCType<Cataclysm>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Catastrophe>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CalamitasClone>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<Siren>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },

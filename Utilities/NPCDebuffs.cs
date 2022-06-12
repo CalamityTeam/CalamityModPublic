@@ -102,9 +102,9 @@ namespace CalamityMod
                 { ModContent.NPCType<BrimstoneElemental>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<Brimling>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
-                { ModContent.NPCType<CalamitasRun3>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<CalamitasRun>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<CalamitasRun2>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<CalamitasClone>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<Cataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
+                { ModContent.NPCType<Catastrophe>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SoulSeeker>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
 
                 { NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
