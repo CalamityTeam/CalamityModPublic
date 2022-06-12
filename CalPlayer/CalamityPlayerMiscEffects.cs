@@ -197,6 +197,9 @@ namespace CalamityMod.CalPlayer
                 hadNanomachinesLastFrame = false;
                 adrenaline = 0f;
             }
+
+            // Apply stealth damage to rogue.
+            Player.GetDamage<RogueDamageClass>() += stealthDamage;
         }
         #endregion
 
