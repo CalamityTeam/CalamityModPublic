@@ -5601,12 +5601,12 @@ namespace CalamityMod.CalPlayer
             if (bladeArmEnchant)
                 return false;
 
-            if (rottenDogTooth && item.CountsAsClass<RogueDamageClass>() && item.type != ModContent.ItemType<SylvanSlasher>())
+            if (rottenDogTooth && item.CountsAsClass<RogueDamageClass>())
                 damage = (int)(damage * (1f + RottenDogtooth.StealthStrikeDamageMultiplier));
 
             if (veneratedLocket)
             {
-                if (item.CountsAsClass<RogueDamageClass>() && item.type != ModContent.ItemType<SylvanSlasher>())
+                if (item.CountsAsClass<RogueDamageClass>())
                 {
                     float num72 = item.shootSpeed;
                     Vector2 vector2 = Player.RotatedRelativePoint(Player.MountedCenter, true);

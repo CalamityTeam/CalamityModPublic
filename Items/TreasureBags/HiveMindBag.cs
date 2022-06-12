@@ -60,9 +60,7 @@ namespace CalamityMod.Items.TreasureBags
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<PerfectDark>(w),
-                DropHelper.WeightStack<LeechingDagger>(w),
                 DropHelper.WeightStack<Shadethrower>(w),
-                DropHelper.WeightStack<ShadowdropStaff>(w),
                 DropHelper.WeightStack<ShaderainStaff>(w),
                 DropHelper.WeightStack<DankStaff>(w),
                 DropHelper.WeightStack<RotBall>(w, 50, 75),

@@ -373,9 +373,6 @@ namespace CalamityMod.CalPlayer
                 if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                     target.AddBuff(BuffType<Plague>(), 300);
 
-                if (proj.type == ProjectileID.IchorArrow && Player.ActiveItem().type == ItemType<RaidersGlory>())
-                    target.AddBuff(BuffID.Midas, 300, false);
-
                 // All projectiles fired from Soma Prime are marked using CalamityGlobalProjectile
                 CalamityGlobalProjectile cgp = proj.Calamity();
                 if (cgp.appliesSomaShred)

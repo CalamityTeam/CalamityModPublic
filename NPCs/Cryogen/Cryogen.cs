@@ -1084,7 +1084,6 @@ namespace CalamityMod.NPCs.Cryogen
                 int[] weapons = new int[]
                 {
                     ModContent.ItemType<Avalanche>(),
-                    ModContent.ItemType<GlacialCrusher>(),
                     ModContent.ItemType<EffluviumBow>(),
                     ModContent.ItemType<SnowstormStaff>(),
                     ModContent.ItemType<Icebreaker>(),

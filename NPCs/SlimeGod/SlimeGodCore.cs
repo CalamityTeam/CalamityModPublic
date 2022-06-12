@@ -671,21 +671,6 @@ namespace CalamityMod.NPCs.SlimeGod
             var mainDrops = npcLoot.DefineConditionalDropSet(LastSlimeGodStanding);
             mainDrops.Add(ItemDropRule.BossBag(ModContent.ItemType<SlimeGodBag>()));
 
-            // Purified Jam is once per player, but drops for all players.
-            npcLoot.AddIf(() =>
-            {
-                if (!LastSlimeGodStanding())
-                    return false;
-
-                CalamityPlayer mp = Main.LocalPlayer.Calamity();
-                if (!mp.revJamDrop)
-                {
-                    mp.revJamDrop = true;
-                    return !DownedBossSystem.downedSlimeGod;
-                }
-                return false;
-            }, ModContent.ItemType<PurifiedJam>(), 1, 6, 8);
-
             // Normal drops: Everything that would otherwise be in the bag
             LeadingConditionRule normalOnly = new LeadingConditionRule(new Conditions.NotExpert());
             mainDrops.Add(normalOnly);

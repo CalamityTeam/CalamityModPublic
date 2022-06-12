@@ -129,7 +129,6 @@ namespace CalamityMod.Items.Weapons.Melee
                 AddIngredient<Terratomere>().
                 AddIngredient<AnarchyBlade>().
                 AddIngredient<FlarefrostBlade>().
-                AddIngredient<PhoenixBlade>().
                 AddIngredient<StellarStriker>().
                 AddIngredient<MiracleMatter>().
                 AddTile(ModContent.TileType<DraedonsForge>()).

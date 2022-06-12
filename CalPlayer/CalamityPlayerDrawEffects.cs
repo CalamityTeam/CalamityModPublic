@@ -604,7 +604,6 @@ namespace CalamityMod.CalPlayer
                 {
                     ModContent.ItemType<FlurrystormCannon>(),
                     ModContent.ItemType<BlightSpewer>(),
-                    ModContent.ItemType<BrimstoneFlameblaster>(),
                     ModContent.ItemType<BrimstoneFlamesprayer>(),
                     ModContent.ItemType<SparkSpreader>(),
                     ModContent.ItemType<HalleysInferno>(),
@@ -624,7 +623,6 @@ namespace CalamityMod.CalPlayer
                 {
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_FlurrystormCannon").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BlightSpewer").Value,
-                    ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader").Value,
                     ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/Tanks/Backpack_HalleysInferno").Value,

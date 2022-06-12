@@ -47,7 +47,6 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             CreateRecipe(1).
                 AddIngredient(ItemID.HeatRay).
-                AddIngredient<Lazinator>().
                 AddIngredient(ItemID.FragmentSolar, 10).
                 AddIngredient(ItemID.ChlorophyteBar, 6).
                 AddTile(TileID.LunarCraftingStation).

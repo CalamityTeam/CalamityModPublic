@@ -46,10 +46,10 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A stingray that spends much of its time docile on the rocky floors of the sunken sea’s pools. It stores its energy, and when endangered, can release it in short bursts of speed.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A stingray that spends much of its time docile on the rocky floors of the sunken sea’s pools. It stores its energy, and when endangered, can release it in short bursts of speed.")
             });
         }
 
@@ -208,9 +208,7 @@ namespace CalamityMod.NPCs.SunkenSea
             }
             return 0f;
         }
-
-        public override void ModifyNPCLoot(NPCLoot npcLoot) => npcLoot.AddIf(() => DownedBossSystem.downedDesertScourge, ModContent.ItemType<EutrophicShank>(), 3);
-
+        
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

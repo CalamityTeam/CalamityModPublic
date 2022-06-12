@@ -141,8 +141,6 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.LocalPlayer.discount)
               shop.item[nextSlot].shopCustomPrice = (int)(shop.item[nextSlot].shopCustomPrice * 0.8);
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());

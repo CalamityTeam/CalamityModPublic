@@ -58,7 +58,6 @@ namespace CalamityMod.Items.TreasureBags
             float w = DropHelper.BagWeaponDropRateFloat;
             DropHelper.DropEntireWeightedSet(s, player,
                 DropHelper.WeightStack<Avalanche>(w),
-                DropHelper.WeightStack<GlacialCrusher>(w),
                 DropHelper.WeightStack<EffluviumBow>(w),
                 DropHelper.WeightStack<SnowstormStaff>(w),
                 DropHelper.WeightStack<Icebreaker>(w),

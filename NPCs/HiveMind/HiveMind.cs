@@ -1117,10 +1117,8 @@ namespace CalamityMod.NPCs.HiveMind
                 int[] items = new int[]
                 {
                     ModContent.ItemType<PerfectDark>(),
-                    ModContent.ItemType<LeechingDagger>(),
                     ModContent.ItemType<SausageMaker>(),
                     ModContent.ItemType<Shadethrower>(),
-                    ModContent.ItemType<ShadowdropStaff>(),
                     ModContent.ItemType<ShaderainStaff>(),
                     ModContent.ItemType<DankStaff>(),
                     ModContent.ItemType<FilthyGlove>(),
