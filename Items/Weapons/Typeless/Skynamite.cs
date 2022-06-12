@@ -6,10 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class AeroDynamite : ModItem
+    [LegacyName("AeroDynamite")]
+    public class Skynamite : ModItem
     {
-        public static int Damage = 250;
-        public static float Knockback = 10f;
+        public const int Damage = 250;
+        public const float Knockback = 10f;
 
         public override void SetStaticDefaults()
         {

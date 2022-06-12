@@ -61,7 +61,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<DragonsBreath>(w),
                 DropHelper.WeightStack<ChickenCannon>(w),
                 DropHelper.WeightStack<PhoenixFlameBarrage>(w),
-                DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
+                DropHelper.WeightStack<YharonsKindleStaff>(w), // Yharon Kindle Staff
                 DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
                 DropHelper.WeightStack<FinalDawn>(w)
             );

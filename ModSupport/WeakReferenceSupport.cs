@@ -379,7 +379,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Calamitas", out float order);
                 int type = NPCType<CalamitasRun3>();
                 int summon = ItemType<EyeofDesolation>();
-                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<AshesofCalamity>(), ItemType<Bloodstone>(), ItemType<LashesofChaos>(), ItemType<Oblivion>(), ItemType<BlightedEyeStaff>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
+                List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<AshesofCalamity>(), ItemType<Bloodstone>(), ItemType<LashesofChaos>(), ItemType<Oblivion>(), ItemType<EntropysVigil>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<BrimstoneFlameblaster>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<KnowledgeCalamitasClone>() };
                 string instructions = $"Use an [i:{summon}] at Night";
                 string despawn = CalamityUtils.ColorMessage("If you wanted a fight, you should've came more prepared.", new Color(0xFF, 0xA5, 0x00));
@@ -583,7 +583,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("Yharon", out float order);
                 int type = NPCType<Yharon>();
                 int summon = ItemType<JungleDragonEgg>();
-                List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), /*ItemType<BossRush>(), */ItemType<OmegaHealingPotion>() };
+                List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<YharonsKindleStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), /*ItemType<BossRush>(), */ItemType<OmegaHealingPotion>() };
                 List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<KnowledgeYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<McNuggets>(), ItemType<FoxDrive>() };
                 string instructions = $"Use a [i:{summon}] in the Jungle Biome";
                 string despawn = CalamityUtils.ColorMessage("Yharon found you too weak to stay near your gravestone.", new Color(0xFF, 0xA5, 0x00));
@@ -948,16 +948,16 @@ namespace CalamityMod
             RegisterSummon(ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
             RegisterSummon(ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
             RegisterSummon(ItemType<CosmicViperEngine>(), BuffType<CosmicViperEngineBuff>(), ProjectileType<CosmicViperSummon>());
-            RegisterSummon(ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
+            RegisterSummon(ItemType<YharonsKindleStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
             RegisterSummon(ItemType<MidnightSunBeacon>(), BuffType<MidnightSunBuff>(), ProjectileType<MidnightSunUFO>());
             RegisterSummon(ItemType<PoleWarper>(), BuffType<PoleWarperBuff>(), ProjectileType<PoleWarperSummon>());
             RegisterSummon(ItemType<Vigilance>(), BuffType<SoulSeekerBuff>(), ProjectileType<SeekerSummonProj>());
             RegisterSummon(ItemType<Metastasis>(), BuffType<SepulcherMinionBuff>(), ProjectileType<SepulcherMinion>());
             RegisterSummon(ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
-            RegisterSummon(ItemType<BensUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
+            RegisterSummon(ItemType<TemporalUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
             RegisterSummon(ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
 
-            sAssociation.Call("AddMinionInfo", ItemType<BlightedEyeStaff>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1-(1f/3f), 2f/3f, 2f/3f});
+            sAssociation.Call("AddMinionInfo", ItemType<EntropysVigil>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1-(1f/3f), 2f/3f, 2f/3f});
             //Entropy's Vigil is a bruh moment
             sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
         }

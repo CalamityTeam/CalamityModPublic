@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {
-    public class SparksSummon : ModItem
+    [LegacyName("SparksSummon")]
+    public class EnchantedButterfly : ModItem
     {
         public override void SetStaticDefaults()
         {

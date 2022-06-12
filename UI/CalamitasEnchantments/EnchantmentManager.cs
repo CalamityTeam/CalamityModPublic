@@ -310,7 +310,7 @@ namespace CalamityMod.UI.CalamitasEnchants
             ItemUpgradeRelationship = new Dictionary<int, int>()
             {
                 [ModContent.ItemType<TheCommunity>()] = ModContent.ItemType<ShatteredCommunity>(),
-                [ModContent.ItemType<BlightedEyeStaff>()] = ModContent.ItemType<CindersOfLament>(),
+                [ModContent.ItemType<EntropysVigil>()] = ModContent.ItemType<CindersOfLament>(),
                 [ModContent.ItemType<StaffoftheMechworm>()] = ModContent.ItemType<Metastasis>(),
                 [ModContent.ItemType<GhastlyVisage>()] = ModContent.ItemType<GruesomeEminence>(),
                 [ModContent.ItemType<BurningSea>()] = ModContent.ItemType<Rancor>()

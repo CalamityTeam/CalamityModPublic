@@ -8,7 +8,8 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class AngryChickenStaff : ModItem
+    [LegacyName("AngryChickenStaff")]
+    public class YharonsKindleStaff : ModItem
     {
         public const int Damage = 340;
         public const float ReboundRamDamageFactor = 2f;

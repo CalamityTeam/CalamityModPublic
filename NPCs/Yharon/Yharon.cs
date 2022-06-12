@@ -2808,7 +2808,7 @@ namespace CalamityMod.NPCs.Yharon
                     ModContent.ItemType<DragonsBreath>(),
                     ModContent.ItemType<ChickenCannon>(),
                     ModContent.ItemType<PhoenixFlameBarrage>(),
-                    ModContent.ItemType<AngryChickenStaff>(), // Yharon Kindle Staff
+                    ModContent.ItemType<YharonsKindleStaff>(), // Yharon Kindle Staff
                     ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
                     ModContent.ItemType<FinalDawn>(),
                 };

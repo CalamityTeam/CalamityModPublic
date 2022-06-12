@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Purge : ModItem
+    [LegacyName("Purge")]
+    public class NanoPurge : ModItem
     {
         public const int UseTime = 20;
 
