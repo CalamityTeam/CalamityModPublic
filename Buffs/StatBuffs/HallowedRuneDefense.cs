@@ -3,20 +3,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class GraxDefense : ModBuff
+    public class HallowedRuneDefense : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grax Boost");
-            Description.SetDefault("Your defenses and muscles are strong");
+            DisplayName.SetDefault("Hallowed Defense");
+            Description.SetDefault("Defense boosted by 8 and damage reduction boosted by 4%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
+            Main.buffNoTimeDisplay[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().graxDefense = true;
+            player.statDefense += 8;
+            player.endurance += 0.04f;
         }
     }
 }

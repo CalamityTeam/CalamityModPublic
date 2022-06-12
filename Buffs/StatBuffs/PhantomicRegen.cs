@@ -1,14 +1,15 @@
+﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class HallowedRuneDefBuff : ModBuff
+    class PhantomicRegen : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Defense");
-            Description.SetDefault("Defense boosted by 8 and damage reduction boosted by 4%");
+            DisplayName.SetDefault("Phantomic Regen");
+            Description.SetDefault("Regenerating life");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -17,8 +18,12 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 8;
-            player.endurance += 0.04f;
+            CalamityPlayer calPlayer = player.Calamity();
+            if (calPlayer.phantomicHeartRegen <= 0)
+            {
+                calPlayer.phantomicHeartRegen = 1000;
+            }
+            player.lifeRegen += 2;
         }
     }
 }

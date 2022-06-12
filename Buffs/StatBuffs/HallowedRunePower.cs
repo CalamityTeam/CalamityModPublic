@@ -1,15 +1,14 @@
-﻿using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    class PhantomicRestorationBuff : ModBuff
+    public class HallowedRunePower : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Phantomic Regen");
-            Description.SetDefault("Regenerating life");
+            DisplayName.SetDefault("Hallowed Power");
+            Description.SetDefault("Minion damage boosted by 10%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -18,12 +17,8 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            CalamityPlayer calPlayer = player.Calamity();
-            if (calPlayer.phantomicHeartRegen <= 0)
-            {
-                calPlayer.phantomicHeartRegen = 1000;
-            }
-            player.lifeRegen += 2;
+            player.Calamity().hallowedPower = true;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
         }
     }
 }

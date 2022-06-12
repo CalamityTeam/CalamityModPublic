@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class BossZen : ModBuff
+    public class BossEffects : ModBuff
     {
         public override void SetStaticDefaults()
         {

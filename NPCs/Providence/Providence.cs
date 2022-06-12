@@ -1039,7 +1039,7 @@ namespace CalamityMod.NPCs.Providence
                             if (!player2.dead && player2.active && Vector2.Distance(player2.Center, vector) < 2800f && !inLiquid)
                             {
                                 SoundEngine.PlaySound(SoundID.Item20, player2.position);
-                                player2.AddBuff(ModContent.BuffType<ExtremeGravity>(), 3000, true);
+                                player2.AddBuff(ModContent.BuffType<IcarusFolly>(), 3000, true);
 
                                 for (int num621 = 0; num621 < 40; num621++)
                                 {

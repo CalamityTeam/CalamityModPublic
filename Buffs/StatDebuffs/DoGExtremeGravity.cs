@@ -1,10 +1,10 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-    public class ExtremeGrav : ModBuff
+    public class DoGExtremeGravity : ModBuff
     {
         public override void SetStaticDefaults()
         {

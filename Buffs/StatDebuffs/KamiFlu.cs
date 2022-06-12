@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-    public class KamiDebuff : ModBuff
+    public class KamiFlu : ModBuff
     {
         public const float MultiplicativeDamageReduction = 0.8f;
         // Hard-cap for npc speed when afflicted with this debuff. Does not affect certain NPCs and does not affect any bosses (Basically only works on boss minions).

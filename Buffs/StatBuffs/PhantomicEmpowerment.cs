@@ -1,14 +1,14 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class SpiritGeneratorAtkBuff : ModBuff
+    class PhantomicEmpowerment : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Power");
-            Description.SetDefault("Minion damage boosted by 10%");
+            DisplayName.SetDefault("Phantomic Empowerment");
+            Description.SetDefault("Empowering minion damage by 10%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

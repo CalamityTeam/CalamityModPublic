@@ -3,12 +3,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class SpiritGeneratorDefBuff : ModBuff
+    public class SpiritPower : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Defense");
-            Description.SetDefault("Defense boosted by 6 and damage reduction boosted by 3%");
+            DisplayName.SetDefault("Spirit Power");
+            Description.SetDefault("Minion damage boosted by 10%");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -17,8 +17,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.statDefense += 6;
-            player.endurance += 0.03f;
+            player.GetDamage<SummonDamageClass>() += 0.1f;
         }
     }
 }

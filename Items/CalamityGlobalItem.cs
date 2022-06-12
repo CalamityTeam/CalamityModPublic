@@ -871,7 +871,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MagicMirror || item.type == ItemID.IceMirror || item.type == ItemID.CellPhone || item.type == ItemID.RecallPotion)
             {
-                return !player.HasBuff(ModContent.BuffType<BossZen>());
+                return !player.HasBuff(ModContent.BuffType<BossEffects>());
             }
             if (item.type == ItemID.RodofDiscord)
             {

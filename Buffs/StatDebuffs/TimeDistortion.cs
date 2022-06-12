@@ -1,11 +1,11 @@
-using CalamityMod.NPCs;
+﻿using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-    public class TimeSlow : ModBuff
+    public class TimeDistortion : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -26,10 +26,5 @@ namespace CalamityMod.Buffs.StatDebuffs
             npc.DelBuff(buffIndex);
             buffIndex--;
         }
-
-        /*public override void Update(Player player, ref int buffIndex)
-        {
-            player.Calamity().timeSlow = true;
-        }*/
     }
 }

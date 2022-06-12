@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
-    public class ExtremeGravity : ModBuff
+    public class IcarusFolly : ModBuff
     {
         public override void SetStaticDefaults()
         {

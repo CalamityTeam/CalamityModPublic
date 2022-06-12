@@ -3,12 +3,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class HallowedRuneAtkBuff : ModBuff
+    public class SpiritRegen : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Power");
-            Description.SetDefault("Minion damage boosted by 10%");
+            DisplayName.SetDefault("Spirit Regen");
+            Description.SetDefault("Regenerating life");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -17,8 +17,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().hallowedPower = true;
-            player.GetDamage<SummonDamageClass>() += 0.1f;
+            player.Calamity().sRegen = true;
         }
     }
 }

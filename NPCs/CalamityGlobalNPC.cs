@@ -2589,7 +2589,7 @@ namespace CalamityMod.NPCs
             if (npc.betsysCurse)
                 calcDR *= 0.66f;
             if (npc.Calamity().kamiFlu > 0)
-                calcDR *= KamiDebuff.MultiplicativeDamageReduction;
+                calcDR *= KamiFlu.MultiplicativeDamageReduction;
             if (npc.onFire2)
                 calcDR *= 0.8f;
 
@@ -2715,7 +2715,7 @@ namespace CalamityMod.NPCs
                     if (Main.netMode != NetmodeID.Server)
                     {
                         if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < BossZenDistance)
-                            Main.player[Main.myPlayer].AddBuff(BuffType<BossZen>(), 2);
+                            Main.player[Main.myPlayer].AddBuff(BuffType<BossEffects>(), 2);
                     }
                 }
 
@@ -3639,7 +3639,7 @@ namespace CalamityMod.NPCs
 
             // Most bosses and boss servants are not immune to Kami Flu.
             if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
-                npc.buffImmune[BuffType<KamiDebuff>()] = false;
+                npc.buffImmune[BuffType<KamiFlu>()] = false;
 
             // Nothing should be immune to Enraged.
             npc.buffImmune[BuffType<Enraged>()] = false;
@@ -4052,7 +4052,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (kamiFlu > 420)
                     {
-                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
+                        npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiFlu.MaxNPCSpeed), new Vector2(KamiFlu.MaxNPCSpeed));
                     }
                 }
             }

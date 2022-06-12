@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class XerocRage : ModBuff
+    public class EmpyreanRage : ModBuff
     {
         public override void SetStaticDefaults()
         {

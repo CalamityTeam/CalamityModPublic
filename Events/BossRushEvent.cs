@@ -289,8 +289,8 @@ namespace CalamityMod.Events
                         if (Main.player[playerIndex].active)
                         {
                             Player player = Main.player[playerIndex];
-                            if (player.FindBuffIndex(ModContent.BuffType<ExtremeGravity>()) > -1)
-                                player.ClearBuff(ModContent.BuffType<ExtremeGravity>());
+                            if (player.FindBuffIndex(ModContent.BuffType<IcarusFolly>()) > -1)
+                                player.ClearBuff(ModContent.BuffType<IcarusFolly>());
                         }
                     }
                     SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, Main.player[ClosestPlayerToWorldCenter].Center);

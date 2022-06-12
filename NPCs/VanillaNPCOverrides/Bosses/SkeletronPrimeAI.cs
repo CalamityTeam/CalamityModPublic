@@ -160,9 +160,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             npc.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<GlacialState>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TemporalSadness>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<KamiDebuff>()] = immuneToSlowingDebuffs;
+            npc.buffImmune[ModContent.BuffType<KamiFlu>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<Eutrophication>()] = immuneToSlowingDebuffs;
-            npc.buffImmune[ModContent.BuffType<TimeSlow>()] = immuneToSlowingDebuffs;
+            npc.buffImmune[ModContent.BuffType<TimeDistortion>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<TeslaFreeze>()] = immuneToSlowingDebuffs;
             npc.buffImmune[ModContent.BuffType<Vaporfied>()] = immuneToSlowingDebuffs;
             npc.buffImmune[BuffID.Slow] = immuneToSlowingDebuffs;

@@ -3,21 +3,20 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class SpiritGeneratorRegenBuff : ModBuff
+    public class GraxBoost : ModBuff
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Regen");
-            Description.SetDefault("Regenerating life");
+            DisplayName.SetDefault("Grax Boost");
+            Description.SetDefault("Your defenses and muscles are strong");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
-            Main.buffNoTimeDisplay[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().sRegen = true;
+            player.Calamity().graxDefense = true;
         }
     }
 }
