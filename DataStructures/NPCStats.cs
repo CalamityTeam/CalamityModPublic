@@ -173,7 +173,7 @@ namespace CalamityMod
 
                 { ModContent.NPCType<DesertScourgeHead>(), 1.1 },
 
-                { ModContent.NPCType<CrabulonIdle>(), 0.8 },
+                { ModContent.NPCType<Crabulon>(), 0.8 },
 
                 { NPCID.EaterofWorldsHead, 1.1 },
                 { NPCID.EaterofWorldsBody, 0.8 },
@@ -312,7 +312,7 @@ namespace CalamityMod
                     51 } }, // Vanilla: 54 in phase 2, 60 in phase 3; Rev: 61 in phase 2, 71 in phase 3; Death: 71 at all times
                 { NPCID.ServantofCthulhu, new int[] { 12, 24, 30, 34, 42 } },
 
-                { ModContent.NPCType<CrabulonIdle>(), new int[] { 40, 64, 80, 88, 120 } },
+                { ModContent.NPCType<Crabulon>(), new int[] { 40, 64, 80, 88, 120 } },
                 { ModContent.NPCType<CrabShroom>(), new int[] { 25, 50, 62, 70, 75 } },
 
                 { NPCID.EaterofWorldsHead, new int[] { 25, 55, 77, 88, 132 } },
@@ -376,7 +376,7 @@ namespace CalamityMod
                 { NPCID.QueenSlimeBoss, new int[] { 60, 120, 150, 170, 240 } },
 
                 { ModContent.NPCType<Cryogen>(), new int[] { 60, 138, 161, 184, 276 } },
-                { ModContent.NPCType<CryogenIce>(), new int[] { 60, 120, 138, 158, 216 } },
+                { ModContent.NPCType<CryogenShield>(), new int[] { 60, 120, 138, 158, 216 } },
 
                 { NPCID.Spazmatism, new int[] {
                     60, // 90 in phase 2
@@ -551,8 +551,8 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<DesertScourgeHead>(), ModContent.ProjectileType<SandBlast>()), new int[] { 26, 44, 60, 68, 90 } },
                 { new Tuple<int, int>(ModContent.NPCType<DesertScourgeHead>(), ModContent.ProjectileType<GreatSandBlast>()), new int[] { 26, 44, 60, 68, 90 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<MushBomb>()), new int[] { 32, 48, 60, 68, 90 } },
-                { new Tuple<int, int>(ModContent.NPCType<CrabulonIdle>(), ModContent.ProjectileType<MushBombFall>()), new int[] { 32, 48, 60, 68, 90 } },
+                { new Tuple<int, int>(ModContent.NPCType<Crabulon>(), ModContent.ProjectileType<MushBomb>()), new int[] { 32, 48, 60, 68, 90 } },
+                { new Tuple<int, int>(ModContent.NPCType<Crabulon>(), ModContent.ProjectileType<MushBombFall>()), new int[] { 32, 48, 60, 68, 90 } },
 
                 { new Tuple<int, int>(NPCID.EaterofWorldsHead, ProjectileID.CursedFlameHostile), new int[] { 32, 48, 60, 68, 90 } },
 
@@ -595,7 +595,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceBlast>()), new int[] { 52, 92, 112, 124, 168 } },
                 { new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceBomb>()), new int[] { 70, 120, 136, 152, 210 } },
                 { new Tuple<int, int>(ModContent.NPCType<Cryogen>(), ModContent.ProjectileType<IceRain>()), new int[] { 60, 100, 120, 132, 180 } },
-                { new Tuple<int, int>(ModContent.NPCType<CryogenIce>(), ModContent.ProjectileType<IceBlast>()), new int[] { 52, 92, 112, 124, 168 } },
+                { new Tuple<int, int>(ModContent.NPCType<CryogenShield>(), ModContent.ProjectileType<IceBlast>()), new int[] { 52, 92, 112, 124, 168 } },
 
                 { new Tuple<int, int>(NPCID.Retinazer, ProjectileID.EyeLaser), new int[] { 40, 76, 92, 100, 138 } }, // 114 damage in non-rev master mode
                 { new Tuple<int, int>(NPCID.Retinazer, ProjectileID.DeathLaser), new int[] {

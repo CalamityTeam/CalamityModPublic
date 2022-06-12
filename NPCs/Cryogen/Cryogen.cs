@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             if (NPC.ai[2] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (NPC.ai[0] < 3f || BossRushEvent.BossRushActive || (death && NPC.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
             {
-                int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenIce>(), NPC.whoAmI);
+                int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenShield>(), NPC.whoAmI);
                 NPC.ai[2] = num6 + 1;
                 NPC.localAI[1] = -1f;
                 NPC.netUpdate = true;
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
 
             int num7 = (int)NPC.ai[2] - 1;
-            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<CryogenIce>())
+            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<CryogenShield>())
             {
                 NPC.dontTakeDamage = true;
             }

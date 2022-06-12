@@ -31,7 +31,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneGlowshroom && !NPC.AnyNPCs(ModContent.NPCType<CrabulonIdle>()) && !BossRushEvent.BossRushActive;
+            return player.ZoneGlowshroom && !NPC.AnyNPCs(ModContent.NPCType<Crabulon>()) && !BossRushEvent.BossRushActive;
         }
 
         public override bool? UseItem(Player player)
@@ -39,12 +39,12 @@ namespace CalamityMod.Items.SummonItems
             SoundEngine.PlaySound(SoundID.Roar, player.position);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<CrabulonIdle>(), 1);
+                int npc = NPC.NewNPC(new EntitySource_BossSpawn(player), (int)(player.position.X + Main.rand.Next(-250, 251)), (int)(player.position.Y - 500f), ModContent.NPCType<Crabulon>(), 1);
                 Main.npc[npc].timeLeft *= 20;
                 CalamityUtils.BossAwakenMessage(npc);
             }
             else
-                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CrabulonIdle>());
+                NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Crabulon>());
 
             return true;
         }

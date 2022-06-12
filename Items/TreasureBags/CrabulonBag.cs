@@ -17,7 +17,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class CrabulonBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<CrabulonIdle>();
+        public override int BossBagNPC => ModContent.NPCType<Crabulon>();
 
         public override void SetStaticDefaults()
         {

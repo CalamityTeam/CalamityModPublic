@@ -185,7 +185,7 @@ namespace CalamityMod.Events
                 }, permittedNPCs: new int[] { NPCID.CultistBossClone, NPCID.CultistDragonHead, NPCID.CultistDragonBody1, NPCID.CultistDragonBody2, NPCID.CultistDragonBody3, NPCID.CultistDragonBody4,
                     NPCID.CultistDragonTail, NPCID.AncientCultistSquidhead, NPCID.AncientLight, NPCID.AncientDoom }),
 
-                new Boss(ModContent.NPCType<CrabulonIdle>(), spawnContext: type =>
+                new Boss(ModContent.NPCType<Crabulon>(), spawnContext: type =>
                 {
                     Player player = Main.player[ClosestPlayerToWorldCenter];
 
@@ -212,7 +212,7 @@ namespace CalamityMod.Events
                     ModContent.NPCType<PerforatorHeadMedium>(), ModContent.NPCType<PerforatorBodyMedium>(), ModContent.NPCType<PerforatorTailMedium>(), ModContent.NPCType<PerforatorHeadSmall>(),
                     ModContent.NPCType<PerforatorBodySmall>() ,ModContent.NPCType<PerforatorTailSmall>() }),
 
-                new Boss(ModContent.NPCType<Cryogen>(), permittedNPCs: ModContent.NPCType<CryogenIce>()),
+                new Boss(ModContent.NPCType<Cryogen>(), permittedNPCs: ModContent.NPCType<CryogenShield>()),
 
                 new Boss(ModContent.NPCType<BrimstoneElemental>(), permittedNPCs: ModContent.NPCType<Brimling>()),
 

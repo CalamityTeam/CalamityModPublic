@@ -26,7 +26,7 @@ using Terraria.GameContent.ItemDropRules;
 namespace CalamityMod.NPCs.Crabulon
 {
     [AutoloadBossHead]
-    public class CrabulonIdle : ModNPC
+    public class Crabulon : ModNPC
     {
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private int shotSpacing = 1000;
@@ -746,9 +746,9 @@ namespace CalamityMod.NPCs.Crabulon
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D glow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonIdleGlow").Value;
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonIdleAlt").Value;
-            Texture2D textureGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonIdleAltGlow").Value;
+            Texture2D glow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonGlow").Value;
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAlt").Value;
+            Texture2D textureGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAltGlow").Value;
             Texture2D textureAttack = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttack").Value;
             Texture2D textureAttackGlow = ModContent.Request<Texture2D>("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow").Value;
 

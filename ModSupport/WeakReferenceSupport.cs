@@ -291,7 +291,7 @@ namespace CalamityMod
             // Crabulon
             {
                 BossDifficulty.TryGetValue("Crabulon", out float order);
-                int type = NPCType<CrabulonIdle>();
+                int type = NPCType<Crabulon>();
                 int summon = ItemType<DecapoditaSprout>();
                 List<int> loot = new List<int>() { ItemType<CrabulonBag>(), ItemID.GlowingMushroom, ItemID.MushroomGrassSeeds, ItemType<MycelialClaws>(), ItemType<Fungicide>(), ItemType<HyphaeRod>(), ItemType<Mycoroot>(), ItemType<Shroomerang>(), ItemType<FungalClump>(), ItemType<MushroomPlasmaRoot>(), ItemID.LesserHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CrabulonTrophy>(), ItemType<CrabulonMask>(), ItemType<KnowledgeCrabulon>() };

@@ -4186,7 +4186,7 @@ namespace CalamityMod.NPCs
             if (CalamityLists.DesertScourgeIDs.Contains(npc.type) || CalamityLists.EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper ||
                 CalamityLists.PerforatorIDs.Contains(npc.type) || CalamityLists.AquaticScourgeIDs.Contains(npc.type) || CalamityLists.DestroyerIDs.Contains(npc.type) ||
                 CalamityLists.AstrumDeusIDs.Contains(npc.type) || CalamityLists.StormWeaverIDs.Contains(npc.type) || CalamityLists.ThanatosIDs.Contains(npc.type) ||
-                npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<CrabulonIdle>())
+                npc.type == NPCType<DarkEnergy>() || npc.type == NPCType<RavagerBody>() || CalamityLists.AresIDs.Contains(npc.type) || npc.type == NPCType<Crabulon>())
             {
                 double damageMult = CalamityLists.ThanatosIDs.Contains(npc.type) ? 0.35 : 0.5;
                 if (item.CountsAsClass<MeleeDamageClass>() && item.type != ItemType<UltimusCleaver>() && item.type != ItemType<InfernaCutter>())
@@ -5681,7 +5681,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedDesertScourge;
             }
-            else if (type == NPCType<CrabulonIdle>())
+            else if (type == NPCType<Crabulon>())
             {
                 return DownedBossSystem.downedCrabulon;
             }

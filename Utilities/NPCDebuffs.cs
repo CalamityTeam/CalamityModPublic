@@ -92,7 +92,7 @@ namespace CalamityMod
                 { ModContent.NPCType<SlimeSpawnCrimson2>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
 
                 { ModContent.NPCType<Cryogen>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<CryogenIce>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+                { ModContent.NPCType<CryogenShield>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 
                 { ModContent.NPCType<AquaticScourgeHead>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<AquaticScourgeBody>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },

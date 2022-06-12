@@ -94,7 +94,7 @@ namespace CalamityMod.UI
             1 => TextureAssets.NpcHeadBoss[7].Value, // King Slime
             2 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<DesertScourgeHead>()]].Value,
             3 => TextureAssets.NpcHeadBoss[1].Value, // Eye of Cthulhu
-            4 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<CrabulonIdle>()]].Value,
+            4 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Crabulon>()]].Value,
             5 => TextureAssets.NpcHeadBoss[2].Value, // Eater of Worlds
             6 => TextureAssets.NpcHeadBoss[23].Value, // Brain of Cthulhu
             7 => ModContent.Request<Texture2D>("CalamityMod/NPCs/HiveMind/HiveMindP2_Head_Boss").Value,

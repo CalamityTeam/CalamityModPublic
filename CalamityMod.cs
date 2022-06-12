@@ -570,7 +570,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertScourgeHead>(), 3600 }, // 1:00 (60 seconds)
                 { ModContent.NPCType<DesertScourgeBody>(), 3600 },
                 { ModContent.NPCType<DesertScourgeTail>(), 3600 },
-                { ModContent.NPCType<CrabulonIdle>(), 5400 }, // 1:30 (90 seconds)
+                { ModContent.NPCType<Crabulon>(), 5400 }, // 1:30 (90 seconds)
                 { ModContent.NPCType<HiveMind>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<PerforatorHive>(), 7200 }, // 2:00 (120 seconds)
                 { ModContent.NPCType<SlimeGodCore>(), 10800 }, // 3:00 (180 seconds) -- total length of Slime God fight
@@ -669,7 +669,7 @@ namespace CalamityMod
                 { ModContent.NPCType<DesertNuisanceHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DesertNuisanceBody>(), velocityScaleMin },
                 { ModContent.NPCType<DesertNuisanceTail>(), velocityScaleMin },
-                { ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<Crabulon>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<HiveMind>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
                 { ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
