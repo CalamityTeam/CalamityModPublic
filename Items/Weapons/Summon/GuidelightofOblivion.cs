@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class LanternoftheSoul : ModItem
+    [LegacyName("LanternoftheSoul")]
+    public class GuidelightofOblivion : ModItem
     {
         public override void SetStaticDefaults()
         {

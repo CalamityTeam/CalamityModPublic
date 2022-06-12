@@ -10,7 +10,8 @@ using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class AMR : ModItem
+    [LegacyName("AMR")]
+    public class AntiMaterielRifle : ModItem
     {
         public override void SetStaticDefaults()
         {

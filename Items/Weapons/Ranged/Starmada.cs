@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class StarfleetMK2 : ModItem
+    [LegacyName("StarfleetMK2")]
+    public class Starmada : ModItem
     {
         public override void SetStaticDefaults()
         {

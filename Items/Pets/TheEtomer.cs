@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Pets
 {
-    public class RotomRemote : ModItem
+    [LegacyName("RotomRemote")]
+    public class TheEtomer : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -49,7 +50,7 @@ namespace CalamityMod.Items.Pets
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Pets/RotomRemoteGlow").Value);
+            Item.DrawItemGlowmaskSingleFrame(spriteBatch, rotation, ModContent.Request<Texture2D>("CalamityMod/Items/Pets/TheEtomerGlow").Value);
         }
 
         public override void AddRecipes()

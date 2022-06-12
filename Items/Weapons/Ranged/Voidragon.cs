@@ -9,12 +9,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Megafleet : ModItem
+    [LegacyName("Megafleet")]
+    public class Voidragon : ModItem
     {
         private int shotType = 1;
 
         public override void SetStaticDefaults()
         {
+            // Long live Megafleet. You will be missed. Maybe one day we can revive you.
             DisplayName.SetDefault("Voidragon");
             Tooltip.SetDefault("75% chance to not consume ammo\n" +
                 "Fires void blasts that explode every other shot\n" +
@@ -61,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (shotType == 1)
                 Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0.0f, 0.0f);
             else
-                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Voidragon>(), damage, knockback, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<Projectiles.Ranged.Voidragon>(), damage, knockback, player.whoAmI, 0f, 0f);
 
             shotType++;
 

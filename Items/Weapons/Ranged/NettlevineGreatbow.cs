@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class NettlelineGreatbow : ModItem
+    [LegacyName("NettlelineGreatbow")]
+    public class NettlevineGreatbow : ModItem
     {
         public override void SetStaticDefaults()
         {

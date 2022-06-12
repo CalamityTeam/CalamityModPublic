@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (Projectile.timeLeft < 2)
             {
-                Projectile.damage = AeroDynamite.Damage; // Like most explosives, not boosted by damage boosts
-                Projectile.knockBack = AeroDynamite.Knockback;
+                Projectile.damage = Skynamite.Damage; // Like most explosives, not boosted by damage boosts
+                Projectile.knockBack = Skynamite.Knockback;
             }
 
             if (Projectile.timeLeft % 4 == 0 && Projectile.timeLeft < 270)

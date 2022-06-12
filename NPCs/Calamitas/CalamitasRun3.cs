@@ -200,7 +200,7 @@ namespace CalamityMod.NPCs.Calamitas
                     ModContent.ItemType<Oblivion>(),
                     ModContent.ItemType<Animosity>(),
                     ModContent.ItemType<LashesofChaos>(),
-                    ModContent.ItemType<BlightedEyeStaff>(),
+                    ModContent.ItemType<EntropysVigil>(),
                     ModContent.ItemType<ChaosStone>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));

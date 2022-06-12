@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class TheEmpyrean : ModItem
+    [LegacyName("TheEmpyrean")]
+    public class GodsBellows : ModItem
     {
         public override void SetStaticDefaults()
         {

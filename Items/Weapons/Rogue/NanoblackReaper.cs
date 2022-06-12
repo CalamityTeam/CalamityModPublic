@@ -9,7 +9,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NanoblackReaperRogue : ModItem
+    // Deny me no longer!
+    [LegacyName("NanoblackReaperMelee", "NanoblackReaperRogue")]
+    public class NanoblackReaper : ModItem
     {
         public static int BaseDamage = 130;
         public static float Knockback = 9f;

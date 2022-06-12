@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class BlightedEyeStaff : ModItem
+    [LegacyName("BlightedEyeStaff")]
+    public class EntropysVigil : ModItem
     {
         public override void SetStaticDefaults()
         {

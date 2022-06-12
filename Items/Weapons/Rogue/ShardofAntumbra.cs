@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class XerocPitchfork : ModItem
+    [LegacyName("XerocPitchfork")]
+    public class ShardofAntumbra : ModItem
     {
         public override void SetStaticDefaults()
         {

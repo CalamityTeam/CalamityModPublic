@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class BensUmbrella : ModItem
+    [LegacyName("BensUmbrella")]
+    public class TemporalUmbrella : ModItem
     {
         public override void SetStaticDefaults()
         {

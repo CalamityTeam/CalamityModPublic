@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class FlameScythe : ModItem
+    [LegacyName("FlameScythe")]
+    public class SubductionSlicer : ModItem
     {
         public override void SetStaticDefaults()
         {

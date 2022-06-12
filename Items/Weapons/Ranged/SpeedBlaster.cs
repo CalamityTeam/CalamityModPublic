@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class PaintballBlaster : ModItem
+    [LegacyName("PaintballBlaster")]
+    public class SpeedBlaster : ModItem
     {
         public override void SetStaticDefaults()
         {
