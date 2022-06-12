@@ -101,7 +101,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Interfacer>().
+                AddIngredient<Disseminator>().
                 AddIngredient(ItemID.StarCloak, 3).
                 AddIngredient<ArmoredShell>(2).
                 AddIngredient<CosmiliteBar>(8).
@@ -110,7 +110,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Register();
 
             CreateRecipe().
-                AddIngredient<Interfacer>().
+                AddIngredient<Disseminator>().
                 AddIngredient(ItemID.StarCloak, 3).
                 AddIngredient<ArmoredShell>(2).
                 AddIngredient<NebulousCore>().

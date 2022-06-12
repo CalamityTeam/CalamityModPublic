@@ -6,11 +6,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Interfacer : ModItem
+    [LegacyName("TrueConferenceCall", "ConclaveCrossfire")]
+    public class ConferenceCall : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Disseminator");
+            DisplayName.SetDefault("Conference Call");
             Tooltip.SetDefault("@everyone\n" +
                 "50% chance to not consume ammo");
             SacrificeTotal = 1;
@@ -18,20 +19,20 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 52;
+            Item.damage = 32;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 66;
-            Item.height = 24;
-            Item.useTime = 23;
-            Item.useAnimation = 23;
+            Item.height = 26;
+            Item.useTime = 32;
+            Item.useAnimation = 32;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 4.5f;
-            Item.value = CalamityGlobalItem.Rarity10BuyPrice;
-            Item.rare = ItemRarityID.Red;
+            Item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            Item.rare = ItemRarityID.Cyan;
             Item.UseSound = SoundID.Item38;
             Item.autoReuse = true;
-            Item.shootSpeed = 13f;
+            Item.shootSpeed = 12f;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.useAmmo = AmmoID.Bullet;
         }
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[proj].extraUpdates += 2;
             }
 
-            int maxTargets = 8;
+            int maxTargets = 12;
             int[] targets = new int[maxTargets];
             int targetArrayIndex = 0;
             Rectangle rectangle = new Rectangle((int)player.Center.X - 960, (int)player.Center.Y - 540, 1920, 1080);
@@ -100,17 +101,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
-
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
-                vector2.Y += 100 * j;
-
-                velocity2 = Vector2.Normalize(Main.npc[targets[j]].Center - vector2) * Item.shootSpeed;
-
-                proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
-                Main.projectile[proj].extraUpdates += 2;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft /= 2;
             }
 
             if (targetArrayIndex == 12)
@@ -131,17 +121,6 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[proj].extraUpdates += 2;
                 Main.projectile[proj].tileCollide = false;
                 Main.projectile[proj].timeLeft /= 2;
-
-                vector2 = new Vector2(player.position.X + player.width * 0.5f + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y + 600f);
-                vector2.X = (vector2.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
-                vector2.Y += 100 * randomTarget;
-
-                velocity2 = Vector2.Normalize(Main.npc[targets[randomTarget]].Center - vector2) * Item.shootSpeed;
-
-                proj = Projectile.NewProjectile(source, vector2, velocity2, type, extraBulletDamage, knockback, player.whoAmI);
-                Main.projectile[proj].extraUpdates += 2;
-                Main.projectile[proj].tileCollide = false;
-                Main.projectile[proj].timeLeft /= 2;
             }
 
             return false;
@@ -150,8 +129,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<TrueConferenceCall>().
-                AddIngredient(ItemID.LunarBar, 5).
+                AddIngredient(ItemID.TacticalShotgun).
+                AddIngredient(ItemID.FragmentVortex, 7).
                 AddTile(TileID.LunarCraftingStation).
                 Register();
         }

@@ -8,7 +8,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class AccretionDisk : ModItem
+    [LegacyName("AccretionDisk")]
+    public class ElementalDisk : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe().
                 AddIngredient<MangroveChakram>().
-                AddIngredient<FlameScythe>().
+                AddIngredient<SubductionSlicer>().
                 AddIngredient<TerraDisk>().
                 AddIngredient<GalacticaSingularity>(5).
                 AddIngredient<LifeAlloy>(5).

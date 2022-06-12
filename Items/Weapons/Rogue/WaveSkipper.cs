@@ -10,7 +10,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DuneHopper : ModItem
+    [LegacyName("DuneHopper")]
+    public class WaveSkipper : ModItem
     {
         public override void SetStaticDefaults()
         {

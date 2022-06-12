@@ -99,7 +99,7 @@ namespace CalamityMod.Items
                 nameLine.OverrideColor = new Color(0, 0, 255);
             if (item.type == ModContent.ItemType<TheDanceofLight>())
                 nameLine.OverrideColor = TheDanceofLight.GetSyncedLightColor();
-            if (item.type == ModContent.ItemType<NanoblackReaperRogue>())
+            if (item.type == ModContent.ItemType<NanoblackReaper>())
                 nameLine.OverrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
             if (item.type == ModContent.ItemType<ShatteredCommunity>())
                 nameLine.OverrideColor = ShatteredCommunity.GetRarityColor();

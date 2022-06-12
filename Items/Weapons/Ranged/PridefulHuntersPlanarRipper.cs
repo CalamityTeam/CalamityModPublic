@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class PrideHuntersPlanarRipper : ModItem
+    [LegacyName("PrideHuntersPlanarRipper")]
+    public class PridefulHuntersPlanarRipper : ModItem
     {
         private int counter = 0;
 

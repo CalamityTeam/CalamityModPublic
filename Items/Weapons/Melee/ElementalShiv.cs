@@ -9,7 +9,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ElementalShortsword : ModItem
+    [LegacyName("ElementalShortsword")]
+    public class ElementalShiv : ModItem
     {
         public override void SetStaticDefaults()
         {

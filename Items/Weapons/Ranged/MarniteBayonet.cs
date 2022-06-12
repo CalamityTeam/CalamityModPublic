@@ -3,11 +3,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class MarniteRifleSpear : ModItem
+    [LegacyName("MarniteRifleSpear")]
+    public class MarniteBayonet : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Marnite Bayonet");
+            // TODO -- Marnite Bayonet hitboxes are screwed because it's not a holdout
             Tooltip.SetDefault("The gun damages enemies that touch it");
             SacrificeTotal = 1;
         }

@@ -2657,7 +2657,7 @@ namespace CalamityMod.CalPlayer
 
             if (planarSpeedBoost != 0)
             {
-                if (Player.ActiveItem().type != ModContent.ItemType<PrideHuntersPlanarRipper>())
+                if (Player.ActiveItem().type != ModContent.ItemType<PridefulHuntersPlanarRipper>())
                     planarSpeedBoost = 0;
             }
             if (brimlashBusterBoost)
