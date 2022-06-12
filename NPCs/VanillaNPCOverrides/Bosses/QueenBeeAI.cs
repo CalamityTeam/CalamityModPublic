@@ -35,6 +35,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (enrageScale > 1f)
                 enrageScale = 1f;
 
+            if (Main.getGoodWorld)
+                enrageScale += 0.5f;
+
             if (BossRushEvent.BossRushActive)
                 enrageScale = 2f;
 

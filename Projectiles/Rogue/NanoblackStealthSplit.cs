@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class NanoblackStealthSplit : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaperRogue";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/NanoblackReaper";
 
         private static int Lifetime = 300;
         private static float MaxSpeed = 40f;

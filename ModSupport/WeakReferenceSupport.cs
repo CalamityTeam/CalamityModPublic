@@ -291,7 +291,7 @@ namespace CalamityMod
             // Crabulon
             {
                 BossDifficulty.TryGetValue("Crabulon", out float order);
-                int type = NPCType<CrabulonIdle>();
+                int type = NPCType<Crabulon>();
                 int summon = ItemType<DecapoditaSprout>();
                 List<int> loot = new List<int>() { ItemType<CrabulonBag>(), ItemID.GlowingMushroom, ItemID.MushroomGrassSeeds, ItemType<MycelialClaws>(), ItemType<Fungicide>(), ItemType<HyphaeRod>(), ItemType<Mycoroot>(), ItemType<Shroomerang>(), ItemType<FungalClump>(), ItemType<MushroomPlasmaRoot>(), ItemID.LesserHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CrabulonTrophy>(), ItemType<CrabulonMask>(), ItemType<KnowledgeCrabulon>() };
@@ -377,7 +377,7 @@ namespace CalamityMod
             // Calamitas
             {
                 BossDifficulty.TryGetValue("Calamitas", out float order);
-                int type = NPCType<CalamitasRun3>();
+                int type = NPCType<CalamitasClone>();
                 int summon = ItemType<EyeofDesolation>();
                 List<int> loot = new List<int>() { ItemType<CalamitasBag>(), ItemType<EssenceofChaos>(), ItemType<AshesofCalamity>(), ItemType<Bloodstone>(), ItemType<LashesofChaos>(), ItemType<Oblivion>(), ItemType<EntropysVigil>(), ItemType<Animosity>(), ItemType<BrimstoneFlamesprayer>(), ItemType<CrushsawCrasher>(), ItemType<ChaosStone>(), ItemType<VoidofCalamity>(), ItemType<Regenator>(), ItemID.BrokenHeroSword, ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<CalamitasTrophy>(), ItemType<CataclysmTrophy>(), ItemType<CatastropheTrophy>(), ItemType<CalamitasMask>(), ItemType<HoodOfCalamity>(), ItemType<RobesOfCalamity>(), ItemType<KnowledgeCalamitasClone>() };
@@ -452,7 +452,7 @@ namespace CalamityMod
             // Astrum Deus
             {
                 BossDifficulty.TryGetValue("AstrumDeus", out float order);
-                List<int> segments = new List<int>() { NPCType<AstrumDeusHeadSpectral>(), NPCType<AstrumDeusBodySpectral>(), NPCType<AstrumDeusTailSpectral>() };
+                List<int> segments = new List<int>() { NPCType<AstrumDeusHead>(), NPCType<AstrumDeusBody>(), NPCType<AstrumDeusTail>() };
                 int summon1 = ItemType<TitanHeart>();
                 int summon2 = ItemType<Starcore>();
                 int altar = ItemType<AstralBeaconItem>();
@@ -625,7 +625,7 @@ namespace CalamityMod
             // Adult Eidolon Wyrm
             {
                 BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
-                int type = NPCType<EidolonWyrmHeadHuge>();
+                int type = NPCType<AdultEidolonWyrmHead>();
                 int summon = ItemID.RodofDiscord;
                 List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenyl>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>(), ItemType<HalibutCannon>(), ItemType<OmegaHealingPotion>() };
                 List<int> collection = new List<int>() { };

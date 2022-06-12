@@ -28,7 +28,7 @@ using Terraria.Audio;
 namespace CalamityMod.NPCs.AstrumDeus
 {
     [AutoloadBossHead]
-    public class AstrumDeusHeadSpectral : ModNPC
+    public class AstrumDeusHead : ModNPC
     {
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/AstrumDeusSpawn");
         public static readonly SoundStyle SplitSound = new("CalamityMod/Sounds/Custom/AstrumDeusSplit");
@@ -236,9 +236,9 @@ namespace CalamityMod.NPCs.AstrumDeus
                 return false;
 
             int closestSegmentID = DropHelper.FindClosestWormSegment(NPC,
-                ModContent.NPCType<AstrumDeusHeadSpectral>(),
-                ModContent.NPCType<AstrumDeusBodySpectral>(),
-                ModContent.NPCType<AstrumDeusTailSpectral>());
+                ModContent.NPCType<AstrumDeusHead>(),
+                ModContent.NPCType<AstrumDeusBody>(),
+                ModContent.NPCType<AstrumDeusTail>());
             NPC.position = Main.npc[closestSegmentID].position;
 
             return false;

@@ -46,10 +46,10 @@ namespace CalamityMod.Projectiles.Boss
             Time++;
             if (Time == TotalRitualTime - PulseTime)
             {
-                int idx = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
+                int idx = NPC.NewNPC(Projectile.GetSource_FromThis(), (int)Projectile.Center.X, (int)Projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHead>(), 1);
                 if (idx != -1)
                 {
-                    SoundEngine.PlaySound(AstrumDeusHeadSpectral.SpawnSound, Projectile.Center);
+                    SoundEngine.PlaySound(AstrumDeusHead.SpawnSound, Projectile.Center);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         CalamityUtils.BossAwakenMessage(idx);

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Cryogen
 {
-    public class CryogenIce : ModNPC
+    public class CryogenShield : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             NPC.rotation += 0.15f;
 
-            if (NPC.type == ModContent.NPCType<CryogenIce>())
+            if (NPC.type == ModContent.NPCType<CryogenShield>())
             {
                 int num989 = (int)NPC.ai[0];
                 if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Cryogen>())

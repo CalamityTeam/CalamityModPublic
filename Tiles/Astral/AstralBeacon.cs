@@ -61,7 +61,7 @@ namespace CalamityMod.Tiles.Astral
                 !Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>()))
                 return true;
 
-            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()) || BossRushEvent.BossRushActive)
+            if (NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>()) || BossRushEvent.BossRushActive)
                 return true;
 
             if (CalamityUtils.CountProjectiles(ModContent.ProjectileType<DeusRitualDrama>()) > 0)

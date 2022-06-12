@@ -2,7 +2,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,11 +16,11 @@ using System.IO;
 namespace CalamityMod.NPCs.Calamitas
 {
     [AutoloadBossHead]
-    public class CalamitasRun2 : ModNPC
+    public class Cataclysm : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Catastrophe");
+            DisplayName.SetDefault("Cataclysm");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             NPC.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 15 : 10;
             NPC.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.225f : 0.15f);
-            NPC.LifeMaxNERB(9200, 11025, 80000);
+            NPC.LifeMaxNERB(11000, 13200, 80000);
             if (DownedBossSystem.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 NPC.damage *= 3;
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
-            int associatedNPCType = ModContent.NPCType<CalamitasRun3>();
+            int associatedNPCType = ModContent.NPCType<CalamitasClone>();
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Calamitas
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A violent, mindless construct. No good can come from raising the dead.")
+				new FlavorTextBestiaryInfoElement("A shade of itself, the only actions it seems to know are to burn and kill.")
             });
         }
 
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void AI()
         {
-            CalamityAI.CatastropheAI(NPC, Mod);
+            CalamityAI.CataclysmAI(NPC, Mod);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.Calamitas
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CalamitasRun2Glow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Calamitas/CataclysmGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
@@ -171,8 +171,8 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<CatastropheTrophy>(), 10);
-            npcLoot.Add(ModContent.ItemType<CrushsawCrasher>(), 4);
+            npcLoot.Add(ModContent.ItemType<CataclysmTrophy>(), 10);
+            npcLoot.Add(ModContent.ItemType<BrimstoneFlamesprayer>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -185,11 +185,11 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catastrophe").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catastrophe2").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catastrophe3").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catastrophe4").Type, NPC.scale);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Catastrophe5").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Cataclysm").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Cataclysm2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Cataclysm3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Cataclysm4").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Cataclysm5").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (float)(NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (float)(NPC.height / 2);

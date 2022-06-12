@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Projectile.ai[1] >= 0)
             {
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasRun3>());
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<CalamitasClone>());
                 Projectile.ai[1] = -30;
             }
         }

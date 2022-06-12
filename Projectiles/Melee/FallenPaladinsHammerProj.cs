@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class FallenPaladinsHammerProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Melee/TruePaladinsHammerMelee";
+        public override string Texture => "CalamityMod/Items/Weapons/Melee/FallenPaladinsHammer";
 
         public override void SetStaticDefaults()
         {

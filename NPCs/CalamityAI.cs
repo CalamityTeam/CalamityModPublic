@@ -1201,8 +1201,8 @@ namespace CalamityMod.NPCs
                         }
                         else if (calamityGlobalNPC.newAI[0] <= (float)npc.lifeMax * 0.4)
                         {
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun>(), npc.whoAmI);
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<CalamitasRun2>(), npc.whoAmI);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Cataclysm>(), npc.whoAmI);
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Catastrophe>(), npc.whoAmI);
 
                             string key = "Mods.CalamityMod.CalamitasBossText2";
                             Color messageColor = Color.Orange;
@@ -1957,7 +1957,7 @@ namespace CalamityMod.NPCs
                         if (npc.localAI[1] > 12f)
                         {
                             npc.localAI[1] = 0f;
-                            float num867 = NPC.AnyNPCs(ModContent.NPCType<CalamitasRun2>()) ? 4f : 6f;
+                            float num867 = NPC.AnyNPCs(ModContent.NPCType<Catastrophe>()) ? 4f : 6f;
                             num867 += enrageScale;
                             int type = ModContent.ProjectileType<BrimstoneFire>();
                             int damage = npc.GetProjectileDamage(type);
@@ -2265,7 +2265,7 @@ namespace CalamityMod.NPCs
                     SoundEngine.PlaySound(SoundID.Roar, npc.position);
                     npc.rotation = num842;
 
-                    float num870 = (NPC.AnyNPCs(ModContent.NPCType<CalamitasRun>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
+                    float num870 = (NPC.AnyNPCs(ModContent.NPCType<Cataclysm>()) ? 12f : 16f) + (death ? 4f * (1f - lifeRatio) : 0f);
                     num870 += 4f * enrageScale;
                     if (expertMode)
                         num870 += 2f;
@@ -3197,20 +3197,20 @@ namespace CalamityMod.NPCs
             if (head)
             {
                 float splitAnimationTime = 180f;
-                bool oneWormAlive = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHeadSpectral>()) < 2;
+                bool oneWormAlive = NPC.CountNPCS(ModContent.NPCType<AstrumDeusHead>()) < 2;
                 bool deathModeFinalWormEnrage = death && doubleWormPhase && oneWormAlive && calamityGlobalNPC.newAI[1] >= resistanceTime;
                 if (deathModeFinalWormEnrage)
                 {
                     if (calamityGlobalNPC.newAI[0] != 3f)
                     {
-                        SoundEngine.PlaySound(AstrumDeusHeadSpectral.SplitSound, player.Center);
+                        SoundEngine.PlaySound(AstrumDeusHead.SplitSound, player.Center);
                         calamityGlobalNPC.newAI[0] = 3f;
                         npc.defense = 12;
                         calamityGlobalNPC.DR = 0.075f;
 
                         // Despawns the other deus worm segments
-                        int bodyID = ModContent.NPCType<AstrumDeusBodySpectral>();
-                        int tailID = ModContent.NPCType<AstrumDeusTailSpectral>();
+                        int bodyID = ModContent.NPCType<AstrumDeusBody>();
+                        int tailID = ModContent.NPCType<AstrumDeusTail>();
                         for (int i = 0; i < Main.maxNPCs; i++)
                         {
                             NPC wormseg = Main.npc[i];
@@ -3256,8 +3256,8 @@ namespace CalamityMod.NPCs
                             return;
 
                         // Mark all existing body and tail segments as inactive. This instantly frees up their NPC slots for the freshly spawned worms.
-                        int bodyID = ModContent.NPCType<AstrumDeusBodySpectral>();
-                        int tailID = ModContent.NPCType<AstrumDeusTailSpectral>();
+                        int bodyID = ModContent.NPCType<AstrumDeusBody>();
+                        int tailID = ModContent.NPCType<AstrumDeusTail>();
                         for (int i = 0; i < Main.maxNPCs; i++)
                         {
                             NPC wormseg = Main.npc[i];
@@ -3320,7 +3320,7 @@ namespace CalamityMod.NPCs
                                 netMessage.Send();
                             }
 
-                            SoundEngine.PlaySound(AstrumDeusHeadSpectral.SplitSound, player.Center);
+                            SoundEngine.PlaySound(AstrumDeusHead.SplitSound, player.Center);
                         }
                         return;
                     }
@@ -3358,10 +3358,10 @@ namespace CalamityMod.NPCs
             }
 
             // Check if other segments are still alive, if not, die
-            if (npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>())
+            if (npc.type != ModContent.NPCType<AstrumDeusHead>())
             {
                 bool shouldDespawn = true;
-                int headType = ModContent.NPCType<AstrumDeusHeadSpectral>();
+                int headType = ModContent.NPCType<AstrumDeusHead>();
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].type != headType || !Main.npc[i].active)
@@ -3398,8 +3398,8 @@ namespace CalamityMod.NPCs
                     if (npc.ai[0] == 0f)
                     {
                         int Previous = npc.whoAmI;
-                        int bodyType = ModContent.NPCType<AstrumDeusBodySpectral>();
-                        int tailType = ModContent.NPCType<AstrumDeusTailSpectral>();
+                        int bodyType = ModContent.NPCType<AstrumDeusBody>();
+                        int tailType = ModContent.NPCType<AstrumDeusTail>();
                         for (int num36 = 0; num36 < maxLength; num36++)
                         {
                             int lol;
@@ -3522,9 +3522,9 @@ namespace CalamityMod.NPCs
                         npc.velocity.Y -= velocity;
                     }
 
-                    int headType = ModContent.NPCType<AstrumDeusHeadSpectral>();
-                    int bodyType = ModContent.NPCType<AstrumDeusBodySpectral>();
-                    int tailType = ModContent.NPCType<AstrumDeusBodySpectral>();
+                    int headType = ModContent.NPCType<AstrumDeusHead>();
+                    int bodyType = ModContent.NPCType<AstrumDeusBody>();
+                    int tailType = ModContent.NPCType<AstrumDeusBody>();
                     if ((double)npc.position.Y < Main.topWorld + 16f)
                     {
                         for (int num957 = 0; num957 < Main.maxNPCs; num957++)
@@ -3742,7 +3742,7 @@ namespace CalamityMod.NPCs
             else
             {
                 // Shoot lasers
-                if (npc.type == ModContent.NPCType<AstrumDeusBodySpectral>() && Main.netMode != NetmodeID.MultiplayerClient)
+                if (npc.type == ModContent.NPCType<AstrumDeusBody>() && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int shootTime = (doubleWormPhase && expertMode) ? 2 : 1;
                     npc.localAI[0] += 1f;

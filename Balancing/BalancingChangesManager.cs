@@ -91,7 +91,7 @@ namespace CalamityMod.Balancing
             #region Crabulon
 
             // 50% resist to true melee.
-            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<CrabulonIdle>(), new TrueMeleeResistBalancingRule(0.5f)));
+            NPCSpecificBalancingChanges.Add(new NPCBalancingChange(NPCType<Crabulon>(), new TrueMeleeResistBalancingRule(0.5f)));
 
             #endregion
 

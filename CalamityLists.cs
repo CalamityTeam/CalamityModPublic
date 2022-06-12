@@ -745,14 +745,14 @@ namespace CalamityMod
                 NPCType<SlimeGodRunSplit>(),
                 NPCType<Horse>(),
                 NPCType<ThiccWaifu>(),
-                NPCType<CryogenIce>(),
+                NPCType<CryogenShield>(),
                 NPCType<AquaticScourgeHead>(),
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
                 NPCType<CragmawMire>(),
-                NPCType<CalamitasRun>(),
-                NPCType<CalamitasRun2>(),
+                NPCType<Cataclysm>(),
+                NPCType<Catastrophe>(),
                 NPCType<SoulSeeker>(),
                 NPCType<GreatSandShark>(),
                 NPCType<SirenIce>(),
@@ -773,7 +773,7 @@ namespace CalamityMod
                 NPCType<BobbitWormHead>(),
                 NPCType<Mauler>(),
                 NPCType<ColossalSquid>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<EidolonWyrmHead>(),
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
@@ -1205,7 +1205,7 @@ namespace CalamityMod
                 NPCType<EidolonWyrmHead>(),
                 NPCType<GulperEelHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>()
+                NPCType<ReaperShark>()
             };
 
             revengeanceProjectileBuffList25Percent = new List<int>()
@@ -1288,8 +1288,8 @@ namespace CalamityMod
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
                 NPCType<DevourerofGodsBody>(),
@@ -1938,7 +1938,7 @@ namespace CalamityMod
             {
                 NPCType<EidolonWyrmHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<ColossalSquid>(),
                 NPCType<GreatSandShark>(),
                 NPCType<GiantClam>(),
@@ -2006,9 +2006,9 @@ namespace CalamityMod
                 NPCType<RavagerClawRight>(),
                 NPCType<RavagerLegLeft>(),
                 NPCType<RavagerLegRight>(),
-                NPCType<AstrumDeusHeadSpectral>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusHead>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<DarkEnergy>(),
                 NPCType<StormWeaverHead>(),
                 NPCType<StormWeaverBody>(),
@@ -2088,9 +2088,9 @@ namespace CalamityMod
 
             AstrumDeusIDs = new List<int>
             {
-                NPCType<AstrumDeusHeadSpectral>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>()
+                NPCType<AstrumDeusHead>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>()
             };
 
             DevourerOfGodsIDs = new List<int>
@@ -2548,7 +2548,7 @@ namespace CalamityMod
                 { NPCID.KingSlime, 1 },
                 { NPCType<DesertScourgeHead>(), 2 },
                 { NPCID.EyeofCthulhu, 3 },
-                { NPCType<CrabulonIdle>(), 4 },
+                { NPCType<Crabulon>(), 4 },
                 { NPCID.EaterofWorldsHead, 5 },
                 { NPCID.EaterofWorldsBody, 5 },
                 { NPCID.EaterofWorldsTail, 5 },
@@ -2568,7 +2568,7 @@ namespace CalamityMod
                 { NPCID.TheDestroyer, 16 },
                 { NPCType<BrimstoneElemental>(), 17 },
                 { NPCID.SkeletronPrime, 18 },
-                { NPCType<CalamitasRun3>(), 19 },
+                { NPCType<CalamitasClone>(), 19 },
                 { NPCID.Plantera, 20 },
                 { NPCType<Leviathan>(), 21 },
                 { NPCType<Siren>(), 21 },
@@ -2578,7 +2578,7 @@ namespace CalamityMod
                 { NPCID.DukeFishron, 25 },
                 { NPCType<RavagerBody>(), 26 },
                 { NPCID.CultistBoss, 27 },
-                { NPCType<AstrumDeusHeadSpectral>(), 28 },
+                { NPCType<AstrumDeusHead>(), 28 },
                 { NPCID.MoonLordCore, 29 },
                 { NPCType<ProfanedGuardianBoss>(), 30 },
                 { NPCType<Bumblefuck>(), 31 },
@@ -2595,7 +2595,7 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<EidolonWyrmHeadHuge>(), 42 },
+                { NPCType<AdultEidolonWyrmHead>(), 42 },
                 { NPCID.QueenSlimeBoss, 43 },
                 { NPCID.HallowBoss, 44 },
                 { NPCID.Deerclops, 45 }
@@ -2655,8 +2655,8 @@ namespace CalamityMod
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<CalamitasRun>(),
-                NPCType<CalamitasRun2>(),
+                NPCType<Cataclysm>(),
+                NPCType<Catastrophe>(),
                 NPCType<SoulSeeker>(),
                 NPCID.PlanterasTentacle,
                 NPCType<AureusSpawn>(),
