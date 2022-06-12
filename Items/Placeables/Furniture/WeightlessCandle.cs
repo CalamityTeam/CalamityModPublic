@@ -1,18 +1,18 @@
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class YellowCandle : ModItem
+    [LegacyName("BlueCandle")]
+    public class WeightlessCandle : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Spiteful Candle");
-            Tooltip.SetDefault("When placed, nearby enemies take 5% more damage.\n" +
-                "This extra damage bypasses enemy damage reduction and defense\n" +
-                "'Its hateful glow flickers with ire'");
+            DisplayName.SetDefault("Weightless Candle");
+            Tooltip.SetDefault("When placed, nearby players gain 10% movement speed, 10% wing time and 5% acceleration\n" +
+                "'The floating flame seems to uplift your very spirit'");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.consumable = true;
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.LightRed;
-            Item.createTile = ModContent.TileType<Tiles.Furniture.YellowCandle>();
+            Item.createTile = ModContent.TileType<Tiles.Furniture.BlueCandle>();
         }
     }
 }

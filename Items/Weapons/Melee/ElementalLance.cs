@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 88;
             Item.value = CalamityGlobalItem.Rarity11BuyPrice;
             Item.rare = ItemRarityID.Purple;
-            Item.shoot = ModContent.ProjectileType<SpatialLanceProjectile>();
+            Item.shoot = ModContent.ProjectileType<ElementalLanceProjectile>();
             Item.shootSpeed = 12f;
         }
 

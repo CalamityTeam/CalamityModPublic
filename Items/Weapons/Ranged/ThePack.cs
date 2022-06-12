@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<Scorpion>().
+                AddIngredient<Scorpio>().
                 AddIngredient(ItemID.MarbleBlock, 50).
                 AddIngredient<ArmoredShell>(4).
                 AddIngredient<CosmiliteBar>(8).

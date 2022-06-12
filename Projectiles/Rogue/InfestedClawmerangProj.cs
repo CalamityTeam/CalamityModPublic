@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShroomerangProj : ModProjectile
+    public class InfestedClawmerangProj : ModProjectile
     {
-        public override string Texture => "CalamityMod/Items/Weapons/Rogue/Shroomerang";
+        public override string Texture => "CalamityMod/Items/Weapons/Rogue/InfestedClawmerang";
 
         public override void SetStaticDefaults()
         {

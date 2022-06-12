@@ -1,17 +1,19 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class PurpleCandle : ModItem
+    [LegacyName("PinkCandle")]
+    public class VigorousCandle : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Resilient Candle");
-            Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
-                "'Neither rain nor wind can snuff its undying flame'");
+            DisplayName.SetDefault("Vigorous Candle");
+            Tooltip.SetDefault("When placed, nearby players regenerate 0.4% of their maximum health per second\n" +
+                "This regeneration is at full power even while moving and bypasses Revengeance Mode caps\n" +
+                "'Its brilliant light suffuses those nearby with hope'");
         }
 
         public override void SetDefaults()
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.consumable = true;
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.LightRed;
-            Item.createTile = ModContent.TileType<Tiles.Furniture.PurpleCandle>();
+            Item.createTile = ModContent.TileType<Tiles.Furniture.PinkCandle>();
         }
     }
 }

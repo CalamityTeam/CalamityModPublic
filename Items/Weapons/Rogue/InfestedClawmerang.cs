@@ -7,11 +7,13 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Shroomerang : ModItem
+    // only renamed because vanilla added a Shroomerang
+    [LegacyName("Shroomerang")]
+    public class InfestedClawmerang : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shroomerang");
+            DisplayName.SetDefault("Infested Clawmerang");
             Tooltip.SetDefault(@"Fires a slow, long-ranged boomerang
 Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing spores");
             SacrificeTotal = 1;
@@ -31,7 +33,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             Item.height = 50;
             Item.rare = ItemRarityID.Green;
             Item.value = Item.buyPrice(0, 2, 0, 0);
-            Item.shoot = ModContent.ProjectileType<ShroomerangProj>();
+            Item.shoot = ModContent.ProjectileType<InfestedClawmerangProj>();
             Item.shootSpeed = 15f;
             Item.DamageType = RogueDamageClass.Instance;
         }

@@ -401,19 +401,19 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<BlueCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WeightlessCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PinkCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<VigorousCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<PurpleCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ResilientCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
             nextSlot++;
 
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<YellowCandle>());
+            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SpitefulCandle>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 50, 0, 0);
             nextSlot++;
 

@@ -5,7 +5,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class ThePlaguebringer : ModItem
+    [LegacyName("ThePlaguebringer")]
+    public class Pandemic : ModItem
     {
         public override void SetStaticDefaults()
         {

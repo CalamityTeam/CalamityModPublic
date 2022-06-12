@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Scorpion : ModItem
+    [LegacyName("Scorpion")]
+    public class Scorpio : ModItem
     {
         public override void SetStaticDefaults()
         {

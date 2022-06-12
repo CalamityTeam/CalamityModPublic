@@ -818,7 +818,7 @@ namespace CalamityMod.NPCs.Crabulon
                     ModContent.ItemType<Fungicide>(),
                     ModContent.ItemType<HyphaeRod>(),
                     ModContent.ItemType<Mycoroot>(),
-                    ModContent.ItemType<Shroomerang>(),
+                    ModContent.ItemType<InfestedClawmerang>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 

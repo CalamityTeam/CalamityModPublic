@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class BrimstoneFlamesprayer : ModItem
+    [LegacyName("BrimstoneFlamesprayer")]
+    public class HavocsBreath : ModItem
     {
         public override void SetStaticDefaults()
         {

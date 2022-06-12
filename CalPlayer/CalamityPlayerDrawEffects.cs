@@ -604,7 +604,7 @@ namespace CalamityMod.CalPlayer
                 {
                     ModContent.ItemType<FlurrystormCannon>(),
                     ModContent.ItemType<BlightSpewer>(),
-                    ModContent.ItemType<BrimstoneFlamesprayer>(),
+                    ModContent.ItemType<HavocsBreath>(),
                     ModContent.ItemType<SparkSpreader>(),
                     ModContent.ItemType<HalleysInferno>(),
                     ModContent.ItemType<CleansingBlaze>(),

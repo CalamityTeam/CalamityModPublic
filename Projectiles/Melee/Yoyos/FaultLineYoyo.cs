@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class ChaotrixYoyo : ModProjectile
+    public class FaultLineYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fault");
+            DisplayName.SetDefault("Fault Line");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = 14f;
             ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 420f;
             ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 13f;

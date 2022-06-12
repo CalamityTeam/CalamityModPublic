@@ -1,17 +1,18 @@
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class BlueCandle : ModItem
+    [LegacyName("PurpleCandle")]
+    public class ResilientCandle : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Weightless Candle");
-            Tooltip.SetDefault("When placed, nearby players gain 10% movement speed, 10% wing time and 5% acceleration\n" +
-                "'The floating flame seems to uplift your very spirit'");
+            DisplayName.SetDefault("Resilient Candle");
+            Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
+                "'Neither rain nor wind can snuff its undying flame'");
         }
 
         public override void SetDefaults()
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             Item.consumable = true;
             Item.value = Item.buyPrice(0, 25, 0, 0);
             Item.rare = ItemRarityID.LightRed;
-            Item.createTile = ModContent.TileType<Tiles.Furniture.BlueCandle>();
+            Item.createTile = ModContent.TileType<Tiles.Furniture.PurpleCandle>();
         }
     }
 }
