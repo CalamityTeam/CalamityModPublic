@@ -165,9 +165,9 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<DevourerofGodsBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<DevourerofGodsTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<DevourerofGodsHead2>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<DevourerofGodsBody2>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<DevourerofGodsTail2>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<CosmicGuardianHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<CosmicGuardianBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<CosmicGuardianTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<Yharon>(), new Tuple<bool, int[]>(false, new int[] { BuffID.OnFire }) },
 

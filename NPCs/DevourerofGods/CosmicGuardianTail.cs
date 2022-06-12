@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    public class DevourerofGodsTail2 : ModNPC
+    public class CosmicGuardianTail : ModNPC
     {
         public int invinceTime = 180;
 
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool shouldDespawn = true;
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<DevourerofGodsHead2>())
+                if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<CosmicGuardianHead>())
                 {
                     shouldDespawn = false;
                     break;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsTail2Glow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/CosmicGuardianTailGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

@@ -2012,9 +2012,9 @@ namespace CalamityMod
                 NPCType<StormWeaverHead>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
-                NPCType<DevourerofGodsHead2>(),
-                NPCType<DevourerofGodsBody2>(),
-                NPCType<DevourerofGodsTail2>(),
+                NPCType<CosmicGuardianHead>(),
+                NPCType<CosmicGuardianBody>(),
+                NPCType<CosmicGuardianTail>(),
                 NPCType<ThanatosHead>(),
                 NPCType<ThanatosBody1>(),
                 NPCType<ThanatosBody2>(),
@@ -2101,9 +2101,9 @@ namespace CalamityMod
 
             CosmicGuardianIDs = new List<int>
             {
-                NPCType<DevourerofGodsHead2>(),
-                NPCType<DevourerofGodsBody2>(),
-                NPCType<DevourerofGodsTail2>()
+                NPCType<CosmicGuardianHead>(),
+                NPCType<CosmicGuardianBody>(),
+                NPCType<CosmicGuardianTail>()
             };
 
             AquaticScourgeIDs = new List<int>
@@ -2687,9 +2687,9 @@ namespace CalamityMod
                 NPCType<ProvSpawnHealer>(),
                 NPCType<DarkEnergy>(),
                 NPCType<CosmicLantern>(),
-                NPCType<DevourerofGodsHead2>(),
-                NPCType<DevourerofGodsBody2>(),
-                NPCType<DevourerofGodsTail2>(),
+                NPCType<CosmicGuardianHead>(),
+                NPCType<CosmicGuardianBody>(),
+                NPCType<CosmicGuardianTail>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>()
             };

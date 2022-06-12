@@ -525,9 +525,9 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHead>(), new int[] { 350, 700, 750, 780, 880 } },
                 { ModContent.NPCType<DevourerofGodsBody>(), new int[] { 220, 374, 425, 442, 561 } },
                 { ModContent.NPCType<DevourerofGodsTail>(), new int[] { 180, 306, 340, 357, 459 } },
-                { ModContent.NPCType<DevourerofGodsHead2>(), new int[] { 180, 360, 396, 420, 510 } },
-                { ModContent.NPCType<DevourerofGodsBody2>(), new int[] { 130, 260, 290, 320, 420 } },
-                { ModContent.NPCType<DevourerofGodsTail2>(), new int[] { 100, 200, 230, 260, 330 } },
+                { ModContent.NPCType<CosmicGuardianHead>(), new int[] { 180, 360, 396, 420, 510 } },
+                { ModContent.NPCType<CosmicGuardianBody>(), new int[] { 130, 260, 290, 320, 420 } },
+                { ModContent.NPCType<CosmicGuardianTail>(), new int[] { 100, 200, 230, 260, 330 } },
 
                 { ModContent.NPCType<Yharon>(), new int[] { 330, 528, 560, 576, 690 } },
 

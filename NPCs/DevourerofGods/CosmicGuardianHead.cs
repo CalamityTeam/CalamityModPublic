@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    public class DevourerofGodsHead2 : ModNPC
+    public class CosmicGuardianHead : ModNPC
     {
         private bool tail = false;
         private const int minLength = 10;
@@ -112,11 +112,11 @@ namespace CalamityMod.NPCs.DevourerofGods
                         int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                         {
-                            segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsBody2>(), NPC.whoAmI);
+                            segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<CosmicGuardianBody>(), NPC.whoAmI);
                         }
                         else
                         {
-                            segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<DevourerofGodsTail2>(), NPC.whoAmI);
+                            segment = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<CosmicGuardianTail>(), NPC.whoAmI);
                         }
                         Main.npc[segment].realLife = NPC.whoAmI;
                         Main.npc[segment].ai[2] = NPC.whoAmI;
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     for (int a = 0; a < Main.maxNPCs; a++)
                     {
-                        if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
+                        if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<CosmicGuardianBody>() || Main.npc[a].type == ModContent.NPCType<CosmicGuardianTail>())
                             Main.npc[a].active = false;
                     }
                 }
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     for (int a = 0; a < Main.maxNPCs; a++)
                     {
-                        if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
+                        if (Main.npc[a].type == NPC.type || Main.npc[a].type == ModContent.NPCType<CosmicGuardianBody>() || Main.npc[a].type == ModContent.NPCType<CosmicGuardianTail>())
                             Main.npc[a].active = false;
                     }
                 }
@@ -347,12 +347,12 @@ namespace CalamityMod.NPCs.DevourerofGods
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/CosmicGuardianHeadGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/DevourerofGodsHead2Glow2").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/DevourerofGods/CosmicGuardianHeadGlow2").Value;
             color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);

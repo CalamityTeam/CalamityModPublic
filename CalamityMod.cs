@@ -727,9 +727,9 @@ namespace CalamityMod
                 { ModContent.NPCType<DevourerofGodsHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<DevourerofGodsBody>(), velocityScaleMin },
                 { ModContent.NPCType<DevourerofGodsTail>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
-                { ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
+                { ModContent.NPCType<CosmicGuardianHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<CosmicGuardianBody>(), velocityScaleMin },
+                { ModContent.NPCType<CosmicGuardianTail>(), velocityScaleMin },
                 { ModContent.NPCType<Yharon>(), velocityScaleMin },
                 { ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin },
                 { ModContent.NPCType<Apollo>(), velocityScaleMin }, // Increases in phase 2
