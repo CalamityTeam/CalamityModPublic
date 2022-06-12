@@ -1405,18 +1405,6 @@ namespace CalamityMod.CalPlayer
                     Player.manaRegenBonus += 4;
             }
 
-            // Sea Shell bonus
-            if (seaShell)
-            {
-                if (Player.IsUnderwater())
-                {
-                    Player.statDefense += 3;
-                    Player.endurance += 0.05f;
-                    Player.moveSpeed += 0.1f;
-                    Player.ignoreWater = true;
-                }
-            }
-
             // Affliction bonus
             if (affliction || afflicted)
             {

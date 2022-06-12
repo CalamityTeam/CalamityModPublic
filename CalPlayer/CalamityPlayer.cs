@@ -465,7 +465,6 @@ namespace CalamityMod.CalPlayer
         public bool dAmulet = false;
         public bool fCarapace = false;
         public bool gShell = false;
-        public bool seaShell = false;
         public bool absorber = false;
         public bool aAmpoule = false;
         public bool sponge = false;
@@ -1640,7 +1639,6 @@ namespace CalamityMod.CalPlayer
             dAmulet = false;
             fCarapace = false;
             gShell = false;
-            seaShell = false;
             absorber = false;
             aAmpoule = false;
             sponge = false;
