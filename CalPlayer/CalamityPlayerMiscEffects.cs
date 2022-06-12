@@ -2557,11 +2557,6 @@ namespace CalamityMod.CalPlayer
                 if (Player.ActiveItem().type != ModContent.ItemType<PridefulHuntersPlanarRipper>())
                     planarSpeedBoost = 0;
             }
-            if (brimlashBusterBoost)
-            {
-                if (Player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
-                    brimlashBusterBoost = false;
-            }
             if (evilSmasherBoost > 0)
             {
                 if (Player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
@@ -2578,11 +2573,6 @@ namespace CalamityMod.CalPlayer
                     searedPanTimer++;
                 else
                     searedPanCounter = 0;
-            }
-            if (animusBoost > 1f)
-            {
-                if (Player.ActiveItem().type != ModContent.ItemType<Animus>())
-                    animusBoost = 1f;
             }
 
             // Flight time boosts
@@ -3498,6 +3488,7 @@ namespace CalamityMod.CalPlayer
             {
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
+                    // TODO -- What the FUCK is this conditional chain?
                     int hasBuff = Player.buffType[l];
                     if ((hasBuff >= BuffID.ObsidianSkin && hasBuff <= BuffID.Gravitation) || hasBuff == BuffID.Tipsy || hasBuff == BuffID.WellFed ||
                         hasBuff == BuffID.Honey || hasBuff == BuffID.WeaponImbueVenom || (hasBuff >= BuffID.WeaponImbueCursedFlames && hasBuff <= BuffID.WeaponImbuePoison) ||
@@ -3508,7 +3499,7 @@ namespace CalamityMod.CalPlayer
                         hasBuff == ModContent.BuffType<CalciumBuff>() || hasBuff == ModContent.BuffType<CeaselessHunger>() || hasBuff == ModContent.BuffType<DraconicSurgeBuff>() ||
                         hasBuff == ModContent.BuffType<GravityNormalizerBuff>() || hasBuff == ModContent.BuffType<HolyWrathBuff>() || hasBuff == ModContent.BuffType<Omniscience>() ||
                         hasBuff == ModContent.BuffType<PenumbraBuff>() || hasBuff == ModContent.BuffType<PhotosynthesisBuff>() || hasBuff == ModContent.BuffType<ProfanedRageBuff>() ||
-                        hasBuff == ModContent.BuffType<Revivify>() || hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
+                        hasBuff == ModContent.BuffType<ShadowBuff>() || hasBuff == ModContent.BuffType<Soaring>() ||
                         hasBuff == ModContent.BuffType<SulphurskinBuff>() || hasBuff == ModContent.BuffType<TeslaBuff>() || hasBuff == ModContent.BuffType<TitanScale>() ||
                         hasBuff == ModContent.BuffType<TriumphBuff>() || hasBuff == ModContent.BuffType<YharimPower>() || hasBuff == ModContent.BuffType<Zen>() ||
                         hasBuff == ModContent.BuffType<Zerg>() || hasBuff == ModContent.BuffType<BloodyMaryBuff>() || hasBuff == ModContent.BuffType<CaribbeanRumBuff>() ||

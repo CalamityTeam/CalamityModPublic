@@ -830,7 +830,6 @@ namespace CalamityMod.CalPlayer
         public bool shine = false;
         public bool anechoicCoating = false;
         public bool enraged = false;
-        public bool revivify = false;
         public bool permafrostsConcoction = false;
         public bool armorCrumbling = false;
         public bool armorShattering = false;
@@ -1884,7 +1883,6 @@ namespace CalamityMod.CalPlayer
             wither = false;
             ManaBurn = false;
 
-            revivify = false;
             trinketOfChiBuff = false;
             corrEffigy = false;
             crimEffigy = false;
@@ -2388,7 +2386,6 @@ namespace CalamityMod.CalPlayer
             polarisBoostThree = false;
             bloodfinBoost = false;
             bloodfinTimer = 0;
-            revivify = false;
             healCounter = 300;
             danceOfLightCharge = 0;
             bloodPactBoost = false;
@@ -6104,13 +6101,6 @@ namespace CalamityMod.CalPlayer
                     }
                     while (Collision.SolidCollision(spawnPosition - Vector2.One * 24f, 48, 24) && tries < 100);
                     CalamityNetcode.NewNPC_ClientSide(spawnPosition, ModContent.NPCType<DemonPortal>(), Player);
-                }
-
-                if (revivify)
-                {
-                    int healAmt = (int)(damage / 15D);
-                    Player.statLife += healAmt;
-                    Player.HealEffect(healAmt);
                 }
 
                 if (daedalusAbsorb && Main.rand.NextBool(10))
