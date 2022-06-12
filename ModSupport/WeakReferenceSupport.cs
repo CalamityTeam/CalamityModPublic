@@ -625,7 +625,7 @@ namespace CalamityMod
             // Adult Eidolon Wyrm
             {
                 BossDifficulty.TryGetValue("AdultEidolonWyrm", out float order);
-                int type = NPCType<EidolonWyrmHeadHuge>();
+                int type = NPCType<AdultEidolonWyrmHead>();
                 int summon = ItemID.RodofDiscord;
                 List<int> loot = new List<int>() { ItemType<Voidstone>(), ItemType<Lumenyl>(), ItemID.Ectoplasm, ItemType<EidolicWail>(), ItemType<SoulEdge>(), ItemType<HalibutCannon>(), ItemType<OmegaHealingPotion>() };
                 List<int> collection = new List<int>() { };

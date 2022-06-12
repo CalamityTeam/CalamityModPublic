@@ -426,7 +426,7 @@ namespace CalamityMod.Systems
 
             bool adultWyrmAlive = CalamityGlobalNPC.adultEidolonWyrmHead != -1 && Main.npc[CalamityGlobalNPC.adultEidolonWyrmHead].active;
             if (!adultWyrmAlive)
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<EidolonWyrmHeadHuge>());
+                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AdultEidolonWyrmHead>());
         }
         #endregion
     }

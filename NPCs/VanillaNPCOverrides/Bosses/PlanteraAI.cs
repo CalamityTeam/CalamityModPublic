@@ -181,6 +181,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             velocity *= tileEnrageMult;
             acceleration *= tileEnrageMult;
 
+            if (Main.getGoodWorld)
+            {
+                velocity *= 1.15f;
+                acceleration *= 1.15f;
+            }
+
             // Velocity ranges from 4 to 7.2, Acceleration ranges from 0.04 to 0.072, non-enraged phase 1
             // Velocity ranges from 7 to 12.6, Acceleration ranges from 0.07 to 0.126, non-enraged phase 2
             // Velocity ranges from 9 to 16.2, Acceleration ranges from 0.07 to 0.126, non-enraged phase 3
@@ -288,6 +294,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (enrage)
                         npc.localAI[1] += 2f;
 
+                    if (Main.getGoodWorld)
+                        npc.localAI[1] += 1f;
+
                     // If hit, fire projectiles even if target is behind tiles
                     if (npc.justHit)
                         npc.localAI[3] = 1f;
@@ -370,9 +379,25 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.localAI[0] = 3f;
                         int baseTentacles = death ? 10 : 8;
                         int totalTentacles = (int)(baseTentacles * tileEnrageMult);
+                        if (Main.getGoodWorld)
+                            totalTentacles += 6;
+
                         for (int i = 0; i < totalTentacles; i++)
-                        {
                             NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
+
+                        if (Main.getGoodWorld)
+                        {
+                            for (int i = 0; i < Main.maxNPCs; i++)
+                            {
+                                if (Main.npc[i].active && Main.npc[i].aiStyle == 52)
+                                {
+                                    for (int j = 0; j < totalTentacles / 2 - 1; j++)
+                                    {
+                                        int num800 = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, tentacleEnrageMult);
+                                        Main.npc[num800].ai[3] = i + 1;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -811,6 +836,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float num781 = npc.ai[2];
             float num780 = 100f + (num781 * 150f);
             float deceleration = (death ? 0.5f : 0.8f) / (1f + num781);
+
+            if (Main.getGoodWorld)
+                num779 += 4f;
 
             // Despawn if Plantera is gone
             if (!Main.npc[num778].active || num778 < 0)

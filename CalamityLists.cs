@@ -774,7 +774,7 @@ namespace CalamityMod
                 NPCType<BobbitWormHead>(),
                 NPCType<Mauler>(),
                 NPCType<ColossalSquid>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<EidolonWyrmHead>(),
                 NPCType<NuclearTerror>(),
                 NPCType<OldDukeToothBall>(),
@@ -1210,7 +1210,7 @@ namespace CalamityMod
                 NPCType<EidolonWyrmHead>(),
                 NPCType<GulperEelHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>()
+                NPCType<ReaperShark>()
             };
 
             revengeanceProjectileBuffList25Percent = new List<int>()
@@ -1947,7 +1947,7 @@ namespace CalamityMod
             {
                 NPCType<EidolonWyrmHead>(),
                 NPCType<Mauler>(),
-                NPCType<Reaper>(),
+                NPCType<ReaperShark>(),
                 NPCType<ColossalSquid>(),
                 NPCType<GreatSandShark>(),
                 NPCType<GiantClam>(),
@@ -2605,7 +2605,7 @@ namespace CalamityMod
                 { NPCType<ThanatosHead>(), 41 },
                 { NPCType<Artemis>(), 41 },
                 { NPCType<Apollo>(), 41 },
-                { NPCType<EidolonWyrmHeadHuge>(), 42 },
+                { NPCType<AdultEidolonWyrmHead>(), 42 },
                 { NPCID.QueenSlimeBoss, 43 },
                 { NPCID.HallowBoss, 44 },
                 { NPCID.Deerclops, 45 }

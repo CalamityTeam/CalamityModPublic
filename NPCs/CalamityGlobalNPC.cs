@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref draedonExoMechPrime, NPCType<AresBody>());
             ResetSavedIndex(ref draedonExoMechPrimePlasmaCannon, NPCType<AresPlasmaFlamethrower>());
 
-            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<EidolonWyrmHeadHuge>());
+            ResetSavedIndex(ref adultEidolonWyrmHead, NPCType<AdultEidolonWyrmHead>());
 
             // Reset the enraged state every frame. The expectation is that bosses will continuously set it back to true if necessary.
             CurrentlyEnraged = false;
@@ -2768,7 +2768,7 @@ namespace CalamityMod.NPCs
             // Adult Wyrm Ancient Doom
             if (npc.type == NPCID.AncientDoom)
             {
-                if (Main.npc[(int)npc.ai[0]].type == NPCType<EidolonWyrmHeadHuge>())
+                if (Main.npc[(int)npc.ai[0]].type == NPCType<AdultEidolonWyrmHead>())
                     return CultistAI.BuffedAncientDoomAI(npc, Mod);
             }
 
@@ -5781,7 +5781,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedSCal;
             }
-            else if (type == NPCType<EidolonWyrmHeadHuge>())
+            else if (type == NPCType<AdultEidolonWyrmHead>())
             {
                 return DownedBossSystem.downedAdultEidolonWyrm;
             }
@@ -5851,8 +5851,8 @@ namespace CalamityMod.NPCs
 
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Creeper && target.type != NPCType<RavagerClawLeft>() &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCType<RavagerClawRight>() &&
-                target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
-                target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
+                target.type != NPCType<ReaperShark>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() && target.type != NPCID.GolemFistLeft && target.type != NPCID.GolemFistRight &&
+                target.type != NPCType<AdultEidolonWyrmHead>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
             }

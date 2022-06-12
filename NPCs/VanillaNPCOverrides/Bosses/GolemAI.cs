@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Enrage if the target isn't inside the temple
-            // Turbo enrage if target isn't inside the temple and it's malice mode
+            // Turbo enrage if target isn't inside the temple and it's malice mode or for the worthy
             bool enrage = true;
             bool turboEnrage = false;
             if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
@@ -66,12 +66,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = malice || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = malice || Main.getGoodWorld;
 
-            if (malice)
+            if (malice || Main.getGoodWorld)
                 enrage = true;
 
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && (enrage || turboEnrage);
@@ -202,6 +202,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] > 0f)
                     {
                         npc.ai[1] += 1f;
+                        if (Main.getGoodWorld)
+                            npc.ai[1] += 100f;
                         if (enrage || death)
                             npc.ai[1] += 18f;
                         else
@@ -409,7 +411,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Enrage if the target isn't inside the temple
-            // Turbo enrage if target isn't inside the temple and it's malice mode
+            // Turbo enrage if target isn't inside the temple and it's malice mode or for the worthy
             bool enrage = true;
             bool turboEnrage = false;
             if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
@@ -421,12 +423,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = malice || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = malice || Main.getGoodWorld;
 
-            if (malice)
+            if (malice || Main.getGoodWorld)
                 enrage = true;
 
             float aggression = turboEnrage ? 3f : enrage ? 2f : death ? 1.5f : 1f;
@@ -458,6 +460,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float num725 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
                 num725 -= 9f;
                 num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 + 78f) : (num724 - 84f);
+                if (Main.getGoodWorld)
+                    num724 = (npc.type != NPCID.GolemFistLeft) ? (num724 - 40f) : (num724 + 40f);
+
                 float num726 = (float)Math.Sqrt(num724 * num724 + num725 * num725);
                 if (num726 < 12f + num723)
                 {
@@ -662,7 +667,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             npc.dontTakeDamage = flag41 || flag42;
 
             // Stay in position on top of body
-            npc.Center = Main.npc[NPC.golemBoss].Center - new Vector2(3f, 57f);
+            npc.Center = Main.npc[NPC.golemBoss].Center - new Vector2(Main.getGoodWorld ? 2f : 3f, Main.getGoodWorld ? 37f : 57f);
 
             // Enrage if the target isn't inside the temple
             bool enrage = true;
@@ -676,12 +681,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = malice || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = malice || Main.getGoodWorld;
 
-            if (malice)
+            if (malice || Main.getGoodWorld)
                 enrage = true;
 
             // Alpha
@@ -912,12 +917,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice;
+                    turboEnrage = malice || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice;
+                turboEnrage = malice || Main.getGoodWorld;
 
-            if (malice)
+            if (malice || Main.getGoodWorld)
                 enrage = true;
 
             if (turboEnrage && NPC.golemBoss >= 0)
@@ -1108,6 +1113,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 for (int num713 = 0; num713 < 2; num713++)
                 {
                     Vector2 vector89 = new Vector2(npc.Center.X, npc.Center.Y - 50f);
+                    if (Main.getGoodWorld)
+                        vector89.Y += 30f;
                     if (num713 == 0)
                         vector89.X -= 14f;
                     else if (num713 == 1)

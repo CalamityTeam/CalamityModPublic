@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
 
         private void UpdateAEWIndex()
         {
-            int AEWType = ModContent.NPCType<EidolonWyrmHeadHuge>();
+            int AEWType = ModContent.NPCType<AdultEidolonWyrmHead>();
             if (AEWIndex >= 0 && Main.npc[AEWIndex].active && Main.npc[AEWIndex].type == AEWType)
             {
                 return;

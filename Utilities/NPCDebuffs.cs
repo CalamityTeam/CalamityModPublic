@@ -186,10 +186,10 @@ namespace CalamityMod
                 { ModContent.NPCType<ThanatosBody2>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<ThanatosTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
-                { ModContent.NPCType<EidolonWyrmHeadHuge>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<EidolonWyrmBodyHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<EidolonWyrmBodyAltHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<EidolonWyrmTailHuge>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<AdultEidolonWyrmHead>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+                { ModContent.NPCType<AdultEidolonWyrmBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<AdultEidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<AdultEidolonWyrmTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<AcidEel>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
                 { ModContent.NPCType<BloodwormFleeing>(), new Tuple<bool, int[]>(false, CalamityMod.sulphurEnemyImmunities) },
@@ -258,7 +258,7 @@ namespace CalamityMod
                 { ModContent.NPCType<EidolonWyrmBodyAlt>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<EidolonWyrmTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<ColossalSquid>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
-                { ModContent.NPCType<Reaper>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
+                { ModContent.NPCType<ReaperShark>(), new Tuple<bool, int[]>(false, CalamityMod.abyssEnemyImmunities) },
 
                 { ModContent.NPCType<HeatSpirit>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<Scryllar>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
