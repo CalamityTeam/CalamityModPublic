@@ -6,13 +6,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Potions
 {
-    public class CadencePotion : ModItem
+    [LegacyName("CadencePotion")
+    public class CadancePotion : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 20;
             DisplayName.SetDefault("Cadance Potion");
-            Tooltip.SetDefault("Gives the cadance buff which increases life regeneration and heart pickup range\n" +
+            Tooltip.SetDefault("Grants Cadance's Grace, which increases life regeneration and heart pickup range\n" +
                                "Increases max life by 25%\n" +
                                 "While this potion's buff is active, Regeneration Potion and Lifeforce Potion buffs are disabled");
         }
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Potions
             Item.UseSound = SoundID.Item3;
             Item.rare = ItemRarityID.LightRed;
             Item.consumable = true;
-            Item.buffType = ModContent.BuffType<Cadence>();
+            Item.buffType = ModContent.BuffType<CadancesGrace>();
             Item.buffTime = CalamityUtils.SecondsToFrames(480f);
             Item.value = Item.buyPrice(0, 2, 0, 0);
         }
