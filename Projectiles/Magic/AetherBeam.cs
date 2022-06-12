@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Hybrid
+namespace CalamityMod.Projectiles.Magic
 {
     public class AetherBeam : ModProjectile
     {
@@ -31,12 +31,6 @@ namespace CalamityMod.Projectiles.Hybrid
 
         public override void AI()
         {
-            if (Projectile.ai[0] == 1f)
-            {
-                // projectile.magic = false /* tModPorter - this is redundant, for more info see https://github.com/tModLoader/tModLoader/wiki/Update-Migration-Guide#damage-classes */ ;
-                Projectile.DamageType = DamageClass.Ranged;
-            }
-
             if (Projectile.ai[1] == 1f)
             {
                 split = false;
@@ -45,25 +39,15 @@ namespace CalamityMod.Projectiles.Hybrid
             }
 
             Projectile.damage += Projectile.Calamity().defDamage / 200;
-
-            if (Projectile.alpha > 0)
-                Projectile.alpha -= 25;
-            if (Projectile.alpha < 0)
-                Projectile.alpha = 0;
+            Projectile.alpha = Utils.Clamp(Projectile.alpha - 25, 0, 255);
 
             Lighting.AddLight((int)Projectile.Center.X / 16, (int)Projectile.Center.Y / 16, 1f, 0f, 0.7f);
 
-            float num55 = 100f;
-            float num56 = 2f;
             if (Projectile.ai[1] == 0f)
-            {
-                Projectile.localAI[0] += num56;
-                if (Projectile.localAI[0] > num55)
-                    Projectile.localAI[0] = num55;
-            }
+                Projectile.localAI[0] = MathHelper.Clamp(Projectile.localAI[0] + 2f, 0f, 100f);
             else
             {
-                Projectile.localAI[0] -= num56;
+                Projectile.localAI[0] -= 2f;
                 if (Projectile.localAI[0] <= 0f)
                     Projectile.Kill();
             }
@@ -88,8 +72,8 @@ namespace CalamityMod.Projectiles.Hybrid
                     for (i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        int proj1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
-                        int proj2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
+                        Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AetherBeam>(), Projectile.damage, Projectile.knockBack, Projectile.owner, Projectile.ai[0], 1f);
                     }
                 }
             }
