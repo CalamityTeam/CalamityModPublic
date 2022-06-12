@@ -176,10 +176,10 @@ namespace CalamityMod
                 { ModContent.NPCType<SupremeCataclysm>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SoulSeekerSupreme>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<BrimstoneHeart>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
-                { ModContent.NPCType<SCalWormHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<SCalWormBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<SepulcherHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<SepulcherBody>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, new int[] { }) },
-                { ModContent.NPCType<SCalWormTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
+                { ModContent.NPCType<SepulcherTail>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
                 { ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<ThanatosBody1>(), new Tuple<bool, int[]>(true, new int[] { }) },

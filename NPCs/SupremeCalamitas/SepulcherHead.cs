@@ -13,7 +13,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormHead : ModNPC
+    public class SepulcherHead : ModNPC
     {
         public static readonly SoundStyle DeathSound = new("CalamityMod/Sounds/NPCKilled/SepulcherDeath");
 
@@ -117,17 +117,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                         else if (i >= 0 && i < minLength)
                         {
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormBody>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SepulcherBody>(), NPC.whoAmI);
                             Main.npc[lol].localAI[3] = i;
                         }
                         else
-                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SCalWormTail>(), NPC.whoAmI);
+                            lol = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.position.X + (NPC.width / 2), (int)NPC.position.Y + (NPC.height / 2), ModContent.NPCType<SepulcherTail>(), NPC.whoAmI);
 
                         // Create arms.
                         if (i >= 3 && i % 4 == 0)
                         {
                             NPC segment = Main.npc[lol];
-                            int arm = NPC.NewNPC(NPC.GetSource_FromAI(), (int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
+                            int arm = NPC.NewNPC(NPC.GetSource_FromAI(), (int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SepulcherArm>(), lol);
                             if (Main.npc.IndexInRange(arm))
                             {
                                 Main.npc[arm].ai[0] = lol;
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                             rotationalOffset += MathHelper.Pi / 6f;
 
-                            arm = NPC.NewNPC(NPC.GetSource_FromAI(), (int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SCalWormArm>(), lol);
+                            arm = NPC.NewNPC(NPC.GetSource_FromAI(), (int)segment.Center.X, (int)segment.Center.Y, ModContent.NPCType<SepulcherArm>(), lol);
                             if (Main.npc.IndexInRange(arm))
                             {
                                 Main.npc[arm].ai[0] = lol;

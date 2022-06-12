@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormArm : ModNPC
+    public class SepulcherArm : ModNPC
     {
         public class SepulcherArmLimb
         {
@@ -175,8 +175,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor_Unused)
         {
             Texture2D armTexture = TextureAssets.Npc[NPC.type].Value;
-            Texture2D foreArmTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormForeArm").Value;
-            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormHand").Value;
+            Texture2D foreArmTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SepulcherForearm").Value;
+            Texture2D handTexture = ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SepulcherHand").Value;
 
             Vector2 forearmDrawPosition = Limbs[0].Center - screenPos;
             Color drawColor = Lighting.GetColor((int)(Limbs[0].Center.X / 16), (int)(Limbs[0].Center.Y / 16));

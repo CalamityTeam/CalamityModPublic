@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormBody : ModNPC
+    public class SepulcherBody : ModNPC
     {
         private bool setAlpha = false;
         public NPC AheadSegment => Main.npc[(int)NPC.ai[1]];
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            Texture2D texture2D15 = NPC.localAI[3] / 2f % 2f == 0f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt").Value : TextureAssets.Npc[NPC.type].Value;
+            Texture2D texture2D15 = NPC.localAI[3] / 2f % 2f == 0f ? ModContent.Request<Texture2D>("CalamityMod/NPCs/SupremeCalamitas/SepulcherBodyAlt").Value : TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2((float)(TextureAssets.Npc[NPC.type].Value.Width / 2), (float)(TextureAssets.Npc[NPC.type].Value.Height / 2));
 
             Vector2 vector43 = NPC.Center - screenPos;

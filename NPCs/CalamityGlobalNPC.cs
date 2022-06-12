@@ -498,7 +498,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalCataclysm, NPCType<SupremeCataclysm>());
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
-            ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
+            ResetSavedIndex(ref SCalWorm, NPCType<SepulcherHead>());
 
             ResetSavedIndex(ref draedon, NPCType<Draedon>());
             ResetSavedIndex(ref draedonExoMechWorm, NPCType<ThanatosHead>());

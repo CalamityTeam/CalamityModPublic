@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormTail : ModNPC
+    public class SepulcherTail : ModNPC
     {
         private bool setAlpha = false;
 
