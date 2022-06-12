@@ -1123,7 +1123,6 @@ namespace CalamityMod
             {
                 NPCID.GiantWormHead,
                 NPCID.BlazingWheel,
-                NPCType<AquaticSeekerHead>(),
                 NPCType<Cnidrion>(),
                 NPCType<PrismBack>(),
                 NPCType<GhostBell>()
