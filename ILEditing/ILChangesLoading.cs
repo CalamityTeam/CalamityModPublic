@@ -3,7 +3,6 @@ using CalamityMod.Tiles.FurnitureExo;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 
