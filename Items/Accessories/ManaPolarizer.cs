@@ -5,7 +5,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class ManaOverloader : ModItem
+    [LegacyName("ManaOverloader")]
+    public class ManaPolarizer : ModItem
     {
         public override void SetStaticDefaults()
         {

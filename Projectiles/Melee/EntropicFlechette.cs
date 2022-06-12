@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class MeldGreatswordMediumProjectile : ModProjectile
+    public class EntropicFlechette : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bolt");
+            DisplayName.SetDefault("Entropic Flechette");
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 1;
         }

@@ -12,7 +12,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class LaserRifle : ModItem
+    [LegacyName("LaserRifle")]
+    public class HeavyLaserRifle : ModItem
     {
         public static readonly SoundStyle FireSound = new("CalamityMod/Sounds/Item/LaserRifleFire");
 

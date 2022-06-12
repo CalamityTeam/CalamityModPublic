@@ -1,15 +1,15 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class ManaOverloaderHealOrb : ModProjectile
+    public class ManaPolarizerHealOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mana Overloader Heal Orb");
+            DisplayName.SetDefault("Mana Polarizer Heal Orb");
         }
 
         public override void SetDefaults()

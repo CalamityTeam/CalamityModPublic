@@ -795,7 +795,7 @@ namespace CalamityMod.Items
                     return false;
                 // compiler optimization: && short-circuits, so if altFunctionUse != 0, Andromeda code is never called.
                 if (item.CountsAsClass<ThrowingDamageClass>() || item.CountsAsClass<MagicDamageClass>() || item.CountsAsClass<RangedDamageClass>() || item.CountsAsClass<MeleeDamageClass>())
-                    return player.altFunctionUse == 0 && PrototypeAndromechaRing.TransformItemUsage(item, player);
+                    return player.altFunctionUse == 0 && FlamsteedRing.TransformItemUsage(item, player);
             }
 
             // Conversion for Profaned Soul Crystal

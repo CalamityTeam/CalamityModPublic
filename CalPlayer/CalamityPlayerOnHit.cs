@@ -1738,7 +1738,7 @@ namespace CalamityMod.CalPlayer
                             if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                                 return;
 
-                            CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 3f);
+                            CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaPolarizerHealOrb>(), 1200f, 3f);
                         }
                     }
                 }
@@ -1785,7 +1785,7 @@ namespace CalamityMod.CalPlayer
                         if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                             return;
 
-                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 3f);
+                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaPolarizerHealOrb>(), 1200f, 3f);
                     }
 
                     if (tarraMage)
@@ -1826,7 +1826,7 @@ namespace CalamityMod.CalPlayer
                         if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                             return;
 
-                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 3f);
+                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<HydrothermicHealOrb>(), 1200f, 3f);
                     }
                 }
 
@@ -1861,7 +1861,7 @@ namespace CalamityMod.CalPlayer
                         if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                             return;
 
-                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<XerocHealOrb>(), 1200f, 3f);
+                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<EmpyreanHealOrb>(), 1200f, 3f);
                     }
                 }
             }

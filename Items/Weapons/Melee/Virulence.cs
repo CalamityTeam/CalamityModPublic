@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useTurn = true;
             Item.autoReuse = true;
             Item.shootSpeed = 9f;
-            Item.shoot = ModContent.ProjectileType<PlagueDust>();
+            Item.shoot = ModContent.ProjectileType<VirulentWave>();
 
             Item.width = 48;
             Item.height = 62;

@@ -5,11 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PlagueDust : ModProjectile
+    public class VirulentWave : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dust");
+            DisplayName.SetDefault("Virulent Wave");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;

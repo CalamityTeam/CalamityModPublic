@@ -162,7 +162,7 @@ namespace CalamityMod.Items
                     nameLine.OverrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTimeWrappedHourly % 2f > 1f ? 1f : Main.GlobalTimeWrappedHourly % 1f);
                 }
             }
-            if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
+            if (item.type == ModContent.ItemType<FlamsteedRing>())
             {
                 if (Main.GlobalTimeWrappedHourly % 1f < 0.6f)
                 {

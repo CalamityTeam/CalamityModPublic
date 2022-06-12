@@ -1449,7 +1449,7 @@ namespace CalamityMod.NPCs
                     {
                         if (calamityGlobalNPC.newAI[2] == 2f)
                         {
-                            int type = ModContent.ProjectileType<BrimstoneGigaBlast>();
+                            int type = ModContent.ProjectileType<SCalBrimstoneFireblast>();
                             int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
                             float gigaBlastFrequency = (expertMode ? 180f : 240f) - enrageScale * 15f;
                             float projSpeed = malice ? 6.25f : 5f;
@@ -1561,7 +1561,7 @@ namespace CalamityMod.NPCs
                                 if (projectile.timeLeft > 60)
                                     projectile.timeLeft = 60;
                             }
-                            else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>())
+                            else if (projectile.type == ModContent.ProjectileType<SCalBrimstoneFireblast>())
                             {
                                 projectile.ai[1] = 1f;
 

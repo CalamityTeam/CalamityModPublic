@@ -1,15 +1,15 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class AtaxiaHealOrb : ModProjectile
+    public class HydrothermicHealOrb : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Heal Orb");
+            DisplayName.SetDefault("Hydrothermic Rejuvenation");
         }
 
         public override void SetDefaults()

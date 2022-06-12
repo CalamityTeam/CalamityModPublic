@@ -12,9 +12,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrimstoneGigaBlast : ModProjectile
+    public class SCalBrimstoneFireblast : ModProjectile
     {
-        //Yes, FireblastImpact. Do not ask why.
         public static readonly SoundStyle ImpactSound = new("CalamityMod/Sounds/Custom/SCalSounds/BrimstoneFireblastImpact");
         public override void SetStaticDefaults()
         {

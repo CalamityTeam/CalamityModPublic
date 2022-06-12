@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.SlimeGod
                                 {
                                     SoundEngine.PlaySound(SoundID.Item33, NPC.Center);
                                     float slimeVelocity = expertMode ? 9f : 7.5f;
-                                    int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
+                                    int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<UnstableEbonianGlob>() : ModContent.ProjectileType<UnstableCrimulanGlob>();
                                     int damage = NPC.GetProjectileDamage(type);
                                     Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * slimeVelocity;
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), NPC.Center, projectileVelocity, type, damage, 0f, Main.myPlayer);
@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             num183 = num179 / num183;
                             num180 *= num183;
                             num182 *= num183;
-                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AbyssBallVolley>() : ModContent.ProjectileType<AbyssBallVolley2>();
+                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<UnstableEbonianGlob>() : ModContent.ProjectileType<UnstableCrimulanGlob>();
                             int damage = NPC.GetProjectileDamage(type);
                             value9.X += num180;
                             value9.Y += num182;
@@ -695,7 +695,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 normalOnly.Add(ModContent.ItemType<SlimeGodMask2>(), 7);
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<ManaOverloader>());
+                normalOnly.Add(ModContent.ItemType<ManaPolarizer>());
             }
 
             mainDrops.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);

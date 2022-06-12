@@ -1,13 +1,13 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class XerocHealOrb : ModProjectile
+    public class EmpyreanHealOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Heal");
+            DisplayName.SetDefault("Empyrean Heal Orb");
         }
 
         public override void SetDefaults()

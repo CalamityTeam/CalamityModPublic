@@ -13,7 +13,8 @@ using Terraria.Audio;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class PrototypeAndromechaRing : ModItem
+    [LegacyName("PrototypeAndromechaRing")]
+    public class FlamsteedRing : ModItem
     {
         //Note: In the future i may just do some changes to this item, and the cripple effect will probably be gone. But in the meanwhile
         //- Iban

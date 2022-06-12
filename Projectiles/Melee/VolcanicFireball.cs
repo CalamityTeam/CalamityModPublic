@@ -1,15 +1,15 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ChaosFlameSmall : ModProjectile
+    public class VolcanicFireball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame");
+            DisplayName.SetDefault("Volcanic Fireball");
             Main.projFrames[Projectile.type] = 4;
         }
 

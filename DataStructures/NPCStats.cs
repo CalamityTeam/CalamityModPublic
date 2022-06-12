@@ -571,12 +571,12 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.SkeletronHead, ProjectileID.Skull), new int[] { 46, 68, 84, 92, 126 } }, // 102 damage in non-rev master mode
                 { new Tuple<int, int>(NPCID.SkeletronHead, ProjectileID.Shadowflames), new int[] { 40, 60, 76, 84, 114 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
-                { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
-                { new Tuple<int, int>(ModContent.NPCType<EbonianSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 42, 68, 84, 92, 126 } },
-                { new Tuple<int, int>(ModContent.NPCType<CrimulanSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 38, 60, 76, 84, 114 } },
-                { new Tuple<int, int>(ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley>()), new int[] { 38, 60, 76, 84, 114 } },
-                { new Tuple<int, int>(ModContent.NPCType<SplitCrimulanSlimeGod>(), ModContent.ProjectileType<AbyssBallVolley2>()), new int[] { 34, 52, 68, 74, 102 } },
+                { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<UnstableEbonianGlob>()), new int[] { 42, 68, 84, 92, 126 } },
+                { new Tuple<int, int>(ModContent.NPCType<SlimeGodCore>(), ModContent.ProjectileType<UnstableCrimulanGlob>()), new int[] { 38, 60, 76, 84, 114 } },
+                { new Tuple<int, int>(ModContent.NPCType<EbonianSlimeGod>(), ModContent.ProjectileType<UnstableEbonianGlob>()), new int[] { 42, 68, 84, 92, 126 } },
+                { new Tuple<int, int>(ModContent.NPCType<CrimulanSlimeGod>(), ModContent.ProjectileType<UnstableCrimulanGlob>()), new int[] { 38, 60, 76, 84, 114 } },
+                { new Tuple<int, int>(ModContent.NPCType<SplitEbonianSlimeGod>(), ModContent.ProjectileType<UnstableEbonianGlob>()), new int[] { 38, 60, 76, 84, 114 } },
+                { new Tuple<int, int>(ModContent.NPCType<SplitCrimulanSlimeGod>(), ModContent.ProjectileType<UnstableCrimulanGlob>()), new int[] { 34, 52, 68, 74, 102 } },
                 { new Tuple<int, int>(ModContent.NPCType<CrimsonSlimeSpawn2>(), ModContent.ProjectileType<CrimsonSpike>()), new int[] { 24, 48, 60, 68, 90 } },
 
                 { new Tuple<int, int>(NPCID.WallofFleshEye, ProjectileID.EyeLaser), new int[] {
@@ -638,7 +638,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 80, 140, 160, 176, 234 } },
                 { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneHellfireball>()), new int[] { 80, 140, 160, 176, 234 } },
                 { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<SCalBrimstoneFireblast>()), new int[] { 80, 140, 160, 176, 234 } },
                 { new Tuple<int, int>(ModContent.NPCType<CalamitasClone>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 70, 112, 128, 140, 192 } },
                 { new Tuple<int, int>(ModContent.NPCType<Cataclysm>(), ModContent.ProjectileType<BrimstoneFire>()), new int[] { 80, 140, 160, 176, 234 } },
                 { new Tuple<int, int>(ModContent.NPCType<Catastrophe>(), ModContent.ProjectileType<BrimstoneBall>()), new int[] { 70, 112, 128, 140, 192 } },
@@ -778,8 +778,8 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<YharonFireball>()), new int[] { 220, 384, 424, 444, 600 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 360, 540, 568, 584, 858 } }, // 25% increased damage in bullet hell 1
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneGigaBlast>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneFireblast>()), new int[] { 400, 608, 640, 658, 960 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneFireblast>()), new int[] { 360, 540, 568, 584, 858 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneGigablast>()), new int[] { 400, 608, 640, 658, 960 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneMonster>()), new int[] { 450, 676, 710, 728, 1062 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneWave>()), new int[] { 360, 540, 568, 584, 858 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },

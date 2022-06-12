@@ -8,11 +8,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class AbyssBallVolley2 : ModProjectile
+    public class UnstableEbonianGlob : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyss Ball Volley");
+            DisplayName.SetDefault("Unstable Ebonian Glob");
         }
 
         public override void SetDefaults()
@@ -24,33 +24,15 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
+            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 780 : CalamityWorld.death ? 600 : CalamityWorld.revenge ? 540 : Main.expertMode ? 480 : 300;
         }
 
         public override void AI()
         {
-            // Fly up and then fall down
-            if (Projectile.ai[0] == 1f)
+            if (Projectile.velocity.Length() < 12f && (Main.expertMode || BossRushEvent.BossRushActive))
             {
-                if (Projectile.ai[1] < 60f)
-                {
-                    Projectile.ai[1] += 1f;
-                }
-                else
-                {
-                    if (Projectile.velocity.Y < 12f)
-                        Projectile.velocity.Y += 0.2f;
-                }
-            }
-
-            // Accelerate
-            else
-            {
-                if (Projectile.velocity.Length() < 15f && (Main.expertMode || BossRushEvent.BossRushActive))
-                {
-                    float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
-                    Projectile.velocity *= velocityMult;
-                }
+                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
+                Projectile.velocity *= velocityMult;
             }
 
             if (Projectile.timeLeft < 60)
@@ -58,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.rand.NextBool())
             {
-                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Crimson);
+                int dust = Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 4, 0f, 0f, Projectile.alpha, Color.Lavender);
                 Main.dust[dust].noGravity = true;
             }
 
@@ -74,7 +56,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.timeLeft < 60)
                 return;
 
-            target.AddBuff(BuffID.Darkness, 180);
+            target.AddBuff(BuffID.Weak, 180);
         }
     }
 }

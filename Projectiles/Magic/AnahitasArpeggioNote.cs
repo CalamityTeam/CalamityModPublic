@@ -7,7 +7,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class SirensSongNote : ModProjectile
+    public class AnahitasArpeggioNote : ModProjectile
     {
         public override void SetStaticDefaults()
         {
