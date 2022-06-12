@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.height = 90;
             Item.value = CalamityGlobalItem.Rarity10BuyPrice;
             Item.rare = ItemRarityID.Red;
-            Item.shoot = ModContent.ProjectileType<PlagueBeeDust>();
+            Item.shoot = ModContent.ProjectileType<VirulentBeeWave>();
             Item.shootSpeed = 9f;
         }
 

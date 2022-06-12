@@ -8,7 +8,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AbyssBall : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Boss/AbyssBallVolley";
+        public override string Texture => "CalamityMod/Projectiles/Boss/UnstableEbonianGlob";
 
         public override void SetStaticDefaults()
         {

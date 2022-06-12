@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -6,13 +6,13 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PlagueBeeDust : ModProjectile
+    public class VirulentBeeWave : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/PlagueDust";
+        public override string Texture => "CalamityMod/Projectiles/Melee/VirulentWave";
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dust");
+            DisplayName.SetDefault("Virulent Bee Wave");
             Main.projFrames[Projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
