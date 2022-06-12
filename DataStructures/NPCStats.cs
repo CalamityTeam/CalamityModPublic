@@ -256,8 +256,8 @@ namespace CalamityMod
                 { NPCID.AncientDoom, 0.75 },
                 { NPCID.AncientLight, 0.75 },
 
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), 0.8 },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), 0.8 },
+                { ModContent.NPCType<AstrumDeusBody>(), 0.8 },
+                { ModContent.NPCType<AstrumDeusTail>(), 0.8 },
 
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 0.8 },
 
@@ -480,9 +480,9 @@ namespace CalamityMod
                 { NPCID.AncientDoom, new int[] { 30, 45, 0, 0, 90 } }, // Vanilla: 90 in Master Mode; Rev and Death: 0 in Master Mode
                 { NPCID.AncientLight, new int[] { 120, 180, 210, 225, 270 } },
 
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), new int[] { 120, 240, 268, 280, 360 } },
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), new int[] { 100, 160, 192, 200, 240 } },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), new int[] { 80, 128, 160, 168, 192 } },
+                { ModContent.NPCType<AstrumDeusHead>(), new int[] { 120, 240, 268, 280, 360 } },
+                { ModContent.NPCType<AstrumDeusBody>(), new int[] { 100, 160, 192, 200, 240 } },
+                { ModContent.NPCType<AstrumDeusTail>(), new int[] { 80, 128, 160, 168, 192 } },
 
                 { ModContent.NPCType<ProfanedGuardianBoss>(), new int[] { 140, 224, 256, 280, 336 } },
                 { ModContent.NPCType<ProfanedGuardianBoss2>(), new int[] { 120, 240, 264, 278, 336 } },
@@ -699,9 +699,9 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.CultistBossClone, ProjectileID.CultistBossFireBallClone), new int[] { 36, 72, 172, 188, 258 } }, // 72 in non-rev master mode
                 { new Tuple<int, int>(NPCID.AncientDoom, ProjectileID.AncientDoomProjectile), new int[] { 60, 180, 184, 200, 270 } }, // 402 in non-rev master mode
 
-                { new Tuple<int, int>(ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.ProjectileType<AstralShot2>()), new int[] { 90, 152, 176, 188, 264 } },
-                { new Tuple<int, int>(ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.ProjectileType<DeusMine>()), new int[] { 120, 180, 208, 224, 312 } },
-                { new Tuple<int, int>(ModContent.NPCType<AstrumDeusBodySpectral>(), ModContent.ProjectileType<AstralGodRay>()), new int[] { 100, 172, 192, 204, 288 } },
+                { new Tuple<int, int>(ModContent.NPCType<AstrumDeusBody>(), ModContent.ProjectileType<AstralShot2>()), new int[] { 90, 152, 176, 188, 264 } },
+                { new Tuple<int, int>(ModContent.NPCType<AstrumDeusBody>(), ModContent.ProjectileType<DeusMine>()), new int[] { 120, 180, 208, 224, 312 } },
+                { new Tuple<int, int>(ModContent.NPCType<AstrumDeusBody>(), ModContent.ProjectileType<AstralGodRay>()), new int[] { 100, 172, 192, 204, 288 } },
 
                 { new Tuple<int, int>(NPCID.MoonLordHead, ProjectileID.PhantasmalDeathray), new int[] { 150, 300, 380, 420, 570 } }, // 450 in non-rev master mode
                 { new Tuple<int, int>(NPCID.MoonLordHead, ProjectileID.PhantasmalBolt), new int[] { 60, 120, 160, 176, 240 } }, // 180 in non-rev master mode

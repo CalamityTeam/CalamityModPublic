@@ -452,7 +452,7 @@ namespace CalamityMod
             // Astrum Deus
             {
                 BossDifficulty.TryGetValue("AstrumDeus", out float order);
-                List<int> segments = new List<int>() { NPCType<AstrumDeusHeadSpectral>(), NPCType<AstrumDeusBodySpectral>(), NPCType<AstrumDeusTailSpectral>() };
+                List<int> segments = new List<int>() { NPCType<AstrumDeusHead>(), NPCType<AstrumDeusBody>(), NPCType<AstrumDeusTail>() };
                 int summon1 = ItemType<TitanHeart>();
                 int summon2 = ItemType<Starcore>();
                 int altar = ItemType<AstralBeaconItem>();

@@ -118,7 +118,7 @@ namespace CalamityMod.UI
             25 => TextureAssets.NpcHeadBoss[4].Value, // Duke Fishron
             26 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<RavagerBody>()]].Value,
             27 => TextureAssets.NpcHeadBoss[31].Value, // Lunatic Cultist
-            28 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHeadSpectral>()]].Value,
+            28 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<AstrumDeusHead>()]].Value,
             29 => TextureAssets.NpcHeadBoss[8].Value, // Moon Lord
             30 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<ProfanedGuardianBoss>()]].Value,
             31 => TextureAssets.NpcHeadBoss[NPCID.Sets.BossHeadTextures[ModContent.NPCType<Bumblefuck>()]].Value,

@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
-    public class AstrumDeusBodySpectral : ModNPC
+    public class AstrumDeusTail : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,10 +25,10 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             NPC.GetNPCDamage();
             NPC.npcSlots = 5f;
-            NPC.width = 38;
-            NPC.height = 44;
-            NPC.defense = 35;
-            NPC.DR_NERD(0.2f);
+            NPC.width = 52;
+            NPC.height = 68;
+            NPC.defense = 50;
+            NPC.DR_NERD(0.3f);
             NPC.LifeMaxNERB(200000, 240000, 650000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.noTileCollide = true;
             NPC.canGhostHeal = false;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = AstrumDeusHeadSpectral.DeathSound;
+            NPC.DeathSound = AstrumDeusHead.DeathSound;
             NPC.netAlways = true;
             NPC.boss = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("AstrumDeus") ?? MusicID.Boss3;
@@ -90,13 +90,11 @@ namespace CalamityMod.NPCs.AstrumDeus
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            bool altBodyTextures = NPC.localAI[3] == 1f;
             bool drawCyan = NPC.Calamity().newAI[3] >= 600f;
             bool deathModeEnragePhase = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] == 3f;
             bool doubleWormPhase = NPC.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 
-            Texture2D texture2D15 = altBodyTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAltSpectral").Value : TextureAssets.Npc[NPC.type].Value;
-            Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow2").Value;
+            Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / 2);
             Color color36 = Color.White;
             float amount9 = 0.5f;
@@ -122,15 +120,13 @@ namespace CalamityMod.NPCs.AstrumDeus
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = altBodyTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAltGlow").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow").Value;
             Color phaseColor = drawCyan ? Color.Cyan : Color.Orange;
             if (doubleWormPhase)
             {
-                texture2D15 = drawCyan ? texture2D15 : (altBodyTextures ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAltGlow2").Value : ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow3").Value);
-                texture2D16 = drawCyan ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow4").Value : texture2D16;
+                texture2D15 = drawCyan ? ModContent.Request<Texture2D>("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow2").Value : texture2D15;
             }
-            Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Cyan, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
-            Color color42 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
+            Color color37 = Color.Lerp(Color.White, doubleWormPhase ? phaseColor : Color.Orange, 0.5f) * (deathModeEnragePhase ? 1f : NPC.Opacity);
 
             if (CalamityConfig.Instance.Afterimages)
             {
@@ -143,27 +139,12 @@ namespace CalamityMod.NPCs.AstrumDeus
                     vector44 -= new Vector2(texture2D15.Width, texture2D15.Height) * NPC.scale / 2f;
                     vector44 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
                     spriteBatch.Draw(texture2D15, vector44, NPC.frame, color41, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-                    if (!altBodyTextures)
-                    {
-                        Color color43 = color42;
-                        color43 = Color.Lerp(color43, color36, amount9);
-                        color43 *= (num153 - num163) / 15f;
-                        spriteBatch.Draw(texture2D16, vector44, NPC.frame, color43, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-                    }
                 }
             }
 
-            int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 1 : 2;
+            int timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
             for (int i = 0; i < timesToDraw; i++)
                 spriteBatch.Draw(texture2D15, vector43, NPC.frame, color37, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-
-            if (!altBodyTextures)
-            {
-                timesToDraw = deathModeEnragePhase ? 3 : drawCyan ? 2 : 1;
-                for (int i = 0; i < timesToDraw; i++)
-                    spriteBatch.Draw(texture2D16, vector43, NPC.frame, color42, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
-            }
 
             return false;
         }
@@ -171,11 +152,6 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             return !NPC.dontTakeDamage;
-        }
-
-        public override bool CheckActive()
-        {
-            return false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -209,9 +185,14 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
         }
 
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 300, true);
+            player.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

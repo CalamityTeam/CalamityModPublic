@@ -1293,8 +1293,8 @@ namespace CalamityMod
                 NPCType<AquaticScourgeBody>(),
                 NPCType<AquaticScourgeBodyAlt>(),
                 NPCType<AquaticScourgeTail>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<StormWeaverBody>(),
                 NPCType<StormWeaverTail>(),
                 NPCType<DevourerofGodsBody>(),
@@ -2015,9 +2015,9 @@ namespace CalamityMod
                 NPCType<RavagerClawRight>(),
                 NPCType<RavagerLegLeft>(),
                 NPCType<RavagerLegRight>(),
-                NPCType<AstrumDeusHeadSpectral>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>(),
+                NPCType<AstrumDeusHead>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>(),
                 NPCType<DarkEnergy>(),
                 NPCType<StormWeaverHead>(),
                 NPCType<StormWeaverBody>(),
@@ -2098,9 +2098,9 @@ namespace CalamityMod
 
             AstrumDeusIDs = new List<int>
             {
-                NPCType<AstrumDeusHeadSpectral>(),
-                NPCType<AstrumDeusBodySpectral>(),
-                NPCType<AstrumDeusTailSpectral>()
+                NPCType<AstrumDeusHead>(),
+                NPCType<AstrumDeusBody>(),
+                NPCType<AstrumDeusTail>()
             };
 
             DevourerOfGodsIDs = new List<int>
@@ -2588,7 +2588,7 @@ namespace CalamityMod
                 { NPCID.DukeFishron, 25 },
                 { NPCType<RavagerBody>(), 26 },
                 { NPCID.CultistBoss, 27 },
-                { NPCType<AstrumDeusHeadSpectral>(), 28 },
+                { NPCType<AstrumDeusHead>(), 28 },
                 { NPCID.MoonLordCore, 29 },
                 { NPCType<ProfanedGuardianBoss>(), 30 },
                 { NPCType<Bumblefuck>(), 31 },

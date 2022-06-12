@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             bool validBoss = npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()
                 && npc.type != ModContent.NPCType<DevourerofGodsBody>()
-                && npc.type != ModContent.NPCType<AstrumDeusBodySpectral>()
+                && npc.type != ModContent.NPCType<AstrumDeusBody>()
                 && npc.type != ModContent.NPCType<ThanatosHead>()
                 && npc.type != ModContent.NPCType<ThanatosBody1>()
                 && npc.type != ModContent.NPCType<ThanatosBody2>()

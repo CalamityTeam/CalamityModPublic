@@ -124,9 +124,9 @@ namespace CalamityMod
                 { ModContent.NPCType<RavagerHead2>(), new Tuple<bool, int[]>(true, new int[] { }) },
                 { ModContent.NPCType<FlamePillar>(), new Tuple<bool, int[]>(true, new int[] { }) },
 
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<AstrumDeusHead>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<AstrumDeusBody>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
+                { ModContent.NPCType<AstrumDeusTail>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
 
                 { NPCID.MoonLordCore, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },
                 { NPCID.MoonLordHand, new Tuple<bool, int[]>(false, new int[] { ModContent.BuffType<Nightwither>() }) },

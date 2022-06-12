@@ -18,7 +18,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class AstrumDeusBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<AstrumDeusHeadSpectral>();
+        public override int BossBagNPC => ModContent.NPCType<AstrumDeusHead>();
 
         public override void SetStaticDefaults()
         {

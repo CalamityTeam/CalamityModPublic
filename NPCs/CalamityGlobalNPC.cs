@@ -5721,7 +5721,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedAstrumAureus;
             }
-            else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
+            else if (type == NPCType<AstrumDeusHead>() || type == NPCType<AstrumDeusBody>() || type == NPCType<AstrumDeusTail>())
             {
                 return DownedBossSystem.downedAstrumDeus;
             }

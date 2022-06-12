@@ -588,9 +588,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Siren>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 }, // 3:00 (180 seconds)
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
+                { ModContent.NPCType<AstrumDeusHead>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
+                { ModContent.NPCType<AstrumDeusBody>(), 7200 },
+                { ModContent.NPCType<AstrumDeusTail>(), 7200 },
                 { ModContent.NPCType<PlaguebringerGoliath>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<RavagerBody>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<ProfanedGuardianBoss>(), 5400 }, // 1:30 (90 seconds)
@@ -699,9 +699,9 @@ namespace CalamityMod
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<Siren>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
-                { ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
-                { ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
+                { ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
+                { ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
                 { ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerBody>(), velocityScaleMin },
                 { ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
