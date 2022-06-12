@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ForbiddenSunProjectile : ModProjectile
     {
-        public override string Texture => "CalamityMod/Projectiles/Melee/ChaosFlameSmall";
+        public override string Texture => "CalamityMod/Projectiles/Melee/VolcanicFireball";
 
         public override void SetStaticDefaults()
         {

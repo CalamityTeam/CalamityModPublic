@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         {
                             // Eruption of slime balls
                             float projectileVelocity = 4f;
-                            int type = ModContent.ProjectileType<AbyssBallVolley>();
+                            int type = ModContent.ProjectileType<UnstableEbonianGlob>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 destination = new Vector2(NPC.Center.X, NPC.Center.Y - 100f) - NPC.Center;
                             destination.Normalize();

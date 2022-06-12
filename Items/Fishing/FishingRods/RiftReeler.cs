@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
             Item.UseSound = SoundID.Item1;
             Item.fishingPole = 45;
             Item.shootSpeed = 17f;
-            Item.shoot = ModContent.ProjectileType<ChaoticSpreadBobber>();
+            Item.shoot = ModContent.ProjectileType<RiftReelerBobber>();
             Item.value = Item.buyPrice(0, 80, 0, 0);
             Item.rare = ItemRarityID.Yellow;
         }

@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<FieryDraconid>()] > 0)
             {
                 modPlayer.aChicken = true;
             }

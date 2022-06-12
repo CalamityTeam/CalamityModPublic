@@ -672,11 +672,11 @@ namespace CalamityMod.CalPlayer
                 titanBoost = 600;
                 if (npcCheck)
                 {
-                    if (ataxiaGeyser && Player.ownedProjectileCounts[ProjectileType<ChaosGeyser>()] < 3)
+                    if (ataxiaGeyser && Player.ownedProjectileCounts[ProjectileType<ChaoticGeyser>()] < 3)
                     {
                         // Ataxia True Melee Geysers: 15%, softcap starts at 300 base damage
                         int geyserDamage = CalamityUtils.DamageSoftCap(damage * 0.15, 45);
-                        Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<ChaosGeyser>(), geyserDamage, 2f, Player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(source, position, Vector2.Zero, ProjectileType<ChaoticGeyser>(), geyserDamage, 2f, Player.whoAmI, 0f, 0f);
                     }
                     if (soaring)
                     {
@@ -801,11 +801,11 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (ataxiaGeyser && Player.ownedProjectileCounts[ProjectileType<ChaosGeyser>()] < 3)
+                if (ataxiaGeyser && Player.ownedProjectileCounts[ProjectileType<ChaoticGeyser>()] < 3)
                 {
                     // Ataxia Melee Geysers: 15%, softcap starts at 240 base damage
                     int geyserDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.15, 36);
-                    Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ChaosGeyser>(), geyserDamage, 0f, Player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ChaoticGeyser>(), geyserDamage, 0f, Player.whoAmI, 0f, 0f);
                 }
                 if (bloodflareMelee && modProj.trueMelee && bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Player.HasCooldown(BloodflareFrenzy.ID))
                     bloodflareMeleeHits++;
@@ -867,7 +867,7 @@ namespace CalamityMod.CalPlayer
             if (ataxiaMage && ataxiaDmg <= 0)
             {
                 int orbDamage = (int)(proj.damage * 0.6);
-                CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<AtaxiaOrb>(), 800f, 20f);
+                CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<HydrothermicSphere>(), 800f, 20f);
                 int cooldown = (int)(orbDamage * 0.5);
                 ataxiaDmg += cooldown;
             }
@@ -1089,40 +1089,40 @@ namespace CalamityMod.CalPlayer
             if (crit && tarraThrowing && tarraThrowingCrits < 25 && !tarragonImmunity && !Player.HasCooldown(Cooldowns.TarragonImmunity.ID))
                 tarraThrowingCrits++;
 
-            if (xerocSet && xerocDmg <= 0 && Player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && Player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
+            if (xerocSet && xerocDmg <= 0 && Player.ownedProjectileCounts[ProjectileType<EmpyreanEmber>()] < 3 && Player.ownedProjectileCounts[ProjectileType<EmpyreanBlast>()] < 3)
             {
                 switch (Main.rand.Next(5))
                 {
                     case 0:
                         // Exodus Rogue Stars: 80%
                         int starDamage = (int)(proj.damage * 0.8);
-                        CalamityGlobalProjectile.SpawnOrb(proj, starDamage, ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
+                        CalamityGlobalProjectile.SpawnOrb(proj, starDamage, ProjectileType<EmpyreanStellarDetritus>(), 800f, Main.rand.Next(15, 30));
                         xerocDmg += (int)(starDamage * 0.5);
                         break;
 
                     case 1:
                         // Exodus Rogue Orbs: 60%
                         int orbDamage = (int)(proj.damage * 0.6);
-                        CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<XerocOrb>(), 800f, 30f);
+                        CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<EmpyreanMarble>(), 800f, 30f);
                         xerocDmg += (int)(orbDamage * 0.5);
                         break;
 
                     case 2:
                         // Exodus Rogue Fire: 15%
                         int fireDamage = (int)(proj.damage * 0.15);
-                        Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<XerocFire>(), fireDamage, 0f, proj.owner, 0f, 0f);
+                        Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<EmpyreanEmber>(), fireDamage, 0f, proj.owner, 0f, 0f);
                         break;
 
                     case 3:
                         // Exodus Rogue Blast: 20%
                         int blastDamage = (int)(proj.damage * 0.2);
-                        Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<XerocBlast>(), blastDamage, 0f, proj.owner, 0f, 0f);
+                        Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<EmpyreanBlast>(), blastDamage, 0f, proj.owner, 0f, 0f);
                         break;
 
                     case 4:
                         // Exodus Rogue Bubble: 60%
                         int bubbleDamage = (int)(proj.damage * 0.6);
-                        CalamityGlobalProjectile.SpawnOrb(proj, bubbleDamage, ProjectileType<XerocBubble>(), 800f, 15f);
+                        CalamityGlobalProjectile.SpawnOrb(proj, bubbleDamage, ProjectileType<EmpyreanGlob>(), 800f, 15f);
                         xerocDmg += (int)(bubbleDamage * 0.5);
                         break;
 
@@ -1738,7 +1738,7 @@ namespace CalamityMod.CalPlayer
                             if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                                 return;
 
-                            CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 3f);
+                            CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaPolarizerHealOrb>(), 1200f, 3f);
                         }
                     }
                 }
@@ -1785,7 +1785,7 @@ namespace CalamityMod.CalPlayer
                         if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                             return;
 
-                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 3f);
+                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<ManaPolarizerHealOrb>(), 1200f, 3f);
                     }
 
                     if (tarraMage)
@@ -1826,7 +1826,7 @@ namespace CalamityMod.CalPlayer
                         if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                             return;
 
-                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 3f);
+                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<HydrothermicHealOrb>(), 1200f, 3f);
                     }
                 }
 
@@ -1849,7 +1849,7 @@ namespace CalamityMod.CalPlayer
 
                 if (proj.CountsAsClass<ThrowingDamageClass>())
                 {
-                    if (xerocSet && xerocDmg <= 0 && Player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && Player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
+                    if (xerocSet && xerocDmg <= 0 && Player.ownedProjectileCounts[ProjectileType<EmpyreanEmber>()] < 3 && Player.ownedProjectileCounts[ProjectileType<EmpyreanBlast>()] < 3)
                     {
                         float healMult = 0.06f;
                         healMult -= proj.numHits * 0.015f;
@@ -1861,7 +1861,7 @@ namespace CalamityMod.CalPlayer
                         if (!CalamityGlobalProjectile.CanSpawnLifeStealProjectile(healMult, heal))
                             return;
 
-                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<XerocHealOrb>(), 1200f, 3f);
+                        CalamityGlobalProjectile.SpawnLifeStealProjectile(proj, Player, heal, ProjectileType<EmpyreanHealOrb>(), 1200f, 3f);
                     }
                 }
             }

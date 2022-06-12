@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.value = Item.buyPrice(0, 60, 0, 0);
             Item.rare = ItemRarityID.Lime;
             Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<SirensSongNote>();
+            Item.shoot = ModContent.ProjectileType<AnahitasArpeggioNote>();
             Item.shootSpeed = 13f;
         }
 

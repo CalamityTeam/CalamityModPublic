@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.value = Item.buyPrice(0, 95, 0, 0);
             Item.rare = ItemRarityID.Cyan;
-            Item.shoot = ModContent.ProjectileType<MeldGreatswordSmallProjectile>();
+            Item.shoot = ModContent.ProjectileType<EntropicFlechetteSmall>();
             Item.shootSpeed = 12f;
         }
 
@@ -53,14 +53,14 @@ namespace CalamityMod.Items.Weapons.Melee
                 switch (index)
                 {
                     case 0:
-                        type = ModContent.ProjectileType<MeldGreatswordSmallProjectile>();
+                        type = ModContent.ProjectileType<EntropicFlechetteSmall>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<MeldGreatswordMediumProjectile>();
+                        type = ModContent.ProjectileType<EntropicFlechette>();
                         damageMult = 0.65f;
                         break;
                     case 2:
-                        type = ModContent.ProjectileType<MeldGreatswordBigProjectile>();
+                        type = ModContent.ProjectileType<EntropicFlechetteLarge>();
                         damageMult = 0.8f;
                         break;
                     default:

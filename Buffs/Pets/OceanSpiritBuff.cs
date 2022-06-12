@@ -19,10 +19,10 @@ namespace CalamityMod.Buffs.Pets
         {
             player.buffTime[buffIndex] = 18000;
             player.Calamity().sirenPet = true;
-            bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<SirenYoung>()] <= 0;
+            bool petProjectileNotSpawned = player.ownedProjectileCounts[ModContent.ProjectileType<OceanSpirit>()] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {
-                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<SirenYoung>(), 0, 0f, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(player.GetSource_Buff(buffIndex), player.Center, Vector2.Zero, ModContent.ProjectileType<OceanSpirit>(), 0, 0f, player.whoAmI, 0f, 0f);
             }
         }
     }

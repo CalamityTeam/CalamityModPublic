@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                     else if (Main.rand.NextBool(9))
                     {
-                        projectileType = ModContent.ProjectileType<SirenSongFriendly>();
+                        projectileType = ModContent.ProjectileType<WaterElementalSong>();
                     }
                     float num403 = Main.rand.Next(12, 20);
                     Vector2 vector29 = new Vector2(Projectile.position.X + (float)Projectile.width * 0.5f, Projectile.position.Y + (float)Projectile.height * 0.5f);

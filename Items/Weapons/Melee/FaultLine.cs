@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.noUseGraphic = true;
             Item.noMelee = true;
 
-            Item.shoot = ModContent.ProjectileType<ChaotrixYoyo>();
+            Item.shoot = ModContent.ProjectileType<FaultLineYoyo>();
             Item.shootSpeed = 14f;
 
             Item.rare = ItemRarityID.Yellow;

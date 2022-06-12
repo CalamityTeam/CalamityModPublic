@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.Calamitas
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<CataclysmTrophy>(), 10);
-            npcLoot.Add(ModContent.ItemType<BrimstoneFlamesprayer>(), 4);
+            npcLoot.Add(ModContent.ItemType<HavocsBreath>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

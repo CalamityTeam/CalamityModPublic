@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<HydrothermicVent>()] > 0)
             {
                 modPlayer.cSpirit = true;
             }

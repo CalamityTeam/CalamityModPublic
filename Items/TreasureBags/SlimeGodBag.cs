@@ -64,7 +64,7 @@ namespace CalamityMod.Items.TreasureBags
             );
 
             // Equipment
-            DropHelper.DropItem(s, player, ModContent.ItemType<ManaOverloader>());
+            DropHelper.DropItem(s, player, ModContent.ItemType<ManaPolarizer>());
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
 
             // Vanity

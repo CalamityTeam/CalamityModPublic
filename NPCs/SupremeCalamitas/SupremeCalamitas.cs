@@ -391,8 +391,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int bulletHellblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
             int firstBulletHellblastDamage = (int)Math.Round(bulletHellblastDamage * 1.25);
             int barrageDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneBarrage>());
-            int gigablastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneGigaBlast>());
-            int fireblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneFireblast>());
+            int gigablastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<SCalBrimstoneFireblast>());
+            int fireblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<SCalBrimstoneGigablast>());
             int monsterDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneMonster>());
             int waveDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneWave>());
             int hellblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast>());
@@ -761,17 +761,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     if (bulletHellCounter2 < 1200)
                     {
                         if (bulletHellCounter2 % 180 == 0) // Blasts from top
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<SCalBrimstoneFireblast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     else if (bulletHellCounter2 < 1500 && bulletHellCounter2 > 1200)
                     {
                         if (bulletHellCounter2 % 180 == 0) // Blasts from right
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -5f * uDieLul, 0f, ModContent.ProjectileType<SCalBrimstoneFireblast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     else if (bulletHellCounter2 > 1500)
                     {
                         if (bulletHellCounter2 % 180 == 0) // Blasts from top
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<SCalBrimstoneFireblast>(), gigablastDamage, 0f, Main.myPlayer);
                     }
                     bulletHellCounter += 1;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 1)
@@ -829,10 +829,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (bulletHellCounter2 % 180 == 0) // Blasts from top
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<SCalBrimstoneFireblast>(), gigablastDamage, 0f, Main.myPlayer);
 
                     if (bulletHellCounter2 % 240 == 0) // Fireblasts from above
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<SCalBrimstoneGigablast>(), fireblastDamage, 0f, Main.myPlayer);
 
                     bulletHellCounter += 1;
                     if (bulletHellCounter >= baseBulletHellProjectileGateValue + 4)
@@ -893,10 +893,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient) // More clustered attack
                 {
                     if (bulletHellCounter2 % 180 == 0) // Blasts from top
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<SCalBrimstoneFireblast>(), gigablastDamage, 0f, Main.myPlayer);
 
                     if (bulletHellCounter2 % 240 == 0) // Fireblasts from above
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<SCalBrimstoneGigablast>(), fireblastDamage, 0f, Main.myPlayer);
 
                     int divisor = revenge ? 225 : expertMode ? 450 : 675;
 
@@ -966,10 +966,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (bulletHellCounter2 % 240 == 0) // Blasts from top
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<BrimstoneGigaBlast>(), gigablastDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * uDieLul, ModContent.ProjectileType<SCalBrimstoneFireblast>(), gigablastDamage, 0f, Main.myPlayer);
 
                     if (bulletHellCounter2 % 360 == 0) // Fireblasts from above
-                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), fireblastDamage, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<SCalBrimstoneGigablast>(), fireblastDamage, 0f, Main.myPlayer);
 
                     if (bulletHellCounter2 % 30 == 0) // Projectiles that move in wave pattern
                     {
@@ -1195,7 +1195,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (projectile.timeLeft > 60)
                                 projectile.timeLeft = 60;
                         }
-                        else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>() || projectile.type == ModContent.ProjectileType<BrimstoneFireblast>())
+                        else if (projectile.type == ModContent.ProjectileType<SCalBrimstoneFireblast>() || projectile.type == ModContent.ProjectileType<SCalBrimstoneGigablast>())
                         {
                             projectile.ai[1] = 1f;
 
@@ -1432,7 +1432,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             if (randomShot == 0 && canFireSplitingFireball)
                             {
                                 canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+                                randomShot = ModContent.ProjectileType<SCalBrimstoneGigablast>();
                                 SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
 
                                 for (int i = 0; i < 15; i++)
@@ -1455,7 +1455,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             else if (randomShot == 1 && canFireSplitingFireball)
                             {
                                 canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+                                randomShot = ModContent.ProjectileType<SCalBrimstoneFireblast>();
                                 SoundEngine.PlaySound(BrimstoneShotSound, NPC.Center);
 
                                 for (int i = 0; i < 20; i++)
@@ -1707,7 +1707,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 projectileVelocity.Normalize();
                                 Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
                                 projectileVelocity *= 5f * uDieLul;
-                                int projectileType = ModContent.ProjectileType<BrimstoneFireblast>();
+                                int projectileType = ModContent.ProjectileType<SCalBrimstoneGigablast>();
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, fireblastDamage, 0f, Main.myPlayer);
                             }
                         }
@@ -1954,7 +1954,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 SoundEngine.PlaySound(BrimstoneBigShotSound, NPC.Center);
                                 canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneFireblast>();
+                                randomShot = ModContent.ProjectileType<SCalBrimstoneGigablast>();
 
                                 for (int i = 0; i < 16; i++)
                                 {
@@ -1977,7 +1977,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             {
                                 SoundEngine.PlaySound(BrimstoneShotSound, NPC.Center);
                                 canFireSplitingFireball = false;
-                                randomShot = ModContent.ProjectileType<BrimstoneGigaBlast>();
+                                randomShot = ModContent.ProjectileType<SCalBrimstoneFireblast>();
 
                                 for (int i = 0; i < 24; i++)
                                 {
@@ -2227,7 +2227,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                 projectileVelocity.Normalize();
                                 Vector2 projectileSpawn = NPC.Center + projectileVelocity * 8f;
                                 projectileVelocity *= 5f * uDieLul;
-                                int projectileType = ModContent.ProjectileType<BrimstoneFireblast>();
+                                int projectileType = ModContent.ProjectileType<SCalBrimstoneGigablast>();
                                 Projectile.NewProjectile(NPC.GetSource_FromAI(), projectileSpawn, projectileVelocity, projectileType, fireblastDamage, 0f, Main.myPlayer);
                             }
                         }
