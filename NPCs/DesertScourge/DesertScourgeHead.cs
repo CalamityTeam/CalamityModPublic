@@ -48,7 +48,11 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.npcSlots = 12f;
             NPC.width = 32;
             NPC.height = 80;
+
             NPC.LifeMaxNERB(2500, 3000, 1650000);
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 4;
+
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
             NPC.aiStyle = -1;
@@ -66,13 +70,16 @@ namespace CalamityMod.NPCs.DesertScourge
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.4f;
 
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
@@ -166,6 +173,12 @@ namespace CalamityMod.NPCs.DesertScourge
             speed += 0.12f * enrageScale;
             turnSpeed += 0.06f * enrageScale;
 
+            if (Main.getGoodWorld)
+            {
+                speed *= 1.1f;
+                turnSpeed *= 1.2f;
+            }
+
             if (lungeUpward)
             {
                 speed *= 1.25f;
@@ -185,6 +198,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 {
                     int Previous = NPC.whoAmI;
                     int minLength = death ? 40 : revenge ? 35 : expertMode ? 30 : 25;
+                    if (Main.getGoodWorld)
+                        minLength *= 3;
+
                     for (int num36 = 0; num36 < minLength + 1; num36++)
                     {
                         int lol;
@@ -382,6 +398,9 @@ namespace CalamityMod.NPCs.DesertScourge
                     int damage = NPC.GetProjectileDamage(type);
                     Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
                     int numProj = malice ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
+                    if (Main.getGoodWorld)
+                        numProj *= 2;
+
                     int spread = 90;
                     float rotation = MathHelper.ToRadians(spread);
                     for (int i = 0; i < numProj; i++)
@@ -399,7 +418,7 @@ namespace CalamityMod.NPCs.DesertScourge
             // Quickly fall and reset variables once at target's Y position
             if (quickFall)
             {
-                NPC.velocity.Y += 0.5f;
+                NPC.velocity.Y += Main.getGoodWorld ? 1f : 0.5f;
                 if (NPC.Center.Y >= player.Center.Y)
                 {
                     NPC.Calamity().newAI[0] = 0f;

@@ -425,6 +425,9 @@ namespace CalamityMod.NPCs.SlimeGod
                                 NPC.localAI[0] = 0f;
                                 NPC.localAI[1] = 0f;
                                 float chargeVelocity = death ? 12f : 9f;
+                                if (Main.getGoodWorld)
+                                    chargeVelocity *= 1.25f;
+
                                 NPC.velocity = Vector2.Normalize(player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - NPC.Center) * chargeVelocity;
                                 NPC.TargetClosest();
                                 return;
@@ -488,13 +491,11 @@ namespace CalamityMod.NPCs.SlimeGod
 
             float flySpeed = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
             if (phase2)
-            {
                 flySpeed = revenge ? 18f : expertMode ? 16f : 14f;
-            }
             if (hyperMode || malice)
-            {
                 flySpeed *= 1.25f;
-            }
+            if (Main.getGoodWorld)
+                flySpeed *= 1.25f;
 
             Vector2 vector167 = new Vector2(NPC.Center.X + (NPC.direction * 20), NPC.Center.Y + 6f);
             Vector2 flyDestination = GetFlyDestination(player);
@@ -521,7 +522,11 @@ namespace CalamityMod.NPCs.SlimeGod
                 return;
             }
 
-            NPC.velocity = (NPC.velocity * 50f + idealVelocity) / 51f;
+            float inertia = 50f;
+            if (Main.getGoodWorld)
+                inertia *= 0.8f;
+
+            NPC.velocity = (NPC.velocity * inertia + idealVelocity) / (inertia + 1f);
             if (distanceFromFlyDestination < 350f)
                 NPC.velocity = (NPC.velocity * 10f + idealVelocity) / 11f;
             if (distanceFromFlyDestination < 300f)

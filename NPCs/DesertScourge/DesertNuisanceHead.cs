@@ -27,7 +27,11 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             NPC.Calamity().canBreakPlayerDefense = true;
             NPC.GetNPCDamage();
+
             NPC.defense = 2;
+            if (Main.getGoodWorld)
+                NPC.defense += 18;
+
             NPC.width = 60;
             NPC.height = 60;
             NPC.lifeMax = BossRushEvent.BossRushActive ? 35000 : 800;

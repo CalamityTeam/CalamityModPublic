@@ -154,6 +154,12 @@ namespace CalamityMod.NPCs.HiveMind
                 driftBoost = 1f;
             }
 
+            if (Main.getGoodWorld)
+            {
+                reelbackFade *= 10;
+                arcTime *= 0.5f;
+            }
+
             phase2timer = minimumDriftTime;
             rotationIncrement = 0.0246399424 * lungeRots * lungeFade;
             NPC.Calamity().VulnerableToHeat = true;
@@ -485,6 +491,9 @@ namespace CalamityMod.NPCs.HiveMind
                     {
                         NPC.localAI[0] = 1f;
                         int maxBlobs = death ? 15 : revenge ? 7 : expertMode ? 6 : 5;
+                        if (Main.getGoodWorld)
+                            maxBlobs *= 2;
+
                         for (int i = 0; i < maxBlobs; i++)
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<HiveBlob>(), NPC.whoAmI);
                     }

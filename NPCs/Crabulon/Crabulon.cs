@@ -69,6 +69,12 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
+
+            if (Main.getGoodWorld)
+            {
+                NPC.scale *= 1.5f;
+                NPC.defense += 12;
+            }
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -178,6 +184,9 @@ namespace CalamityMod.NPCs.Crabulon
                 NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
                 enrageScale += 1f;
             }
+
+            if (Main.getGoodWorld)
+                enrageScale += 0.5f;
 
             if (NPC.ai[0] != 0f && NPC.ai[0] < 3f)
             {
@@ -597,7 +606,7 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)(NPC.lifeMax * 0.05);
+                    int num660 = (int)(NPC.lifeMax * (Main.getGoodWorld ? 0.025 : 0.05));
                     if ((NPC.life + num660) < NPC.localAI[0])
                     {
                         NPC.localAI[0] = NPC.life;
@@ -609,8 +618,8 @@ namespace CalamityMod.NPCs.Crabulon
                             int num663 = ModContent.NPCType<CrabShroom>();
                             int num664 = NPC.NewNPC(NPC.GetSource_FromAI(), x, y, num663);
                             Main.npc[num664].SetDefaults(num663);
-                            Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * 0.1f;
-                            Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * 0.1f;
+                            Main.npc[num664].velocity.X = Main.rand.Next(-50, 51) * (Main.getGoodWorld ? 0.2f : 0.1f);
+                            Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * (Main.getGoodWorld ? 0.2f : 0.1f);
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
@@ -650,7 +659,7 @@ namespace CalamityMod.NPCs.Crabulon
             if (leftDist4 < minLeftDist)
                 minLeftDist = leftDist4;
 
-            bool insideLeftHitbox = minLeftDist <= 45f;
+            bool insideLeftHitbox = minLeftDist <= 45f * NPC.scale;
 
             float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
             float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
@@ -665,7 +674,7 @@ namespace CalamityMod.NPCs.Crabulon
             if (bodyDist4 < minBodyDist)
                 minBodyDist = bodyDist4;
 
-            bool insideBodyHitbox = minBodyDist <= 90f;
+            bool insideBodyHitbox = minBodyDist <= 90f * NPC.scale;
 
             float rightDist1 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopLeft());
             float rightDist2 = Vector2.Distance(rightHitboxCenter, targetHitbox.TopRight());
@@ -680,7 +689,7 @@ namespace CalamityMod.NPCs.Crabulon
             if (rightDist4 < minRightDist)
                 minRightDist = rightDist4;
 
-            bool insideRightHitbox = minRightDist <= 45f;
+            bool insideRightHitbox = minRightDist <= 45f * NPC.scale;
 
             return (insideLeftHitbox || insideBodyHitbox || insideRightHitbox) && NPC.ai[0] > 1f;
         }
@@ -860,8 +869,8 @@ namespace CalamityMod.NPCs.Crabulon
             {
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 200;
-                NPC.height = 100;
+                NPC.width = (int)(200 * NPC.scale);
+                NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
@@ -885,13 +894,13 @@ namespace CalamityMod.NPCs.Crabulon
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = Main.rand.Next(-200, 200) / 100;
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon4").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon5").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon6").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon7").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon4").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon5").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon6").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("Crabulon7").Type, NPC.scale);
                 }
             }
         }

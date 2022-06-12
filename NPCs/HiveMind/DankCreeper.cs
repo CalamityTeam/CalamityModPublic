@@ -28,11 +28,13 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.width = 70;
             NPC.height = 70;
             NPC.defense = 6;
+
             NPC.lifeMax = 90;
             if (BossRushEvent.BossRushActive)
-            {
                 NPC.lifeMax = 2000;
-            }
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 4;
+
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.3f;

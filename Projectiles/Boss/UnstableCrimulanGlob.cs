@@ -25,6 +25,9 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
             Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
+
+            if (Main.getGoodWorld)
+                Projectile.extraUpdates = 1;
         }
 
         public override void AI()

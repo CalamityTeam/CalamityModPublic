@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 Projectile.ai[0] += 1f;
-                if (Projectile.ai[0] >= 45f)
+                if (Projectile.ai[0] >= (Main.getGoodWorld ? 10f : 45f))
                 {
                     Projectile.ai[0] = 0f;
                     int num414 = (int)(Projectile.position.X + 14f + (float)Main.rand.Next(Projectile.width - 28));

@@ -231,6 +231,12 @@ namespace CalamityMod.NPCs.Perforator
                             wormType = ModContent.NPCType<PerforatorHeadLarge>();
                         }
 
+                        if (Main.getGoodWorld)
+                        {
+                            for (int i = 0; i < 2; i++)
+                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
+                        }
+
                         NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
                         NPC.TargetClosest();
 
@@ -303,6 +309,9 @@ namespace CalamityMod.NPCs.Perforator
                             }
 
                             int numBlobs = expertMode ? 6 : 3;
+                            if (Main.getGoodWorld)
+                                numBlobs *= 2;
+
                             int type = ModContent.ProjectileType<IchorBlob>();
                             int damage = NPC.GetProjectileDamage(type);
 
@@ -370,6 +379,9 @@ namespace CalamityMod.NPCs.Perforator
                     int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<IchorShot>() : ModContent.ProjectileType<BloodGeyser>();
                     int damage = NPC.GetProjectileDamage(type);
                     int numProj = death ? 16 : revenge ? 14 : expertMode ? 12 : 10;
+                    if (Main.getGoodWorld)
+                        numProj *= 2;
+
                     int spread = 75;
                     float velocity = 8f;
                     Vector2 destination = wormsAlive > 0 ? player.Center : NPC.Center - Vector2.UnitY * 100f;
@@ -410,15 +422,6 @@ namespace CalamityMod.NPCs.Perforator
                     case 3:
                         Movement(player, 6f + velocityEnrageIncrease, 0.15f, 200f);
                         break;
-                }
-
-                if (wormsAlive == 1)
-                {
-                    Movement(player, 6f + velocityEnrageIncrease, 0.15f, 350f);
-                }
-                else
-                {
-                    
                 }
             }
             else

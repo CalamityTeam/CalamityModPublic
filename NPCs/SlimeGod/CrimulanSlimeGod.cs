@@ -471,7 +471,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (bossLife == 0f && NPC.life > 0)
                 bossLife = NPC.lifeMax;
 
-            float num644 = 1f;
+            float num644 = Main.getGoodWorld ? 0.8f : 1f;
             if (NPC.life > 0)
             {
                 float num659 = lifeRatio;

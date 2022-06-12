@@ -25,11 +25,13 @@ namespace CalamityMod.NPCs.Crabulon
             NPC.GetNPCDamage();
             NPC.width = 14;
             NPC.height = 14;
+
             NPC.lifeMax = 25;
             if (BossRushEvent.BossRushActive)
-            {
                 NPC.lifeMax = 15000;
-            }
+            if (Main.getGoodWorld)
+                NPC.lifeMax *= 2;
+
             AIType = -1;
             NPC.knockBackResist = 0.75f;
             NPC.noGravity = true;
