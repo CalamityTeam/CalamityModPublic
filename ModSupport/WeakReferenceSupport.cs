@@ -401,12 +401,12 @@ namespace CalamityMod
             // Siren and Leviathan
             {
                 BossDifficulty.TryGetValue("Leviathan", out float order);
-                List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Siren>() };
+                List<int> bosses = new List<int>() { NPCType<Leviathan>(), NPCType<Anahita>() };
                 List<int> loot = new List<int>() { ItemType<LeviathanBag>(), ItemType<Greentide>(), ItemType<Leviatitan>(), ItemType<AnahitasArpeggio>(), ItemType<Atlantis>(), ItemType<GastricBelcherStaff>(), ItemType<BrackishFlask>(), ItemType<LeviathanTeeth>(), ItemType<LureofEnthrallment>(), ItemType<LeviathanAmbergris>(), ItemType<TheCommunity>(), ItemID.HotlineFishingHook, ItemID.BottomlessBucket, ItemID.SuperAbsorbantSponge, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GreaterHealingPotion };
                 List<int> collection = new List<int>() { ItemType<LeviathanTrophy>(), ItemType<AnahitaTrophy>(), ItemType<LeviathanMask>(), ItemType<AnahitaMask>(), ItemType<KnowledgeOcean>(), ItemType<KnowledgeLeviathanAnahita>() };
                 string instructions = "By killing an unknown entity in the Ocean Biome";
                 string despawn = CalamityUtils.ColorMessage("The aquatic entities sink back beneath the ocean depths.", new Color(0x7F, 0xFF, 0xD4));
-                string bossLogTex = "CalamityMod/NPCs/Leviathan/SirenandLevi_BossChecklist";
+                string bossLogTex = "CalamityMod/NPCs/Leviathan/AnahitaLevi_BossChecklist";
                 AddBoss(bossChecklist, calamity, "Leviathan", order, bosses, DownedLeviathan, null, loot, collection, instructions, despawn, bossLogTex);
             }
 

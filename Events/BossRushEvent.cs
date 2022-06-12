@@ -257,8 +257,8 @@ namespace CalamityMod.Events
                 new Boss(ModContent.NPCType<CalamitasClone>(), TimeChangeContext.Night, specialSpawnCountdown: 420, dimnessFactor: 0.6f, permittedNPCs: new int[] { ModContent.NPCType<Cataclysm>(), ModContent.NPCType<Catastrophe>(),
                     ModContent.NPCType<SoulSeeker>() }),
 
-                new Boss(ModContent.NPCType<Siren>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(),
-                    ModContent.NPCType<SirenIce>(), NPCID.DetonatingBubble}),
+                new Boss(ModContent.NPCType<Anahita>(), TimeChangeContext.Day, permittedNPCs: new int[] { ModContent.NPCType<Leviathan>(), ModContent.NPCType<AquaticAberration>(),
+                    ModContent.NPCType<AnahitasIceShield>(), NPCID.DetonatingBubble}),
 
                 new Boss(ModContent.NPCType<OldDuke>(), spawnContext: type =>
                 {
@@ -543,9 +543,9 @@ namespace CalamityMod.Events
             }
 
             // Anahita and Leviathan manually check for each other (this probably isn't necessary).
-            else if (npc.type == ModContent.NPCType<Siren>() || npc.type == ModContent.NPCType<Leviathan>())
+            else if (npc.type == ModContent.NPCType<Anahita>() || npc.type == ModContent.NPCType<Leviathan>())
             {
-                int bossType = (npc.type == ModContent.NPCType<Siren>()) ? ModContent.NPCType<Leviathan>() : ModContent.NPCType<Siren>();
+                int bossType = (npc.type == ModContent.NPCType<Anahita>()) ? ModContent.NPCType<Leviathan>() : ModContent.NPCType<Anahita>();
                 if (!NPC.AnyNPCs(bossType))
                 {
                     BossRushStage++;

@@ -111,8 +111,8 @@ namespace CalamityMod
                 { NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
 
                 // She resists the cold because of her ice-related abilities.
-                { ModContent.NPCType<Siren>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
-                { ModContent.NPCType<SirenIce>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+                { ModContent.NPCType<Anahita>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+                { ModContent.NPCType<AnahitasIceShield>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
 
                 { ModContent.NPCType<AstrumAureus>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },
                 { ModContent.NPCType<AureusSpawn>(), new Tuple<bool, int[]>(false, CalamityMod.astralEnemyImmunities) },

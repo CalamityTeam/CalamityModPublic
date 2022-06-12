@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Leviathan
 {
-    public class SirenIce : ModNPC
+    public class AnahitasIceShield : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.Leviathan
         public override void AI()
         {
             int num989 = (int)NPC.ai[0];
-            if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Siren>())
+            if (Main.npc[num989].active && Main.npc[num989].type == ModContent.NPCType<Anahita>())
             {
                 if (NPC.alpha > 100 && NPC.ai[1] == 0f)
                     NPC.alpha -= 2;

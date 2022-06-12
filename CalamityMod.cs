@@ -585,7 +585,7 @@ namespace CalamityMod
                 { ModContent.NPCType<AquaticScourgeTail>(), 7200 },
                 { ModContent.NPCType<BrimstoneElemental>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<CalamitasClone>(), 14400 }, // 4:00 (240 seconds)
-                { ModContent.NPCType<Siren>(), 10800 }, // 3:00 (180 seconds)
+                { ModContent.NPCType<Anahita>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<Leviathan>(), 10800 },
                 { ModContent.NPCType<AstrumAureus>(), 10800 }, // 3:00 (180 seconds)
                 { ModContent.NPCType<AstrumDeusHead>(), 7200 }, // 2:00 (120 seconds) -- first phase is 1:00
@@ -697,7 +697,7 @@ namespace CalamityMod
                 { ModContent.NPCType<Catastrophe>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<CalamitasClone>(), velocityScaleMin },
                 { ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
-                { ModContent.NPCType<Siren>(), velocityScaleMin },
+                { ModContent.NPCType<Anahita>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
                 { ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
                 { ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },

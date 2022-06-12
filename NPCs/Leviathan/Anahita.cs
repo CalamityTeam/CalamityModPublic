@@ -16,7 +16,7 @@ using Terraria.Audio;
 namespace CalamityMod.NPCs.Leviathan
 {
     [AutoloadBossHead]
-    public class Siren : ModNPC
+    public class Anahita : ModNPC
     {
         private int biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
         private bool spawnedLevi = false;
@@ -237,7 +237,7 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 if (NPC.ai[3] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), NPC.whoAmI);
+                    int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector.X, (int)vector.Y, ModContent.NPCType<AnahitasIceShield>(), NPC.whoAmI);
                     NPC.ai[3] = num6 + 1;
                     NPC.localAI[1] = -1f;
                     NPC.localAI[2] += 1f;
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
 
                 int num7 = (int)NPC.ai[3] - 1;
-                if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
+                if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<AnahitasIceShield>())
                     NPC.dontTakeDamage = true;
                 else
                 {
@@ -277,7 +277,7 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.dontTakeDamage = false;
 
                 int num7 = (int)NPC.ai[3] - 1;
-                if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
+                if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<AnahitasIceShield>())
                     NPC.dontTakeDamage = true;
             }
 
@@ -793,7 +793,7 @@ namespace CalamityMod.NPCs.Leviathan
                     texture = TextureAssets.Npc[NPC.type].Value;
                     break;
                 case 1:
-                    texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/SirenStabbing").Value;
+                    texture = ModContent.Request<Texture2D>("CalamityMod/NPCs/Leviathan/AnahitaStabbing").Value;
                     break;
             }
 

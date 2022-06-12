@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         for (int x = 0; x < Main.maxNPCs; x++)
                         {
-                            if (Main.npc[x].type == ModContent.NPCType<Siren>())
+                            if (Main.npc[x].type == ModContent.NPCType<Anahita>())
                             {
                                 Main.npc[x].active = false;
                                 Main.npc[x].netUpdate = true;
@@ -738,7 +738,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public static bool LastAnLStanding()
         {
-            int count = NPC.CountNPCS(ModContent.NPCType<Siren>()) + NPC.CountNPCS(ModContent.NPCType<Leviathan>());
+            int count = NPC.CountNPCS(ModContent.NPCType<Anahita>()) + NPC.CountNPCS(ModContent.NPCType<Leviathan>());
             return count <= 1;
         }
 

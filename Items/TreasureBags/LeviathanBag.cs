@@ -16,7 +16,7 @@ namespace CalamityMod.Items.TreasureBags
 {
     public class LeviathanBag : ModItem
     {
-        public override int BossBagNPC => ModContent.NPCType<Siren>();
+        public override int BossBagNPC => ModContent.NPCType<Anahita>();
 
         public override void SetStaticDefaults()
         {

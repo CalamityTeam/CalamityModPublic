@@ -229,7 +229,7 @@ namespace CalamityMod
                 { NPCID.HallowBoss, 0.6875 },
 
                 { ModContent.NPCType<Leviathan>(), 1.2 },
-                { ModContent.NPCType<Siren>(), 0.8 },
+                { ModContent.NPCType<Anahita>(), 0.8 },
                 { NPCID.DetonatingBubble, 0.75 },
 
                 { ModContent.NPCType<AstrumAureus>(), 1.1 },
@@ -433,13 +433,13 @@ namespace CalamityMod
                     198 } }, // 297 during charge
 
                 { ModContent.NPCType<Leviathan>(), new int[] { 90, 216, 240, 252, 324 } },
-                { ModContent.NPCType<Siren>(), new int[] {
+                { ModContent.NPCType<Anahita>(), new int[] {
                     70, // 105 during charge
                     112, // 168 during charge
                     136, // 204 during charge
                     144, // 216 during charge
                     192 } }, // 288 during charge
-                { ModContent.NPCType<SirenIce>(), new int[] { 55, 110, 126, 136, 165 } },
+                { ModContent.NPCType<AnahitasIceShield>(), new int[] { 55, 110, 126, 136, 165 } },
                 { NPCID.DetonatingBubble, new int[] { 100, 150, 180, 195, 225 } },
                 { ModContent.NPCType<AquaticAberration>(), new int[] { 70, 140, 160, 170, 210 } },
 
@@ -655,9 +655,9 @@ namespace CalamityMod
                 { new Tuple<int, int>(NPCID.HallowBoss, ProjectileID.FairyQueenLance), new int[] { 100, 120, 160, 176, 234 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<Leviathan>(), ModContent.ProjectileType<LeviathanBomb>()), new int[] { 100, 172, 208, 228, 300 } },
-                { new Tuple<int, int>(ModContent.NPCType<Siren>(), ModContent.ProjectileType<WaterSpear>()), new int[] { 80, 140, 160, 176, 234 } },
-                { new Tuple<int, int>(ModContent.NPCType<Siren>(), ModContent.ProjectileType<FrostMist>()), new int[] { 84, 148, 172, 188, 252 } },
-                { new Tuple<int, int>(ModContent.NPCType<Siren>(), ModContent.ProjectileType<SirenSong>()), new int[] { 88, 156, 184, 200, 270 } },
+                { new Tuple<int, int>(ModContent.NPCType<Anahita>(), ModContent.ProjectileType<WaterSpear>()), new int[] { 80, 140, 160, 176, 234 } },
+                { new Tuple<int, int>(ModContent.NPCType<Anahita>(), ModContent.ProjectileType<FrostMist>()), new int[] { 84, 148, 172, 188, 252 } },
+                { new Tuple<int, int>(ModContent.NPCType<Anahita>(), ModContent.ProjectileType<SirenSong>()), new int[] { 88, 156, 184, 200, 270 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<AstrumAureus>(), ModContent.ProjectileType<AstralLaser>()), new int[] { 88, 156, 184, 200, 270 } },
                 { new Tuple<int, int>(ModContent.NPCType<AstrumAureus>(), ModContent.ProjectileType<AstralFlame>()), new int[] { 100, 172, 208, 228, 300 } },

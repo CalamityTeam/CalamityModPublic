@@ -480,7 +480,7 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref catastrophe, NPCType<Catastrophe>());
             ResetSavedIndex(ref calamitas, NPCType<CalamitasClone>());
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
-            ResetSavedIndex(ref siren, NPCType<Siren>());
+            ResetSavedIndex(ref siren, NPCType<Anahita>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
             ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
@@ -5674,7 +5674,7 @@ namespace CalamityMod.NPCs
             {
                 return DownedBossSystem.downedCalamitas;
             }
-            else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Siren>())
+            else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Anahita>())
             {
                 return DownedBossSystem.downedLeviathan;
             }
