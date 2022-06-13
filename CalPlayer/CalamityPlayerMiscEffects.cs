@@ -89,6 +89,10 @@ namespace CalamityMod.CalPlayer
                 copy = Main.RegisteredGameModes[GameModeID.Master];
                 copy.DebuffTimeMultiplier = 1f;
                 Main.RegisteredGameModes[GameModeID.Master] = copy;
+
+                // NOTE -- While this may seem at a glance to be redundant and nonsensical, the underlying setter for this property is what causes the game mode properties to
+                // be refreshed and copied from RegisteredGameModes. Without this, the above behavior is not reflected ingame, as GameModeData is a value type, not a reference type.
+                Main.GameMode = Main.GameMode;
             }
 
             // Go through the old positions for the player.
