@@ -32,6 +32,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
+    // TODO -- Combine with SpeedrunTimerStoppingSystem, which should be renamed and call the UI draw code in this file.
     public class SpeedrunTimerUI
     {
         // These values put the Speedrun Timer roughly at the top center of a 1080p screen.

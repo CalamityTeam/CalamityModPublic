@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Schematics
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class SchematicManager
     {
         internal const string RustedWorkshopKey = "Rusted Workshop";

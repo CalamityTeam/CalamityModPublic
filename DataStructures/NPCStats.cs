@@ -41,6 +41,7 @@ using CalamityMod.NPCs.AcidRain;
 
 namespace CalamityMod
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static partial class NPCStats
     {
         private const double ExpertContactVanillaMultiplier = 2D;
