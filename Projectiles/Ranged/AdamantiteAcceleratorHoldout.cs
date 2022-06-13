@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Ranged
             Vector2 drawOrigin = new Vector2(Owner.direction < 0 ? gun.Width - 33f : 33f, 33f);
             Vector2 drawOffset = Owner.MountedCenter + Projectile.rotation.ToRotationVector2() * (10f - RecoilDisplacement * 5f) - Main.screenPosition;
 
-            Vector2 scale = new Vector2(1f - 0.1f * RecoilSquish, 1f + 0.2f * RecoilSquish) * Projectile.scale;
+            Vector2 scale = new Vector2(1f - 0.05f * RecoilSquish, 1f + 0.05f * RecoilSquish) * Projectile.scale;
 
             Main.EntitySpriteDraw(gun, drawOffset, null, lightColor, drawAngle, drawOrigin, scale, flip, 0);
 
