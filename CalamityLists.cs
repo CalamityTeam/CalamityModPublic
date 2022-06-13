@@ -2704,6 +2704,7 @@ namespace CalamityMod
                 NPCType<CosmicGuardianHead>(),
                 NPCType<CosmicGuardianBody>(),
                 NPCType<CosmicGuardianTail>(),
+                NPCType<BrimstoneHeart>(),
                 NPCType<SupremeCataclysm>(),
                 NPCType<SupremeCatastrophe>()
             };
