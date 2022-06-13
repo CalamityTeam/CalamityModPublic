@@ -9,6 +9,8 @@ namespace CalamityMod.BiomeManagers
     {
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Crag") ?? MusicID.Eerie;
 
+        public override SceneEffectPriority Priority => SceneEffectPriority.Environment;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Crags");
