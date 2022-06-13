@@ -281,7 +281,12 @@ namespace CalamityMod
                 float segmentProgress = (progress - segment.originX) / segmentLenght; //How far along the specific segment
                 ratio = segment.originY;
 
-                ratio += segment.easing(segmentProgress, segment.degree) * segment.displacement;
+                //Failsafe because somehow it can fail? what
+                if (segment.easing != null)
+                    ratio += segment.easing(segmentProgress, segment.degree) * segment.displacement;
+
+                else
+                    ratio += LinearEasing(segmentProgress, segment.degree) * segment.displacement;
 
                 break;
             }
