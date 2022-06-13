@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Anechoic Coating");
-            Description.SetDefault("Abyssal creatures' detection radii reduced");
+            Description.SetDefault("Abyssal creatures' detection ranges reduced");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = false;
