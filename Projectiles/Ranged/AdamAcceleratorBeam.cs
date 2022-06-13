@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.PolarityNPC().applyPolarity(polarity); //applies a positive or negative polarity on the target for 120 frames
+            target.PolarityNPC().applyPolarity(polarity, target); //applies a positive or negative polarity on the target for 120 frames
         }
 
         
