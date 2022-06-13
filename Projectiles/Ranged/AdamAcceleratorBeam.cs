@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adamantite Particle Accelerator");
+            DisplayName.SetDefault("Adamantite Particle Beam");
         }
 
         public override void SetDefaults()
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
             // The beam itself still stops on tiles, but its invisible "source" projectile ignores them.
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = 4;
+            Projectile.localNPCHitCooldown = -1;
 
             // The beam lasts for only some frames and fades out over that time.
             Projectile.timeLeft = Lifetime;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            // If the projectile for some reason isn't still a Valkyrie Ray, delete it immediately.
+            // If the projectile for some reason isn't still an Adamantite Particle Beam, delete it immediately.
             if (Projectile.type != ModContent.ProjectileType<AdamAcceleratorBeam>())
             {
                 Projectile.Kill();
@@ -150,11 +150,6 @@ namespace CalamityMod.Projectiles.Ranged
             Color c = AdamantiteParticleAccelerator.LightColors[index];
             c.A = 64;
             return c;
-        }
-
-        public override bool? CanDamage()
-        {
-            return !(Projectile.numHits > 0);
         }
 
         public override bool PreDraw(ref Color lightColor)

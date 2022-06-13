@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs
             {
                 return curPolarity;
             }
-            private set
+            internal set
             {
                 curPolarity = value;
             }
