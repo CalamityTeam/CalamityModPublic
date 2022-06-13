@@ -756,9 +756,9 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 120, true);
-            player.AddBuff(BuffID.Weak, 240, true);
-            player.AddBuff(BuffID.Darkness, 240, true);
+            player.AddBuff(BuffID.OgreSpit, 180, true);
+            player.AddBuff(BuffID.Weak, 180, true);
+            player.AddBuff(BuffID.Darkness, 180, true);
         }
     }
 }
