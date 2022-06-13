@@ -303,9 +303,6 @@ namespace CalamityMod
             int item = -1;
             switch (style)
             {
-                case 0:
-                    item = ModContent.ItemType<AquaticParasiteBanner>();
-                    break;
                 case 1:
                     item = ModContent.ItemType<FlounderBanner>();
                     break;
@@ -450,17 +447,11 @@ namespace CalamityMod
                 case 50:
                     item = ModContent.ItemType<ProfanedEnergyBanner>();
                     break;
-                case 51:
-                    item = ModContent.ItemType<WulfrumSlimeBanner>();
-                    break;
                 case 52:
                     item = ModContent.ItemType<WulfrumDroneBanner>();
                     break;
                 case 53:
                     item = ModContent.ItemType<RotdogBanner>();
-                    break;
-                case 54:
-                    item = ModContent.ItemType<BlightedEyeBanner>();
                     break;
                 case 55:
                     item = ModContent.ItemType<CalamityEyeBanner>();
@@ -488,9 +479,6 @@ namespace CalamityMod
                     break;
                 case 63:
                     item = ModContent.ItemType<CnidrionBanner>();
-                    break;
-                case 64:
-                    item = ModContent.ItemType<SandTortoiseBanner>();
                     break;
                 case 65:
                     item = ModContent.ItemType<GreatSandSharkBanner>();

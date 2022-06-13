@@ -203,6 +203,7 @@ namespace CalamityMod.Items
                 case ItemID.ShrimpyTruffle:
                 case ItemID.GravityGlobe:
                 case ItemID.SuspiciousLookingTentacle:
+                case ItemID.LongRainbowTrailWings:
                     item.expert = false;
                     break;
             }
