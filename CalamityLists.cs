@@ -1954,7 +1954,11 @@ namespace CalamityMod
                 NPCID.SantaNK1,
                 NPCID.Everscream,
                 NPCID.DD2Betsy,
-                NPCID.Mothron
+                NPCID.Mothron,
+                NPCID.MartianSaucer,
+                NPCID.MartianSaucerCannon,
+                NPCID.MartianSaucerCore,
+                NPCID.MartianSaucerTurret,
             };
 
             heartDropBlockList = new List<int>()
@@ -2443,7 +2447,6 @@ namespace CalamityMod
             };
 
             // Collections
-            // NOTE - Be sure to reference the NeedsFourLifeBytes list in the IL Editing code if changes are made here.
             BossRushHPChanges = new SortedDictionary<int, int>
             {
                 // Tier 1
@@ -2603,6 +2606,7 @@ namespace CalamityMod
 
             bossMinionList = new List<int>()
             {
+                NPCType<KingSlimeJewel>(),
                 NPCType<DesertNuisanceHead>(),
                 NPCType<DesertNuisanceBody>(),
                 NPCType<DesertNuisanceTail>(),
@@ -2643,11 +2647,13 @@ namespace CalamityMod
                 NPCID.QueenSlimeMinionBlue,
                 NPCID.QueenSlimeMinionPink,
                 NPCID.QueenSlimeMinionPurple,
+                NPCType<CryogenShield>(),
                 NPCID.PrimeCannon,
                 NPCID.PrimeLaser,
                 NPCID.PrimeSaw,
                 NPCID.PrimeVice,
                 NPCType<Brimling>(),
+                NPCID.Probe,
                 NPCID.TheDestroyer,
                 NPCID.TheDestroyerBody,
                 NPCID.TheDestroyerTail,
@@ -2659,6 +2665,8 @@ namespace CalamityMod
                 NPCType<Catastrophe>(),
                 NPCType<SoulSeeker>(),
                 NPCID.PlanterasTentacle,
+                NPCType<AnahitasIceShield>(),
+                NPCType<AquaticAberration>(),
                 NPCType<AureusSpawn>(),
                 NPCID.Spore,
                 NPCID.GolemHead,
@@ -2679,15 +2687,20 @@ namespace CalamityMod
                 NPCID.CultistDragonBody4,
                 NPCID.CultistDragonTail,
                 NPCID.AncientCultistSquidhead,
+                NPCID.AncientDoom,
+                NPCID.MoonLordLeechBlob,
                 NPCID.MoonLordFreeEye,
                 NPCID.MoonLordHand,
                 NPCID.MoonLordHead,
+                NPCType<ProfanedGuardianDefender>(),
+                NPCType<ProfanedGuardianHealer>(),
                 NPCType<Bumblefuck2>(),
                 NPCType<ProvSpawnOffense>(),
                 NPCType<ProvSpawnDefense>(),
                 NPCType<ProvSpawnHealer>(),
                 NPCType<DarkEnergy>(),
                 NPCType<CosmicLantern>(),
+                NPCType<PolterPhantom>(),
                 NPCType<CosmicGuardianHead>(),
                 NPCType<CosmicGuardianBody>(),
                 NPCType<CosmicGuardianTail>(),
