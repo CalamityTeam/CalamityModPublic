@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const int ChargeFrames = 28;
         public const int CooldownFrames = 16;
-        public const float GemDistance = 33f;
         public static readonly Color[] LightColors = new Color[] { new Color(235, 40, 121), new Color(49, 161, 246) }; //beam colors
         public override void SetStaticDefaults()
         {
@@ -31,6 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 3f;
+            Item.channel = true;
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
             Item.autoReuse = true;
@@ -39,9 +39,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.noUseGraphic = true;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             velocity *= Item.shootSpeed;
+        }
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
             Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<AdamantiteAcceleratorHoldout>(), damage, knockback, player.whoAmI);
             return false;
         }
@@ -59,5 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             player.Calamity().mouseWorldListener = true;
         }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;
     }
 }
