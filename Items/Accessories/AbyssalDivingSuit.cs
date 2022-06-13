@@ -67,9 +67,13 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalDivingSuit = true;
             if (hideVisual)
-            {
                 modPlayer.abyssalDivingSuitHide = true;
-            }
+        }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().abyssalDivingSuitHide = false;
+            player.Calamity().abyssalDivingSuitForce = true;
         }
 
         public override void AddRecipes()

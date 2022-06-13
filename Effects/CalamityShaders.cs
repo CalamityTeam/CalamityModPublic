@@ -7,6 +7,7 @@ using Terraria.Graphics.Shaders;
 
 namespace CalamityMod.Effects
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public class CalamityShaders
     {
         public static Effect AstralFogShader;

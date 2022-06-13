@@ -120,30 +120,30 @@ namespace CalamityMod
             { "Crabulon", 2.5f },
             { "HiveMind", 3.5f },
             { "Perforators", 3.51f },
-            { "SlimeGod", 5.5f },
-            { "Cryogen", 6.5f },
-            { "AquaticScourge", 7.5f },
-            { "BrimstoneElemental", 8.5f },
-            { "Calamitas", 9.7f },
-            { "GreatSandShark", 10.09f },
-            { "Leviathan", 10.5f },
-            { "AstrumAureus", 10.6f },
-            { "PlaguebringerGoliath", 11.5f },
-            { "Ravager", 12.5f },
-            { "AstrumDeus", 13.5f },
-            { "ProfanedGuardians", 14.5f },
-            { "Dragonfolly", 14.6f },
-            { "Providence", 15.01f }, // Thorium's Ragnarok is 15f
-            { "CeaselessVoid", 15.5f },
-            { "StormWeaver", 15.51f },
-            { "Signus", 15.52f },
-            { "Polterghast", 16f },
-            { "OldDuke", 16.5f },
-            { "DevourerOfGods", 17f },
-            { "Yharon", 18f },
-            { "ExoMechs", 18.5f },
-            { "SupremeCalamitas", 19f },
-            { "AdultEidolonWyrm", 19.5f },
+            { "SlimeGod", 6.5f },
+            { "Cryogen", 8.5f },
+            { "AquaticScourge", 9.5f },
+            { "BrimstoneElemental", 10.5f },
+            { "Calamitas", 11.7f },
+            { "GreatSandShark", 12.09f },
+            { "Leviathan", 12.5f },
+            { "AstrumAureus", 12.6f },
+            { "PlaguebringerGoliath", 13.5f },
+            { "Ravager", 15.5f },
+            { "AstrumDeus", 16.5f },
+            { "ProfanedGuardians", 17.5f },
+            { "Dragonfolly", 17.6f },
+            { "Providence", 18.01f }, // Thorium's Ragnarok will most likely be 18f
+            { "CeaselessVoid", 18.5f },
+            { "StormWeaver", 18.51f },
+            { "Signus", 18.52f },
+            { "Polterghast", 19f },
+            { "OldDuke", 19.5f },
+            { "DevourerOfGods", 20f },
+            { "Yharon", 21f },
+            { "ExoMechs", 21.5f },
+            { "SupremeCalamitas", 22f },
+            { "AdultEidolonWyrm", 22.5f },
             // { "Yharim", 20f },
             // { "Noxus", 120f },
             // { "Xeroc", 121f },
@@ -152,8 +152,8 @@ namespace CalamityMod
         private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
         {
             { "Acid Rain Initial", 2.4f },
-            { "Acid Rain Aquatic Scourge", 7.51f },
-            { "Acid Rain Polterghast", 16.49f }
+            { "Acid Rain Aquatic Scourge", 9.51f },
+            { "Acid Rain Polterghast", 19.49f }
         };
 
         public static void Setup()
@@ -235,15 +235,18 @@ namespace CalamityMod
         /// 3.0 = Eater of Worlds / Brain of Cthulhu<br />
         /// 4.0 = Queen Bee<br />
         /// 5.0 = Skeletron<br />
-        /// 6.0 = Wall of Flesh<br />
-        /// 7.0 = The Twins<br />
-        /// 8.0 = The Destroyer<br />
-        /// 9.0 = Skeletron Prime<br />
-        /// 10.0 = Plantera<br />
-        /// 11.0 = Golem<br />
-        /// 12.0 = Duke Fishron<br />
-        /// 13.0 = Lunatic Cultist<br />
-        /// 14.0 = Moon Lord
+        /// 6.0 = Deerclops<br />
+        /// 7.0 = Wall of Flesh<br />
+        /// 8.0 = Queen Slime<br />
+        /// 9.0 = The Twins<br />
+        /// 10.0 = The Destroyer<br />
+        /// 11.0 = Skeletron Prime<br />
+        /// 12.0 = Plantera<br />
+        /// 13.0 = Golem<br />
+        /// 14.0 = Empress of Light<br />
+        /// 15.0 = Duke Fishron<br />
+        /// 16.0 = Lunatic Cultist<br />
+        /// 17.0 = Moon Lord
         /// </summary>
         private static void BossChecklistSupport()
         {

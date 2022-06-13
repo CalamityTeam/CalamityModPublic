@@ -7,6 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
+    // TODO -- The item tweaks database and functions should be stored in a ModSystem.
+    // ApplyTweaks(ref Item item) would be the one exposed function, which CalamityGlobalItem would call in SetDefaults.
     public partial class CalamityGlobalItem : GlobalItem
     {
         #region Database and Initialization

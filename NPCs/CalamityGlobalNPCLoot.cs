@@ -1242,12 +1242,14 @@ namespace CalamityMod.NPCs
             // Does not show up in the Bestiary
             LeadingConditionRule bloodOrbDrop = new LeadingConditionRule(DropHelper.BloodOrbBaseCondition);
             bloodOrbDrop.Add(ModContent.ItemType<BloodOrb>(), 5, hideLootReport: true);
+            globalLoot.Add(bloodOrbDrop);
 
             // Bloodflare set bonus Blood Orb drops: 50% chance from any valid enemy on the surface during a Blood Moon
             // See the condition lambda in DropHelper for details
             // Does not show up in the Bestiary
             LeadingConditionRule bloodflareBloodOrbDrop = new LeadingConditionRule(DropHelper.BloodOrbBloodflareCondition);
             bloodflareBloodOrbDrop.Add(ModContent.ItemType<BloodOrb>(), 2, hideLootReport: true);
+            globalLoot.Add(bloodflareBloodOrbDrop);
         }
         #endregion
 

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpSpeedBoost += 0.3f;
             player.extraFall += 35;
             player.blackBelt = true;
-            player.dash = 1;
+            player.dashType = 1;
             player.Calamity().DashID = string.Empty;
             player.spikedBoots = 2;
             player.accFlipper = true;

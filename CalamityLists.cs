@@ -75,6 +75,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public class CalamityLists
     {
         public static IList<string> donatorList;

@@ -83,6 +83,18 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            // Summon anime girl if it's in vanity slot as the pet is purely vanity
+            // It's possible for other "pet" items like Fungal Clump or HotE to summon a passive version of their "pets" with some tweaks though
+            player.Calamity().spiritOriginVanity = true;
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(ModContent.BuffType<ArcherofLunamoon>()) == -1)
+                    player.AddBuff(ModContent.BuffType<ArcherofLunamoon>(), 18000, true);
+            }
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().

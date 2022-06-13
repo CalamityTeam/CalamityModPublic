@@ -35,6 +35,12 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            // Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
+            player.Calamity().blazingCursorVisuals = true;
+        }
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.Calamity().blazingCursorDamage = true;

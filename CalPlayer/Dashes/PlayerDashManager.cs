@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CalamityMod.CalPlayer.Dashes
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class PlayerDashManager
     {
         internal static Dictionary<string, PlayerDashEffect> DashIdentificationTable = new();

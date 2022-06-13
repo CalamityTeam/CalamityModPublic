@@ -89,6 +89,10 @@ namespace CalamityMod.CalPlayer
                 copy = Main.RegisteredGameModes[GameModeID.Master];
                 copy.DebuffTimeMultiplier = 1f;
                 Main.RegisteredGameModes[GameModeID.Master] = copy;
+
+                // NOTE -- While this may seem at a glance to be redundant and nonsensical, the underlying setter for this property is what causes the game mode properties to
+                // be refreshed and copied from RegisteredGameModes. Without this, the above behavior is not reflected ingame, as GameModeData is a value type, not a reference type.
+                Main.GameMode = Main.GameMode;
             }
 
             // Go through the old positions for the player.
@@ -527,17 +531,6 @@ namespace CalamityMod.CalPlayer
 
         private void MiscEffects()
         {
-            // Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
-            int blazingCursorItem = ModContent.ItemType<Calamity>();
-            for (int i = 13; i < 18 + Player.extraAccessorySlots; i++)
-            {
-                if (Player.armor[i].type == blazingCursorItem)
-                {
-                    blazingCursorVisuals = true;
-                    break;
-                }
-            }
-
             // Calculate/reset DoG cart rotations based on whether the DoG cart is in use.
             if (Player.mount.Active && Player.mount.Type == ModContent.MountType<DoGCartMount>())
             {

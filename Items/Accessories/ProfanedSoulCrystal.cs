@@ -123,6 +123,12 @@ namespace CalamityMod.Items.Accessories
                 modPlayer.profanedCrystalHide = true;
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().profanedCrystalHide = false;
+            player.Calamity().profanedCrystalForce = true;
+        }
+
         internal static void DetermineTransformationEligibility(Player player)
         {
             if (DownedBossSystem.downedSCal && DownedBossSystem.downedExoMechs && (player.maxMinions - player.slotsMinions) >= 10 && !player.Calamity().profanedCrystalForce && player.HasBuff<ProfanedCrystalBuff>())

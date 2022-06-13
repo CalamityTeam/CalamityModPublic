@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -25,6 +26,7 @@ namespace CalamityMod.Tiles.FurnitureExo
             AddMapEntry(new Color(71, 95, 114), name);
             DustType = 8;
             AnimationFrameHeight = 36;
+            TileID.Sets.FramesOnKillWall[Type] = true;
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

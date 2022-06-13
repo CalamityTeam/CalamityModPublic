@@ -46,6 +46,12 @@ namespace CalamityMod.Items.Accessories.Vanity
             Item.Calamity().devItem = true;
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().snowmanHide = false;
+            player.Calamity().snowmanForce = true;
+        }
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

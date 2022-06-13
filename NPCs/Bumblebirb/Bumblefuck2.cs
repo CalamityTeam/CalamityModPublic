@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             DisplayName.SetDefault("Draconic Swarmer");
             Main.npcFrameCount[NPC.type] = 5;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
-            NPCID.Sets.BossBestiaryPriority.Add(Type);
+            this.HideFromBestiary();
         }
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/BumbleFolly";
@@ -41,19 +41,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = true;
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            int associatedNPCType = ModContent.NPCType<Bumblefuck>();
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
-
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Though these creatures may look adorable, they are a vicious invasive species. If not dealt with quickly, they may drive the nearby fauna to extinction.")
-            });
         }
 
         public override void AI()
