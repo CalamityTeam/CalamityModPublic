@@ -5777,6 +5777,9 @@ namespace CalamityMod.CalPlayer
                     Player.lifeRegen = 0;
             }
 
+            if (meteorSet)
+                Player.spaceGun = false;
+
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 Player.yoraiz0rEye = 0;
 
