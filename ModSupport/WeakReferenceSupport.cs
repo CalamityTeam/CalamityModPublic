@@ -133,7 +133,7 @@ namespace CalamityMod
             { "AstrumDeus", 16.5f },
             { "ProfanedGuardians", 17.5f },
             { "Dragonfolly", 17.6f },
-            { "Providence", 18.01f }, // Thorium's Ragnarok is 15f
+            { "Providence", 18.01f }, // Thorium's Ragnarok will most likely be 18f
             { "CeaselessVoid", 18.5f },
             { "StormWeaver", 18.51f },
             { "Signus", 18.52f },
