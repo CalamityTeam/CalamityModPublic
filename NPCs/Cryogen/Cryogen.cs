@@ -73,6 +73,9 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;
             NPC.Calamity().VulnerableToSickness = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.8f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -226,6 +229,9 @@ namespace CalamityMod.NPCs.Cryogen
                 NPC.timeLeft = 1800;
 
             float chargeGateValue = malice ? 240f : 360f;
+            if (Main.getGoodWorld)
+                chargeGateValue *= 0.7f;
+
             bool charging = NPC.ai[1] >= chargeGateValue;
 
             if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !charging)
@@ -292,8 +298,13 @@ namespace CalamityMod.NPCs.Cryogen
                 num1245 = num1246 / num1245;
                 num1243 *= num1245;
                 num1244 *= num1245;
-                NPC.velocity.X = (NPC.velocity.X * 50f + num1243) / 51f;
-                NPC.velocity.Y = (NPC.velocity.Y * 50f + num1244) / 51f;
+
+                float inertia = 50f;
+                if (Main.getGoodWorld)
+                    inertia *= 0.8f;
+
+                NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
 
                 if (phase2)
                 {
@@ -504,8 +515,13 @@ namespace CalamityMod.NPCs.Cryogen
                     num1245 = num1246 / num1245;
                     num1243 *= num1245;
                     num1244 *= num1245;
-                    NPC.velocity.X = (NPC.velocity.X * 50f + num1243) / 51f;
-                    NPC.velocity.Y = (NPC.velocity.Y * 50f + num1244) / 51f;
+
+                    float inertia = 50f;
+                    if (Main.getGoodWorld)
+                        inertia *= 0.8f;
+
+                    NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
+                    NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
                 }
                 else if (NPC.ai[1] < chargeGateValue + 20f)
                 {
@@ -628,8 +644,13 @@ namespace CalamityMod.NPCs.Cryogen
                 num1245 = speed / num1245;
                 num1243 *= num1245;
                 num1244 *= num1245;
-                NPC.velocity.X = (NPC.velocity.X * 50f + num1243) / 51f;
-                NPC.velocity.Y = (NPC.velocity.Y * 50f + num1244) / 51f;
+
+                float inertia = 50f;
+                if (Main.getGoodWorld)
+                    inertia *= 0.8f;
+
+                NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
 
                 if (NPC.ai[1] == 0f)
                 {
@@ -865,8 +886,12 @@ namespace CalamityMod.NPCs.Cryogen
                     return;
                 }
 
-                NPC.velocity.X = (NPC.velocity.X * 50f + num1373) / 51f;
-                NPC.velocity.Y = (NPC.velocity.Y * 50f + num1374) / 51f;
+                float inertia = 50f;
+                if (Main.getGoodWorld)
+                    inertia *= 0.8f;
+
+                NPC.velocity.X = (NPC.velocity.X * inertia + num1373) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + num1374) / (inertia + 1f);
                 if (num1375 < 350f)
                 {
                     NPC.velocity.X = (NPC.velocity.X * 10f + num1373) / 11f;
@@ -972,7 +997,7 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
                 for (int i = 1; i < chipGoreAmount; i++)
-                    Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CryoChipGore" + i).Type, 1f);
+                    Gore.NewGore(NPC.GetSource_FromAI(), NPC.position, NPC.velocity, Mod.Find<ModGore>("CryoChipGore" + i).Type, NPC.scale);
             }
 
             currentPhase = newPhase;
@@ -1060,8 +1085,8 @@ namespace CalamityMod.NPCs.Cryogen
                     float randomSpread = Main.rand.Next(-200, 200) / 100;
                     for (int i = 1; i < 4; i++)
                     {
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoDeathGore" + i).Type, 1f);
-                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoChipGore" + i).Type, 1f);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoDeathGore" + i).Type, NPC.scale);
+                        Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoChipGore" + i).Type, NPC.scale);
                     }
                 }
             }
@@ -1154,7 +1179,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 40f;
+            return minDist <= 40f * NPC.scale;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

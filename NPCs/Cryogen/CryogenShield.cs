@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Cryogen
             NPC.GetNPCDamage();
             NPC.width = 216;
             NPC.height = 216;
-            NPC.scale = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.8f : 1f;
+            NPC.scale *= (CalamityWorld.death || BossRushEvent.BossRushActive || Main.getGoodWorld) ? 0.8f : 1f;
             NPC.DR_NERD(0.4f);
             NPC.lifeMax = CalamityWorld.death ? 700 : 1400;
             if (BossRushEvent.BossRushActive)
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.Cryogen
                     {
                         randomSpread = Main.rand.Next(-200, 200) / 100;
                         for (int x = 1; x <= 4; x++)
-                            Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoShieldGore" + x).Type, 1f);
+                            Gore.NewGore(NPC.GetSource_Death(), NPC.Center, NPC.velocity * randomSpread, Mod.Find<ModGore>("CryoShieldGore" + x).Type, NPC.scale);
                     }
                 }
             }
