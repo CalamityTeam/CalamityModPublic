@@ -69,6 +69,11 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().abyssDivingGear = true;
         }
 
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().abyssDivingGear = true;
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().

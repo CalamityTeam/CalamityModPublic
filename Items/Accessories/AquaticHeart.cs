@@ -61,5 +61,11 @@ namespace CalamityMod.Items.Accessories
             if (hideVisual)
                 modPlayer.aquaticHeartHide = true;
         }
+
+        public override void UpdateVanity(Player player)
+        {
+            player.Calamity().aquaticHeartHide = false;
+            player.Calamity().aquaticHeartForce = true;
+        }
     }
 }

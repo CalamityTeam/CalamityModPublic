@@ -527,17 +527,6 @@ namespace CalamityMod.CalPlayer
 
         private void MiscEffects()
         {
-            // Do a vanity/social slot check for SCal's expert drop since alternatives to get this working are a pain in the ass to create.
-            int blazingCursorItem = ModContent.ItemType<Calamity>();
-            for (int i = 13; i < 18 + Player.extraAccessorySlots; i++)
-            {
-                if (Player.armor[i].type == blazingCursorItem)
-                {
-                    blazingCursorVisuals = true;
-                    break;
-                }
-            }
-
             // Calculate/reset DoG cart rotations based on whether the DoG cart is in use.
             if (Player.mount.Active && Player.mount.Type == ModContent.MountType<DoGCartMount>())
             {

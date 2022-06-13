@@ -1144,6 +1144,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.ObsidianSkull || item.type == ItemID.ObsidianHorseshoe || item.type == ItemID.ObsidianShield || item.type == ItemID.ObsidianWaterWalkingBoots || item.type == ItemID.LavaWaders || item.type == ItemID.ObsidianSkullRose || item.type == ItemID.MoltenCharm || item.type == ItemID.LavaSkull || item.type == ItemID.MoltenSkullRose || item.type == ItemID.AnkhShield)
                 player.buffImmune[BuffID.OnFire] = true;
 
+            // Ankh Shield Mighty Wind immunity.
+            if (item.type == ItemID.AnkhShield)
+                player.buffImmune[BuffID.WindPushed] = true;
+
             if (item.type == ItemID.HellfireTreads)
             {
                 modPlayer.hellfireTreads = true;
