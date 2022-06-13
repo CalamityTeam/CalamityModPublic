@@ -4462,7 +4462,7 @@ namespace CalamityMod.CalPlayer
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
             {
-                if (CalamityConfig.Instance.Proficiency)
+                if (CalamityConfig.Instance.Proficiency && item.DamageType == DamageClass.Melee)
                 {
                     if (gainLevelCooldown <= 0)
                     {
