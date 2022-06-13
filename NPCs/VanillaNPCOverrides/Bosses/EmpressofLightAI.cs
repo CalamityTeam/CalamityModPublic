@@ -41,6 +41,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float despawnDistanceGateValue = 6400f;
 
             bool phase2 = npc.AI_120_HallowBoss_IsInPhase2();
+            bool shouldBeInPhase2ButIsStillInPhase1 = lifeRatio <= 0.5f && !phase2;
+            if (shouldBeInPhase2ButIsStillInPhase1)
+                calamityGlobalNPC.DR = 0.99f;
+
             bool dayTimeEnrage = NPC.ShouldEmpressBeEnraged();
             if (npc.life == npc.lifeMax && dayTimeEnrage && !npc.AI_120_HallowBoss_IsGenuinelyEnraged())
                 npc.ai[3] += 2f;
@@ -561,7 +565,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.damage = 0;
 
                     // Increase durability.
-                    calamityGlobalNPC.DR = 0.575f;
+                    calamityGlobalNPC.DR = shouldBeInPhase2ButIsStillInPhase1 ? 0.99f : 0.575f;
 
                     int totalSunDances = 3;
                     float sunDanceGateValue = death ? 40f : 50f;
