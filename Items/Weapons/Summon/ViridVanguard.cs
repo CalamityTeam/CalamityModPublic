@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Virid Vanguard");
             Tooltip.SetDefault("Summons 2 blades that rotate around you\n" +
-                               "Each pair of blades take up three minion slots\n" +
+                               "Each pair of blades takes up three minion slots\n" +
                                "Right clicking prompts all blades to fly upward and redirect towards the mouse");
             Item.staff[Item.type] = true;
             SacrificeTotal = 1;
