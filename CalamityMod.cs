@@ -195,6 +195,11 @@ namespace CalamityMod
             Mount.mounts[MountID.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
+            // Make Graveyard biomes require more Gravestones
+            SceneMetrics.GraveyardTileMax = 88;
+            SceneMetrics.GraveyardTileMin = 68;
+            SceneMetrics.GraveyardTileThreshold = 80;
+
             if (!Main.dedServ)
             {
                 LoadClient();
@@ -370,10 +375,15 @@ namespace CalamityMod
                 TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
             }
+
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+
+            SceneMetrics.GraveyardTileMax = 36;
+            SceneMetrics.GraveyardTileMin = 16;
+            SceneMetrics.GraveyardTileThreshold = 28;
 
             heartOriginal2 = null;
             heartOriginal = null;
