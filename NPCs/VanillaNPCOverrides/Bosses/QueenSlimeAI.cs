@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Spawn settings
             if (npc.localAI[0] == 0f)
             {
-                npc.ai[1] = -100f;
+                npc.ai[1] = -20f;
                 npc.localAI[0] = npc.lifeMax;
                 npc.TargetClosest();
                 npc.netUpdate = true;
@@ -479,8 +479,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                     Vector2 destination = new Vector2(npc.Center.X, npc.Center.Y - 100f) - npc.Center;
                                     destination.Normalize();
                                     destination *= projectileVelocity;
-                                    int numProj = 18;
-                                    float rotation = MathHelper.ToRadians(90);
+                                    int numProj = 20;
+                                    float rotation = MathHelper.ToRadians(numProj * 5);
                                     for (int i = 0; i < numProj; i++)
                                     {
                                         Vector2 perturbedSpeed = destination.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (float)(numProj - 1)));
@@ -680,8 +680,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             foreach (int t in targets)
                             {
                                 Vector2 velocity2 = Vector2.Normalize(Main.player[t].Center - npc.Center) * projectileVelocity;
-                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, -2f);
-                                Main.projectile[proj].timeLeft = 900;
+                                int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center, velocity2, type, damage, 0f, Main.myPlayer, 0f, phase2 ? -2f : -1f);
+                                if (phase2)
+                                    Main.projectile[proj].timeLeft = 900;
                             }
                         }
 
