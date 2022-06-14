@@ -115,10 +115,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ItemDropRule.Common(ItemID.BoneSword, 20).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.Starfury, 50)).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.EnchantedSword, 50)).OnFailedRoll(
-                        ItemDropRule.Common(ItemID.Terragrim, 100)));
+            npcLoot.Add(ItemID.BoneSword, 20);
+            npcLoot.Add(ItemID.Starfury, 50);
+            npcLoot.Add(ItemID.EnchantedSword, 50);
+            npcLoot.Add(ItemID.Terragrim, 100);
         }
     }
 }
