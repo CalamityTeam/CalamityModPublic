@@ -62,6 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.TitaniumBar, 10).
+                AddIngredient(ItemID.CrystalShard, 5).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }
