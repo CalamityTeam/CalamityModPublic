@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (targetArrayIndex == 0)
                 return false;
 
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+            Vector2 vector2;
             int extraBulletDamage = (int)(damage * 0.7);
 
             for (int j = 0; j < targetArrayIndex; j++)
@@ -103,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[proj].timeLeft /= 2;
             }
 
-            if (targetArrayIndex == 12)
+            if (targetArrayIndex == maxTargets)
                 return false;
 
             // Fire bullets at the same targets if 12 unique targets aren't found
