@@ -28,6 +28,7 @@ namespace CalamityMod.Tiles.Astral
             AddMapEntry(new Color(65, 56, 83));
 
             TileID.Sets.ChecksForMerge[Type] = true;
+            TileID.Sets.CanBeDugByShovel[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
         }
 

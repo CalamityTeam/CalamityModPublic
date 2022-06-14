@@ -167,6 +167,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (enrage)
                             divisor = 5f;
 
+                        if (turboEnrage && Main.getGoodWorld)
+                            divisor = 2f;
+
                         Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y - 60f);
                         if (npc.localAI[1] % divisor == 0f && (Vector2.Distance(Main.player[npc.target].Center, vector82) > 160f || !flag43))
                         {
@@ -187,6 +190,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 int num677 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector82.X, vector82.Y, num674, num675, type, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = 480;
+                                if (turboEnrage && Main.getGoodWorld)
+                                    Main.projectile[num677].extraUpdates += 1;
                             }
                         }
 
@@ -312,8 +317,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             Main.dust[num624].velocity.X *= 2f;
                         }
 
+                        int totalFireballs = 5;
+                        if (turboEnrage && Main.getGoodWorld)
+                            totalFireballs *= 2;
+
                         int spawnX = npc.width / 2;
-                        for (int i = 0; i < 5; i++)
+                        for (int i = 0; i < totalFireballs; i++)
                         {
                             Vector2 spawnVector = new Vector2(npc.Center.X + Main.rand.Next(-spawnX, spawnX), npc.Center.Y + npc.height / 2 * 0.8f);
                             Vector2 velocity = new Vector2(Main.rand.NextBool() ? Main.rand.Next(4, 6) : Main.rand.Next(-5, -3), Main.rand.Next(-1, 2));
@@ -331,6 +340,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             int damage = npc.GetProjectileDamage(type);
                             int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
                             Main.projectile[proj].timeLeft = 240;
+                            if (turboEnrage && Main.getGoodWorld)
+                                Main.projectile[proj].extraUpdates += 1;
                         }
 
                         npc.netUpdate = true;
@@ -378,8 +389,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             void CustomGravity()
             {
-                float gravity = turboEnrage ? 0.9f : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
-                float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? 30f : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
+                float gravity = turboEnrage ? (Main.getGoodWorld ? 0.12f : 0.9f) : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
+                float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? (Main.getGoodWorld ? 40f : 30f) : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
                 if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
                     maxFallSpeed *= calamityGlobalNPC.newAI[0];
@@ -390,7 +401,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Despawn
-            int num649 = turboEnrage ? 7500 : enrage ? 6000 : 4500;
+            int num649 = turboEnrage ? (Main.getGoodWorld ? 9000 : 7500) : enrage ? 6000 : 4500;
             if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > num649)
             {
                 npc.TargetClosest();
@@ -431,7 +442,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (malice || Main.getGoodWorld)
                 enrage = true;
 
-            float aggression = turboEnrage ? 3f : enrage ? 2f : death ? 1.5f : 1f;
+            float aggression = turboEnrage ? (Main.getGoodWorld ? 4f : 3f) : enrage ? 2f : death ? 1.5f : 1f;
 
             if (NPC.golemBoss < 0)
             {
@@ -828,6 +839,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             {
                                 int num677 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = enrage ? 480 : 300;
+                                if (turboEnrage && Main.getGoodWorld)
+                                    Main.projectile[num677].extraUpdates += 1;
+
                                 npc.netUpdate = true;
                             }
                         }
@@ -858,6 +872,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             int num682 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num682].timeLeft = enrage ? 480 : 300;
+                            if (turboEnrage && Main.getGoodWorld)
+                                Main.projectile[num682].extraUpdates += 1;
+
                             npc.netUpdate = true;
                         }
                     }
@@ -1135,6 +1152,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     int damage = npc.GetProjectileDamage(type);
                     int num720 = Projectile.NewProjectile(npc.GetSource_FromAI(), vector89.X, vector89.Y, num717, num718, type, damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num720].timeLeft = enrage ? 480 : 300;
+                    if (turboEnrage && Main.getGoodWorld)
+                        Main.projectile[num720].extraUpdates += 1;
                 }
             }
 

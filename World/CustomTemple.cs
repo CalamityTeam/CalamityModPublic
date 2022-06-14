@@ -515,15 +515,21 @@ namespace CalamityMod.World
                                     if (WorldGen.SolidTile(dx, dy) && Main.tile[dx, dy].TileType != TileID.WoodenSpikes && !WorldGen.SolidTile(dx, dy - xMoveDirection))
                                     {
                                         Main.tile[dx, dy].TileType = TileID.WoodenSpikes;
+                                        if (WorldGen.getGoodWorldGen)
+                                            Main.tile[dx, dy].Get<TileWallWireStateData>().TileColor = 17;
                                         successPlacingSpikes = true;
                                         if (yMoveDirection == 0)
                                         {
                                             Main.tile[dx, dy - 1].TileType = TileID.WoodenSpikes;
+                                            if (WorldGen.getGoodWorldGen)
+                                                Main.tile[dx, dy - 1].Get<TileWallWireStateData>().TileColor = 17;
                                             Main.tile[dx, dy - 1].Get<TileWallWireStateData>().HasTile = true;
                                         }
                                         else
                                         {
                                             Main.tile[dx, dy + 1].TileType = TileID.WoodenSpikes;
+                                            if (WorldGen.getGoodWorldGen)
+                                                Main.tile[dx, dy + 1].Get<TileWallWireStateData>().TileColor = 17;
                                             Main.tile[dx, dy + 1].Get<TileWallWireStateData>().HasTile = true;
                                         }
                                         yMoveDirection++;
@@ -572,15 +578,21 @@ namespace CalamityMod.World
                                     if (WorldGen.SolidTile(dx, dy) && Main.tile[dx, dy].TileType != TileID.WoodenSpikes && !WorldGen.SolidTile(dx - xMoveDirection, dy))
                                     {
                                         Main.tile[dx, dy].TileType = TileID.WoodenSpikes;
+                                        if (WorldGen.getGoodWorldGen)
+                                            Main.tile[dx, dy].Get<TileWallWireStateData>().TileColor = 17;
                                         successPlacingSpikes = true;
                                         if (yMoveDirection == 0)
                                         {
                                             Main.tile[dx - 1, dy].TileType = TileID.WoodenSpikes;
+                                            if (WorldGen.getGoodWorldGen)
+                                                Main.tile[dx - 1, dy].Get<TileWallWireStateData>().TileColor = 17;
                                             Main.tile[dx - 1, dy].Get<TileWallWireStateData>().HasTile = true;
                                         }
                                         else
                                         {
                                             Main.tile[dx + 1, dy].TileType = TileID.WoodenSpikes;
+                                            if (WorldGen.getGoodWorldGen)
+                                                Main.tile[dx + 1, dy].Get<TileWallWireStateData>().TileColor = 17;
                                             Main.tile[dx + 1, dy].Get<TileWallWireStateData>().HasTile = true;
                                         }
                                         yMoveDirection++;
@@ -746,7 +758,7 @@ namespace CalamityMod.World
                     Main.tile[roomCenterX + dx, y].Get<TileWallWireStateData>().HasTile = true;
                     Main.tile[roomCenterX + dx, y].TileType = TileID.LihzahrdBrick;
                     if (WorldGen.getGoodWorldGen)
-                        Main.tile[roomCenterX - dx, y].Get<TileWallWireStateData>().TileColor = 17;
+                        Main.tile[roomCenterX + dx, y].Get<TileWallWireStateData>().TileColor = 17;
                 }
             }
 
