@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             // Patron names
             "Xplizzy", // <@!98826096237109248> Whitegiraffe#6342
-			"Freakish", // <@!750363283520749598> Freakish#0001
+            "Freakish", // <@!750363283520749598> Freakish#0001
 
             // Original names
             "Laura", "Mie", "Bonnie",
@@ -68,8 +68,8 @@ namespace CalamityMod.NPCs.TownNPCs
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")
             });
         }
 
@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.TownNPCs
             return CalamityWorld.spawnedBandit;
         }
 
-		public override List<string> SetNPCNameList() => PossibleNames;
+        public override List<string> SetNPCNameList() => PossibleNames;
 
         public override string GetChat()
         {
@@ -207,13 +207,13 @@ namespace CalamityMod.NPCs.TownNPCs
                 CalamityWorld.Reforges = 0;
                 int[] coinCounts = Utils.CoinsSplit(CalamityWorld.MoneyStolenByBandit);
                 if (coinCounts[0] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[0]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[0]);
                 if (coinCounts[1] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[1]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[1]);
                 if (coinCounts[2] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.SilverCoin, coinCounts[2]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.GoldCoin, coinCounts[2]);
                 if (coinCounts[3] > 0)
-                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.CopperCoin, coinCounts[3]);
+                    Item.NewItem(NPC.GetSource_Loot(), NPC.Hitbox, ItemID.PlatinumCoin, coinCounts[3]);
 
                 CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
