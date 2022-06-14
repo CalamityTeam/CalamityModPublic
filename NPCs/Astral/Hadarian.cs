@@ -28,6 +28,10 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Hadarian");
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/HadarianGlow", AssetRequestMode.ImmediateLoad).Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.X += 10f;
+            value.Position.Y += 10f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             Main.npcFrameCount[NPC.type] = 7;
         }
 
@@ -59,10 +63,10 @@ namespace CalamityMod.NPCs.Astral
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralDesert,
+                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralDesert,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The membrane of their wings is particularly tough, for material so thin. It has been known to guard them against burns and projectiles as they mercilessly tear at their foes.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The membrane of their wings is particularly tough, for material so thin. It has been known to guard them against burns and projectiles as they mercilessly tear at their foes.")
             });
         }
 
