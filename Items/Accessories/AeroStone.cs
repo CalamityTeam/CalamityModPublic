@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "Increases flight time, movement speed and jump speed by 10%");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

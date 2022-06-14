@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Accessories
                             "Shade rains down when you are hit\n" +
                             "Nearby enemies receive a variety of debuffs when you are hit");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(9, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

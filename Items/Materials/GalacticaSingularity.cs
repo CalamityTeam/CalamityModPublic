@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Galactica Singularity");
             Tooltip.SetDefault("A shard of the cosmos");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(4, 24));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

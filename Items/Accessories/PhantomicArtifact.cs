@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "If you have the regenerative boost, a phantomic heart will occasionally materialise granting massive health regen\n" +
                 "If you have the defensive boost, a phantomic bulwark will absorb 20% of the next projectile's damage that hits the bulwark, shattering it");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

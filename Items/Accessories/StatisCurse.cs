@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "Minions inflict holy flames and shadowflames on hit\n" +
                 "Grants immunity to Shadowflame");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

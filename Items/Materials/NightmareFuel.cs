@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Nightmare Fuel");
             Tooltip.SetDefault("May drain your sanity");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

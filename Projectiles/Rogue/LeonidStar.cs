@@ -28,7 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.DamageType = RogueDamageClass.Instance;
             Projectile.tileCollide = false;
             Projectile.usesLocalNPCImmunity = true;
-            Projectile.localNPCHitCooldown = -2;
+            Projectile.localNPCHitCooldown = -1;
+            Projectile.MaxUpdates = 3;
         }
 
         public override void AI()

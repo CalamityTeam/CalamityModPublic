@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -12,6 +13,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Ruinous Soul");
             Tooltip.SetDefault("A shard of the distant past");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -21,5 +23,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 7, 0, 0);
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
-        }    }
+        }
+    }
 }

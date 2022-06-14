@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "ID and power-level locked\n" +
                 "Prove your strength or have the correct user ID to wield this sword");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 13));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 

@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Accessories
                 "While Rage Mode is active, taking damage gives only half as much rage\n" +
                 "Deal damage with Rage Mode to further empower your wrath\n");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

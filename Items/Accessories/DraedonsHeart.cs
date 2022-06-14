@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Accessories
                 "While healing, you take &% less damage\n" +
                 "'Nanomachines, son.'");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 11));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

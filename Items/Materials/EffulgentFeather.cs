@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Effulgent Feather");
             Tooltip.SetDefault("It vibrates with fluffy golden energy");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(3, 11));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
@@ -22,5 +23,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 6, 50, 0);
             Item.rare = ItemRarityID.Purple;
-        }    }
+        }
+    }
 }
