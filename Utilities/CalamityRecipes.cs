@@ -551,6 +551,8 @@ namespace CalamityMod
             EditShroomiteBarRecipe();
             EditChlorophyteBarRecipe();
             EditAnkhCharmRecipe();
+            EditCelestialEmblemRecipe();
+            EditMechanicalGloveRecipe();
 
             EditPreHardmodeOreArmorRecipes();
             EditHardmodeOreSetRecipes();
@@ -1036,6 +1038,44 @@ namespace CalamityMod
             }
         }
 
+        private static void EditCelestialEmblemRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.CelestialEmblem).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Count; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.CelestialMagnet, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.SorcererEmblem, false);
+                s.requiredItem[1].stack = 1;
+
+                s.createItem.SetDefaults(ItemID.CelestialEmblem, false);
+                s.createItem.stack = 1;
+            });
+        }
+
+        private static void EditMechanicalGloveRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.MechanicalGlove).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Count; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.PowerGlove, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.WarriorEmblem, false);
+                s.requiredItem[1].stack = 1;
+
+                s.createItem.SetDefaults(ItemID.MechanicalGlove, false);
+                s.createItem.stack = 1;
+            });
+        }
+
         // Changes pre-hardmode ore armor recipes to be consistent for each tier and require far fewer bars.
         private static void EditPreHardmodeOreArmorRecipes()
         {
@@ -1348,20 +1388,20 @@ namespace CalamityMod
             // Umbrella
             Recipe r = CreateRecipe(ItemID.Umbrella);
             r.AddIngredient(ItemID.Silk, 5);
-            r.AddRecipeGroup("IronBar", 2);
+            r.AddRecipeGroup("AnyCopperBar", 2);
             r.AddTile(TileID.Loom);
             r.Register();
 
             // Bug Net
             r = CreateRecipe(ItemID.BugNet);
             r.AddIngredient(ItemID.Cobweb, 30);
-            r.AddRecipeGroup("IronBar", 3);
+            r.AddRecipeGroup("AnyCopperBar", 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Magic Mirror
             r = CreateRecipe(ItemID.MagicMirror);
-            r.AddRecipeGroup("IronBar", 10);
+            r.AddRecipeGroup("AnySilverBar", 10);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
             r.AddTile(TileID.Anvils);
@@ -1372,7 +1412,7 @@ namespace CalamityMod
             r.AddRecipeGroup("AnyIceBlock", 20);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup("AnySilverBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1599,7 +1639,7 @@ namespace CalamityMod
 
             // Aglet
             r = CreateRecipe(ItemID.Aglet);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup("AnyCopperBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1651,7 +1691,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.LavaCharm);
             r.AddIngredient(ItemID.LavaBucket, 5);
             r.AddIngredient(ItemID.Obsidian, 25);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup("AnyGoldBar", 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1680,7 +1720,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Wire, 10);
             r.AddIngredient(ItemID.GoldDust, 5);
             r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
-            r.AddRecipeGroup("IronBar", 5);
+            r.AddRecipeGroup("AnyGoldBar", 5);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 

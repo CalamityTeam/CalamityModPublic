@@ -51,7 +51,7 @@ namespace CalamityMod.Items.SummonItems
         {
             CreateRecipe().
                 AddIngredient<PlagueCellCanister>(20).
-                AddIngredient(ItemID.IronBar, 8).
+                AddRecipeGroup("IronBar", 8).
                 AddIngredient(ItemID.Stinger, 5).
                 AddIngredient(ItemID.Obsidian, 3).
                 AddTile(TileID.MythrilAnvil).

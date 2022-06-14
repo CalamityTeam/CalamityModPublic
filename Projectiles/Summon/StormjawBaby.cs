@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Summon
                             int spark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[spark].Calamity().forceMinion = true;
+                                Main.projectile[spark].DamageType = DamageClass.Summon;
                                 Main.projectile[spark].originalDamage = Projectile.originalDamage;
                                 Main.projectile[spark].timeLeft = 120;
                                 Main.projectile[spark].penetrate = 3;
@@ -327,7 +327,7 @@ namespace CalamityMod.Projectiles.Summon
                                         int spark = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                                         if (spark.WithinBounds(Main.maxProjectiles))
                                         {
-                                            Main.projectile[spark].Calamity().forceMinion = true;
+                                            Main.projectile[spark].DamageType = DamageClass.Summon;
                                             Main.projectile[spark].originalDamage = Projectile.originalDamage;
                                             Main.projectile[spark].timeLeft = 120;
                                             Main.projectile[spark].penetrate = 3;

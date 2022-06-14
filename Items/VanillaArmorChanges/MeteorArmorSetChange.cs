@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
@@ -21,7 +21,6 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void ApplyArmorSetBonus(Player player)
         {
-            player.spaceGun = false;
             player.Calamity().meteorSet = true;
         }
     }

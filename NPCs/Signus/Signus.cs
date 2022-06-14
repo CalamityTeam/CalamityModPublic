@@ -41,8 +41,12 @@ namespace CalamityMod.NPCs.Signus
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                PortraitPositionYOverride = 30f,
+                PortraitPositionYOverride = 10f,
+                Scale = 0.4f,
+                PortraitScale = 0.5f,
             };
+            value.Position.X += 6f;
+            value.Position.Y += 10f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -76,8 +80,8 @@ namespace CalamityMod.NPCs.Signus
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A figure draped in dark robes and even darker history. No one knows the true form of this creature, though many rumors have been spread.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("A figure draped in dark robes and even darker history. No one knows the true form of this creature, though many rumors have been spread.")
             });
         }
 

@@ -25,6 +25,8 @@ using static Terraria.ModLoader.ModContent;
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
 using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.DataStructures;
+using CalamityMod.EntitySources;
 
 namespace CalamityMod.Projectiles
 {
@@ -49,6 +51,9 @@ namespace CalamityMod.Projectiles
         public bool forceRogue = false;
         public bool forceClassless = false;
         public bool forceHostile = false;
+
+        // Source variables.
+        public bool CreatedByPlayerDash = false;
 
         // Damage Adjusters
         public const float PierceResistHarshness = 0.12f;
@@ -126,6 +131,14 @@ namespace CalamityMod.Projectiles
 
         // Update priority variable.
         public float UpdatePriority = 0f;
+
+        #region On Spawn
+
+        public override void OnSpawn(Projectile projectile, IEntitySource source)
+        {
+            CreatedByPlayerDash = source is ProjectileSource_PlayerDashHit;
+        }
+        #endregion On Spawn
 
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
@@ -2515,7 +2528,7 @@ namespace CalamityMod.Projectiles
             if (modPlayer.rottenDogTooth && projectile.Calamity().stealthStrike)
                 target.AddBuff(BuffType<ArmorCrunch>(), RottenDogtooth.ArmorCrunchDebuffTime);
 
-            if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj)
+            if (modPlayer.flamingItemEnchant && !projectile.minion && !projectile.npcProj && !projectile.Calamity().CreatedByPlayerDash)
                 target.AddBuff(BuffType<VulnerabilityHex>(), VulnerabilityHex.AflameDuration);
 
             if (modPlayer.farProximityRewardEnchant)
