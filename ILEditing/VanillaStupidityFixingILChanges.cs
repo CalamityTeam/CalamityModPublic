@@ -1,4 +1,7 @@
 ﻿using CalamityMod.Balancing;
+using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.NormalNPCs;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using System;
@@ -367,7 +370,23 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Fix Chlorophyte Crystal Attacking Where it Shouldn't
-
+        // TODO -- Finish this
         #endregion Fix Chlorophyte Crystal Attacking Where it Shouldn't
+
+        #region Color Blighted Gel
+        private static void ColorBlightedGel(On.Terraria.GameContent.ItemDropRules.CommonCode.orig_ModifyItemDropFromNPC orig, NPC npc, int itemIndex)
+        {
+            orig(npc, itemIndex);
+
+            Item item = Main.item[itemIndex];
+            int itemID = item.type;
+
+            if (itemID == ModContent.ItemType<BlightedGel>() && npc.type == ModContent.NPCType<CrimulanBlightSlime>())
+            {
+                item.color = new Color(1f, 0f, 0.16f, 0.6f);
+                NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, itemID, 1f);
+            }
+        }
+        #endregion Color Blighted Gel
     }
 }

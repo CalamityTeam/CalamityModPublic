@@ -111,6 +111,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.AttemptFossilShattering += PreventFossilShattering;
             IL.Terraria.Projectile.Damage += MakeTagDamageMultiplicative;
             On.Terraria.Player.GetPickaxeDamage += RemoveHellforgePickaxeRequirement;
+            On.Terraria.GameContent.ItemDropRules.CommonCode.ModifyItemDropFromNPC += ColorBlightedGel;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot += FixSplittingWormBannerDrops;
@@ -202,6 +203,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.AttemptFossilShattering -= PreventFossilShattering;
             IL.Terraria.Projectile.Damage -= MakeTagDamageMultiplicative;
             On.Terraria.Player.GetPickaxeDamage -= RemoveHellforgePickaxeRequirement;
+            On.Terraria.GameContent.ItemDropRules.CommonCode.ModifyItemDropFromNPC -= ColorBlightedGel;
 
             // Fix vanilla bugs exposed by Calamity mechanics
             IL.Terraria.NPC.NPCLoot -= FixSplittingWormBannerDrops;
