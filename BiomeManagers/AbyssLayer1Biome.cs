@@ -45,6 +45,8 @@ namespace CalamityMod.BiomeManagers
 
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AbyssWater");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
+        public override string BestiaryIcon => "BiomeManagers/AbyssIcon";
+        public override string BackgroundPath => "Backgrounds/MapBackgrounds/AbyssBGLayer1";
 
         public override int Music
         {

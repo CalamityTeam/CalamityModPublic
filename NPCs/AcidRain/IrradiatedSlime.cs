@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -45,6 +46,7 @@ namespace CalamityMod.NPCs.AcidRain
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AcidRainBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -53,7 +55,6 @@ namespace CalamityMod.NPCs.AcidRain
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AcidRainTier2,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Encrusted with gunk that evaporates slowly from the sulphurous sea, these slimes actually form in the upper atmosphere’s acidic rain, before falling back to the earth.")

@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -47,13 +48,12 @@ namespace CalamityMod.NPCs.Abyss
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[2] { ModContent.GetInstance<AbyssLayer1Biome>().Type, ModContent.GetInstance<AbyssLayer2Biome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AbyssLayer1,
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AbyssLayer2,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("A sturdy fish, which has spent a long time seething in the Abyss. Males are easily identified by their forward-facing horns, and females by their curled horns.")

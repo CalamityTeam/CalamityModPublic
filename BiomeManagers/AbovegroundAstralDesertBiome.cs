@@ -10,7 +10,8 @@ namespace CalamityMod.BiomeManagers
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/AstralWater");
         public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("CalamityMod/AstralDesertSurfaceBGStyle");
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
-
+        public override string BestiaryIcon => "BiomeManagers/AstralDesertIcon";
+        public override string BackgroundPath => "Backgrounds/MapBackgrounds/AstralBG";
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("Astral") ?? MusicID.Space;
 
         public override void SetStaticDefaults()

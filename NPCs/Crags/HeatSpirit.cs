@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -41,12 +42,12 @@ namespace CalamityMod.NPCs.Crags
             NPC.Calamity().VulnerableToHeat = false;
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToWater = true;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<BrimstoneCragsBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Crags,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("A human spirit, its mind lost to the blazing orange fires of its dwelling. It seeks out and attempts to eliminate any source of moisture it can detect entering the hellscape.")

@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Placeables;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
@@ -42,12 +43,12 @@ namespace CalamityMod.NPCs.SunkenSea
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SunkenSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-				//BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SunkenSea,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("A species of angler which has lost any distinguishing feature on its head. Using primitive electroreception similar to sharks, it slowly and methodically hunts its prey.")
