@@ -85,13 +85,18 @@ namespace CalamityMod.Projectiles.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             float angle = (Owner.Calamity().mouseWorld - Owner.MountedCenter).ToRotation();
+            float blinkage = 0;
+            if (Charge >= MaxCharge * 1.5f)
+            {
+                blinkage = (float)Math.Sin(MathHelper.Clamp((Charge - MaxCharge * 1.5f) / 15f, 0, 1) * MathHelper.PiOver2 + MathHelper.PiOver2);
+            }
 
             Effect effect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
             effect.Parameters["centerOpacity"].SetValue(0.7f);
             effect.Parameters["mainOpacity"].SetValue((float)Math.Sqrt(ChargeProgress));
             effect.Parameters["halfSpreadAngle"].SetValue(Spread / 2f);
-            effect.Parameters["edgeColor"].SetValue(Color.DeepSkyBlue.ToVector3());
-            effect.Parameters["centerColor"].SetValue(Color.DodgerBlue.ToVector3());
+            effect.Parameters["edgeColor"].SetValue(Color.Lerp(Color.DeepSkyBlue, Color.Coral, blinkage ).ToVector3());
+            effect.Parameters["centerColor"].SetValue(Color.Lerp(Color.DodgerBlue, Color.Coral, blinkage).ToVector3());
             effect.Parameters["edgeBlendLenght"].SetValue(0.07f);
             effect.Parameters["edgeBlendStrength"].SetValue(8f);
 
