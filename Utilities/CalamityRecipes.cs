@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
+    // TODO -- Change this to a ModSystem so it does not need to be manually loaded from CalamityMod
     internal class CalamityRecipes
     {
         private static Recipe CreateRecipe(int itemID, int stack = 1) => CalamityMod.Instance.CreateRecipe(itemID, stack);

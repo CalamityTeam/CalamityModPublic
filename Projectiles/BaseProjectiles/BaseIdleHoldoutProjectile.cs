@@ -17,6 +17,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
         public abstract int IntendedProjectileType { get; }
         public static Dictionary<int, int> ItemProjectileRelationship = new();
 
+        // TODO -- There is no reason this load hook should need to be called from CalamityMod.
+        // All subclasses of this should be ILoadable and should load themselves.
         public static void LoadAll()
         {
             ItemProjectileRelationship = new Dictionary<int, int>();

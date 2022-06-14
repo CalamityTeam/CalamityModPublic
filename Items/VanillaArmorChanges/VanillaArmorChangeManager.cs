@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,6 +7,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class VanillaArmorChangeManager
     {
         internal static List<VanillaArmorChange> ArmorChanges;

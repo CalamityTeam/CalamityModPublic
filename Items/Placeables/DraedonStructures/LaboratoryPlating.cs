@@ -1,4 +1,4 @@
-using CalamityMod.Items.Placeables.Walls.DraedonStructures;
+﻿using CalamityMod.Items.Placeables.Walls.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.DraedonStructures
@@ -26,12 +26,35 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(25).AddIngredient(ItemID.IronBar).AddRecipeGroup("AnyStoneBlock", 3).AddTile(TileID.HeavyWorkBench).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<RustedPlating>()).AddTile(TileID.Anvils).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LaboratoryShelf>(), 2).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LaboratoryPlatingWall>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LaboratoryPlateBeam>(), 4).AddTile(TileID.WorkBenches).Register();
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<LaboratoryPlatePillar>(), 4).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(25).
+                AddRecipeGroup("IronBar").
+                AddRecipeGroup("AnyStoneBlock", 3).
+                AddTile(TileID.HeavyWorkBench).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<RustedPlating>()).
+                AddTile(TileID.Anvils).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryShelf>(), 2).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPlatingWall>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPlateBeam>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
+
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<LaboratoryPlatePillar>(), 4).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

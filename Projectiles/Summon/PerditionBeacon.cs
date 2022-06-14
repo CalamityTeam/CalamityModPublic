@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.projectile.IndexInRange(soul))
             {
                 Main.projectile[soul].originalDamage = Projectile.originalDamage;
-                Main.projectile[soul].Calamity().forceMinion = true;
+                Main.projectile[soul].DamageType = DamageClass.Summon;
             }
         }
 

@@ -25,7 +25,10 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(5).AddIngredient(ItemID.IronBar).AddTile(TileID.Anvils).Register();
+            CreateRecipe(5).
+                AddRecipeGroup("IronBar").
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

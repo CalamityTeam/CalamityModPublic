@@ -32,7 +32,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.IronBar, 10).
+                AddRecipeGroup("IronBar", 10).
                 AddIngredient(ItemID.Chain).
                 AddTile(TileID.Anvils).
                 Register();

@@ -74,7 +74,9 @@ namespace CalamityMod
 {
     public class CalamityMod : Mod
     {
-        // CONSIDER -- I have been advised by Jopo that Mods should never contain static variables
+        // TODO -- A huge amount of random floating variables exist here.
+        // These should all be moved to other files, whether that's CalamityLists or brand new ModSystems.
+        // It is best to have a ton of small ModSystems.
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -117,8 +119,11 @@ namespace CalamityMod
         public static int[] holyEnemyImmunities = new int[4] { BuffID.OnFire, BuffID.OnFire3, ModContent.BuffType<HolyFlames>(), ModContent.BuffType<Nightwither>() };
 
         internal static CalamityMod Instance;
+
+        // TODO -- Mod references should be contained in a ModSystem (example name "ModLoadedChecker")
         internal Mod musicMod = null; // This is Calamity's official music mod, CalamityModMusic
         internal bool MusicAvailable => !(musicMod is null);
+
         internal Mod ancientsAwakened = null;
         internal Mod bossChecklist = null;
         internal Mod census = null;
@@ -144,7 +149,7 @@ namespace CalamityMod
             manaOriginal = TextureAssets.Mana;
             carpetOriginal = TextureAssets.FlyingCarpet;
 
-            // Apply IL edits instantly afterwards.
+            // Apply IL edits as soon as possible.
             ILChanges.Load();
 
             // If any of these mods aren't loaded, it will simply keep them as null.
@@ -190,6 +195,11 @@ namespace CalamityMod
             Mount.mounts[MountID.MinecartMech].dashSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].runSpeed *= CalamityPlayer.MechanicalCartSpeedNerfPower;
 
+            // Make Graveyard biomes require more Gravestones
+            SceneMetrics.GraveyardTileMax = 88;
+            SceneMetrics.GraveyardTileMin = 68;
+            SceneMetrics.GraveyardTileThreshold = 80;
+
             if (!Main.dedServ)
             {
                 LoadClient();
@@ -198,6 +208,7 @@ namespace CalamityMod
 
             CooldownRegistry.Load();
             BossRushEvent.Load();
+            // TODO -- As ModBossBarStyle is a ModType, its Load function does not need to be called directly here.
             BossHealthBarManager.Load(this);
             DraedonStructures.Load();
             EnchantmentManager.LoadAllEnchantments();
@@ -219,6 +230,7 @@ namespace CalamityMod
         {
             AstralSky = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AstralSky", AssetRequestMode.ImmediateLoad).Value;
 
+            // TODO -- Sky shaders should probably be loaded in a ModSystem
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
 
@@ -271,6 +283,8 @@ namespace CalamityMod
             ChargeMeterUI.Load();
             AstralArcanumUI.Load(this);
 
+            // TODO -- Is this not possible to place in ModNPC.Load or ModNPC.SetStaticDefaults ?
+            // Centralizing head texture registration like this seems absurdly stiff
             Apollo.LoadHeadIcons();
             Artemis.LoadHeadIcons();
             DevourerofGodsHead.LoadHeadIcons();
@@ -285,6 +299,8 @@ namespace CalamityMod
             ThanatosBody2.LoadHeadIcons();
             ThanatosTail.LoadHeadIcons();
 
+            // TODO -- Is this not possible to place in ModItem.Load or ModItem.SetStaticDefaults ?
+            // Centralizing hair dye shaders like this seems absurdly stiff
             GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
             GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
@@ -359,10 +375,15 @@ namespace CalamityMod
                 TextureAssets.FlyingCarpet = carpetOriginal;
                 GeneralParticleHandler.Unload();
             }
+
             Mount.mounts[MountID.Unicorn].dashSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.Unicorn].runSpeed /= CalamityPlayer.UnicornSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].dashSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
             Mount.mounts[MountID.MinecartMech].runSpeed /= CalamityPlayer.MechanicalCartSpeedNerfPower;
+
+            SceneMetrics.GraveyardTileMax = 36;
+            SceneMetrics.GraveyardTileMin = 16;
+            SceneMetrics.GraveyardTileThreshold = 28;
 
             heartOriginal2 = null;
             heartOriginal = null;

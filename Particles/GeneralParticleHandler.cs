@@ -11,6 +11,7 @@ using Terraria.ModLoader.Core;
 
 namespace CalamityMod.Particles
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class GeneralParticleHandler
     {
         private static List<Particle> particles;

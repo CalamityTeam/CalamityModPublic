@@ -20,6 +20,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Balancing
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class BalancingChangesManager
     {
         internal static List<IBalancingRule[]> UniversalBalancingChanges = null;

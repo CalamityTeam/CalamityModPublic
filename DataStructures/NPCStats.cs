@@ -41,6 +41,7 @@ using CalamityMod.NPCs.AcidRain;
 
 namespace CalamityMod
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static partial class NPCStats
     {
         private const double ExpertContactVanillaMultiplier = 2D;
@@ -529,17 +530,17 @@ namespace CalamityMod
                 { ModContent.NPCType<CosmicGuardianBody>(), new int[] { 130, 260, 290, 320, 420 } },
                 { ModContent.NPCType<CosmicGuardianTail>(), new int[] { 100, 200, 230, 260, 330 } },
 
-                { ModContent.NPCType<Yharon>(), new int[] { 330, 528, 560, 576, 690 } },
+                { ModContent.NPCType<Yharon>(), new int[] { 280, 448, 480, 512, 624 } },
 
-                { ModContent.NPCType<SupremeCalamitas>(), new int[] { 350, 560, 592, 608, 768 } },
+                { ModContent.NPCType<SupremeCalamitas>(), new int[] { 320, 512, 544, 560, 696 } },
 
-                { ModContent.NPCType<Apollo>(), new int[] { 350, 560, 592, 608, 768 } },
-                { ModContent.NPCType<Artemis>(), new int[] { 330, 528, 560, 576, 690 } },
+                { ModContent.NPCType<Apollo>(), new int[] { 320, 512, 544, 560, 696 } },
+                { ModContent.NPCType<Artemis>(), new int[] { 300, 480, 512, 528, 660 } },
 
-                { ModContent.NPCType<ThanatosHead>(), new int[] { 400, 640, 680, 704, 864 } },
-                { ModContent.NPCType<ThanatosBody1>(), new int[] { 330, 528, 560, 576, 690 } },
-                { ModContent.NPCType<ThanatosBody2>(), new int[] { 330, 528, 560, 576, 690 } },
-                { ModContent.NPCType<ThanatosTail>(), new int[] { 260, 416, 446, 464, 570 } },
+                { ModContent.NPCType<ThanatosHead>(), new int[] { 350, 560, 592, 608, 756 } },
+                { ModContent.NPCType<ThanatosBody1>(), new int[] { 300, 480, 512, 528, 660 } },
+                { ModContent.NPCType<ThanatosBody2>(), new int[] { 300, 480, 512, 528, 660 } },
+                { ModContent.NPCType<ThanatosTail>(), new int[] { 250, 400, 424, 440, 552 } },
 
                 { ModContent.NPCType<AdultEidolonWyrmHead>(), new int[] { 400, 800, 850, 880, 1000 } }
             };
@@ -771,43 +772,43 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<SkyFlareRevenge>()), new int[] { 300, 520, 548, 564, 822 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareBomb>()), new int[] { 220, 384, 424, 444, 600 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Flarenado>()), new int[] { 250, 440, 464, 476, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado>()), new int[] { 300, 520, 548, 564, 822 } },
-                { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado2>()), new int[] { 300, 520, 548, 564, 822 } },
+                { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado>()), new int[] { 250, 440, 464, 476, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<Infernado2>()), new int[] { 250, 440, 464, 476, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust>()), new int[] { 220, 384, 424, 444, 600 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<FlareDust2>()), new int[] { 220, 384, 424, 444, 600 } },
                 { new Tuple<int, int>(ModContent.NPCType<Yharon>(), ModContent.ProjectileType<YharonFireball>()), new int[] { 220, 384, 424, 444, 600 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 360, 540, 568, 584, 858 } }, // 25% increased damage in bullet hell 1
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneFireblast>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneGigablast>()), new int[] { 400, 608, 640, 658, 960 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneMonster>()), new int[] { 450, 676, 710, 728, 1062 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneWave>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<SCalWormBodyWeak>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },
-                { new Tuple<int, int>(ModContent.NPCType<SoulSeekerSupreme>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<SupremeCataclysmFist>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<SupremeCatastropheSlash>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 320, 480, 504, 532, 774 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast2>()), new int[] { 280, 476, 484, 500, 726 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneFireblast>()), new int[] { 280, 476, 484, 500, 726 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<SCalBrimstoneGigablast>()), new int[] { 300, 508, 528, 544, 780 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneMonster>()), new int[] { 350, 592, 624, 656, 918 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneWave>()), new int[] { 280, 476, 484, 500, 726 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 280, 476, 484, 500, 726 } },
+                { new Tuple<int, int>(ModContent.NPCType<SCalWormBodyWeak>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<SoulSeekerSupreme>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<SupremeCataclysmFist>()), new int[] { 280, 476, 484, 500, 726 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<SupremeCatastropheSlash>()), new int[] { 280, 476, 484, 500, 726 } },
+                { new Tuple<int, int>(ModContent.NPCType<SupremeCatastrophe>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisSpinLaserbeam>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaser>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloFireball>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloRocket>()), new int[] { 360, 540, 568, 584, 858 } },
+                { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisSpinLaserbeam>()), new int[] { 300, 508, 528, 544, 780 } },
+                { new Tuple<int, int>(ModContent.NPCType<Artemis>(), ModContent.ProjectileType<ArtemisLaser>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloFireball>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<Apollo>(), ModContent.ProjectileType<ApolloRocket>()), new int[] { 280, 476, 484, 500, 726 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ThanatosBeamStart>()), new int[] { 450, 676, 710, 728, 1062 } },
-                { new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 288, 432, 454, 478, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ThanatosBeamStart>()), new int[] { 350, 592, 624, 656, 918 } },
+                { new Tuple<int, int>(ModContent.NPCType<ThanatosHead>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<ThanatosBody1>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<ThanatosBody2>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<ThanatosTail>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 240, 408, 432, 456, 630 } },
 
-                { new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 400, 608, 640, 658, 960 } },
-                { new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<AresLaserBeamStart>()), new int[] { 360, 540, 568, 584, 858 } },
-                { new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 288, 432, 454, 478, 696 } },
-                { new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 450, 676, 710, 728, 1062 } },
+                { new Tuple<int, int>(ModContent.NPCType<AresBody>(), ModContent.ProjectileType<AresDeathBeamStart>()), new int[] { 300, 508, 528, 544, 780 } },
+                { new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<AresLaserBeamStart>()), new int[] { 300, 508, 528, 544, 780 } },
+                { new Tuple<int, int>(ModContent.NPCType<AresLaserCannon>(), ModContent.ProjectileType<ThanatosLaser>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<AresPlasmaFlamethrower>(), ModContent.ProjectileType<AresPlasmaFireball>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<AresTeslaCannon>(), ModContent.ProjectileType<AresTeslaOrb>()), new int[] { 240, 408, 432, 456, 630 } },
+                { new Tuple<int, int>(ModContent.NPCType<AresGaussNuke>(), ModContent.ProjectileType<AresGaussNukeProjectile>()), new int[] { 400, 608, 640, 658, 960 } },
 
                 { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.CultistBossIceMist), new int[] { 400, 600, 632, 648, 948 } },
                 { new Tuple<int, int>(ModContent.NPCType<AdultEidolonWyrmHead>(), ProjectileID.CultistBossLightningOrbArc), new int[] { 500, 752, 788, 808, 1182 } },

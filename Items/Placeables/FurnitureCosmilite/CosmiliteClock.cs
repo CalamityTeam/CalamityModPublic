@@ -1,4 +1,4 @@
-
+﻿
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +27,12 @@ namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.IronBar, 3).AddIngredient(ItemID.Glass, 6).AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10).AddTile(ModContent.TileType<CosmicAnvil>()).Register();
+            CreateRecipe(1).
+                AddRecipeGroup("IronBar", 3).
+                AddIngredient(ItemID.Glass, 6).
+                AddIngredient(ModContent.ItemType<CosmiliteBrick>(), 10).
+                AddTile(ModContent.TileType<CosmicAnvil>()).
+                Register();
         }
     }
 }

@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             Projectile aura = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), dmg, 0f, Projectile.owner, l);
                             if (aura.whoAmI.WithinBounds(Main.maxProjectiles))
-                                aura.Calamity().forceMinion = true;
+                                aura.DamageType = DamageClass.Summon;
                         }
                     }
                 }

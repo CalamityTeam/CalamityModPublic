@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.FurnitureAcidwood;
+﻿using CalamityMod.Tiles.FurnitureAcidwood;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureAcidwood
@@ -27,7 +27,11 @@ namespace CalamityMod.Items.Placeables.FurnitureAcidwood
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<Acidwood>(), 8).AddIngredient(ItemID.IronBar, 2).AddTile(TileID.WorkBenches).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<Acidwood>(), 8).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(TileID.WorkBenches).
+                Register();
         }
     }
 }

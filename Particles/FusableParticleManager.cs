@@ -16,6 +16,8 @@ namespace CalamityMod.Particles
     // As such, it is littered with many netMode checks. While some may be overprotective in their nature it is critical that
     // failsafes exist there, as visual failures tend to result in engine crashes, which will kill a lot of MP servers.
     // If someone other than me for any reason attempts to notably expand upon this system you must keep this in mind. -Dominic
+
+    // TODO -- This can be made into a ModSystem. Its main thread load dependency with render targets is safe to put in OnModLoad.
     public static class FusableParticleManager
     {
         internal static List<FusableParticleRenderCollection> ParticleSets = new List<FusableParticleRenderCollection>();

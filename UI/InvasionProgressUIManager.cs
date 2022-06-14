@@ -1,10 +1,11 @@
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CalamityMod.UI
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class InvasionProgressUIManager
     {
         private static readonly List<InvasionProgressUI> gUIs = new List<InvasionProgressUI>();

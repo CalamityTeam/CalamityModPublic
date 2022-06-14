@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI.CalamitasEnchants
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class EnchantmentManager
     {
         internal const int ClearEnchantmentID = -18591774;
