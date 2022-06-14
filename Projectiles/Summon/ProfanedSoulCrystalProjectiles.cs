@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[proj].originalDamage = damage;
-                    Main.projectile[proj].Calamity().forceMinion = true;
+                    Main.projectile[proj].DamageType = DamageClass.Summon;
                 }
                 if (innerSplits > 0) //only runs if there's still inner splits to create
                 {
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].originalDamage = damage;
-                        Main.projectile[proj].Calamity().forceMinion = true;
+                        Main.projectile[proj].DamageType = DamageClass.Summon;
                     }
                 }
                 innerSplits--;
@@ -634,7 +634,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (proj.WithinBounds(Main.maxProjectiles))
                     {
                         Main.projectile[proj].originalDamage = (int)(Projectile.originalDamage * 1.5);
-                        Main.projectile[proj].Calamity().forceMinion = true;
+                        Main.projectile[proj].DamageType = DamageClass.Summon;
                     }
                     ((ProfanedCrystalRangedHuges)Main.projectile[proj].ModProjectile).boomerSwarm = true;
                 }

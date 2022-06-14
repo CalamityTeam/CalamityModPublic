@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Critters;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -26,14 +27,12 @@ namespace CalamityMod.NPCs.Astral
             AIType = NPCID.LightningBug;
             AnimationType = NPCID.LightningBug;
             NPC.catchItem = (short)ModContent.ItemType<TwinklerItem>();
-            //Banner = npc.type;
-            //BannerItem = ModContent.ItemType<TwinklerBanner>();
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralSurface,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("A rare case of the astral infection creating a harmless creature. They flicker rather prettily, and you’re not going to be the only one who thinks so. They make useful bait.")

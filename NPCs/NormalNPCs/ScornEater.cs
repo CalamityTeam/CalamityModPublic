@@ -23,6 +23,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Scorn Eater");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.4f,
+                PortraitScale = 0.67f,
+                PortraitPositionYOverride = 4f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -55,8 +62,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheUnderworld,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess’ creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The brute force of the Profaned Goddess’ creations and devotees. Their jaws are filled to the brim with razor-sharp crystals and scorching holy flames.")
             });
         }
 

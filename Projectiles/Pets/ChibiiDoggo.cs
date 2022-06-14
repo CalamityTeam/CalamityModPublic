@@ -105,29 +105,6 @@ namespace CalamityMod.Projectiles.Pets
                 Projectile.position.Y -= Projectile.velocity.Y;
         }
 
-        public void SpawnDoggo()
-        {
-            Player player = Main.player[Projectile.owner];
-            string doggoType = "DevourerofGodsHead";
-
-            if (player.name == "Terry")
-            {
-                doggoType += "S";
-                Main.NewText("It's not over yet, kid!", Color.Cyan);
-            }
-            else
-            {
-                doggoType += "2";
-                Main.NewText("Don't get cocky, kid!", Color.Cyan);
-            }
-
-            int type = Mod.Find<ModNPC>(doggoType).Type;
-
-            int n = NPC.NewNPC(Projectile.GetSource_FromAI(), (int)Projectile.position.X, (int)Projectile.position.Y, type);
-            NetMessage.SendData(MessageID.SyncNPC, -1, -1, (NetworkText)null, n, 0.0f, 0.0f, 0.0f, 0, 0, 0);
-            Main.npc[n].netUpdate = true;
-        }
-
         public override void AI()
         {
             Projectile.type = trueType; //asserts real type after running black Cat AI 26 (ensures chibii pet isnt drawn as black cat and other weird stuff)
@@ -240,9 +217,6 @@ namespace CalamityMod.Projectiles.Pets
                         player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " couldn't stand the sharp objects."), 500, 0, false, false, false, -1);
                     }
                     player.RemoveAllIFrames();
-
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        SpawnDoggo();
                 }
                 Projectile.netUpdate = true;
             }

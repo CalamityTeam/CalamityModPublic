@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -36,6 +37,15 @@ namespace CalamityMod.NPCs.Astral
             DisplayName.SetDefault("Fusion Feeder");
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/FusionFeederGlow", AssetRequestMode.ImmediateLoad).Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.5f,
+                PortraitPositionXOverride = 0f,
+                PortraitPositionYOverride = 0f
+            };
+            value.Position.X += 40f;
+            value.Position.Y -= 6f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
             Main.npcFrameCount[NPC.type] = 4;
         }
 
@@ -66,6 +76,7 @@ namespace CalamityMod.NPCs.Astral
             }
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<AbovegroundAstralDesertBiome>().Type };
         }
 
         public static bool ValidMovementPosition(Tile tile)
@@ -222,7 +233,6 @@ namespace CalamityMod.NPCs.Astral
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.AstralDesert,
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("A sand shark that has been taken by the astral infection. Unfamiliar with the origins of the virus, its mind is flooded with information gathered throughout the cosmos, and it thirsts for the plasma of distant stars.")

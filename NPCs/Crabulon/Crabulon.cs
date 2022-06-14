@@ -39,9 +39,11 @@ namespace CalamityMod.NPCs.Crabulon
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                Scale = 0.8f,
-                PortraitScale = 0.9f,
+                Scale = 0.32f,
+                PortraitScale = 0.55f,
+                PortraitPositionYOverride = 54f
             };
+            value.Position.Y += 80f;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
@@ -82,8 +84,8 @@ namespace CalamityMod.NPCs.Crabulon
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.UndergroundMushroom,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("In the bulbous growths of the fungal caverns it is not uncommon to find molted shells.They are far too large for any of the usual decapods of the mushrooms.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("In the bulbous growths of the fungal caverns it is not uncommon to find molted shells.They are far too large for any of the usual decapods of the mushrooms.")
             });
         }
 

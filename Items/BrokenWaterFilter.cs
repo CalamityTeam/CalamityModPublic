@@ -29,7 +29,7 @@ namespace CalamityMod.Items
         {
             CreateRecipe().
                 AddIngredient<SulphuricScale>(20).
-                AddIngredient(ItemID.IronBar, 10).
+                AddRecipeGroup("IronBar", 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
@@ -26,7 +26,11 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StatigelBlock>(), 8).AddIngredient(ItemID.IronBar, 2).AddTile(ModContent.TileType<StaticRefiner>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<StatigelBlock>(), 8).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(ModContent.TileType<StaticRefiner>()).
+                Register();
         }
     }
 }

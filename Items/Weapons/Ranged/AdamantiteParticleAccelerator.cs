@@ -55,6 +55,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.AdamantiteBar, 10).
+                AddIngredient(ItemID.SoulofNight, 3).
+                AddIngredient(ItemID.SoulofLight, 3).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

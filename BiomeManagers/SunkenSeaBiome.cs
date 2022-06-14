@@ -10,6 +10,7 @@ namespace CalamityMod.BiomeManagers
         public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("CalamityMod/SunkenSeaWater");
         public override int Music => CalamityMod.Instance.GetMusicFromMusicMod("SunkenSea") ?? MusicID.Temple;
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeHigh;
+        public override string BestiaryIcon => "BiomeManagers/SunkenSeaIcon";
 
         public override void SetStaticDefaults()
         {

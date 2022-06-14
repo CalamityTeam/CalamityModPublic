@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using Terraria.ID;
 namespace CalamityMod.Items.Placeables.FurnitureMonolith
@@ -27,7 +27,11 @@ namespace CalamityMod.Items.Placeables.FurnitureMonolith
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<AstralMonolith>(), 8).AddIngredient(ItemID.IronBar, 2).AddTile(ModContent.TileType<MonolithAmalgam>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<AstralMonolith>(), 8).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(ModContent.TileType<MonolithAmalgam>()).
+                Register();
         }
     }
 }

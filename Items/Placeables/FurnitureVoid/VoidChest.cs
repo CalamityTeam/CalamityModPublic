@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
@@ -26,7 +26,11 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 8).AddIngredient(ItemID.IronBar, 2).AddTile(ModContent.TileType<VoidCondenser>()).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<SmoothVoidstone>(), 8).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(ModContent.TileType<VoidCondenser>()).
+                Register();
         }
     }
 }

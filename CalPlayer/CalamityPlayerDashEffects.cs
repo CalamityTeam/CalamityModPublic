@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Balancing;
 using CalamityMod.CalPlayer.Dashes;
+using CalamityMod.EntitySources;
 using CalamityMod.Enums;
 using CalamityMod.Items.Mounts;
 using Microsoft.Xna.Framework;
@@ -45,7 +46,7 @@ namespace CalamityMod.CalPlayer
 
         public void ModDashMovement()
         {
-            var source = Player.GetSource_Misc("2");
+            var source = new ProjectileSource_PlayerDashHit(Player);
 
             // Handle collision slam-through effects.
             if (HasCustomDash && Player.dashDelay < 0 && Player.whoAmI == Main.myPlayer)

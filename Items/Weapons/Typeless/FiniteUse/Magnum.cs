@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
         {
             CreateRecipe().
                 AddIngredient(ItemID.FlintlockPistol).
-                AddIngredient(ItemID.IronBar, 10).
+                AddRecipeGroup("IronBar", 10).
                 AddIngredient(ItemID.Diamond, 5).
                 AddTile(TileID.Anvils).
                 Register();

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,11 @@ namespace CalamityMod.Items.Placeables.Furniture
         }
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<SulphuricScale>(), 20).AddRecipeGroup("IronBar", 10).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<SulphuricScale>(), 20).
+                AddIngredient(ModContent.ItemType<Acidwood>(), 10).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

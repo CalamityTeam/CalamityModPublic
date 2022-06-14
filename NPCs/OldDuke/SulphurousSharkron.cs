@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Buffs.StatDebuffs;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -56,6 +57,7 @@ namespace CalamityMod.NPCs.OldDuke
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<SulphurousSeaBiome>().Type };
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -64,7 +66,6 @@ namespace CalamityMod.NPCs.OldDuke
             bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
 
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SulphurousSea,
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("Rotting, corpselike offspring of the Old Duke. In the Sulphurous Seas, even from birth, their appearances are wizened and decrepit.")
