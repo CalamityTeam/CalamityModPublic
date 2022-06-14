@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "Increases max minions by 1 and minions inflict the Shadowflame debuff on enemies\n" +
                 "Grants immunity to Shadowflame");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

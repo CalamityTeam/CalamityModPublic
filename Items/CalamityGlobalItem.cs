@@ -1785,10 +1785,10 @@ namespace CalamityMod.Items
                     _ => prefix,
                 };
             }
-            else if (item.CountsAsClass<MeleeDamageClass>())
+            else if (item.CountsAsClass<MeleeDamageClass>() || item.IsWhip())
             {
                 // Yoyos, Flails, Spears, etc.
-                if (item.channel || item.noMelee)
+                if ((item.channel || item.noMelee) && !item.IsWhip())
                 {
                     prefix = reforgeTier switch
                     {

@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Darksun Fragment");
             Tooltip.SetDefault("An impacted crystal suffused with opposing celestial energies");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

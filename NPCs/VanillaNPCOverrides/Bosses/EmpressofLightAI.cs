@@ -628,10 +628,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Avoid cheap bullshit.
                     npc.damage = 0;
 
-                    int numLanceWalls = 6;
-                    float lanceWallSpawnGateValue = 30f;
+                    // Expert attack or not.
+                    bool expertAttack = calamityGlobalNPC.newAI[2] == 0f;
+
+                    int numLanceWalls = expertAttack ? 6 : 4;
+                    float lanceWallSpawnGateValue = expertAttack ? 36f : 54f;
                     if (dayTimeEnrage)
-                        lanceWallSpawnGateValue -= 6f;
+                        lanceWallSpawnGateValue -= expertAttack ? 4f : 6f;
 
                     float lanceWallPhaseTime = lanceWallSpawnGateValue * numLanceWalls;
 
@@ -716,9 +719,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             for (float i = 0f; i <= 1f; i += 1f / totalProjectiles)
                             {
-                                Vector2 spawnLocation = center3 + lanceWallStartingPosition * (i - 0.5f);
+                                Vector2 spawnLocation = center3 + lanceWallStartingPosition * (i - 0.5f) * (expertAttack ? 1f : 1.5f);
                                 Vector2 v2 = vector6;
-                                if (calamityGlobalNPC.newAI[2] == 0f)
+                                if (expertAttack)
                                 {
                                     Vector2 value22 = targetData9.Velocity * 20f * i;
                                     Vector2 value23 = spawnLocation.DirectionTo(targetData9.Center + value22);

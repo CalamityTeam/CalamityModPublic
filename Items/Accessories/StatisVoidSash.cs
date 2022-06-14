@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer.Dashes;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,6 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "This cooldown is shared with all other dodges and reflects\n" +
                 "Dashes leave homing scythes in your wake");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 3));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

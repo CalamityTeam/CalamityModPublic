@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Dark Plasma");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

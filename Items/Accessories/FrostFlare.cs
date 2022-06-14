@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "Being below 25% life grants 20 defense and 15% increased max movement speed and acceleration\n" +
                 "Grants resistance against cold attacks");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

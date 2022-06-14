@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Ashes of Annihilation");
             Tooltip.SetDefault("The smoldering essence of the Witch's wrath");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

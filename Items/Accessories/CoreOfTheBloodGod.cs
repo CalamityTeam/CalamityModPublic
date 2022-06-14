@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 20 second cooldown");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

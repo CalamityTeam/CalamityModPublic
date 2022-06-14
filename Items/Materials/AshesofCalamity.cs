@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 25;
             DisplayName.SetDefault("Ashes of Calamity");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

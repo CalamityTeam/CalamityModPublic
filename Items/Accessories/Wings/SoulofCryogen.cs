@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "All melee attacks and projectiles inflict frostburn\n" +
                 "Icicles rain down as you fly");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 6.25f, 1f);
         }
 

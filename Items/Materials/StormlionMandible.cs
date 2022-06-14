@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Materials
             SacrificeTotal = 5;
             DisplayName.SetDefault("Stormlion Mandible");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
