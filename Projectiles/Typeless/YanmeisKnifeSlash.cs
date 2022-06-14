@@ -19,8 +19,7 @@ namespace CalamityMod.Projectiles.Typeless
         // This is a rather weird thing, but it's what the patron asked for.
         public static readonly Func<NPC, bool> CanRecieveCoolEffectsFrom = (npc) =>
         {
-            bool validBoss = npc.boss && npc.type != ModContent.NPCType<CeaselessVoid>()
-                && npc.type != ModContent.NPCType<DevourerofGodsBody>()
+            bool validBoss = npc.boss && npc.type != ModContent.NPCType<DevourerofGodsBody>()
                 && npc.type != ModContent.NPCType<AstrumDeusBody>()
                 && npc.type != ModContent.NPCType<ThanatosHead>()
                 && npc.type != ModContent.NPCType<ThanatosBody1>()

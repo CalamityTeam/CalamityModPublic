@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient<Shroomer>().
-                AddIngredient(ItemID.IronBar, 50).
+                AddRecipeGroup("IronBar", 50).
                 AddIngredient<DivineGeode>(5).
                 AddIngredient(ItemID.TigerSkin).
                 AddTile(TileID.LunarCraftingStation).

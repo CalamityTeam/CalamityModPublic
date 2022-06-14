@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
@@ -25,7 +25,12 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<StratusBricks>(), 10).AddIngredient(ItemID.IronBar, 3).AddIngredient(ItemID.Glass, 6).AddTile(TileID.LunarCraftingStation).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<StratusBricks>(), 10).
+                AddRecipeGroup("IronBar", 3).
+                AddIngredient(ItemID.Glass, 6).
+                AddTile(TileID.LunarCraftingStation).
+                Register();
         }
     }
 }

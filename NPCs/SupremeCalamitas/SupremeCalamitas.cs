@@ -389,7 +389,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Projectile damage values
             int bulletHellblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneHellblast2>());
-            int firstBulletHellblastDamage = (int)Math.Round(bulletHellblastDamage * 1.25);
             int barrageDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<BrimstoneBarrage>());
             int gigablastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<SCalBrimstoneFireblast>());
             int fireblastDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<SCalBrimstoneGigablast>());
@@ -695,22 +694,22 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float distance = Main.rand.NextBool() ? -1000f : 1000f;
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         if (bulletHellCounter2 < 300) // Blasts from above
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         else if (bulletHellCounter2 < 600) // Blasts from left and right
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         else // Blasts from above, left, and right
                         {
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * uDieLul, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                     }
                 }
@@ -781,7 +780,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float distance = Main.rand.NextBool() ? -1000f : 1000f;
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         if (bulletHellCounter2 < 1200) // Blasts from below
                         {
@@ -842,7 +841,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float distance = Main.rand.NextBool() ? -1000f : 1000f;
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         if (bulletHellCounter2 < 2100) // Blasts from above
                         {
@@ -915,7 +914,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float distance = Main.rand.NextBool() ? -1000f : 1000f;
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         if (bulletHellCounter2 < 3000) // Blasts from below
                         {
@@ -986,7 +985,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         {
                             float distance = Main.rand.NextBool() ? -1000f : 1000f;
                             float velocity = (distance == -1000f ? 4f : -4f) * uDieLul;
-                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), firstBulletHellblastDamage, 0f, Main.myPlayer);
+                            Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), bulletHellblastDamage, 0f, Main.myPlayer);
                         }
                         if (bulletHellCounter2 < 3900) // Blasts from above
                         {

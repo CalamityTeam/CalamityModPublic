@@ -13,6 +13,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
+    // OnModLoad is guaranteed to be run after all content has autoloaded.
     public static class TileFraming
     {
         private static int[][] PlantCheckAgainst;

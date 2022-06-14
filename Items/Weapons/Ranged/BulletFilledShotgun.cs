@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             CreateRecipe().
                 AddIngredient(ItemID.MusketBall, 100).
-                AddIngredient(ItemID.IronBar, 7).
+                AddRecipeGroup("IronBar", 7).
                 AddIngredient<AerialiteBar>(3).
                 AddTile(TileID.Anvils).
                 Register();

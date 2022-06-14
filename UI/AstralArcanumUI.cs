@@ -10,6 +10,7 @@ using ReLogic.Content;
 
 namespace CalamityMod.UI
 {
+    // TODO -- This can be made into a ModSystem with simple OnModLoad and Unload hooks.
     public static class AstralArcanumUI
     {
         enum CircleStyle

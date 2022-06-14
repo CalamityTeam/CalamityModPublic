@@ -47,7 +47,15 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DisplayName.SetDefault("Cloud Elemental");
             Main.npcFrameCount[NPC.type] = 8;
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Position = new Vector2(28f, 20f),
+                Scale = 0.65f,
+                PortraitScale = 0.65f,
+                PortraitPositionXOverride = 10f,
+                PortraitPositionYOverride = 2f
+            };
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

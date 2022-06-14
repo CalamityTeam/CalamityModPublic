@@ -4462,7 +4462,7 @@ namespace CalamityMod.CalPlayer
 
             if ((target.damage > 0 || target.boss) && !target.SpawnedFromStatue && Player.whoAmI == Main.myPlayer)
             {
-                if (CalamityConfig.Instance.Proficiency)
+                if (CalamityConfig.Instance.Proficiency && item.DamageType == DamageClass.Melee)
                 {
                     if (gainLevelCooldown <= 0)
                     {
@@ -5776,6 +5776,9 @@ namespace CalamityMod.CalPlayer
                 if (Player.lifeRegen < 0)
                     Player.lifeRegen = 0;
             }
+
+            if (meteorSet)
+                Player.spaceGun = false;
 
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 Player.yoraiz0rEye = 0;

@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         Main.projectile[laser].originalDamage = Projectile.originalDamage;
                         Main.projectile[laser].tileCollide = false;
                         Main.projectile[laser].netUpdate = true;
-                        Main.projectile[laser].Calamity().forceMinion = true;
+                        Main.projectile[laser].DamageType = DamageClass.Summon;
                     }
                 }
                 Projectile.ai[1]++;

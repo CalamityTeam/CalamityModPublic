@@ -18,6 +18,7 @@ namespace CalamityMod.DataStructures
         Phoenix, Aries, Polaris, Andromeda //Galaxia
     }
 
+    // TODO -- Attunements should be managed by an Attunement ModSystem
     public abstract class Attunement
     {
         public static Attunement[] attunementArray;
