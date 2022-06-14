@@ -21,6 +21,7 @@ namespace CalamityMod.Items
                 "Teleportation is disabled while Chaos State is active\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 7));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 

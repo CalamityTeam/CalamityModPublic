@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
                                 "Immunity to Electrified and you resist all electrical projectile and enemy damage\n" +
                                 "Enemy bullets do half damage to you and are reflected back at the enemy for 800% their original damage");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 16));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

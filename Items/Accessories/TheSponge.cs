@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Accessories
                 "6.25% of the damage from enemy attacks is absorbed and converted into healing\n" +
                 "Grants immunity to Armor Crunch");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 30));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

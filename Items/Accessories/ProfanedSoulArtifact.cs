@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Summons an offensive guardian if you are wearing the tarragon summon set (or stronger), which boosts your summon damage and your minion slots\n" +
                 "If you get hit, most of their effects will disappear for 5 seconds");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

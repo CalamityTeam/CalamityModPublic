@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Tooltip.SetDefault("Throws a throwing knife that leaves sparks as it travels.\n" +
                                "Stealth strikes cause the knife to be faster and leave a huge shower of sparks as it travels");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 

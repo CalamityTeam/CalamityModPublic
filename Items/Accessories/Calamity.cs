@@ -23,6 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "Equip in a vanity slot to change the cursor without dealing damage\n" +
                 "These changes work in conjunction with the Rainbow Cursor");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Transforms you into an emissary of the profaned goddess\n" +
                 "This tooltip gets modified");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(8, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
 
             if (Main.netMode == NetmodeID.Server)
                 return;

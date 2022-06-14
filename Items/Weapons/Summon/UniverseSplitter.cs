@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "An ancient artifact from a previous age, it waits for your command...\n" +
                                "This is a terrible idea, but it isn't yours anyways... right?");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 14));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
             SacrificeTotal = 1;
         }
 

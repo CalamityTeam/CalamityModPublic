@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Accessories
                 "+100 max mana\n" +
                 "Increases pickup range for mana stars");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

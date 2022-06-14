@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Phantoplasm");
             Tooltip.SetDefault("It churns and seethes with ghastly malice");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 5));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

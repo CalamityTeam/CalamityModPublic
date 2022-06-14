@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Accessories
                                "Only one sun can be active at once\n" +
                                "Provides a moderate amount of light in the Abyss");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 6));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

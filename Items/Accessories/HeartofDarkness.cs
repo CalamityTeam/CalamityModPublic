@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "Rage does not fade away when out of combat\n" +
                 "Revengeance drop");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 4));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()

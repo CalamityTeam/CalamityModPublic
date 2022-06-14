@@ -18,6 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
                 "Thank you to all of my supporters who made this mod a reality");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 10));
+            ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
 
         public override void SetDefaults()
