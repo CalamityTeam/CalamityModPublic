@@ -551,6 +551,8 @@ namespace CalamityMod
             EditShroomiteBarRecipe();
             EditChlorophyteBarRecipe();
             EditAnkhCharmRecipe();
+            EditCelestialEmblemRecipe();
+            EditMechanicalGloveRecipe();
 
             EditPreHardmodeOreArmorRecipes();
             EditHardmodeOreSetRecipes();
@@ -1034,6 +1036,44 @@ namespace CalamityMod
                     s.createItem.stack = 1;
                 });
             }
+        }
+
+        private static void EditCelestialEmblemRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.CelestialEmblem).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Count; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.CelestialMagnet, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.SorcererEmblem, false);
+                s.requiredItem[1].stack = 1;
+
+                s.createItem.SetDefaults(ItemID.CelestialEmblem, false);
+                s.createItem.stack = 1;
+            });
+        }
+
+        private static void EditMechanicalGloveRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.MechanicalGlove).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Count; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.PowerGlove, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.WarriorEmblem, false);
+                s.requiredItem[1].stack = 1;
+
+                s.createItem.SetDefaults(ItemID.MechanicalGlove, false);
+                s.createItem.stack = 1;
+            });
         }
 
         // Changes pre-hardmode ore armor recipes to be consistent for each tier and require far fewer bars.

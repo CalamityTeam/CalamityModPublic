@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.SniperScope).
+                AddIngredient(ItemID.RifleScope).
                 AddIngredient<Lumenyl>(6).
                 AddIngredient<RuinousSoul>(4).
                 AddIngredient<ExodiumCluster>(12).
