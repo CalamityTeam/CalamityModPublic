@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Titanium Railgun");
-            Tooltip.SetDefault("Hold down to charge up a decimating titanium laser.\n" +
+            Tooltip.SetDefault("Hold down to charge up a decimating titanium blast.\n" +
                 "Longer hold time increases power, leading to more damage, size, and knockback.\n" +
                 "Power is capped when the cannon's sights have fully converged.");
             SacrificeTotal = 1;
