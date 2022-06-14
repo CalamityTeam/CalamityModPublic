@@ -49,6 +49,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (npc.life == npc.lifeMax && dayTimeEnrage && !npc.AI_120_HallowBoss_IsGenuinelyEnraged())
                 npc.ai[3] += 2f;
 
+            int projectileDamageMultiplier = dayTimeEnrage ? 2 : 1;
+
             bool visible = true;
             bool takeDamage = true;
             float lessTimeSpentPerPhaseMultiplier = phase2 ? (death ? 0.375f : 0.5f) : (death ? 0.75f : 1f);
@@ -340,7 +342,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if ((int)npc.ai[1] % num91 == 0 && npc.ai[1] < 60f)
                     {
                         int projectileType = ProjectileID.HallowBossRainbowStreak;
-                        int projectileDamage = npc.GetProjectileDamage(projectileType);
+                        int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                         float ai3 = npc.ai[1] / 60f;
                         Vector2 rainbowStreakVelocity = new Vector2(0f, death ? -10f : -8f).RotatedBy((float)Math.PI / 2f * Main.rand.NextFloatDirection());
@@ -455,7 +457,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
 
                             int projectileType = ProjectileID.FairyQueenLance;
-                            int projectileDamage = npc.GetProjectileDamage(projectileType);
+                            int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                             Vector2 v3 = value25 - spawnLocation;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -537,7 +539,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         for (float num65 = 0f; num65 < 1f; num65 += 1f / totalProjectiles)
                         {
                             int projectileType = ProjectileID.HallowBossLastingRainbow;
-                            int projectileDamage = npc.GetProjectileDamage(projectileType);
+                            int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                             float num66 = num65;
                             Vector2 spinningpoint = Vector2.UnitY.RotatedBy((float)Math.PI / 2f + (float)Math.PI * 2f * num66 + num64);
@@ -594,7 +596,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if (npc.ai[1] % sunDanceGateValue == 0f && npc.ai[1] < totalSunDancePhaseTime)
                     {
                         int projectileType = ProjectileID.FairyQueenSunDance;
-                        int projectileDamage = npc.GetProjectileDamage(projectileType);
+                        int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                         int num25 = (int)(npc.ai[1] / sunDanceGateValue);
                         int num26 = (targetData2.Center.X > npc.Center.X) ? 1 : 0;
@@ -710,7 +712,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
 
                             int projectileType = ProjectileID.FairyQueenLance;
-                            int projectileDamage = npc.GetProjectileDamage(projectileType);
+                            int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                             for (float i = 0f; i <= 1f; i += 1f / totalProjectiles)
                             {
@@ -785,7 +787,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if ((npc.ai[1] - 1f) % rainbowStreakGateValue == 0f)
                         {
                             int projectileType = ProjectileID.HallowBossRainbowStreak;
-                            int projectileDamage = npc.GetProjectileDamage(projectileType);
+                            int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                             float ai3 = (npc.ai[1] - chargeGateValue - 1f) / chargeDuration;
                             Vector2 rainbowStreakVelocity = new Vector2(0f, death ? -5f : -4f).RotatedBy((float)Math.PI / 2f * Main.rand.NextFloatDirection());
@@ -921,7 +923,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             }
 
                             int projectileType = ProjectileID.FairyQueenLance;
-                            int projectileDamage = npc.GetProjectileDamage(projectileType);
+                            int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                             Vector2 v = value12 - vector4;
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -997,7 +999,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     if ((int)npc.ai[1] % num21 == 0 && flag11)
                     {
                         int projectileType = ProjectileID.HallowBossRainbowStreak;
-                        int projectileDamage = npc.GetProjectileDamage(projectileType);
+                        int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
                         Vector2 vector = new Vector2(0f, death ? -28f : -24f).RotatedBy((float)Math.PI * 2f * num22);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
