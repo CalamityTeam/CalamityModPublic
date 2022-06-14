@@ -6,6 +6,8 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Particles;
+using Terraria.Graphics.Effects;
+using System;
 
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -25,6 +27,8 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxSightAngle = MathHelper.Pi * (2f / 3f);
 
         public Color ScopeColor => Color.White;
+
+        public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetStaticDefaults()
         {
@@ -149,17 +153,59 @@ namespace CalamityMod.Projectiles.Ranged
             if (Charge == -1)
                 return false;
 
-            // Opacity scales with charge
-            Color drawColor = ScopeColor * ChargePercent;
+            float sightsSize = 700f;
+            float sightsResolution = 0.2f;
 
             // Converge the sights
             float spread = (1f - ChargePercent) * MaxSightAngle;
             float halfAngle = spread / 2f;
             Texture2D texture = ModContent.Request<Texture2D>(Texture).Value;
 
-            // Draw the sights
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, drawColor, MathHelper.WrapAngle(Projectile.rotation + MathHelper.PiOver2 + halfAngle), new Vector2(texture.Width / 2f, texture.Height), new Vector2(0.65f, 0.85f), SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, drawColor, MathHelper.WrapAngle(Projectile.rotation + MathHelper.PiOver2 - halfAngle), new Vector2(texture.Width / 2f, texture.Height), new Vector2(0.65f, 0.85f), SpriteEffects.None, 0f);
+            Color sightsColor = Color.Lerp(Color.LightBlue, Color.Crimson, ChargePercent);
+
+            //Setup the spread gradient effect.
+            Effect spreadEffect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+            spreadEffect.Parameters["centerOpacity"].SetValue(0.9f);
+            spreadEffect.Parameters["mainOpacity"].SetValue(ChargePercent);
+            spreadEffect.Parameters["halfSpreadAngle"].SetValue(halfAngle);
+            spreadEffect.Parameters["edgeColor"].SetValue(sightsColor.ToVector3());
+            spreadEffect.Parameters["centerColor"].SetValue(sightsColor.ToVector3());
+            spreadEffect.Parameters["edgeBlendLenght"].SetValue(0.07f);
+            spreadEffect.Parameters["edgeBlendStrength"].SetValue(8f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, spreadEffect, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), sightsSize, 0, 0);
+
+            //Setup the laser sights effect.
+            Effect laserScopeEffect = Filters.Scene["PixelatedSightLine"].GetShader().Shader;
+            laserScopeEffect.Parameters["sampleTexture2"].SetValue(ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CertifiedCrustyNoise").Value);
+            laserScopeEffect.Parameters["noiseOffset"].SetValue(Main.GameUpdateCount * -0.003f);
+
+            laserScopeEffect.Parameters["mainOpacity"].SetValue(ChargePercent); //Opacity increases as the gun charges
+            laserScopeEffect.Parameters["Resolution"].SetValue(new Vector2(sightsResolution * sightsSize));
+            laserScopeEffect.Parameters["laserAngle"].SetValue(-Projectile.rotation + halfAngle);
+            laserScopeEffect.Parameters["laserWidth"].SetValue(0.0025f + (float)Math.Pow(ChargePercent, 5) * ((float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f) * 0.002f + 0.002f));
+            laserScopeEffect.Parameters["laserLightStrenght"].SetValue(7f);
+
+            laserScopeEffect.Parameters["color"].SetValue(sightsColor.ToVector3());
+            laserScopeEffect.Parameters["darkerColor"].SetValue(Color.Black.ToVector3());
+            laserScopeEffect.Parameters["bloomSize"].SetValue(0.06f);
+            laserScopeEffect.Parameters["bloomMaxOpacity"].SetValue(0.4f);
+            laserScopeEffect.Parameters["bloomFadeStrenght"].SetValue(7f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, laserScopeEffect, Main.GameViewMatrix.TransformationMatrix);
+
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width / 2f, texture.Height / 2f), sightsSize, 0, 0);
+
+            laserScopeEffect.Parameters["laserAngle"].SetValue(-Projectile.rotation - halfAngle);
+            Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, Color.White, 0, new Vector2(texture.Width / 2f, texture.Height / 2f), sightsSize, 0, 0);
+
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             return false;
         }

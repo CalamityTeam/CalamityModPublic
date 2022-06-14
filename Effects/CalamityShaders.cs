@@ -121,6 +121,10 @@ namespace CalamityMod.Effects
             var screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/SpreadTelegraph", AssetRequestMode.ImmediateLoad).Value);
             Filters.Scene["SpreadTelegraph"] = new Filter(new ScreenShaderData(screenRef, "TelegraphPass"), EffectPriority.High);
             Filters.Scene["SpreadTelegraph"].Load();
+
+            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/PixelatedSightLine", AssetRequestMode.ImmediateLoad).Value);
+            Filters.Scene["PixelatedSightLine"] = new Filter(new ScreenShaderData(screenRef, "SightLinePass"), EffectPriority.High);
+            Filters.Scene["PixelatedSightLine"].Load();
         }
     }
 }

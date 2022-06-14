@@ -84,8 +84,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            
-            var effect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+            float angle = (Owner.Calamity().mouseWorld - Owner.MountedCenter).ToRotation();
+
+            Effect effect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
             effect.Parameters["centerOpacity"].SetValue(0.7f);
             effect.Parameters["mainOpacity"].SetValue((float)Math.Sqrt(ChargeProgress));
             effect.Parameters["halfSpreadAngle"].SetValue(Spread / 2f);
@@ -99,7 +100,6 @@ namespace CalamityMod.Projectiles.Magic
             
             Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
-            float angle = (Owner.Calamity().mouseWorld - Owner.MountedCenter).ToRotation();
             Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition, null, Color.White, angle, new Vector2(texture.Width / 2f, texture.Height/2f), 700f, 0, 0);
 
             Main.spriteBatch.End();
