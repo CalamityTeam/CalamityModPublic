@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             CreateRecipe().
                 AddIngredient(ItemID.Shotgun).
                 AddIngredient(ItemID.IllegalGunParts).
-                AddIngredient(ItemID.IronBar, 20).
+                AddRecipeGroup("IronBar", 20).
                 AddIngredient(ItemID.Ectoplasm, 20).
                 AddTile(TileID.MythrilAnvil).
                 Register();

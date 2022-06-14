@@ -1,4 +1,4 @@
-using CalamityMod.Tiles.Furniture.CraftingStations;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
 using CalamityMod.Tiles.FurnitureExo;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +29,12 @@ namespace CalamityMod.Items.Placeables.FurnitureExo
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ItemID.IronBar, 3).AddIngredient(ItemID.Glass, 6).AddIngredient(ModContent.ItemType<ExoPlating>(), 10).AddTile(ModContent.TileType<DraedonsForge>()).Register();
+            CreateRecipe(1).
+                AddRecipeGroup("IronBar", 3).
+                AddIngredient(ItemID.Glass, 6).
+                AddIngredient(ModContent.ItemType<ExoPlating>(), 10).
+                AddTile(ModContent.TileType<DraedonsForge>()).
+                Register();
         }
     }
 }

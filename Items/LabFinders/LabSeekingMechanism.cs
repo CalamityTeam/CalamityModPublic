@@ -25,7 +25,7 @@ namespace CalamityMod.Items.LabFinders
             CreateRecipe().
                 AddIngredient<MysteriousCircuitry>(4).
                 AddIngredient<DubiousPlating>(4).
-                AddIngredient(ItemID.IronBar, 10).
+                AddRecipeGroup("IronBar", 10).
                 AddTile(TileID.Anvils).
                 Register();
         }

@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.DraedonStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,13 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
 
         public override void AddRecipes()
         {
-            CreateRecipe(1).AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4).AddIngredient(ModContent.ItemType<DubiousPlating>(), 4).AddIngredient(ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPlating>(), 10).AddIngredient(ItemID.IronBar, 2).AddTile(TileID.Anvils).Register();
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4).
+                AddIngredient(ModContent.ItemType<DubiousPlating>(), 4).
+                AddIngredient(ModContent.ItemType<LaboratoryPlating>(), 10).
+                AddRecipeGroup("IronBar", 2).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

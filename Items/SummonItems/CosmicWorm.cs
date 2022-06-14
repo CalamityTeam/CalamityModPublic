@@ -61,7 +61,7 @@ namespace CalamityMod.Items.SummonItems
                 Register();
 
             CreateRecipe().
-                AddIngredient(ItemID.IronBar, 30).
+                AddRecipeGroup("IronBar", 30).
                 AddIngredient(ItemID.LunarBar, 10).
                 AddIngredient<GalacticaSingularity>(20).
                 AddIngredient(ItemID.SoulofLight, 20).
