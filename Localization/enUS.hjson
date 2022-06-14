@@ -107,5 +107,22 @@
         {
             SmallWorldWarning: "[c/ff00000:SMALL WORLDS NOT SUPPORTED BY CALAMITY]"
         }
+
+        BiomeName: 
+        {
+            AbovegroundAstralBiome: "Astral Surface",
+            AbovegroundAstralDesertBiome: "Astral Desert Surface",
+            AbovegroundAstralSnowBiome: "Astral Snow Surface",
+            AbyssLayer1Biome: "First Layer of the Abyss",
+            AbyssLayer2Biome: "Second Layer of the Abyss",
+            AbyssLayer3Biome: "Third Layer of the Abyss",
+            AbyssLayer4Biome: "Fourth Layer of the Abyss",
+            AcidRainBiome: "Acid Rain",
+            ArsenalLabBiome: "Arsenal Labs",
+            BrimstoneCragsBiome: "Brimstone Crags",
+            SulphurousSeaBiome: "Sulphurous Sea",
+            SunkenSeaBiome: "Sunken Sea",
+            UndergroundAstralBiome: "Astral Underground",
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Arsenal Lab");
+            DisplayName.SetDefault("Arsenal Labs");
         }
 
         //Does this even need proper detection, this file solely exists for a few critter entries and the detection code is done elsewhere

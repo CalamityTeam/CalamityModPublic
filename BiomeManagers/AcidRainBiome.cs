@@ -13,10 +13,10 @@ namespace CalamityMod.BiomeManagers
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acid Rain Tier 1");
+            DisplayName.SetDefault("Acid Rain");
         }
 
-        //Does this even need proper detection, this file solely exists for a few critter entries and the detection code is done elsewhere
+        //Does this even need proper detection, the detection code is done elsewhere
         /*public override bool IsBiomeActive(Player player)
         {
             return AcidRainEvent.AcidRainEventIsOngoing && !DownedBossSystem.downedAquaticScourge && !DownedBossSystem.downedPolterghast;
