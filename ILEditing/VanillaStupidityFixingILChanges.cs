@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Balancing;
 using CalamityMod.Items.Materials;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
@@ -380,12 +381,22 @@ namespace CalamityMod.ILEditing
 
             Item item = Main.item[itemIndex];
             int itemID = item.type;
+            bool colorWasChanged = false;
 
             if (itemID == ModContent.ItemType<BlightedGel>() && npc.type == ModContent.NPCType<CrimulanBlightSlime>())
             {
                 item.color = new Color(1f, 0f, 0.16f, 0.6f);
-                NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, itemID, 1f);
+                colorWasChanged = true;
             }
+            if (itemID == ItemID.SharkFin && npc.type == ModContent.NPCType<Mauler>())
+            {
+                item.color = new Color(151, 115, 57, 255);
+                colorWasChanged = true;
+            }
+
+            // Sync the color changes.
+            if (colorWasChanged)
+                NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, itemID, 1f);
         }
         #endregion Color Blighted Gel
     }
