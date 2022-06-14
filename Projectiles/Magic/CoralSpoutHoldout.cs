@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
 
 
 namespace CalamityMod.Projectiles.Magic
@@ -82,17 +84,23 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
+            
+            var effect = Filters.Scene["SpreadTelegraph"].GetShader().Shader;
+            effect.Parameters["centerOpacity"].SetValue(0.7f);
+            effect.Parameters["mainOpacity"].SetValue((float)Math.Sqrt(ChargeProgress));
+            effect.Parameters["halfSpreadAngle"].SetValue(Spread / 2f);
+            effect.Parameters["edgeColor"].SetValue(Color.DeepSkyBlue.ToVector3());
+            effect.Parameters["centerColor"].SetValue(Color.DodgerBlue.ToVector3());
+            effect.Parameters["edgeBlendLenght"].SetValue(0.07f);
+            effect.Parameters["edgeBlendStrength"].SetValue(8f);
+
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, Main.GameViewMatrix.TransformationMatrix);
+            
+            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
-            Texture2D texture = ModContent.Request<Texture2D>("CalamityMod/Projectiles/Summon/DeathstareBeam").Value;
-
-            for (int i = -1; i <= 1; i += 2)
-            {
-                float angle = (Owner.MountedCenter - Owner.Calamity().mouseWorld).ToRotation() + (Spread / 2f) * i - MathHelper.PiOver2;
-                Vector2 scale = new Vector2(0.2f, 1f) * 3f;
-                Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition, null, Color.DodgerBlue * 0.5f * (float)Math.Sqrt(ChargeProgress), angle, new Vector2(texture.Width / 2f, texture.Height), scale, 0, 0);
-            }
+            float angle = (Owner.Calamity().mouseWorld - Owner.MountedCenter).ToRotation();
+            Main.EntitySpriteDraw(texture, Owner.MountedCenter - Main.screenPosition, null, Color.White, angle, new Vector2(texture.Width / 2f, texture.Height/2f), 700f, 0, 0);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -111,7 +119,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 for (int i = 0; i < ShotProjectiles; i++)
                 {
-                    float angleOffset = MathHelper.Lerp(Spread * -0.5f, Spread * 0.5f, i / (float)ShotProjectiles);
+                    float angleOffset = MathHelper.Lerp(Spread * -0.5f, Spread * 0.5f, i / ((float)ShotProjectiles - 1));
                     Vector2 direction = (mainAngle + angleOffset).ToRotationVector2();
                     
                     if (Owner.whoAmI == Main.myPlayer)

@@ -115,6 +115,11 @@ namespace CalamityMod.Effects
             GameShaders.Misc["CalamityMod:AdditiveFusableParticleEdge"] = new MiscShaderData(new Ref<Effect>(AdditiveFusableParticleEdgeShader), "ParticlePass");
 
             GameShaders.Misc["CalamityMod:DoGPortal"] = new MiscShaderData(new Ref<Effect>(DoGPortalShader), "ScreenPass");
+
+            //A little experimenting courtesy of looking at how slr does it.
+            var screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/SpreadTelegraph", AssetRequestMode.ImmediateLoad).Value);
+            Filters.Scene["SpreadTelegraph"] = new Filter(new ScreenShaderData(screenRef, "TelegraphPass"), EffectPriority.High);
+            Filters.Scene["SpreadTelegraph"].Load();
         }
     }
 }
