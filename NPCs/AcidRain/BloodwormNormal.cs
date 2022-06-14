@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!spawnInfo.Player.Calamity().ZoneSulphur || AcidRainEvent.AcidRainEventIsOngoing)
+            if (!spawnInfo.Player.Calamity().ZoneSulphur || AcidRainEvent.AcidRainEventIsOngoing || !NPC.downedMoonlord)
                 return 0f;
 
             // Increase bloodworm spawn rate relative to the number of existing bloodworms, parabolic multiplier ranging from 5x spawn rate with 0 blood worms to 1x with 5 or more
