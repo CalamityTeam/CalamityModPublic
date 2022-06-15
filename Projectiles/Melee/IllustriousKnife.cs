@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.width = 14;
-            Projectile.height = 50;
+            Projectile.height = 14;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
@@ -51,8 +51,8 @@ namespace CalamityMod.Projectiles.Melee
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            float bladeHalfLenght = Projectile.height * Projectile.scale / 2f;
-            float bladeWidth = Projectile.width * Projectile.scale;
+            float bladeHalfLenght = 25f * Projectile.scale / 2f;
+            float bladeWidth = 14f * Projectile.scale;
 
             Vector2 direction = (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
 
