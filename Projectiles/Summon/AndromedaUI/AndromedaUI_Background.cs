@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
+using CalamityMod.Items.Weapons.Summon;
 
 namespace CalamityMod.Projectiles.Summon.AndromedaUI
 {
@@ -227,9 +228,12 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                     }
                     if (rightBracketSelect)
                     {
-                        RightBracketActive = true;
-                        LeftBracketActive = BottomBracketActive = false;
-                        LeftIconActive = false;
+                        if (FlamsteedRing.SpaceForLargeMech(Main.LocalPlayer))
+                        {
+                            RightBracketActive = true;
+                            LeftBracketActive = BottomBracketActive = false;
+                            LeftIconActive = false;
+                        }
                     }
                     if (topBracketSelect)
                     {

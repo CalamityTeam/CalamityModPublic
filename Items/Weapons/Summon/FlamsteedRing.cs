@@ -77,12 +77,8 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().CannotBeEnchanted = true;
         }
 
-        public override bool CanUseItem(Player player)
+        public static bool SpaceForLargeMech(Player player, bool visuals = true)
         {
-            //Can always deactivate the mech.
-            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ModContent.ProjectileType<GiantIbanRobotOfDoom>())))
-                return true;
-
             bool sufficientSpace = true;
 
             for (int i = 0; i < 8; i++)
@@ -95,7 +91,9 @@ namespace CalamityMod.Items.Weapons.Summon
                     {
                         sufficientSpace = false;
 
-
+                        if (!visuals)
+                            return false;
+                            
                         Dust warningDust = Dust.NewDustPerfect(pos.ToVector2() * 16f + Vector2.One * 8f, 127, Scale: 1.2f);
 
                         warningDust = Dust.NewDustPerfect(pos.ToVector2() * 16f + Vector2.One * 8f, 114, Vector2.Zero, Scale: 1.4f);
@@ -115,7 +113,18 @@ namespace CalamityMod.Items.Weapons.Summon
                 return false;
             }
 
-            return !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
+            return sufficientSpace;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            //Can always deactivate the mech.
+            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ModContent.ProjectileType<GiantIbanRobotOfDoom>())))
+                return true;
+
+            bool sufficientSpace = SpaceForLargeMech(player);
+
+            return sufficientSpace && !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
