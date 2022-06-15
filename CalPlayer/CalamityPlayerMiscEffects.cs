@@ -420,7 +420,7 @@ namespace CalamityMod.CalPlayer
                 // If using Draedon's Heart, you get healing instead of damage.
                 if (draedonsHeart)
                 {
-                    Player.statLife += DraedonsHeart.NanomachinesHeal / DraedonsHeart.NanomachinesDuration;
+                    Player.statLife += DraedonsHeart.NanomachinesHealPerFrame;
                     if (Player.statLife >= Player.statLifeMax2)
                         Player.statLife = Player.statLifeMax2;
 
@@ -450,9 +450,18 @@ namespace CalamityMod.CalPlayer
                     adrenalineDiff = -adrenalineMax / AdrenalineFadeTime;
             }
 
-            // In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
-            if (SCalAlive && adrenalineDiff > 0f)
-                adrenalineDiff *= 0.67f;
+            // Adjustments to how fast Adrenaline charges
+            if (adrenalineDiff > 0f)
+            {
+                // Stress Pills make Adrenaline charge 20% faster (meaning it takes 83.333% standard time to charge it).
+                if (stressPills)
+                    adrenalineDiff *= 1.2f;
+                
+                // In the SCal fight, adrenaline charges 33% slower (meaning it takes 50% longer to fully charge it).
+                if (SCalAlive)
+                    adrenalineDiff *= 0.67f;
+            }
+
 
             // Apply the adrenaline change and cap adrenaline in both directions.
             // Changes are only applied if the Adrenaline mechanic is available.
