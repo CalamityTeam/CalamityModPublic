@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -33,6 +34,12 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
+            NPC.Happiness
+                .SetBiomeAffection<SnowBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike) 
+                .SetNPCAffection(NPCID.Wizard, AffectionLevel.Like) 
+                .SetNPCAffection(NPCID.Cyborg, AffectionLevel.Dislike)
+            ;
         }
 
         public override void SetDefaults()
@@ -55,7 +62,8 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Snow,  
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("His face shows great age, but also great wisdom. The Archmage once stood against the Jungle Tyrant and paid the price. He sells various frosty wares but of course, keeps the most powerful spells to himself.")
