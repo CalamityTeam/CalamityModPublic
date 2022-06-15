@@ -4,6 +4,7 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -50,8 +51,8 @@ namespace CalamityMod.Items.Accessories
                 {
                     var source = player.GetSource_Accessory(Item);
                     int damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(45);
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SandElementalHealer>(), damage, 2f, Main.myPlayer, 0f, 0f);
-                    // TODO -- doesn't set originalDamage
+                    Projectile sandy = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<SandElementalHealer>(), damage, 2f, Main.myPlayer, 0f, 0f);
+                    sandy.originalDamage = damage;
                 }
             }
         }
