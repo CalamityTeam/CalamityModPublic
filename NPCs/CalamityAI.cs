@@ -5335,30 +5335,30 @@ namespace CalamityMod.NPCs
             }
 
             int idlePhaseTimer = expertMode ? 55 : 60;
-            float idlePhaseAcceleration = expertMode ? 0.75f : 0.7f;
-            float idlePhaseVelocity = expertMode ? 14f : 13f;
+            float idlePhaseAcceleration = expertMode ? 0.9f : 0.8f;
+            float idlePhaseVelocity = expertMode ? 17f : 15.5f;
             if (phase3AI)
             {
-                idlePhaseAcceleration = expertMode ? 0.6f : 0.55f;
-                idlePhaseVelocity = expertMode ? 12f : 11f;
+                idlePhaseAcceleration = expertMode ? 0.75f : 0.65f;
+                idlePhaseVelocity = expertMode ? 15f : 13.5f;
             }
             else if (phase2AI & charging)
             {
-                idlePhaseAcceleration = expertMode ? 0.8f : 0.75f;
-                idlePhaseVelocity = expertMode ? 15f : 14f;
+                idlePhaseAcceleration = expertMode ? 0.95f : 0.85f;
+                idlePhaseVelocity = expertMode ? 18f : 16.5f;
             }
 
             int chargeTime = expertMode ? 34 : 36;
-            float chargeVelocity = expertMode ? 20f : 19f;
+            float chargeVelocity = expertMode ? 24f : 22f;
             if (phase3AI)
             {
                 chargeTime = expertMode ? 28 : 30;
-                chargeVelocity = expertMode ? 26f : 25f;
+                chargeVelocity = expertMode ? 30f : 28f;
             }
             else if (charging & phase2AI)
             {
                 chargeTime = expertMode ? 31 : 33;
-                chargeVelocity = expertMode ? 24f : 23f;
+                chargeVelocity = expertMode ? 28f : 26f;
             }
 
             if (malice)
@@ -5392,8 +5392,8 @@ namespace CalamityMod.NPCs
             // Variables
             int toothBallBelchPhaseTimer = malice ? 35 : death ? 90 : 120;
             int toothBallBelchPhaseDivisor = malice ? 7 : death ? 18 : 24;
-            float toothBallBelchPhaseAcceleration = malice ? 0.95f : death ? 0.6f : 0.55f;
-            float toothBallBelchPhaseVelocity = malice ? 14f : death ? 10f : 9f;
+            float toothBallBelchPhaseAcceleration = malice ? 1.15f : death ? 0.75f : 0.65f;
+            float toothBallBelchPhaseVelocity = malice ? 17f : death ? 12f : 10.5f;
             float goreVelocityX = death ? 8f : revenge ? 7.5f : expertMode ? 7f : 6f;
             float goreVelocityY = death ? 10.5f : revenge ? 10f : expertMode ? 9.5f : 8f;
             float sharkronVelocity = malice ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
@@ -5493,14 +5493,14 @@ namespace CalamityMod.NPCs
             {
                 toothBallBelchPhaseTimer = 30;
                 toothBallBelchPhaseDivisor = 6;
-                toothBallBelchPhaseAcceleration = 1f;
-                toothBallBelchPhaseVelocity = 15f;
+                toothBallBelchPhaseAcceleration = 1.25f;
+                toothBallBelchPhaseVelocity = 18f;
                 goreVelocityX = 12f;
                 goreVelocityY = 16f;
                 sharkronVelocity = 20f;
                 idlePhaseTimer = 20;
-                idlePhaseAcceleration = 1.2f;
-                idlePhaseVelocity = 20f;
+                idlePhaseAcceleration = 1.45f;
+                idlePhaseVelocity = 24f;
                 chargeTime = 25;
                 chargeVelocity += 8f;
                 toothBallSpinPhaseDivisor = 6;
