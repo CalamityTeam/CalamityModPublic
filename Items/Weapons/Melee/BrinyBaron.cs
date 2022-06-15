@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool? UseItem(Player player)
+        public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Item.shoot = ProjectileID.None;
             }
 
-            return base.UseItem(player);
+            return base.CanUseItem(player);
         }
 
         public override float UseSpeedMultiplier(Player player)
