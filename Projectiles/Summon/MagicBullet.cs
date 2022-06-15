@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

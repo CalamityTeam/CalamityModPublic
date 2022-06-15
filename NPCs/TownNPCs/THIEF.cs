@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -44,6 +45,12 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 60;
             NPCID.Sets.AttackAverageChance[NPC.type] = 10;
+            NPC.Happiness
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<JungleBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.Dryad, AffectionLevel.Dislike)
+            ;
         }
 
         public override void SetDefaults()
@@ -66,7 +73,8 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Desert,                   
 
                 // Will move to localization whenever that is cleaned up.
                 new FlavorTextBestiaryInfoElement("A kleptomaniac who is a bit of a coward when it comes to face-to-face fights. She’s rather good at getting herself both into and out of dicey situations.")

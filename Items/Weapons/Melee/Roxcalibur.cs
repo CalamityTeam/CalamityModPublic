@@ -26,6 +26,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Right click to dive downwards and bounce off enemies\n" +
                 "Diving into blocks creates a shockwave");
             SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()

@@ -208,6 +208,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.gfxOffY = -25f;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool PreAI()
@@ -394,6 +395,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 100;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
@@ -825,6 +827,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 1;
             Projectile.timeLeft = 240;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool PreAI()
@@ -929,6 +932,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.scale = 0.8f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         private void ai()
@@ -1220,6 +1224,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.extraUpdates = 1;
             Projectile.minion = true;
             Projectile.scale = 0.9f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

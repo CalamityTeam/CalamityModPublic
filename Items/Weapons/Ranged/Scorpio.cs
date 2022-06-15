@@ -27,8 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.width = 58;
             Item.height = 26;
             Item.useTime = 13;
-            Item.reuseDelay = 30;
-            Item.useAnimation = 39;
+            Item.useAnimation = 13;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 6.5f;
@@ -56,10 +55,10 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 13f/39f;
+                return 1 / 3f;
             return 1f;
         }
 

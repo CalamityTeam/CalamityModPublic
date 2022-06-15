@@ -224,9 +224,6 @@ namespace CalamityMod.Projectiles.Melee
         //Since the iframes vary, adjust the damage to be consistent no matter the iframes. The true scaling happens between the BaseDamage and the FulLChargeDamage
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.SuperPogoAttunement_ShredderProc)
-                sword.OnHitProc = true;
-
             float deviationFromBaseDamage = damage / (float)OmegaBiomeBlade.SuperPogoAttunement_BaseDamage;
             float currentDamage = (int)(MathHelper.Lerp(OmegaBiomeBlade.SuperPogoAttunement_BaseDamage * deviationFromBaseDamage, OmegaBiomeBlade.SuperPogoAttunement_FullChargeDamage * deviationFromBaseDamage, ShredRatio));
 
@@ -255,6 +252,9 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Main.myPlayer != Owner.whoAmI)
                 return;
+
+            if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.SuperPogoAttunement_ShredderProc)
+                sword.OnHitProc = true;
 
             Owner.fallStart = (int)(Owner.position.Y / 16f);
             // get lifted up

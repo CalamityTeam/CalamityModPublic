@@ -34,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         // Defines an Item which is a hacked clone of a P90, edited to be summon class instead of ranged.

@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
             Projectile.ignoreWater = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

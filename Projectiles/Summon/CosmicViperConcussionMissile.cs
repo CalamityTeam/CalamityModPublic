@@ -33,6 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
             AIType = ProjectileID.BulletHighVelocity;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

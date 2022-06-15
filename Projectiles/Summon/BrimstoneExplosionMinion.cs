@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -29,6 +30,13 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 60;
             NPCID.Sets.AttackAverageChance[NPC.type] = 15;
+            NPC.Happiness
+                .SetBiomeAffection<HallowBiome>(AffectionLevel.Love)
+                .SetBiomeAffection<OceanBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike)
+                /*.SetNPCAffection(NPCID.Stylist, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.GoblinTinkerer, AffectionLevel.Dislike)*/
+            ;
         }
 
         public override void SetDefaults()
@@ -51,7 +59,8 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheHallow,                
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("No one knows where she came from, but no one minds her either. She’s a good person to share a drink with, given you don’t make her mad.")

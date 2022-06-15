@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.ignoreWater = true;
             Projectile.tileCollide = true;
             Projectile.timeLeft = 240;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

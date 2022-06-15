@@ -1,5 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -9,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Marnite Bayonet");
-            // TODO -- Marnite Bayonet hitboxes are screwed because it's not a holdout
             Tooltip.SetDefault("The gun damages enemies that touch it");
             SacrificeTotal = 1;
         }
@@ -32,6 +33,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.useAmmo = AmmoID.Bullet;
             Item.shoot = ProjectileID.PurificationPowder;
             Item.Calamity().canFirePointBlankShots = true;
+        }
+
+        //Custom melee hitbox
+        public override bool? CanHitNPC(Player player, NPC target)
+        {
+            Rectangle targetHitbox = target.Hitbox;
+
+            float collisionPoint = 0f;
+            float gunLenght = 66f;
+            float gunHeight = 20f;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.MountedCenter, player.MountedCenter + ((player.itemRotation + (player.direction < 0 ? MathHelper.Pi : 0f)).ToRotationVector2() * gunLenght), gunHeight, ref collisionPoint) ? null : false;
         }
 
         public override void AddRecipes()

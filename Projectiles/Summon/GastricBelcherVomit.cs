@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = 3;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -127,6 +127,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 4;
             Projectile.hide = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         #region Syncing

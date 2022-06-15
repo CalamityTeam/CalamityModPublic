@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.penetrate = -1;
             Projectile.timeLeft *= 5;
             Projectile.tileCollide = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough, ref Vector2 hitboxCenterFrac)

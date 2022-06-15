@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = Projectile.SentryLifeTime;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

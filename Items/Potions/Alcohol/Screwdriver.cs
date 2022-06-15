@@ -18,8 +18,8 @@ Reduces life regen by 1");
 
         public override void SetDefaults()
         {
-            Item.width = 28;
-            Item.height = 18;
+            Item.width = 16;
+            Item.height = 26;
             Item.useTurn = true;
             Item.maxStack = 30;
             Item.rare = ItemRarityID.LightPurple;

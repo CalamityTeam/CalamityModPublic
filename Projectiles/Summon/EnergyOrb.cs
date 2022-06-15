@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.timeLeft = 200;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

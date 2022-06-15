@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.scale = 1.1f;
             Projectile.minion = true;
             AIType = ProjectileID.RainFriendly;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

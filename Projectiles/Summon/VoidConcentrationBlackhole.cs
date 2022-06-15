@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.minion = true;
             Projectile.scale = 0.01f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         private void ApplySucc(NPC npc)

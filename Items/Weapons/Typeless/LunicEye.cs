@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override void SetDefaults()
         {
             Item.DamageType = AverageDamageClass.Instance;
-            Item.width = 80;
+            Item.width = 60;
             Item.damage = 9;
             Item.value = CalamityGlobalItem.Rarity4BuyPrice;
             Item.rare = ItemRarityID.LightRed;
@@ -33,14 +33,14 @@ namespace CalamityMod.Items.Weapons.Typeless
             Item.UseSound = CommonCalamitySounds.LaserCannonSound;
             Item.autoReuse = true;
             Item.noMelee = true;
-            Item.height = 50;
+            Item.height = 36;
             Item.shoot = ModContent.ProjectileType<LunicBeam>();
             Item.shootSpeed = 12f;
         }
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-15, 0);
+            return new Vector2(-5, 0);
         }
 
         public override void AddRecipes()

@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.alpha = 50;
             Projectile.penetrate = 1;
             Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

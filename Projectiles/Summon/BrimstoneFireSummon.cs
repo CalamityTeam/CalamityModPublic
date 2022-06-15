@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 50;
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 9;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

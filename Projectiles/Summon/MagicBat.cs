@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 150;
             Projectile.minion = true;
             Projectile.minionSlots = 0f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI() => Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;

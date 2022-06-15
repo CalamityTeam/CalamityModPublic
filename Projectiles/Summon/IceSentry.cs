@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.sentry = true;
             Projectile.coldDamage = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

@@ -42,6 +42,18 @@ namespace CalamityMod.Items.Weapons.Ranged
             return new Vector2(-5, 0);
         }
 
+        //Custom melee hitbox
+        public override bool? CanHitNPC(Player player, NPC target)
+        {
+            Rectangle targetHitbox = target.Hitbox;
+
+            float collisionPoint = 0f;
+            float gunLenght = 60f;
+            float gunHeight = 26f;
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.MountedCenter, player.MountedCenter + ((player.itemRotation + (player.direction < 0 ? MathHelper.Pi : 0f)).ToRotationVector2() * gunLenght), gunHeight, ref collisionPoint) ? null : false;
+        }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             for (int index = 0; index < 2; ++index)

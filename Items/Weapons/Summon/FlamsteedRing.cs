@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
@@ -20,11 +22,14 @@ namespace CalamityMod.Items.Weapons.Summon
         //- Iban
         public static readonly SoundStyle CrippleSound = new("CalamityMod/Sounds/Custom/AndromedaCripple");
 
+        public const int HalfSafeWidth = 4;
+        public const int SafeHeight = 14;
+
         public override void Load()
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                EquipLoader.AddEquipTexture(Mod, "CalamityMod/ExtraTextures/AndromedaWithout_Head", EquipType.Head, name : "HeadlessEquipTexture");
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/ExtraTextures/AndromedaWithout_Head", EquipType.Head, name: "HeadlessEquipTexture");
             }
         }
 
@@ -72,7 +77,55 @@ namespace CalamityMod.Items.Weapons.Summon
             Item.Calamity().CannotBeEnchanted = true;
         }
 
-        public override bool CanUseItem(Player player) => !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
+        public static bool SpaceForLargeMech(Player player, bool visuals = true)
+        {
+            bool sufficientSpace = true;
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 1; j < SafeHeight; j++)
+                {
+                    Point pos = new Point(i + (int)(player.Center.X) / 16, (int)(player.Center.Y + player.height / 2f) / 16 - j);
+                    Tile tileToCheck = Main.tile[pos];
+                    if (tileToCheck.IsTileSolid())
+                    {
+                        sufficientSpace = false;
+
+                        if (!visuals)
+                            return false;
+                            
+                        Dust warningDust = Dust.NewDustPerfect(pos.ToVector2() * 16f + Vector2.One * 8f, 127, Scale: 1.2f);
+
+                        warningDust = Dust.NewDustPerfect(pos.ToVector2() * 16f + Vector2.One * 8f, 114, Vector2.Zero, Scale: 1.4f);
+                        warningDust.noGravity = true;
+                    }
+                }
+            }
+
+            if (!sufficientSpace)
+            {
+                Rectangle displayZone = player.Hitbox;
+                CombatText.NewText(displayZone, new Color(203, 157, 255), "Insufficient space!", true);
+
+                displayZone.Y -= 30;
+
+                CombatText.NewText(displayZone, new Color(59, 194, 255), "Cannot Deploy", true);
+                return false;
+            }
+
+            return sufficientSpace;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            //Can always deactivate the mech.
+            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && (n.type == ModContent.ProjectileType<GiantIbanRobotOfDoom>())))
+                return true;
+
+            bool sufficientSpace = SpaceForLargeMech(player);
+
+            return sufficientSpace && !(player.Calamity().andromedaCripple > 0 && CalamityPlayer.areThereAnyDamnBosses);
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

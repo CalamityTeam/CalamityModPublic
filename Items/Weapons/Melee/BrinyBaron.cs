@@ -28,6 +28,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.autoReuse = true;
             Item.shootSpeed = 4f;
 
+            Item.shoot = ModContent.ProjectileType<Razorwind>();
+
             Item.width = 100;
             Item.height = 102;
             Item.scale = 1.5f;
@@ -40,36 +42,36 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
                 Item.noMelee = true;
-                Item.noUseGraphic = true;
-                Item.UseSound = SoundID.Item84;
-                Item.shoot = ModContent.ProjectileType<Razorwind>();
             }
             else
             {
                 Item.noMelee = false;
-                Item.noUseGraphic = false;
-                Item.UseSound = SoundID.Item1;
-                Item.shoot = ProjectileID.None;
             }
-            return base.CanUseItem(player);
+
+            return base.UseItem(player);
         }
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
                 return 1f;
-            return 0.75f;
+            return 1.33f;
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<Razorwind>(), (int)(damage * 0.43), knockback, player.whoAmI);
-            return false;
+            if (player.altFunctionUse == 2)
+            {
+                damage = (int)(damage * 0.43);
+            }
+
+            else 
+                type = ProjectileID.None;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -96,6 +98,18 @@ namespace CalamityMod.Items.Weapons.Melee
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<BrinySpout>()] == 0)
                 Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), damage, Item.knockBack, player.whoAmI);
+        }
+
+        public override void UseAnimation(Player player)
+        {
+            Item.noUseGraphic = false;
+            Item.UseSound = SoundID.Item1;
+
+            if (player.altFunctionUse == 2)
+            {
+                Item.noUseGraphic = true;
+                Item.UseSound = SoundID.Item84;
+            }
         }
     }
 }

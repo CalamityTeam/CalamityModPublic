@@ -45,10 +45,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
-                return 3f;
+                return 1 / 3f;
             return 1f;
         }
 

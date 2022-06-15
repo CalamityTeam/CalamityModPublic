@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.damage = 50;
+            Item.width = 28;
+            Item.damage = 120;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.useTime = Item.useAnimation = 10;
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.Calamity().StealthStrikeAvailable() || player.altFunctionUse == 2)
                 return 1f;

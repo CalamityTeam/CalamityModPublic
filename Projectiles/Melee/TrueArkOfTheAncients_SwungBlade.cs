@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using static CalamityMod.CalamityUtils;
 using Terraria.Audio;
-
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -73,8 +73,8 @@ namespace CalamityMod.Projectiles.Melee
             if (!initialized) //Initialization
             {
                 Projectile.timeLeft = (int)MaxTime;
-                SoundStyle sound = Charge > 0 ?SoundID.DD2_PhantomPhoenixShot : SoundID.DD2_MonkStaffSwing;
-                SoundEngine.PlaySound(sound with { Volume = sound.Volume * (Charge > 0 ? 2.5f : 1f) }, Projectile.Center);
+                SoundStyle sound = (Charge > 0) ? CommonCalamitySounds.LouderPhantomPhoenix : SoundID.DD2_MonkStaffSwing;
+                SoundEngine.PlaySound(sound, Projectile.Center);
 
                 direction = Projectile.velocity;
                 direction.Normalize();

@@ -35,38 +35,44 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.knockBack = 7.5f;
             Item.value = Item.buyPrice(0, 36, 0, 0);
             Item.rare = ItemRarityID.Pink;
+            Item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
             Item.shootSpeed = 20f;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
                 Item.noMelee = true;
-                Item.noUseGraphic = true;
-                Item.shoot = ModContent.ProjectileType<ProfanedSwordProj>();
             }
             else
             {
                 Item.noMelee = false;
-                Item.noUseGraphic = false;
-                Item.shoot = ProjectileID.None;
             }
-            return base.CanUseItem(player);
+
+            return base.UseItem(player);
         }
 
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            Projectile.NewProjectile(source, position.X, position.Y, velocity.X, velocity.Y, ModContent.ProjectileType<ProfanedSwordProj>(), damage, knockback, player.whoAmI, 0f, 0f);
-            return false;
+            if (player.altFunctionUse != 2)
+                type = ProjectileID.None;
         }
+
+        public override void UseAnimation(Player player)
+        {
+            Item.noUseGraphic = false;
+
+            if (player.altFunctionUse == 2)
+            {
+                Item.noUseGraphic = true;
+            }
+        }
+
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
