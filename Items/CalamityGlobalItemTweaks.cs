@@ -395,7 +395,7 @@ namespace CalamityMod.Items
                 { ItemID.QueenSlimeCrystal, nonConsumableBossSummon },
                 { ItemID.QueenSpiderStaff, Do(UseExact(25)) },
                 { ItemID.RainbowCrystalStaff, Do(UseExact(15)) },
-                { ItemID.RainbowRod, Do(DamageRatio(1.2f)) },
+                { ItemID.RainbowRod, Do(DamageExact(55), UseExact(50)) },
                 { ItemID.RainbowWhip, autoReuse },
                 { ItemID.Rally, Do(AutoReuse, DamageExact(20)) },
                 { ItemID.RavenStaff, Do(UseExact(20)) },
