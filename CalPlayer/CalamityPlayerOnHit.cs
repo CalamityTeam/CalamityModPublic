@@ -733,6 +733,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
                         int graniteSparkDamage = (int)Player.GetBestClassDamage().ApplyTo(15);
                         Projectile.NewProjectile(source, position, velocity, ProjectileType<UnstableSpark>(), graniteSparkDamage, 0f, Player.whoAmI);
+                        Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()]++;
                     }
                 }
 
