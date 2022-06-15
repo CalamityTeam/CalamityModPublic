@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public const int BetweenShotsPause = 15;
         public const int PelletsPerShot = 6;
-        public const float FullAutoFireRateMult = 0.8f;
+        public const float FullAutoFireRateMult = 1.25f;
         public const float FullAutoDamageMult = 0.8f;
         // note this is extremely low because it's per pellet
         public const float Spread = 0.018f;
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             return base.CanUseItem(player);
         }
 
-        public override float UseTimeMultiplier(Player player) => player.altFunctionUse == 2 ? FullAutoFireRateMult : 1f;
+        public override float UseSpeedMultiplier(Player player) => player.altFunctionUse == 2 ? FullAutoFireRateMult : 1f;
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

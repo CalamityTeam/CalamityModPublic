@@ -21,6 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 "Throws a powerful rose flail\n" +
                 "Right click to stab with a flower spear");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -52,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse != 2)
                 return 1f;

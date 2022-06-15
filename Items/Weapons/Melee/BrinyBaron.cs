@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
@@ -56,14 +56,15 @@ namespace CalamityMod.Items.Weapons.Melee
                 Item.UseSound = SoundID.Item1;
                 Item.shoot = ProjectileID.None;
             }
-            return base.CanUseItem(player);
+
+            return base.UseItem(player);
         }
 
-        public override float UseTimeMultiplier    (Player player)
+        public override float UseSpeedMultiplier(Player player)
         {
             if (player.altFunctionUse == 2)
                 return 1f;
-            return 0.75f;
+            return 1.33f;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

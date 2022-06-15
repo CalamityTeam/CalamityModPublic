@@ -18,6 +18,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 "The lower the enemies' defense, the more damage they take from this debuff\n" +
                 "Right click to use without hammering down walls");
             SacrificeTotal = 1;
+
+            ItemID.Sets.ItemsThatAllowRepeatedRightClick[Item.type] = true;
         }
 
         public override void SetDefaults()
