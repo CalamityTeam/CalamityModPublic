@@ -36,6 +36,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
 
 namespace CalamityMod.Events
 {
@@ -392,6 +393,10 @@ namespace CalamityMod.Events
         {
             if (!BossRushActive)
                 return;
+
+            // Disable the stupid credits sequence.
+            if (CreditsRollEvent.IsEventOngoing)
+                CreditsRollEvent.SetRemainingTimeDirect(1);
 
             // Prevent Moon Lord from spawning naturally
             if (NPC.MoonLordCountdown > 0)
