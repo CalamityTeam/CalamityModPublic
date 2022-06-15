@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Ranged
                 return false;
 
             float sightsSize = 700f;
-            float sightsResolution = 0.2f;
+            float sightsResolution = MathHelper.Lerp(0.04f, 0.2f, Math.Min(ChargePercent * 1.5f, 1));
 
             // Converge the sights
             float spread = (1f - ChargePercent) * MaxSightAngle;
