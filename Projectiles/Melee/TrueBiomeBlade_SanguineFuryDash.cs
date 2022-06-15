@@ -42,7 +42,10 @@ namespace CalamityMod.Projectiles.Melee
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             crit = true;
+        }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             if (Owner.HeldItem.ModItem is OmegaBiomeBlade sword && Main.rand.NextFloat() <= OmegaBiomeBlade.SuperPogoAttunement_DashProc)
                 sword.OnHitProc = true;
 
@@ -55,6 +58,9 @@ namespace CalamityMod.Projectiles.Melee
                 Particle Spark = new CritSpark(target.Center, sparkSpeed, Color.White, Color.Crimson, 1f + Main.rand.NextFloat(0, 1f), 30, 0.4f, 0.6f);
                 GeneralParticleHandler.SpawnParticle(Spark);
             }
+
+            if (!target.canGhostHeal || Owner.moonLeech)
+                return;
 
             Owner.statLife += OmegaBiomeBlade.SuperPogoAttunementSlashLifesteal;
             Owner.HealEffect(OmegaBiomeBlade.SuperPogoAttunementSlashLifesteal);
