@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Healing;
 using Microsoft.Xna.Framework;
 using System;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.knockBack = (int)(Projectile.knockBack * 0.95);
             }
             if (Projectile.ai[0] < 240f)
-                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
+                Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + MathHelper.PiOver2;
             else
             {
                 Projectile.rotation += 0.5f;
@@ -45,6 +45,18 @@ namespace CalamityMod.Projectiles.Melee
             CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 12f, 20f);
             if (Main.rand.NextBool(6))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 20, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
+        }
+
+        //Give it a custom hitbox shape so it may remain rectangular and elongated
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeHalfLenght = Projectile.height * Projectile.scale / 2f;
+            float bladeWidth = Projectile.width * Projectile.scale;
+
+            Vector2 direction = (Projectile.rotation - MathHelper.PiOver2).ToRotationVector2();
+
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center - direction * bladeHalfLenght, Projectile.Center + direction * bladeHalfLenght, bladeWidth, ref collisionPoint);
         }
 
         public override void Kill(int timeLeft)
