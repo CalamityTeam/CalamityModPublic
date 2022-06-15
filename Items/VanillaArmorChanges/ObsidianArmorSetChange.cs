@@ -17,7 +17,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
 
         public override void UpdateSetBonusText(ref string setBonusText)
         {
-            setBonusText = "Increases whip range by 50% and speed by 35%\n" +
+            setBonusText = "Set Bonus: Increases whip range by 50% and speed by 35%\n" +
                         "Increases minion damage by 15%\n" +
                         "Grants immunity to fire blocks and temporary immunity to lava";
         }

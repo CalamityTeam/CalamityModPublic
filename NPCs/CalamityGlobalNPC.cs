@@ -4702,7 +4702,7 @@ namespace CalamityMod.NPCs
             }
 
             // Increase fairy spawn rates while wearing Fairy Boots
-            if (spawnInfo.Player.Calamity().fairyBoots)
+            if (spawnInfo.Player.Calamity().fairyBoots && NPC.CountNPCS(NPCID.FairyCritterBlue) + NPC.CountNPCS(NPCID.FairyCritterGreen) + NPC.CountNPCS(NPCID.FairyCritterPink) <= 4)
             {
                 if (!NPC.AnyNPCs(NPCID.FairyCritterBlue))
                     pool[NPCID.FairyCritterBlue] = SpawnCondition.Overworld.Chance * 5f;

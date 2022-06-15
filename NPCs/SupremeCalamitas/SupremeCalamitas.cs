@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 {
     public class SupremeCalamitas : ModNPC
     {
-        internal enum FrameAnimationType
+        public enum FrameAnimationType
         {
             // The numbering of these values correspond to a frame on the sprite. If this enumeration or the sprite itself
             // is updated, these numbers will need to be too.
@@ -50,59 +50,59 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             Count = 7
         }
 
-        private float bossLife;
-        private float uDieLul = 1f;
-        private float passedVar = 0f;
+        public float bossLife;
+        public float uDieLul = 1f;
+        public float passedVar = 0f;
 
-        private bool protectionBoost = false;
-        private bool canDespawn = false;
-        private bool despawnProj = false;
-        private bool startText = false;
-        private bool startBattle = false; //100%
-        private bool hasSummonedSepulcher1 = false; //100%
-        private bool startSecondAttack = false; //80%
-        private bool startThirdAttack = false; //60%
-        private bool halfLife = false; //40%
-        private bool startFourthAttack = false; //30%
-        private bool secondStage = false; //20%
-        private bool startFifthAttack = false; //10%
-        private bool gettingTired = false; //8%
-        private bool hasSummonedSepulcher2 = false; //8%
-        private bool gettingTired2 = false; //6%
-        private bool gettingTired3 = false; //4%
-        private bool gettingTired4 = false; //2%
-        private bool gettingTired5 = false; //1%
-        private bool willCharge = false;
-        private bool canFireSplitingFireball = true;
-        private bool spawnArena = false;
-        private bool enteredBrothersPhase = false;
-        private bool hasSummonedBrothers = false;
+        public bool protectionBoost = false;
+        public bool canDespawn = false;
+        public bool despawnProj = false;
+        public bool startText = false;
+        public bool startBattle = false; //100%
+        public bool hasSummonedSepulcher1 = false; //100%
+        public bool startSecondAttack = false; //80%
+        public bool startThirdAttack = false; //60%
+        public bool halfLife = false; //40%
+        public bool startFourthAttack = false; //30%
+        public bool secondStage = false; //20%
+        public bool startFifthAttack = false; //10%
+        public bool gettingTired = false; //8%
+        public bool hasSummonedSepulcher2 = false; //8%
+        public bool gettingTired2 = false; //6%
+        public bool gettingTired3 = false; //4%
+        public bool gettingTired4 = false; //2%
+        public bool gettingTired5 = false; //1%
+        public bool willCharge = false;
+        public bool canFireSplitingFireball = true;
+        public bool spawnArena = false;
+        public bool enteredBrothersPhase = false;
+        public bool hasSummonedBrothers = false;
 
-        private int giveUpCounter = 1200;
-        private int phaseChange = 0;
-        private int spawnX = 0;
-        private int spawnX2 = 0;
-        private int spawnXReset = 0;
-        private int spawnXReset2 = 0;
-        private int spawnXAdd = 200;
-        private int spawnY = 0;
-        private int spawnYReset = 0;
-        private int spawnYAdd = 0;
+        public int giveUpCounter = 1200;
+        public int phaseChange = 0;
+        public int spawnX = 0;
+        public int spawnX2 = 0;
+        public int spawnXReset = 0;
+        public int spawnXReset2 = 0;
+        public int spawnXAdd = 200;
+        public int spawnY = 0;
+        public int spawnYReset = 0;
+        public int spawnYAdd = 0;
         public int bulletHellCounter = 0;
         public int bulletHellCounter2 = 0;
-        private int attackCastDelay = 0;
-        private int hitTimer = 0;
+        public int attackCastDelay = 0;
+        public int hitTimer = 0;
 
-        private float shieldOpacity = 1f;
-        private float shieldRotation = 0f;
-        private float forcefieldOpacity = 1f;
-        private float forcefieldScale = 1;
-        private FrameAnimationType FrameType
+        public float shieldOpacity = 1f;
+        public float shieldRotation = 0f;
+        public float forcefieldOpacity = 1f;
+        public float forcefieldScale = 1;
+        public FrameAnimationType FrameType
         {
             get => (FrameAnimationType)(int)NPC.localAI[2];
             set => NPC.localAI[2] = (int)value;
         }
-        private bool AttackCloseToBeingOver
+        public bool AttackCloseToBeingOver
         {
             get
             {
@@ -134,12 +134,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 return NPC.ai[2] >= attackLength - 30f;
             }
         }
-        private ref float FrameChangeSpeed => ref NPC.localAI[3];
+        public ref float FrameChangeSpeed => ref NPC.localAI[3];
 
-        private Vector2 cataclysmSpawnPosition;
-        private Vector2 catastropheSpawnPosition;
-        private Vector2 initialRitualPosition;
-        private Rectangle safeBox = default;
+        public Vector2 cataclysmSpawnPosition;
+        public Vector2 catastropheSpawnPosition;
+        public Vector2 initialRitualPosition;
+        public Rectangle safeBox = default;
+
+        public bool IsTargetOutsideOfArena => !Main.player[NPC.target].Hitbox.Intersects(safeBox);
 
         public static int hoodedHeadIconIndex;
         public static int hoodedHeadIconP2Index;
@@ -148,9 +150,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public static float normalDR = 0.25f;
         public static float enragedDR = 0.9999f;
 
-        private static readonly Color textColor = Color.Orange;
-        private const int sepulcherSpawnCastTime = 75;
-        private const int brothersSpawnCastTime = 150;
+        public static readonly Color textColor = Color.Orange;
+        public const int sepulcherSpawnCastTime = 75;
+        public const int brothersSpawnCastTime = 150;
         
         // Sounds.
         public static readonly SoundStyle SpawnSound = new("CalamityMod/Sounds/Custom/SupremeCalamitasSpawn") { Volume = 1.2f }; 
@@ -565,6 +567,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 float projectileVelocityMultCap = (!player.Hitbox.Intersects(safeBox) && spawnArena) ? 2f : 1.5f;
                 uDieLul = MathHelper.Clamp(uDieLul * 1.01f, 1f, projectileVelocityMultCap);
                 protectionBoost = !malice;
+                if (!player.Hitbox.Intersects(safeBox))
+                    protectionBoost = true;
             }
             else
             {
