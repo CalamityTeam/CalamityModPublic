@@ -1362,7 +1362,7 @@ namespace CalamityMod.Projectiles
                     bool spreadOut = false;
                     bool homeIn = false;
                     float spreadOutCutoffTime = 140f;
-                    float homeInCutoffTime = 80f;
+                    float homeInCutoffTime = Main.dayTime ? 55f : 80f;
                     float spreadDeceleration = 0.98f;
                     float minAcceleration = 0.05f;
                     float maxAcceleration = 0.1f;
