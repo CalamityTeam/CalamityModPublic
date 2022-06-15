@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.width = 120;
             NPC.height = 120;
             NPC.defense = 80;
-            NPC.DR_NERD(0.25f);
+            NPC.DR_NERD(SupremeCataclysm.NormalBrothersDR);
             NPC.LifeMaxNERB(230000, 276000, 100000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             NPC.lifeMax += (int)(NPC.lifeMax * HPBoost);
@@ -77,8 +77,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 //We'll probably want a custom background SCal her like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.SCal,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Calamitas’ necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("Calamitas’ necromancy is outmatched by no one, but no one can truly bring the departed back from the dead.")
             });
         }
 
@@ -131,6 +131,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 NPC.netUpdate = true;
                 return;
             }
+
+            // Increase DR if the target leaves SCal's arena.
+            NPC.Calamity().DR = SupremeCataclysm.NormalBrothersDR;
+            if (Main.npc[CalamityGlobalNPC.SCal].ModNPC<SupremeCalamitas>().IsTargetOutsideOfArena)
+                NPC.Calamity().DR = SupremeCalamitas.enragedDR;
 
             float totalLifeRatio = NPC.life / (float)NPC.lifeMax;
             if (CalamityGlobalNPC.SCalCataclysm != -1)

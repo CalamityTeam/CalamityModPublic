@@ -17,11 +17,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     public class SoulSeekerSupreme : ModNPC
     {
         private int timer = 0;
+
         private bool start = true;
-        public NPC SCal => Main.npc[CalamityGlobalNPC.SCal];
         public Player Target => Main.player[NPC.target];
+
         public Vector2 EyePosition => NPC.Center + new Vector2(NPC.spriteDirection == -1 ? 40f : -36f, 16f);
+
         public ref float RotationalDegreeOffset => ref NPC.ai[1];
+
+        public static NPC SCal => Main.npc[CalamityGlobalNPC.SCal];
+
+        public const float NormalDR = 0.25f;
 
         public override void SetStaticDefaults()
         {
@@ -51,7 +57,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.canGhostHeal = false;
             NPC.damage = 0;
             NPC.defense = 60;
-            NPC.DR_NERD(0.25f);
+            NPC.DR_NERD(NormalDR);
             NPC.LifeMaxNERB(Main.expertMode ? 24000 : 15000, 28000);
             NPC.DeathSound = SoundID.DD2_SkeletonDeath;
             NPC.Calamity().VulnerableToHeat = false;
@@ -108,6 +114,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 RotationalDegreeOffset = NPC.ai[0];
                 start = false;
             }
+
+            // Increase DR if the target leaves SCal's arena.
+            NPC.Calamity().DR = NormalDR;
+            if (SCal.ModNPC<SupremeCalamitas>().IsTargetOutsideOfArena)
+                NPC.Calamity().DR = SupremeCalamitas.enragedDR;
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Target.dead || !Target.active)
