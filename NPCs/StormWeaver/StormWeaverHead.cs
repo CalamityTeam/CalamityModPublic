@@ -394,7 +394,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
                     if (calamityGlobalNPC.newAI[2] >= projectileGateValue)
                     {
-                        calamityGlobalNPC.newAI[2] = 0f;
+                        calamityGlobalNPC.newAI[2] = -projectileGateValue * 4f;
 
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         if (phase4)
@@ -470,7 +470,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 {
                     if (calamityGlobalNPC.newAI[2] >= projectileGateValue)
                     {
-                        calamityGlobalNPC.newAI[2] = 0f;
+                        calamityGlobalNPC.newAI[2] = -projectileGateValue * 4f;
 
                         // Dictates whether Storm Weaver will use frost or tornadoes
                         calamityGlobalNPC.newAI[3] += 1f;
@@ -503,7 +503,6 @@ namespace CalamityMod.NPCs.StormWeaver
                         NPC.TargetClosest();
                         NPC.localAI[1] = 0f;
                         calamityGlobalNPC.newAI[0] = 0f;
-                        calamityGlobalNPC.newAI[2] = 0f;
                     }
 
                     if (NPC.localAI[1] == 2f)

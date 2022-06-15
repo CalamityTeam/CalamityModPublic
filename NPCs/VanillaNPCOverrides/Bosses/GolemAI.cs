@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && (enrage || turboEnrage);
 
-            bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y;
+            bool reduceFallSpeed = npc.velocity.Y > 0f && Collision.SolidCollision(npc.position + Vector2.UnitY * 1.1f * npc.velocity.Y, npc.width, npc.height);
 
             // Alpha
             if (npc.alpha > 0)
@@ -276,6 +276,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     SoundEngine.PlaySound(SoundID.Item14, npc.position);
 
                     npc.ai[0] = 0f;
+                    calamityGlobalNPC.newAI[1] = 0f;
+                    npc.SyncExtraAI();
 
                     // Dust and gore
                     for (int num644 = (int)npc.position.X - 20; num644 < (int)npc.position.X + npc.width + 40; num644 += 20)
@@ -352,7 +354,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     // Velocity when falling
                     if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + npc.width > Main.player[npc.target].position.X + Main.player[npc.target].width)
                     {
-                        npc.velocity.X *= 0.9f;
+                        npc.velocity.X *= 0.8f;
+
+                        if (calamityGlobalNPC.newAI[1] == 0f)
+                        {
+                            calamityGlobalNPC.newAI[1] = 1f;
+                            npc.SyncExtraAI();
+                        }
 
                         if (npc.Bottom.Y < Main.player[npc.target].position.Y)
                         {
@@ -373,14 +381,17 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.velocity.X += velocityXChange;
 
                         float velocityBoost = death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
-                        float num648 = 3f + velocityBoost;
+                        float velocityXCap = 3f + velocityBoost;
                         if (enrage)
-                            num648 *= 1.5f;
+                            velocityXCap *= 1.5f;
 
-                        if (npc.velocity.X < -num648)
-                            npc.velocity.X = -num648;
-                        if (npc.velocity.X > num648)
-                            npc.velocity.X = num648;
+                        if (calamityGlobalNPC.newAI[1] == 1f)
+                            velocityXCap *= 0.5f;
+
+                        if (npc.velocity.X < -velocityXCap)
+                            npc.velocity.X = -velocityXCap;
+                        if (npc.velocity.X > velocityXCap)
+                            npc.velocity.X = velocityXCap;
                     }
 
                     CustomGravity();
@@ -392,16 +403,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 float gravity = turboEnrage ? (Main.getGoodWorld ? 0.12f : 0.9f) : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
                 float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? (Main.getGoodWorld ? 40f : 30f) : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
-                if (calamityGlobalNPC.newAI[0] > 1f && !reduceFallSpeed)
-                    maxFallSpeed *= calamityGlobalNPC.newAI[0];
-
                 npc.velocity.Y += gravity;
                 if (npc.velocity.Y > maxFallSpeed)
                     npc.velocity.Y = maxFallSpeed;
             }
 
             // Despawn
-            int num649 = turboEnrage ? (Main.getGoodWorld ? 9000 : 7500) : enrage ? 6000 : 4500;
+            int num649 = turboEnrage ? 7500 : enrage ? 6000 : 4500;
             if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > num649)
             {
                 npc.TargetClosest();

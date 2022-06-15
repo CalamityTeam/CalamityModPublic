@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.Ravager
             bool immunePhase = headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive;
             bool finalPhase = !leftClawActive && !rightClawActive && !headActive && !leftLegActive && !rightLegActive && expertMode;
             bool phase2 = NPC.ai[0] == 2f;
-            bool reduceFallSpeed = NPC.velocity.Y > 0f && NPC.Bottom.Y > player.Top.Y;
+            bool reduceFallSpeed = NPC.velocity.Y > 0f && Collision.SolidCollision(NPC.position + Vector2.UnitY * 1.1f * NPC.velocity.Y, NPC.width, NPC.height);
 
             if (immunePhase)
             {
@@ -442,6 +442,7 @@ namespace CalamityMod.NPCs.Ravager
 
                     NPC.ai[0] = 0f;
                     NPC.ai[1] = 0f;
+                    NPC.ai[2] = 0f;
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -567,6 +568,8 @@ namespace CalamityMod.NPCs.Ravager
                         {
                             NPC.velocity.X *= 0.8f;
 
+                            NPC.ai[2] = 1f;
+
                             if (NPC.Bottom.Y < player.position.Y)
                             {
                                 float fallSpeedBoost = !anyHeadActive ? 0.9f : death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
@@ -585,24 +588,24 @@ namespace CalamityMod.NPCs.Ravager
                         float velocityXChange = 0.2f + Math.Abs(NPC.Center.X - player.Center.X) * 0.001f;
 
                         float velocityXBoost = !anyHeadActive ? 6f : death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
-                        float velocityX = 8f + velocityXBoost + Math.Abs(NPC.Center.X - player.Center.X) * 0.001f;
+                        float velocityXCap = 8f + velocityXBoost + Math.Abs(NPC.Center.X - player.Center.X) * 0.001f;
 
                         if (!rightClawActive)
-                            velocityX += 1f;
+                            velocityXCap += 1f;
                         if (!leftClawActive)
-                            velocityX += 1f;
+                            velocityXCap += 1f;
                         if (!headActive)
-                            velocityX += 1f;
+                            velocityXCap += 1f;
                         if (!rightLegActive)
-                            velocityX += 1f;
+                            velocityXCap += 1f;
                         if (!leftLegActive)
-                            velocityX += 1f;
+                            velocityXCap += 1f;
 
                         if (phase2)
                         {
                             NPC.damage = 0;
                             velocityXChange *= velocityMult;
-                            velocityX *= velocityMult;
+                            velocityXCap *= velocityMult;
                         }
 
                         if (NPC.direction < 0)
@@ -610,10 +613,13 @@ namespace CalamityMod.NPCs.Ravager
                         else if (NPC.direction > 0)
                             NPC.velocity.X += velocityXChange;
 
-                        if (NPC.velocity.X < -velocityX)
-                            NPC.velocity.X = -velocityX;
-                        if (NPC.velocity.X > velocityX)
-                            NPC.velocity.X = velocityX;
+                        if (NPC.ai[2] == 1f)
+                            velocityXCap *= 0.333f;
+
+                        if (NPC.velocity.X < -velocityXCap)
+                            NPC.velocity.X = -velocityXCap;
+                        if (NPC.velocity.X > velocityXCap)
+                            NPC.velocity.X = velocityXCap;
                     }
 
                     CustomGravity();

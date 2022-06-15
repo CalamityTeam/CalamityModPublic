@@ -892,7 +892,7 @@ namespace CalamityMod.NPCs
                         int type = ModContent.ProjectileType<BrimstoneHellfireball>();
                         int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
                         Vector2 projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
-                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                        int proj = Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 5f, projectileVelocity, type, damage, 0f, Main.myPlayer);
                         Main.projectile[proj].timeLeft = 240;
 
                         if (npc.ai[1] % divisor2 == divisor2 - 1f)
@@ -1619,7 +1619,7 @@ namespace CalamityMod.NPCs
                         int damage = npc.GetProjectileDamage(type);
                         Vector2 fireballVelocity = Vector2.Normalize(player.Center - npc.Center) * projectileVelocity;
                         Vector2 offset = Vector2.Normalize(fireballVelocity) * 40f;
-                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                        Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
                     }
                 }
             }
@@ -1653,7 +1653,7 @@ namespace CalamityMod.NPCs
                         {
                             type = ModContent.ProjectileType<BrimstoneHellfireball>();
                             damage = npc.GetProjectileDamage(type);
-                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, player.Center.X, player.Center.Y);
+                            Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + offset, fireballVelocity, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer);
                         }
                         else
                         {
@@ -2399,8 +2399,8 @@ namespace CalamityMod.NPCs
             // Direction
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
-            // Used to reduce Aureus' fall speed when the bottom of his hitbox is below the top of his target's hitbox
-            bool reduceFallSpeed = npc.velocity.Y > 0f && npc.Bottom.Y > player.Top.Y && npc.ai[0] == 4f;
+            // Used to reduce Aureus' fall speed
+            bool reduceFallSpeed = npc.velocity.Y > 0f && Collision.SolidCollision(npc.position + Vector2.UnitY * 1.1f * npc.velocity.Y, npc.width, npc.height) && npc.ai[0] == 4f;
 
             // Despawn
             bool despawnDistance = Vector2.Distance(player.Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance350Tiles;
@@ -2784,6 +2784,7 @@ namespace CalamityMod.NPCs
 
                     calamityGlobalNPC.newAI[0] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
+                    calamityGlobalNPC.newAI[3] = 0f;
 
                     // Spawn dust for visual effect
                     for (int num622 = (int)npc.position.X - 20; num622 < (int)npc.position.X + npc.width + 40; num622 += 20)
@@ -2799,9 +2800,9 @@ namespace CalamityMod.NPCs
                     SoundEngine.PlaySound(SoundID.Item33, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (calamityGlobalNPC.newAI[3] == 0f)
+                        if (calamityGlobalNPC.newAI[2] == 0f)
                         {
-                            calamityGlobalNPC.newAI[3] = 1f;
+                            calamityGlobalNPC.newAI[2] = 1f;
 
                             float flameVelocity = 12f;
                             int maxProjectiles = !phase2 ? (malice ? 3 : death ? 2 : 1) : (malice ? 4 : death ? 3 : 2);
@@ -2824,7 +2825,7 @@ namespace CalamityMod.NPCs
                         }
                         else
                         {
-                            calamityGlobalNPC.newAI[3] = 0f;
+                            calamityGlobalNPC.newAI[2] = 0f;
 
                             float laserVelocity = death ? 7f : 6f;
                             int maxProjectiles = !phase3 ? (malice ? 13 : death ? 11 : 9) : (malice ? 17 : death ? 15 : 13);
@@ -2869,6 +2870,8 @@ namespace CalamityMod.NPCs
 
                         npc.velocity.X *= 0.8f;
 
+                        calamityGlobalNPC.newAI[3] = 1f;
+
                         if (npc.Bottom.Y < player.position.Y)
                         {
                             // Make sure Aureus falls rather quickly
@@ -2907,6 +2910,9 @@ namespace CalamityMod.NPCs
 
                         if (calamityGlobalNPC.newAI[1] > 0f)
                             velocityXCap *= calamityGlobalNPC.newAI[1] + 1f;
+
+                        if (calamityGlobalNPC.newAI[3] == 1f)
+                            velocityXCap *= 0.333f;
 
                         if (npc.velocity.X < -velocityXCap)
                             npc.velocity.X = -velocityXCap;

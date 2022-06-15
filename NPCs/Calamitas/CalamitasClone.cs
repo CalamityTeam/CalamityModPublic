@@ -304,6 +304,12 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.damage = (int)(NPC.damage * NPC.GetExpertDamageMultiplier());
         }
 
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = 1;
+            return true;
+        }
+
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300, true);

@@ -218,6 +218,12 @@ namespace CalamityMod.NPCs.Calamitas
             }
         }
 
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = 1;
+            return true;
+        }
+
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240, true);

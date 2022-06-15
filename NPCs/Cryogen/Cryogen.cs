@@ -228,13 +228,21 @@ namespace CalamityMod.NPCs.Cryogen
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            float chargeGateValue = malice ? 240f : 360f;
+            float chargePhaseGateValue = malice ? 240f : 360f;
+            float chargeDuration = 60f;
+            float chargeSlowDownTime = 15f;
+            float chargeVelocityMin = 12f;
+            float chargeVelocityMax = 30f;
             if (Main.getGoodWorld)
-                chargeGateValue *= 0.7f;
+            {
+                chargePhaseGateValue *= 0.7f;
+                chargeDuration *= 0.8f;
+            }
+            float chargeGateValue = chargePhaseGateValue + (NPC.ai[0] == 2f ? 20f : 30f);
+            float chargeSlownDownPhaseGateValue = chargeGateValue + chargeSlowDownTime;
+            bool chargePhase = NPC.ai[1] >= chargePhaseGateValue;
 
-            bool charging = NPC.ai[1] >= chargeGateValue;
-
-            if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !charging)
+            if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !chargePhase)
             {
                 time++;
                 if (time >= (malice ? 660 : 900))
@@ -316,7 +324,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
             else if (NPC.ai[0] == 1f)
             {
-                if (NPC.ai[1] < chargeGateValue)
+                if (NPC.ai[1] < chargePhaseGateValue)
                 {
                     NPC.ai[1] += 1f;
 
@@ -394,7 +402,7 @@ namespace CalamityMod.NPCs.Cryogen
                             NPC.velocity.X = -velocity;
                     }
                 }
-                else if (NPC.ai[1] < chargeGateValue + 30f)
+                else if (NPC.ai[1] < chargeGateValue)
                 {
                     NPC.ai[1] += 1f;
 
@@ -407,11 +415,24 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else
                 {
-                    if (NPC.ai[1] == chargeGateValue + 30f)
+                    if (NPC.ai[1] == chargeGateValue)
                     {
-                        NPC.velocity = Vector2.Normalize(player.Center - NPC.Center) * (18f + enrageScale * 2f);
+                        float chargeVelocity = Vector2.Distance(NPC.Center, player.Center) / chargeDuration * 2f;
+                        NPC.velocity = Vector2.Normalize(player.Center - NPC.Center) * (chargeVelocity + enrageScale * 2f);
 
-                        NPC.ai[1] = chargeGateValue + 90f;
+                        if (NPC.velocity.Length() < chargeVelocityMin)
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= chargeVelocityMin;
+                        }
+
+                        if (NPC.velocity.Length() > chargeVelocityMax)
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= chargeVelocityMax;
+                        }
+
+                        NPC.ai[1] = chargeGateValue + chargeDuration;
                         calamityGlobalNPC.newAI[0] = 0f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -442,7 +463,7 @@ namespace CalamityMod.NPCs.Cryogen
                     }
 
                     NPC.ai[1] -= 1f;
-                    if (NPC.ai[1] == chargeGateValue + 30f)
+                    if (NPC.ai[1] == chargeGateValue)
                     {
                         NPC.TargetClosest();
 
@@ -451,7 +472,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                         NPC.rotation = NPC.velocity.X * 0.1f;
                     }
-                    else if (NPC.ai[1] <= chargeGateValue + 45f)
+                    else if (NPC.ai[1] <= chargeSlownDownPhaseGateValue)
                     {
                         NPC.velocity *= 0.95f;
                         NPC.rotation = NPC.velocity.X * 0.15f;
@@ -473,7 +494,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
             else if (NPC.ai[0] == 2f)
             {
-                if (NPC.ai[1] < chargeGateValue)
+                if (NPC.ai[1] < chargePhaseGateValue)
                 {
                     NPC.ai[1] += 1f;
 
@@ -523,7 +544,7 @@ namespace CalamityMod.NPCs.Cryogen
                     NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
                     NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
                 }
-                else if (NPC.ai[1] < chargeGateValue + 20f)
+                else if (NPC.ai[1] < chargeGateValue)
                 {
                     NPC.ai[1] += 1f;
 
@@ -536,11 +557,24 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else
                 {
-                    if (NPC.ai[1] == chargeGateValue + 20f)
+                    if (NPC.ai[1] == chargeGateValue)
                     {
-                        NPC.velocity = Vector2.Normalize(player.Center - NPC.Center) * (18f + enrageScale * 2f);
+                        float chargeVelocity = Vector2.Distance(NPC.Center, player.Center) / chargeDuration * 2f;
+                        NPC.velocity = Vector2.Normalize(player.Center - NPC.Center) * (chargeVelocity + enrageScale * 2f);
 
-                        NPC.ai[1] = chargeGateValue + 80f;
+                        if (NPC.velocity.Length() < chargeVelocityMin)
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= chargeVelocityMin;
+                        }
+
+                        if (NPC.velocity.Length() > chargeVelocityMax)
+                        {
+                            NPC.velocity.Normalize();
+                            NPC.velocity *= chargeVelocityMax;
+                        }
+
+                        NPC.ai[1] = chargeGateValue + chargeDuration;
                         calamityGlobalNPC.newAI[0] = 0f;
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -571,7 +605,7 @@ namespace CalamityMod.NPCs.Cryogen
                     }
 
                     NPC.ai[1] -= 1f;
-                    if (NPC.ai[1] == chargeGateValue + 20f)
+                    if (NPC.ai[1] == chargeGateValue)
                     {
                         NPC.TargetClosest();
 
@@ -585,7 +619,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                         NPC.rotation = NPC.velocity.X * 0.1f;
                     }
-                    else if (NPC.ai[1] <= chargeGateValue + 35f)
+                    else if (NPC.ai[1] <= chargeSlownDownPhaseGateValue)
                     {
                         NPC.velocity *= 0.95f;
                         NPC.rotation = NPC.velocity.X * 0.15f;

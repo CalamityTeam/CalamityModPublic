@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.timeLeft = 300;
             Projectile.alpha = 255;
+            CooldownSlot = 1;
         }
 
         public override void AI()
@@ -47,22 +48,6 @@ namespace CalamityMod.Projectiles.Boss
                 Projectile.alpha -= 15;
             if (Projectile.alpha < 5)
                 Projectile.alpha = 5;
-
-            if (Projectile.ai[0] != 0f && Projectile.ai[1] != 0f)
-            {
-                bool flag15 = false;
-                bool flag16 = false;
-                if (Projectile.velocity.X < 0f && Projectile.position.X < Projectile.ai[0])
-                    flag15 = true;
-                if (Projectile.velocity.X > 0f && Projectile.position.X > Projectile.ai[0])
-                    flag15 = true;
-                if (Projectile.velocity.Y < 0f && Projectile.position.Y < Projectile.ai[1])
-                    flag16 = true;
-                if (Projectile.velocity.Y > 0f && Projectile.position.Y > Projectile.ai[1])
-                    flag16 = true;
-                if (flag15 & flag16)
-                    Projectile.Kill();
-            }
 
             // Rotation
             Projectile.spriteDirection = Projectile.direction = (Projectile.velocity.X > 0).ToDirectionInt();
