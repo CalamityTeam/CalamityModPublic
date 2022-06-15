@@ -11,15 +11,16 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Stress Pills");
-            Tooltip.SetDefault("Boosts your defense by 4 and max movement speed and acceleration by 5%\n" +
-                               "Receiving a hit causes you to only lose 50% of your max adrenaline rather than all of it\n" +
-                               "Revengeance drop");
+            Tooltip.SetDefault("Adrenaline charges 20% faster\n" +
+                "Increases your max movement speed and acceleration by 5%\n" +
+                "Revengeance drop");
         }
 
         public override void SetDefaults()
         {
             Item.width = 26;
             Item.height = 26;
+            Item.defense = 4;
             Item.value = CalamityGlobalItem.Rarity3BuyPrice;
             Item.rare = ItemRarityID.Orange;
             Item.accessory = true;
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.statDefense += 4;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stressPills = true;
         }

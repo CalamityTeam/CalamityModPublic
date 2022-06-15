@@ -6034,11 +6034,7 @@ namespace CalamityMod.CalPlayer
                     // Being hit for zero from Paladin's Shield damage share does not cancel Adrenaline.
                     // Adrenaline is not lost when hit if using Draedon's Heart.
                     if (!draedonsHeart && !adrenalineModeActive && damage > 0)
-                    {
-                        adrenaline -= stressPills ? adrenalineMax / 2 : adrenalineMax;
-                        if (adrenaline < 0)
-                            adrenaline = 0;
-                    }
+                        adrenaline = 0f;
 
                     // If using Draedon's Heart and not actively healing with Nanomachines, pause generation briefly.
                     if (draedonsHeart && !adrenalineModeActive)
