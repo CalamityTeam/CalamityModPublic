@@ -127,7 +127,7 @@ namespace CalamityMod.ILEditing
             }
 
             cursor.Remove();
-            cursor.Emit(OpCodes.Ldloc, 6);
+            cursor.Emit(OpCodes.Ldloc, 10);
             cursor.EmitDelegate<Func<int, int>>(spawnPlayerIndex =>
             {
                 if (Main.player[spawnPlayerIndex].active && Main.player[spawnPlayerIndex].Calamity().disableVoodooSpawns)
