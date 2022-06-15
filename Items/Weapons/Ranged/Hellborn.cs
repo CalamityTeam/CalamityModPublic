@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
-        public override float UseTimeMultiplier(Player player) => 1f + (player.Calamity().hellbornBoost * (1f / 600f));
+        public override float UseSpeedMultiplier(Player player) => 1f - 0.5f * (player.Calamity().hellbornBoost * (1f / 600f));
 
         public override void ModifyWeaponDamage(Player player, ref StatModifier damage) => damage *= 1f + player.Calamity().hellbornBoost * (1f / 600f);
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             float gunLenght = 66f;
             float gunHeight = 15;
 
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.MountedCenter, player.MountedCenter + ((player.itemRotation + (player.direction < 0 ? MathHelper.Pi : 0f)).ToRotationVector2() * gunLenght), gunHeight, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), player.MountedCenter, player.MountedCenter + ((player.itemRotation + (player.direction < 0 ? MathHelper.Pi : 0f)).ToRotationVector2() * gunLenght), gunHeight, ref collisionPoint) ? null : false;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
