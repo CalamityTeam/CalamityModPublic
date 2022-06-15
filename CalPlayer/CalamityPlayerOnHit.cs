@@ -167,9 +167,9 @@ namespace CalamityMod.CalPlayer
 
             if (hellfireTreads)
             {
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                     target.AddBuff(BuffID.OnFire3, 360);
-                else if (Main.rand.Next(2) == 0)
+                else if (Main.rand.NextBool(2))
                     target.AddBuff(BuffID.OnFire3, 240);
                 else
                     target.AddBuff(BuffID.OnFire3, 120);
@@ -360,9 +360,9 @@ namespace CalamityMod.CalPlayer
 
             if ((proj.arrow && Player.hasMoltenQuiver) || hellfireTreads)
             {
-                if (Main.rand.Next(4) == 0)
+                if (Main.rand.NextBool(4))
                     target.AddBuff(BuffID.OnFire3, 360);
-                else if (Main.rand.Next(2) == 0)
+                else if (Main.rand.NextBool(2))
                     target.AddBuff(BuffID.OnFire3, 240);
                 else
                     target.AddBuff(BuffID.OnFire3, 120);
@@ -726,7 +726,7 @@ namespace CalamityMod.CalPlayer
 
             if (npcCheck)
             {
-                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5)
+                if (unstableGraniteCore && crit && Player.ownedProjectileCounts[ProjectileType<UnstableSpark>()] < 5 && proj.type != ProjectileType<UnstableSpark>())
                 {
                     for (int s = 0; s < 3; s++)
                     {
