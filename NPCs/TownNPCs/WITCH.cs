@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.BiomeManagers;
+using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Magic;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.Events;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
@@ -29,6 +31,12 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[NPC.type] = 1;
             NPCID.Sets.AttackTime[NPC.type] = 30;
             NPCID.Sets.AttackAverageChance[NPC.type] = 5;
+            NPC.Happiness
+                .SetBiomeAffection<ForestBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<BrimstoneCragsBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Clothier, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.PartyGirl, AffectionLevel.Dislike)
+            ;
         }
 
         public override void SetDefaults()
@@ -54,7 +62,8 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Surface,                
 
 				// Will move to localization whenever that is cleaned up.
 				new FlavorTextBestiaryInfoElement("A most surprising sight to see this powerful foe live along friendly faces. Will history repeat itself or has she finally managed to free herself from the Tyrant’s grasp?")

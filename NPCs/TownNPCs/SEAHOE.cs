@@ -9,6 +9,7 @@ using CalamityMod.Projectiles.Rogue;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.Personalities;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -29,6 +30,13 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 16;
+            NPC.Happiness
+                .SetBiomeAffection<OceanBiome>(AffectionLevel.Like)
+                .SetBiomeAffection<DesertBiome>(AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Pirate, AffectionLevel.Like)
+                .SetNPCAffection(NPCID.Demolitionist, AffectionLevel.Dislike)
+                .SetNPCAffection(NPCID.Angler, AffectionLevel.Hate)
+            ;
         }
 
         public override void SetDefaults()
@@ -50,6 +58,8 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
         {
             bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
+
+                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Ocean,   
                 
                 //Change the info part in his entry when we do the critter barter
 
