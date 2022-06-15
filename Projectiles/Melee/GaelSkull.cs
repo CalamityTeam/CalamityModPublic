@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
             //Fat skull logic
             if (Projectile.ai[1] == 1f)
             {
-                Projectile.penetrate = 5;
+                Projectile.penetrate = -1;
                 Projectile.alpha += 1;
                 Projectile.damage = (int)Math.Ceiling(Projectile.damage * 0.992); //Exponentially decays to a factor of 0.12896 of the original damage
                 if (Projectile.alpha >= 255)
