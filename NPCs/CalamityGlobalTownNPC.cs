@@ -78,6 +78,7 @@ namespace CalamityMod.NPCs
             "TingFlarg", // <@!185605031716847616> (Smug#7160)
             "Driser", // <@!121996994406252544> (Driser#8630)
             "Eddie Spaghetti", // <@!466397267407011841> (Eddie Spaghetti#0002)
+            "G", // <@!335192200956608535> (gtoktas#7589)
         };
         private const int GuideVanillaNames = 34;
         private static readonly string[] GuideNames =
