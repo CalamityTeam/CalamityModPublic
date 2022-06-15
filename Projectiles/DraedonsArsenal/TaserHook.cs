@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             set => Projectile.localAI[0] = value;
         }
 
-        public const float ReelbackSpeed = 15f;
+        public const float ReelbackSpeed = 25f;
 
         public override void SetStaticDefaults()
         {

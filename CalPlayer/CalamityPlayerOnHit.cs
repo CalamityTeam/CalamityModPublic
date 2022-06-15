@@ -163,6 +163,11 @@ namespace CalamityMod.CalPlayer
                 case ItemID.IceBlade:
                     target.AddBuff(BuffID.Frostburn, 120);
                     break;
+
+                case (>= ItemID.BluePhaseblade and <= ItemID.YellowPhaseblade) or ItemID.OrangePhaseblade:
+                case (>= ItemID.BluePhasesaber and <= ItemID.YellowPhasesaber) or ItemID.OrangePhasesaber:
+                    // TODO: find an EPIC lightsaber sound
+                    break;
             }
 
             if (hellfireTreads)
@@ -345,11 +350,15 @@ namespace CalamityMod.CalPlayer
                     break;
 
                 case ProjectileID.SnowBallFriendly:
-                case ProjectileID.IceBoomerang:
                 case ProjectileID.IceBolt:
                 case ProjectileID.FrostDaggerfish:
                 case ProjectileID.FrostburnArrow:
                     target.AddBuff(BuffID.Frostburn, 60);
+                    break;
+
+                case ProjectileID.IceBoomerang:
+                    if (Main.rand.NextBool())
+                        target.AddBuff(BuffID.Frostburn, 60);
                     break;
 
                 case ProjectileID.NightBeam:

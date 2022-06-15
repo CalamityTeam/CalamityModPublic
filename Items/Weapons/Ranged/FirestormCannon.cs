@@ -20,12 +20,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 9;
+            Item.damage = 10;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 56;
             Item.height = 28;
-            Item.useTime = 9;
-            Item.useAnimation = 9;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
+                velocity *= 2f;
                 int num6 = Main.rand.Next(4, 6);
                 for (int index = 0; index < num6; ++index)
                 {

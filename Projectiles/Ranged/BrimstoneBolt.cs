@@ -25,10 +25,12 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.ignoreWater = true;
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.alpha = 255;
-            Projectile.penetrate = 1;
+            Projectile.penetrate = 3;
             Projectile.extraUpdates = 2;
             Projectile.timeLeft = 300;
             Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void AI()

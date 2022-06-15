@@ -5790,6 +5790,9 @@ namespace CalamityMod.CalPlayer
             if (Player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
                 Player.yoraiz0rEye = 0;
 
+            if (Player.HeldItem != null && Player.HeldItem.type == ItemID.FalconBlade)
+                Player.moveSpeed += 0.2f;
+
             int totalMoonlightDyes = Player.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
             if (totalMoonlightDyes > 0)
             {
@@ -6206,12 +6209,25 @@ namespace CalamityMod.CalPlayer
 
                 if (polarisBoost)
                 {
-                    polarisBoostCounter = 0;
-                    polarisBoost = false;
-                    polarisBoostTwo = false;
-                    polarisBoostThree = false;
-                    if (Player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
-                        Player.ClearBuff(ModContent.BuffType<PolarisBuff>());
+                    polarisBoostCounter -= 10;
+                    if (polarisBoostCounter < 0)
+                        polarisBoostCounter = 0;
+
+                    if (polarisBoostCounter >= 20)
+                    {
+                        polarisBoostTwo = false;
+                        polarisBoostThree = true;
+                    }
+                    else if (polarisBoostCounter >= 10)
+                    {
+                        polarisBoostTwo = true;
+                        polarisBoostThree = false;
+                    }
+                    else
+                    {
+                        polarisBoostThree = false;
+                        polarisBoostTwo = false;
+                    }
                 }
             }
 

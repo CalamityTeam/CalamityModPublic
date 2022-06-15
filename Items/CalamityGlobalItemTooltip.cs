@@ -627,6 +627,10 @@ namespace CalamityMod.Items
             // Yoyo Glove/Bag apply a 0.66x damage multiplier on yoyos
             if (item.type == ItemID.YoyoBag || item.type == ItemID.YoYoGlove)
                 EditTooltipByNum(0, (line) => line.Text += "\nYoyos will do 33% less damage");
+
+            // Falcon Blade +20% move speed while holding
+            if (item.type == ItemID.FalconBlade)
+                EditTooltipByNum(0, (line) => line.Text += "\nHolding this item increases move speed by 20%");
             #endregion
 
             // Pre-Hardmode ore armor tooltip edits
@@ -1121,7 +1125,7 @@ namespace CalamityMod.Items
         }
         #endregion
 
-        #region A
+        #region Speed Tooltips
         
         // TODO: Investigate using a SortedDictionary instead? May be slower, but removes the need for carefully adding KVPs.
         /// <summary>

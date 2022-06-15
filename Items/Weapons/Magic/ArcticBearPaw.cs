@@ -16,7 +16,7 @@ Fires spiritual claws that ignore walls and confuse enemies");
         }
         public override void SetDefaults()
         {
-            Item.damage = 100;
+            Item.damage = 90;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 18;
             Item.width = 28;
