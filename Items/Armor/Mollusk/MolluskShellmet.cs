@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Armor.Mollusk
 {
@@ -60,8 +61,8 @@ namespace CalamityMod.Items.Armor.Mollusk
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
                     var damage = (int)player.GetTotalDamage<SummonDamageClass>().ApplyTo(140);
-                    Projectile.NewProjectile(source, player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), damage, 0f, player.whoAmI);
-                    // TODO -- doesn't set originalDamage
+                    Projectile clam = Projectile.NewProjectileDirect(source, player.Center, -Vector2.UnitY, ModContent.ProjectileType<Shellfish>(), damage, 0f, player.whoAmI);
+                    clam.originalDamage = damage;
                 }
             }
             player.Calamity().wearingRogueArmor = true;
