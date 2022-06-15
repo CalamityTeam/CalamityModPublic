@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             AIType = ProjectileID.BulletHighVelocity;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 120;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool PreDraw(ref Color lightColor)

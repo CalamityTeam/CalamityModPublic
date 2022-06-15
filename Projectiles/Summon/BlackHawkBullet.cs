@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 600;
             Projectile.tileCollide = false;
             AIType = ProjectileID.BulletHighVelocity;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);

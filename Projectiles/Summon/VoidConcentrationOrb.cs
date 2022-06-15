@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.tileCollide = false;
             Projectile.minion = true;
             Projectile.scale = 0.01f;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override bool? CanHitNPC(NPC target)

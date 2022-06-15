@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 360;
+            Projectile.DamageType = DamageClass.Summon;
         }
         public override void AI()
         {

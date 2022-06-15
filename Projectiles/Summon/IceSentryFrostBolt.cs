@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.timeLeft = 480;
             Projectile.minion = true;
             Projectile.coldDamage = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

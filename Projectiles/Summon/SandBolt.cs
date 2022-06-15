@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.light = 1f;
             Projectile.timeLeft = 300;
             Projectile.minion = true;
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()

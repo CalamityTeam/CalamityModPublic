@@ -46,6 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             Projectile.minion = true;
             Projectile.alpha = 255;
             Projectile.Calamity().overridesMinionDamagePrevention = true; // Will only do damage once, and the location of said damage must be deliberate.
+            Projectile.DamageType = DamageClass.Summon;
         }
 
         public override void AI()
