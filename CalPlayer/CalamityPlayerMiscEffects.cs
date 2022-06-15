@@ -3131,7 +3131,11 @@ namespace CalamityMod.CalPlayer
                         gDefense = true;
 
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < guardianAmt)
-                            Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                        {
+                            int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                            if (Main.projectile.IndexInRange(guardian))
+                                Main.projectile[guardian].originalDamage = 1;
+                        }
                     }
 
                     if (crystal || summonSet)
@@ -3139,7 +3143,11 @@ namespace CalamityMod.CalPlayer
                         gOffense = true;
 
                         if (Player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < guardianAmt)
-                            Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                        {
+                            int guardian = Projectile.NewProjectile(source, Player.Center.X, Player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
+                            if (Main.projectile.IndexInRange(guardian))
+                                Main.projectile[guardian].originalDamage = 1;
+                        }
                     }
                 }
             }
