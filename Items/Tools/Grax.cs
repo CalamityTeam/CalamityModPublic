@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Tools
 
         public override bool CanUseItem(Player player)
         {
+            //TODO - Pressure the tmod devs into adding another method akin to ModifyToolStats that gets ran early enough to work.
             if (player.altFunctionUse == 2)
             {
                 Item.axe = 0;

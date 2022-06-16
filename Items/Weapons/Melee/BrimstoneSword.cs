@@ -59,8 +59,14 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
-            if (player.altFunctionUse != 2)
+            if (player.altFunctionUse == 2)
+            {
+                type = ModContent.ProjectileType<ProfanedSwordProj>();
+            }
+            else
+            {
                 type = ProjectileID.None;
+            }
         }
 
         public override void UseAnimation(Player player)

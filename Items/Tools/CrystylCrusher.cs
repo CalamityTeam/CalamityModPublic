@@ -72,24 +72,45 @@ namespace CalamityMod.Items.Tools
             if (player.Calamity().mouseRight && player.ownedProjectileCounts[ModContent.ProjectileType<CrystylCrusherRay>()] <= 0)
             {
                 Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
                 Item.tileBoost = 50;
-                Item.UseSound = SoundID.Item1;
-                Item.useStyle = ItemUseStyleID.Swing;
-                Item.useTurn = true;
                 Item.autoReuse = true;
-                Item.noMelee = false;
             }
             else
             {
                 Item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
-                Item.shootSpeed = LaserSpeed;
                 Item.tileBoost = -6;
+                Item.autoReuse = false;
+            }
+        }
+
+        public override bool? UseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Item.noMelee = false;
+            }
+            else
+            {
+                Item.noMelee = true;
+            }
+
+            return base.UseItem(player);
+        }
+
+        public override void UseAnimation(Player player)
+        {
+            if (player.altFunctionUse == 2f)
+            {
+                Item.UseSound = SoundID.Item1;
+                Item.useStyle = ItemUseStyleID.Swing;
+                Item.useTurn = true;
+            }
+
+            else
+            {
                 Item.UseSound = null;
                 Item.useStyle = ItemUseStyleID.Shoot;
                 Item.useTurn = false;
-                Item.autoReuse = false;
-                Item.noMelee = true;
             }
         }
 

@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Tools
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
+            Item.shootSpeed = PowderSpeed;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -52,20 +53,30 @@ namespace CalamityMod.Items.Tools
 
         public override bool CanUseItem(Player player)
         {
+            //TODO - This doesn't even work and it won't be able to cut any trees.
             if (player.altFunctionUse == 2)
             {
                 Item.axe = 0;
-                Item.shoot = ProjectileID.PurificationPowder;
-                Item.shootSpeed = PowderSpeed;
             }
             else
             {
                 Item.axe = AxePower;
-                Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
             }
-            return base.CanUseItem(player);
+
+            return true ;
         }
+
+        public override void UseAnimation(Player player)
+        {
+            //Done here because no other override fits neatly enough in the pipeline.
+            Item.shoot = ProjectileID.None;
+
+            if (player.altFunctionUse == 2)
+            {
+                Item.shoot = ProjectileID.PurificationPowder;
+            }
+        }
+
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
