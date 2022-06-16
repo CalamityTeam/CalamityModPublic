@@ -282,7 +282,7 @@ namespace CalamityMod.UI
             Utils.DrawBorderStringFourWay(Main.spriteBatch, FontAssets.MouseText.Value, text, drawPosition.X, drawPosition.Y + GeneralScale * 20f, Color.White * (Main.mouseTextColor / 255f), Color.Black, Vector2.Zero, GeneralScale);
 
             // And draw the cells to the right of the text.
-            Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/PowerCell").Value;
+            Texture2D cellTexture = ModContent.Request<Texture2D>("CalamityMod/Items/DraedonMisc/DraedonPowerCell").Value;
             Vector2 offsetDrawPosition = new Vector2(drawPosition.X + ChatManager.GetStringSize(FontAssets.MouseText.Value, text, Vector2.One, -1f).X * GeneralScale + GeneralScale * 15f, drawPosition.Y + GeneralScale * 30f);
             Main.spriteBatch.Draw(cellTexture, offsetDrawPosition, null, Color.White, 0f, cellTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
