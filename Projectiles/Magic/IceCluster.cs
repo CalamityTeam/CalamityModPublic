@@ -69,13 +69,20 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[Projectile.owner] = 5;
-
             target.AddBuff(ModContent.BuffType<GlacialState>(), 30);
 
-            Vector2 vector80 = Projectile.rotation.ToRotationVector2();
-            if (Projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+            if (Projectile.damage > 10)
+            {
+                Vector2 vector80 = Projectile.rotation.ToRotationVector2();
+                if (Projectile.owner == Main.myPlayer)
+                {
+                    int newDamage = Projectile.damage / 2;
+                    if (newDamage < 1)
+                        newDamage = 1;
+
+                    Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, vector80, ModContent.ProjectileType<IceCluster>(), newDamage, Projectile.knockBack, Projectile.owner);
+                }
+            }
         }
     }
 }

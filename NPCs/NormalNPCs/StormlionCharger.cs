@@ -72,9 +72,23 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.PlayerSafe || spawnInfo.Player.Calamity().ZoneSunkenSea)
+            if (spawnInfo.PlayerSafe ||
+                spawnInfo.Player.Calamity().ZoneSunkenSea ||
+                spawnInfo.Player.PillarZone() ||
+                spawnInfo.Player.InAstral() ||
+                spawnInfo.Player.ZoneCorrupt ||
+                spawnInfo.Player.ZoneCrimson ||
+                spawnInfo.Player.ZoneOldOneArmy ||
+                Main.eclipse ||
+                Main.snowMoon ||
+                Main.pumpkinMoon ||
+                Main.invasionType != InvasionID.None)
             {
                 return 0f;
+            }
+            if (Main.IsItStorming && spawnInfo.Player.ZoneDesert)
+            {
+                return SpawnCondition.OverworldDayDesert.Chance;
             }
             return SpawnCondition.DesertCave.Chance * 0.3f;
         }

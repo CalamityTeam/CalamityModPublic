@@ -66,6 +66,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             bool visible = true;
             bool takeDamage = true;
             float lessTimeSpentPerPhaseMultiplier = phase2 ? (death ? 0.375f : 0.5f) : (death ? 0.75f : 1f);
+            if (Main.getGoodWorld)
+                lessTimeSpentPerPhaseMultiplier *= 0.2f;
+
             float extraPhaseTime;
             Vector2 destination;
 
@@ -139,7 +142,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     float num33 = phase2 ? (death ? 10f : 15f) : (death ? 20f : 30f);
                     if (Main.getGoodWorld)
-                        num33 /= 2f;
+                        num33 *= 0.5f;
+                    if (num33 < 10f)
+                        num33 = 10f;
 
                     if (npc.ai[1] <= 10f)
                     {
@@ -848,7 +853,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.ai[1] += 1f;
                     extraPhaseTime = (dayTimeEnrage ? 48f : 60f) * lessTimeSpentPerPhaseMultiplier;
-                    if (npc.ai[1] >= 180f + extraPhaseTime)
+                    if (npc.ai[1] >= 150f + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
@@ -924,7 +929,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         {
                             Vector2 vector3 = -targetData6.Velocity;
                             vector3.SafeNormalize(-Vector2.UnitY);
-                            float spawnDistance = 100f + (k * 450f);
+                            float spawnDistance = 100f + (k * 100f);
 
                             Vector2 center2 = targetData6.Center;
                             if (npc.Distance(center2) > 2400f)

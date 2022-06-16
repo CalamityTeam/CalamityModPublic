@@ -59,6 +59,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 idlePhaseVelocity = 10f;
             }
 
+            if (Main.getGoodWorld)
+            {
+                idlePhaseAcceleration *= 1.15f;
+                idlePhaseVelocity *= 1.15f;
+            }
+
             int chargeTime = 28;
             float chargeVelocity = 17f;
             if (phase3AI)
@@ -81,10 +87,19 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 chargeVelocity *= 1.13f;
             }
 
+            if (Main.getGoodWorld)
+                chargeVelocity *= 1.15f;
+
             int bubbleBelchPhaseTimer = death ? 60 : 80;
             int bubbleBelchPhaseDivisor = death ? 3 : 4;
             float bubbleBelchPhaseAcceleration = death ? 0.35f : 0.3f;
             float bubbleBelchPhaseVelocity = death ? 5.5f : 5f;
+
+            if (Main.getGoodWorld)
+            {
+                bubbleBelchPhaseAcceleration *= 1.5f;
+                bubbleBelchPhaseVelocity *= 1.5f;
+            }
 
             int sharknadoPhaseTimer = 90;
 
@@ -97,6 +112,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float bubbleSpinBubbleVelocity = death ? 8f : 7f;
             float bubbleSpinPhaseVelocity = 20f;
             float bubbleSpinPhaseRotation = MathHelper.TwoPi / (bubbleSpinPhaseTimer / 2);
+
+            if (Main.getGoodWorld)
+                bubbleSpinBubbleVelocity *= 1.5f;
 
             int spawnEffectPhaseTimer = 75;
 
@@ -166,7 +184,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Spawn cthulhunadoes in phase 3
-            if (phase3AI && !phase4)
+            if (phase3AI && (!phase4 || Main.getGoodWorld))
             {
                 calamityGlobalNPC.newAI[0] += 1f;
                 float timeGateValue = 600f;
