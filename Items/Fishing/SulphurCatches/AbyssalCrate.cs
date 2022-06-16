@@ -9,6 +9,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,7 +61,8 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Lumenyl>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<PlantyMush>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<Tenebris>(), DownedBossSystem.downedCalamitas, 0.2f, 2, 5);
-            DropHelper.DropItemCondition(s, player, ModContent.ItemType<ScoriaBar>(), NPC.downedGolemBoss, 0.1f, 1, 3);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<ScoriaOre>(), NPC.downedGolemBoss, 0.2f, 16, 28);
+            DropHelper.DropItemCondition(s, player, ModContent.ItemType<ScoriaBar>(), NPC.downedGolemBoss, 0.15f, 4, 7);
             DropHelper.DropItemCondition(s, player, ModContent.ItemType<ReaperTooth>(), DownedBossSystem.downedPolterghast && DownedBossSystem.downedBoomerDuke, 0.1f, 1, 5);
 
             // Weapons
