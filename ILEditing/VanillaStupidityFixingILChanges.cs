@@ -285,7 +285,15 @@ namespace CalamityMod.ILEditing
                     LogFailure("Making Tag Damage Multiplicative", $"Could not locate the flag local index of '{flagLocalIndex}'.");
                     return false;
                 }
-                cursor.Index += 2;
+
+                // Move to the point at which a local is loaded after the boolean.
+                // Ideally this would be two instructions afterwards (load bool, branch), but we cannot guarantee that this will be the case.
+                // As such, a match is done instead.
+                if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdloc(out _)))
+                {
+                    LogFailure("Making Tag Damage Multiplicative", $"Could not locate the succeeding local after the flag local index of '{flagLocalIndex}'.");
+                    return false;
+                }
 
                 // OPTIONAL case for if an extra variable to store damage is used:
                 // Load damage to add.
@@ -295,7 +303,17 @@ namespace CalamityMod.ILEditing
                 // Load damage addition ->
                 // Add the two ->
                 // Store damage.
-                cursor.RemoveRange(usesExtraVariableToStoreDamage ? 6 : 4);
+
+                // This logic for adding damage is disabled by popped at the point at which the addition happens and replacing it with zero, resulting in x += 0.
+                if (!cursor.TryGotoNext(MoveType.Before, c => c.MatchAdd()))
+                {
+                    LogFailure("Making Tag Damage Multiplicative", $"Could not locate the damage addition at the flag local index of '{flagLocalIndex}'.");
+                    return false;
+                }
+                cursor.Emit(OpCodes.Pop);
+                cursor.Emit(OpCodes.Ldc_I4_0);
+
+                // After this, the following operations are done as a replacement to achieve multiplicative damage:
 
                 // Load damage ->
                 // Cast damage to float ->
@@ -354,8 +372,7 @@ namespace CalamityMod.ILEditing
                 LogFailure("Making Tag Damage Multiplicative", $"Could not locate the damage additive value.");
                 return;
             }
-            cursor.Index--;
-            cursor.Remove();
+            cursor.Emit(OpCodes.Pop);
             cursor.Emit(OpCodes.Ldc_I4_0);
         }
         #endregion Make Tag Damage Multiplicative

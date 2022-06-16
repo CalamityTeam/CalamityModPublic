@@ -68,6 +68,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (player.altFunctionUse == 2)
             {
                 damage = (int)(damage * 0.43);
+                type = ModContent.ProjectileType<Razorwind>();
             }
 
             else 

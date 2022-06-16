@@ -240,7 +240,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (mainAttunement != null && mainAttunement.id != AttunementID.Cold)
                 Combo = 0;
 
-            if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen)
+            if (player.Calamity().mouseRight && CanUseItem(player) && player.whoAmI == Main.myPlayer && !Main.mapFullscreen && !Main.blockMouse)
             {
                 //Don't shoot out a visual blade if you already have one out
                 if (Main.projectile.Any(n => n.active && n.type == ProjectileType<BrokenBiomeBladeHoldout>() && n.owner == player.whoAmI))

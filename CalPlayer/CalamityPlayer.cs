@@ -5965,7 +5965,7 @@ namespace CalamityMod.CalPlayer
                     rageConversionRatio *= 3f / (3f + rage / rageMax);
 
                 rage += rageMax * HPRatio * rageConversionRatio;
-                rageGainCooldown = BalancingConstants.DefaultRageGainCooldown;
+                rageGainCooldown = ShatteredCommunity.RageGainCooldown;
                 // Rage capping is handled in MiscEffects
             }
 

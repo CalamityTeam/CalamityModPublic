@@ -47,6 +47,8 @@ namespace CalamityMod.ILEditing
         // This function is (optionally) invoked manually in an IL edit to enable NPCs to spawn at night.
         private static Action VanillaSpawnTownNPCs;
 
+        private static readonly MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance);
+
         #region Dash Fixes and Improvements
         private static void MakeShieldSlamIFramesConsistent(ILContext il)
         {
@@ -632,7 +634,7 @@ namespace CalamityMod.ILEditing
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             DeathAshParticle.DrawAll();
 
-            if (Main.LocalPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>()) > 0)
+            if (Main.LocalPlayer.dye.Any(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>()))
                 Main.LocalPlayer.Calamity().ProfanedMoonlightAuroraDrawer?.Draw(Main.LocalPlayer.Center - Main.screenPosition, false, Main.GameViewMatrix.TransformationMatrix, Matrix.Identity);
 
             orig(self, gameTime);
@@ -661,13 +663,17 @@ namespace CalamityMod.ILEditing
 
             FieldInfo liquidTexturesField = typeof(TextureAssets).GetField("Liquid");
             FieldInfo liquidSlopeTexturesField = typeof(TextureAssets).GetField("LiquidSlope");
-            MethodInfo textureGetValueMethod = typeof(Asset<Texture2D>).GetMethod("get_Value");
 
             void replaceLiquidTexture(LiquidTileType type)
             {
-                // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-                // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call get_Value().
-                cursor.Index += 4;
+                // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
+                // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
+                // it also unsafe due to the potential for NOP operations to appear.
+                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
+                {
+                    LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
+                    return;
+                }
                 cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, type));
             }
 
@@ -725,9 +731,14 @@ namespace CalamityMod.ILEditing
                 return;
             }
 
-            // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-            // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call get_Value().
-            cursor.Index += 4;
+            // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
+            // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
+            // it also unsafe due to the potential for NOP operations to appear.
+            if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
+            {
+                LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
+                return;
+            }
             cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, LiquidTileType.Waterflow));
 
             if (!cursor.TryGotoNext(MoveType.After, c => c.MatchLdloc(9)))
@@ -767,7 +778,7 @@ namespace CalamityMod.ILEditing
             cursor.Emit(OpCodes.Ldsfld, typeof(TextureAssets).GetField("Liquid"));
             cursor.Emit(OpCodes.Ldloc, 15);
             cursor.Emit(OpCodes.Ldelem_Ref);
-            cursor.Emit(OpCodes.Call, typeof(Asset<Texture2D>).GetMethod("get_Value", BindingFlags.Public | BindingFlags.Instance));
+            cursor.Emit(OpCodes.Call, textureGetValueMethod);
             cursor.EmitDelegate<Func<Color, Texture2D, Color>>((initialColor, initialTexture) => SelectLavaColor(initialTexture, initialColor));
             cursor.Emit(OpCodes.Stloc, 13);
 
@@ -776,9 +787,15 @@ namespace CalamityMod.ILEditing
 
             while (cursor.TryGotoNext(c => c.MatchLdsfld(typeof(TextureAssets).GetField("Liquid"))))
             {
-                // While this may seem crazy, under no circumstances should there not be a load after exactly 3 instructions.
-                // The order is load is texture array field -> load index -> load the reference to the texture at that index -> call get_Value().
-                cursor.Index += 4;
+                // Move to the end of the get_Value() call and then use the resulting texture to check if a new one should replace it.
+                // Adding to the index directly would seem like a simple, direct way of achieving this since the operation is incredibly light, but
+                // it also unsafe due to the potential for NOP operations to appear.
+                if (!cursor.TryGotoNext(MoveType.After, c => c.MatchCallvirt(textureGetValueMethod)))
+                {
+                    LogFailure("Custom Lava Drawing", "Could not locate the liquid texture Value call.");
+                    return;
+                }
+
                 cursor.EmitDelegate<Func<Texture2D, Texture2D>>(initialTexture => SelectLavaTexture(initialTexture, LiquidTileType.Block));
             }
         }

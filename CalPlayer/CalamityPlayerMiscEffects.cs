@@ -111,6 +111,9 @@ namespace CalamityMod.CalPlayer
             // Revengeance effects
             RevengeanceModeMiscEffects();
 
+            // Rippers
+            UpdateRippers();
+
             // Abyss effects
             AbyssEffects();
 
@@ -242,9 +245,6 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-
-            // Adrenaline and Rage
-            UpdateRippers();
         }
 
         private void UpdateRippers()
@@ -380,8 +380,8 @@ namespace CalamityMod.CalPlayer
             if (RageEnabled)
             {
                 rage += rageDiff;
-                if (rage < 0)
-                    rage = 0;
+                if (rage < 0f)
+                    rage = 0f;
 
                 if (rage >= rageMax)
                 {

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.axe = AxePower;
-
+            Item.shoot = ProjectileID.PurificationPowder;
             Item.DamageType = DamageClass.Melee;
             Item.width = 58;
             Item.height = 54;
@@ -38,6 +38,17 @@ namespace CalamityMod.Items.Tools
             Item.rare = ItemRarityID.LightRed;
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
+            Item.shootSpeed = PowderSpeed;
+        }
+
+        public override bool CanShoot(Player player)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -50,21 +61,13 @@ namespace CalamityMod.Items.Tools
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
+        public override void UseAnimation(Player player)
         {
+            //Done here because no other override fits neatly enough in the pipeline.
+            Item.axe = AxePower;
+
             if (player.altFunctionUse == 2)
-            {
                 Item.axe = 0;
-                Item.shoot = ProjectileID.PurificationPowder;
-                Item.shootSpeed = PowderSpeed;
-            }
-            else
-            {
-                Item.axe = AxePower;
-                Item.shoot = ProjectileID.None;
-                Item.shootSpeed = 0f;
-            }
-            return base.CanUseItem(player);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

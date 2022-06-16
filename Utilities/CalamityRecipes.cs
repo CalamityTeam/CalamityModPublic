@@ -1739,6 +1739,27 @@ namespace CalamityMod
             r.AddIngredient(ItemID.JungleGrassSeeds, 5);
             r.AddTile(TileID.Loom);
             r.Register();
+
+            // Band of Regeneration
+            r = CreateRecipe(ItemID.BandofRegeneration);
+            r.AddIngredient(ItemID.Shackle);
+            r.AddIngredient(ItemID.LifeCrystal, 1);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Shoe Spikes
+            r = CreateRecipe(ItemID.ShoeSpikes);
+            r.AddRecipeGroup("IronBar", 5);
+            r.AddIngredient(ItemID.Spike, 10);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
+            // Flare Gun
+            r = CreateRecipe(ItemID.FlareGun);
+            r.AddRecipeGroup("AnyCopperBar", 5);
+            r.AddIngredient(ItemID.Torch, 10);
+            r.AddTile(TileID.Anvils);
+            r.Register();
         }
         #endregion
 

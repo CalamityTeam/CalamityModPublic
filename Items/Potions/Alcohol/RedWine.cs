@@ -32,10 +32,10 @@ Reduces life regen by 1");
             Item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
-        public override bool CanUseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             Item.healLife = player.Calamity().baguette ? 250 : 200;
-            return base.CanUseItem(player);
+            return null;
         }
 
         public override void OnConsumeItem(Player player)
