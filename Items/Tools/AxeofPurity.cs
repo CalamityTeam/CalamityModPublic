@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools
             Item.useTime = 15;
             Item.useAnimation = 15;
             Item.axe = AxePower;
-
+            Item.shoot = ProjectileID.PurificationPowder;
             Item.DamageType = DamageClass.Melee;
             Item.width = 58;
             Item.height = 54;
@@ -41,6 +41,16 @@ namespace CalamityMod.Items.Tools
             Item.shootSpeed = PowderSpeed;
         }
 
+        public override bool CanShoot(Player player)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             int powderDamage = (int)(0.85f * damage);
@@ -51,32 +61,14 @@ namespace CalamityMod.Items.Tools
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
-        {
-            //TODO - This doesn't even work and it won't be able to cut any trees.
-            if (player.altFunctionUse == 2)
-            {
-                Item.axe = 0;
-            }
-            else
-            {
-                Item.axe = AxePower;
-            }
-
-            return true ;
-        }
-
         public override void UseAnimation(Player player)
         {
             //Done here because no other override fits neatly enough in the pipeline.
-            Item.shoot = ProjectileID.None;
+            Item.axe = AxePower;
 
             if (player.altFunctionUse == 2)
-            {
-                Item.shoot = ProjectileID.PurificationPowder;
-            }
+                Item.axe = 0;
         }
-
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
