@@ -54,7 +54,6 @@
         // Rage
         internal static readonly int DefaultRageDuration = CalamityUtils.SecondsToFrames(9); // Rage lasts 9 seconds by default.
         internal static readonly int RageDurationPerBooster = CalamityUtils.SecondsToFrames(1); // Each booster is +1 second: 10, 11, 12.
-        internal static readonly int DefaultRageGainCooldown = 10; // It is pretty hard to have less than 10 iframes for any reason
         internal static readonly int RageCombatDelayTime = CalamityUtils.SecondsToFrames(10);
         internal static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
         internal static readonly float DefaultRageDamageBoost = 0.35f; // +35%
