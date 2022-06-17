@@ -49,6 +49,7 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+            NPC.Calamity().ProvidesProximityRage = false;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

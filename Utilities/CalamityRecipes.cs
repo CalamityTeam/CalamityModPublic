@@ -1888,7 +1888,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.ArmorPolish);
             r.AddIngredient(ItemID.Bone, 50);
             r.AddIngredient(ModContent.ItemType<AncientBoneDust>(), 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Adhesive Bandage (bleeding)
@@ -1910,7 +1910,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.Nazar);
             r.AddIngredient(ItemID.SoulofNight, 15);
             r.AddIngredient(ItemID.Lens, 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Vitamins (weakness)
@@ -1935,7 +1935,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Silk, 20);
             r.AddIngredient(ItemID.SoulofLight, 3);
             r.AddIngredient(ItemID.SoulofNight, 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Fast Clock (slow)
@@ -1943,7 +1943,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Timer1Second);
             r.AddIngredient(ItemID.PixieDust, 15);
             r.AddIngredient(ItemID.SoulofLight, 5);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Megaphone (silence)
@@ -1951,7 +1951,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Wire, 10);
             r.AddRecipeGroup("AnyCobaltBar", 5);
             r.AddIngredient(ItemID.Ruby, 3);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
@@ -1960,7 +1960,7 @@ namespace CalamityMod
             r.AddRecipeGroup("AnyGoldBar", 4);
             r.AddIngredient(ItemID.CrystalShard, 2);
             r.AddIngredient(ItemID.SoulofNight, 2);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddTile(TileID.Anvils);
             r.Register();
         }
         #endregion

@@ -184,6 +184,7 @@ namespace CalamityMod.NPCs
             "Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
             "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
             "Nextdoor Psycho", // <@!173261518572486656> (⋈-NextdoorPsycho-⋈#0001)
+            "Katto", // <@!175972165504466944> (Katto#2858)
         };
 
         // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
@@ -1331,9 +1332,11 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<ExplosiveShells>(), Main.LocalPlayer.HasItem(ItemType<Hydra>()), Item.buyPrice(0, 7 * goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(gold: 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(gold: 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(gold: 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.RifleScope, NPC.downedGolemBoss, Item.buyPrice(gold: 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.AmmoBox, Main.hardMode, Item.buyPrice(gold: 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Uzi, NPC.downedPlantBoss, Item.buyPrice(gold: 45));
+                SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
+                SetShopItem(ref shop, ref nextSlot, ItemID.RifleScope, NPC.downedGolemBoss, Item.buyPrice(gold: 60));
                 SetShopItem(ref shop, ref nextSlot, ItemID.AmmoReservationPotion, true, Item.buyPrice(0, 1, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.HunterPotion, true, Item.buyPrice(0, 2, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BattlePotion, NPC.downedBoss2, Item.buyPrice(0, 2, 0, 0));

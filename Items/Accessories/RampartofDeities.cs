@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "Absorbs 25% of damage done to players on your team\n" +
                 "This effect is only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
-                "Puts a shell around the owner when below 50% life that reduces damage");
+                "Puts a shell around the owner when below 50% life that reduces damage taken");
         }
 
         public override void SetDefaults()

@@ -5184,7 +5184,7 @@ namespace CalamityMod.NPCs
                     if (pFlames > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Plague").Value);
                     if (shellfishVore > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ShellfishEating").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/ShellfishClaps").Value);
                     if (somaShredStacks > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/DamageOverTime/Shred").Value);
                     if (clamDebuff > 0)
@@ -5210,7 +5210,7 @@ namespace CalamityMod.NPCs
                     if (irradiated > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/Irradiated").Value);
                     if (kamiFlu > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/KamiDebuff").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/KamiFlu").Value);
                     if (marked > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/MarkedforDeath").Value);
                     if (pearlAura > 0)
@@ -5222,7 +5222,7 @@ namespace CalamityMod.NPCs
                     if (tesla > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TeslaFreeze").Value);
                     if (timeSlow > 0)
-                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeSlow").Value);
+                        buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/TimeDistortion").Value);
                     if (wDeath > 0)
                         buffTextureList.Add(Request<Texture2D>("CalamityMod/Buffs/StatDebuffs/WhisperingDeath").Value);
                     if (wither > 0)

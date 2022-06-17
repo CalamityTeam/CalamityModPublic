@@ -58,6 +58,14 @@
         internal static readonly int RageFadeTime = CalamityUtils.SecondsToFrames(30);
         internal static readonly float DefaultRageDamageBoost = 0.35f; // +35%
 
+        // Proximity Rage
+        // These variables should be used in general to classify "enemies" vs "non-enemies" as well.
+        // See NPCUtils.IsAnEnemy
+        internal const int TinyHealthThreshold = 5;
+        internal const int TinyDamageThreshold = 5;
+        internal const int NoContactDamageHealthThreshold = 3000;
+        internal const int UnreasonableHealthThreshold = 25000000; // 25 million
+
         // Adrenaline
         internal static readonly float AdrenalineDamageBoost = 2f; // +200%
         internal static readonly float AdrenalineDamagePerBooster = 0.15f; // +15%
