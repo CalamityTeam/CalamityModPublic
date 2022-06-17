@@ -73,7 +73,7 @@ namespace CalamityMod.UI
 
             // Display some error text if the codebreaker isn't strong enough to decrypt the schematic.
             if (codebreakerTileEntity.HeldSchematicID != 0 && !codebreakerTileEntity.CanDecryptHeldSchematic)
-                DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter + new Vector2(-24f, 30f));
+                DisplayNotStrongEnoughErrorText(schematicSlotDrawCenter + new Vector2(-24f, 56f));
 
             // Handle decryption costs.
             else if (codebreakerTileEntity.HeldSchematicID != 0 && codebreakerTileEntity.DecryptionCountdown == 0)
@@ -92,12 +92,7 @@ namespace CalamityMod.UI
                 }
             }
             else if (codebreakerTileEntity.DecryptionCountdown > 0)
-            {
-                if (!AwaitingCloseConfirmation)
-                    DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * GeneralScale * 30f);
-                else
-                    DisplayDecryptCancelButton(codebreakerTileEntity, textPanelCenter + Vector2.UnitY * GeneralScale * 110f);
-            }
+                DisplayDecryptCancelButton(codebreakerTileEntity, costVerificationLocation - Vector2.UnitY * GeneralScale * 30f);
 
             if (canSummonDraedon)
                 HandleDraedonSummonButton(codebreakerTileEntity, summonButtonCenter);
@@ -105,7 +100,7 @@ namespace CalamityMod.UI
             if (codebreakerTileEntity.DecryptionCountdown > 0 || AwaitingDecryptionTextClose)
                 HandleDecryptionStuff(codebreakerTileEntity, backgroundTexture, backgroundTopLeft, schematicSlotDrawCenter + Vector2.UnitY * GeneralScale * 80f);
             if (codebreakerTileEntity.DecryptionCountdown > 0 && AwaitingCloseConfirmation)
-                DrawDecryptCancelConfirmationText(textPanelCenter);
+                DrawDecryptCancelConfirmationText(costVerificationLocation);
 
             // Draw the schematic icon.
             Texture2D schematicIconBG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/EncryptedSchematicSlotBackground").Value;
@@ -370,6 +365,8 @@ namespace CalamityMod.UI
         public static void DrawDecryptCancelConfirmationText(Vector2 drawPosition)
         {
             Texture2D textPanelTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterScreen").Value;
+            drawPosition.X += GeneralScale * 196f;
+
             Vector2 scale = new Vector2(1f, 0.3f) * GeneralScale;
             Main.spriteBatch.Draw(textPanelTexture, drawPosition, null, Color.White, 0f, textPanelTexture.Size() * 0.5f, scale, SpriteEffects.None, 0);
 

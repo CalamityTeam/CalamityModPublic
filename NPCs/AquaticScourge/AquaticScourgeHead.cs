@@ -158,7 +158,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 50f;
+            return minDist <= 50f * NPC.scale;
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)

@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)(NPC.lifeMax * 0.25);
+                    int num660 = (int)(NPC.lifeMax * (Main.getGoodWorld ? 0.15 : 0.25));
                     if ((NPC.life + num660) < NPC.ai[3])
                     {
                         NPC.ai[3] = NPC.life;
@@ -231,13 +231,18 @@ namespace CalamityMod.NPCs.Perforator
                             wormType = ModContent.NPCType<PerforatorHeadLarge>();
                         }
 
-                        if (Main.getGoodWorld)
+                        if (Main.getGoodWorld && lifeRatio < 0.5f)
                         {
-                            for (int i = 0; i < 2; i++)
-                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
+                            if (lifeRatio > 0.35f)
+                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<PerforatorHeadLarge>(), 1);
+                            else if (lifeRatio > 0.2f)
+                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<PerforatorHeadMedium>(), 1);
+                            else if (lifeRatio > 0.05f)
+                                NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<PerforatorHeadSmall>(), 1);
                         }
+                        else
+                            NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
 
-                        NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, wormType, 1);
                         NPC.TargetClosest();
 
                         SoundEngine.PlaySound(SoundID.NPCDeath23, NPC.position);

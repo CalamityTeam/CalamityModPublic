@@ -43,6 +43,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (malice)
                 aggressionLevel = 5;
 
+            if (Main.getGoodWorld)
+                aggressionLevel = 6;
+
             npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             if (npc.type == NPCID.MoonLordCore)

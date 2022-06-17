@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 110;
+            Item.damage = 180;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 20;
             Item.width = 56;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.useAnimation = 18;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
-            Item.knockBack = 7f;
+            Item.knockBack = 3f;
             Item.value = Item.buyPrice(1, 40, 0, 0);
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.PureGreen;
@@ -50,48 +50,30 @@ namespace CalamityMod.Items.Weapons.Magic
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            int stardustAmt = 6;
-            if (Main.rand.NextBool(3))
+            int stardustAmt = 5;
+            float num132 = num78;
+            float num133 = num79;
+            num80 = (float)Math.Sqrt((double)(num132 * num132 + num133 * num133));
+            num80 = num72 / num80;
+            num132 *= num80;
+            num133 *= num80;
+            float x2 = vector2.X;
+            float y2 = vector2.Y;
+            Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<IceCluster>(), damage, knockback, player.whoAmI);
+            for (int i = 0; i < stardustAmt; i++)
             {
-                stardustAmt++;
-            }
-            if (Main.rand.NextBool(4))
-            {
-                stardustAmt++;
-            }
-            if (Main.rand.NextBool(5))
-            {
-                stardustAmt++;
-            }
-            if (Main.rand.NextBool(3))
-            {
-                float num132 = num78;
-                float num133 = num79;
+                num132 = num78;
+                num133 = num79;
+                float num134 = 0.05f * (float)i;
+                num132 += (float)Main.rand.Next(-90, 91) * num134;
+                num133 += (float)Main.rand.Next(-90, 91) * num134;
                 num80 = (float)Math.Sqrt((double)(num132 * num132 + num133 * num133));
                 num80 = num72 / num80;
                 num132 *= num80;
                 num133 *= num80;
-                float x2 = vector2.X;
-                float y2 = vector2.Y;
-                Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<IceCluster>(), damage, knockback, player.whoAmI);
-            }
-            else
-            {
-                for (int i = 0; i < stardustAmt; i++)
-                {
-                    float num132 = num78;
-                    float num133 = num79;
-                    float num134 = 0.05f * (float)i;
-                    num132 += (float)Main.rand.Next(-155, 156) * num134;
-                    num133 += (float)Main.rand.Next(-155, 156) * num134;
-                    num80 = (float)Math.Sqrt((double)(num132 * num132 + num133 * num133));
-                    num80 = num72 / num80;
-                    num132 *= num80;
-                    num133 *= num80;
-                    float x2 = vector2.X;
-                    float y2 = vector2.Y;
-                    Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<Starblast>(), damage, knockback, player.whoAmI);
-                }
+                x2 = vector2.X;
+                y2 = vector2.Y;
+                Projectile.NewProjectile(source, x2, y2, num132, num133, ModContent.ProjectileType<Starblast>(), damage, knockback, player.whoAmI);
             }
             return false;
         }

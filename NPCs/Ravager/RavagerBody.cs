@@ -432,7 +432,9 @@ namespace CalamityMod.NPCs.Ravager
                     }
                 }
 
-                CustomGravity();
+                // Don't run custom gravity when starting a jump
+                if (NPC.ai[0] != 1f)
+                    CustomGravity();
             }
             else if (NPC.ai[0] >= 1f)
             {
@@ -534,7 +536,7 @@ namespace CalamityMod.NPCs.Ravager
                     float offset = phase2 ? maxOffset * calamityGlobalNPC.newAI[2] : 0f;
                     int quarterWidth = (int)(NPC.width * 0.25f);
 
-                    if ((NPC.position.X + quarterWidth < targetVector.X + offset && NPC.position.X + NPC.width - quarterWidth > targetVector.X + player.width + offset && (inRange || NPC.ai[0] != 2f)) || NPC.ai[1] > 0f || calamityGlobalNPC.newAI[3] >= 180f)
+                    if ((NPC.position.X + quarterWidth < targetVector.X + offset && NPC.position.X + NPC.width - quarterWidth > targetVector.X + player.width + offset && (inRange || NPC.ai[0] != 2f)) || NPC.ai[1] > 0f || calamityGlobalNPC.newAI[3] >= 120f)
                     {
                         NPC.damage = NPC.defDamage;
 

@@ -2333,8 +2333,8 @@ namespace CalamityMod.NPCs
             bool postMoonLordBuff = NPC.downedMoonlord && !BossRushEvent.BossRushActive;
             npc.damage = postMoonLordBuff ? npc.defDamage * 2 : npc.defDamage;
 
-            // Don't fire projectiles and don't increment phase timers for 6 seconds after the teleport phase to avoid cheap bullshit
-            float noProjectileOrPhaseIncrementTime = 360f;
+            // Don't fire projectiles and don't increment phase timers for 4 seconds after the teleport phase to avoid cheap bullshit
+            float noProjectileOrPhaseIncrementTime = 240f;
 
             // Don't deal contact damage for 2 seconds after the teleport phase to avoid cheap bullshit
             float noContactDamageTime = 120f;
@@ -2571,19 +2571,20 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 1f)
             {
                 // Slow down
-                npc.velocity.X *= 0.9f;
+                npc.velocity.X *= 0.8f;
 
                 // Stay vulnerable for a maximum of 2 seconds
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= (phase2 ? 30f : 120f) || malice)
                 {
-                    // Stop colliding with tiles
-                    npc.noTileCollide = true;
-
                     // Set AI to next phase (Walk) and reset other AI
                     npc.TargetClosest();
                     npc.ai[0] = Main.rand.NextBool() ? 3f : 2f;
                     npc.ai[1] = 0f;
+
+                    // Stop colliding with tiles if entering walking phase
+                    npc.noTileCollide = npc.ai[0] == 2f;
+
                     npc.netUpdate = true;
                 }
                 else
@@ -2596,7 +2597,7 @@ namespace CalamityMod.NPCs
                 // Set walking direction
                 if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
                 {
-                    npc.velocity.X *= 0.9f;
+                    npc.velocity.X *= 0.8f;
                     if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
                         npc.velocity.X = 0f;
                 }
@@ -2770,13 +2771,16 @@ namespace CalamityMod.NPCs
                         npc.ai[0] = phase2 ? (Main.rand.NextBool() ? (phase3 ? 2f : 1f) : 5f) : (Main.rand.NextBool() ? 2f : 1f);
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
+
+                        // Stop colliding with tiles if entering walking phase
+                        npc.noTileCollide = npc.ai[0] == 2f;
+
                         npc.netUpdate = true;
                     }
                     else
                     {
                         float playerLocation = npc.Center.X - player.Center.X;
                         npc.direction = playerLocation < 0 ? 1 : -1;
-
                         npc.ai[0] = 3f;
                         npc.ai[3] = 0f;
                         npc.netUpdate = true;
@@ -2931,7 +2935,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 5f)
             {
                 // Slow down
-                npc.velocity.X *= 0.9f;
+                npc.velocity.X *= 0.8f;
 
                 // Spawn slimes and start teleport
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -3000,6 +3004,8 @@ namespace CalamityMod.NPCs
                         ;
                     }
                 }
+
+                CustomGravity();
             }
 
             // Mid-teleport
@@ -3046,6 +3052,8 @@ namespace CalamityMod.NPCs
                     Main.dust[num244].noGravity = true;
                     Main.dust[num244].velocity *= 0.5f;
                 }
+
+                CustomGravity();
             }
 
             // End of teleport
@@ -3083,6 +3091,10 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = phase3 ? (Main.rand.NextBool() ? 3f : 2f) : (Main.rand.NextBool() ? 1f : 2f);
                     npc.ai[2] = 0f;
                     npc.localAI[3] = noProjectileOrPhaseIncrementTime;
+
+                    // Stop colliding with tiles if entering walking phase
+                    npc.noTileCollide = npc.ai[0] == 2f;
+
                     npc.netUpdate = true;
                 }
 
@@ -3100,6 +3112,8 @@ namespace CalamityMod.NPCs
                     Main.dust[num244].noGravity = true;
                     Main.dust[num244].velocity *= 0.5f;
                 }
+
+                CustomGravity();
             }
 
             void CustomGravity()

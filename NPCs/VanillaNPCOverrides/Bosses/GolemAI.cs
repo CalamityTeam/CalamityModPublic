@@ -241,11 +241,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float distanceBelowTarget = npc.position.Y - (Main.player[npc.target].position.Y + 80f);
                         float speedMult = 1f;
 
-                        float multiplier = turboEnrage ? 0.003f : enrage ? 0.002f : 0.0015f;
+                        float multiplier = turboEnrage ? 0.0025f : enrage ? 0.002f : 0.0015f;
                         if (distanceBelowTarget > 0f && ((!flag41 && !flag42) || turboEnrage))
                             speedMult += distanceBelowTarget * multiplier;
 
-                        float speedMultLimit = turboEnrage ? 4f : enrage ? 3f : 2.5f;
+                        float speedMultLimit = turboEnrage ? 3.5f : enrage ? 3f : 2.5f;
                         if (speedMult > speedMultLimit)
                             speedMult = speedMultLimit;
 
@@ -262,7 +262,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
                 }
 
-                CustomGravity();
+                // Don't run custom gravity when starting a jump
+                if (npc.ai[0] != 1f)
+                    CustomGravity();
             }
 
             // Fall down
@@ -400,7 +402,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
             void CustomGravity()
             {
-                float gravity = turboEnrage ? (Main.getGoodWorld ? 0.12f : 0.9f) : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
+                float gravity = turboEnrage ? (Main.getGoodWorld ? 1.2f : 0.9f) : enrage ? 0.6f : (!flag41 && !flag42) ? 0.45f : 0.3f;
                 float maxFallSpeed = reduceFallSpeed ? 12f : turboEnrage ? (Main.getGoodWorld ? 40f : 30f) : enrage ? 20f : (!flag41 && !flag42) ? 15f : 10f;
 
                 npc.velocity.Y += gravity;
@@ -915,6 +917,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Die if body is gone
             if (NPC.golemBoss < 0)
             {
+                calamityGlobalNPC.DR = 0.25f;
+                calamityGlobalNPC.unbreakableDR = false;
+                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = false;
                 npc.StrikeNPCNoInteraction(9999, 0f, 0);
                 return false;
             }
@@ -950,17 +955,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (malice || Main.getGoodWorld)
                 enrage = true;
 
-            if (turboEnrage && NPC.golemBoss >= 0)
+            if (turboEnrage)
             {
                 calamityGlobalNPC.DR = 0.9999f;
                 calamityGlobalNPC.unbreakableDR = true;
                 calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = true;
-            }
-            else
-            {
-                calamityGlobalNPC.DR = 0.25f;
-                calamityGlobalNPC.unbreakableDR = false;
-                calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = false;
             }
 
             // Float through tiles or not

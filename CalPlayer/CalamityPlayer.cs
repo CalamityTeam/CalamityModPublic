@@ -5344,7 +5344,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (proj.type == ProjectileID.TorchGod)
                 {
-                    int fireDebuffTypes = 7;
+                    int fireDebuffTypes = 8;
                     switch (Main.rand.Next(fireDebuffTypes))
                     {
                         case 0:
@@ -5372,7 +5372,11 @@ namespace CalamityMod.CalPlayer
                             break;
 
                         case 6:
-                            Player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 150);
+                            Player.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 300);
+                            break;
+
+                        case 7:
+                            Player.AddBuff(ModContent.BuffType<Dragonfire>(), 300);
                             break;
                     }
                 }
