@@ -14,8 +14,11 @@ float tileEdgeBlendStrenght; //How hard the border of a tile should get blended 
 float4 baseTintColor; //Color of the tile's overlay
 float3 tileEdgeColor; //Color of the tile's edge effects
 float4 scanlineColor; //Color of the scanline effects
-
 float4 waveColor; //Color of the ping wave
+
+float4 ScanLines[10];
+int ScanLinesCount;
+int verticalScanLinesIndex;
 
 //Per tile stuff
 float2 tilePosition; //The position of the top left of the tile
@@ -44,6 +47,11 @@ int COUNT(bool4 value)
         count++;
     
     return count;
+}
+
+float MOD(float a, float n)
+{
+    return a - floor(a / n) * n;
 }
 
 float inverselerp(float x, float start, float end)
@@ -79,6 +87,7 @@ bool cornerDrawCheck(float2 position)
     return COUNT(edgeChecks) < 2;
 }
 
+//Gets the gradient from the tile outline effects
 float getOpacityFromEdge(float2 position)
 {
     //If fully surrounded, don't draw anything
@@ -111,6 +120,38 @@ float getOpacityFromEdge(float2 position)
     return baseOpacity;
 }
 
+//Gets the opacity of the scanline on the specific pixel
+float getOpacityFromScanLine(float2 position)
+{
+    float opacity = 0;
+    float4 scanline;
+    
+    //x = offset from origin, y = period, z = speed, w = opacity.
+    for (int i = 0; i < ScanLinesCount; i++)
+    {
+        scanline = ScanLines[i];
+        
+        float pixelPos;
+        if (i >= verticalScanLinesIndex)
+            pixelPos = (position.x + tilePosition.x / 16) % scanline.y;
+           
+        else
+            pixelPos = (position.y + tilePosition.y / 16) % scanline.y;
+        
+        //Custom mod in case scanline.z is negative, aka the scanline moves in the opposite direction.
+        float scanlinePos = MOD((scanline.x + time * scanline.z), scanline.y);
+        
+        scanlinePos -= scanlinePos % (1 / Resolution);
+        
+        pixelPos -= pixelPos % (1 / Resolution);
+        
+        if (pixelPos == scanlinePos)
+            opacity += scanline.w;
+    }
+    
+    
+    return opacity * (scanlineColor.a - baseTintColor.a);
+}
 
 float4 main(float2 uv : TEXCOORD) : COLOR
 {
@@ -144,6 +185,12 @@ float4 main(float2 uv : TEXCOORD) : COLOR
     OpacityTotal = lerp(OpacityTotal, 1, tileEdgeBlend);
     ColorTotal = lerp(ColorTotal, tileEdgeColor, tileEdgeBlend);
     
+    float scanlineOpacity = getOpacityFromScanLine(uv);
+    if (scanlineOpacity > 0)
+    {
+        OpacityTotal += scanlineOpacity;
+        ColorTotal = lerp(ColorTotal, scanlineColor.rgb, scanlineOpacity);
+    }
     
     //Fade away the border
     if (realPingRadius - distanceFromPingOrigin < edgeBlendOutLenght)

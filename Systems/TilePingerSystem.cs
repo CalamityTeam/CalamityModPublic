@@ -209,28 +209,29 @@ namespace CalamityMod.Systems
             tileEffect.Parameters["pingFadePoint"].SetValue(0.9f);
             tileEffect.Parameters["edgeBlendStrength"].SetValue(1f);
             tileEffect.Parameters["edgeBlendOutLenght"].SetValue(6f);
-            tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(1f);
+            tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(2f);
 
             tileEffect.Parameters["waveColor"].SetValue(Color.GreenYellow.ToVector4());
-            tileEffect.Parameters["baseTintColor"].SetValue(Color.DeepSkyBlue.ToVector4() * 0.6f);
-            tileEffect.Parameters["scanlineColor"].SetValue(Color.YellowGreen.ToVector4() * 0.8f);
+            tileEffect.Parameters["baseTintColor"].SetValue(Color.DeepSkyBlue.ToVector4() * 0.5f);
+            tileEffect.Parameters["scanlineColor"].SetValue(Color.YellowGreen.ToVector4() * 1f);
             tileEffect.Parameters["tileEdgeColor"].SetValue(Color.GreenYellow.ToVector3());
             tileEffect.Parameters["Resolution"].SetValue(8f);
 
             tileEffect.Parameters["time"].SetValue(Main.GameUpdateCount);
             Vector4[] scanLines = new Vector4[]
             {
-                new Vector4(0f, 83f, 1f, 1f),
-                new Vector4(39f, 40f, 0.4f, 0.5f),
-                new Vector4(137f, 340f, 4f, 1f),
-                new Vector4(39f, 40f, 0.4f, 0.5f),
-                new Vector4(19f, 40f, 0.4f, 0.5f)
+                new Vector4(0f, 4f, 0.1f, 0.5f),
+                new Vector4(1f, 4f, 0.1f, 0.5f),
+                new Vector4(37f, 60f, 0.4f, 1f),
+                new Vector4(2f, 6f, -0.2f, 0.3f),
+                new Vector4(0f, 4f, 0.1f, 0.5f), //vertical start
+                new Vector4(1f, 4f, 0.1f, 0.5f),
+                new Vector4(2f, 6f, -0.2f, 0.3f)
             };
 
-            //tileEffect.Parameters["ScanLines"].SetValue(scanLines);
-            //tileEffect.Parameters["ScanLinesCount"].SetValue(scanLines.Length);
-            //tileEffect.Parameters["ScanLinesCount"].SetValue(0);
-            //tileEffect.Parameters["verticalScanLinesIndex"].SetValue(2);
+            tileEffect.Parameters["ScanLines"].SetValue(scanLines);
+            tileEffect.Parameters["ScanLinesCount"].SetValue(scanLines.Length);
+            tileEffect.Parameters["verticalScanLinesIndex"].SetValue(4);
 
             return tileEffect;
         }
