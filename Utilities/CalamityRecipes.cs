@@ -1631,10 +1631,10 @@ namespace CalamityMod
 
             // Flying Carpet
             r = CreateRecipe(ItemID.FlyingCarpet);
-            r.AddIngredient(ItemID.AncientCloth, 10);
-            r.AddIngredient(ItemID.SoulofLight, 10);
-            r.AddIngredient(ItemID.SoulofNight, 10);
-            r.AddTile(TileID.MythrilAnvil);
+            r.AddIngredient(ItemID.Silk, 10);
+            r.AddIngredient(ModContent.ItemType<DesertFeather>(), 3);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 5);
+            r.AddTile(TileID.Anvils);
             r.Register();
 
             // Aglet
