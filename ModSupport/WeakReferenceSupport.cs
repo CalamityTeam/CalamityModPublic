@@ -394,7 +394,7 @@ namespace CalamityMod
                 BossDifficulty.TryGetValue("GreatSandShark", out float order);
                 int type = NPCType<GreatSandShark>();
                 int summon = ItemType<SandstormsCore>();
-                List<int> loot = new List<int>() { ItemType<GrandScale>(), ItemID.AncientBattleArmorMaterial, ItemID.DungeonDesertKey };
+                List<int> loot = new List<int>() { ItemType<GrandScale>(), ItemID.AncientBattleArmorMaterial, ItemID.DungeonDesertKey, ItemID.LightShard, ItemID.DarkShard };
                 List<int> collection = new List<int>() { ItemID.MusicBoxSandstorm };
                 string instructions = $"Kill 10 sand sharks after defeating Plantera or use a [i:{summon}] in the Desert Biome";
                 string despawn = CalamityUtils.ColorMessage("The apex predator of the sands disappears into the dunes...", new Color(0xDA, 0xA5, 0x20));

@@ -631,6 +631,9 @@ namespace CalamityMod.NPCs.GreatSandShark
             // 1 Grand Scale guaranteed; on Expert, 33% chance of getting a second one
             npcLoot.Add(ModContent.ItemType<GrandScale>());
             npcLoot.AddIf(() => Main.expertMode, ModContent.ItemType<GrandScale>(), 3);
+
+            npcLoot.Add(ItemID.LightShard, 2);
+            npcLoot.Add(ItemID.DarkShard, 2);
         }
 
         public override void OnKill()
