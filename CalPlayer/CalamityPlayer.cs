@@ -2548,7 +2548,7 @@ namespace CalamityMod.CalPlayer
             return new Item();
         }
 
-        public static readonly SoundStyle WulfrumTreasurePingerSound = new("CalamityMod/Sounds/Item/WulfrumPing") { PitchVariance = 0.1f};
+        
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
