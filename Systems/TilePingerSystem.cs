@@ -142,7 +142,10 @@ namespace CalamityMod.Systems
                 }
                 Main.spriteBatch.End();
             }
+        }
 
+        public static void ClearTiles()
+        {
             pingedTiles.Clear();
         }
     }
@@ -167,8 +170,8 @@ namespace CalamityMod.Systems
     public class WulfrumPingTileEffect : IPingedTileEffect, ILoadable
     {
         internal static Texture2D emptyFrame;
-        const int MaxPingLife = 140;
-        const int MaxPingTravelTime = 70;
+        const int MaxPingLife = 150;
+        const int MaxPingTravelTime = 60;
         const float PingWaveThickness = 60f;
 
         const float MaxPingRadius = 1400f;
@@ -198,34 +201,44 @@ namespace CalamityMod.Systems
                 emptyFrame = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
 
             Effect tileEffect = Filters.Scene["WulfrumTilePing"].GetShader().Shader;
-
-            tileEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
             tileEffect.Parameters["pingCenter"].SetValue(PingCenter);
             tileEffect.Parameters["pingRadius"].SetValue(MaxPingRadius);
             tileEffect.Parameters["pingWaveThickness"].SetValue(PingWaveThickness);
             tileEffect.Parameters["pingProgress"].SetValue(PingProgress);
             tileEffect.Parameters["pingTravelTime"].SetValue(MaxPingTravelTime / (float)MaxPingLife);
-            tileEffect.Parameters["pingFadePoint"].SetValue(0.9003f);
+            tileEffect.Parameters["pingFadePoint"].SetValue(0.91f);
             tileEffect.Parameters["edgeBlendStrength"].SetValue(1f);
             tileEffect.Parameters["edgeBlendOutLenght"].SetValue(6f);
             tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(3f);
 
             tileEffect.Parameters["waveColor"].SetValue(Color.GreenYellow.ToVector4());
             tileEffect.Parameters["baseTintColor"].SetValue(Color.DeepSkyBlue.ToVector4() * 0.6f);
-            tileEffect.Parameters["scanlineColor"].SetValue(Color.YellowGreen.ToVector4() * 0.9f);
+            tileEffect.Parameters["scanlineColor"].SetValue(Color.YellowGreen.ToVector4() * 0.8f);
             tileEffect.Parameters["tileEdgeColor"].SetValue(Color.GreenYellow.ToVector3());
             tileEffect.Parameters["Resolution"].SetValue(8f);
+
+            tileEffect.Parameters["time"].SetValue(Main.GameUpdateCount);
+            Vector4[] scanLines = new Vector4[]
+            {
+                new Vector4(0f, 83f, 1f, 1f),
+                new Vector4(39f, 40f, 0.4f, 0.5f),
+                new Vector4(137f, 340f, 4f, 1f),
+                new Vector4(39f, 40f, 0.4f, 0.5f),
+                new Vector4(19f, 40f, 0.4f, 0.5f)
+            };
+
+            //tileEffect.Parameters["ScanLines"].SetValue(scanLines);
+            //tileEffect.Parameters["ScanLinesCount"].SetValue(scanLines.Length);
+            //tileEffect.Parameters["ScanLinesCount"].SetValue(0);
+            //tileEffect.Parameters["verticalScanLinesIndex"].SetValue(2);
 
             return tileEffect;
         }
 
         public void PerTileSetup(Point pos, ref Effect effect)
         {
-            //Top left, top right, bottom left, bottom right
-            effect.Parameters["ordinalConnections"].SetValue(new bool[] { Connected(pos, - 1, - 1), Connected(pos, 1, -1), Connected(pos, -1,  1), Connected(pos, 1, 1)});
             //Up, left, right, down.
-            effect.Parameters["cardinalConnections"].SetValue(new bool[] { Connected(pos, 0, - 1), Connected(pos, - 1, 0), Connected(pos, 1, 0), Connected(pos, 0, 1) });
-
+            effect.Parameters["cardinalConnections"].SetValue(new bool[] { Connected(pos, 0, - 1), Connected(pos,- 1, 0), Connected(pos, 1, 0), Connected(pos, 0, 1) });
             effect.Parameters["tilePosition"].SetValue(pos.ToVector2() * 16f);
         }
 

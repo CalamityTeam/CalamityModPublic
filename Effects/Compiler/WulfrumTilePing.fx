@@ -76,31 +76,10 @@ float getOpacityFromEdge(float2 position)
     float one = 7 / Resolution;
     
     //Do the corners
-    if (!AND(ordinalConnections) && false)
-    {
-        if (!(ordinalConnections.x && ordinalConnections.y) && position.y < twoFourths && cardinalConnections.x)
-        {
-            //Top left
-            if (!ordinalConnections.x && position.x < twoFourths && cardinalConnections.y)
-                return pow(inverselerp(position, float2(twoFourths, twoFourths), float2(0, 0)), tileEdgeBlendStrenght);
-            
-            //Top right
-            else if (!ordinalConnections.y && position.x >= threeFourths && cardinalConnections.z)
-                return pow(inverselerp(position, float2(threeFourths, twoFourths), float2(one, one)), tileEdgeBlendStrenght);
-        }
-    
-    //Bottom left & bottom right checks.
-        else if (!(ordinalConnections.z && ordinalConnections.w) && position.y >= 5 / Resolution && cardinalConnections.w)
-        {
-            //Bottom left
-            if (!ordinalConnections.z && position.x < twoFourths && cardinalConnections.y)
-                return pow(inverselerp(position, float2(twoFourths, threeFourths), float2(0, one)), tileEdgeBlendStrenght);
-            
-            //Bottom right
-            else if (!ordinalConnections.w && position.x >= threeFourths && cardinalConnections.z)
-                return pow(inverselerp(position, float2(threeFourths, threeFourths), float2(one, one)), tileEdgeBlendStrenght);
-        }
-    }
+    //if (!AND(ordinalConnections) && false)
+    //{
+        
+    //}
     
     if (!AND(cardinalConnections))
     {
@@ -142,28 +121,30 @@ float4 main(float2 uv : TEXCOORD) : COLOR
         
     float distanceFromPingOrigin = length(pingCenter - (tilePosition + uv * 16));
     float waveExpansionPercent = pingProgress / pingTravelTime;
-    float realPingRadius = pingRadius * waveExpansionPercent;
+    float currentPingRadius = pingRadius * waveExpansionPercent;
+    float realWaveExpansionPercent = min(waveExpansionPercent, 1);
+    float realPingRadius = pingRadius * realWaveExpansionPercent;
+    
     
     //Crop the ping wave into a circle
     if (distanceFromPingOrigin > realPingRadius)
         return float4(0, 0, 0, 0);
     
-    float waveEdgeDistanceFromCenter = max(realPingRadius - pingWaveThickness, 0);
+    float waveEdgeDistanceFromCenter = max(currentPingRadius - pingWaveThickness, 0);
     float edgeBlendFactor = pow(min(max((distanceFromPingOrigin - (waveEdgeDistanceFromCenter)), 0) / (pingWaveThickness - edgeBlendOutLenght), 1), edgeBlendStrength);
     
     float3 ColorTotal = lerp(baseTintColor.rgb, waveColor.rgb, edgeBlendFactor);
     float OpacityTotal = lerp(baseTintColor.a, waveColor.a, edgeBlendFactor);
         
+    //Do the outlines
+    float tileEdgeBlend = getOpacityFromEdge(uv);
+    OpacityTotal = lerp(OpacityTotal, tileEdgeBlend, tileEdgeBlend);
+    ColorTotal = lerp(ColorTotal, tileEdgeColor, tileEdgeBlend);
+    
+    
     //Fade away the border
     if (realPingRadius - distanceFromPingOrigin < edgeBlendOutLenght)
-    {
-       ColorTotal = waveColor.rgb;
-       OpacityTotal = waveColor.a * (realPingRadius - distanceFromPingOrigin) / edgeBlendOutLenght;
-    }
-    
-    float edgeBlend = getOpacityFromEdge(uv);
-    OpacityTotal = lerp(OpacityTotal, edgeBlend, edgeBlend);
-    ColorTotal = lerp(ColorTotal, tileEdgeColor, edgeBlend);
+        OpacityTotal *= (realPingRadius - distanceFromPingOrigin) / edgeBlendOutLenght;
     
     //General fade out at the end.
     OpacityTotal *= 1 - max(pingProgress - pingFadePoint, 0) / (1 - pingFadePoint);

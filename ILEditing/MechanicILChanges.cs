@@ -916,5 +916,15 @@ namespace CalamityMod.ILEditing
             throw new Exception("Hook location not found, switch(*) { case 54: ...");
         }
         #endregion Statue Additions
+
+        #region tile ping overlay
+        private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
+        {
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets);
+
+            if (!solidLayer && (intoRenderTargets || Lighting.UpdateEveryFrame))
+                TilePingerSystem.ClearTiles();
+        }
+        #endregion
     }
 }

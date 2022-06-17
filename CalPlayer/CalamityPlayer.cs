@@ -2548,10 +2548,16 @@ namespace CalamityMod.CalPlayer
             return new Item();
         }
 
+        public static readonly SoundStyle WulfrumTreasurePingerSound = new("CalamityMod/Sounds/Item/WulfrumPing") { PitchVariance = 0.1f};
+
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if (Main.mouseRight)
-                Systems.TilePingerSystem.AddPing("WulfrumPing", Player.Center, Player);
+            {
+                if (Systems.TilePingerSystem.AddPing("WulfrumPing", Player.Center, Player))
+                    SoundEngine.PlaySound(WulfrumTreasurePingerSound);
+
+            }
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)
