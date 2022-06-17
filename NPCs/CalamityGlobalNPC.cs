@@ -1075,6 +1075,10 @@ namespace CalamityMod.NPCs
                     npc.lifeMax = 20000;
                     break;
 
+                case NPCID.HallowBoss:
+                    npc.lifeMax = 105000;
+                    break;
+
                 case NPCID.Plantera:
                     npc.lifeMax = 75000;
                     break;
@@ -1087,9 +1091,17 @@ namespace CalamityMod.NPCs
                     npc.lifeMax = 26000;
                     break;
 
+                case NPCID.QueenSlimeBoss:
+                    npc.lifeMax = 27000;
+                    break;
+
                 case NPCID.WallofFlesh:
                 case NPCID.WallofFleshEye:
                     npc.lifeMax = 12800;
+                    break;
+
+                case NPCID.Deerclops:
+                    npc.lifeMax = 10500;
                     break;
 
                 case NPCID.BrainofCthulhu:
