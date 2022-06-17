@@ -170,11 +170,11 @@ namespace CalamityMod.Systems
     public class WulfrumPingTileEffect : IPingedTileEffect, ILoadable
     {
         internal static Texture2D emptyFrame;
-        const int MaxPingLife = 150;
+        const int MaxPingLife = 350;
         const int MaxPingTravelTime = 60;
-        const float PingWaveThickness = 60f;
+        const float PingWaveThickness = 50f;
 
-        const float MaxPingRadius = 1400f;
+        const float MaxPingRadius = 1700f;
         public static Vector2 PingCenter = Vector2.Zero;
         public static int PingTimer = 0;
         public static float PingProgress => (MaxPingLife - PingTimer) / (float)MaxPingLife;
@@ -206,10 +206,10 @@ namespace CalamityMod.Systems
             tileEffect.Parameters["pingWaveThickness"].SetValue(PingWaveThickness);
             tileEffect.Parameters["pingProgress"].SetValue(PingProgress);
             tileEffect.Parameters["pingTravelTime"].SetValue(MaxPingTravelTime / (float)MaxPingLife);
-            tileEffect.Parameters["pingFadePoint"].SetValue(0.91f);
+            tileEffect.Parameters["pingFadePoint"].SetValue(0.9f);
             tileEffect.Parameters["edgeBlendStrength"].SetValue(1f);
             tileEffect.Parameters["edgeBlendOutLenght"].SetValue(6f);
-            tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(3f);
+            tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(1f);
 
             tileEffect.Parameters["waveColor"].SetValue(Color.GreenYellow.ToVector4());
             tileEffect.Parameters["baseTintColor"].SetValue(Color.DeepSkyBlue.ToVector4() * 0.6f);

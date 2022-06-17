@@ -20,7 +20,6 @@ float4 waveColor; //Color of the ping wave
 //Per tile stuff
 float2 tilePosition; //The position of the top left of the tile
 bool4 cardinalConnections; //Up, Left, Right, Down connections.
-bool4 ordinalConnections; //Top left, Top Right, Bottom left, bottom right connections.
 
 
 texture sampleTexture;
@@ -31,81 +30,85 @@ bool AND(bool4 value)
     return value.x && value.y && value.z && value.w;
 }
 
+int COUNT(bool4 value)
+{
+    int count = 0;
+    
+    if (value.x)
+        count++;
+    if (value.y)
+        count++;
+    if (value.z)
+        count++;
+    if (value.w)
+        count++;
+    
+    return count;
+}
+
 float inverselerp(float x, float start, float end)
 {
-    return (x - start) / (end - start);
+    return clamp((x - start) / (end - start), 0, 1);
 }
 
-float inverselerp(float2 x, float2 start, float2 end)
-{
-    return inverselerp(length(x - start), 0, length(end - start));
-}
-
-//Checks if a corner should be drawn or excluded.
+//Checks if a corner should be drawn or excluded, based on how many edges the pixel is near to.
 bool cornerDrawCheck(float2 position)
 {
     float oneEight = 1 / Resolution;
     float sevenEights = 7 / Resolution;
     
-    //Top left & top right checks.
-    if (!(ordinalConnections.x && ordinalConnections.y) && position.y < oneEight && !cardinalConnections.x)
-    {
-        if ((!ordinalConnections.x && position.x < oneEight && !cardinalConnections.y) || (!ordinalConnections.y && position.x >= sevenEights && !cardinalConnections.z))
-            return false;
-    }
+    bool4 edgeChecks = bool4(false, false, false, false);
     
-    //Bottom left & bottom right checks.
-    if (!(ordinalConnections.z && ordinalConnections.w) && position.y >= sevenEights && !cardinalConnections.w)
-    {
-        if ((!ordinalConnections.z && position.x < oneEight && !cardinalConnections.y) || (!ordinalConnections.w && position.x >= sevenEights && !cardinalConnections.z))
-            return false;
-    }
-        
-    return true;
+    //top
+    if (position.y < oneEight && !cardinalConnections.x)
+        edgeChecks.x = true;
+         
+    //bottom
+    if (position.y >= sevenEights && !cardinalConnections.w)
+        edgeChecks.w = true;
+    
+    //left
+    if (position.x < oneEight && !cardinalConnections.y)
+        edgeChecks.y = true;
+    
+    //right
+    if (position.x >= sevenEights && !cardinalConnections.z)
+        edgeChecks.z = true;
+    
+    //if on 2 edges at once, youre on a corner
+    return COUNT(edgeChecks) < 2;
 }
 
 float getOpacityFromEdge(float2 position)
 {
     //If fully surrounded, don't draw anything
-    if (AND(cardinalConnections) && AND(ordinalConnections))
+    if (AND(cardinalConnections))
         return 0;
     
     float oneFourth = 1 / Resolution;
     float twoFourths = 3 / Resolution;
-    float threeFourths = 5 / Resolution;
+    float threeFourths = 4 / Resolution;
     float one = 7 / Resolution;
     
-    //Do the corners
-    //if (!AND(ordinalConnections) && false)
-    //{
+    float baseOpacity = 0;
         
-    //}
+    //up
+    if (!cardinalConnections.x)
+        baseOpacity += pow(inverselerp(position.y, twoFourths, 0), tileEdgeBlendStrenght);
     
-    if (!AND(cardinalConnections))
-    {
-        float baseOpacity = 0;
-        
-        //up
-        if (!cardinalConnections.x && position.y < twoFourths)
-            baseOpacity += pow(inverselerp(position.y, twoFourths, 0), tileEdgeBlendStrenght);
-        
-        //down
-        if (!cardinalConnections.w && position.y >= threeFourths)
-            baseOpacity += pow(inverselerp(position.y, threeFourths, one), tileEdgeBlendStrenght);
-        
-        //left
-        if (!cardinalConnections.y && position.x < twoFourths)
-            baseOpacity += pow(inverselerp(position.x, twoFourths, 0), tileEdgeBlendStrenght);
-        
-        //right
-        if (!cardinalConnections.z && position.x >= threeFourths)
-            baseOpacity += pow(inverselerp(position.x, threeFourths, one), tileEdgeBlendStrenght);
-        
-        return baseOpacity;
-    }
+    //down
+    if (!cardinalConnections.w)
+        baseOpacity += pow(inverselerp(position.y, threeFourths, one), tileEdgeBlendStrenght);
     
-    return 0;
+    //left
+    if (!cardinalConnections.y)
+        baseOpacity += pow(inverselerp(position.x, twoFourths, 0), tileEdgeBlendStrenght);
     
+    //right
+    if (!cardinalConnections.z)
+        baseOpacity += pow(inverselerp(position.x, threeFourths, one), tileEdgeBlendStrenght);
+        
+    return baseOpacity;
 }
 
 
@@ -138,7 +141,7 @@ float4 main(float2 uv : TEXCOORD) : COLOR
         
     //Do the outlines
     float tileEdgeBlend = getOpacityFromEdge(uv);
-    OpacityTotal = lerp(OpacityTotal, tileEdgeBlend, tileEdgeBlend);
+    OpacityTotal = lerp(OpacityTotal, 1, tileEdgeBlend);
     ColorTotal = lerp(ColorTotal, tileEdgeColor, tileEdgeBlend);
     
     
