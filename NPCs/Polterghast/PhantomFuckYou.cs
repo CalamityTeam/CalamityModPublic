@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             Vector2 direction = Main.player[NPC.target].Center - NPC.Center;
             direction.Normalize();
-            direction *= 0.05f;
+            direction *= 0.5f;
             NPC.rotation = direction.ToRotation();
 
             if (!chargePhase)

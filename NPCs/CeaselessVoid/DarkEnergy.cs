@@ -288,7 +288,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= 35f;
+            return minDist <= 35f * NPC.scale;
         }
 
         public override bool CheckDead() => false;
