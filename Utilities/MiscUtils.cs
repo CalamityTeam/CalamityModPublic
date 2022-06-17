@@ -843,7 +843,7 @@ namespace CalamityMod
                     npc = ModContent.NPCType<IceClasper>();
                     break;
                 case 62:
-                    npc = ModContent.NPCType<StormlionCharger>();
+                    npc = ModContent.NPCType<Stormlion>();
                     break;
                 case 63:
                     npc = ModContent.NPCType<Cnidrion>();

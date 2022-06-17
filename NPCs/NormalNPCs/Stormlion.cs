@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class StormlionCharger : ModNPC
+    public class Stormlion : ModNPC
     {
         public override void SetStaticDefaults()
         {
