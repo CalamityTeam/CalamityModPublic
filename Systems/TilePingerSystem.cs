@@ -13,9 +13,65 @@ using CalamityMod.Particles;
 using System.Runtime.Serialization;
 using Terraria.ID;
 using Terraria.DataStructures;
+using System;
 
 namespace CalamityMod.Systems
 {
+    public interface IPingedTileEffect
+    {
+        /// <summary>
+        /// The blend state of the tile effect's main shader.
+        /// </summary>
+        public BlendState BlendState => BlendState.AlphaBlend;
+        /// <summary>
+        /// Create and set up an effect to be drawn over all the registered tiles for this shader.
+        /// </summary>
+        /// <returns>The configured effect</returns>
+        public Effect SetupEffect();
+        /// <summary>
+        /// Modifies the shader for each tile. Use this if your shader is using tile-specific data.
+        /// </summary>
+        /// <param name="pos">The position of the tile</param>
+        /// <param name="effect">The effect being used</param>
+        public void PerTileSetup(Point pos, ref Effect effect) { }
+        /// <summary>
+        /// Draws the tile, or an overlay for it. The shader is automatically applied.
+        /// </summary>
+        /// <param name="pos">The position of the tile</param>
+        public void DrawTile(Point pos);
+        /// <summary>
+        /// What happens when a ping for this effect gets requested. Return false if the ping couldn't get added.
+        /// </summary>
+        /// <param name="position">Position of the ping being requested</param>
+        /// <param name="pinger">The player that initiated the ping</param>
+        /// <returns>Wether or not the ping's setup was successful</returns>
+        public bool TryAddPing(Vector2 position, Player pinger);
+        /// <summary>
+        /// Wether or not this effect is active.
+        /// </summary>
+        public bool Active => true;
+        /// <summary>
+        /// Check to know if a tile needs to be drawn with this effect. This is only called if the effect is active.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>Wether or not the tile should be drawn with the effect</returns>
+        public bool ShouldRegisterTile(int x, int y);
+        /// <summary>
+        /// Called after a tile has been queued to be drawn with this effect. Can be used to edit the draw data of the tile.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <param name="drawData">The tile's draw data</param>
+        public void EditDrawData(int i, int j, ref TileDrawInfo drawData) { }
+        /// <summary>
+        /// Update call ran once per frame.
+        /// </summary>
+        public void UpdateEffect() { }
+    }
+
+
+
     public class TilePingerSystem : ModSystem
     {
         internal static Dictionary<IPingedTileEffect, List<Point>> pingedTiles;
@@ -98,81 +154,31 @@ namespace CalamityMod.Systems
             foreach(IPingedTileEffect effect in TilePingerSystem.tileEffects.Values)
             {
                 if (effect.Active && effect.ShouldRegisterTile(i, j))
+                {
                     TilePingerSystem.RegisterTileToDraw(new Point(i, j), effect);
+                    effect.EditDrawData(i, j, ref drawData);
+                }
             }
         }
     }
 
-    public interface IPingedTileEffect
-    {
-        public BlendState BlendState { get; }
-        public Effect SetupEffect();
-        public void PerTileSetup(Point pos, ref Effect effect);
-        public void DrawTile(Point pos);
-        public bool TryAddPing(Vector2 position, Player pinger);
-        public bool Active { get; }
-        public bool ShouldRegisterTile(int x, int y);
-        public void UpdateEffect();
-    }
+   
 
     public class WulfrumPingTileEffect : IPingedTileEffect, ILoadable
     {
         internal static Texture2D emptyFrame;
-        const int MaxPingLife = 280;
-        const int MaxPingTravelTime = 140;
-        const float PingWaveThickness = 40f;
+        const int MaxPingLife = 140;
+        const int MaxPingTravelTime = 70;
+        const float PingWaveThickness = 60f;
 
         const float MaxPingRadius = 1400f;
         public static Vector2 PingCenter = Vector2.Zero;
         public static int PingTimer = 0;
         public static float PingProgress => (MaxPingLife - PingTimer) / (float)MaxPingLife;
 
-
         public bool Active => PingTimer > 0;
 
         public BlendState BlendState => BlendState.Additive;
-
-        public Effect SetupEffect()
-        {
-            if (emptyFrame == null)
-                emptyFrame = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
-
-            Effect tileEffect = Filters.Scene["WulfrumTilePing"].GetShader().Shader;
-
-            tileEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
-            tileEffect.Parameters["pingCenter"].SetValue(PingCenter);
-            tileEffect.Parameters["pingRadius"].SetValue(400f);
-            tileEffect.Parameters["pingWaveThickness"].SetValue(PingWaveThickness);
-            tileEffect.Parameters["pingProgress"].SetValue(PingProgress);
-            tileEffect.Parameters["pingTravelTime"].SetValue(MaxPingTravelTime / (float)MaxPingLife);
-            tileEffect.Parameters["pingFadePoint"].SetValue(0.9f);
-            tileEffect.Parameters["edgeBlendStrength"].SetValue(1f);
-            tileEffect.Parameters["edgeBlendOutLenght"].SetValue(26f);
-            tileEffect.Parameters["baseTintColor"].SetValue(Color.DeepSkyBlue.ToVector4() * 0.7f);
-            tileEffect.Parameters["scanlineColor"].SetValue(Color.GreenYellow.ToVector4() * 0.9f);
-            tileEffect.Parameters["tileEdgeColor"].SetValue(Color.GreenYellow.ToVector4());
-            tileEffect.Parameters["waveColor"].SetValue(Color.GreenYellow.ToVector4());
-            tileEffect.Parameters["Resolution"].SetValue(8f);
-
-            return tileEffect;
-        }
-
-        public void PerTileSetup(Point pos, ref Effect effect)
-        {
-            //Top left, top right, bottom left, bottom right
-            effect.Parameters["ordinalConnections"].SetValue(new Vector4(Connected(pos.X - 1, pos.Y - 1), Connected(pos.X + 1, pos.Y - 1), Connected(pos.X - 1, pos.Y + 1), Connected(pos.X + 1, pos.Y + 1)));
-            //Up, left, right, down.
-            effect.Parameters["cardinalConnections"].SetValue(new Vector4(Connected(pos.X, pos.Y - 1), Connected(pos.X - 1, pos.Y), Connected(pos.X + 1, pos.Y), Connected(pos.X, pos.Y + 1)));
-
-            effect.Parameters["tilePosition"].SetValue(pos.ToVector2() * 16f);
-        }
-
-        public static float Connected(int x, int y) => Main.IsTileSpelunkable(x, y) ? 1f : 0f;
-
-        public void DrawTile(Point pos)
-        {
-            Main.spriteBatch.Draw(emptyFrame, pos.ToWorldCoordinates() - Main.screenPosition, null, Color.White, 0, new Vector2(emptyFrame.Width / 2f, emptyFrame.Height / 2f), 16f, 0, 0);
-        }
 
         public bool TryAddPing(Vector2 position, Player pinger)
         {
@@ -185,9 +191,80 @@ namespace CalamityMod.Systems
             return true;
         }
 
+
+        public Effect SetupEffect()
+        {
+            if (emptyFrame == null)
+                emptyFrame = ModContent.Request<Texture2D>("CalamityMod/Projectiles/InvisibleProj").Value;
+
+            Effect tileEffect = Filters.Scene["WulfrumTilePing"].GetShader().Shader;
+
+            tileEffect.Parameters["time"].SetValue(Main.GlobalTimeWrappedHourly);
+            tileEffect.Parameters["pingCenter"].SetValue(PingCenter);
+            tileEffect.Parameters["pingRadius"].SetValue(MaxPingRadius);
+            tileEffect.Parameters["pingWaveThickness"].SetValue(PingWaveThickness);
+            tileEffect.Parameters["pingProgress"].SetValue(PingProgress);
+            tileEffect.Parameters["pingTravelTime"].SetValue(MaxPingTravelTime / (float)MaxPingLife);
+            tileEffect.Parameters["pingFadePoint"].SetValue(0.9003f);
+            tileEffect.Parameters["edgeBlendStrength"].SetValue(1f);
+            tileEffect.Parameters["edgeBlendOutLenght"].SetValue(6f);
+            tileEffect.Parameters["tileEdgeBlendStrenght"].SetValue(3f);
+
+            tileEffect.Parameters["waveColor"].SetValue(Color.GreenYellow.ToVector4());
+            tileEffect.Parameters["baseTintColor"].SetValue(Color.DeepSkyBlue.ToVector4() * 0.6f);
+            tileEffect.Parameters["scanlineColor"].SetValue(Color.YellowGreen.ToVector4() * 0.9f);
+            tileEffect.Parameters["tileEdgeColor"].SetValue(Color.GreenYellow.ToVector3());
+            tileEffect.Parameters["Resolution"].SetValue(8f);
+
+            return tileEffect;
+        }
+
+        public void PerTileSetup(Point pos, ref Effect effect)
+        {
+            //Top left, top right, bottom left, bottom right
+            effect.Parameters["ordinalConnections"].SetValue(new bool[] { Connected(pos, - 1, - 1), Connected(pos, 1, -1), Connected(pos, -1,  1), Connected(pos, 1, 1)});
+            //Up, left, right, down.
+            effect.Parameters["cardinalConnections"].SetValue(new bool[] { Connected(pos, 0, - 1), Connected(pos, - 1, 0), Connected(pos, 1, 0), Connected(pos, 0, 1) });
+
+            effect.Parameters["tilePosition"].SetValue(pos.ToVector2() * 16f);
+        }
+
+        public static bool Connected(Point pos, int displaceX, int displaceY) => Main.IsTileSpelunkable(pos.X + displaceX, pos.Y + displaceY) && Main.tile[pos].TileType == Main.tile[pos.X + displaceX, pos.Y + displaceY].TileType ;
+
         public bool ShouldRegisterTile(int x, int y)
         {
             return Main.IsTileSpelunkable(x, y);
+        }
+
+        public void DrawTile(Point pos)
+        {
+            Main.spriteBatch.Draw(emptyFrame, pos.ToWorldCoordinates() - Main.screenPosition, null, Color.White, 0, new Vector2(emptyFrame.Width / 2f, emptyFrame.Height / 2f), 16f, 0, 0);
+        }
+
+        public void EditDrawData(int i, int j, ref TileDrawInfo drawData)
+        {
+            float distanceFromCenter = (new Point(i, j).ToWorldCoordinates() - PingCenter).Length();
+            float currentExpansion = MathHelper.Clamp(PingProgress * MaxPingLife / (float)MaxPingTravelTime, 0f, 1f) * MaxPingRadius;
+
+            if (distanceFromCenter - 8 > currentExpansion)
+                return;
+
+            float brightness = 1f;
+            Tile tile = Framing.GetTileSafely(i, j);
+            //Counteracts slopes and half tiles being too bright
+            if (tile.Slope != SlopeType.Solid || tile.IsHalfBlock)
+                brightness = 0.64f;
+
+            //Fade on the edges
+            if (distanceFromCenter + 8 > currentExpansion)
+                brightness *= 1 - (distanceFromCenter - currentExpansion + 8f) / 16f;
+
+            //Fade away with the effect
+            brightness *= 1 - Math.Max(PingProgress - 0.9f, 0) / (0.1f);
+
+            if (drawData.tileLight.R < 200 * brightness) drawData.tileLight.R = (byte)(200 * brightness);
+            if (drawData.tileLight.G < 200 * brightness) drawData.tileLight.G = (byte)(200 * brightness);
+            if (drawData.tileLight.B < 200 * brightness) drawData.tileLight.B = (byte)(200 * brightness);
         }
 
         public void UpdateEffect()
@@ -201,9 +278,6 @@ namespace CalamityMod.Systems
             TilePingerSystem.tileEffects.Add("WulfrumPing", this);
         }
 
-        public void Unload()
-        {
-
-        }
+        public void Unload() { }
     }
 }

@@ -2550,6 +2550,8 @@ namespace CalamityMod.CalPlayer
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
+            if (Main.mouseRight)
+                Systems.TilePingerSystem.AddPing("WulfrumPing", Player.Center, Player);
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)
