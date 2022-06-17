@@ -495,9 +495,9 @@ namespace CalamityMod.Items
                 EditTooltipByName("BuffTime", (line) => line.Text += abyssGreatBreathLine);
 
             if (item.type == ItemID.NeptunesShell || item.type == ItemID.MoonShell)
-                EditTooltipByNum(0, (line) => line.Text += abyssGreatBreathLine);
+                EditTooltipByNum(1, (line) => line.Text += abyssGreatBreathLine);
             if (item.type == ItemID.CelestialShell)
-                EditTooltipByNum(1, (line) => line.Text += abyssModerateBreathLine);
+                EditTooltipByNum(2, (line) => line.Text += abyssModerateBreathLine);
             #endregion
 
             // Flasks apply to Rogue weapons
@@ -556,9 +556,9 @@ namespace CalamityMod.Items
             if (item.type == ItemID.SunStone)
                 EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Holy Flames");
             if (item.type == ItemID.CelestialStone)
-                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
-            if (item.type == ItemID.CelestialShell)
                 EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
+            if (item.type == ItemID.CelestialShell)
+                EditTooltipByNum(2, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
 
             // Arcane and Magnet Flower buffs.
             if (item.type == ItemID.ArcaneFlower || item.type == ItemID.MagnetFlower)

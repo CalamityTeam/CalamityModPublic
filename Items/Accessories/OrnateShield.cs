@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Ornate Shield");
-            Tooltip.SetDefault("Boosted damage reduction and health while wearing the Daedalus armor\n" +
+            Tooltip.SetDefault("8% increased damage reduction and +20 health while wearing the Daedalus armor\n" +
                 "Grants a frost dash");
         }
 
