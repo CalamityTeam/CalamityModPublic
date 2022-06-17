@@ -102,15 +102,31 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
             }
-            NPC.frameCounter += 0.15f;
-            NPC.frameCounter %= Main.npcFrameCount[NPC.type];
-            int frame = (int)NPC.frameCounter;
-            NPC.frame.Y = frame * frameHeight;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter += 1.0;
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y += frameHeight;
+                }
+                if (NPC.frame.Y >= frameHeight * 4)
+                {
+                    NPC.frame.Y = 0;
+                }
+            }
+            else
+            {
+                NPC.frameCounter += 0.15f;
+                NPC.frameCounter %= Main.npcFrameCount[NPC.type];
+                int frame = (int)NPC.frameCounter;
+                NPC.frame.Y = frame * frameHeight;
+            }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

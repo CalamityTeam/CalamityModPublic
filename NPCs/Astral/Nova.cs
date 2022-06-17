@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Astral
             {
                 Scale = 0.64f,
                 PortraitPositionXOverride = 10f,
-                PortraitPositionYOverride = -8f
+                PortraitPositionYOverride = 8f
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }

@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.ai[0] == 0f)
+            if (NPC.ai[0] == 0f && !NPC.IsABestiaryIconDummy)
                 return;
 
             NPC.frameCounter++;

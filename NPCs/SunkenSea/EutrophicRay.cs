@@ -20,6 +20,9 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             DisplayName.SetDefault("Eutrophic Ray");
             Main.npcFrameCount[NPC.type] = 5;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
+            value.Position.X += 24f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -169,7 +172,7 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += hasBeenHit ? 0.15f : 0f;
+            NPC.frameCounter += (hasBeenHit || NPC.IsABestiaryIconDummy) ? 0.15f : 0f;
             NPC.frameCounter %= Main.npcFrameCount[NPC.type];
             int frame = (int)NPC.frameCounter;
             NPC.frame.Y = frame * frameHeight;

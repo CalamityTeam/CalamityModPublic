@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.velocity.Y > 0f || NPC.velocity.Y < 0f)
+            if ((NPC.velocity.Y > 0f || NPC.velocity.Y < 0f) && !NPC.IsABestiaryIconDummy)
             {
                 NPC.spriteDirection = NPC.direction;
                 NPC.frame.Y = frameHeight * 5;
@@ -65,8 +65,15 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             else
             {
+                if (NPC.IsABestiaryIconDummy)
+                {
+                    NPC.frameCounter += 2;
+                }
+                else
+                {
+                    NPC.frameCounter += (double)(NPC.velocity.Length() / 2f);
+                }
                 NPC.spriteDirection = NPC.direction;
-                NPC.frameCounter += (double)(NPC.velocity.Length() / 2f);
                 if (NPC.frameCounter > 12.0)
                 {
                     NPC.frame.Y = NPC.frame.Y + frameHeight;

@@ -28,6 +28,12 @@ namespace CalamityMod.NPCs.Abyss
         {
             DisplayName.SetDefault("Devil Fish");
             Main.npcFrameCount[NPC.type] = 16;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionXOverride = 5f
+            };
+            value.Position.X += 30f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
@@ -246,7 +252,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
@@ -257,7 +263,7 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.frameCounter = 0.0;
                 NPC.frame.Y += frameHeight;
             }
-            if (!brokenMask)
+            if (!brokenMask || NPC.IsABestiaryIconDummy)
             {
                 if (NPC.frame.Y > frameHeight * 7)
                 {

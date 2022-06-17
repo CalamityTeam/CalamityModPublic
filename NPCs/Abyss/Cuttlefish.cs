@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet && !NPC.noTileCollide)
+            if (!NPC.wet && !NPC.noTileCollide && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
