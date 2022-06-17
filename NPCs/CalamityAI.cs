@@ -420,12 +420,11 @@ namespace CalamityMod.NPCs
                         num189 += Vector2.Distance(player.Center, npc.Center) * 0.00003f;
                     }
 
-                    // Increase velocity and acceleration after spiral attack
+                    // Increase acceleration after spiral attack
                     if (npc.localAI[3] > 0f)
                     {
-                        float velocityMultiplier = MathHelper.Lerp(1f, 2f, npc.localAI[3] / colorFadeTimeAfterSpiral);
-                        num188 *= velocityMultiplier;
-                        num189 *= velocityMultiplier;
+                        float accelerationMultiplier = MathHelper.Lerp(1f, 2f, npc.localAI[3] / colorFadeTimeAfterSpiral);
+                        num189 *= accelerationMultiplier;
                     }
                 }
 
