@@ -1,26 +1,24 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System.Linq;
+using System.Reflection;
+using CalamityMod.Balancing;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.DataStructures;
 using CalamityMod.Events;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.HiveMind;
-using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.OldDuke;
-using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System.Linq;
-using System.Reflection;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.Localization;
-using static Terraria.ModLoader.ModContent;
 using Terraria.Chat;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod
 {
@@ -130,17 +128,33 @@ namespace CalamityMod
                 npc.Calamity().customDR = true;
         }
 
-        public static bool IsAnEnemy(this NPC npc)
+        // This function controls the behavior of Proximity Rage.
+        //
+        // TODO -- In multiplayer, with more than one player, all enemies are listed as statue spawned.
+        // This sounds like packet corruption or something, but it's impossible to know.
+        // Even stranger, this bug only affects players who aren't player slot 0.
+        // As such, statue enemies are currently allowed by default for Proximity Rage.
+        // This is not the intent. Ideally, they would not count.
+        //
+        // TODO -- Use this function EVERYWHERE that target validity is checked, not just for Proximity Rage.
+        // The easiest way to find locations this should be used is checks for whether something is statue spawned.
+        public static bool IsAnEnemy(this NPC npc, bool allowStatues = true)
         {
-            // Null, inactive, town NPCs, friendlies, statue spawns, "non-enemies" (e.g. butterflies or projectile enemies),
-            // or anything else with no contact damage (exception: Providence and Celestial Pillars) don't count for rage.
-            if (npc is null || !npc.active || npc.townNPC || npc.friendly || npc.SpawnedFromStatue || npc.lifeMax <= 5 || (npc.damage <= 5 && npc.lifeMax <= 2000))
+            // Null, inactive, town NPCs, and friendlies are right out.
+            if (npc is null || !npc.active || npc.townNPC || npc.friendly)
+                return false;
+
+            // Unless allowed, statue spawns don't count for rage.
+            if (!allowStatues && npc.SpawnedFromStatue)
+                return false;
+
+            // "Non-enemies" (e.g. butterflies or projectile enemies) with near zero max health,
+            // or anything but the strongest enemies with no contact damage (e.g. Celestial Pillars, Providence)
+            // do not generate rage.
+            if (npc.lifeMax <= BalancingConstants.TinyHealthThreshold || (npc.damage <= BalancingConstants.TinyDamageThreshold && npc.lifeMax <= BalancingConstants.NoContactDamageHealthThreshold))
                 return false;
             // Also explicitly exclude dummies and anything with a ridiculous health pool (dummies from Fargo's for example).
-            if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>() || npc.lifeMax > 100000000)
-                return false;
-            // Finally, exclude boss spawners.
-            if (npc.type == NPCType<LeviathanStart>() || npc.type == NPCType<HiveCyst>() || npc.type == NPCType<PerforatorCyst>())
+            if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>() || npc.lifeMax > BalancingConstants.UnreasonableHealthThreshold)
                 return false;
 
             // Anything else is considered a valid enemy target.
