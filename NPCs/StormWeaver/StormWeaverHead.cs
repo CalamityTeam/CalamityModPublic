@@ -295,7 +295,7 @@ namespace CalamityMod.NPCs.StormWeaver
             else if (NPC.velocity.X > 0f)
                 NPC.spriteDirection = 1;
 
-            Vector2 npcCenter = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
+            Vector2 npcCenter = NPC.Center;
             float targetCenterX = Main.player[NPC.target].Center.X;
             float targetCenterY = Main.player[NPC.target].Center.Y;
             float velocity = (phase2 ? 12f : 10f) + (malice ? 3f : revenge ? 1.5f : expertMode ? 1f : 0f);
