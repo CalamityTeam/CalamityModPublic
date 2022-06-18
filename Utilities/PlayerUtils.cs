@@ -525,10 +525,10 @@ namespace CalamityMod
             //This shifts the item so it rotates around the set origin instead
             Vector2 consistentAnchor = consistentCenterAnchor - origin.RotatedBy(player.itemRotation);
 
-            //The item is just offset by 20 and 18 pixels for no fucking reason. Doesn't even get flipped with the player sprite
-            Vector2 stupidOffset = new Vector2(-20, -18);
+            //The sprite needs to be offset by half its sprite size.
+            Vector2 offsetAgain = spriteSize * -0.5f;
 
-            Vector2 finalPosition = desiredPosition + stupidOffset + consistentAnchor;
+            Vector2 finalPosition = desiredPosition + offsetAgain + consistentAnchor;
 
             //Account for the players extra height when stepping
             if (stepDisplace)
