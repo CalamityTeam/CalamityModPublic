@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedQueenSlimeAI(NPC npc, Mod mod)
         {
             // Difficulty bools
-            bool malice = CalamityWorld.malice;
-            bool death = CalamityWorld.death;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;

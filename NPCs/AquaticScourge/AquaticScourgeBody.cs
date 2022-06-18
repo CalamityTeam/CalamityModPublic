@@ -44,7 +44,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.chaseable = false;
             NPC.canGhostHeal = false;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (Main.getGoodWorld)
+                NPC.scale = 1.5f;
+            else if (CalamityWorld.malice || BossRushEvent.BossRushActive)
                 NPC.scale = 1.25f;
             else if (CalamityWorld.death)
                 NPC.scale = 1.2f;

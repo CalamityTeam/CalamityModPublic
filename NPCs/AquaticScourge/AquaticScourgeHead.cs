@@ -61,7 +61,9 @@ namespace CalamityMod.NPCs.AquaticScourge
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (Main.getGoodWorld)
+                NPC.scale = 1.5f;
+            else if (CalamityWorld.malice || BossRushEvent.BossRushActive)
                 NPC.scale = 1.25f;
             else if (CalamityWorld.death)
                 NPC.scale = 1.2f;
@@ -108,7 +110,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-            if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive)
+            if (NPC.justHit || NPC.life <= NPC.lifeMax * 0.999 || BossRushEvent.BossRushActive || Main.getGoodWorld)
                 Music = CalamityMod.Instance.GetMusicFromMusicMod("AquaticScourge") ?? MusicID.Boss2;
 
             CalamityAI.AquaticScourgeAI(NPC, Mod, true);
@@ -180,7 +182,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (spawnInfo.Player.Calamity().ZoneSulphur && spawnInfo.Water)
             {
                 if (!NPC.AnyNPCs(ModContent.NPCType<AquaticScourgeHead>()))
-                    return 0.01f;
+                    return (Main.getGoodWorld ? 0.05f : 0.01f);
             }
 
             return 0f;

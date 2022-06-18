@@ -37,9 +37,13 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (shouldBeInPhase2ButIsStillInPhase1)
                 calamityGlobalNPC.DR = 0.99f;
 
-            bool dayTimeEnrage = NPC.ShouldEmpressBeEnraged() || malice;
+            calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = shouldBeInPhase2ButIsStillInPhase1 || npc.ai[0] == 6f;
+
+            bool dayTimeEnrage = NPC.ShouldEmpressBeEnraged();
             if (npc.life == npc.lifeMax && dayTimeEnrage && !npc.AI_120_HallowBoss_IsGenuinelyEnraged())
                 npc.ai[3] += 2f;
+
+            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && dayTimeEnrage;
 
             int projectileDamageMultiplier = dayTimeEnrage ? 2 : 1;
 

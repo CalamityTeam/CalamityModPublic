@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Adjust hostility and stats
-            if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || BossRushEvent.BossRushActive)
+            if (npc.justHit || npc.life <= npc.lifeMax * 0.999 || BossRushEvent.BossRushActive || Main.getGoodWorld)
             {
                 if (calamityGlobalNPC.newAI[0] == 0f)
                 {
@@ -425,6 +425,12 @@ namespace CalamityMod.NPCs
                     {
                         float accelerationMultiplier = MathHelper.Lerp(1f, 2f, npc.localAI[3] / colorFadeTimeAfterSpiral);
                         num189 *= accelerationMultiplier;
+                    }
+
+                    if (Main.getGoodWorld)
+                    {
+                        num188 *= 1.15f;
+                        num189 *= 1.15f;
                     }
                 }
 
