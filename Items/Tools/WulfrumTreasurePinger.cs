@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Tools
 {
@@ -21,6 +22,8 @@ namespace CalamityMod.Items.Tools
 
         public int usesLeft = maxUses;
         public const int maxUses = 20;
+        public static int breakTime = 90;
+        public int timeBeforeBlast = 90;
 
         public override void SetStaticDefaults()
         {
@@ -43,55 +46,80 @@ namespace CalamityMod.Items.Tools
             Item.noMelee = true;
             Item.rare = ItemRarityID.Blue;
             Item.value = Item.buyPrice(silver: 50);
-            usesLeft = maxUses;
+            usesLeft = 1;
+            breakTime = 90;
+            timeBeforeBlast = breakTime;
         }
 
         public override void HoldItem(Player player)
         {
             player.Calamity().mouseWorldListener = true;
+
+            //If the explosion sequence has been initiated.
+            if (usesLeft <= 0 && timeBeforeBlast < breakTime)
+            {
+                timeBeforeBlast--;
+                player.itemTime = 2;
+                player.itemAnimation = 2;
+
+                float breakProgress = 1 - timeBeforeBlast / (float)breakTime;
+
+                int smokeLikelyhood = (int)Math.Floor(1 + timeBeforeBlast / (float)breakTime * 4);
+                if (Main.rand.NextBool(smokeLikelyhood))
+                {
+                    Vector2 smokePos = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor();
+                    Vector2 velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 0.7f) * Main.rand.NextFloat(6f, 9f + 6f * breakProgress);
+
+                    Color smokeStart = Main.rand.NextBool() ? Color.GreenYellow : Color.DeepSkyBlue;
+                    Color smokeEnd = Color.Lerp(new Color(110, 110, 110), new Color(60, 60, 60), breakProgress);
+
+                    float smokeSize = Main.rand.NextFloat(1.4f, 2.2f) * (0.6f + 0.4f * breakProgress);
+
+                    Particle smoke = new SmallSmokeParticle(smokePos, velocity, smokeStart, smokeEnd, smokeSize, 115 - Main.rand.Next(30));
+                    GeneralParticleHandler.SpawnParticle(smoke);
+                }
+            }
+
+            if (timeBeforeBlast <= 0)
+            {
+                Item.TurnToAir();
+
+
+                int smokeCount = Main.rand.Next(5, 10);
+                int shrapnelCount = Main.rand.Next(3, 5);
+                int sparkCount = Main.rand.Next(4, 8);
+
+                Vector2 centerPosition = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor();
+
+                for (int i = 0; i < smokeCount; i++)
+                {
+                    Vector2 velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 0.7f) * Main.rand.NextFloat(12f, 16f);
+
+                    Color smokeStart = Main.rand.NextBool() ? Color.GreenYellow : Color.Aqua;
+                    Color smokeEnd = new Color(60, 60, 60);
+
+                    float smokeSize = Main.rand.NextFloat(1.4f, 2.2f);
+
+                    Particle smoke = new SmallSmokeParticle(centerPosition, velocity, smokeStart, smokeEnd, smokeSize, 135 - Main.rand.Next(30));
+                    GeneralParticleHandler.SpawnParticle(smoke);
+                }
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    for (int i = 0; i < shrapnelCount; i++)
+                    {
+                        Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(14f, 14f);
+                        float shrapnelScale = Main.rand.NextFloat(0.8f, 1.5f)
+
+                        Gore.NewGore(Item.GetSource_ItemUse(), centerPosition, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPingerGore").Type, shrapnelScale);
+                    }
+                }
+            }
         }
 
         public override bool CanUseItem(Player player)
         {
             return !(TilePingerSystem.tileEffects["WulfrumPing"].Active);
-        }
-
-        #region saving the durability
-        public override ModItem Clone(Item item)
-        {
-            ModItem clone = base.Clone(item);
-            if (clone is WulfrumTreasurePinger a && item.ModItem is WulfrumTreasurePinger a2)
-                a.usesLeft = a2.usesLeft;
-
-            return clone;
-        }
-
-        public override void SaveData(TagCompound tag)
-        {
-            tag["usesLeft"] = usesLeft;
-        }
-
-        public override void LoadData(TagCompound tag)
-        {
-            usesLeft = tag.GetInt("usesLeft");
-        }
-
-        public override void NetSend(BinaryWriter writer)
-        {
-            writer.Write(usesLeft);
-        }
-
-        public override void NetReceive(BinaryReader reader)
-        {
-            usesLeft = reader.ReadInt32();
-        }
-        #endregion
-
-        public override void AddRecipes()
-        {
-            CreateRecipe().
-                AddIngredient<WulfrumShard>(6).
-                Register();
         }
 
         public override bool? UseItem(Player player)
@@ -105,7 +133,9 @@ namespace CalamityMod.Items.Tools
                 {
                     if (player.whoAmI == Main.myPlayer)
                         SoundEngine.PlaySound(ScanBeepBreakSound);
-                    Item.TurnToAir();
+
+                    //Start the breaking anim.
+                    timeBeforeBlast--;
                 }
 
                 else if (player.whoAmI == Main.myPlayer)
@@ -134,6 +164,15 @@ namespace CalamityMod.Items.Tools
             Vector2 itemPosition = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor();
             Vector2 itemSize = new Vector2(52, 42);
             Vector2 itemOrigin = new Vector2(-20, -13);
+
+            if (usesLeft == 0)
+            {
+                itemPosition += Main.rand.NextVector2CircularEdge(4f, 4f) * (1 - timeBeforeBlast / (float)breakTime);
+                //We have to lower the timebeforeblast here as well because the item that gets processed here is not actually the same item as the item held in the players hands.
+                //Basically we are dealing with a clone of the item that the drawn player uses.
+                //So no, don't worry, the item isn't breaking twice as fast.
+                timeBeforeBlast--;
+            }
 
             CalamityUtils.CleanHoldStyle(player, itemRotation, itemPosition, itemSize, itemOrigin);
         }
@@ -169,7 +208,7 @@ namespace CalamityMod.Items.Tools
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            if (usesLeft == maxUses)
+            if (usesLeft == maxUses || usesLeft == 0)
                 return;
 
             float barScale = 1.3f;
@@ -185,6 +224,62 @@ namespace CalamityMod.Items.Tools
             spriteBatch.Draw(barBG, drawPos, null, colorBG, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, colorFG * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
         }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (usesLeft > 0)
+                return true;
+
+            var tex = ModContent.Request<Texture2D>(Texture).Value;
+
+            float blastProgress = (1 - timeBeforeBlast / (float)breakTime);
+            position += Main.rand.NextVector2CircularEdge(4f, 4f) * blastProgress;
+            drawColor = Color.Lerp(drawColor, Color.OrangeRed, blastProgress);
+
+            spriteBatch.Draw(tex, position, frame, drawColor, 0f, origin, scale, 0f, 0f);
+            return false;
+        }
         #endregion
+
+        #region saving the durability
+        public override ModItem Clone(Item item)
+        {
+            ModItem clone = base.Clone(item);
+            if (clone is WulfrumTreasurePinger a && item.ModItem is WulfrumTreasurePinger a2)
+            {
+                a.usesLeft = a2.usesLeft;
+                a.timeBeforeBlast = a2.timeBeforeBlast;
+            }
+            return clone;
+        }
+
+        public override void SaveData(TagCompound tag)
+        {
+            tag["usesLeft"] = usesLeft;
+        }
+
+        public override void LoadData(TagCompound tag)
+        {
+            usesLeft = tag.GetInt("usesLeft");
+        }
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.Write(usesLeft);
+        }
+
+        public override void NetReceive(BinaryReader reader)
+        {
+            usesLeft = reader.ReadInt32();
+        }
+        #endregion
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<WulfrumShard>(6).
+                Register();
+        }
+
     }
 }
