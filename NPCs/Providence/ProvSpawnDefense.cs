@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.Providence
             vector43 += vector11 * NPC.scale + new Vector2(0f, NPC.gfxOffY);
             spriteBatch.Draw(texture2D15, vector43, NPC.frame, NPC.GetAlpha(drawColor), NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
-            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss2Glow").Value;
+            texture2D15 = ModContent.Request<Texture2D>("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianDefenderGlow").Value;
             Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
