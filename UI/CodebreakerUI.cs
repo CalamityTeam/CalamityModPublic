@@ -51,7 +51,7 @@ namespace CalamityMod.UI
             Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/DraedonDecrypterBackground").Value;
             spriteBatch.Draw(backgroundTexture, BackgroundCenter, null, Color.White, 0f, backgroundTexture.Size() * 0.5f, GeneralScale, SpriteEffects.None, 0f);
 
-            Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size());
+            Rectangle backgroundArea = Utils.CenteredRectangle(BackgroundCenter, backgroundTexture.Size() * GeneralScale);
             if (MouseScreenArea.Intersects(backgroundArea))
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
 
@@ -130,8 +130,9 @@ namespace CalamityMod.UI
             temporaryPowerCell.SetDefaults(ModContent.ItemType<DraedonPowerCell>());
             temporaryPowerCell.stack = codebreakerTileEntity.InputtedCellCount;
 
+            Vector2 cellInteractionArea = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/PowerCellSlot_Empty").Value.Size() * GeneralScale;
             CalamityUtils.DrawPowercellSlot(spriteBatch, temporaryPowerCell, cellDrawCenter, GeneralScale);
-            HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellTexture.Size());
+            HandleCellSlotInteractions(codebreakerTileEntity, temporaryPowerCell, cellDrawCenter, cellInteractionArea);
         }
 
         public static void HandleCellSlotInteractions(TECodebreaker codebreakerTileEntity, Item temporaryItem, Vector2 cellIconCenter, Vector2 area)
