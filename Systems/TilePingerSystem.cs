@@ -65,8 +65,6 @@ namespace CalamityMod.Systems
         public void UpdateEffect() { }
     }
 
-
-
     public class TilePingerSystem : ModSystem
     {
         internal static Dictionary<IPingedTileEffect, List<Point>> pingedTiles;
@@ -137,11 +135,16 @@ namespace CalamityMod.Systems
                 }
                 Main.spriteBatch.End();
             }
+
+            //This makes it flash every other frame on smooth lighting modes
+            pingedTiles.Clear();
+            
         }
 
         public static void ClearTiles()
         {
-            pingedTiles.Clear();
+            //Putting it here breaks it worse on smooth lighting modes.
+            //HJELP
         }
     }
 
@@ -159,8 +162,6 @@ namespace CalamityMod.Systems
             }
         }
     }
-
-   
 
     public class WulfrumPingTileEffect : IPingedTileEffect, ILoadable
     {
@@ -234,11 +235,11 @@ namespace CalamityMod.Systems
         public void PerTileSetup(Point pos, ref Effect effect)
         {
             //Up, left, right, down.
-            effect.Parameters["cardinalConnections"].SetValue(new bool[] { Connected(pos, 0, - 1), Connected(pos,- 1, 0), Connected(pos, 1, 0), Connected(pos, 0, 1) });
+            effect.Parameters["cardinalConnections"].SetValue(new bool[] { Connected(pos, 0, -1), Connected(pos, -1, 0), Connected(pos, 1, 0), Connected(pos, 0, 1) });
             effect.Parameters["tilePosition"].SetValue(pos.ToVector2() * 16f);
         }
 
-        public static bool Connected(Point pos, int displaceX, int displaceY) => Main.IsTileSpelunkable(pos.X + displaceX, pos.Y + displaceY) && Main.tile[pos].TileType == Main.tile[pos.X + displaceX, pos.Y + displaceY].TileType ;
+        public static bool Connected(Point pos, int displaceX, int displaceY) => Main.IsTileSpelunkable(pos.X + displaceX, pos.Y + displaceY) && Main.tile[pos].TileType == Main.tile[pos.X + displaceX, pos.Y + displaceY].TileType;
 
         public bool ShouldRegisterTile(int x, int y)
         {

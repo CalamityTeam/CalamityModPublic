@@ -1,16 +1,15 @@
-﻿using CalamityMod.Items.Materials;
+﻿using System;
+using System.IO;
+using CalamityMod.Items.Materials;
+using CalamityMod.Particles;
 using CalamityMod.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Tools
 {
@@ -46,8 +45,7 @@ namespace CalamityMod.Items.Tools
             Item.noMelee = true;
             Item.rare = ItemRarityID.Blue;
             Item.value = Item.buyPrice(silver: 50);
-            usesLeft = 1;
-            breakTime = 90;
+            usesLeft = maxUses;
             timeBeforeBlast = breakTime;
         }
 
@@ -282,10 +280,12 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
+            //Intentionally craftable anywhere.
             CreateRecipe().
                 AddIngredient<WulfrumShard>(6).
                 Register();
         }
-
     }
+
+    
 }
