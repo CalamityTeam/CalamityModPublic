@@ -82,8 +82,9 @@ namespace CalamityMod.Items.Tools
 
             if (timeBeforeBlast <= 0)
             {
-                Item.TurnToAir();
+                DropHelper.DropItem(Item.GetSource_ItemUse(Item), player, ModContent.ItemType<WulfrumShard>(), 0, 3);
 
+                Item.TurnToAir();
 
                 int smokeCount = Main.rand.Next(5, 10);
                 int shrapnelCount = Main.rand.Next(3, 5);
@@ -93,7 +94,7 @@ namespace CalamityMod.Items.Tools
 
                 for (int i = 0; i < smokeCount; i++)
                 {
-                    Vector2 velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2 * 0.7f) * Main.rand.NextFloat(12f, 16f);
+                    Vector2 velocity = -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver2) * Main.rand.NextFloat(12f, 16f);
 
                     Color smokeStart = Main.rand.NextBool() ? Color.GreenYellow : Color.Aqua;
                     Color smokeEnd = new Color(60, 60, 60);
@@ -108,11 +109,16 @@ namespace CalamityMod.Items.Tools
                 {
                     for (int i = 0; i < shrapnelCount; i++)
                     {
-                        Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(14f, 14f);
-                        float shrapnelScale = Main.rand.NextFloat(0.8f, 1.5f)
+                        Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(9f, 9f);
+                        float shrapnelScale = Main.rand.NextFloat(0.8f, 1f);
 
-                        Gore.NewGore(Item.GetSource_ItemUse(), centerPosition, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPingerGore").Type, shrapnelScale);
+                        Gore.NewGore(Item.GetSource_ItemUse(Item), centerPosition, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPinger" + Main.rand.Next(1, 5).ToString()).Type, shrapnelScale);
                     }
+                }
+
+                for (int i = 0; i < sparkCount; i++)
+                {
+                    Dust.NewDustPerfect(centerPosition, 226, Main.rand.NextVector2Circular(18f, 18f), Scale: Main.rand.NextFloat(0.4f, 1f));
                 }
             }
         }
