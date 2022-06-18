@@ -154,6 +154,17 @@ namespace CalamityMod
             return fireVelocity;
         }
 
+        /// <summary>
+        /// Gives the *real* modulo of a divided by a divisor.
+        /// This method is necessary because the % operator in c# keeps the sign of the dividend, making it Fake as Fuck.
+        /// </summary>
+        /// <param name="dividend"></param>
+        /// <param name="divisor"></param>
+        /// <returns></returns>
+        public static float Modulo(this float dividend, float divisor)
+        {
+            return dividend - (float)Math.Floor(dividend / divisor) * divisor;
+        }
 
         #region Easings
         /// <summary>

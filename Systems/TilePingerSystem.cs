@@ -1,19 +1,14 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.Events;
-using CalamityMod.NPCs;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Effects;
-using Terraria.ModLoader;
+﻿using System;
 using System.Collections.Generic;
-using Terraria.Audio;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.Particles;
-using System.Runtime.Serialization;
-using Terraria.ID;
+using Terraria;
 using Terraria.DataStructures;
-using System;
+using Terraria.Graphics.Effects;
+using Terraria.ID;
+using Terraria.Audio;
+using Terraria.ModLoader;
+using CalamityMod.Items.Tools;
 
 namespace CalamityMod.Systems
 {
@@ -284,7 +279,13 @@ namespace CalamityMod.Systems
         public void UpdateEffect()
         {
             if (PingTimer > 0)
+            {
                 PingTimer--;
+
+                //if the effect ended (and the player has a treasure pigner in their inventory, of course), play a recharge beep
+                if (PingTimer == 0 && Main.LocalPlayer.InventoryHas(ModContent.ItemType<WulfrumTreasurePinger>()))
+                    SoundEngine.PlaySound(WulfrumTreasurePinger.RechargeBeepSound);
+            }
         }
 
         public void Load(Mod mod)
