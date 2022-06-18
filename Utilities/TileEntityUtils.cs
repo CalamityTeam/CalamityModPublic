@@ -79,7 +79,7 @@ namespace CalamityMod
             spriteBatch.Draw(slotBackgroundTex, drawPosition, null, Color.White, 0f, slotBackgroundTex.Size() * 0.5f, iconScale, SpriteEffects.None, 0f);
             if (item.stack > 0)
             {
-                float inventoryScale = Main.inventoryScale;
+                float inventoryScale = Main.inventoryScale * iconScale;
                 Vector2 numberOffset = slotBackgroundTex.Size() * 0.2f;
                 numberOffset.X -= 17f;
                 ChatManager.DrawColorCodedStringWithShadow(spriteBatch,
