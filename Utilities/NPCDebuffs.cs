@@ -91,6 +91,8 @@ namespace CalamityMod
             {
                 { ModContent.NPCType<KingSlimeJewel>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
 
+                { NPCID.Deerclops, new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
+
                 { ModContent.NPCType<SlimeGodCore>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
                 { ModContent.NPCType<EbonianSlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
                 { ModContent.NPCType<SplitEbonianSlimeGod>(), new Tuple<bool, int[]>(false, CalamityMod.slimeEnemyImmunities) },
@@ -119,6 +121,8 @@ namespace CalamityMod
 
                 { NPCID.Plantera, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
                 { NPCID.PlanterasTentacle, new Tuple<bool, int[]>(false, new int[] { BuffID.Venom }) },
+
+                { NPCID.HallowBoss, new Tuple<bool, int[]>(false, CalamityMod.holyEnemyImmunities) },
 
                 // She resists the cold because of her ice-related abilities.
                 { ModContent.NPCType<Anahita>(), new Tuple<bool, int[]>(false, CalamityMod.iceEnemyImmunities) },
