@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Events;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -16,7 +17,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
             // Difficulty bools.
-            bool death = CalamityWorld.death;
+            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
             // Rotation
             npc.rotation = npc.velocity.X * 0.005f;
@@ -35,7 +37,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (shouldBeInPhase2ButIsStillInPhase1)
                 calamityGlobalNPC.DR = 0.99f;
 
-            bool dayTimeEnrage = NPC.ShouldEmpressBeEnraged();
+            bool dayTimeEnrage = NPC.ShouldEmpressBeEnraged() || malice;
             if (npc.life == npc.lifeMax && dayTimeEnrage && !npc.AI_120_HallowBoss_IsGenuinelyEnraged())
                 npc.ai[3] += 2f;
 
@@ -310,7 +312,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     npc.TargetClosest();
                     NPCAimedTarget targetData5 = npc.GetTargetData();
                     bool flag12 = false;
-                    if (npc.AI_120_HallowBoss_IsGenuinelyEnraged())
+                    if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !malice)
                     {
                         if (!Main.dayTime)
                             flag12 = true;
@@ -550,22 +552,26 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         float num64 = (float)Math.PI * 2f * Main.rand.NextFloat();
                         float totalProjectiles = death ? (dayTimeEnrage ? 22f : 15f) : (dayTimeEnrage ? 18f : 13f);
                         int projIndex = 0;
-                        for (float num65 = 0f; num65 < 1f; num65 += 1f / totalProjectiles)
+                        for (float i = 0f; i < 1f; i += 1f / totalProjectiles)
                         {
                             int projectileType = ProjectileID.HallowBossLastingRainbow;
                             int projectileDamage = npc.GetProjectileDamage(projectileType) * projectileDamageMultiplier;
 
-                            float num66 = num65;
+                            float num66 = i;
                             Vector2 spinningpoint = Vector2.UnitY.RotatedBy((float)Math.PI / 2f + (float)Math.PI * 2f * num66 + num64);
 
                             float initialVelocity = death ? 2f : 1.75f;
                             if (dayTimeEnrage && projIndex % 2 == 0)
                                 initialVelocity *= 2f;
 
+                            // Given that maxAddedVelocity = 2
+                            // Before inverse: index 0 = 2, index 0.25 = 0, index 0.5 = 2, index 0.75 = 0, index 1 = 2
+                            // After inverse: index 0 = 0, index 0.25 = 2, index 0.5 = 0, index 0.75 = 2, index 1 = 0
                             if (phase2)
                             {
                                 float maxAddedVelocity = initialVelocity * 0.5f;
-                                initialVelocity += Math.Abs(MathHelper.Lerp(-maxAddedVelocity, maxAddedVelocity, num65));
+                                float addedVelocity = Math.Abs(maxAddedVelocity - Math.Abs(MathHelper.Lerp(-maxAddedVelocity, maxAddedVelocity, Math.Abs(i - 0.5f) * 2f)));
+                                initialVelocity += addedVelocity;
                             }
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1076,7 +1082,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     bool flag8 = false;
                     if (!flag7)
                     {
-                        if (npc.AI_120_HallowBoss_IsGenuinelyEnraged())
+                        if (npc.AI_120_HallowBoss_IsGenuinelyEnraged() && !malice)
                         {
                             if (!Main.dayTime)
                                 flag8 = true;

@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
+using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Dyes;
 using CalamityMod.NPCs.Astral;
@@ -12,6 +13,7 @@ using CalamityMod.Particles;
 using CalamityMod.Projectiles;
 using CalamityMod.Systems;
 using CalamityMod.Waters;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
@@ -229,6 +231,16 @@ namespace CalamityMod.ILEditing
         }
         #endregion Dash Fixes and Improvements
 
+        #region Allow Empress to Enrage in Malice
+        private static bool AllowEmpressToEnrageInMalice(On.Terraria.NPC.orig_ShouldEmpressBeEnraged orig)
+        {
+            if (Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive)
+                return true;
+            
+            return orig();
+        }
+        #endregion Allow Empress to Enrage in Malice
+
         #region Enabling of Triggered NPC Platform Fallthrough
         // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.
         private static void AllowTriggeredFallthrough(On.Terraria.NPC.orig_ApplyTileCollision orig, NPC self, bool fall, Vector2 cPosition, int cWidth, int cHeight)
@@ -241,6 +253,7 @@ namespace CalamityMod.ILEditing
 
             if (self.active && self.Calamity().ShouldFallThroughPlatforms)
                 fall = true;
+
             orig(self, fall, cPosition, cWidth, cHeight);
         }
         #endregion Enabling of Triggered NPC Platform Fallthrough

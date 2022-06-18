@@ -407,8 +407,8 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             int type = ProjectileID.FrostWave;
                             int waveDamage = NPC.GetProjectileDamage(type);
-                            int totalWaves = phase4 ? 27 : 25;
-                            int shotSpacing = phase4 ? 144 : 160;
+                            int totalWaves = death ? (phase4 ? 27 : 25) : (phase4 ? 25 : 23);
+                            int shotSpacing = death ? (phase4 ? 148 : 160) : (phase4 ? 160 : 172);
                             float projectileSpawnX = Main.player[NPC.target].Center.X - totalWaves * shotSpacing * 0.5f;
 
                             // Start fast at index 0, become slower as each projectile spawns and then become faster past the central wave

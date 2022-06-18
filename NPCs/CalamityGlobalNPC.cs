@@ -2571,7 +2571,8 @@ namespace CalamityMod.NPCs
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
             bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice);
-            if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && nightProvi)
+            bool dayEmpress = npc.type == NPCID.HallowBoss && (NPC.ShouldEmpressBeEnraged() || CalamityWorld.malice);
+            if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (nightProvi || dayEmpress))
             {
                 // Set the DR scaling factor
                 float DRScalar = 10f;
