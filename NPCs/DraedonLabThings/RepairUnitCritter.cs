@@ -327,15 +327,12 @@ namespace CalamityMod.NPCs.DraedonLabThings
         {
             if (NPC.IsABestiaryIconDummy)
             {
-                if (CurrentFrame < 10)
-                    CurrentFrame = 10;
-
                 NPC.frameCounter += 1.8f;
                 if (NPC.frameCounter >= 11f)
                 {
                     CurrentFrame++;
-                    if (CurrentFrame >= Main.npcFrameCount[NPC.type])
-                        CurrentFrame = 10;
+                    if (CurrentFrame >= 9)
+                        CurrentFrame = 1;
 
                     NPC.frameCounter = 0;
                 }

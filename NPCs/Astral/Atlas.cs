@@ -110,6 +110,12 @@ namespace CalamityMod.NPCs.Astral
             //not much we can do. looks fine in-game so /shrug
             if (!Main.dedServ)
                 glowmask = ModContent.Request<Texture2D>("CalamityMod/NPCs/Astral/AtlasGlow", AssetRequestMode.ImmediateLoad).Value;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = -5
+            };
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

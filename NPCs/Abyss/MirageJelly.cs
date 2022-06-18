@@ -26,6 +26,12 @@ namespace CalamityMod.NPCs.Abyss
         {
             DisplayName.SetDefault("Mirage Jelly");
             Main.npcFrameCount[NPC.type] = 7;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+               PortraitPositionYOverride = 20
+            };
+            value.Position.Y += 30f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

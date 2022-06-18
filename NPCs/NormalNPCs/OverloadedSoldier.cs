@@ -53,37 +53,53 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += (double)Math.Abs(NPC.velocity.X);
-            if (NPC.frameCounter > 6.0)
+            if (NPC.IsABestiaryIconDummy)
             {
-                NPC.frameCounter = 0.0;
-                NPC.frame.Y = NPC.frame.Y + frameHeight;
-            }
-            if (NPC.velocity.Y == 0f)
-            {
-                if (NPC.direction == 1)
-                    NPC.spriteDirection = 1;
-                if (NPC.direction == -1)
-                    NPC.spriteDirection = -1;
+                NPC.frameCounter += 1;
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
+                }
+                if (NPC.frame.Y >= frameHeight * 13)
+                {
+                    NPC.frame.Y = frameHeight;
+                }
             }
             else
             {
-                NPC.frameCounter = 0.0;
-                NPC.frame.Y = 0;
-                return;
-            }
-            if (NPC.velocity.X == 0f)
-            {
-                NPC.frameCounter = 0.0;
-                NPC.frame.Y = 0;
-            }
-            else
-            {
-                if (NPC.frame.Y < frameHeight)
-                    NPC.frame.Y = frameHeight;
-                if (NPC.frame.Y > frameHeight * 13)
-                    NPC.frame.Y = frameHeight;
-            }
+                NPC.frameCounter += (double)Math.Abs(NPC.velocity.X);
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                }
+                if (NPC.velocity.Y == 0f)
+                {
+                    if (NPC.direction == 1)
+                        NPC.spriteDirection = 1;
+                    if (NPC.direction == -1)
+                        NPC.spriteDirection = -1;
+                }
+                else
+                {
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y = 0;
+                    return;
+                }
+                if (NPC.velocity.X == 0f)
+                {
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y = 0;
+                }
+                else
+                {
+                    if (NPC.frame.Y < frameHeight)
+                        NPC.frame.Y = frameHeight;
+                    if (NPC.frame.Y > frameHeight * 13)
+                        NPC.frame.Y = frameHeight;
+                }
+            }            
         }
 
         public override void AI()

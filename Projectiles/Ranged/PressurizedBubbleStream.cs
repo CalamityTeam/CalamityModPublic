@@ -52,11 +52,12 @@ namespace CalamityMod.Projectiles.Ranged
 
             if (ChargingUp)
             {
-                float bubbleRotation = Owner.itemRotation - (MathHelper.PiOver4 / 3f * Owner.direction);
+                float bubbleRotation = Owner.itemRotation - MathHelper.PiOver4 / 3f * Owner.direction;
                 if (Owner.direction < 0)
                     bubbleRotation += MathHelper.Pi;
 
-                Vector2 bubblePosition = Owner.MountedCenter - Vector2.UnitY * 4f + bubbleRotation.ToRotationVector2() * 55f;
+
+                Vector2 bubblePosition = ReedBlowgun.getPlayerMouth(Owner) + (bubbleRotation + MathHelper.PiOver4 / 15f * Owner.direction).ToRotationVector2() * 48f;
 
                 Projectile.Center = bubblePosition;
                 Projectile.velocity = Vector2.UnitX.RotatedBy(bubbleRotation) * Projectile.velocity.Length();

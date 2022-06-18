@@ -356,7 +356,7 @@ namespace CalamityMod.NPCs.SunkenSea
                 NPC.frameCounter = 0.0;
                 NPC.frame.Y = NPC.frame.Y + frameHeight;
             }
-            if (hitAmount < 5 || hide)
+            if ((hitAmount < 5 || hide) && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frame.Y = frameHeight * 11;
             }

@@ -55,6 +55,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             velocity = velocity.RotatedByRandom(0.01f);
         }
 
+        public static Vector2 getPlayerMouth(Player player) => player.MountedCenter - 5f * Vector2.UnitY + Vector2.UnitX * 6f * player.direction;
+        public static Vector2 getPlayerShoulder(Player player) => player.MountedCenter - Vector2.UnitX * 4f * player.direction;
+
         public void SetItemInHand(Player player, Rectangle heldItemFrame)
         {
             //Make the player face where they're aiming.
@@ -67,36 +70,30 @@ namespace CalamityMod.Items.Weapons.Ranged
                 player.ChangeDir(-1);
             }
 
-            float blowpipeRotation = player.compositeBackArm.rotation + MathHelper.PiOver2 + player.direction * MathHelper.PiOver4 / 3f;
+            Vector2 playerMouth = getPlayerMouth(player);
 
-            Vector2 blowpipePosition = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor() + Vector2.UnitY * 7f;
-            if (player.direction > 0)
-                blowpipePosition += Vector2.UnitX * -9f;
+            Vector2 playerToCursor = (player.Calamity().mouseWorld - playerMouth).SafeNormalize(Vector2.UnitX);
+            float pointingDirection = (playerToCursor.ToRotation() + MathHelper.PiOver4 / 3f * player.direction);
 
-            CalamityUtils.CleanHoldStyle(player, blowpipeRotation, blowpipePosition, new Vector2(50, 18), new Vector2(-17, 6));
+            CalamityUtils.CleanHoldStyle(player, pointingDirection, playerMouth, new Vector2(50, 18), new Vector2(-23, 6));
         }
 
 
         public void SetPlayerArms(Player player, bool frontArm = false)
         {
-            //Make the player face where they're aiming.
-            if (player.Calamity().mouseWorld.X > player.Center.X)
-            {
-                player.ChangeDir(1);
-            }
-            else
-            {
-                player.ChangeDir(-1);
-            }
-
             //Calculate the dirction in which the players arms should be pointing at.
             Vector2 playerToCursor = (player.Calamity().mouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
-            float pointingDirection = (playerToCursor.ToRotation());
+            float backArmDirection = playerToCursor.ToRotation();
+
+            Vector2 playerMouth = getPlayerMouth(player);
+            Vector2 mouthToCursor = (player.Calamity().mouseWorld - playerMouth).SafeNormalize(Vector2.UnitX);
+
+            float frontArmDirection = (playerMouth + mouthToCursor * 25f - getPlayerShoulder(player)).ToRotation();
 
             if (frontArm)
-                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, pointingDirection - MathHelper.PiOver2);
-            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, pointingDirection - MathHelper.PiOver2);
-            player.headRotation = pointingDirection;
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmDirection - MathHelper.PiOver2);
+
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, backArmDirection - MathHelper.PiOver2);
         }
 
         public override void HoldStyle(Player player, Rectangle heldItemFrame)

@@ -227,36 +227,51 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void FindFrame(int frameHeight)
         {
-            if (!NPC.wet)
+            if (!NPC.wet && !NPC.IsABestiaryIconDummy)
             {
                 NPC.frameCounter = 0.0;
                 return;
             }
-            NPC.frameCounter += 1.0;
-            if (NPC.frameCounter > 6.0)
+            if (NPC.IsABestiaryIconDummy)
             {
-                NPC.frameCounter = 0.0;
-                NPC.frame.Y = NPC.frame.Y + frameHeight;
-            }
-            if (screamTimer <= (CalamityWorld.death ? 120 : 180))
-            {
-                if (NPC.frame.Y > frameHeight * 5)
+                NPC.frameCounter += 1;
+                if (NPC.frameCounter > 6.0)
+                {
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0.0;
+                }
+                if (NPC.frame.Y >= frameHeight * 5)
                 {
                     NPC.frame.Y = 0;
                 }
             }
             else
             {
-                if (NPC.frame.Y < frameHeight * 6)
+                NPC.frameCounter += 1.0;
+                if (NPC.frameCounter > 6.0)
                 {
-                    NPC.frame.Y = frameHeight * 6;
+                    NPC.frameCounter = 0.0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
                 }
-                if (NPC.frame.Y > frameHeight * 7)
+                if (screamTimer <= (CalamityWorld.death ? 120 : 180))
                 {
-                    NPC.frame.Y = frameHeight * 6;
+                    if (NPC.frame.Y > frameHeight * 5)
+                    {
+                        NPC.frame.Y = 0;
+                    }
+                }
+                else
+                {
+                    if (NPC.frame.Y < frameHeight * 6)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
+                    if (NPC.frame.Y > frameHeight * 7)
+                    {
+                        NPC.frame.Y = frameHeight * 6;
+                    }
                 }
             }
-
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

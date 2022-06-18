@@ -97,7 +97,14 @@ namespace CalamityMod.NPCs.Astral
 
         public override void FindFrame(int frameHeight)
         {
-            NPC.frameCounter += 0.05f + NPC.velocity.Length() * 0.667f;
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter += 2;
+            }
+            else
+            {
+                NPC.frameCounter += 0.05f + NPC.velocity.Length() * 0.667f;
+            }
             if (NPC.frameCounter >= 8)
             {
                 NPC.frameCounter = 0;

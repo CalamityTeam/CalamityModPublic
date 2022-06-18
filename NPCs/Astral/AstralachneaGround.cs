@@ -97,6 +97,19 @@ namespace CalamityMod.NPCs.Astral
 
         public override void FindFrame(int frameHeight)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.frameCounter += 1;
+                if (NPC.frameCounter > 6)
+                {
+                    NPC.frame.Y += frameHeight;
+                    NPC.frameCounter = 0;
+                }
+                if (NPC.frame.Y > frameHeight * 5)
+                {
+                    NPC.frame.Y = 0;
+                }
+            }
             //DO DUST
             int frame = NPC.frame.Y / frameHeight;
             Rectangle rect = new Rectangle(62, 4, 14, 6);

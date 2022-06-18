@@ -810,7 +810,7 @@ namespace CalamityMod
                 NPCType<ScryllarRage>(),
                 NPCType<SeaUrchin>(),
                 NPCType<StellarCulex>(),
-                NPCType<StormlionCharger>(),
+                NPCType<Stormlion>(),
                 NPCType<SuperDummyNPC>(),
                 NPCType<WulfrumGyrator>(),
                 NPCType<WulfrumRover>()

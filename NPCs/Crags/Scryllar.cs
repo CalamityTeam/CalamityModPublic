@@ -16,6 +16,12 @@ namespace CalamityMod.NPCs.Crags
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Scryllar");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitPositionYOverride = 10f
+            };
+            value.Position.Y += 20f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
