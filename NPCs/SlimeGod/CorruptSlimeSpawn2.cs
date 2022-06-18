@@ -2,7 +2,6 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,9 +11,9 @@ namespace CalamityMod.NPCs.SlimeGod
     {
         public override void SetStaticDefaults()
         {
+            this.HideFromBestiary();
             DisplayName.SetDefault("Corrupt Slime Spawn");
             Main.npcFrameCount[NPC.type] = 2;
-            NPCID.Sets.BossBestiaryPriority.Add(Type);
         }
 
         public override void SetDefaults()
@@ -40,20 +39,6 @@ namespace CalamityMod.NPCs.SlimeGod
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToSickness = false;
-        }
-
-        public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
-        {
-            int associatedNPCType = ModContent.NPCType<EbonianSlimeGod>();
-            bestiaryEntry.UIInfoProvider = new CommonEnemyUICollectionInfoProvider(ContentSamples.NpcBestiaryCreditIdsByNpcNetIds[associatedNPCType], quickUnlock: true);
-
-            bestiaryEntry.Info.AddRange(new IBestiaryInfoElement[] {
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCorruption,
-                BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
-
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Corrosive globs of gel, which can paralyze and rob you of your actions. Avoid these at all costs, as they can spell death against the Slime God.")
-            });
         }
 
         public override void HitEffect(int hitDirection, double damage)
