@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheCrimson,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Corrosive globs of gel, which can paralyze and rob you of your actions. Avoid these at all costs, as they can spell death against the Slime God.")
+				new FlavorTextBestiaryInfoElement("Irritant globs of gel, which can rob you of your vision if they get on your eyes. Avoid these at all costs, as they can spell death against the Slime God.")
             });
         }
 
