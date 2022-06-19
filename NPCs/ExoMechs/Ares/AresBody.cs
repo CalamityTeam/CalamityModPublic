@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                PortraitScale = 0.6f,
+                PortraitScale = 0.54f,
                 Scale = 0.4f
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
@@ -1005,14 +1005,25 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     break;
             }
 
+            // Create hulking arms that attach to all cannons.
             if (laserArm != -1)
-                DrawArm(spriteBatch, Main.npc[laserArm].Center, armGlowmaskColor, armProperties[0].Item1, armProperties[0].Item2);
+                DrawArm(spriteBatch, Main.npc[laserArm].Center, screenPos, armGlowmaskColor, armProperties[0].Item1, armProperties[0].Item2);
             if (gaussArm != -1)
-                DrawArm(spriteBatch, Main.npc[gaussArm].Center, armGlowmaskColor, armProperties[1].Item1, armProperties[1].Item2);
+                DrawArm(spriteBatch, Main.npc[gaussArm].Center, screenPos, armGlowmaskColor, armProperties[1].Item1, armProperties[1].Item2);
             if (teslaArm != -1)
-                DrawArm(spriteBatch, Main.npc[teslaArm].Center, armGlowmaskColor, armProperties[2].Item1, armProperties[2].Item2);
+                DrawArm(spriteBatch, Main.npc[teslaArm].Center, screenPos, armGlowmaskColor, armProperties[2].Item1, armProperties[2].Item2);
             if (plasmaArm != -1)
-                DrawArm(spriteBatch, Main.npc[plasmaArm].Center, armGlowmaskColor, armProperties[3].Item1, armProperties[3].Item2);
+                DrawArm(spriteBatch, Main.npc[plasmaArm].Center, screenPos, armGlowmaskColor, armProperties[3].Item1, armProperties[3].Item2);
+
+            // Draw fake arms if Ares is being drawn as a bestiary icon.
+            if (NPC.IsABestiaryIconDummy)
+            {
+                DrawArm(spriteBatch, NPC.Center + NPC.scale * new Vector2(-300f, 200f), screenPos, armGlowmaskColor, -1, true);
+                DrawArm(spriteBatch, NPC.Center + NPC.scale * new Vector2(-400f, 300f), screenPos, armGlowmaskColor, -1, false);
+
+                DrawArm(spriteBatch, NPC.Center + NPC.scale * new Vector2(300f, 200f), screenPos, armGlowmaskColor, 1, true);
+                DrawArm(spriteBatch, NPC.Center + NPC.scale * new Vector2(400f, 300f), screenPos, armGlowmaskColor, 1, false);
+            }
 
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Rectangle frame = new Rectangle(NPC.width * frameX, NPC.height * frameY, NPC.width, NPC.height);
@@ -1086,11 +1097,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             return color;
         }
 
-        public void DrawArm(SpriteBatch spriteBatch, Vector2 handPosition, Color glowmaskColor, int direction, bool backArm)
+        public void DrawArm(SpriteBatch spriteBatch, Vector2 handPosition, Vector2 screenOffset, Color glowmaskColor, int direction, bool backArm)
         {
-            if (NPC.IsABestiaryIconDummy)
-                return;
-
             if (LightningDrawer is null)
                 LightningDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, PrimitiveTrail.RigidPointRetreivalFunction);
             if (LightningBackgroundDrawer is null)
@@ -1112,8 +1120,8 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Texture2D armSegmentGlowmask = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AresArmTopSegmentGlow").Value;
                 Texture2D armGlowmask2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AresArmTopPart2Glow").Value;
 
-                Vector2 shoulderDrawPosition = NPC.Center + new Vector2(direction * 176f, -100f);
-                Vector2 arm1DrawPosition = shoulderDrawPosition + new Vector2(direction * (shoulderTexture.Width + 16f), 10f);
+                Vector2 shoulderDrawPosition = NPC.Center + NPC.scale * new Vector2(direction * 176f, -100f);
+                Vector2 arm1DrawPosition = shoulderDrawPosition + NPC.scale * new Vector2(direction * (shoulderTexture.Width + 16f), 10f);
                 Vector2 armSegmentDrawPosition = arm1DrawPosition;
 
                 // Determine frames.
@@ -1131,11 +1139,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 float armSegmentRotation = arm2Rotation;
 
                 // Handle offsets for points.
-                armSegmentDrawPosition += arm1Rotation.ToRotationVector2() * direction * -14f;
-                armSegmentDrawPosition -= arm2Rotation.ToRotationVector2() * direction * 20f;
+                armSegmentDrawPosition += arm1Rotation.ToRotationVector2() * NPC.scale * direction * -14f;
+                armSegmentDrawPosition -= arm2Rotation.ToRotationVector2() * NPC.scale * direction * 20f;
                 Vector2 arm2DrawPosition = armSegmentDrawPosition;
-                arm2DrawPosition -= arm2Rotation.ToRotationVector2() * direction * 40f;
-                arm2DrawPosition += (arm2Rotation - MathHelper.PiOver2).ToRotationVector2() * 14f;
+                arm2DrawPosition -= arm2Rotation.ToRotationVector2() * direction * NPC.scale * 40f;
+                arm2DrawPosition += (arm2Rotation - MathHelper.PiOver2).ToRotationVector2() * NPC.scale * 14f;
 
                 // Calculate colors.
                 Color shoulderLightColor = NPC.GetAlpha(Lighting.GetColor((int)shoulderDrawPosition.X / 16, (int)shoulderDrawPosition.Y / 16));
@@ -1145,7 +1153,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Color glowmaskAlphaColor = NPC.GetAlpha(glowmaskColor);
 
                 // Draw electricity between arms.
-                if (NPC.Opacity > 0f)
+                if (NPC.Opacity > 0f && !NPC.IsABestiaryIconDummy)
                 {
                     List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(armSegmentDrawPosition, arm2DrawPosition + arm2Rotation.ToRotationVector2() * -direction * 20f, 250290787);
                     LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
@@ -1157,10 +1165,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
                 }
 
-                shoulderDrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
-                arm1DrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
-                armSegmentDrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
-                arm2DrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
+                shoulderDrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
+                arm1DrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
+                armSegmentDrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
+                arm2DrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
 
                 spriteBatch.Draw(armTexture1, arm1DrawPosition, null, arm1LightColor, arm1Rotation, arm1Origin, NPC.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, shoulderFrame, shoulderLightColor, 0f, shoulderFrame.Size() * 0.5f, NPC.scale, spriteDirection, 0f);
@@ -1181,9 +1189,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Texture2D armTexture1Glowmask = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AresBottomArmPart1Glow").Value;
                 Texture2D armTexture2Glowmask = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/AresBottomArmPart2Glow").Value;
 
-                Vector2 shoulderDrawPosition = NPC.Center + new Vector2(direction * 110f, -54f);
-                Vector2 connectorDrawPosition = shoulderDrawPosition + new Vector2(direction * 20f, 32f);
-                Vector2 arm1DrawPosition = shoulderDrawPosition + Vector2.UnitX * direction * 20f;
+                Vector2 shoulderDrawPosition = NPC.Center + NPC.scale * new Vector2(direction * 110f, -54f);
+                Vector2 connectorDrawPosition = shoulderDrawPosition + NPC.scale * new Vector2(direction * 20f, 32f);
+                Vector2 arm1DrawPosition = shoulderDrawPosition + NPC.scale * Vector2.UnitX * direction * 20f;
 
                 // Determine frames.
                 Rectangle arm1Frame = armTexture1.Frame(1, 9, 0, (int)(frameTime * 9f));
@@ -1194,11 +1202,11 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Vector2 arm2Origin = arm2Frame.Size() * new Vector2((direction == 1).ToInt(), 0.5f);
 
                 float arm1Rotation = CalamityUtils.WrapAngle90Degrees((handPosition - shoulderDrawPosition).ToRotation()) * 0.5f;
-                connectorDrawPosition += arm1Rotation.ToRotationVector2() * direction * -26f;
-                arm1DrawPosition += arm1Rotation.ToRotationVector2() * direction * (armTexture1.Width - 14f);
+                connectorDrawPosition += arm1Rotation.ToRotationVector2() * NPC.scale * direction * -26f;
+                arm1DrawPosition += arm1Rotation.ToRotationVector2() * NPC.scale * direction * (armTexture1.Width - 14f);
                 float arm2Rotation = CalamityUtils.WrapAngle90Degrees((handPosition - arm1DrawPosition).ToRotation());
 
-                Vector2 arm2DrawPosition = arm1DrawPosition + arm2Rotation.ToRotationVector2() * direction * (armTexture2.Width + 16f) - Vector2.UnitY * 16f;
+                Vector2 arm2DrawPosition = arm1DrawPosition + arm2Rotation.ToRotationVector2() * NPC.scale * direction * (armTexture2.Width + 16f) - Vector2.UnitY * 16f;
 
                 // Calculate colors.
                 Color shoulderLightColor = NPC.GetAlpha(Lighting.GetColor((int)shoulderDrawPosition.X / 16, (int)shoulderDrawPosition.Y / 16));
@@ -1207,7 +1215,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                 Color glowmaskAlphaColor = NPC.GetAlpha(glowmaskColor);
 
                 // Draw electricity between arms.
-                if (NPC.Opacity > 0f)
+                if (NPC.Opacity > 0f && !NPC.IsABestiaryIconDummy)
                 {
                     List<Vector2> arm2ElectricArcPoints = AresTeslaOrb.DetermineElectricArcPoints(arm1DrawPosition - arm2Rotation.ToRotationVector2() * direction * 10f, arm1DrawPosition + arm2Rotation.ToRotationVector2() * direction * 20f, 31416);
                     LightningBackgroundDrawer.Draw(arm2ElectricArcPoints, -Main.screenPosition, 90);
@@ -1219,10 +1227,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                     LightningDrawer.Draw(handElectricArcPoints, -Main.screenPosition, 90);
                 }
 
-                shoulderDrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
-                connectorDrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
-                arm1DrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
-                arm2DrawPosition += Vector2.UnitY * NPC.gfxOffY - Main.screenPosition;
+                shoulderDrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
+                connectorDrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
+                arm1DrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
+                arm2DrawPosition += Vector2.UnitY * NPC.gfxOffY - screenOffset;
 
                 spriteBatch.Draw(shoulderTexture, shoulderDrawPosition, shoulderFrame, shoulderLightColor, arm1Rotation, shoulderFrame.Size() * 0.5f, NPC.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.Draw(shoulderGlowmask, shoulderDrawPosition, shoulderFrame, glowmaskAlphaColor, arm1Rotation, shoulderFrame.Size() * 0.5f, NPC.scale, spriteDirection ^ SpriteEffects.FlipHorizontally, 0f);
