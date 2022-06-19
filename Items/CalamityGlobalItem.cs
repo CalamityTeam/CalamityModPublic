@@ -1809,7 +1809,7 @@ namespace CalamityMod.Items
             else if (item.CountsAsClass<MeleeDamageClass>() || item.IsWhip())
             {
                 // Yoyos, Flails, Spears, etc.
-                if ((item.channel || item.noMelee) && !item.IsWhip())
+                if ((item.channel || item.noMelee) && !item.IsWhip() && item.type != ItemID.Zenith)
                 {
                     prefix = reforgeTier switch
                     {
