@@ -311,7 +311,14 @@ namespace CalamityMod
 
                 return Color.Lerp(player.hairColor, new Color(139, 205, 255), flightTimeInterpolant);
             }));
-            GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
+            GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) =>
+            {
+                float stealthInterpolant = player.Calamity().rogueStealth / player.Calamity().rogueStealthMax;
+                if (float.IsInfinity(stealthInterpolant) || float.IsNaN(stealthInterpolant))
+                    stealthInterpolant = 0f;
+
+                return Color.Lerp(player.hairColor, new Color(186, 85, 211), stealthInterpolant);
+            }));
 
             PopupGUIManager.LoadGUIs();
             InvasionProgressUIManager.LoadGUIs();
