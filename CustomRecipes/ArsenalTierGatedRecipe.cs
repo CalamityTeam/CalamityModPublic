@@ -9,7 +9,7 @@ namespace CalamityMod.CustomRecipes
         public static NetworkText ConstructRecipeCondition(int tier, out Predicate<Recipe> condition)
         {
             condition = r => HasTierBeenLearned(tier);
-            return NetworkText.FromKey($"Mods.Calamity.Tier{tier}ArsenalRecipeCondition");
+            return NetworkText.FromKey($"Mods.CalamityMod.Tier{tier}ArsenalRecipeCondition");
         }
 
         public static bool HasTierBeenLearned(int tier)
