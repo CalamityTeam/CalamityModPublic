@@ -2433,6 +2433,8 @@ namespace CalamityMod.NPCs
                 walkingVelocity += 1.5f * (1f - lifeRatio);
             if (revenge)
                 walkingVelocity += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
+            if (Main.getGoodWorld)
+                walkingVelocity *= 1.15f;
 
             float walkingProjectileVelocity = walkingVelocity - (1.5f * enrageScale);
 
@@ -2508,8 +2510,8 @@ namespace CalamityMod.NPCs
 
                             float spreadLimit = (phase4 ? 100f : 50f) + enrageScale * 50f;
                             float randomSpread = (Main.rand.NextFloat() - 0.5f) * spreadLimit;
-                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
-                            Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f);
+                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f * npc.scale);
+                            Vector2 destination = new Vector2(spawnVector.X + randomSpread, spawnVector.Y - 100f * npc.scale);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, Vector2.Normalize(destination - spawnVector) * velocity, type, damage, 0f, Main.myPlayer);
                         }
                     }
@@ -2635,7 +2637,7 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 2f)
             {
                 // Set walking direction
-                if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
+                if (Math.Abs(npc.Center.X - player.Center.X) < 200f * npc.scale)
                 {
                     npc.velocity.X *= 0.8f;
                     if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
@@ -2776,6 +2778,8 @@ namespace CalamityMod.NPCs
                         velocity += 6f * enrageScale;
                         if (expertMode)
                             velocity += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
+                        if (Main.getGoodWorld)
+                            velocity *= 1.15f;
 
                         npc.velocity = (new Vector2(player.Center.X, player.Center.Y - 500f) - npc.Center).SafeNormalize(Vector2.Zero) * velocity;
                         npc.velocity *= new Vector2(calamityGlobalNPC.newAI[0] + 1f, calamityGlobalNPC.newAI[1] + 1f);
@@ -2857,8 +2861,8 @@ namespace CalamityMod.NPCs
                             if (postMoonLordBuff)
                                 damage *= 2;
 
-                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f);
-                            Vector2 destination = new Vector2(spawnVector.X, spawnVector.Y + 100f);
+                            Vector2 spawnVector = new Vector2(npc.Center.X, npc.Center.Y - 80f * npc.scale);
+                            Vector2 destination = new Vector2(spawnVector.X, spawnVector.Y + 100f * npc.scale);
                             Vector2 projectileVelocity = Vector2.Normalize(destination - spawnVector) * flameVelocity;
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < maxProjectiles; i++)
@@ -3000,7 +3004,7 @@ namespace CalamityMod.NPCs
 
                         if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+                            NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)(npc.Center.Y - 25f * npc.scale), ModContent.NPCType<AureusSpawn>());
 
                             if (death)
                             {
@@ -3113,7 +3117,7 @@ namespace CalamityMod.NPCs
 
                     if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y - 25, ModContent.NPCType<AureusSpawn>());
+                        NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)(npc.Center.Y - 25f * npc.scale), ModContent.NPCType<AureusSpawn>());
 
                         if (death)
                         {
@@ -3163,6 +3167,12 @@ namespace CalamityMod.NPCs
 
                 if (calamityGlobalNPC.newAI[0] > 0f && !reduceFallSpeed)
                     maxFallSpeed *= calamityGlobalNPC.newAI[0] + 1f;
+
+                if (Main.getGoodWorld && !reduceFallSpeed)
+                {
+                    gravity *= 1.15f;
+                    maxFallSpeed *= 1.15f;
+                }
 
                 npc.velocity.Y += gravity;
                 if (npc.velocity.Y > maxFallSpeed)

@@ -161,6 +161,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             float challengeAmt = (1f - lifeRatio) * 100f;
             float nukeBarrageChallengeAmt = (0.5f - lifeRatio) * 200f;
 
+            if (Main.getGoodWorld)
+            {
+                challengeAmt *= 1.5f;
+                nukeBarrageChallengeAmt *= 1.5f;
+            }
+
             // Adjust slowing debuff immunity
             bool immuneToSlowingDebuffs = NPC.ai[0] == 0f || NPC.ai[0] == 4f;
             NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
@@ -237,6 +243,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             if (enrageScale > 1.5f)
                 enrageScale = 1.5f;
+
+            if (Main.getGoodWorld)
+                enrageScale += 0.5f;
 
             if (BossRushEvent.BossRushActive)
                 enrageScale = 2f;

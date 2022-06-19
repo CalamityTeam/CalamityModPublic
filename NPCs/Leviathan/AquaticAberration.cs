@@ -46,6 +46,9 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.3f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -127,7 +130,7 @@ namespace CalamityMod.NPCs.Leviathan
                 Vector2 center4 = NPC.Center;
                 Vector2 center5 = Main.player[NPC.target].Center;
                 Vector2 vector126 = center5 - center4;
-                Vector2 vector127 = vector126 - Vector2.UnitY * 300f;
+                Vector2 vector127 = vector126 - Vector2.UnitY * 300f * NPC.scale;
                 float num1013 = vector126.Length();
                 vector126 = Vector2.Normalize(vector126) * scaleFactor6;
                 vector127 = Vector2.Normalize(vector127) * scaleFactor6;
@@ -138,7 +141,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 float num1014 = 8f;
                 flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
-                if (num1013 > 800f || !flag64)
+                if (num1013 > 800f * NPC.scale || !flag64)
                 {
                     NPC.velocity.X = (NPC.velocity.X * (inertia - 1f) + vector127.X) / inertia;
                     NPC.velocity.Y = (NPC.velocity.Y * (inertia - 1f) + vector127.Y) / inertia;
@@ -225,7 +228,7 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         if (i != NPC.whoAmI && Main.npc[i].type == NPC.type)
                         {
-                            if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 80f)
+                            if (Vector2.Distance(NPC.Center, Main.npc[i].Center) < 80f * NPC.scale)
                             {
                                 if (NPC.position.X < Main.npc[i].position.X)
                                     NPC.velocity.X -= pushVelocity;
