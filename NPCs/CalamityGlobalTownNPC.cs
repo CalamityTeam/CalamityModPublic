@@ -78,7 +78,8 @@ namespace CalamityMod.NPCs
             "TingFlarg", // <@!185605031716847616> (Smug#7160)
             "Driser", // <@!121996994406252544> (Driser#8630)
             "Eddie Spaghetti", // <@!466397267407011841> (Eddie Spaghetti#0002)
-            "G'Tok", // <@!335192200956608535> (gtoktas#7589)
+            "G'tok", // <@!335192200956608535> (gtoktas#7589)
+            "Katto", // <@!175972165504466944> (Katto#2858)
         };
         private const int GuideVanillaNames = 34;
         private static readonly string[] GuideNames =
@@ -184,7 +185,6 @@ namespace CalamityMod.NPCs
             "Chris Tallballs", // <@!770211589076418571> (Bewearium#1111)
             "Syethas", // <@!325413275066171393> (CosmicStarIight#4430)
             "Nextdoor Psycho", // <@!173261518572486656> (⋈-NextdoorPsycho-⋈#0001)
-            "Katto", // <@!175972165504466944> (Katto#2858)
         };
 
         // The following sets are for the 1.4 Town Pets: Town Dogs, Cats and Bunnies.
