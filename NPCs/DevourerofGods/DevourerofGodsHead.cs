@@ -148,6 +148,17 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             DisplayName.SetDefault("The Devourer of Gods");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.6f,
+                PortraitScale = 0.6f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/DevourerofGods_Bestiary",
+                PortraitPositionXOverride = 60,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 82f;
+            value.Position.Y += 38f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

@@ -28,6 +28,14 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gulper Eel");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.75f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/GulperEel_Bestiary",
+                PortraitPositionXOverride = 40
+            };
+            value.Position.X += 20;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

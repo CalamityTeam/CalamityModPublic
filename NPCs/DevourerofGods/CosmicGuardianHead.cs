@@ -24,6 +24,17 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             DisplayName.SetDefault("Cosmic Guardian");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.75f,
+                PortraitScale = 0.75f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/CosmicGuardian_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 62f;
+            value.Position.Y += 35f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()
