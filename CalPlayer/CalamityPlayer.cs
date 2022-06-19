@@ -989,6 +989,7 @@ namespace CalamityMod.CalPlayer
         public bool eyeOfNight = false;
         public bool soulSeeker = false;
         public bool perditionBeacon = false;
+        public bool puffWarrior = false;
 
         public List<DeadMinionProperties> PendingProjectilesToRespawn = new List<DeadMinionProperties>();
 
@@ -2076,6 +2077,7 @@ namespace CalamityMod.CalPlayer
             eyeOfNight = false;
             soulSeeker = false;
             perditionBeacon = false;
+            puffWarrior = false;
 
             disableVoodooSpawns = false;
             disablePerfCystSpawns = false;
