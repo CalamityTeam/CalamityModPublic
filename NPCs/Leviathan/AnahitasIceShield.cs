@@ -38,6 +38,9 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToHeat = true;
             NPC.Calamity().VulnerableToCold = false;
             NPC.Calamity().VulnerableToSickness = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.8f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -71,8 +74,8 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.spriteDirection = Main.npc[num989].direction;
                 NPC.velocity = Vector2.Zero;
                 NPC.position = Main.npc[num989].Center;
-                NPC.position.X = NPC.position.X - (NPC.width / 2) + ((NPC.spriteDirection == 1) ? -20f : 20f);
-                NPC.position.Y = NPC.position.Y - (NPC.height / 2) - 30;
+                NPC.position.X = NPC.position.X - (NPC.width / 2) + ((NPC.spriteDirection == 1) ? -20f : 20f) * NPC.scale;
+                NPC.position.Y = NPC.position.Y - (NPC.height / 2) - (int)(30 * NPC.scale);
                 NPC.gfxOffY = Main.npc[num989].gfxOffY;
                 Lighting.AddLight((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16, 0f, 0.8f, 1.1f);
                 return;

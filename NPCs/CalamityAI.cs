@@ -859,7 +859,7 @@ namespace CalamityMod.NPCs
                     npc.chaseable = true;
                     npc.ai[3] += 1f;
                     npc.alpha = 0;
-                    if (npc.ai[3] >= 2f || phase2)
+                    if (npc.ai[3] >= 2f || phase2 || Main.getGoodWorld)
                     {
                         npc.ai[0] = -1f;
                         npc.ai[1] = 0f;
@@ -908,6 +908,11 @@ namespace CalamityMod.NPCs
                             projectileVelocity = Vector2.Normalize(player.Center - npc.Center) * velocity;
                             int numProj = death ? 8 : 4;
                             int spread = death ? 90 : 45;
+                            if (Main.getGoodWorld)
+                            {
+                                numProj *= 3;
+                                spread *= 2;
+                            }
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < numProj; i++)
                             {
@@ -938,6 +943,8 @@ namespace CalamityMod.NPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.localAI[0] += 1f;
+                    if (Main.getGoodWorld)
+                        npc.localAI[0] += 2f;
                     if (expertMode)
                         npc.localAI[0] += 1f - lifeRatio;
                     npc.localAI[0] += 1f * enrageScale;
@@ -1080,6 +1087,8 @@ namespace CalamityMod.NPCs
                             int type = ModContent.ProjectileType<BrimstoneRay>();
                             int damage = npc.GetProjectileDamage(type);
                             Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity2, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            if (Main.getGoodWorld)
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity2, type, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, npc.whoAmI);
                         }
                     }
                 }
@@ -1113,6 +1122,9 @@ namespace CalamityMod.NPCs
                         if (npc.ai[1] < 150f && calamityGlobalNPC.newAI[0] == 0f)
                         {
                             Projectile.NewProjectile(npc.GetSource_FromAI(), source, laserVelocity, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+                            if (Main.getGoodWorld)
+                                Projectile.NewProjectile(npc.GetSource_FromAI(), source, -laserVelocity, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, npc.whoAmI);
+
                             calamityGlobalNPC.newAI[0] = 1f;
                         }
                         else
@@ -1122,6 +1134,8 @@ namespace CalamityMod.NPCs
                                 npc.localAI[0] = laserVelocity.X;
                                 npc.localAI[1] = laserVelocity.Y;
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
+                                if (Main.getGoodWorld)
+                                    Projectile.NewProjectile(npc.GetSource_FromAI(), source.X, source.Y, -npc.localAI[0], -npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, npc.whoAmI);
                             }
                         }
                     }
@@ -1394,6 +1408,11 @@ namespace CalamityMod.NPCs
                 baseVelocity *= 1.25f;
                 baseAcceleration *= 1.25f;
             }
+            if (Main.getGoodWorld)
+            {
+                baseVelocity *= 1.15f;
+                baseAcceleration *= 1.15f;
+            }
 
             // Reduce acceleration if target is holding a true melee weapon
             if (player.HoldingTrueMeleeWeapon())
@@ -1456,7 +1475,7 @@ namespace CalamityMod.NPCs
                         {
                             int type = ModContent.ProjectileType<SCalBrimstoneFireblast>();
                             int damage = npc.GetProjectileDamage(type) + (provy ? 30 : 0);
-                            float gigaBlastFrequency = (expertMode ? 180f : 240f) - enrageScale * 15f;
+                            float gigaBlastFrequency = (Main.getGoodWorld ? 120f : expertMode ? 180f : 240f) - enrageScale * 15f;
                             float projSpeed = malice ? 6.25f : 5f;
                             if (calamityGlobalNPC.newAI[3] <= 300f)
                             {
@@ -1879,6 +1898,12 @@ namespace CalamityMod.NPCs
                     num862 *= 1.25f;
                 }
 
+                if (Main.getGoodWorld)
+                {
+                    num861 *= 1.15f;
+                    num862 *= 1.15f;
+                }
+
                 int num863 = 1;
                 if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
                     num863 = -1;
@@ -1997,6 +2022,8 @@ namespace CalamityMod.NPCs
                         num870 += 2f;
                     if (provy)
                         num870 *= 1.15f;
+                    if (Main.getGoodWorld)
+                        num870 *= 1.25f;
 
                     Vector2 vector87 = npc.Center;
                     float num871 = player.Center.X - vector87.X;
@@ -2160,6 +2187,12 @@ namespace CalamityMod.NPCs
                     num862 *= 1.25f;
                 }
 
+                if (Main.getGoodWorld)
+                {
+                    num861 *= 1.15f;
+                    num862 *= 1.15f;
+                }
+
                 int num863 = 1;
                 if (npc.Center.X < player.Center.X)
                     num863 = -1;
@@ -2278,6 +2311,8 @@ namespace CalamityMod.NPCs
                         num870 += 2f;
                     if (provy)
                         num870 *= 1.15f;
+                    if (Main.getGoodWorld)
+                        num870 *= 1.25f;
 
                     Vector2 vector87 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                     float num871 = player.position.X + (player.width / 2) - vector87.X;

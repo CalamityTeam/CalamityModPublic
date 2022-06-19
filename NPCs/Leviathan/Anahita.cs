@@ -73,6 +73,9 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.8f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -169,6 +172,8 @@ namespace CalamityMod.NPCs.Leviathan
             bubbleVelocity += 4f * enrageScale;
             if (!leviAlive)
                 bubbleVelocity += 2f * (1f - lifeRatio);
+            if (Main.getGoodWorld)
+                bubbleVelocity *= 1.15f;
 
             NPC.damage = NPC.defDamage;
 
@@ -289,7 +294,9 @@ namespace CalamityMod.NPCs.Leviathan
 
                 NPC.alpha += 3;
                 if (NPC.alpha >= 255)
+                {
                     NPC.alpha = 255;
+                }
                 else
                 {
                     for (int k = 0; k < 3; k++)
@@ -410,11 +417,11 @@ namespace CalamityMod.NPCs.Leviathan
 
                 Vector2 vector118 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                 float num1055 = player.position.X + (player.width / 2) - vector118.X;
-                float num1056 = player.position.Y + (player.height / 2) - 200f - vector118.Y;
+                float num1056 = player.position.Y + (player.height / 2) - 200f * NPC.scale - vector118.Y;
                 float num1057 = (float)Math.Sqrt(num1055 * num1055 + num1056 * num1056);
 
                 NPC.Calamity().newAI[0] += 1f;
-                if (num1057 < 600f || NPC.Calamity().newAI[0] >= 180f)
+                if (num1057 < 600f * NPC.scale || NPC.Calamity().newAI[0] >= 180f)
                 {
                     NPC.ai[0] = 1f;
                     NPC.ai[1] = 0f;
@@ -428,7 +435,7 @@ namespace CalamityMod.NPCs.Leviathan
                 maxVelocityY -= enrageScale;
                 maxVelocityX -= 2f * enrageScale;
 
-                if (NPC.position.Y > player.position.Y - 350f)
+                if (NPC.position.Y > player.position.Y - 350f * NPC.scale)
                 {
                     if (NPC.velocity.Y > 0f)
                         NPC.velocity.Y *= 0.98f;
@@ -436,7 +443,7 @@ namespace CalamityMod.NPCs.Leviathan
                     if (NPC.velocity.Y > maxVelocityY)
                         NPC.velocity.Y = maxVelocityY;
                 }
-                else if (NPC.position.Y < player.position.Y - 450f)
+                else if (NPC.position.Y < player.position.Y - 450f * NPC.scale)
                 {
                     if (NPC.velocity.Y < 0f)
                         NPC.velocity.Y *= 0.98f;
@@ -445,7 +452,7 @@ namespace CalamityMod.NPCs.Leviathan
                         NPC.velocity.Y = -maxVelocityY;
                 }
 
-                if (NPC.position.X + (NPC.width / 2) > player.position.X + (player.width / 2) + 100f)
+                if (NPC.position.X + (NPC.width / 2) > player.position.X + (player.width / 2) + 100f * NPC.scale)
                 {
                     if (NPC.velocity.X > 0f)
                         NPC.velocity.X *= 0.98f;
@@ -454,7 +461,7 @@ namespace CalamityMod.NPCs.Leviathan
                         NPC.velocity.X = maxVelocityX;
                 }
 
-                if (NPC.position.X + (NPC.width / 2) < player.position.X + (player.width / 2) - 100f)
+                if (NPC.position.X + (NPC.width / 2) < player.position.X + (player.width / 2) - 100f * NPC.scale)
                 {
                     if (NPC.velocity.X < 0f)
                         NPC.velocity.X *= 0.98f;
@@ -468,7 +475,7 @@ namespace CalamityMod.NPCs.Leviathan
             else if (NPC.ai[0] == 1f)
             {
                 NPC.rotation = NPC.velocity.X * 0.02f;
-                Vector2 vector119 = new Vector2(NPC.position.X + (NPC.width / 2) + (15 * NPC.direction), NPC.position.Y + 30);
+                Vector2 vector119 = new Vector2(NPC.position.X + (NPC.width / 2) + (15 * NPC.direction * NPC.scale), NPC.position.Y + 30 * NPC.scale);
                 Vector2 vector120 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
                 float num1058 = player.position.X + (player.width / 2) - vector120.X;
                 float num1059 = player.position.Y + (player.height / 2) - vector120.Y;
@@ -510,14 +517,14 @@ namespace CalamityMod.NPCs.Leviathan
                     }
                 }
 
-                if (num1060 > 600f)
+                if (num1060 > 600f * NPC.scale)
                 {
                     float maxVelocityY = death ? 3f : 4f;
                     float maxVelocityX = death ? 7f : 8f;
                     maxVelocityY -= enrageScale;
                     maxVelocityX -= 2f * enrageScale;
 
-                    if (NPC.position.Y > player.position.Y - 350f)
+                    if (NPC.position.Y > player.position.Y - 350f * NPC.scale)
                     {
                         if (NPC.velocity.Y > 0f)
                             NPC.velocity.Y *= 0.98f;
@@ -525,7 +532,7 @@ namespace CalamityMod.NPCs.Leviathan
                         if (NPC.velocity.Y > maxVelocityY)
                             NPC.velocity.Y = maxVelocityY;
                     }
-                    else if (NPC.position.Y < player.position.Y - 450f)
+                    else if (NPC.position.Y < player.position.Y - 450f * NPC.scale)
                     {
                         if (NPC.velocity.Y < 0f)
                             NPC.velocity.Y *= 0.98f;
@@ -534,7 +541,7 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.velocity.Y = -maxVelocityY;
                     }
 
-                    if (NPC.position.X + (NPC.width / 2) > player.position.X + (player.width / 2) + 100f)
+                    if (NPC.position.X + (NPC.width / 2) > player.position.X + (player.width / 2) + 100f * NPC.scale)
                     {
                         if (NPC.velocity.X > 0f)
                             NPC.velocity.X *= 0.98f;
@@ -543,7 +550,7 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.velocity.X = maxVelocityX;
                     }
 
-                    if (NPC.position.X + (NPC.width / 2) < player.position.X + (player.width / 2) - 100f)
+                    if (NPC.position.X + (NPC.width / 2) < player.position.X + (player.width / 2) - 100f * NPC.scale)
                     {
                         if (NPC.velocity.X < 0f)
                             NPC.velocity.X *= 0.98f;
@@ -572,14 +579,21 @@ namespace CalamityMod.NPCs.Leviathan
             {
                 NPC.rotation = NPC.velocity.X * 0.02f;
 
-                Vector2 targetVector = player.Center + new Vector2(0f, -350f);
+                Vector2 targetVector = player.Center + new Vector2(0f, -350f) * NPC.scale;
                 float velocity = death ? 13.5f : 12f;
                 velocity += 6f * enrageScale;
+
+                if (Main.getGoodWorld)
+                    velocity *= 1.15f;
+
                 Vector2 vector3 = Vector2.Normalize(targetVector - vector - NPC.velocity) * velocity;
                 float acceleration = death ? 0.28f : 0.25f;
                 acceleration += 0.2f * enrageScale;
 
-                if (Math.Abs(NPC.Center.Y - targetVector.Y) > 50f || Math.Abs(NPC.Center.X - player.Center.X) > 350f)
+                if (Main.getGoodWorld)
+                    acceleration *= 1.15f;
+
+                if (Math.Abs(NPC.Center.Y - targetVector.Y) > 50f * NPC.scale || Math.Abs(NPC.Center.X - player.Center.X) > 350f * NPC.scale)
                     NPC.SimpleFlyMovement(vector3, acceleration);
 
                 NPC.ai[1] += 1f;
@@ -677,6 +691,9 @@ namespace CalamityMod.NPCs.Leviathan
                     if (revenge)
                         chargeVelocity += 2f + (death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio));
 
+                    if (Main.getGoodWorld)
+                        chargeVelocity *= 1.15f;
+
                     NPC.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
                     NPC.rotation = (float)Math.Atan2(NPC.velocity.Y, NPC.velocity.X);
 
@@ -746,7 +763,7 @@ namespace CalamityMod.NPCs.Leviathan
         // Move to charge location
         private void ChargeLocation(Player player, Vector2 vector, bool leviAlive, bool revenge)
         {
-            float distance = leviAlive ? 600f : 500f;
+            float distance = (leviAlive ? 600f : 500f) * NPC.scale;
 
             // Velocity
             if (NPC.localAI[0] == 0f)
@@ -754,6 +771,9 @@ namespace CalamityMod.NPCs.Leviathan
 
             Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(NPC.localAI[0], -distance) - vector - NPC.velocity) * 12f;
             float acceleration = revenge ? 0.75f : 0.5f;
+            if (Main.getGoodWorld)
+                acceleration *= 1.15f;
+
             NPC.SimpleFlyMovement(vector3, acceleration);
 
             // Rotation

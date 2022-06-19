@@ -78,6 +78,9 @@ namespace CalamityMod.NPCs.Leviathan
             NPC.Calamity().VulnerableToSickness = true;
             NPC.Calamity().VulnerableToElectricity = true;
             NPC.Calamity().VulnerableToWater = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.3f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -279,12 +282,18 @@ namespace CalamityMod.NPCs.Leviathan
                         num413 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
                     }
 
+                    if (Main.getGoodWorld)
+                    {
+                        num412 *= 1.15f;
+                        num413 *= 1.15f;
+                    }
+
                     int num414 = 1;
                     if (vector.X < player.position.X + player.width)
                         num414 = -1;
 
                     Vector2 vector40 = vector;
-                    float num415 = player.Center.X + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f)) - vector40.X;
+                    float num415 = player.Center.X + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale) - vector40.X;
                     float num416 = player.Center.Y - vector40.Y;
                     float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
                     num417 = num412 / num417;
@@ -414,7 +423,7 @@ namespace CalamityMod.NPCs.Leviathan
                             NPC.NewNPC(NPC.GetSource_FromAI(), (int)vector119.X, (int)vector119.Y, ModContent.NPCType<AquaticAberration>());
                     }
 
-                    if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f))
+                    if (num1060 > ((sirenAlive && !phase4) ? 1000f : 800f) * NPC.scale)
                     {
                         float num1064 = (sirenAlive && !phase4) ? 0.05f : 0.065f;
                         num1064 += 0.04f * enrageScale;
@@ -481,7 +490,7 @@ namespace CalamityMod.NPCs.Leviathan
                         return;
                     }
 
-                    float chargeDistance = (sirenAlive && !phase4) ? 1100f : 900f;
+                    float chargeDistance = ((sirenAlive && !phase4) ? 1100f : 900f) * NPC.scale;
                     chargeDistance -= 50f * enrageScale;
                     if (!sirenAlive || phase4)
                         chargeDistance -= 250f * (1f - lifeRatio);
@@ -511,6 +520,9 @@ namespace CalamityMod.NPCs.Leviathan
                             if (revenge && (!sirenAlive || phase4))
                                 num1044 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
 
+                            if (Main.getGoodWorld)
+                                num1044 *= 1.15f;
+
                             Vector2 vector117 = vector;
                             float num1045 = player.Center.X - vector117.X;
                             float num1046 = player.Center.Y - vector117.Y;
@@ -537,6 +549,12 @@ namespace CalamityMod.NPCs.Leviathan
                         {
                             num1048 += death ? 9f * (1f - lifeRatio) : 6f * (1f - lifeRatio);
                             num1049 += death ? 0.15f * (1f - lifeRatio) : 0.1f * (1f - lifeRatio);
+                        }
+
+                        if (Main.getGoodWorld)
+                        {
+                            num1048 *= 1.15f;
+                            num1049 *= 1.15f;
                         }
 
                         if (vector.Y < player.Center.Y)
@@ -640,7 +658,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (mouthDist4 < minMouthDist)
                 minMouthDist = mouthDist4;
 
-            bool insideMouthHitbox = minMouthDist <= 115f;
+            bool insideMouthHitbox = minMouthDist <= 115f * NPC.scale;
 
             float bodyDist1 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopLeft());
             float bodyDist2 = Vector2.Distance(bodyHitboxCenter, targetHitbox.TopRight());
@@ -655,7 +673,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (bodyDist4 < minBodyDist)
                 minBodyDist = bodyDist4;
 
-            bool insideBodyHitbox = minBodyDist <= 230f;
+            bool insideBodyHitbox = minBodyDist <= 230f * NPC.scale;
 
             float tailDist1 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopLeft());
             float tailDist2 = Vector2.Distance(tailHitboxCenter, targetHitbox.TopRight());
@@ -670,7 +688,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (tailDist4 < minTailDist)
                 minTailDist = tailDist4;
 
-            bool insideTailHitbox = minTailDist <= 115f;
+            bool insideTailHitbox = minTailDist <= 115f * NPC.scale;
 
             return insideMouthHitbox || insideBodyHitbox || insideTailHitbox;
         }
@@ -708,10 +726,10 @@ namespace CalamityMod.NPCs.Leviathan
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = Main.rand.Next(-200, 200) / 100;
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore4").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread, Mod.Find<ModGore>("LeviGore4").Type, NPC.scale);
                 }
             }
         }
@@ -827,8 +845,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
-            int width = 1011;
-            int height = 486;
+            int width = (int)(1011 * NPC.scale);
+            int height = (int)(486 * NPC.scale);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.2f,

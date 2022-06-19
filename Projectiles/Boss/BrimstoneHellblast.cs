@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Projectile.timeLeft < 51)
                 return;
 
-            if (Projectile.ai[0] == 0f)
+            if (Projectile.ai[0] == 0f || Main.getGoodWorld)
                 target.AddBuff(ModContent.BuffType<VulnerabilityHex>(), 120);
             else
                 target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
