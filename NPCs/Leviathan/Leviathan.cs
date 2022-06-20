@@ -845,8 +845,8 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
-            int width = (int)(1011 * NPC.scale);
-            int height = (int)(486 * NPC.scale);
+            int width = 1011;
+            int height = 486;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.2f,
