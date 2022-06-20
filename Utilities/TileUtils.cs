@@ -504,5 +504,11 @@ namespace CalamityMod
         /// </summary>
         /// <param name="tile">The tile to check.</param>
         public static bool IsTileSolid(this Tile tile) => tile != null && tile.HasUnactuatedTile && Main.tileSolid[tile.TileType] && !TileID.Sets.Platforms[tile.TileType];
+
+        /// <summary>
+        /// Determines if a tile is "full" based on if the tile is solid. This will count platforms and actuated tiles but no other non-solid ground tiles.
+        /// </summary>
+        /// <param name="tile">The tile to check.</param>
+        public static bool IsTileFull(this Tile tile) => tile != null && tile.HasTile && Main.tileSolid[tile.TileType];
     }
 }

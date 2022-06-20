@@ -126,9 +126,13 @@ namespace CalamityMod.Effects
             Filters.Scene["PixelatedSightLine"] = new Filter(new ScreenShaderData(screenRef, "SightLinePass"), EffectPriority.High);
             Filters.Scene["PixelatedSightLine"].Load();
 
-            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/Compiler/WulfrumTilePing", AssetRequestMode.ImmediateLoad).Value);
+            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/WulfrumTilePing", AssetRequestMode.ImmediateLoad).Value);
             Filters.Scene["WulfrumTilePing"] = new Filter(new ScreenShaderData(screenRef, "TilePingPass"), EffectPriority.High);
             Filters.Scene["WulfrumTilePing"].Load();
+
+            screenRef = new Ref<Effect>(CalamityMod.Instance.Assets.Request<Effect>("Effects/WulfrumScaffoldSelection", AssetRequestMode.ImmediateLoad).Value);
+            Filters.Scene["WulfrumScaffoldSelection"] = new Filter(new ScreenShaderData(screenRef, "TilePingPass"), EffectPriority.High);
+            Filters.Scene["WulfrumScaffoldSelection"].Load();
         }
     }
 }

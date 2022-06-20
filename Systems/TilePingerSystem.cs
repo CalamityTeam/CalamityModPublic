@@ -136,6 +136,7 @@ namespace CalamityMod.Systems
                 Main.spriteBatch.End();
             }
 
+            bool check = Main.drawToScreen;
             //This makes it flash every other frame on smooth lighting modes
             pingedTiles.Clear();
             

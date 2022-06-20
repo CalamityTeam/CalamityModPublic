@@ -97,6 +97,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte += AdjustChlorophyteSpawnLimits;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions += ChangeDefaultWorldSize;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldSizeOptions += SwapSmallDescriptionKey;
+            On.Terraria.IO.WorldFile.ClearTempTiles += ClearModdedTempTiles;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind += DecreaseSandstormWindSpeedRequirement;
@@ -119,6 +120,8 @@ namespace CalamityMod.ILEditing
             On.Terraria.Item.Prefix += LetRogueItemsBeReforgeable;
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
+
+        
 
         /// <summary>
         /// Unloads all IL Editing changes in the mod.
@@ -191,6 +194,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WorldGen.Chlorophyte -= AdjustChlorophyteSpawnLimits;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.SetDefaultOptions -= ChangeDefaultWorldSize;
             IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldSizeOptions -= SwapSmallDescriptionKey;
+            On.Terraria.IO.WorldFile.ClearTempTiles -= ClearModdedTempTiles;
 
             // Removal of vanilla stupidity
             IL.Terraria.GameContent.Events.Sandstorm.HasSufficientWind -= DecreaseSandstormWindSpeedRequirement;

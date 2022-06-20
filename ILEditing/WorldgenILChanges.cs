@@ -206,5 +206,21 @@ namespace CalamityMod.ILEditing
             c.Emit(OpCodes.Ldstr, "Mods.CalamityMod.UI.SmallWorldWarning");
         }
         #endregion
+
+        #region Clear temporary modded tiles
+        private static void ClearModdedTempTiles(On.Terraria.IO.WorldFile.orig_ClearTempTiles orig)
+        {
+            orig();
+
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if (Main.tile[i, j].TileType == Items.Tools.WulfrumScaffoldKit.PlacedTileType)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+        }
+        #endregion
     }
 }
