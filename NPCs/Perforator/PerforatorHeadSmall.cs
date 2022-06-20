@@ -25,8 +25,16 @@ namespace CalamityMod.NPCs.Perforator
         {
             DisplayName.SetDefault("The Perforator");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
-            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0);
-            value.Position.X += 1f;
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.8f,
+                PortraitScale = 0.8f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/PerforatorSmall_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 60
+            };
+            value.Position.X += 60;
+            value.Position.Y += 50;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

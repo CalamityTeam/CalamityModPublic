@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 using Terraria.Audio;
 using CalamityMod.Sounds;
 using ReLogic.Utilities;
+using CalamityMod.Items.Potions;
 
 namespace CalamityMod.NPCs.ExoMechs.Artemis
 {
@@ -187,8 +188,8 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                 //We'll probably want a custom background for Exos like ML has.
                 //BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Exo,
 
-				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("The Exo Twins are the ultimate recon units. Capable of detecting various wavelengths of light unknown to us, nothing can hide.")
+                // Will move to localization whenever that is cleaned up.
+                new FlavorTextBestiaryInfoElement("The Exo Twins are the ultimate recon units. Capable of detecting various wavelengths of light unknown to us, nothing can hide.")
             });
         }
 
@@ -1458,6 +1459,11 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
                     Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("Artemis5").Type, 1f);
                 }
             }
+        }
+
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ModContent.ItemType<OmegaHealingPotion>();
         }
 
         public override bool CheckDead()

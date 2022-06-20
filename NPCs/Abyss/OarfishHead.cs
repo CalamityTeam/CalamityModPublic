@@ -26,6 +26,14 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Oarfish");
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/Oarfish_Bestiary",
+                PortraitPositionYOverride = 20
+            };
+            value.Position.X += 20;
+            value.Position.Y += 20;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

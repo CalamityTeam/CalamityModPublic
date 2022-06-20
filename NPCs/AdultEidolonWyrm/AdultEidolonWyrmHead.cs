@@ -87,12 +87,13 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             NPCID.Sets.BossBestiaryPriority.Add(Type);
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                Scale = 0.5f,
-                PortraitScale = 0.8f,
-                PortraitPositionXOverride = 2f,
-                PortraitPositionYOverride = 2f
+                Scale = 0.50f,
+                PortraitScale = 0.6f,
+                PortraitPositionXOverride = 40,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/AdultEidolonWyrm_Bestiary"
             };
-            value.Position.Y -= 32f;
+            value.Position.X += 55;
+            value.Position.Y += 5;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

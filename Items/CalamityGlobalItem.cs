@@ -261,35 +261,54 @@ namespace CalamityMod.Items
                 {
                     if (item.CountsAsClass<MeleeDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.25), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double meleeDamage = newDamage * 0.25;
+                        if (meleeDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)meleeDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].Calamity().forceClassless = true;
+                        }
                     }
                     else if (item.CountsAsClass<ThrowingDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.2), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double throwingDamage = newDamage * 0.2;
+                        if (throwingDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)throwingDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].Calamity().forceClassless = true;
+                        }
                     }
                     else if (item.CountsAsClass<RangedDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.15), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double rangedDamage = newDamage * 0.15;
+                        if (rangedDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].Calamity().forceClassless = true;
+                        }
                     }
                     else if (item.CountsAsClass<MagicDamageClass>())
                     {
-                        int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.3), 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                        double magicDamage = newDamage * 0.3;
+                        if (magicDamage >= 1D)
+                        {
+                            int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)magicDamage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile].Calamity().forceClassless = true;
+                        }
                     }
                     else if (item.CountsAsClass<SummonDamageClass>() && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
                     {
-                        int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
-                        if (projectile.WithinBounds(Main.maxProjectiles))
+                        if (damage >= 1D)
                         {
-                            Main.projectile[projectile].Calamity().forceClassless = true;
-                            Main.projectile[projectile].originalDamage = item.damage;
+                            int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
+                            if (projectile.WithinBounds(Main.maxProjectiles))
+                            {
+                                Main.projectile[projectile].Calamity().forceClassless = true;
+                                Main.projectile[projectile].originalDamage = item.damage;
+                            }
                         }
                     }
                 }
@@ -1790,7 +1809,7 @@ namespace CalamityMod.Items
             else if (item.CountsAsClass<MeleeDamageClass>() || item.IsWhip())
             {
                 // Yoyos, Flails, Spears, etc.
-                if ((item.channel || item.noMelee) && !item.IsWhip())
+                if ((item.channel || item.noMelee) && !item.IsWhip() && item.type != ItemID.Zenith)
                 {
                     prefix = reforgeTier switch
                     {

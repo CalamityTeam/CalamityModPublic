@@ -23,6 +23,14 @@ namespace CalamityMod.NPCs.SlimeGod
             DisplayName.SetDefault("Ebonian Slime God");
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.6f,
+                PortraitScale = 1f,
+                PortraitPositionYOverride = 0
+            };
+            value.Position.Y += 10;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

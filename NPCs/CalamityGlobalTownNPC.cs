@@ -148,6 +148,7 @@ namespace CalamityMod.NPCs
         {
             "Tim Lockwood", // <@!605839945483026434> (Deimelo#0001)
             "Sir Samuel Winchester Jenkins Kester II", // <@!107659695749070848> (Ryaegos#1661)
+            "Brutus", // <@!591889650692521984> (Brutus#4337)
         };
         private const int TaxCollectorVanillaNames = 19;
         private static readonly string[] TaxCollectorNames =

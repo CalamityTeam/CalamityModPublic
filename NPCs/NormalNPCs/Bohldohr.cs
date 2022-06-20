@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.TheTemple,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("A cluster of Lihzard stone that bounces around. It is unknown what resides within this protective shell, but it is possible it has to do with the Lihzard’s rearing of their young.")
+				new FlavorTextBestiaryInfoElement("A distant relative to the gem-covered lizards found within the caverns. This species instead covers itself with the smooth bricks of the Temple and curls into a ball for locomotion.")
             });
         }
 

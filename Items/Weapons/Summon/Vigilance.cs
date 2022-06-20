@@ -40,28 +40,14 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                int seekerIndex = 0;
-                int totalSeekers = 1;
-                for (int i = 0; i < Main.maxProjectiles; i++)
+                if (player.maxMinions - player.slotsMinions >= 1f)
                 {
-                    if (Main.projectile[i].type != type || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
-                        continue;
-
-                    totalSeekers++;
-                }
-
-                int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
-                if (Main.projectile.IndexInRange(p))
-                    Main.projectile[p].originalDamage = Item.damage;
-
-                for (int i = 0; i < Main.maxProjectiles; i++)
-                {
-                    if (Main.projectile[i].type != type || !Main.projectile[i].active || Main.projectile[i].owner != player.whoAmI)
-                        continue;
-                    Main.projectile[i].ai[0] = seekerIndex / (float)totalSeekers;
-                    Main.projectile[i].netUpdate = true;
-
-                    seekerIndex++;
+                    int p = Projectile.NewProjectile(source, Main.MouseWorld, Vector2.Zero, type, damage, knockback, player.whoAmI);
+                    if (Main.projectile.IndexInRange(p))
+                    {
+                        Main.projectile[p].ai[0] = player.ownedProjectileCounts[type];
+                        Main.projectile[p].originalDamage = Item.damage;
+                    }
                 }
             }
             return false;

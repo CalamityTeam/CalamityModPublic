@@ -344,6 +344,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
+            if (NPC.IsABestiaryIconDummy)
+            {
+                NPC.alpha = 0;
+            }
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (NPC.spriteDirection == 1)
             {

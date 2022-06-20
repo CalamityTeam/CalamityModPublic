@@ -40,6 +40,15 @@ namespace CalamityMod.NPCs.AstrumDeus
             DisplayName.SetDefault("Astrum Deus");
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.70f,
+                PortraitScale = 0.75f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/AstrumDeus_Bestiary"
+            };
+            value.Position.X += 55f;
+            value.Position.Y += 23f;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

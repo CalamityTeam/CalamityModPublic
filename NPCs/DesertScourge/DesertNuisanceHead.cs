@@ -21,6 +21,17 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             DisplayName.SetDefault("A Desert Nuisance");
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                Scale = 0.8f,
+                PortraitScale = 0.8f,
+                CustomTexturePath = "CalamityMod/ExtraTextures/Bestiary/DesertNuisance_Bestiary",
+                PortraitPositionXOverride = 40,
+                PortraitPositionYOverride = 40
+            };
+            value.Position.X += 50;
+            value.Position.Y += 35;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

@@ -30,8 +30,11 @@ namespace CalamityMod.NPCs.Astral
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
                 Scale = 0.7f,
-                Velocity = 2f
+                Velocity = 2f,
+                PortraitPositionYOverride = 0
             };
+            value.Position.X += 15;
+            value.Position.Y -= 10;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

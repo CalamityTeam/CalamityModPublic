@@ -24,6 +24,13 @@ namespace CalamityMod.NPCs.Calamitas
             Main.npcFrameCount[NPC.type] = 6;
             NPCID.Sets.TrailingMode[NPC.type] = 1;
             NPCID.Sets.BossBestiaryPriority.Add(Type);
+            NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
+            {
+                PortraitScale = 0.8f,
+                Scale = 0.5f
+            };
+            value.Position.Y -= 10;
+            NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 
         public override void SetDefaults()

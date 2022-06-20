@@ -44,6 +44,7 @@ namespace CalamityMod.NPCs.Astral
                 PortraitPositionXOverride = 10f,
                 PortraitPositionYOverride = 8f
             };
+            value.Position.X += 15;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
         }
 

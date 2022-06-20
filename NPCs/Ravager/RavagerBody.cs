@@ -667,6 +667,22 @@ namespace CalamityMod.NPCs.Ravager
             }
         }
 
+        //Possibly just use an assembled sprite sheet for the bestiary portrait?
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+        {
+            Vector2 center = new Vector2(NPC.Center.X, NPC.Center.Y);
+            if (NPC.IsABestiaryIconDummy)
+            {
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 180, center.Y - screenPos.Y + 50),
+                    new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawLeft").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawLeft").Value.Height)),
+                    Color.White, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 110, center.Y - screenPos.Y + 50),
+                    new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawRight").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerClawRight").Value.Height)),
+                    Color.White, 0f, default, NPC.scale, SpriteEffects.None, 0f);
+            }
+            return true;
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
@@ -684,11 +700,13 @@ namespace CalamityMod.NPCs.Ravager
                 NPC.frame, color, NPC.rotation, vector11, NPC.scale, spriteEffects, 0f);
 
             float legOffset = 20f;
+            float headOffset = 75f;
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
             if (NPC.IsABestiaryIconDummy)
             {
                 color2 = Color.White;
-                legOffset = 66f;
+                legOffset = 60f;
+                headOffset = 0f;
             }
 
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegRight").Value, new Vector2(center.X - screenPos.X + NPC.scale * 28f, center.Y - screenPos.Y + legOffset), //72
@@ -697,9 +715,9 @@ namespace CalamityMod.NPCs.Ravager
             spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value, new Vector2(center.X - screenPos.X - NPC.scale * 112f, center.Y - screenPos.Y + legOffset), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerLegLeft").Value.Height)),
                 color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
-            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()))
+            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()) || NPC.IsABestiaryIconDummy)
             {
-                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - NPC.scale * 75f),
+                spriteBatch.Draw(ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value, new Vector2(center.X - screenPos.X - NPC.scale * 70f, center.Y - screenPos.Y - NPC.scale * headOffset),
                     new Rectangle?(new Rectangle(0, 0, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Width, ModContent.Request<Texture2D>("CalamityMod/NPCs/Ravager/RavagerHead").Value.Height)),
                     color2, 0f, default, NPC.scale, SpriteEffects.None, 0f);
             }
