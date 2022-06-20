@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -634,6 +635,9 @@ namespace CalamityMod.NPCs.GreatSandShark
 
             npcLoot.Add(ItemID.LightShard, 2);
             npcLoot.Add(ItemID.DarkShard, 2);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<GreatSandSharkRelic>(), 4);
         }
 
         public override void OnKill()
