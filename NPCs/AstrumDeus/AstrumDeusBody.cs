@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
             bool altBodyTextures = NPC.localAI[3] == 1f;
-            bool drawCyan = NPC.Calamity().newAI[3] >= 600f;
+            bool drawCyan = NPC.Calamity().newAI[3] >= (Main.getGoodWorld ? 300f : 600f);
             bool deathModeEnragePhase = Main.npc[(int)NPC.ai[2]].Calamity().newAI[0] == 3f;
             bool doubleWormPhase = NPC.Calamity().newAI[0] != 0f && !deathModeEnragePhase;
 

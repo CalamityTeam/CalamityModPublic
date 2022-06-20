@@ -743,7 +743,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                             for (float i = 0f; i <= 1f; i += 1f / totalProjectiles)
                             {
-                                Vector2 spawnLocation = center3 + lanceWallStartingPosition * (i - 0.5f) * (expertAttack ? 1f : 1.7f);
+                                Vector2 spawnLocation = center3 + lanceWallStartingPosition * (i - 0.5f) * (expertAttack ? 1f : 1.8f);
                                 Vector2 v2 = vector6;
                                 if (expertAttack)
                                 {

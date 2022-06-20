@@ -49,6 +49,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             NPC.HitSound = SoundID.NPCHit53;
             NPC.DeathSound = SoundID.NPCDeath44;
             NPC.Calamity().VulnerableToSickness = false;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.5f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)

@@ -62,44 +62,28 @@ namespace CalamityMod.Projectiles.Boss
             float timeGateValue2 = 300f;
             if (Projectile.ai[0] > timeGateValue)
             {
-                int num103 = Player.FindClosest(Projectile.Center, 1, 1);
-
                 if (Projectile.ai[0] <= timeGateValue2)
                 {
-                    if (Projectile.ai[0] == timeGateValue2)
-                    {
-                        Vector2 aimVector = Projectile.ai[1] == 0f ? (Main.player[num103].velocity * 20f) : Vector2.Zero;
-                        Vector2 v4 = Main.player[num103].Center + aimVector - Projectile.Center;
+                    if (Projectile.velocity.Length() < 10f)
+                        Projectile.velocity *= 1.015f;
 
-                        if (float.IsNaN(v4.X) || float.IsNaN(v4.Y))
-                            v4 = -Vector2.UnitY;
+                    int num103 = Player.FindClosest(Projectile.Center, 1, 1);
+                    float scaleFactor2 = Projectile.velocity.Length();
+                    Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
+                    vector11.Normalize();
+                    vector11 *= scaleFactor2;
 
-                        EmitDust();
-
-                        Projectile.velocity = Vector2.Normalize(v4) * 18f;
-                    }
-                    else if (Projectile.ai[0] > timeGateValue2 - 30f)
-                    {
-                        if (Projectile.velocity.Length() > 2f)
-                            Projectile.velocity *= 0.9f;
-                    }
-                    else
-                    {
-                        if (Projectile.velocity.Length() < 12f)
-                            Projectile.velocity *= 1.02f;
-
-                        float scaleFactor2 = Projectile.velocity.Length();
-                        Vector2 vector11 = Main.player[num103].Center - Projectile.Center;
-                        vector11.Normalize();
-                        vector11 *= scaleFactor2;
-
-                        Projectile.velocity = (Projectile.velocity * 24f + vector11) / 25f;
-                        Projectile.velocity.Normalize();
-                        Projectile.velocity *= scaleFactor2;
-                    }
+                    Projectile.velocity = (Projectile.velocity * 19f + vector11) / 20f;
+                    Projectile.velocity.Normalize();
+                    Projectile.velocity *= scaleFactor2;
                 }
                 else
+                {
                     Projectile.tileCollide = true;
+
+                    if (Projectile.velocity.Length() < 20f)
+                        Projectile.velocity *= 1.015f;
+                }
             }
         }
 

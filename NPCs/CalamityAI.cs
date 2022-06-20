@@ -3251,6 +3251,9 @@ namespace CalamityMod.NPCs
 
             // Flight timer
             float aiSwitchTimer = doubleWormPhase ? 1200f : 1800f;
+            if (Main.getGoodWorld)
+                aiSwitchTimer *= 0.5f;
+
             calamityGlobalNPC.newAI[3] += 1f;
             if (calamityGlobalNPC.newAI[3] >= aiSwitchTimer)
                 calamityGlobalNPC.newAI[3] = 0f;
@@ -3372,7 +3375,7 @@ namespace CalamityMod.NPCs
                             int startIndexHeadTwo = startIndexHeadOne + phase2Length + 1;
                             int headTwoID = NPC.NewNPC(npc.GetSource_FromAI(), (int)npc.Center.X, (int)npc.Center.Y, npc.type, startIndexHeadTwo);
                             Main.npc[headTwoID].Calamity().newAI[0] = 2f;
-                            Main.npc[headTwoID].Calamity().newAI[3] = 600f;
+                            Main.npc[headTwoID].Calamity().newAI[3] = Main.getGoodWorld ? 300f : 600f;
                             Main.npc[headTwoID].velocity = Vector2.Normalize(player.Center - Main.npc[headTwoID].Center) * 16f;
                             Main.npc[headTwoID].timeLeft *= 20;
                             Main.npc[headTwoID].netUpdate = true;
@@ -3636,6 +3639,12 @@ namespace CalamityMod.NPCs
 
                 speed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
                 turnSpeed *= increaseSpeedMore ? 2f : increaseSpeed ? 1.5f : 1f;
+
+                if (Main.getGoodWorld)
+                {
+                    speed *= 1.15f;
+                    turnSpeed *= 1.15f;
+                }
 
                 Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num20 = player.position.X + (player.width / 2);
@@ -3973,6 +3982,9 @@ namespace CalamityMod.NPCs
                 darkEnergyAmt += 1;
             if (phase4)
                 darkEnergyAmt += 1;
+
+            if (Main.getGoodWorld)
+                darkEnergyAmt *= 2;
 
             // Spawn a few Dark Energies as soon as the fight starts
             int spacing = 360 / darkEnergyAmt;
@@ -4340,6 +4352,12 @@ namespace CalamityMod.NPCs
                     acceleration *= 2f;
                 }
 
+                if (Main.getGoodWorld)
+                {
+                    velocity *= 1.15f;
+                    acceleration *= 1.15f;
+                }
+
                 Vector2 destination = player.Center;
 
                 // Move between 8 different positions around the player, in order
@@ -4535,6 +4553,9 @@ namespace CalamityMod.NPCs
             }
             if (npc.localAI[2] > 0f || malice)
                 enrageScale += 1f;
+
+            if (Main.getGoodWorld)
+                enrageScale += 0.5f;
 
             if (enrageScale > 3f)
                 enrageScale = 3f;
@@ -4777,9 +4798,15 @@ namespace CalamityMod.NPCs
                                     bool spawnRight = player.velocity.X > 0f;
                                     for (int i = 0; i < totalProjectiles; i++)
                                     {
-                                        if (spawnRight)
+                                        if (Main.getGoodWorld)
                                         {
                                             if (i >= (int)(totalProjectiles * 0.125) && i <= (int)(totalProjectiles * 0.375))
+                                            {
+                                                Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+                                                Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+                                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                            }
+                                            if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
                                             {
                                                 Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
                                                 Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
@@ -4788,11 +4815,23 @@ namespace CalamityMod.NPCs
                                         }
                                         else
                                         {
-                                            if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
+                                            if (spawnRight)
                                             {
-                                                Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
-                                                Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
-                                                Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                                if (i >= (int)(totalProjectiles * 0.125) && i <= (int)(totalProjectiles * 0.375))
+                                                {
+                                                    Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+                                                    Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+                                                    Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (i >= (int)(totalProjectiles * 0.625) && i <= (int)(totalProjectiles * 0.875))
+                                                {
+                                                    Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+                                                    Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+                                                    Projectile.NewProjectile(npc.GetSource_FromAI(), spawnVector, velocity, type, damage, 0f, Main.myPlayer);
+                                                }
                                             }
                                         }
                                     }
@@ -4821,8 +4860,16 @@ namespace CalamityMod.NPCs
                                     npc.ai[3] = 3f;
                                     SoundEngine.PlaySound(SoundID.Item102, player.Center);
                                     int totalProjectiles = phase2 ? 40 : 48;
+
+                                    if (Main.getGoodWorld)
+                                        totalProjectiles *= 2;
+
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     int distance = phase2 ? 1200 : 1320;
+
+                                    if (Main.getGoodWorld)
+                                        distance *= 2;
+
                                     bool spawnRight = player.velocity.X > 0f;
                                     for (int i = 0; i < totalProjectiles; i++)
                                     {
@@ -5224,6 +5271,8 @@ namespace CalamityMod.NPCs
                     value44.Normalize();
                     value44 *= scaleFactor20;
                     npc.velocity = (npc.velocity * (num1377 - 1f) + value44) / num1377;
+                    if (Main.getGoodWorld)
+                        npc.velocity *= 1.15f;
                 }
                 else if (npc.velocity.Length() > 2f)
                 {
@@ -5272,6 +5321,9 @@ namespace CalamityMod.NPCs
                     value45.Normalize();
                     value45 *= scaleFactor21;
                     npc.velocity = (npc.velocity * (num1378 - 1f) + value45) / num1378;
+                    if (Main.getGoodWorld)
+                        npc.velocity *= 1.15f;
+
                     npc.netSpam = 5;
                     if (Main.netMode == NetmodeID.Server)
                     {
@@ -5298,6 +5350,9 @@ namespace CalamityMod.NPCs
                     vector242.Normalize();
                     vector242 *= scaleFactor22;
                     npc.velocity = (npc.velocity * (num1379 - 1f) + vector242) / num1379;
+                    if (Main.getGoodWorld)
+                        npc.velocity *= 1.15f;
+
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;
@@ -5311,6 +5366,9 @@ namespace CalamityMod.NPCs
                     if (npc.ai[1] > 10f)
                     {
                         npc.velocity = vector242;
+                        if (Main.getGoodWorld)
+                            npc.velocity *= 1.15f;
+
                         if (npc.velocity.X < 0f)
                         {
                             npc.direction = -1;
@@ -5375,7 +5433,12 @@ namespace CalamityMod.NPCs
             bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
-            bool tired = calamityGlobalNPC.newAI[1] == 1f;
+            float exhaustionGateValue = 300f;
+            if (Main.getGoodWorld)
+                exhaustionGateValue *= 0.5f;
+
+            float exhaustionIncreasePerAttack = exhaustionGateValue * 0.1f;
+            bool exhausted = calamityGlobalNPC.newAI[1] == 1f;
             bool phase2 = lifeRatio <= (death ? 0.8f : revenge ? 0.7f : 0.5f);
             bool phase3 = lifeRatio <= (death ? 0.5f : (revenge ? 0.35f : 0.2f)) && expertMode;
             bool phase2AI = npc.ai[0] > 4f;
@@ -5383,21 +5446,21 @@ namespace CalamityMod.NPCs
             bool charging = npc.ai[3] < 10f;
             float pie = (float)Math.PI;
 
-            if (calamityGlobalNPC.newAI[0] >= 300f)
+            if (calamityGlobalNPC.newAI[0] >= exhaustionGateValue)
                 calamityGlobalNPC.newAI[1] = 1f;
 
             // Adjust stats
-            calamityGlobalNPC.DR = tired ? 0f : 0.5f;
-            npc.defense = tired ? 0 : npc.defDefense;
+            calamityGlobalNPC.DR = exhausted ? 0f : 0.5f;
+            npc.defense = exhausted ? 0 : npc.defDefense;
             if (phase3AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.2f);
-                npc.defense = tired ? 0 : npc.defDefense - 40;
+                npc.defense = exhausted ? 0 : npc.defDefense - 40;
             }
             else if (phase2AI)
             {
                 npc.damage = (int)(npc.defDamage * 1.1f);
-                npc.defense = tired ? 0 : npc.defDefense - 20;
+                npc.defense = exhausted ? 0 : npc.defDefense - 20;
             }
             else
             {
@@ -5456,7 +5519,7 @@ namespace CalamityMod.NPCs
                 chargeVelocity *= 1.05f;
             }
 
-            if (tired)
+            if (exhausted)
                 idlePhaseVelocity *= 0.25f;
 
             // Variables
@@ -5519,19 +5582,22 @@ namespace CalamityMod.NPCs
                 npc.ai[2] = 0f;
             }
 
-            if (tired)
+            if (exhausted)
             {
                 npc.Calamity().canBreakPlayerDefense = false;
 
                 npc.damage /= 4;
 
-                // Play tired sound
+                // Play exhausted sound
                 if (calamityGlobalNPC.newAI[0] % 60f == 0f)
                     SoundEngine.PlaySound(OldDuke.OldDuke.HuffSound, player.Center);
 
                 calamityGlobalNPC.newAI[0] -= malice ? 1.5f : 1f;
                 if (calamityGlobalNPC.newAI[0] <= 0f)
+                {
+                    calamityGlobalNPC.newAI[0] = 0f;
                     calamityGlobalNPC.newAI[1] = 0f;
+                }
             }
 
             // Enrage variable
@@ -5552,8 +5618,8 @@ namespace CalamityMod.NPCs
 
             npc.Calamity().CurrentlyEnraged = biomeEnraged || malice;
 
-            // Increased DR while transitioning phases and not tired
-            if (!tired)
+            // Increased DR while transitioning phases and not exhausted
+            if (!exhausted)
                 calamityGlobalNPC.DR = (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f) ? 0.75f : 0.5f;
 
             calamityGlobalNPC.CurrentlyIncreasingDefenseOrDR = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f;
@@ -5871,7 +5937,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= chargeTime)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -5920,7 +5986,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= toothBallBelchPhaseTimer)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -5953,7 +6019,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num9)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     calamityGlobalNPC.newAI[2] = 0f;
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
@@ -6141,7 +6207,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= chargeTime)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6191,7 +6257,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num13)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6240,7 +6306,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num9)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     calamityGlobalNPC.newAI[2] = 0f;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
@@ -6440,7 +6506,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= chargeTime)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
@@ -6555,7 +6621,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num9)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     calamityGlobalNPC.newAI[2] = 0f;
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
@@ -6605,7 +6671,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= num13)
                 {
-                    calamityGlobalNPC.newAI[0] += 30f;
+                    calamityGlobalNPC.newAI[0] += exhaustionIncreasePerAttack;
                     npc.ai[0] = 10f;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
