@@ -108,9 +108,16 @@ namespace CalamityMod.NPCs.Polterghast
 
             Vector2 vector = NPC.Center;
 
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+
             // Scale multiplier based on nearby active tiles
             float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
-            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= 420f || NPC.Calamity().newAI[3] == 1f;
+            bool chargePhase = Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] >= chargePhaseGateValue - 60f || NPC.Calamity().newAI[3] == 1f;
             float chargeVelocity = 24f;
             float chargeAcceleration = 0.6f;
             float chargeDistance = 480f;
@@ -143,7 +150,7 @@ namespace CalamityMod.NPCs.Polterghast
             else
                 despawnTimer++;
 
-            if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
+            if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < changeColorGateValue)
             {
                 velocity = 21f;
                 acceleration = 0.13f;
@@ -416,6 +423,14 @@ namespace CalamityMod.NPCs.Polterghast
             if (NPC.spriteDirection == 1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float timeToReachFullColor = 120f;
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+
             Texture2D texture2D15 = TextureAssets.Npc[NPC.type].Value;
             Vector2 vector11 = new Vector2(TextureAssets.Npc[NPC.type].Value.Width / 2, TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] / 2);
             Color color36 = Color.White;
@@ -429,8 +444,8 @@ namespace CalamityMod.NPCs.Polterghast
                 {
                     Color color38 = drawColor;
 
-                    if (!NPC.IsABestiaryIconDummy && Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
-                        color38 = Color.Lerp(color38, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
+                    if (!NPC.IsABestiaryIconDummy && Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > changeColorGateValue)
+                        color38 = Color.Lerp(color38, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
 
                     color38 = Color.Lerp(color38, color36, amount9);
                     color38 = NPC.GetAlpha(color38);
@@ -444,8 +459,8 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color = NPC.GetAlpha(drawColor);
 
-            if (!NPC.IsABestiaryIconDummy && Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f)
-                color = Color.Lerp(color, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
+            if (!NPC.IsABestiaryIconDummy && Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > changeColorGateValue)
+                color = Color.Lerp(color, lightRed, MathHelper.Clamp((Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
 
             Vector2 vector43 = NPC.Center - screenPos;
             vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[NPC.type]) * NPC.scale / 2f;
@@ -454,7 +469,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             Texture2D texture2D16 = ModContent.Request<Texture2D>("CalamityMod/NPCs/Polterghast/PolterPhantomGlow").Value;
             Color c = Color.Red;
-            if (!NPC.IsABestiaryIconDummy && (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f || Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > 300f))
+            if (!NPC.IsABestiaryIconDummy && (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < changeColorGateValue || Main.npc[CalamityGlobalNPC.ghostBoss].Calamity().newAI[0] > changeColorGateValue))
                 c = Color.Black;
 
             Color color42 = Color.Lerp(Color.White, c, 0.5f);

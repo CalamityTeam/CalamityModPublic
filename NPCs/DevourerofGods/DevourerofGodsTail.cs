@@ -336,6 +336,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (disintegrationFactor > 0f)
                 spriteBatch.ExitShaderRegion();
+
             return false;
         }
 

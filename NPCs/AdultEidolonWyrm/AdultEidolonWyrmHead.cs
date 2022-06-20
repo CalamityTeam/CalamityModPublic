@@ -315,6 +315,13 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             float ancientDoomGateValue = malice ? 80f : death ? 95f : revenge ? 100f : expertMode ? 105f : 120f;
             float lightningChargePhaseGateValue = malice ? 90f : death ? 120f : revenge ? 135f : expertMode ? 150f : 180f;
 
+            if (Main.getGoodWorld)
+            {
+                lightningRainDuration *= 0.5f;
+                eidolonWyrmPhaseDuration *= 0.25f;
+                iceMistDuration *= 0.5f;
+            }
+
             // Adjust slowing debuff immunity
             bool immuneToSlowingDebuffs = AIState == (float)Phase.FinalPhase || AIState == (float)Phase.ShadowFireballSpin;
             NPC.buffImmune[ModContent.BuffType<ExoFreeze>()] = immuneToSlowingDebuffs;
@@ -435,7 +442,11 @@ namespace CalamityMod.NPCs.AdultEidolonWyrm
             // Velocity and turn speed values
             float velocityScale = malice ? 3f : death ? 1.8f : revenge ? 1.5f : expertMode ? 1.2f : 0f;
             float baseVelocity = (targetDownDeep ? 12f : 24f) + (targetDownDeep ? velocityScale : velocityScale * 2f);
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.15f;
+
             float turnSpeed = baseVelocity * 0.125f;
+
             float normalChargeVelocityMult = MathHelper.Lerp(1f, 2f, chargeVelocityScalar);
             float normalChargeTurnSpeedMult = MathHelper.Lerp(1f, 8f, chargeVelocityScalar);
             float invisiblePhaseVelocityMult = MathHelper.Lerp(1f, 1.5f, chargeVelocityScalar);

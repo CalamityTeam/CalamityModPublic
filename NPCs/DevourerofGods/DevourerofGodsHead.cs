@@ -379,6 +379,16 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             groundPhaseTurnSpeed += Vector2.Distance(player.Center, NPC.Center) * 0.0002f;
 
+            if (Main.getGoodWorld)
+            {
+                fallSpeed *= 1.15f;
+                speed *= 1.15f;
+                turnSpeed *= 1.15f;
+                homingSpeed *= 1.15f;
+                homingTurnSpeed *= 1.15f;
+                groundPhaseTurnSpeed *= 1.15f;
+            }
+
             // How long it takes before swapping phases
             int phaseLimit = death ? 600 : 900;
             if (expertMode && NPC.ai[3] == 0f)

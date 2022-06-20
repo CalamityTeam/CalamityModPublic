@@ -244,6 +244,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 inertia *= 0.8f;
             if (!phase1)
                 inertia *= 0.8f;
+            if (Main.getGoodWorld)
+                inertia *= 0.8f;
 
             float num1006 = 0.111111117f * inertia;
 
@@ -257,6 +259,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 float velocity = (malice || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                if (Main.getGoodWorld)
+                    velocity *= 1.25f;
+
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
                 float phaseGateValue = (malice || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
@@ -282,6 +287,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - vectorCenter);
                             int numProj = death ? 3 : 2;
                             int spread = !phase1 ? 15 : death ? 30 : 20;
+
+                            if (Main.getGoodWorld)
+                            {
+                                numProj *= 2;
+                                spread *= 3;
+                            }
+
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < numProj; i++)
                             {
@@ -310,8 +322,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 NPC.velocity *= 0.8f;
+                if (Main.getGoodWorld)
+                    NPC.velocity *= 0.5f;
+
+                float chargeGateValue = 12f;
+                if (Main.getGoodWorld)
+                    chargeGateValue *= 0.25f;
+
                 NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= 12f)
+                if (NPC.ai[1] >= chargeGateValue)
                 {
                     NPC.ai[0] = 2f;
                     NPC.ai[1] = 0f;
@@ -321,6 +340,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     velocity *= (malice || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
                     if (defenderAlive)
                         velocity *= 0.8f;
+                    if (Main.getGoodWorld)
+                        velocity *= 1.15f;
 
                     NPC.velocity = velocity;
                 }

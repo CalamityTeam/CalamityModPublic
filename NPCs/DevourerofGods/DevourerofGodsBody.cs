@@ -216,6 +216,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                         {
                             NPC.localAI[0] += 1f;
                             float laserGateValue = malice ? 156f : death ? 180f : 192f;
+                            if (Main.getGoodWorld)
+                                laserGateValue *= 0.5f;
+
                             if (NPC.localAI[0] >= laserGateValue && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
                                 NPC.localAI[0] = 0f;
@@ -244,7 +247,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[1] < laserBarragePhaseGateValue)
                         {
                             NPC.localAI[0] += 1f;
-                            if (NPC.localAI[0] >= laserBarrageGateValue * 0.2f && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
+                            if (NPC.localAI[0] >= laserBarrageGateValue * (Main.getGoodWorld ? 0.1f : 0.2f) && NPC.ai[0] % (expertMode ? 10f : 20f) == 0f)
                             {
                                 SoundEngine.PlaySound(SoundID.Item12, player.position);
                                 NPC.localAI[0] = 0f;

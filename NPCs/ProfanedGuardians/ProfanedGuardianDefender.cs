@@ -214,8 +214,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 5f) / num786;
                     num784 *= num786;
                     num785 *= num786;
-                    NPC.velocity.X = (NPC.velocity.X * 25f + num784) / 26f;
-                    NPC.velocity.Y = (NPC.velocity.Y * 25f + num785) / 26f;
+
+                    float inertia = 25f;
+                    if (Main.getGoodWorld)
+                        inertia *= 0.8f;
+
+                    NPC.velocity.X = (NPC.velocity.X * inertia + num784) / (inertia + 1f);
+                    NPC.velocity.Y = (NPC.velocity.Y * inertia + num785) / (inertia + 1f);
+
                     return;
                 }
 
@@ -232,8 +238,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 NPC.velocity *= 0.8f;
+                if (Main.getGoodWorld)
+                    NPC.velocity *= 0.5f;
+
+                float chargeGateValue = 18f;
+                if (Main.getGoodWorld)
+                    chargeGateValue *= 0.25f;
+
                 NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= 18f)
+                if (NPC.ai[1] >= chargeGateValue)
                 {
                     NPC.ai[0] = 2f;
                     NPC.ai[1] = 0f;
@@ -241,6 +254,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
                     velocity.Normalize();
                     velocity *= (malice || biomeEnraged) ? 25f : death ? 22f : revenge ? 20.5f : expertMode ? 19f : 16f;
+                    if (Main.getGoodWorld)
+                        velocity *= 1.15f;
+
                     NPC.velocity = velocity;
                 }
             }

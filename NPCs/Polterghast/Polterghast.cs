@@ -175,13 +175,17 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Velocity and acceleration
             calamityGlobalNPC.newAI[0] += 1f;
-            bool chargePhase = calamityGlobalNPC.newAI[0] >= 480f;
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            bool chargePhase = calamityGlobalNPC.newAI[0] >= chargePhaseGateValue;
             int chargeAmt = getPissed ? 4 : phase3 ? 3 : phase2 ? 2 : 1;
             float chargeVelocity = getPissed ? 28f : phase3 ? 24f : phase2 ? 22f : 20f;
             float chargeAcceleration = getPissed ? 0.7f : phase3 ? 0.6f : phase2 ? 0.55f : 0.5f;
             float chargeDistance = 480f;
-            bool charging = NPC.ai[2] >= 300f;
-            bool reset = NPC.ai[2] >= 600f;
+            bool charging = NPC.ai[2] >= chargePhaseGateValue - 180f;
+            bool reset = NPC.ai[2] >= chargePhaseGateValue + 120f;
             float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 
             // Only get a new target while not charging
@@ -1084,10 +1088,18 @@ namespace CalamityMod.NPCs.Polterghast
 
             Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
             Color lightRed = new Color(255, 100, 100, 255);
-            if (NPC.Calamity().newAI[0] > 300f)
-                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((NPC.Calamity().newAI[0] - 300f) / 120f, 0f, 1f));
 
-            Color color42 = Color.Lerp(Color.White, (NPC.ai[2] >= 300f || NPC.Calamity().newAI[0] > 300f) ? Color.Red : Color.Black, 0.5f);
+            float chargePhaseGateValue = 480f;
+            if (Main.getGoodWorld)
+                chargePhaseGateValue *= 0.5f;
+
+            float timeToReachFullColor = 120f;
+            float colorChangeTime = 180f;
+            float changeColorGateValue = chargePhaseGateValue - colorChangeTime;
+            if (NPC.Calamity().newAI[0] > changeColorGateValue)
+                color37 = Color.Lerp(color37, lightRed, MathHelper.Clamp((NPC.Calamity().newAI[0] - changeColorGateValue) / timeToReachFullColor, 0f, 1f));
+
+            Color color42 = Color.Lerp(Color.White, (NPC.ai[2] >= changeColorGateValue || NPC.Calamity().newAI[0] > changeColorGateValue) ? Color.Red : Color.Black, 0.5f);
 
             if (CalamityConfig.Instance.Afterimages)
             {

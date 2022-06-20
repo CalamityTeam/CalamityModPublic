@@ -146,8 +146,14 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 num786 = (Main.npc[CalamityGlobalNPC.doughnutBoss].velocity.Length() + 3f) / num786;
                 num784 *= num786;
                 num785 *= num786;
-                NPC.velocity.X = (NPC.velocity.X * 25f + num784) / 26f;
-                NPC.velocity.Y = (NPC.velocity.Y * 25f + num785) / 26f;
+
+                float inertia = 25f;
+                if (Main.getGoodWorld)
+                    inertia *= 0.8f;
+
+                NPC.velocity.X = (NPC.velocity.X * inertia + num784) / (inertia + 1f);
+                NPC.velocity.Y = (NPC.velocity.Y * inertia + num785) / (inertia + 1f);
+
                 return;
             }
 
