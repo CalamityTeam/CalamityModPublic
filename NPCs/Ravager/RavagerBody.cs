@@ -423,6 +423,7 @@ namespace CalamityMod.NPCs.Ravager
 
                         float playerLocation = NPC.Center.X - player.Center.X;
                         NPC.direction = playerLocation < 0 ? 1 : -1;
+                        NPC.ai[2] = NPC.direction;
 
                         NPC.velocity.X = velocityX * NPC.direction;
                         NPC.velocity.Y = velocityY;
@@ -570,8 +571,6 @@ namespace CalamityMod.NPCs.Ravager
                         {
                             NPC.velocity.X *= 0.8f;
 
-                            NPC.ai[2] = 1f;
-
                             if (NPC.Bottom.Y < player.position.Y)
                             {
                                 float fallSpeedBoost = !anyHeadActive ? 0.9f : death ? 0.9f * (1f - lifeRatio) : 0.6f * (1f - lifeRatio);
@@ -615,7 +614,11 @@ namespace CalamityMod.NPCs.Ravager
                         else if (NPC.direction > 0)
                             NPC.velocity.X += velocityXChange;
 
-                        if (NPC.ai[2] == 1f)
+                        float playerLocation = NPC.Center.X - player.Center.X;
+                        int directionRelativeToTarget = playerLocation < 0 ? 1 : -1;
+                        bool slowDown = directionRelativeToTarget != NPC.ai[2];
+
+                        if (slowDown)
                             velocityXCap *= 0.333f;
 
                         if (NPC.velocity.X < -velocityXCap)

@@ -2745,6 +2745,7 @@ namespace CalamityMod.NPCs
                         // Set jump velocity, reset and set AI to next phase (Stomp)
                         float distanceFromPlayerOnXAxis = npc.Center.X - player.Center.X;
                         npc.direction = distanceFromPlayerOnXAxis < 0 ? 1 : -1;
+                        calamityGlobalNPC.newAI[3] = npc.direction;
 
                         // The limit for how much Aureus can multiply its jump velocity
                         float speedMultLimit = 1f;
@@ -2918,8 +2919,6 @@ namespace CalamityMod.NPCs
 
                         npc.velocity.X *= 0.8f;
 
-                        calamityGlobalNPC.newAI[3] = 1f;
-
                         if (npc.Bottom.Y < player.position.Y)
                         {
                             // Make sure Aureus falls rather quickly
@@ -2959,7 +2958,11 @@ namespace CalamityMod.NPCs
                         if (calamityGlobalNPC.newAI[1] > 0f)
                             velocityXCap *= calamityGlobalNPC.newAI[1] + 1f;
 
-                        if (calamityGlobalNPC.newAI[3] == 1f)
+                        float playerLocation = npc.Center.X - player.Center.X;
+                        int directionRelativeToTarget = playerLocation < 0 ? 1 : -1;
+                        bool slowDown = directionRelativeToTarget != calamityGlobalNPC.newAI[3];
+
+                        if (slowDown)
                             velocityXCap *= 0.333f;
 
                         if (npc.velocity.X < -velocityXCap)
