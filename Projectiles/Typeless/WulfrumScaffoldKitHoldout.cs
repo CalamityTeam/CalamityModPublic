@@ -1,21 +1,25 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Tools;
 using CalamityMod.Systems;
-using Terraria;
-using CalamityMod.Items.Materials;
-using System.Linq;
-using Terraria.ID;
-using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Shaders;
+using Terraria;
+using Terraria.Audio;
 using Terraria.Graphics.Effects;
-using System;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class WulfrumScaffoldKitHoldout : ModProjectile
     {
+        public override void Load()
+        {
+            PipeCleanupManager = new WulfrumPipeManager();
+        }
+
         public Player Owner => Main.player[Projectile.owner];
         public WulfrumScaffoldKit Kit => Owner.HeldItem.ModItem as WulfrumScaffoldKit;
         public bool CanOwnerGoOn => Kit.storedScrap > 0 || Owner.HasItem(ModContent.ItemType<WulfrumShard>());
@@ -38,7 +42,6 @@ namespace CalamityMod.Projectiles.Typeless
 
             return false;
         }
-
         public bool CanSelectMoreTiles(Point tilePos)
         {
             for (int i = -2; i < 3; i++)
@@ -56,7 +59,7 @@ namespace CalamityMod.Projectiles.Typeless
             return false;
         }
 
-
+        public static TemporaryTileManager PipeCleanupManager;
 
         public override void SetStaticDefaults()
         {
@@ -65,7 +68,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public static int tileGlowTime = 10;
 
-        public Dictionary<Point, int> SelectedTiles = new Dictionary<Point, int>(); //Might need some cloning stuff for mp? idk
+        public Dictionary<Point, int> SelectedTiles = new Dictionary<Point, int>(); //Might need some cloning stuff for mp? idk, probably not
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
         public override void SetDefaults()
@@ -80,36 +83,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool? CanDamage() => false;
         public override bool ShouldUpdatePosition() => false;
-
-        /*
-        public Vector2 raytracePosition()
-        {
-            //Don't raycast when the scaffold has been started, since itd be able to reach around walls and such.
-            //At this stage, the raycast relies on the fact it needs proximity with other scaffolding
-            if (SelectedTiles.Count > 0)
-                return Projectile.position;
-
-            Vector2 properPosition = Owner.Center;
-            Vector2 finalPosition = Projectile.position;
-
-            float steps = (properPosition - finalPosition).Length() / 8f;
-            float strikes = 0;
-
-            //Fun fact this was a while loop before and obviously it ended up doing an infinite loop for whatever reason. Truly, while loops are peak.
-            for (int i = 0; i < steps; i ++)
-            {
-                properPosition = properPosition.MoveTowards(finalPosition, 8);
-
-                if (Collision.SolidCollision(properPosition - Vector2.One * 1, 2, 2))
-                    strikes++;
-
-                if (strikes > 1)
-                    break;
-            }
-
-            return properPosition;
-        }
-        */
 
         public override void AI()
         {
@@ -141,6 +114,10 @@ namespace CalamityMod.Projectiles.Typeless
                         {
                             Owner.ConsumeItem(ModContent.ItemType<WulfrumShard>());
                             Kit.storedScrap = WulfrumScaffoldKit.TilesPerScrap - 1;
+                            SoundEngine.PlaySound(SoundID.Item65);
+                            Gore shard = Gore.NewGoreDirect(Projectile.GetSource_ItemUse(Owner.HeldItem), Owner.Center, Main.rand.NextVector2Circular(4f, 4f), Mod.Find<ModGore>("WulfrumPinger2").Type, Main.rand.NextFloat(0.5f, 1f));
+                            shard.timeLeft = 10;
+                            shard.alpha = 100 - Main.rand.Next(0, 60);
                         }
                     }
 
@@ -210,17 +187,47 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            
+            if (SelectedTiles.Keys.Count > 0)
+                SoundEngine.PlaySound(SoundID.Item101 with { Volume = SoundID.Item101.Volume * 0.6f}, Owner.Center);
+
             if (Main.myPlayer == Owner.whoAmI)
             {
                 foreach (Point pos in SelectedTiles.Keys)
                 {
+                    if (PipeCleanupManager == null)
+                        PipeCleanupManager = new WulfrumPipeManager();
+
+                    TempTilesManagerSystem.AddTemporaryTile(pos, PipeCleanupManager);
                     WorldGen.PlaceTile(pos.X, pos.Y, WulfrumScaffoldKit.PlacedTileType) ;
                     NetMessage.SendTileSquare(-1, pos.X, pos.Y, TileChangeType.None);
                 }
+            }
+        }
+    }
 
-                Projectile proj = Projectile.NewProjectileDirect(Projectile.GetSource_Death(), Projectile.position, Vector2.Zero, ModContent.ProjectileType<WulfrumScaffoldKitCleanupManager>(), 0, 0, Owner.whoAmI);
-                (proj.ModProjectile as WulfrumScaffoldKitCleanupManager).ManagedTiles = SelectedTiles.Keys.ToList<Point>();
+
+    public class WulfrumPipeManager : TemporaryTileManager
+    {
+        public override int[] ManagedTypes => new int[] { WulfrumScaffoldKit.PlacedTileType };
+
+        public override TemporaryTile Setup(Point pos)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Vector2 dustpos = pos.ToWorldCoordinates();
+                Dust.NewDustPerfect(dustpos, 83, Main.rand.NextVector2Circular(3f, 3f), Scale: Main.rand.NextFloat(0.4f, 0.7f));
+            }
+
+            TemporaryTile tile = new TemporaryTile(pos, this, WulfrumScaffoldKit.TileTime);
+            return tile;
+        }
+
+        public override void UpdateEffect(TemporaryTile tile)
+        {
+            if (tile.timeleft < WulfrumScaffoldKit.TileTime * 0.1f && Main.rand.NextBool(10))
+            {
+                Vector2 dustpos = tile.position.ToWorldCoordinates();
+                Dust.NewDustPerfect(dustpos, 226, Main.rand.NextVector2Circular(4f, 4f), Scale: Main.rand.NextFloat(0.4f, 1f));
             }
         }
     }

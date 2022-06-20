@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
 using Terraria.WorldBuilding;
+using CalamityMod.Systems;
+using System.Linq;
 
 namespace CalamityMod.ILEditing
 {
@@ -216,7 +218,7 @@ namespace CalamityMod.ILEditing
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
-                    if (Main.tile[i, j].TileType == Items.Tools.WulfrumScaffoldKit.PlacedTileType)
+                    if (TempTilesManagerSystem.TemporaryTileIDs.Contains(Main.tile[i, j].TileType))
                         WorldGen.KillTile(i, j);
                 }
             }

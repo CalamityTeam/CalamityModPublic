@@ -119,6 +119,4 @@ namespace CalamityMod.Items.Tools
                 Register();
         }
     }
-
-    
 }

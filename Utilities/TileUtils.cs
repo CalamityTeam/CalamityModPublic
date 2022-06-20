@@ -510,5 +510,13 @@ namespace CalamityMod
         /// </summary>
         /// <param name="tile">The tile to check.</param>
         public static bool IsTileFull(this Tile tile) => tile != null && tile.HasTile && Main.tileSolid[tile.TileType];
+
+        /// <summary>
+        /// Returns a random number between 0 and 1 that always remains the same based on the tile's coordinates.
+        /// </summary>
+        /// <param name="tilePos">The tile position to grab the rng from</param>
+        /// <param name="shift">An extra offset. Useful if you need multiple counts of rng for the same time</param>
+        public static float GetTileRNG(this Point tilePos, int shift = 0) => (float)(Math.Sin(tilePos.X * 17.07947 + shift * 36) + Math.Sin(tilePos.Y * 25.13274)) * 0.25f + 0.5f;
+
     }
 }
