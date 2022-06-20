@@ -830,7 +830,6 @@ namespace CalamityMod.NPCs.Leviathan
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = AttackTexture;
-            float scale = NPC.IsABestiaryIconDummy ? 0.3f : NPC.scale;
             if (NPC.ai[0] == 1f || NPC.Calamity().newAI[3] < 180f)
             {
                 texture = TextureAssets.Npc[NPC.type].Value;
@@ -844,27 +843,19 @@ namespace CalamityMod.NPCs.Leviathan
             }
             Rectangle rectangle = new Rectangle(NPC.frame.X, NPC.frame.Y, texture.Width / 2, texture.Height / 3);
             Vector2 origin = rectangle.Size() / 2f;
-            spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(xOffset, NPC.gfxOffY), rectangle, NPC.GetAlpha(drawColor), NPC.rotation, origin, scale, spriteEffects, 0f);
+            spriteBatch.Draw(texture, NPC.Center - screenPos + new Vector2(xOffset, NPC.gfxOffY), rectangle, NPC.GetAlpha(drawColor), NPC.rotation, origin, NPC.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (NPC.IsABestiaryIconDummy)
-            {
-                NPC.scale = 1;
-            }
-            int width = (int)(1011 * NPC.scale);
-            int height = (int)(486 * NPC.scale);
+            int width = 1011;
+            int height = 486;
             NPCID.Sets.NPCBestiaryDrawModifiers value = new NPCID.Sets.NPCBestiaryDrawModifiers(0)
             {
-                Scale = 0.05f,
+                Scale = 0.2f,
                 PortraitScale = 0.3f,
-                PortraitPositionXOverride = 20,
-                PortraitPositionYOverride = 0
             };
-            value.Position.X += 70;
-            value.Position.Y += 10;
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
 
             if (NPC.IsABestiaryIconDummy)
