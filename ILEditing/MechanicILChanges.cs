@@ -515,8 +515,8 @@ namespace CalamityMod.ILEditing
         #region Fire Cursor Effect for the Calamity Accessory
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
-            // Do nothing special if the player has a regular mouse or is on the menu.
-            if (Main.gameMenu || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
+            // Do nothing special if the player has a regular mouse or is on the menu/map.
+            if (Main.gameMenu || Main.mapFullscreen || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
             {
                 orig(bonus, smart);
                 return;
