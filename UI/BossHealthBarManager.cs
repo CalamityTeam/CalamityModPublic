@@ -268,7 +268,6 @@ namespace CalamityMod.UI
                 NPCType<ProfanedGuardianDefender>(),
                 NPCType<ProfanedGuardianHealer>()
             };
-            MinibossHPBarList.AddRange(AcidRainEvent.AllMinibosses);
         }
 
         public static void SetupExtensionHandlerList()
