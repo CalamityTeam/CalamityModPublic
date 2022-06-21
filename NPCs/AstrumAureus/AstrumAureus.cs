@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -359,6 +360,9 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
 
             npcLoot.Add(ModContent.ItemType<AstrumAureusTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AstrumAureusRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedAstrumAureus, ModContent.ItemType<KnowledgeAstrumAureus>());

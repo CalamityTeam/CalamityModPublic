@@ -7,6 +7,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Potions;
@@ -2396,6 +2397,9 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<NebulousCore>()));
             }
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DevourerOfGodsRelic>());
 
             // Trophy (always directly from boss, never in bag)
             npcLoot.Add(ModContent.ItemType<DevourerofGodsTrophy>(), 10);

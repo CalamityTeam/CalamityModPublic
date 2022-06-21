@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -704,6 +705,9 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             mainDrops.Add(ModContent.ItemType<SlimeGodTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastSlimeGodStanding(), ModContent.ItemType<SlimeGodRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => LastSlimeGodStanding() && !DownedBossSystem.downedSlimeGod, ModContent.ItemType<KnowledgeSlimeGod>());

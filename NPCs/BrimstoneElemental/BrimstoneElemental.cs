@@ -7,12 +7,14 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
@@ -211,6 +213,9 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             npcLoot.Add(ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
+
+            // Relic
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<BrimstoneElementalRelic>());
 
             // Lore
             npcLoot.AddConditionalPerPlayer(() => !DownedBossSystem.downedBrimstoneElemental, ModContent.ItemType<KnowledgeBrimstoneElemental>());
