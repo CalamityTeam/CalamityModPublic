@@ -159,6 +159,27 @@ namespace CalamityMod
                 light += Main.dayTime || player.lavaWet ? 2 : 1; // not sure how you'd be in lava in the abyss but go ham I guess
             return light;
         }
+
+        /// <summary>
+        /// Directly retrieves the best pickaxe power of the player.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static int GetBestPickPower(this Player player)
+        {
+            int highestPickPower = 35; //35% if you have no pickaxes.
+            for (int item = 0; item < Main.InventorySlotsTotal; item++)
+            {
+                if (player.inventory[item].pick <= 0)
+                    continue;
+                if (player.inventory[item].pick > highestPickPower)
+                {
+                    highestPickPower = player.inventory[item].pick;
+                }
+            }
+
+            return highestPickPower;
+        }
         #endregion
 
         #region Movement and Controls

@@ -20,6 +20,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using static Terraria.ModLoader.ModContent;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod
 {
@@ -518,5 +520,93 @@ namespace CalamityMod
         /// <param name="shift">An extra offset. Useful if you need multiple counts of rng for the same time</param>
         public static float GetTileRNG(this Point tilePos, int shift = 0) => (float)(Math.Sin(tilePos.X * 17.07947 + shift * 36) + Math.Sin(tilePos.Y * 25.13274)) * 0.25f + 0.5f;
 
+        /// <summary>
+        /// Gets the required pickaxe power of a tile, accounting for both the ModTile and the vanilla tile pick requirements
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
+        public static int GetRequiredPickPower(this Tile tile, int i, int j)
+        {
+            int pickReq = 0;
+
+            if (Main.tileNoFail[tile.TileType])
+                return pickReq;
+
+            ModTile moddedTile = TileLoader.GetTile(tile.TileType);
+
+            //Getting the pickaxe requirement of a modded tile is shrimple.
+            if (moddedTile != null)
+                pickReq = moddedTile.MinPick;
+
+            //Getting the pickaxe requirement of a vanilla tile is quite clamplicated
+            //This was lifted from code in onyx excavator, which likely was lifted from vanilla. It might need 1.4 updating.
+            else
+            {
+                switch (tile.TileType)
+                {
+                    case TileID.Chlorophyte:
+                        pickReq = 200;
+                        break;
+                    case TileID.Ebonstone:
+                    case TileID.Crimstone:
+                    case TileID.Pearlstone:
+                    case TileID.DesertFossil:
+                    case TileID.Obsidian:
+                    case TileID.Hellstone:
+                        pickReq = 65;
+                        break;
+                    case TileID.Meteorite:
+                        pickReq = 50;
+                        break;
+                    case TileID.Demonite:
+                    case TileID.Crimtane:
+                        if (j > Main.worldSurface)
+                            pickReq = 55;
+                        break;
+                    case TileID.LihzahrdBrick:
+                    case TileID.LihzahrdAltar:
+                        pickReq = 210;
+                        break;
+                    case TileID.Cobalt:
+                    case TileID.Palladium:
+                        pickReq = 100;
+                        break;
+                    case TileID.Mythril:
+                    case TileID.Orichalcum:
+                        pickReq = 110;
+                        break;
+                    case TileID.Adamantite:
+                    case TileID.Titanium:
+                        pickReq = 150;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (Main.tileDungeon[tile.TileType])
+            {
+                if (i < Main.maxTilesX * 0.35 || i > Main.maxTilesX * 0.65)
+                    pickReq = 65;
+            }
+
+            return pickReq;
+        }
+
+        public static bool ShouldBeMined(this Tile tile, bool ignoreAbyss = false)
+        {
+            List<int> tileExcludeList = new List<int>()
+            {
+                TileID.DemonAltar, TileID.ElderCrystalStand, TileID.LihzahrdAltar, TileID.Dressers, TileID.Containers
+            };
+
+            if (ignoreAbyss)
+            {
+                tileExcludeList.Add(ModContent.TileType<AbyssGravel>());
+                tileExcludeList.Add(ModContent.TileType<Voidstone>());
+            }
+
+            return !Main.tileContainer[tile.TileType] && !tileExcludeList.Contains(tile.TileType);
+        }
     }
 }

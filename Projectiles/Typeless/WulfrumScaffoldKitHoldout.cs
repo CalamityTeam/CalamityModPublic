@@ -115,9 +115,12 @@ namespace CalamityMod.Projectiles.Typeless
                             Owner.ConsumeItem(ModContent.ItemType<WulfrumShard>());
                             Kit.storedScrap = WulfrumScaffoldKit.TilesPerScrap - 1;
                             SoundEngine.PlaySound(SoundID.Item65);
-                            Gore shard = Gore.NewGoreDirect(Projectile.GetSource_ItemUse(Owner.HeldItem), Owner.Center, Main.rand.NextVector2Circular(4f, 4f), Mod.Find<ModGore>("WulfrumPinger2").Type, Main.rand.NextFloat(0.5f, 1f));
-                            shard.timeLeft = 10;
-                            shard.alpha = 100 - Main.rand.Next(0, 60);
+                            if (Main.netMode != NetmodeID.Server)
+                            {
+                                Gore shard = Gore.NewGoreDirect(Projectile.GetSource_ItemUse(Owner.HeldItem), Owner.Center, Main.rand.NextVector2Circular(4f, 4f), Mod.Find<ModGore>("WulfrumPinger2").Type, Main.rand.NextFloat(0.5f, 1f));
+                                shard.timeLeft = 10;
+                                shard.alpha = 100 - Main.rand.Next(0, 60);
+                            }
                         }
                     }
 
