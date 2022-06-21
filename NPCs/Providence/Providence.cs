@@ -127,6 +127,9 @@ namespace CalamityMod.NPCs.Providence
             NPC.Calamity().VulnerableToCold = true;
             NPC.Calamity().VulnerableToSickness = false;
             NPC.Calamity().VulnerableToWater = true;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.25f;
         }
 
         public override void SetBestiary(BestiaryDatabase database, BestiaryEntry bestiaryEntry)
@@ -291,13 +294,13 @@ namespace CalamityMod.NPCs.Providence
             double attackRateMult = 1D;
 
             // Where projectiles are fired from during cocoon phases
-            Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
+            Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f * NPC.scale);
 
             // Cocoon projectile initial velocity
             float cocoonProjVelocity = 3f + (death ? 2f * (1f - lifeRatio) : 0f);
 
             // Distance X needed from target in order to fire holy or molten blasts
-            float distanceNeededToShoot = death ? 300f : revenge ? 360f : 420f;
+            float distanceNeededToShoot = (death ? 300f : revenge ? 360f : 420f) * NPC.scale;
 
             // X distance from target
             float distanceX = Math.Abs(vector.X - player.Center.X);
@@ -575,6 +578,12 @@ namespace CalamityMod.NPCs.Providence
                         acceleration = 2f;
                 }
 
+                if (Main.getGoodWorld)
+                {
+                    velocity *= 1.25f;
+                    acceleration *= 1.25f;
+                }
+
                 if (!targetDead)
                 {
                     NPC.velocity.X += flightPath * acceleration;
@@ -585,15 +594,18 @@ namespace CalamityMod.NPCs.Providence
 
                     float num855 = player.position.Y - (NPC.position.Y + NPC.height);
                     if (num855 < (firingLaser ? 150f : 200f)) // 150
-                        NPC.velocity.Y -= 0.2f;
+                        NPC.velocity.Y -= Main.getGoodWorld ? 0.4f : 0.2f;
                     if (num855 > (firingLaser ? 200f : 250f)) // 200
-                        NPC.velocity.Y += 0.2f;
+                        NPC.velocity.Y += Main.getGoodWorld ? 0.4f : 0.2f;
 
-                    float speedVariance = 2f;
-                    if (NPC.velocity.Y > (firingLaser ? speedVariance : 6f))
-                        NPC.velocity.Y = firingLaser ? speedVariance : 6f;
-                    if (NPC.velocity.Y < (firingLaser ? -speedVariance : -6f))
-                        NPC.velocity.Y = firingLaser ? -speedVariance : -6f;
+                    float speedVariance = firingLaser ? 2f : 6f;
+                    if (Main.getGoodWorld)
+                        speedVariance *= 1.5f;
+
+                    if (NPC.velocity.Y > speedVariance)
+                        NPC.velocity.Y = speedVariance;
+                    if (NPC.velocity.Y < -speedVariance)
+                        NPC.velocity.Y = -speedVariance;
                 }
 
                 // Slowly drift down when spawning
@@ -883,7 +895,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             NPC.ai[3] = 0f;
 
-                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f);
+                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f * NPC.scale);
 
                             float num865 = NPC.velocity.Y;
                             if (num865 < 0f)
@@ -913,6 +925,7 @@ namespace CalamityMod.NPCs.Providence
                     {
                         if (NPC.velocity.Length() <= 2f)
                             NPC.velocity = Vector2.Zero;
+
                         if (NPC.velocity.Length() > 2f)
                         {
                             NPC.velocity *= 0.9f;
@@ -1153,7 +1166,7 @@ namespace CalamityMod.NPCs.Providence
                         {
                             NPC.ai[3] = 0f;
 
-                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f);
+                            Vector2 vector113 = new Vector2(vector.X, NPC.position.Y + NPC.height - 14f * NPC.scale);
 
                             float num865 = NPC.velocity.Y;
                             if (num865 < 0f)
@@ -1180,6 +1193,7 @@ namespace CalamityMod.NPCs.Providence
                     {
                         if (NPC.velocity.Length() <= 2f)
                             NPC.velocity = Vector2.Zero;
+
                         if (NPC.velocity.Length() > 2f)
                         {
                             NPC.velocity *= 0.9f;
@@ -1284,7 +1298,7 @@ namespace CalamityMod.NPCs.Providence
                                 if (d % 2 == 1)
                                     scalar = 2.8f;
 
-                                Vector2 vector199 = new Vector2(vector.X, vector.Y + 32f) + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value19 / 2f;
+                                Vector2 vector199 = new Vector2(vector.X, vector.Y + 32f * NPC.scale) + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value19 / 2f;
                                 int index = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, dustType, NPC.velocity.X / 2f, NPC.velocity.Y / 2f, 0, default, 1f);
                                 Main.dust[index].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - num1220 * 2f) / 10f;
                                 Main.dust[index].noGravity = true;
@@ -1312,20 +1326,20 @@ namespace CalamityMod.NPCs.Providence
 
                                 // 60 degrees offset
                                 velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f);
-                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                 // -60 degrees offset
                                 if (revenge)
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                 if (nightTime && lifeRatio < 0.5f)
                                 {
                                     rotation *= 0.33f;
                                     velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 2f);
-                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                    Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
 
                                     if (revenge)
-                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
+                                        Projectile.NewProjectile(NPC.GetSource_FromAI(), vector.X, vector.Y + 32f * NPC.scale, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, NPC.whoAmI);
                                 }
 
                                 NPC.netUpdate = true;
@@ -1772,6 +1786,7 @@ namespace CalamityMod.NPCs.Providence
                 baseColor = Color.Lerp(Color.White, baseColor, burnIntensity);
                 drawProvidenceInstance(drawOffset, totalProvidencesToDraw == 1 ? null : (Color?)baseColor);
             }
+
             return false;
         }
 
@@ -1953,6 +1968,7 @@ namespace CalamityMod.NPCs.Providence
                 NPC.dontTakeDamage = true;
                 if (!Dying)
                     CheckDead();
+
                 return false;
             }
 
@@ -1976,14 +1992,14 @@ namespace CalamityMod.NPCs.Providence
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = Main.rand.Next(-50, 50) / 100;
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence3").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence4").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence3").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("Providence4").Type, NPC.scale);
                 }
                 NPC.position = NPC.Center;
-                NPC.width = 400;
-                NPC.height = 350;
+                NPC.width = (int)(400 * NPC.scale);
+                NPC.height = (int)(350 * NPC.scale);
                 NPC.position -= NPC.Size * 0.5f;
                 for (int d = 0; d < 60; d++)
                 {

@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                 float inertia = 50f;
                 if (Main.getGoodWorld)
-                    inertia *= 0.8f;
+                    inertia *= 0.5f;
 
                 NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
                 NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                     float inertia = 50f;
                     if (Main.getGoodWorld)
-                        inertia *= 0.8f;
+                        inertia *= 0.5f;
 
                     NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
                     NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
@@ -681,7 +681,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                 float inertia = 50f;
                 if (Main.getGoodWorld)
-                    inertia *= 0.8f;
+                    inertia *= 0.5f;
 
                 NPC.velocity.X = (NPC.velocity.X * inertia + num1243) / (inertia + 1f);
                 NPC.velocity.Y = (NPC.velocity.Y * inertia + num1244) / (inertia + 1f);
@@ -922,7 +922,7 @@ namespace CalamityMod.NPCs.Cryogen
 
                 float inertia = 50f;
                 if (Main.getGoodWorld)
-                    inertia *= 0.8f;
+                    inertia *= 0.5f;
 
                 NPC.velocity.X = (NPC.velocity.X * inertia + num1373) / (inertia + 1f);
                 NPC.velocity.Y = (NPC.velocity.Y * inertia + num1374) / (inertia + 1f);
