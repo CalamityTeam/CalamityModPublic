@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Tools
 
         public override bool CanUseItem(Player player)
         {
-            return storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumShard>());
+            return (storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumShard>())) && !player.noBuilding;
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
