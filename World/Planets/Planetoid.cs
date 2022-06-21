@@ -74,6 +74,20 @@ namespace CalamityMod.World.Planets
                     MudPlanetoidCount--;
                 i++;
             }
+
+            // Checkerboard of Spikes and Wooden Spikes.
+            if (Main.getGoodWorld)
+            {
+                for (int j = 0; j < Main.maxTilesX; j++)
+                {
+                    for (int k = 0; k < (int)(Main.maxTilesY * 0.2f); k++)
+                    {
+                        bool convertToRegularSpikes = (j % 2 == 0 && k % 2 == 0) || (j % 2 != 0 && k % 2 != 0);
+                        if (Main.tile[j, k].TileType == TileID.WoodenSpikes && convertToRegularSpikes)
+                            Main.tile[j, k].TileType = TileID.Spikes;
+                    }
+                }
+            }
         }
 
         public static bool InvalidSkyPlacementArea(Rectangle area)

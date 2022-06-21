@@ -828,12 +828,12 @@ namespace CalamityMod.CalPlayer
 
             // Death Mode effects
             caveDarkness = 0f;
-            if (CalamityWorld.death)
+            if (CalamityWorld.death || Main.getGoodWorld)
             {
                 if (Player.whoAmI == Main.myPlayer)
                 {
                     // Thorn and spike effects
-                    // 10 = crimson/corruption thorns, 17 = jungle thorns, 40 = dungeon spikes, 60 = temple spikes
+                    // 10 = crimson/corruption thorns, 17 = jungle thorns, 80 = temple spikes
                     Vector2 tileType;
                     if (!Player.mount.Active || !Player.mount.Cart)
                         tileType = Collision.HurtTiles(Player.position, Player.velocity, Player.width, Player.height, Player.fireWalk);
