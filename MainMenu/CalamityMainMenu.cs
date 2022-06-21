@@ -108,7 +108,11 @@ namespace CalamityMod.MainMenu
                 spriteBatch.Draw(cinderTexture, drawPosition, null, Cinders[i].DrawColor, 0f, cinderTexture.Size() * 0.5f, Cinders[i].Scale, 0, 0f);
             }
 
+            // Set the logo draw color to be white and the time to be noon
+            // This is because there is not a day/night cycle in this menu, and changing colors would look bad
             drawColor = Color.White;
+            Main.time = 27000;
+            Main.dayTime = true;
             return true;
         }
     }
