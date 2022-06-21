@@ -86,27 +86,30 @@ namespace CalamityMod.Projectiles.Typeless
         {
             Lighting.AddLight(Projectile.Center, Color.GreenYellow.ToVector3());
 
-            if (!SoundEngine.TryGetActiveSound(IdlingSoundSlot, out var idleSoundOut) || !idleSoundOut.IsPlaying)
-                IdlingSoundSlot = SoundEngine.PlaySound(IdleSound with { Volume = IdleSound.Volume * (1 - CuttingVolume) }, Projectile.Center);
-            else
+            //Idle chainsaw sounds
+            if ((!SoundEngine.TryGetActiveSound(IdlingSoundSlot, out var idleSoundOut) || !idleSoundOut.IsPlaying))
+                IdlingSoundSlot = SoundEngine.PlaySound(IdleSound with { Volume = IdleSound.Volume }, Projectile.Center);
+            else if (idleSoundOut != null)
             {
                 idleSoundOut.Volume = IdleSound.Volume * (1 - CuttingVolume);
                 idleSoundOut.Position = Projectile.Center;
             }
 
-            if (!SoundEngine.TryGetActiveSound(CuttingSoundSlot, out var cuttingSoundOut) || !cuttingSoundOut.IsPlaying)
+            /*
+            //Heavy cutting sound
+            if ((!SoundEngine.TryGetActiveSound(CuttingSoundSlot, out var cuttingSoundOut) || !cuttingSoundOut.IsPlaying))
                 CuttingSoundSlot = SoundEngine.PlaySound(CuttingSound with { Volume = CuttingSound.Volume * CuttingVolume }, Projectile.Center);
-            else
+            else if (cuttingSoundOut != null)
             {
                 cuttingSoundOut.Volume = CuttingSound.Volume * CuttingVolume;
                 cuttingSoundOut.Position = Projectile.Center;
             }
+            */
 
 
             if (Diggging)
             {
                 CuttingVolume += 0.1f;
-
                 for (int i = -1; i <= 1; i++)
                 {
                     Point tilePos = (Projectile.Center + (Projectile.rotation + MathHelper.PiOver4 * i).ToRotationVector2() * 16).ToTileCoordinates();
