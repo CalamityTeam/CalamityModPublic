@@ -236,6 +236,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (enrage)
                             velocityX *= 1.5f;
 
+                        float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+                        npc.direction = playerLocation < 0 ? 1 : -1;
+                        calamityGlobalNPC.newAI[1] = npc.direction;
+
                         npc.velocity.X = velocityX * npc.direction;
 
                         float distanceBelowTarget = npc.position.Y - (Main.player[npc.target].position.Y + 80f);
@@ -255,10 +259,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             npc.velocity.Y = 1f;
 
                         npc.noTileCollide = true;
-                        npc.netUpdate = true;
 
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
+
+                        npc.netUpdate = true;
+                        npc.SyncExtraAI();
                     }
                 }
 
@@ -358,12 +364,6 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.velocity.X *= 0.8f;
 
-                        if (calamityGlobalNPC.newAI[1] == 0f)
-                        {
-                            calamityGlobalNPC.newAI[1] = 1f;
-                            npc.SyncExtraAI();
-                        }
-
                         if (npc.Bottom.Y < Main.player[npc.target].position.Y)
                         {
                             float fallSpeedBoost = death ? 1.2f * (1f - lifeRatio) : 0.8f * (1f - lifeRatio);
@@ -387,7 +387,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (enrage)
                             velocityXCap *= 1.5f;
 
-                        if (calamityGlobalNPC.newAI[1] == 1f)
+                        float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+                        int directionRelativeToTarget = playerLocation < 0 ? 1 : -1;
+                        bool slowDown = directionRelativeToTarget != calamityGlobalNPC.newAI[1];
+
+                        if (slowDown)
                             velocityXCap *= 0.5f;
 
                         if (npc.velocity.X < -velocityXCap)

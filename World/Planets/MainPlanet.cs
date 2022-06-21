@@ -54,7 +54,7 @@ namespace CalamityMod.World.Planets
             WorldUtils.Gen(origin, new Shapes.Circle((int)(radius * outerRadiusPercentage)), Actions.Chain(new GenAction[]
             {
                 new Modifiers.Blotches(2, 0.45).Output(outerCoreShape),
-                new Actions.SetTile(TileID.Stone, true),
+                new Actions.SetTile(Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone, true),
                 new Actions.ClearWall(),
                 new Actions.PlaceWall(WallID.CaveUnsafe)
             }));
@@ -64,7 +64,7 @@ namespace CalamityMod.World.Planets
             while (numStone > 0)
             {
                 Point p = outerCore.RandomPointOnCircleEdge().ToTileCoordinates();
-                WorldGen.TileRunner(p.X, p.Y, _random.NextFloat(3f, 6f), _random.Next(5, 15), TileID.Stone);
+                WorldGen.TileRunner(p.X, p.Y, _random.NextFloat(3f, 6f), _random.Next(5, 15), Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone);
                 numStone--;
             }
             int numDirt = _random.Next(80, 110);
@@ -147,7 +147,7 @@ namespace CalamityMod.World.Planets
                 if (Vector2.Distance(planetCenter, new Vector2(x * 16 + 8, startY * 16 + 8)) > radius * 16f - 64)
                 {
                     _tiles[x, startY].Get<TileWallWireStateData>().HasTile = true;
-                    _tiles[x, startY].TileType = TileID.Stone;
+                    _tiles[x, startY].TileType = Main.getGoodWorld ? TileID.WoodenSpikes : TileID.Stone;
                 }
             }
         }
