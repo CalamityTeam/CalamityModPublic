@@ -69,6 +69,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.boss = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
             NPC.dontCountMe = true;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.5f;
         }
 
         public override void BossHeadSlot(ref int index)
@@ -151,8 +154,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (Main.npc[(int)NPC.ai[2]].localAI[2] == 60f)
                 {
                     NPC.position = NPC.Center;
-                    NPC.width = 70;
-                    NPC.height = 70;
+                    NPC.width = (int)(70 * NPC.scale);
+                    NPC.height = (int)(70 * NPC.scale);
                     NPC.frame = new Rectangle(0, 0, 114, 88);
                     NPC.position -= NPC.Size * 0.5f;
                     NPC.netUpdate = true;
@@ -424,7 +427,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= (phase2Started ? 55f : 40f) && NPC.Opacity >= 1f && invinceTime <= 0;
+            return minDist <= (phase2Started ? 55f : 40f) * NPC.scale && NPC.Opacity >= 1f && invinceTime <= 0;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -455,6 +458,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             if (NPC.realLife >= 0)
                 Main.npc[NPC.realLife].checkDead();
+
             return base.CheckDead();
         }
 
@@ -470,12 +474,12 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (Main.netMode != NetmodeID.Server)
                 {
                     float randomSpread = Main.rand.Next(-100, 100) / 100;
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoGS6").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity * randomSpread * Main.rand.NextFloat(), Mod.Find<ModGore>("DoGS6").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 50;
-                NPC.height = 50;
+                NPC.width = (int)(100 * NPC.scale);
+                NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)

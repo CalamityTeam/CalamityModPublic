@@ -195,6 +195,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             NPC.DeathSound = SoundID.NPCDeath14;
             NPC.netAlways = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DevourerOfGodsP1") ?? MusicID.Boss3;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 1.5f;
         }
 
         public override void BossHeadSlot(ref int index)
@@ -381,12 +384,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             if (Main.getGoodWorld)
             {
-                fallSpeed *= 1.15f;
-                speed *= 1.15f;
-                turnSpeed *= 1.15f;
-                homingSpeed *= 1.15f;
-                homingTurnSpeed *= 1.15f;
-                groundPhaseTurnSpeed *= 1.15f;
+                fallSpeed *= 1.1f;
+                speed *= 1.1f;
+                turnSpeed *= 1.1f;
+                homingSpeed *= 1.1f;
+                homingTurnSpeed *= 1.1f;
+                groundPhaseTurnSpeed *= 1.1f;
             }
 
             // How long it takes before swapping phases
@@ -502,8 +505,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 if (NPC.localAI[2] == 60f)
                 {
                     NPC.position = NPC.Center;
-                    NPC.width = 186;
-                    NPC.height = 186;
+                    NPC.width = (int)(186 * NPC.scale);
+                    NPC.height = (int)(186 * NPC.scale);
                     NPC.position -= NPC.Size * 0.5f;
                     NPC.frame = new Rectangle(0, 0, 134, 196);
                     NPC.netUpdate = true;
@@ -2421,7 +2424,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (dist4 < minDist)
                 minDist = dist4;
 
-            return minDist <= (Phase2Started ? 80f : 55f) && (NPC.Opacity >= 1f || postTeleportTimer > 0);
+            return minDist <= (Phase2Started ? 80f : 55f) * NPC.scale && (NPC.Opacity >= 1f || postTeleportTimer > 0);
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
@@ -2471,14 +2474,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS2").Type, 1f);
-                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS5").Type, 1f);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS2").Type, NPC.scale);
+                    Gore.NewGore(NPC.GetSource_Death(), NPC.position, NPC.velocity, Mod.Find<ModGore>("DoGS5").Type, NPC.scale);
                 }
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 50;
-                NPC.height = 50;
+                NPC.width = (int)(100 * NPC.scale);
+                NPC.height = (int)(100 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
                 for (int num621 = 0; num621 < 15; num621++)
