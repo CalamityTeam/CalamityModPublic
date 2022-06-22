@@ -257,6 +257,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.IceBoomerang:
                 case ProjectileID.FruitcakeChakram:
                 case ProjectileID.BlueMoon:
+                case ProjectileID.FrostBoltStaff:
                     projectile.extraUpdates = 1;
                     break;
 

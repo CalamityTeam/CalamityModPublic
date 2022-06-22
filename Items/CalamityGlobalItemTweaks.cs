@@ -71,7 +71,7 @@ namespace CalamityMod.Items
                 { ItemID.BoneSword, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageRatio(1.25f)) },
                 { ItemID.BoneWhip, autoReuse },
                 { ItemID.BookofSkulls, Do(ManaExact(12), ShootSpeedExact(5.5f)) },
-                { ItemID.BookStaff, Do(ManaExact(14), DamageExact(46)) },
+                { ItemID.BookStaff, Do(ManaExact(14), DamageExact(46)) }, // Tome of Infinite Wisdom
                 { ItemID.Boomstick, Do(PointBlank, DamageExact(11)) },
                 { ItemID.BorealWoodBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.BorealWoodHammer, Do(HammerPower(25), UseTimeExact(11), TileBoostExact(+0)) },
@@ -205,7 +205,7 @@ namespace CalamityMod.Items
                 { ItemID.FormatC, autoReuse },
                 { ItemID.Frostbrand, Do(DamageExact(140), UseTimeExact(20)) },
                 { ItemID.FrostburnArrow, Do(DamageExact(8)) },
-                { ItemID.FrostStaff, Do(DamageExact(215), UseExact(50), ShootSpeedExact(40f)) },
+                { ItemID.FrostStaff, Do(DamageExact(160), UseExact(37), ShootSpeedExact(20f)) }, // has 1 extra update
                 { ItemID.FrozenShield, Do(DefenseDelta(+7)) },
                 { ItemID.FrozenTurtleShell, Do(DefenseExact(6)) },
                 { ItemID.FruitcakeChakram, Do(DamageRatio(2f)) },
@@ -257,7 +257,7 @@ namespace CalamityMod.Items
                 { ItemID.JestersArrow, Do(DamageExact(6)) },
                 { ItemID.JoustingLance, trueMelee },
                 { ItemID.JungleYoyo, autoReuse },
-                { ItemID.Katana, Do(UseExact(15), DamageRatio(1.5f), CritExact(30)) },
+                { ItemID.Katana, Do(UseExact(15), DamageRatio(1.5f), CritDelta(+30)) },
                 { ItemID.Keybrand, Do(UseTurn, ScaleRatio(1.5f), DamageExact(110)) },
                 { ItemID.KOCannon, Do(DamageRatio(2.65f)) },
                 { ItemID.Kraken, autoReuse },
@@ -298,16 +298,16 @@ namespace CalamityMod.Items
                 { ItemID.MeteorHamaxe, Do(HammerPower(70), AxePower(100), UseTimeExact(16), TileBoostExact(+0)) },
                 { ItemID.MeteorStaff, Do(DamageExact(58), ManaExact(7), ShootSpeedExact(13f)) },
                 { ItemID.Minishark, Do(PointBlank, DamageExact(3)) },
-                { ItemID.MoltenFury, Do(PointBlank, DamageRatio(1.1f), UseTimeExact(19), AutoReuse) },
+                { ItemID.MoltenFury, Do(PointBlank, DamageRatio(1.1f), UseExact(29), AutoReuse) },
                 { ItemID.MoltenHamaxe, Do(HammerPower(75), AxePower(125), UseTimeExact(14), TileBoostExact(+0)) },
-                { ItemID.MoltenPickaxe, Do(PickPower(100), UseTimeExact(10), UseAnimationExact(29)) },
+                { ItemID.MoltenPickaxe, Do(PickPower(100), UseTimeExact(10)) },
                 { ItemID.MoltenSkullRose, Do(DefenseExact(8)) },
                 { ItemID.MonkStaffT1, Do(TrueMelee, DamageExact(83)) }, // Sleepy Octopod
                 { ItemID.MonkStaffT2, Do(AutoReuse, TrueMelee, DamageRatio(2f)) }, // Ghastly Glaive
                 { ItemID.MonkStaffT3, Do(DamageExact(225)) }, // Sky Dragon's Fury
                 { ItemID.MoonlordArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.MoonlordTurretStaff, Do(UseExact(15), DamageRatio(1.5f)) },
-                { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14), CritExact(30)) },
+                { ItemID.Muramasa, Do(ScaleRatio(1.5f), DamageRatio(1.5f), UseExact(14), CritDelta(+30)) },
                 { ItemID.MushroomSpear, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(100)) },
                 { ItemID.Musket, Do(PointBlank, DamageExact(20)) },
                 { ItemID.MythrilChainsaw, Do(TrueMelee, AxePower(80), UseTimeExact(4), TileBoostExact(-1)) },
@@ -558,7 +558,7 @@ namespace CalamityMod.Items
                 { ItemID.YellowPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.ZapinatorGray, autoReuse },
                 { ItemID.ZapinatorOrange, autoReuse },
-                { ItemID.ZombieArm, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(26), KnockbackExact(13f)) },
+                { ItemID.ZombieArm, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(12), KnockbackExact(12f)) },
             };
         }
 
