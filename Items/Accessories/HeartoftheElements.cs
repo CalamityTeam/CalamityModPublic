@@ -113,7 +113,7 @@ namespace CalamityMod.Items.Accessories
             CreateRecipe().
                 AddIngredient<WifeinaBottle>().
                 AddIngredient<WifeinaBottlewithBoobs>().
-                AddIngredient<LureofEnthrallment>().
+                AddIngredient<PearlofEnthrallment>().
                 AddIngredient<EyeoftheStorm>().
                 AddIngredient<RoseStone>().
                 AddTile(TileID.LunarCraftingStation).

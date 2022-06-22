@@ -785,7 +785,7 @@ namespace CalamityMod
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneWave>()), new int[] { 280, 476, 484, 500, 726 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCalamitas>(), ModContent.ProjectileType<BrimstoneHellblast>()), new int[] { 280, 476, 484, 500, 726 } },
-                { new Tuple<int, int>(ModContent.NPCType<SCalWormBodyWeak>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
+                { new Tuple<int, int>(ModContent.NPCType<SepulcherBodyEnergyBall>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<SoulSeekerSupreme>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<SupremeCataclysmFist>()), new int[] { 280, 476, 484, 500, 726 } },
                 { new Tuple<int, int>(ModContent.NPCType<SupremeCataclysm>(), ModContent.ProjectileType<BrimstoneBarrage>()), new int[] { 250, 440, 464, 476, 696 } },

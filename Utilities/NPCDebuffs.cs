@@ -192,7 +192,7 @@ namespace CalamityMod
                 { ModContent.NPCType<BrimstoneHeart>(), new Tuple<bool, int[]>(false, CalamityMod.cragEnemyImmunities) },
                 { ModContent.NPCType<SepulcherHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<SepulcherBody>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
-                { ModContent.NPCType<SCalWormBodyWeak>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
+                { ModContent.NPCType<SepulcherBodyEnergyBall>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
                 { ModContent.NPCType<SepulcherTail>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },
 
                 { ModContent.NPCType<ThanatosHead>(), new Tuple<bool, int[]>(true, Array.Empty<int>()) },

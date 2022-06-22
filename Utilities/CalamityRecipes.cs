@@ -528,6 +528,8 @@ namespace CalamityMod
         #region Vanilla Recipe Edits
         internal static void EditVanillaRecipes()
         {
+            EditJesterArrowRecipe();
+            EditNightsEdgeRecipe();
             EditLeatherRecipe();
             EditEnchantedBoomerangRecipe();
             EditPhoenixBlasterRecipe();
@@ -558,6 +560,30 @@ namespace CalamityMod
             EditHardmodeOreSetRecipes();
         }
 
+        // Make jester's arrows give 50 instead of 20 per fallen star
+        private static void EditJesterArrowRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.JestersArrow).ToList().ForEach(s =>
+            {
+                if (s.createItem.stack < 50)
+                    s.createItem.stack = 50;
+            });
+        }
+
+        // Add 5 purified gel to the Night's Edge recipe
+        private static void EditNightsEdgeRecipe()
+        {
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.NightsEdge).ToList().ForEach(s =>
+            {
+                int i = s.requiredItem.Count;
+                s.requiredItem.Add(new Item());
+                s.requiredItem[i].SetDefaults(ModContent.ItemType<PurifiedGel>(), false);
+                s.requiredItem[i].stack = 5;
+            });
+        }
+
         // Change Leather's recipe to require 2 Rotten Chunks
         private static void EditLeatherRecipe()
         {
@@ -569,7 +595,7 @@ namespace CalamityMod
         }
 
         // Changes the stupid vanilla Enchanted Boomerang recipe to be more in line with the Echanted Sword recipe. - Merkalto
-        public static void EditEnchantedBoomerangRecipe()
+        private static void EditEnchantedBoomerangRecipe()
         {
             List<Recipe> rec = Main.recipe.ToList();
             rec.Where(x => x.createItem.type == ItemID.EnchantedBoomerang).ToList().ForEach(s =>

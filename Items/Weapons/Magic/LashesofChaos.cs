@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.mana = 20;
             Item.width = 28;
             Item.height = 30;
-            Item.useTime = 25;
-            Item.useAnimation = 25;
+            Item.useTime = 38;
+            Item.useAnimation = 38;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 7.5f;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.Lime;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<BrimstoneHellfireballFriendly>();
-            Item.shootSpeed = 9f;
+            Item.shootSpeed = 3f;
         }
     }
 }

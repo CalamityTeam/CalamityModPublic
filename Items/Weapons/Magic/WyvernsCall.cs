@@ -21,7 +21,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
 
         public override void SetDefaults()
         {
-            Item.damage = 35;
+            Item.damage = 45;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 10;
             Item.width = 52;

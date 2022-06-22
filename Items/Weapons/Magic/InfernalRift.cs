@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.mana = 15;
             Item.width = 16;
             Item.height = 16;
-            Item.useAnimation = 16;
-            Item.useTime = 4;
+            Item.useAnimation = 30;
+            Item.useTime = 2;
             Item.reuseDelay = Item.useAnimation + 6;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Magic
             CreateRecipe().
                 AddIngredient(ItemID.SkyFracture).
                 AddIngredient<EssenceofChaos>(3).
-                AddIngredient(ItemID.SoulofFright, 10).
+                AddIngredient<ScoriaBar>(10).
                 AddTile(TileID.MythrilAnvil).
                 Register();
         }

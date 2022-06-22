@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 59;
+            Item.damage = 67;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 50;
             Item.height = 18;
@@ -34,6 +34,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.shootSpeed = 8.5f;
             Item.useAmmo = AmmoID.Gel;
         }
+
+        public override bool CanConsumeAmmo(Item ammo, Player player) => Main.rand.NextBool();
 
         public override Vector2? HoldoutOffset()
         {

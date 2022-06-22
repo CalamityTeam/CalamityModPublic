@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<ProfanedTrident>().
+                AddIngredient<Wrathwing>().
                 AddIngredient<PhantasmalRuin>().
                 AddIngredient<BloodstoneCore>(15).
                 AddIngredient(ItemID.SoulofNight, 15).

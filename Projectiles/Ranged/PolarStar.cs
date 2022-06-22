@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[Projectile.owner];
             if ((target.damage > 5 || target.boss) && Projectile.owner == Main.myPlayer && !target.SpawnedFromStatue)
             {
-                player.AddBuff(ModContent.BuffType<PolarisBuff>(), 180);
+                player.AddBuff(ModContent.BuffType<PolarisBuff>(), 480);
             }
         }
 

@@ -63,7 +63,7 @@ namespace CalamityMod.Items.TreasureBags
                 DropHelper.WeightStack<GastricBelcherStaff>(w),
                 DropHelper.WeightStack<BrackishFlask>(w),
                 DropHelper.WeightStack<LeviathanTeeth>(w),
-                DropHelper.WeightStack<LureofEnthrallment>(w)
+                DropHelper.WeightStack<PearlofEnthrallment>(w)
             );
 
             // Equipment

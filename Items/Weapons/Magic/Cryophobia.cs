@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 55;
+            Item.damage = 128;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 18;
             Item.width = 56;
             Item.height = 34;
-            Item.useTime = 28;
-            Item.useAnimation = 28;
+            Item.useTime = 40;
+            Item.useAnimation = 40;
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.knockBack = 1.5f;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.rare = ItemRarityID.LightPurple;
             Item.UseSound = SoundID.Item117;
             Item.autoReuse = true;
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 6f;
             Item.shoot = ModContent.ProjectileType<CryoBlast>();
         }
 

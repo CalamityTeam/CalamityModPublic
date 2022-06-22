@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class LureofEnthrallment : ModItem
+    [LegacyName("LureofEnthrallment")]
+    public class PearlofEnthrallment : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,6 +1,6 @@
-﻿using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,7 +20,7 @@ Right click to fire a burst of bullets");
 
         public override void SetDefaults()
         {
-            Item.damage = 25;
+            Item.damage = 33; // was 25
             Item.DamageType = DamageClass.Ranged;
             Item.width = 70;
             Item.height = 18;
