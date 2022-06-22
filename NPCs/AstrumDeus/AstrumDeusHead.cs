@@ -320,17 +320,17 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
 
             npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
-            npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
+            lastWorm.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
 
             // Relic
             bool shouldDropRelic(DropAttemptInfo info) => (CalamityWorld.revenge || Main.masterMode) && !ShouldNotDropThings(info.npc);
             npcLoot.AddIf(shouldDropRelic, ModContent.ItemType<AstrumDeusRelic>());
 
             // Fragments
-            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentSolar, 1, 16, 24, 20, 32));
-            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentVortex, 1, 16, 24, 20, 32));
-            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentNebula, 1, 16, 24, 20, 32));
-            npcLoot.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentStardust, 1, 16, 24, 20, 32));
+            lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentSolar, 1, 16, 24, 20, 32));
+            lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentVortex, 1, 16, 24, 20, 32));
+            lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentNebula, 1, 16, 24, 20, 32));
+            lastWorm.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentStardust, 1, 16, 24, 20, 32));
 
             // Lore
             bool firstDeusKill(DropAttemptInfo info) => !DownedBossSystem.downedAstrumDeus && !ShouldNotDropThings(info.npc);

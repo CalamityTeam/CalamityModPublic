@@ -1346,7 +1346,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(info => info.npc.type == ModContent.NPCType<Apollo.Apollo>()), ModContent.ItemType<ApolloTrophy>()));
 
             // Relic
-            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<DraedonRelic>());
+            mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => Main.masterMode || CalamityWorld.revenge), ModContent.ItemType<DraedonRelic>()));
 
             // Lore item
             mainDrops.Add(ItemDropRule.ByCondition(DropHelper.If(() => !DownedBossSystem.downedExoMechs), ModContent.ItemType<KnowledgeExoMechs>()));
