@@ -402,6 +402,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             int bodyHeight = 42;
             int baseBulletHellProjectileGateValue = revenge ? 8 : expertMode ? 9 : 10;
 
+            if (Main.getGoodWorld)
+                baseBulletHellProjectileGateValue -= 2;
+
             Vector2 vectorCenter = NPC.Center;
 
             // Get a target
@@ -1285,6 +1288,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
                         if (!canDespawn)
                             NPC.velocity *= 0.95f;
+
                         return;
                     }
                     else
@@ -1396,6 +1400,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 12f;
                         float acceleration = 0.12f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -1518,6 +1528,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         float chargeVelocity = (wormAlive ? 26f : 30f) + (1f - lifeRatio) * 8f;
 
+                        if (Main.getGoodWorld)
+                            chargeVelocity *= 1.15f;
+
                         if (!canDespawn)
                         {
                             Vector2 vector = Vector2.Normalize(player.Center - NPC.Center);
@@ -1579,6 +1592,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -1660,6 +1679,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -1918,6 +1943,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         float velocity = 12f;
                         float acceleration = 0.12f;
 
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
+
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
                             acceleration *= 0.5f;
@@ -2037,6 +2068,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         float chargeVelocity = (wormAlive ? 26f : 30f) + (1f - lifeRatio) * 8f;
 
+                        if (Main.getGoodWorld)
+                            chargeVelocity *= 1.15f;
+
                         if (!canDespawn)
                         {
                             Vector2 vector = Vector2.Normalize(player.Center - NPC.Center);
@@ -2095,6 +2129,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
@@ -2177,6 +2217,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         // How fast SCal moves to the destination
                         float velocity = 32f;
                         float acceleration = 1.2f;
+
+                        if (Main.getGoodWorld)
+                        {
+                            velocity *= 1.15f;
+                            acceleration *= 1.15f;
+                        }
 
                         // Reduce acceleration if target is holding a true melee weapon
                         if (player.HoldingTrueMeleeWeapon())
