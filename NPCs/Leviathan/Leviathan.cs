@@ -779,7 +779,7 @@ namespace CalamityMod.NPCs.Leviathan
                     ModContent.ItemType<GastricBelcherStaff>(),
                     ModContent.ItemType<BrackishFlask>(),
                     ModContent.ItemType<LeviathanTeeth>(),
-                    ModContent.ItemType<LureofEnthrallment>()
+                    ModContent.ItemType<PearlofEnthrallment>()
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, items));
 

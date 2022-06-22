@@ -1737,7 +1737,7 @@ namespace CalamityMod
                 ItemType<BrackishFlask>(),
                 ItemType<LeviathanTeeth>(),
                 ItemType<GastricBelcherStaff>(),
-                ItemType<LureofEnthrallment>(),
+                ItemType<PearlofEnthrallment>(),
                 ItemType<AquaticScourgeBag>(),
                 ItemType<OldDukeBag>(),
                 ItemType<LeviathanBag>(),
