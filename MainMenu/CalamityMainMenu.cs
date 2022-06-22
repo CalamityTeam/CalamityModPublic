@@ -132,20 +132,17 @@ namespace CalamityMod.MainMenu
             // Set the logo draw color to be white and the time to be noon
             // This is because there is not a day/night cycle in this menu, and changing colors would look bad
             drawColor = Color.White;
+            logoRotation = 0f;
             Main.time = 27000;
             Main.dayTime = true;
 
             // Draw the logo using a different spritebatch blending setting so it doesn't have a horrible yellow glow
-            // Don't draw the logo if we aren't on the base title screen
-            if (Main.menuMode == MenuID.Title)
-            {
-                Vector2 drawPos = new Vector2(Main.screenWidth / 2f, 100f);
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
-                spriteBatch.Draw(Logo.Value, drawPos, null, drawColor, logoRotation, Logo.Value.Size() * 0.5f, logoScale, SpriteEffects.None, 0f);
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
-            }
+            Vector2 drawPos = new Vector2(Main.screenWidth / 2f, 100f);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            spriteBatch.Draw(Logo.Value, drawPos, null, drawColor, logoRotation, Logo.Value.Size() * 0.5f, logoScale, SpriteEffects.None, 0f);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
             return false;
         }
     }
