@@ -605,6 +605,7 @@ namespace CalamityMod.Items
         internal static bool IsScalable(Item it) => it.damage > 0 && it.CountsAsClass<MeleeDamageClass>(); // sanity check: only melee weapons get scaled
         internal static bool IsUsable(Item it) => it.useStyle != 0 && it.useTime > 0 && it.useAnimation > 0;
         internal static bool UsesMana(Item it) => IsUsable(it); // Only usable items cost mana, but items must be able to have their mana cost disabled or enabled at will.
+        internal static bool UtilizesVelocity(Item it) => IsUsable(it) || it.ammo > 0; // The item must either be usable or be an ammunition for its velocity stat to do anything.
         #endregion
 
         #region Item Tweak Definitions
@@ -1004,7 +1005,7 @@ namespace CalamityMod.Items
             internal readonly float delta = 0;
 
             public ShootSpeedDeltaRule(float d) => delta = d;
-            public bool AppliesTo(Item it) => IsScalable(it);
+            public bool AppliesTo(Item it) => UtilizesVelocity(it);
             public void ApplyTweak(Item it)
             {
                 it.shootSpeed += delta;
@@ -1019,7 +1020,7 @@ namespace CalamityMod.Items
             internal readonly float newShootSpeed = 0;
 
             public ShootSpeedExactRule(float ss) => newShootSpeed = ss;
-            public bool AppliesTo(Item it) => IsScalable(it);
+            public bool AppliesTo(Item it) => UtilizesVelocity(it);
             public void ApplyTweak(Item it)
             {
                 it.shootSpeed = newShootSpeed;
@@ -1034,7 +1035,7 @@ namespace CalamityMod.Items
             internal readonly float ratio = 1f;
 
             public ShootSpeedRatioRule(float f) => ratio = f;
-            public bool AppliesTo(Item it) => IsScalable(it);
+            public bool AppliesTo(Item it) => UtilizesVelocity(it);
             public void ApplyTweak(Item it)
             {
                 it.shootSpeed *= ratio;
