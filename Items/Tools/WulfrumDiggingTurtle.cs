@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ItemID.Gel, 5).
+                AddIngredient(ItemID.Gel, 5). //Gel is a default combustible item to fuel the motors of the lil guys
                 AddIngredient<WulfrumShard>(3).
                 Register();
         }

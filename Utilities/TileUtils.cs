@@ -521,10 +521,39 @@ namespace CalamityMod
         public static float GetTileRNG(this Point tilePos, int shift = 0) => (float)(Math.Sin(tilePos.X * 17.07947 + shift * 36) + Math.Sin(tilePos.Y * 25.13274)) * 0.25f + 0.5f;
 
         /// <summary>
+        /// Grabs the nearest tile point to the origin, in the specified direction
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public static Point GetNearestPointInDirection(this Point origin, float direction)
+        {
+            return origin + new Point((int)Math.Round(Math.Cos(direction)), (int)Math.Round(Math.Sin(direction)));
+        }
+
+        /// <summary>
+        /// Just like Vector2.ToTileCoordinates, but also clamps the position to the tile grid.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns>The tile coordinates</returns>
+        public static Point ToSafeTileCoordinates(this Vector2 vec)
+        {
+            return new Point((int)MathHelper.Clamp((int)vec.X >> 40, 0, Main.maxTilesX), (int)MathHelper.Clamp((int)vec.Y >> 4, 0, Main.maxTilesY));
+        }
+
+        /// <summary>
+        /// Is a tile valid to be grappled onto
+        /// A straight rip of the private method Projectile.AI_007_GrapplingHooks_CanTileBeLatchedOnTo()
+        /// </summary>
+        /// <param name="theTile"></param>
+        /// <returns>Wether or not the tile may be grappled onto</returns>
+        public static bool CanTileBeLatchedOnTo(this Tile theTile, bool grappleOnTrees = false) => Main.tileSolid[theTile.TileType] | (theTile.TileType == 314) | (grappleOnTrees && TileID.Sets.IsATreeTrunk[theTile.TileType]) | (grappleOnTrees && theTile.TileType == 323);
+
+        /// <summary>
         /// Gets the required pickaxe power of a tile, accounting for both the ModTile and the vanilla tile pick requirements
         /// </summary>
         /// <param name="tile"></param>
-        /// <returns></returns>
+        /// <returns>The pickaxe power required to break a tile</returns>
         public static int GetRequiredPickPower(this Tile tile, int i, int j)
         {
             int pickReq = 0;
@@ -593,7 +622,13 @@ namespace CalamityMod
             return pickReq;
         }
 
-        public static bool ShouldBeMined(this Tile tile, bool ignoreAbyss = false)
+        /// <summary>
+        /// Returns if a tile is safe to be mined in terms of it being "important"
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="ignoreAbyss">If voidstone and abyss gravel should be considered unsafe to mine</param>
+        /// <returns></returns>
+        public static bool ShouldBeMined(this Tile tile, bool ignoreAbyss = true)
         {
             List<int> tileExcludeList = new List<int>()
             {

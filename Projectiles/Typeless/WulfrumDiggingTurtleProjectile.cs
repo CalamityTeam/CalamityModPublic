@@ -63,7 +63,6 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = Lifetime;
-            ClearSpaceDiagonal = 50;
         }
 
         public override bool? CanDamage() => false;
@@ -91,7 +90,7 @@ namespace CalamityMod.Projectiles.Typeless
                 IdlingSoundSlot = SoundEngine.PlaySound(IdleSound with { Volume = IdleSound.Volume }, Projectile.Center);
             else if (idleSoundOut != null)
             {
-                idleSoundOut.Volume = IdleSound.Volume * (1 - CuttingVolume);
+                //idleSoundOut.Volume = IdleSound.Volume * (1 - CuttingVolume);
                 idleSoundOut.Position = Projectile.Center;
             }
 
@@ -157,7 +156,6 @@ namespace CalamityMod.Projectiles.Typeless
             SoundEngine.PlaySound(BreakingSound, Projectile.position);
 
             int smokeCount = Main.rand.Next(5, 10);
-            int shrapnelCount = Main.rand.Next(3, 5);
             int sparkCount = Main.rand.Next(4, 8);
 
             for (int i = 0; i < smokeCount; i++)
@@ -175,13 +173,17 @@ namespace CalamityMod.Projectiles.Typeless
 
             if (Main.netMode != NetmodeID.Server)
             {
-                for (int i = 0; i < shrapnelCount; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(9f, 9f);
                     float shrapnelScale = Main.rand.NextFloat(0.8f, 1f);
 
-                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPinger" + Main.rand.Next(1, 5).ToString()).Type, shrapnelScale);
+                    string goreType = i < 2 ? "WulfrumTurtle1" : i < 3 ? "WulfrumTurtle2" : "WulfrumTurtle3";
+
+                    Gore.NewGore(Projectile.GetSource_Death(), Projectile.Center, shrapnelVelocity, Mod.Find<ModGore>(goreType).Type, shrapnelScale);
                 }
+
+
             }
 
             for (int i = 0; i < sparkCount; i++)

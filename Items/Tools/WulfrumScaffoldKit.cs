@@ -1,17 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using CalamityMod.Items.Materials;
-using CalamityMod.Particles;
-using CalamityMod.Systems;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Tiles;
 
 namespace CalamityMod.Items.Tools
 {
@@ -57,7 +54,8 @@ namespace CalamityMod.Items.Tools
 
         public override bool CanUseItem(Player player)
         {
-            return (storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumShard>())) && !player.noBuilding;
+            return (storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumShard>())) && !player.noBuilding
+                && !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == Item.shoot);
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
