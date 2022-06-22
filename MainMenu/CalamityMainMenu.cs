@@ -132,7 +132,6 @@ namespace CalamityMod.MainMenu
             // Set the logo draw color to be white and the time to be noon
             // This is because there is not a day/night cycle in this menu, and changing colors would look bad
             drawColor = Color.White;
-            logoRotation = 0f;
             Main.time = 27000;
             Main.dayTime = true;
 
