@@ -758,6 +758,119 @@ namespace CalamityMod.Projectiles
                 return false;
             }
 
+            // Copy pasted vanilla AI with minor changes to the homing distance and velocity formula
+            else if (projectile.type == ProjectileID.SpiritFlame)
+            {
+                float maxSpeed = 12f;
+                int accelerationTime = 30;
+                
+                if (projectile.localAI[0] > 0f)
+                    projectile.localAI[0]--;
+
+                if (projectile.localAI[0] == 0f && projectile.ai[0] < 0f && projectile.owner == Main.myPlayer)
+                {
+                    projectile.localAI[0] = 5f;
+                    for (int num1034 = 0; num1034 < 200; num1034++)
+                    {
+                        NPC nPC13 = Main.npc[num1034];
+                        if (nPC13.CanBeChasedBy(this))
+                        {
+                            bool flag63 = projectile.ai[0] < 0f || Main.npc[(int)projectile.ai[0]].Distance(projectile.Center) > nPC13.Distance(projectile.Center);
+                            if ((flag63 & (nPC13.Distance(projectile.Center) < 500f)) && (Collision.CanHitLine(projectile.Center, 0, 0, nPC13.Center, 0, 0) || Collision.CanHitLine(projectile.Center, 0, 0, nPC13.Top, 0, 0)))
+                                projectile.ai[0] = num1034;
+                        }
+                    }
+
+                    if (projectile.ai[0] >= 0f)
+                    {
+                        projectile.timeLeft = 300;
+                        projectile.netUpdate = true;
+                    }
+                }
+
+                if (projectile.timeLeft > 30 && projectile.alpha > 0)
+                    projectile.alpha -= 12;
+
+                if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                    projectile.alpha = 128;
+
+                if (projectile.alpha < 0)
+                    projectile.alpha = 0;
+
+                if (++projectile.frameCounter > 4)
+                {
+                    projectile.frameCounter = 0;
+                    if (++projectile.frame >= 4)
+                        projectile.frame = 0;
+                }
+
+                float num1035 = 0.5f;
+                if (projectile.timeLeft < 120)
+                    num1035 = 1.1f;
+
+                if (projectile.timeLeft < 60)
+                    num1035 = 1.6f;
+
+                projectile.ai[1]++;
+                float num1036 = projectile.ai[1] / 180f * ((float)Math.PI * 2f);
+                for (float num1037 = 0f; num1037 < 3f; num1037++)
+                {
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        Dust dust54 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 27, 0f, -2f)];
+                        dust54.position = projectile.Center + Vector2.UnitY.RotatedBy(num1037 * ((float)Math.PI * 2f) / 3f + projectile.ai[1]) * 10f;
+                        dust54.noGravity = true;
+                        dust54.velocity = projectile.DirectionFrom(dust54.position);
+                        dust54.scale = num1035;
+                        dust54.fadeIn = 0.5f;
+                        dust54.alpha = 200;
+                    }
+                }
+
+                if (projectile.timeLeft > 2 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                    projectile.timeLeft = 2;
+
+                int num1038 = (int)projectile.ai[0];
+                if (num1038 >= 0 && Main.npc[num1038].active)
+                {
+                    if (projectile.Distance(Main.npc[num1038].Center) > 1f)
+                    {
+                        Vector2 vector106 = projectile.DirectionTo(Main.npc[num1038].Center).SafeNormalize(Vector2.UnitX);
+                        float length = projectile.velocity.Length();
+                        float step = maxSpeed / accelerationTime;
+                        if (length >= maxSpeed)
+                            step = 0f;
+
+                        projectile.velocity = vector106 * (length + step);
+
+                        if (length == maxSpeed)
+                        {
+                            if ((projectile.Center + projectile.velocity).Distance(Main.npc[num1038].Center) > projectile.Center.Distance(Main.npc[num1038].Center))
+                            {
+                                projectile.velocity = Vector2.Zero;
+                                projectile.Center = Main.npc[num1038].Center;
+                            }
+                        }
+                    }
+
+                    return false;
+                }
+
+                if (projectile.ai[0] == -1f && projectile.timeLeft > 5)
+                    projectile.timeLeft = 5;
+
+                if (projectile.ai[0] == -2f && projectile.timeLeft > 180)
+                    projectile.timeLeft = 180;
+
+                if (projectile.ai[0] >= 0f)
+                {
+                    projectile.ai[0] = -1f;
+                    projectile.netUpdate = true;
+                }
+
+                return false;
+            }
+
             if (projectile.type == ProjectileID.NurseSyringeHeal)
             {
                 ref float initialSpeed = ref projectile.localAI[1];
