@@ -2813,7 +2813,6 @@ namespace CalamityMod.CalPlayer
             {
                 float velocityYMultiplier = (warped && Main.getGoodWorld) ? 1.02f : 1.01f;
                 Player.velocity.Y *= velocityYMultiplier;
-                Player.moveSpeed -= 0.1f;
             }
 
             if (corrEffigy)
