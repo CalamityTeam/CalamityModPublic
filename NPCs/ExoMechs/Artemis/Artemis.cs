@@ -442,6 +442,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             float attackPhaseGateValue = shouldGetBuffedByBerserkPhase ? berserkAttackTime : normalAttackTime;
             float timeToLineUpAttack = phase2 ? 30f : 45f;
 
+            if (Main.getGoodWorld)
+                timeToLineUpAttack *= 0.5f;
+
             // Spin variables
             float spinRadius = 500f;
             float spinLocationDistance = 50f;
@@ -477,6 +480,10 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
 
             // Charge variables
             float chargeVelocity = nerfedAttacks ? 75f : malice ? 100f : death ? 90f : revenge ? 86.25f : expertMode ? 82.5f : 75f;
+
+            if (Main.getGoodWorld)
+                chargeVelocity *= 1.15f;
+
             float chargeDistance = 2000f;
             float chargeDuration = chargeDistance / chargeVelocity;
             bool lineUpAttack = calamityGlobalNPC.newAI[3] >= attackPhaseGateValue + 2f;
@@ -486,6 +493,9 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = ((AIState == (int)Phase.Deathray || lineUpAttack || AIState == (int)Phase.LaserShotgun) ? 40f : 20f) * baseVelocityMult;
             float decelerationVelocityMult = 0.85f;
+
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.5f;
 
             // Laser shotgun variables
             float laserShotgunDuration = lastMechAlive ? 120f : 90f;
@@ -498,8 +508,17 @@ namespace CalamityMod.NPCs.ExoMechs.Artemis
             {
                 pickNewLocation = false;
 
-                NPC.localAI[0] = Main.rand.Next(-50, 51);
-                NPC.localAI[1] = Main.rand.Next(-250, 251);
+                int randomLocationVarianceX = 50;
+                int randomLocationVarianceY = 250;
+
+                if (Main.getGoodWorld)
+                {
+                    randomLocationVarianceX *= 2;
+                    randomLocationVarianceY *= 2;
+                }
+
+                NPC.localAI[0] = Main.rand.Next(-randomLocationVarianceX, randomLocationVarianceX + 1);
+                NPC.localAI[1] = Main.rand.Next(-randomLocationVarianceY, randomLocationVarianceY + 1);
                 if (SecondaryAIState == (float)SecondaryPhase.Passive)
                 {
                     NPC.localAI[0] *= 0.5f;
