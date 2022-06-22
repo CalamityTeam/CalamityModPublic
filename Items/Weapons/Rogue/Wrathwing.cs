@@ -7,7 +7,8 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ProfanedTrident : ModItem
+    [LegacyName("ProfanedTrident")]
+    public class Wrathwing : ModItem
     {
         public override void SetStaticDefaults()
         {

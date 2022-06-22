@@ -1409,7 +1409,7 @@ namespace CalamityMod
                 ItemType<WaveSkipper>(),
                 ItemType<EclipsesFall>(),
                 ItemType<IchorSpear>(),
-                ItemType<ProfanedTrident>(),
+                ItemType<Wrathwing>(),
                 ItemType<LuminousStriker>(),
                 ItemType<ScarletDevil>(),
                 ItemType<ScourgeoftheDesert>(),

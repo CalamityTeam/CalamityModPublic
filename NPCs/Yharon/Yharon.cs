@@ -2816,7 +2816,7 @@ namespace CalamityMod.NPCs.Yharon
                     ModContent.ItemType<ChickenCannon>(),
                     ModContent.ItemType<PhoenixFlameBarrage>(),
                     ModContent.ItemType<YharonsKindleStaff>(), // Yharon Kindle Staff
-                    ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
+                    ModContent.ItemType<Wrathwing>(), // Infernal Spear
                     ModContent.ItemType<FinalDawn>(),
                 };
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
