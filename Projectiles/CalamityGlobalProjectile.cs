@@ -843,7 +843,7 @@ namespace CalamityMod.Projectiles
 
                         projectile.velocity = vector106 * (length + step);
 
-                        if (length == maxSpeed)
+                        if (length >= maxSpeed)
                         {
                             if ((projectile.Center + projectile.velocity).Distance(Main.npc[num1038].Center) > projectile.Center.Distance(Main.npc[num1038].Center))
                             {
