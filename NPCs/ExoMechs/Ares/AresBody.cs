@@ -742,6 +742,9 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
                         NPC.velocity *= decelerationVelocityMult;
 
                         int totalProjectiles = malice ? 12 : death ? 10 : revenge ? 9 : expertMode ? 8 : 6;
+                        if (Main.getGoodWorld)
+                            totalProjectiles += 4;
+
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         bool normalLaserRotation = NPC.localAI[0] % 2f == 0f;
                         float velocity = 6f;

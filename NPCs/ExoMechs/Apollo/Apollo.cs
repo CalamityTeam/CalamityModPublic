@@ -416,6 +416,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             float timeToLineUpAttack = 30f;
             float timeToLineUpCharge = malice ? 30f : death ? 40f : revenge ? 45f : expertMode ? 50f : 60f;
 
+            if (Main.getGoodWorld)
+            {
+                timeToLineUpAttack *= 0.5f;
+                timeToLineUpCharge *= 0.5f;
+            }
+
             // Distance where Apollo stops moving
             float movementDistanceGateValue = 100f;
             float chargeLocationDistanceGateValue = 40f;
@@ -431,6 +437,12 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             // Charge velocity
             float chargeVelocity = malice ? 115f : death ? 105f : revenge ? 101.25f : expertMode ? 97.5f : 90f;
 
+            if (Main.getGoodWorld)
+            {
+                baseVelocity *= 1.5f;
+                chargeVelocity *= 1.15f;
+            }
+
             // Charge phase variables
             double chargeDistance = Math.Sqrt(500D * 500D + 800D * 800D);
             float chargeTime = (float)chargeDistance / chargeVelocity;
@@ -445,6 +457,9 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             // Rocket phase variables
             float rocketPhaseDuration = lastMechAlive ? 60f : 90f;
             int numRockets = nerfedAttacks ? 2 : 3;
+
+            if (Main.getGoodWorld)
+                numRockets += 3;
 
             // Default vector to fly to
             bool flyRight = NPC.ai[0] % 2f == 0f || NPC.ai[0] < 10f || !revenge;
@@ -462,8 +477,17 @@ namespace CalamityMod.NPCs.ExoMechs.Apollo
             {
                 pickNewLocation = false;
 
-                NPC.localAI[0] = Main.rand.Next(-50, 51);
-                NPC.localAI[1] = Main.rand.Next(-250, 251);
+                int randomLocationVarianceX = 50;
+                int randomLocationVarianceY = 250;
+
+                if (Main.getGoodWorld)
+                {
+                    randomLocationVarianceX *= 2;
+                    randomLocationVarianceY *= 2;
+                }
+
+                NPC.localAI[0] = Main.rand.Next(-randomLocationVarianceX, randomLocationVarianceX + 1);
+                NPC.localAI[1] = Main.rand.Next(-randomLocationVarianceY, randomLocationVarianceY + 1);
                 if (AIState == (float)Phase.RocketBarrage || SecondaryAIState == (float)SecondaryPhase.Passive)
                 {
                     NPC.localAI[0] *= 0.5f;

@@ -22,8 +22,6 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
 {
     public class ThanatosHead : ModNPC
     {
-
-
         public static int normalIconIndex;
         public static int vulnerableIconIndex;
 
@@ -222,7 +220,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) =>
-            ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f);
+            ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
 
         public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
         {
@@ -494,6 +492,9 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
                 baseVelocity *= 4f;
             else
                 baseVelocity *= increaseSpeedMult;
+
+            if (Main.getGoodWorld)
+                baseVelocity *= 1.15f;
 
             float turnDegrees = baseVelocity * 0.11f * (shouldGetBuffedByBerserkPhase ? 1.25f : 1f);
 
