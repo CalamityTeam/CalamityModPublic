@@ -68,13 +68,13 @@ namespace CalamityMod.NPCs.AstrumDeus
             NPC.knockBackResist = 0f;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.5f;
+                NPC.scale *= 1.5f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.4f;
+                NPC.scale *= 1.4f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.35f;
+                NPC.scale *= 1.35f;
             else if (Main.expertMode)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
 
             NPC.boss = true;
             NPC.value = Item.buyPrice(1, 0, 0, 0);

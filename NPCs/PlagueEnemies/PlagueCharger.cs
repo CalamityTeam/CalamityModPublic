@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.PlagueEnemies
             NPC.width = 36;
             NPC.height = 30;
             NPC.defense = 20;
-            NPC.scale = 0.5f;
+            NPC.scale *= 0.5f;
             NPC.lifeMax = 200;
             NPC.aiStyle = 5;
             AIType = NPCID.Bee;

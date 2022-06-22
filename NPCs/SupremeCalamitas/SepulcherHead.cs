@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             NPC.aiStyle = -1;
             AIType = -1;
             NPC.knockBackResist = 0f;
-            NPC.scale = Main.expertMode ? 1.35f : 1.2f;
+            NPC.scale *= Main.expertMode ? 1.35f : 1.2f;
             NPC.scale *= 1.25f;
 
             NPC.alpha = 255;

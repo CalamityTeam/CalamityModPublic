@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.height = 120;
 
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
 
             NPC.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 15 : 10;
             NPC.DR_NERD((CalamityWorld.death || BossRushEvent.BossRushActive) ? 0.225f : 0.15f);

@@ -104,13 +104,16 @@ namespace CalamityMod.NPCs.StormWeaver
             NPC.netAlways = true;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
+
+            if (Main.getGoodWorld)
+                NPC.scale *= 0.7f;
 
             NPC.Calamity().VulnerableToElectricity = false;
         }
@@ -562,6 +565,12 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
+            if (Main.getGoodWorld)
+            {
+                velocity *= 1.4f;
+                acceleration *= 1.4f;
+            }
+
             float num48 = velocity * 1.3f;
             float num49 = velocity * 0.7f;
             float num50 = NPC.velocity.Length();
@@ -878,8 +887,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
                 NPC.position.X = NPC.position.X + (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y + (NPC.height / 2);
-                NPC.width = 30;
-                NPC.height = 30;
+                NPC.width = (int)(50 * NPC.scale);
+                NPC.height = (int)(50 * NPC.scale);
                 NPC.position.X = NPC.position.X - (NPC.width / 2);
                 NPC.position.Y = NPC.position.Y - (NPC.height / 2);
 

@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Calamitas
             NPC.height = 120;
 
             if (CalamityWorld.death || BossRushEvent.BossRushActive)
-                NPC.scale = 0.8f;
+                NPC.scale *= 0.8f;
 
             NPC.defense = (CalamityWorld.death || BossRushEvent.BossRushActive) ? 12 : 25;
             NPC.value = Item.buyPrice(0, 50, 0, 0);

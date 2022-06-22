@@ -43,13 +43,13 @@ namespace CalamityMod.NPCs.Perforator
             NPC.dontCountMe = true;
 
             if (CalamityWorld.malice || BossRushEvent.BossRushActive)
-                NPC.scale = 1.25f;
+                NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
-                NPC.scale = 1.2f;
+                NPC.scale *= 1.2f;
             else if (CalamityWorld.revenge)
-                NPC.scale = 1.15f;
+                NPC.scale *= 1.15f;
             else if (Main.expertMode)
-                NPC.scale = 1.1f;
+                NPC.scale *= 1.1f;
 
             NPC.Calamity().SplittingWorm = true;
 

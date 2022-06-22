@@ -9395,12 +9395,12 @@ namespace CalamityMod.NPCs
             // Define what exactly is going to be shit out of this egg when it's ready.
             if (npc.ai[1] == 0f)
             {
-                npc.ai[1] = ((Main.rand.NextBool(10) && NPC.CountNPCS(NPCID.Mothron) < 2) ? NPCID.Mothron : NPCID.MothronSpawn);
+                npc.ai[1] = (Main.rand.NextBool(10) && NPC.CountNPCS(NPCID.Mothron) < 2) ? NPCID.Mothron : NPCID.MothronSpawn;
 
                 if ((int)npc.ai[1] == NPCID.Mothron)
                 {
                     npc.defense = (int)(npc.defDefense * 1.5);
-                    npc.scale = 2f;
+                    npc.scale *= 2f;
                     npc.width = npc.height = (int)(34f * npc.scale);
                     npc.netUpdate = true;
                 }
