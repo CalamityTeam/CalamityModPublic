@@ -4,6 +4,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -248,6 +249,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
             npcLoot.Add(ModContent.ItemType<AquaticScourgeTrophy>(), 10);
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<AquaticScourgeRelic>());
 
             // Lore
             bool firstASKill() => !DownedBossSystem.downedAquaticScourge;

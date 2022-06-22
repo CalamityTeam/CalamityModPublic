@@ -4,6 +4,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -798,6 +799,9 @@ namespace CalamityMod.NPCs.Leviathan
                 normalOnly.Add(ItemID.SonarPotion, 5, 5, 8);
                 normalOnly.Add(ItemID.CratePotion, 5, 5, 8);
             }
+
+            // Relic
+            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) && LastAnLStanding(), ModContent.ItemType<LeviathanAnahitaRelic>());
 
             // Lore
             bool shouldDropLore(DropAttemptInfo info) => !DownedBossSystem.downedLeviathan && LastAnLStanding();

@@ -7,6 +7,7 @@ using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -309,7 +310,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 normalOnly.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, weapons));
 
                 // Equipment
-                normalOnly.Add(ModContent.ItemType<AstrumAureusMask>(), 7);
+                normalOnly.Add(ModContent.ItemType<AstrumDeusMask>(), 7);
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HideofAstrumDeus>()));
                 normalOnly.Add(ModContent.ItemType<ChromaticOrb>(), 5);
 
@@ -320,6 +321,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             npcLoot.Add(DropHelper.PerPlayer(ItemID.GreaterHealingPotion, 1, 8, 14));
             npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
+
+            // Relic
+            bool shouldDropRelic(DropAttemptInfo info) => (CalamityWorld.revenge || Main.masterMode) && !ShouldNotDropThings(info.npc);
+            npcLoot.AddIf(shouldDropRelic, ModContent.ItemType<AstrumDeusRelic>());
 
             // Fragments
             npcLoot.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentSolar, 1, 16, 24, 20, 32));

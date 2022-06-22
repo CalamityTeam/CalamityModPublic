@@ -1,6 +1,7 @@
 ﻿using CalamityMod.BiomeManagers;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Placeables.Furniture.BossRelics;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -506,6 +507,7 @@ namespace CalamityMod.NPCs.AcidRain
             postPolter.Add(ModContent.ItemType<SpentFuelContainer>(), 10);
             postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<NuclearRod>()));
             postPolter.OnFailedConditions(ItemDropRule.Common(ModContent.ItemType<SpentFuelContainer>()));
+            npcLoot.AddIf(() => Main.masterMode || CalamityWorld.revenge, ModContent.ItemType<CragmawMireRelic>(), 4);
         }
     }
 }

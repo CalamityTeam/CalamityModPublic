@@ -1,5 +1,5 @@
 The Calamity Mod is a vast content mod for Terraria.
-It adds three new difficulty modes, multiple entire biomes, thousands of items, hundreds of weapons, and dozens of bosses.
+It adds two new difficulty modes, multiple entire biomes, thousands of items, hundreds of weapons, and dozens of bosses.
 The mod also makes hundreds of adjustments to vanilla items, features and mechanics to improve balance, quality of life and overall gameplay consistency.
 
 A more detailed breakdown of the content available in Calamity:
@@ -14,7 +14,7 @@ A more detailed breakdown of the content available in Calamity:
 - 100+ blocks
 - 200+ pieces of furniture
 - 11 ores
-- 3 full difficulty settings above Expert, separate from Master
+- 2 full difficulty settings above Expert, separate from Master
 - 50+ changes to vanilla mechanics
 - 30+ new recipes for vanilla items
 - 450+ tweaks and improvements to vanilla items

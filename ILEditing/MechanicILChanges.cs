@@ -515,8 +515,8 @@ namespace CalamityMod.ILEditing
         #region Fire Cursor Effect for the Calamity Accessory
         private static void UseCoolFireCursorEffect(On.Terraria.Main.orig_DrawCursor orig, Vector2 bonus, bool smart)
         {
-            // Do nothing special if the player has a regular mouse or is on the menu.
-            if (Main.gameMenu || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
+            // Do nothing special if the player has a regular mouse or is on the menu/map.
+            if (Main.gameMenu || Main.mapFullscreen || !Main.LocalPlayer.Calamity().blazingCursorVisuals)
             {
                 orig(bonus, smart);
                 return;
@@ -642,20 +642,14 @@ namespace CalamityMod.ILEditing
         #endregion Fire Cursor Effect for the Calamity Accessory
 
         #region General Particle Rendering
-        private static void DrawGeneralParticles(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
+        private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
         {
             GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
             DeathAshParticle.DrawAll();
+            FusableParticleManager.RenderAllFusableParticles();
 
             if (Main.LocalPlayer.dye.Any(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>()))
                 Main.LocalPlayer.Calamity().ProfanedMoonlightAuroraDrawer?.Draw(Main.LocalPlayer.Center - Main.screenPosition, false, Main.GameViewMatrix.TransformationMatrix, Matrix.Identity);
-
-            orig(self, gameTime);
-        }
-
-        private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
-        {
-            FusableParticleManager.RenderAllFusableParticles();
 
             orig(self);
         }

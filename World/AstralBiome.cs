@@ -838,6 +838,10 @@ namespace CalamityMod.World
                                     ConvertToAstral(x, topMost + 1);
                                     break;
                                 }
+                            case TileID.OasisPlants:
+                                Main.tile[x, y].Get<TileWallWireStateData>().HasTile = false;
+                                NetMessage.SendTileSquare(-1, x, y, 1);
+                                break;
                         }
                     }
                 }
