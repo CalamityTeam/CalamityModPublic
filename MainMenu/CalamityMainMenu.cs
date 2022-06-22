@@ -123,7 +123,6 @@ namespace CalamityMod.MainMenu
 
             // Draw cinders.
             Texture2D cinderTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder").Value;
-            Texture2D cinderTexture2 = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/CalamitasCinder").Value;
             for (int i = 0; i < Cinders.Count; i++)
             {
                 Vector2 drawPosition = Cinders[i].Center;
@@ -135,7 +134,15 @@ namespace CalamityMod.MainMenu
             drawColor = Color.White;
             Main.time = 27000;
             Main.dayTime = true;
-            return true;
+
+            // Draw the logo using a different spritebatch blending setting so it doesn't have a horrible yellow glow
+            Vector2 drawPos = new Vector2(Main.screenWidth / 2f, 100f);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            spriteBatch.Draw(Logo.Value, drawPos, null, drawColor, logoRotation, Logo.Value.Size() * 0.5f, logoScale, SpriteEffects.None, 0f);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+            return false;
         }
     }
 }
