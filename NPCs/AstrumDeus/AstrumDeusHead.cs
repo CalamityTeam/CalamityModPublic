@@ -323,7 +323,8 @@ namespace CalamityMod.NPCs.AstrumDeus
             npcLoot.Add(ModContent.ItemType<AstrumDeusTrophy>(), 10);
 
             // Relic
-            npcLoot.AddIf(() => (Main.masterMode || CalamityWorld.revenge) , ModContent.ItemType<AstrumDeusRelic>());
+            bool shouldDropRelic(DropAttemptInfo info) => (CalamityWorld.revenge || Main.masterMode) && !ShouldNotDropThings(info.npc);
+            npcLoot.AddIf(shouldDropRelic, ModContent.ItemType<AstrumDeusRelic>());
 
             // Fragments
             npcLoot.Add(DropHelper.NormalVsExpertQuantity(ItemID.FragmentSolar, 1, 16, 24, 20, 32));
