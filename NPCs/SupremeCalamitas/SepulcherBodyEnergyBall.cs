@@ -11,7 +11,7 @@ using Terraria.Audio;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormBodyWeak : ModNPC
+    public class SepulcherBodyEnergyBall : ModNPC
     {
         private bool setAlpha = false;
         public NPC AheadSegment => Main.npc[(int)NPC.ai[1]];
@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
-            DisplayName.SetDefault("Brimstone Heart");
+            DisplayName.SetDefault("Sepulcher");
             Main.npcFrameCount[NPC.type] = 5;
         }
 
