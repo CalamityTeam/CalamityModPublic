@@ -236,7 +236,7 @@ namespace CalamityMod.ILEditing
         {
             if (Main.dayTime || BossRushEvent.BossRushActive)
                 return true;
-            
+
             return orig();
         }
         #endregion Allow Empress to Enrage in Boss Rush
@@ -903,8 +903,8 @@ namespace CalamityMod.ILEditing
                 c.EmitDelegate<Func<short[], short[]>>(arr =>
                 {
                     // resize the array and add our custom firefly
-                    Array.Resize(ref arr, arr.Length+1);
-                    arr[arr.Length-1] = (short)ModContent.NPCType<Twinkler>();
+                    Array.Resize(ref arr, arr.Length + 1);
+                    arr[arr.Length - 1] = (short)ModContent.NPCType<Twinkler>();
                     return arr;
                 });
 
@@ -917,14 +917,64 @@ namespace CalamityMod.ILEditing
         }
         #endregion Statue Additions
 
-        #region tile ping overlay
-        private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
+        #region Tile ping overlay
+
+        private static void DrawTilePings(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+        {
+            //TilePingerSystem.DrawTiles();
+
+            orig(self);
+        }
+
+        private static void ClearTilePings_LegacyLightingModes(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
         {
             orig(self, solidLayer, forRenderTargets, intoRenderTargets);
 
-            if (!solidLayer && (intoRenderTargets || Lighting.UpdateEveryFrame))
+            //For retro & trippy lighting modes
+            if (!solidLayer && Lighting.UpdateEveryFrame)
+            {
                 TilePingerSystem.ClearTiles();
+            }
         }
+
+
+        private static void ClearTilePings_SmoothLightingModes(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
+        {
+            if (!Lighting.UpdateEveryFrame)
+            {
+                if (solidLayer)
+                    TilePingerSystem.ClearTiles();
+
+                //if (Lighting.Mode == Terraria.Graphics.Light.LightMode.White && solidLayer)
+                //    TilePingerSystem.ClearTiles();
+
+                //else if (Lighting.Mode == Terraria.Graphics.Light.LightMode.Color)
+                //{
+
+                //}
+            }
+
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets, waterStyleOverride);
+        }
+
+
+        private static void ClearTilePings_ForReal(On.Terraria.GameContent.Drawing.TileDrawing.orig_ClearCachedTileDraws orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer)
+        {
+            orig(self, solidLayer);
+        }
+        #endregion
+
+        #region Custom Grappling hooks
+        private static void RemoveCustomGrapples(On.Terraria.Player.orig_RemoveAllGrapplingHooks orig, Player self)
+        {
+            orig(self);
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].owner == self.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Typeless.WulfrumHook>())
+                    Main.projectile[i].Kill();
+            }
+        }
+
         #endregion
     }
 }

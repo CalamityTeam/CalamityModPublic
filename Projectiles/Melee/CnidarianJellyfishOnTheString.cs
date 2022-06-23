@@ -11,21 +11,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.CalamityUtils;
 using static Terraria.ModLoader.ModContent;
+using CalamityMod.DataStructures;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class VerletSimulatedSegment
-    {
-        public Vector2 position, oldPosition;
-        public bool locked;
-
-        public VerletSimulatedSegment(Vector2 _position, bool _locked = false)
-        {
-            position = _position;
-            oldPosition = _position;
-            locked = _locked;
-        }
-    }
 
     public class CnidarianJellyfishOnTheString : ModProjectile
     {
@@ -216,39 +205,7 @@ namespace CalamityMod.Projectiles.Melee
             Segments[0].oldPosition = Segments[0].position;
             Segments[0].position = Projectile.Center;
 
-            //https://youtu.be/PGk0rnyTa1U?t=400 we use verlet integration chains here
-            foreach (VerletSimulatedSegment segment in Segments)
-            {
-                if (!segment.locked)
-                {
-                    Vector2 positionBeforeUpdate = segment.position;
-
-                    segment.position += (segment.position - segment.oldPosition); // This adds conservation of energy to the segments. This makes it super bouncy and shouldnt be used but it's really funny
-                    segment.position += Vector2.UnitY * 0.3f; //=> This adds gravity to the segments. 
-
-                    segment.oldPosition = positionBeforeUpdate;
-                }
-            }
-
-            for (int k = 0; k < 10; k++)
-            {
-                for (int j = 0; j < SegmentCount - 1; j++)
-                {
-                    VerletSimulatedSegment pointA = Segments[j];
-                    VerletSimulatedSegment pointB = Segments[j + 1];
-                    Vector2 segmentCenter = (pointA.position + pointB.position) / 2f;
-                    Vector2 segmentDirection = Utils.SafeNormalize(pointA.position - pointB.position, Vector2.UnitY);
-
-                    if (!pointA.locked)
-                        pointA.position = segmentCenter + segmentDirection * SegmentDistance / 2f;
-
-                    if (!pointB.locked)
-                        pointB.position = segmentCenter - segmentDirection * SegmentDistance / 2f;
-
-                    Segments[j] = pointA;
-                    Segments[j + 1] = pointB;
-                }
-            }
+            Segments = VerletSimulatedSegment.SimpleSimulation(Segments, SegmentDistance);
 
             Projectile.netUpdate = true;
             Projectile.netSpam = 0;

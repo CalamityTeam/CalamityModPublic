@@ -55,7 +55,11 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
-            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles += ClearTilePings;
+            On.Terraria.Main.DrawProjectiles += DrawTilePings;
+            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles += ClearTilePings_LegacyLightingModes;
+            On.Terraria.GameContent.Drawing.TileDrawing.ClearCachedTileDraws += ClearTilePings_ForReal;
+            On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings_SmoothLightingModes;
+            On.Terraria.Player.RemoveAllGrapplingHooks += RemoveCustomGrapples; 
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
             // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
@@ -121,8 +125,6 @@ namespace CalamityMod.ILEditing
             // IL.Terraria.Main.DoUpdate += FixProjectileUpdatePriorityProblems;
         }
 
-        
-
         /// <summary>
         /// Unloads all IL Editing changes in the mod.
         /// </summary>
@@ -158,7 +160,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
-            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles -= ClearTilePings;
+            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles -= ClearTilePings_LegacyLightingModes;
+            On.Terraria.Player.RemoveAllGrapplingHooks -= RemoveCustomGrapples;
+            On.Terraria.GameContent.Drawing.TileDrawing.ClearCachedTileDraws -= ClearTilePings_ForReal;
+            On.Terraria.GameContent.Drawing.TileDrawing.Draw -= ClearTilePings_SmoothLightingModes;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;

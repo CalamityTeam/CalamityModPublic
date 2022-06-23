@@ -68,6 +68,9 @@ namespace CalamityMod.Systems
     public class TilePingerSystem : ModSystem
     {
         internal static Dictionary<IPingedTileEffect, List<Point>> pingedTiles;
+        internal static Dictionary<IPingedTileEffect, List<Point>> pingedNonSolidTiles;
+        internal static Dictionary<IPingedTileEffect, List<Point>> drawCache;
+
         internal static Dictionary<string, IPingedTileEffect> tileEffects;
 
         public override void Load()
@@ -75,13 +78,17 @@ namespace CalamityMod.Systems
             if (Main.dedServ)
                 return;
 
+            drawCache = new Dictionary<IPingedTileEffect, List<Point>>();
             pingedTiles = new Dictionary<IPingedTileEffect, List<Point>>();
+            pingedNonSolidTiles = new Dictionary<IPingedTileEffect, List<Point>>();
             tileEffects = new Dictionary<string, IPingedTileEffect>();
         }
 
         public override void Unload()
         {
+            drawCache = null;
             pingedTiles = null;
+            pingedNonSolidTiles = null;
             tileEffects = null;
         }
 
@@ -95,17 +102,32 @@ namespace CalamityMod.Systems
             return effect.TryAddPing(position, pinger);
         }
 
-        public static void RegisterTileToDraw(Point tilePos, string effectName)
+        public static void RegisterTileToDraw(Point tilePos, string effectName, bool solid = true)
         {
-            RegisterTileToDraw(tilePos, tileEffects[effectName]);
+            RegisterTileToDraw(tilePos, tileEffects[effectName], solid);
         }
 
-        public static void RegisterTileToDraw(Point tilePos, IPingedTileEffect effect)
+        public static void RegisterTileToDraw(Point tilePos, IPingedTileEffect effect, bool solid = true)
         {
-            if (!pingedTiles.ContainsKey(effect))
-                pingedTiles.Add(effect, new List<Point>());
+            if (solid || true)
+            {
+                if (!pingedTiles.ContainsKey(effect))
+                    pingedTiles.Add(effect, new List<Point>());
 
-            pingedTiles[effect].Add(tilePos);
+                if (!pingedTiles[effect].Contains(tilePos))
+                    pingedTiles[effect].Add(tilePos);
+            }
+
+            else
+            {
+                if (!pingedNonSolidTiles.ContainsKey(effect))
+                    pingedNonSolidTiles.Add(effect, new List<Point>());
+
+                if (!pingedNonSolidTiles[effect].Contains(tilePos))
+                    pingedNonSolidTiles[effect].Add(tilePos);
+
+
+            }
         }
 
         public override void PostUpdateEverything()
@@ -118,33 +140,64 @@ namespace CalamityMod.Systems
 
         public override void PostDrawTiles()
         {
-            if (pingedTiles.Keys.Count < 1)
+            DrawTiles();
+        }
+
+        public static void DrawTiles()
+        {
+            if (pingedTiles.Keys.Count + pingedNonSolidTiles.Count < 1)
                 return;
 
+            /*
+            drawCache.Clear();
+
+            foreach (IPingedTileEffect solidEffect in pingedTiles.Keys)
+            {
+                drawCache.Add(solidEffect, pingedTiles[solidEffect]);
+
+                if (pingedNonSolidTiles.ContainsKey(solidEffect))
+                    drawCache[solidEffect].AddRange(pingedNonSolidTiles[solidEffect]);
+            }
+
+            foreach (IPingedTileEffect nonSolidEffect in pingedNonSolidTiles.Keys)
+            {
+                
+                if (!drawCache.ContainsKey(nonSolidEffect))
+                    drawCache.Add(nonSolidEffect, pingedNonSolidTiles[nonSolidEffect]);
+            }
+            */
+
+            //foreach (IPingedTileEffect tileEffect in drawCache.Keys)
             foreach (IPingedTileEffect tileEffect in pingedTiles.Keys)
             {
                 Effect effect = tileEffect.SetupEffect();
-
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, tileEffect.BlendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, Main.GameViewMatrix.TransformationMatrix);
 
+                //foreach (Point tilePos in drawCache[tileEffect])
                 foreach (Point tilePos in pingedTiles[tileEffect])
                 {
                     tileEffect.PerTileSetup(tilePos, ref effect);
                     tileEffect.DrawTile(tilePos);
 
                 }
+
                 Main.spriteBatch.End();
             }
-
-            bool check = Main.drawToScreen;
-            //This makes it flash every other frame on smooth lighting modes
-            pingedTiles.Clear();
-            
         }
 
         public static void ClearTiles()
         {
-            //Putting it here breaks it worse on smooth lighting modes.
+            ClearTiles(true);
+            ClearTiles(false);
+        }
+
+        public static void ClearTiles(bool solid)
+        {
+            if (solid)
+                pingedTiles.Clear();
+
+            else
+                pingedNonSolidTiles.Clear();
             //HJELP
         }
     }
@@ -157,7 +210,16 @@ namespace CalamityMod.Systems
             {
                 if (effect.Active && effect.ShouldRegisterTile(i, j))
                 {
-                    TilePingerSystem.RegisterTileToDraw(new Point(i, j), effect);
+                    int tileType = Main.tile[i, j].TileType;
+                    bool solid = true;
+                    if (TileID.Sets.DrawTileInSolidLayer[tileType].HasValue)
+                        solid = TileID.Sets.DrawTileInSolidLayer[tileType].Value;
+                    else
+                        solid = Main.tileSolid[tileType];
+
+                    solid = true;
+
+                    TilePingerSystem.RegisterTileToDraw(new Point(i, j), effect, solid);
                     effect.EditDrawData(i, j, ref drawData);
                 }
             }
