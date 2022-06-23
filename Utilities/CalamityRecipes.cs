@@ -502,7 +502,7 @@ namespace CalamityMod
                 AddIngredient(ItemID.Feather, 2).
                 AddIngredient<BloodOrb>().
                 AddIngredient(ItemID.GoldCoin, 15).
-                AddRecipeGroup("AnyGoldBar", 8).
+                AddRecipeGroup(AnyGoldBar, 8).
                 AddTile(TileID.Anvils).
                 Register();
 
@@ -538,7 +538,7 @@ namespace CalamityMod
         {
             // Predicates for specifying which recipes to edit
             static Func<Recipe, bool> Vanilla(int itemID) => r => r.Mod is null && r.HasResult(itemID);
-            static Func<Recipe, bool> VanillaEach(params int[] itemIDs) => r => r.Mod is null && itemIDs.Any(r.HasIngredient);
+            static Func<Recipe, bool> VanillaEach(params int[] itemIDs) => r => r.Mod is null && itemIDs.Any(r.HasResult);
             static Func<Recipe, bool> Produces(int itemID) => r => r.HasResult(itemID);
 
             // Actions to perform, i.e. the actual recipe edits to execute
@@ -546,7 +546,6 @@ namespace CalamityMod
             static Action<Recipe> ChangeResultStack(int stack) => r => r.createItem.stack = stack;
             static Action<Recipe> AddIngredient(int itemID, int stack = 1) => r => r.AddIngredient(itemID, stack);
             static Action<Recipe> AddGroup(int groupID, int stack = 1) => r => r.AddRecipeGroup(groupID, stack);
-            static Action<Recipe> AddGroupByName(string groupName, int stack = 1) => r => r.AddRecipeGroup(groupName, stack);
             static Action<Recipe> ChangeIngredientStack(int itemID, int stack = 1) => r => r.ChangeIngredientStack(itemID, stack);
             static Action<Recipe> ReplaceIngredient(int oldItemID, int newItemID) => r =>
             {
@@ -560,12 +559,15 @@ namespace CalamityMod
             {
                 if (r.requiredItem.Count < i1 + 1 || r.requiredItem.Count < i2 + 1)
                     return;
-                (r.requiredItem[i2], r.requiredItem[i1]) = (r.requiredItem[i1], r.requiredItem[i2]);
+                (r.requiredItem[i2].type, r.requiredItem[i1].type) = (r.requiredItem[i1].type, r.requiredItem[i2].type);
+                (r.requiredItem[i2].stack, r.requiredItem[i1].stack) = (r.requiredItem[i1].stack, r.requiredItem[i2].stack);
             };
             static Action<Recipe> ReplaceTile(int oldTileID, int newTileID) => r =>
             {
-                r.RemoveTile(oldTileID);
-                r.AddTile(newTileID);
+                int idx = r.requiredTile.IndexOf(oldTileID);
+                if (idx == -1)
+                    return;
+                r.requiredTile[idx] = newTileID;
             };
 
             var edits = new Dictionary<Func<Recipe, bool>, Action<Recipe>>(32)
@@ -937,13 +939,13 @@ namespace CalamityMod
             // Guide Voodoo Doll
             Recipe r = CreateRecipe(ItemID.GuideVoodooDoll);
             r.AddIngredient(ItemID.Leather, 2);
-            r.AddRecipeGroup("EvilPowder", 10);
+            r.AddRecipeGroup(EvilPowder, 10);
             r.AddTile(TileID.Hellforge);
             r.Register();
 
             // Frost Legion recipe for consistency
             r = CreateRecipe(ItemID.SnowGlobe);
-            r.AddRecipeGroup("AnySnowBlock", 50);
+            r.AddRecipeGroup(AnySnowBlock, 50);
             r.AddIngredient(ItemID.Glass, 10);
             r.AddIngredient(ItemID.SoulofLight, 3);
             r.AddIngredient(ItemID.SoulofNight, 3);
@@ -980,6 +982,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Silk, 20);
             r.AddIngredient(ItemID.Ectoplasm, 5);
             r.AddRecipeGroup(AnySilverBar, 5);
+            r.Register();
 
             // Lihzahrd Power Cell (NOT Calamity's Old Power Cell)
             r = CreateRecipe(ItemID.LihzahrdPowerCell);
@@ -1035,26 +1038,18 @@ namespace CalamityMod
             r.AddTile(TileID.Anvils);
             r.Register();
 
-            // Enchanted Boomerang w/ Gold
+            // Enchanted Boomerang
             r = CreateRecipe(ItemID.EnchantedBoomerang);
             r.AddIngredient(ItemID.WoodenBoomerang);
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 6);
-            r.AddIngredient(ItemID.GoldBar, 8);
-            r.AddTile(TileID.Anvils);
-            r.Register();
-
-            // Enchanted Boomerang w/ Platinum
-            r = CreateRecipe(ItemID.EnchantedBoomerang);
-            r.AddIngredient(ItemID.WoodenBoomerang);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 6);
-            r.AddIngredient(ItemID.PlatinumBar, 8);
+            r.AddRecipeGroup(AnyGoldBar, 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Enchanted Sword
             r = CreateRecipe(ItemID.EnchantedSword);
             r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
-            r.AddRecipeGroup("AnyGoldBar", 12);
+            r.AddRecipeGroup(AnyGoldBar, 12);
             r.AddIngredient(ItemID.Diamond);
             r.AddIngredient(ItemID.Ruby);
             r.AddTile(TileID.Anvils);
@@ -1062,7 +1057,7 @@ namespace CalamityMod
 
             // Muramasa
             r = CreateRecipe(ItemID.Muramasa);
-            r.AddRecipeGroup("AnyCobaltBar", 15);
+            r.AddRecipeGroup(AnyCobaltBar, 15);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1084,8 +1079,8 @@ namespace CalamityMod
 
             // Ice Boomerang
             r = CreateRecipe(ItemID.IceBoomerang);
-            r.AddRecipeGroup("AnyIceBlock", 20);
-            r.AddRecipeGroup("AnySnowBlock", 10);
+            r.AddRecipeGroup(AnyIceBlock, 20);
+            r.AddRecipeGroup(AnySnowBlock, 10);
             r.AddIngredient(ItemID.Shiverthorn);
             r.AddTile(TileID.IceMachine);
             r.Register();
@@ -1114,7 +1109,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.BlizzardinaBottle);
             r.AddIngredient(ItemID.Feather, 4);
             r.AddIngredient(ItemID.Bottle);
-            r.AddRecipeGroup("AnySnowBlock", 50);
+            r.AddRecipeGroup(AnySnowBlock, 50);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1143,7 +1138,7 @@ namespace CalamityMod
 
             // Aglet
             r = CreateRecipe(ItemID.Aglet);
-            r.AddRecipeGroup("AnyCopperBar", 5);
+            r.AddRecipeGroup(AnyCopperBar, 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1171,7 +1166,7 @@ namespace CalamityMod
 
             // Ice Skates
             r = CreateRecipe(ItemID.IceSkates);
-            r.AddRecipeGroup("AnyIceBlock", 20);
+            r.AddRecipeGroup(AnyIceBlock, 20);
             r.AddIngredient(ItemID.Leather, 5);
             r.AddRecipeGroup("IronBar", 5);
             r.AddTile(TileID.IceMachine);
@@ -1179,7 +1174,7 @@ namespace CalamityMod
 
             // Lucky Horseshoe
             r = CreateRecipe(ItemID.LuckyHorseshoe);
-            r.AddRecipeGroup("AnyGoldBar", 8);
+            r.AddRecipeGroup(AnyGoldBar, 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1195,7 +1190,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.LavaCharm);
             r.AddIngredient(ItemID.LavaBucket, 5);
             r.AddIngredient(ItemID.Obsidian, 25);
-            r.AddRecipeGroup("AnyGoldBar", 5);
+            r.AddRecipeGroup(AnyGoldBar, 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1224,7 +1219,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Wire, 10);
             r.AddIngredient(ItemID.GoldDust, 5);
             r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
-            r.AddRecipeGroup("AnyGoldBar", 5);
+            r.AddRecipeGroup(AnyGoldBar, 5);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
@@ -1232,7 +1227,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.HandWarmer);
             r.AddIngredient(ItemID.Silk, 5);
             r.AddIngredient(ItemID.Shiverthorn);
-            r.AddRecipeGroup("AnySnowBlock", 10);
+            r.AddRecipeGroup(AnySnowBlock, 10);
             r.AddTile(TileID.Loom);
             r.Register();
 
@@ -1260,7 +1255,7 @@ namespace CalamityMod
 
             // Flare Gun
             r = CreateRecipe(ItemID.FlareGun);
-            r.AddRecipeGroup("AnyCopperBar", 5);
+            r.AddRecipeGroup(AnyCopperBar, 5);
             r.AddIngredient(ItemID.Torch, 10);
             r.AddTile(TileID.Anvils);
             r.Register();
@@ -1384,7 +1379,7 @@ namespace CalamityMod
         {
             // Cobalt Shield
             Recipe r = CreateRecipe(ItemID.CobaltShield);
-            r.AddRecipeGroup("AnyCobaltBar", 10);
+            r.AddRecipeGroup(AnyCobaltBar, 10);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1453,7 +1448,7 @@ namespace CalamityMod
             // Megaphone (silence)
             r = CreateRecipe(ItemID.Megaphone);
             r.AddIngredient(ItemID.Wire, 10);
-            r.AddRecipeGroup("AnyCobaltBar", 5);
+            r.AddRecipeGroup(AnyCobaltBar, 5);
             r.AddIngredient(ItemID.Ruby, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
@@ -1461,7 +1456,7 @@ namespace CalamityMod
             // Pocket Mirror (petrification, added to Ankh charm+ in Calamity)
             r = CreateRecipe(ItemID.PocketMirror);
             r.AddIngredient(ItemID.Glass, 10);
-            r.AddRecipeGroup("AnyGoldBar", 4);
+            r.AddRecipeGroup(AnyGoldBar, 4);
             r.AddIngredient(ItemID.CrystalShard, 2);
             r.AddIngredient(ItemID.SoulofNight, 2);
             r.AddTile(TileID.Anvils);
@@ -1514,7 +1509,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.SoulofMight, 10);
             r.AddIngredient(ItemID.SoulofLight, 5);
             r.AddIngredient(ItemID.SoulofNight, 5);
-            r.AddRecipeGroup("AnyCobaltBar", 3);
+            r.AddRecipeGroup(AnyCobaltBar, 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1555,7 +1550,7 @@ namespace CalamityMod
 
             // Sergeant United Shield
             r = CreateRecipe(ItemID.BouncingShield);
-            r.AddRecipeGroup("AnyCobaltBar", 12);
+            r.AddRecipeGroup(AnyCobaltBar, 12);
             r.AddIngredient(ItemID.SoulofLight, 4);
             r.AddTile(TileID.Anvils);
             r.Register();
