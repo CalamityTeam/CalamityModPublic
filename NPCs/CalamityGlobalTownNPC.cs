@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs
         private static readonly string[] PirateNames =
         {
             "Tyler Van Hook",
-            "Cap'n Deek", // Unknown
+            "Cap'n Deek", // "Alex N" on Patreon
         };
         private const int PrincessVanillaNames = 22;
         private static readonly string[] PrincessNames =
