@@ -37,6 +37,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
 using Terraria.GameContent.ItemDropRules;
+using CalamityMod.Items.Materials;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -1592,6 +1593,9 @@ namespace CalamityMod.NPCs.Providence
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<BlazingCore>()));
+
+                // Materials
+                normalOnly.Add(ModContent.ItemType<DivineGeode>(), 1, 15, 20);
 
                 // Vanity
                 normalOnly.Add(ModContent.ItemType<ProvidenceMask>(), 7);
