@@ -55,10 +55,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
-            On.Terraria.Main.DrawProjectiles += DrawTilePings;
-            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles += ClearTilePings_LegacyLightingModes;
-            On.Terraria.GameContent.Drawing.TileDrawing.ClearCachedTileDraws += ClearTilePings_ForReal;
-            On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings_SmoothLightingModes;
+            On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings;
             On.Terraria.Player.RemoveAllGrapplingHooks += RemoveCustomGrapples; 
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
@@ -160,10 +157,8 @@ namespace CalamityMod.ILEditing
             IL.Terraria.WaterfallManager.DrawWaterfall -= DrawCustomLavafalls;
             On.Terraria.NPC.Collision_DecideFallThroughPlatforms -= EnableCalamityBossPlatformCollision;
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
-            On.Terraria.GameContent.Drawing.TileDrawing.PreDrawTiles -= ClearTilePings_LegacyLightingModes;
+            On.Terraria.GameContent.Drawing.TileDrawing.Draw -= ClearTilePings;
             On.Terraria.Player.RemoveAllGrapplingHooks -= RemoveCustomGrapples;
-            On.Terraria.GameContent.Drawing.TileDrawing.ClearCachedTileDraws -= ClearTilePings_ForReal;
-            On.Terraria.GameContent.Drawing.TileDrawing.Draw -= ClearTilePings_SmoothLightingModes;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;

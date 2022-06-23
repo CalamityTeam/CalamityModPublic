@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using CalamityMod.Items.Tools;
+using Terraria.Graphics.Light;
 
 namespace CalamityMod.Systems
 {
@@ -92,24 +93,15 @@ namespace CalamityMod.Systems
             tileEffects = null;
         }
 
-        public static bool AddPing(string effectName, Vector2 position, Player pinger)
-        {
-            return AddPing(tileEffects[effectName], position, pinger);
-        }
+        public static bool AddPing(string effectName, Vector2 position, Player pinger) => AddPing(tileEffects[effectName], position, pinger);
+        public static bool AddPing(IPingedTileEffect effect, Vector2 position, Player pinger) => effect.TryAddPing(position, pinger);
 
-        public static bool AddPing(IPingedTileEffect effect, Vector2 position, Player pinger)
-        {
-            return effect.TryAddPing(position, pinger);
-        }
 
-        public static void RegisterTileToDraw(Point tilePos, string effectName, bool solid = true)
-        {
-            RegisterTileToDraw(tilePos, tileEffects[effectName], solid);
-        }
-
+        public static void RegisterTileToDraw(Point tilePos, string effectName, bool solid = true) => RegisterTileToDraw(tilePos, tileEffects[effectName], solid);
         public static void RegisterTileToDraw(Point tilePos, IPingedTileEffect effect, bool solid = true)
         {
-            if (solid || true)
+            //Unless we are in color light mode, we do not need the distinction between solid and non solid tiles.
+            if (solid || !(Lighting.Mode == LightMode.Color))
             {
                 if (!pingedTiles.ContainsKey(effect))
                     pingedTiles.Add(effect, new List<Point>());
@@ -148,33 +140,39 @@ namespace CalamityMod.Systems
             if (pingedTiles.Keys.Count + pingedNonSolidTiles.Count < 1)
                 return;
 
-            /*
+            
             drawCache.Clear();
+
 
             foreach (IPingedTileEffect solidEffect in pingedTiles.Keys)
             {
-                drawCache.Add(solidEffect, pingedTiles[solidEffect]);
-
-                if (pingedNonSolidTiles.ContainsKey(solidEffect))
-                    drawCache[solidEffect].AddRange(pingedNonSolidTiles[solidEffect]);
+                drawCache.Add(solidEffect, pingedTiles[solidEffect].ConvertAll(position => new Point(position.X, position.Y)));
             }
 
-            foreach (IPingedTileEffect nonSolidEffect in pingedNonSolidTiles.Keys)
+            if (Lighting.Mode == LightMode.Color)
             {
-                
-                if (!drawCache.ContainsKey(nonSolidEffect))
-                    drawCache.Add(nonSolidEffect, pingedNonSolidTiles[nonSolidEffect]);
-            }
-            */
+                foreach (IPingedTileEffect nonSolidEffect in pingedNonSolidTiles.Keys)
+                {
+                    List<Point> clonedList = pingedNonSolidTiles[nonSolidEffect].ConvertAll(position => new Point(position.X, position.Y));
 
-            //foreach (IPingedTileEffect tileEffect in drawCache.Keys)
-            foreach (IPingedTileEffect tileEffect in pingedTiles.Keys)
+                    if (!drawCache.ContainsKey(nonSolidEffect))
+                        drawCache.Add(nonSolidEffect, clonedList);
+
+                    else
+                    {
+                        drawCache[nonSolidEffect].AddRange(clonedList);
+                    }
+                }
+            }
+
+            foreach (IPingedTileEffect tileEffect in drawCache.Keys)
+            //foreach (IPingedTileEffect tileEffect in pingedTiles.Keys)
             {
                 Effect effect = tileEffect.SetupEffect();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, tileEffect.BlendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, Main.GameViewMatrix.TransformationMatrix);
 
-                //foreach (Point tilePos in drawCache[tileEffect])
-                foreach (Point tilePos in pingedTiles[tileEffect])
+                foreach (Point tilePos in drawCache[tileEffect])
+                //foreach (Point tilePos in pingedTiles[tileEffect])
                 {
                     tileEffect.PerTileSetup(tilePos, ref effect);
                     tileEffect.DrawTile(tilePos);
@@ -190,7 +188,6 @@ namespace CalamityMod.Systems
             ClearTiles(true);
             ClearTiles(false);
         }
-
         public static void ClearTiles(bool solid)
         {
             if (solid)
@@ -212,12 +209,15 @@ namespace CalamityMod.Systems
                 {
                     int tileType = Main.tile[i, j].TileType;
                     bool solid = true;
-                    if (TileID.Sets.DrawTileInSolidLayer[tileType].HasValue)
-                        solid = TileID.Sets.DrawTileInSolidLayer[tileType].Value;
-                    else
-                        solid = Main.tileSolid[tileType];
 
-                    solid = true;
+                    //Necessary separation in the color lighting mode.
+                    if (Lighting.Mode == LightMode.Color)
+                    {
+                        if (TileID.Sets.DrawTileInSolidLayer[tileType].HasValue)
+                            solid = TileID.Sets.DrawTileInSolidLayer[tileType].Value;
+                        else
+                            solid = Main.tileSolid[tileType];
+                    }
 
                     TilePingerSystem.RegisterTileToDraw(new Point(i, j), effect, solid);
                     effect.EditDrawData(i, j, ref drawData);

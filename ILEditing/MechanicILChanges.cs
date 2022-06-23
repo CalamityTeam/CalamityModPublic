@@ -33,6 +33,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI.Gamepad;
 using Terraria.Utilities;
+using Terraria.Graphics.Light;
 
 namespace CalamityMod.ILEditing
 {
@@ -918,49 +919,31 @@ namespace CalamityMod.ILEditing
         #endregion Statue Additions
 
         #region Tile ping overlay
-
-        private static void DrawTilePings(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+        private static void ClearTilePings(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
         {
-            //TilePingerSystem.DrawTiles();
-
-            orig(self);
-        }
-
-        private static void ClearTilePings_LegacyLightingModes(On.Terraria.GameContent.Drawing.TileDrawing.orig_PreDrawTiles orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets)
-        {
-            orig(self, solidLayer, forRenderTargets, intoRenderTargets);
-
-            //For retro & trippy lighting modes
-            if (!solidLayer && Lighting.UpdateEveryFrame)
+            //Retro & Trippy light modes are fine. Just reset the cache before every time stuff gets drawn.
+            if (Lighting.UpdateEveryFrame)
             {
-                TilePingerSystem.ClearTiles();
-            }
-        }
-
-
-        private static void ClearTilePings_SmoothLightingModes(On.Terraria.GameContent.Drawing.TileDrawing.orig_Draw orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
-        {
-            if (!Lighting.UpdateEveryFrame)
-            {
-                if (solidLayer)
+                //But only if its not on the non solid layer, assumedly because it draws first or something
+                if (!solidLayer)
                     TilePingerSystem.ClearTiles();
-
-                //if (Lighting.Mode == Terraria.Graphics.Light.LightMode.White && solidLayer)
-                //    TilePingerSystem.ClearTiles();
-
-                //else if (Lighting.Mode == Terraria.Graphics.Light.LightMode.Color)
-                //{
-
-                //}
             }
 
+            else
+            {
+                //For the white color mode, we also can simply clear all the cache at once, but this time its only on the solid layers. Don't ask me why i don't know it just works
+                if (Lighting.Mode == LightMode.White)
+                {
+                    if (solidLayer)
+                        TilePingerSystem.ClearTiles();
+                }
+
+                //In color mode, the tiles get cleared alternating between solid and non solid tiles
+                else
+                    TilePingerSystem.ClearTiles(solidLayer);
+
+            }
             orig(self, solidLayer, forRenderTargets, intoRenderTargets, waterStyleOverride);
-        }
-
-
-        private static void ClearTilePings_ForReal(On.Terraria.GameContent.Drawing.TileDrawing.orig_ClearCachedTileDraws orig, Terraria.GameContent.Drawing.TileDrawing self, bool solidLayer)
-        {
-            orig(self, solidLayer);
         }
         #endregion
 
