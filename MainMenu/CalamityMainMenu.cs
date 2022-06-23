@@ -68,11 +68,11 @@ namespace CalamityMod.MainMenu
                 if (yScale > xScale)
                 {
                     scale = yScale;
-                    drawOffset.X -= (texture.Width - Main.screenWidth * scale) * 0.5f;
+                    drawOffset.X -= (texture.Width * scale - Main.screenWidth) * 0.5f;
                 }
                 else
                     // The opposite is true if someone's monitor is widescreen
-                    drawOffset.Y -= (texture.Height - Main.screenHeight * scale) * 0.5f;
+                    drawOffset.Y -= (texture.Height * scale - Main.screenHeight) * 0.5f;
             }
 
             spriteBatch.Draw(texture, drawOffset, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
