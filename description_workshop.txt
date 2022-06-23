@@ -13,7 +13,8 @@ The mod additionally tweaks tons of vanilla features whilst adding new ones to a
 [*] Dozens more quality of life and balance changes!
 [/olist]
 
-[i]Please note that this mod does [b]NOT[/b] include Calamity's soundtrack! You will need to download "Calamity Mod Music" for the full intended experience![/i]
+[i]Please note that this mod does [b]NOT[/b] include Calamity's soundtrack! You will need to download the music mod for the full intended experience![/i]
+https://steamcommunity.com/sharedfiles/filedetails/?id=2824688266
 
 [b]Be sure to join our Discord server linked above to keep up with the latest news about upcoming updates and features.[/b]
 
