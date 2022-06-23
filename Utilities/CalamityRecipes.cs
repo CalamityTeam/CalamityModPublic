@@ -357,7 +357,7 @@ namespace CalamityMod
             RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
             // Mana Flower+ for Ethereal Talisman
-            group = new RecipeGroup(() => "Any Mana Flowers", new int[]
+            group = new RecipeGroup(() => "Any Mana Flower", new int[]
             {
                 ItemID.ManaFlower,
                 ItemID.ArcaneFlower,
@@ -367,7 +367,7 @@ namespace CalamityMod
             RecipeGroup.RegisterGroup("ManaFlowersGroup", group);
 
             // Magic Quiver+ for Elemental Quiver
-            group = new RecipeGroup(() => "Any Quivers", new int[]
+            group = new RecipeGroup(() => "Any Quiver", new int[]
             {
                 ItemID.MagicQuiver,
                 ItemID.MoltenQuiver,
