@@ -1,4 +1,7 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -14,10 +17,6 @@ using CalamityMod.NPCs.SunkenSea;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Terraria;
 using Terraria.Chat;
 using Terraria.GameContent.Events;
@@ -41,6 +40,23 @@ namespace CalamityMod
                 Main.NewText(Language.GetTextValue(key), textColor.Value);
             else if (Main.netMode == NetmodeID.Server)
                 ChatHelper.BroadcastChatMessage(NetworkText.FromKey(key), textColor.Value);
+        }
+
+        public static int IngredientIndex(this Recipe r, int itemID)
+        {
+            for (int i = 0; i < r.requiredItem.Count; ++i)
+                if (r.requiredItem[i].type == itemID)
+                    return i;
+            return -1;
+        }
+
+        public static bool ChangeIngredientStack(this Recipe r, int itemID, int stack)
+        {
+            int idx = r.IngredientIndex(itemID);
+            if (idx == -1)
+                return false;
+            r.requiredItem[idx].stack = stack;
+            return true;
         }
 
         // Yes, this method has a use that Utils.Swap does not; You cannot use refs on array indices.
@@ -110,18 +126,6 @@ namespace CalamityMod
                 }
             }
             return colors2D;
-        }
-
-        public static string CombineStrings(params object[] args)
-        {
-            StringBuilder result = new StringBuilder(1024);
-            for (int i = 0; i < args.Length; ++i)
-            {
-                object o = args[i];
-                result.Append(o.ToString());
-                result.Append(' ');
-            }
-            return result.ToString();
         }
 
         /// <summary>
