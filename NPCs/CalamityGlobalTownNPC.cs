@@ -116,13 +116,19 @@ namespace CalamityMod.NPCs
         };
         private const int PartyGirlVanillaNames = 17;
         private static readonly string[] PartyGirlNames =
-		{
-			"Arin", // <@!268169458302976012> (Kiyotu#0006)
-		};
+        {
+            "Arin", // <@!268169458302976012> (Kiyotu#0006)
+        };
         private const int PirateVanillaNames = 11;
         private static readonly string[] PirateNames =
         {
             "Tyler Van Hook",
+            "Cap'n Deek", // Unknown
+        };
+        private const int PrincessVanillaNames = 22;
+        private static readonly string[] PrincessNames =
+        {
+            "Catalyst", // <@!156672312425316352> (xAqult#1122)
         };
         private const int SkeletonMerchantVanillaNames = 10;
         private static readonly string[] SkeletonMerchantNames =
@@ -202,7 +208,7 @@ namespace CalamityMod.NPCs
         {
             "Ozymandias", // <@!146333264871686145> (Ozzatron#0001)
             // "Kendra", // <@!237247188005158912> (LordMetarex#6407) ONLY IF the dog is a Beagle
-			"Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643) ONLY IF the dog is a Husky
+            "Yoshi", // <@!541127291426832384> (GregTheSpinarak#6643) ONLY IF the dog is a Husky
         };
 
         private const int TownCatSiameseVanillaNames = 12;
@@ -255,6 +261,7 @@ namespace CalamityMod.NPCs
             ResetName(NPCID.Painter, ref CalamityWorld.painterName);
             ResetName(NPCID.PartyGirl, ref CalamityWorld.partyGirlName);
             ResetName(NPCID.Pirate, ref CalamityWorld.pirateName);
+            ResetName(NPCID.Princess, ref CalamityWorld.princessName);
             ResetName(NPCID.SkeletonMerchant, ref CalamityWorld.skeletonMerchantName);
             ResetName(NPCID.Steampunker, ref CalamityWorld.steampunkerName);
             ResetName(NPCID.Stylist, ref CalamityWorld.stylistName);
@@ -337,6 +344,9 @@ namespace CalamityMod.NPCs
                         break;
                     case NPCID.Pirate:
                         npc.GivenName = ChooseName(ref CalamityWorld.pirateName, npc.GivenName, PirateVanillaNames, PirateNames);
+                        break;
+                    case NPCID.Princess:
+                        npc.GivenName = ChooseName(ref CalamityWorld.princessName, npc.GivenName, PrincessVanillaNames, PrincessNames);
                         break;
                     case NPCID.SkeletonMerchant:
                         npc.GivenName = ChooseName(ref CalamityWorld.skeletonMerchantName, npc.GivenName, SkeletonMerchantVanillaNames, SkeletonMerchantNames);

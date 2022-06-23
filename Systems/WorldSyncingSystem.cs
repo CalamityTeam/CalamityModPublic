@@ -110,7 +110,7 @@ namespace CalamityMod.Systems
             flags10[1] = clothierName;
             flags10[2] = AcidRainEvent.OldDukeHasBeenEncountered;
             flags10[3] = travelingMerchantName;
-            flags10[4] = false;
+            flags10[4] = princessName;
             flags10[5] = false;
             flags10[6] = false;
             flags10[7] = false;
@@ -253,7 +253,7 @@ namespace CalamityMod.Systems
             clothierName = flags10[1];
             AcidRainEvent.OldDukeHasBeenEncountered = flags10[2];
             travelingMerchantName = flags10[3];
-            _ = flags10[4];
+            princessName = flags10[4];
             _ = flags10[5];
             _ = flags10[6];
             _ = flags10[7];
