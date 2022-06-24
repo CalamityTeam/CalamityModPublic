@@ -219,8 +219,8 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 20, 1, 3);
-            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 100, 1, 3);
+            npcLoot.AddIf(() => !DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 20);
+            npcLoot.AddIf(() => DownedBossSystem.downedAquaticScourge, ModContent.ItemType<ParasiticSceptor>(), 100);
         }
     }
 }
