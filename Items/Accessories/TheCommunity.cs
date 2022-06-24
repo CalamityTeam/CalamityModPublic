@@ -1,8 +1,11 @@
-﻿using CalamityMod.CalPlayer;
+﻿using System.Collections.Generic;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -16,7 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "Starts off with weak buffs to all of your stats\n" +
                 "The stat buffs become more powerful as you progress\n" +
                 "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
-                "Thank you to all of my supporters who made this mod a reality");
+                "Thank you to all of my supporters who made this mod a reality\n");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 10));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
         }
@@ -88,6 +91,36 @@ namespace CalamityMod.Items.Accessories
             numBosses += DownedBossSystem.downedExoMechs.ToInt();
             numBosses += DownedBossSystem.downedSCal.ToInt();
             return numBosses / (float)TotalCountedBosses;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            float communityPower = CalculatePower();
+            float maxHealthIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
+            float meleeSpeedIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
+            int lifeRegenIncrease = (int)(MathHelper.Lerp(0.005f, 0.02f, communityPower)*100);
+            float critChanceIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
+            float damageIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
+            float damageReductionIncrease = MathHelper.Lerp(0.0125f, 0.05f, communityPower);
+            int defenseIncrease = (int)(MathHelper.Lerp(0.025f, 0.1f, communityPower)*100);
+            float summonKnockbackIncrease = MathHelper.Lerp(0.05f, 0.2f, communityPower);
+            float moveSpeedIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
+            float flightTimeIncrease = MathHelper.Lerp(0.05f, 0.2f, communityPower);
+
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null)
+                line.Text = 
+                "Max health increased by " + (maxHealthIncrease*100).ToString("n1") + "%\n" +
+                "Melee speed increased by " + (meleeSpeedIncrease*100).ToString("n1") + "%\n" +
+                "Life regeneration increased by " + (1+lifeRegenIncrease) + "\n" +
+                "Critical strike chance increased by " + (critChanceIncrease*100).ToString("n1") + "%\n" +
+                "Damage increased by " + (damageIncrease*100).ToString("n1") + "%\n" +
+                "Damage reduction increased by " + (damageReductionIncrease*100).ToString("n1") + "%\n" +
+                "Defense increased by " + defenseIncrease + "\n" +
+                "Minion knockback increased by " + (summonKnockbackIncrease*100).ToString("n1") + "%\n" +
+                "Movement speed increased by " + (moveSpeedIncrease*100).ToString("n1") + "%\n" +
+                "Flight time increased by " + (flightTimeIncrease*100).ToString("n1") + "%";
         }
     }
 }
