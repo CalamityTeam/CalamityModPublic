@@ -56,7 +56,12 @@ namespace CalamityMod.ILEditing
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
             IL.Terraria.Main.oldDrawWater += DrawCustomLava3;
             On.Terraria.GameContent.Drawing.TileDrawing.Draw += ClearTilePings;
-            On.Terraria.Player.RemoveAllGrapplingHooks += RemoveCustomGrapples; 
+            On.Terraria.Player.RemoveAllGrapplingHooks += RemoveCustomGrapples;
+            On.Terraria.Player.GrappleMovement += CustomGrappleMovementCheck;
+            On.Terraria.Player.UpdatePettingAnimal += CustomGrapplePreDefaultMovement;
+            On.Terraria.Player.PlayerFrame += CustomGrapplePostFrame;
+            On.Terraria.Player.SlopeDownMovement += CustomGrapplePreStepUp;
+
 
             // TODO -- Revisit this. It's not an extremely important thing, but it'd be ideal to not just abandon it.
             // IL.Terraria.WaterfallManager.DrawWaterfall += DrawCustomLavafalls;
@@ -159,6 +164,10 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Wiring.HitWireSingle -= AddTwinklersToStatue;
             On.Terraria.GameContent.Drawing.TileDrawing.Draw -= ClearTilePings;
             On.Terraria.Player.RemoveAllGrapplingHooks -= RemoveCustomGrapples;
+            On.Terraria.Player.GrappleMovement -= CustomGrappleMovementCheck;
+            On.Terraria.Player.UpdatePettingAnimal -= CustomGrapplePreDefaultMovement;
+            On.Terraria.Player.PlayerFrame -= CustomGrapplePostFrame;
+            On.Terraria.Player.SlopeDownMovement -= CustomGrapplePreStepUp;
 
             // Damage and health balance
             IL.Terraria.Main.DamageVar -= AdjustDamageVariance;

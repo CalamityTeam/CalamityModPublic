@@ -11,12 +11,17 @@ using CalamityMod.DataStructures;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using CalamityMod.Items.Materials;
+using Terraria.Audio;
 
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Back)]
     public class WulfrumAcrobaticsPack : ModItem
     {
+        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Custom/WulfrumHookShoot") { Volume = 0.7f,  MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest};
+        public static readonly SoundStyle GrabSound = new("CalamityMod/Sounds/Custom/WulfrumHookGrapple") { Volume = 0.7f, MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest };
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
@@ -40,6 +45,16 @@ namespace CalamityMod.Items.Accessories
             player.moveSpeed += 0.8f;
             player.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped = true;
             player.GetModPlayer<WulfrumPackPlayer>().PackItem = Item;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ItemID.Chain, 2).
+                AddIngredient<WulfrumShard>(6).
+                AddIngredient<EnergyCore>(1).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 
@@ -78,8 +93,39 @@ namespace CalamityMod.Items.Accessories
         public bool WulfrumPackEquipped = false;
         public Item PackItem = null;
         public bool AutoGrappleActivated => !Player.noFallDmg;
+        /// <summary>
+        /// The index of the grapple projectile currently grappled.
+        /// </summary>
         public int Grapple = 0;
+        /// <summary>
+        /// The lenght of the current rope. Determined when the grapple lands.
+        /// </summary>
         public float SwingLenght = 0f;
+        /// <summary>
+        /// Used when we need to store the hook between instructions.
+        /// </summary>
+        public int hookCache = -1;
+        /// <summary>
+        /// Is the player grappled?
+        /// </summary>
+        public bool Grappled => WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling;
+        public bool GrappleMovementDisabled
+        {
+            get
+            {
+                if (!Grappled)
+                    return false;
+
+                bool collisionTest = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, true);
+                if (!collisionTest)
+                    return false;
+
+                if ((Player.Center - Main.projectile[Grapple].Center).Length() > SwingLenght)
+                    return false;
+
+                return true;
+            }
+        }
 
         public Vector2 CurrentPosition;
         public Vector2 OldPosition;
@@ -90,13 +136,12 @@ namespace CalamityMod.Items.Accessories
         public static float GrappleVelocity = 18f;
         public static float ReturnVelocity = 5f;
         public static float MaxHopVelocity = 4f; //The maximum velocity at which the player gets any amount of vertical boost from hopping out of the hook
-        public static float MaxHopHeight = 4f; //The max height of the vvertical hop that happens when jumping out of the hook at a low speed.
+
 
         public override void ResetEffects()
         {
             WulfrumPackEquipped = false;
             PackItem = null;
-            MaxHopHeight = 8.5f;
         }
 
         //Initialize the segments between the player and the hook's end point.
@@ -123,10 +168,23 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+        public override void PostUpdateRunSpeeds()
+        {
+            if (hookCache != -1)
+                Player.grappling[0] = hookCache;
+
+            hookCache = -1;
+        }
 
         public override void PreUpdateMovement()
         {
-            if (WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
+            //If the hook cache was set from -1 in the part before the player stepped up,reset it.
+            //Should this be detoured before the PlayerLoaders PreUpdateMovement call? In case another mod uses hooks in this call and their modplayer gets called before this one?
+            if (hookCache > -1)
+                Player.grappling[0] = hookCache;
+            hookCache = -1;
+
+            if (Grappled)
                 SimulateMovement(Main.projectile[Grapple]);
         }
 
@@ -145,33 +203,42 @@ namespace CalamityMod.Items.Accessories
                 //doost.noGravity = true;
             }
 
-            CurrentPosition = Segments[SimulationResolution].position;     
-            Player.velocity = CurrentPosition - Player.Center;
 
-            //let the player swing themselves around if they are under the hook.
-            if (Player.Center.Y - Segments[0].position.Y > 0)
+            if (!GrappleMovementDisabled)
             {
-                float swing = 0;
+                CurrentPosition = Segments[SimulationResolution].position;
+                Player.velocity = CurrentPosition - Player.Center;
 
-                if (Math.Sign(Player.velocity.X) < 0)
+                //let the player swing themselves around if they are under the hook.
+                if (Player.Center.Y - Segments[0].position.Y > 0)
                 {
-                    if (Player.controlLeft)
-                        swing -= 0.1f;
+                    float swing = 0;
 
-                    else if (Player.controlRight)
-                        swing += 0.1f;
+                    if (Math.Sign(Player.velocity.X) < 0)
+                    {
+                        if (Player.controlLeft)
+                            swing -= 0.1f;
+
+                        else if (Player.controlRight)
+                            swing += 0.1f;
+                    }
+
+                    else if (Math.Sign(Player.velocity.X) > 0)
+                    {
+                        if (Player.controlRight)
+                            swing += 0.1f;
+
+                        else if (Player.controlLeft)
+                            swing -= 0.1f;
+                    }
+
+                    Player.velocity.X += swing;
                 }
+            }
 
-                else if (Math.Sign(Player.velocity.X) > 0)
-                {
-                    if (Player.controlRight)
-                        swing += 0.1f;
-
-                    else if (Player.controlLeft)
-                        swing -= 0.1f;
-                }
-                    
-                Player.velocity.X += swing;
+            for (int i = 1; i < Segments.Count; i++)
+            {
+                Lighting.AddLight(Segments[i].position, Color.Lerp(Color.DeepSkyBlue, Color.GreenYellow, i / 3f).ToVector3());
             }
 
             //Set the old position of the simulation's segments to be the players current center (before the velocity gets applied
@@ -182,7 +249,7 @@ namespace CalamityMod.Items.Accessories
         public override void PostUpdate()
         {
             //After the player's movements are finished being calculated, set the current position of the hook chain to be at their new center.
-            if (WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
+            if (Grappled)
                 Segments[SimulationResolution].position = Player.Center;
         }
 
@@ -207,8 +274,12 @@ namespace CalamityMod.Items.Accessories
 
                 if (Main.projectile.Count(n => n.active && n.owner == Player.whoAmI && n.type == ProjectileType<WulfrumHook>()) <= 1)
                 {
-                    Vector2 velocity = (Main.MouseWorld - Player.Center).SafeNormalize(Vector2.One) * GrappleVelocity;
-                    Projectile.NewProjectile(Player.GetSource_ItemUse(PackItem), Player.Center, velocity, ProjectileType<WulfrumHook>(), 0, 0, Player.whoAmI);
+                    SoundEngine.PlaySound(WulfrumAcrobaticsPack.ShootSound, Player.Center);
+                    if (Player.whoAmI == Main.myPlayer)
+                    {
+                        Vector2 velocity = (Main.MouseWorld - Player.Center).SafeNormalize(Vector2.One) * GrappleVelocity;
+                        Projectile.NewProjectile(Player.GetSource_ItemUse(PackItem), Player.Center, velocity, ProjectileType<WulfrumHook>(), 0, 0, Player.whoAmI);
+                    }
                 }
             }
 
@@ -235,7 +306,8 @@ namespace CalamityMod.Items.Accessories
                         }
                         //Additionally^2, if the player isnt moving very fast, make them do a straight up hop.
                         //Don't do the hop if the player isnt moving at all though because thats handled by vanilla.
-                        if (Player.velocity.Length() < MaxHopVelocity && Player.velocity.Length() > 0.0001f)
+                        bool disabledGrapple = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, true);
+                        if (Player.velocity.Length() < MaxHopVelocity && (Player.velocity.Length() > 0.0001f || disabledGrapple))
                         {
                             velocityBoost -= Vector2.UnitY * Player.jumpSpeed * (1 - (float)Math.Pow(Player.velocity.Length() / MaxHopVelocity, 5f));
                         }
@@ -247,6 +319,15 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
 
+            }
+        }
+
+        public override void FrameEffects()
+        {
+            if (Player.grappling[0] >= 0 && GrappleMovementDisabled && Main.projectile[Player.grappling[0]].type == ProjectileType<WulfrumHook>())
+            {
+                hookCache = Player.grappling[0];
+                Player.grappling[0] = -1;
             }
         }
     }

@@ -14,6 +14,8 @@ using CalamityMod.Projectiles;
 using CalamityMod.Systems;
 using CalamityMod.Waters;
 using CalamityMod.World;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Items.Accessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
@@ -948,16 +950,84 @@ namespace CalamityMod.ILEditing
         #endregion
 
         #region Custom Grappling hooks
+
+        /// <summary>
+        /// Custom grapples get removed when the vanilla function to remove all grapples get called, as the vanilla one relies solely on the ai stype = 7
+        /// </summary>
         private static void RemoveCustomGrapples(On.Terraria.Player.orig_RemoveAllGrapplingHooks orig, Player self)
         {
             orig(self);
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
-                if (Main.projectile[i].active && Main.projectile[i].owner == self.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Typeless.WulfrumHook>())
+                if (Main.projectile[i].active && Main.projectile[i].owner == self.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<WulfrumHook>())
                     Main.projectile[i].Kill();
             }
         }
 
+        /// <summary>
+        /// Determines if the custom grapple movement should take place or not. Useful for hooks that only do movement tricks in some cases
+        /// </summary>
+        private static void CustomGrappleMovementCheck(On.Terraria.Player.orig_GrappleMovement orig, Player self)
+        {
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+
+            if (mp.GrappleMovementDisabled)
+                return;
+
+            orig(self);
+        }
+
+        /// <summary>
+        /// This is called right before the game decides wether or not to update the players velocity based on "real" physics (aka not tongued or hooked or with a pulley)
+        /// </summary>
+        private static void CustomGrapplePreDefaultMovement(On.Terraria.Player.orig_UpdatePettingAnimal orig, Player self)
+        {
+            orig(self);
+
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+            mp.hookCache = -1;
+
+            //if tongued, dnc.
+            if (self.tongued)
+                return;
+
+            //Cache the player's grapple and remove it temporarily (Gets re added in the modplayer's PostUpdateRunSpeeds)
+            if (self.grappling[0] >= 0 && mp.GrappleMovementDisabled && Main.projectile[self.grappling[0]].type == ModContent.ProjectileType<WulfrumHook>())
+            {
+                mp.hookCache = self.grappling[0];
+                self.grappling[0] = -1;
+            }
+        }
+
+        /// <summary>
+        /// Used before the player steps up a half tile. If we don't do that, players that are grappled but don't use hook movement won't be able to go over tiles.
+        /// The hook cache is reset in PreUpdateMovement
+        /// </summary>
+        private static void CustomGrapplePreStepUp(On.Terraria.Player.orig_SlopeDownMovement orig, Player self)
+        {
+            orig(self);
+
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+            if (self.grappling[0] >= 0 && mp.GrappleMovementDisabled && Main.projectile[self.grappling[0]].type == ModContent.ProjectileType<WulfrumHook>())
+            {
+                mp.hookCache = self.grappling[0];
+                self.grappling[0] = -1;
+            }
+        }
+
+        /// <summary>
+        /// This is done to put the hook if it was cacehd during the frame instruction.
+        /// </summary>
+        private static void CustomGrapplePostFrame(On.Terraria.Player.orig_PlayerFrame orig, Player self)
+        {
+            orig(self);
+            WulfrumPackPlayer mp = self.GetModPlayer<WulfrumPackPlayer>();
+
+            if (mp.hookCache > -1)
+                self.grappling[0] = mp.hookCache;
+
+            mp.hookCache = -1;
+        }
         #endregion
     }
 }

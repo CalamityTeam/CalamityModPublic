@@ -109,7 +109,6 @@ namespace CalamityMod.Items.Tools
 
         public override void AddRecipes()
         {
-            //Intentionally craftable anywhere.
             CreateRecipe().
                 AddIngredient<WulfrumShard>(6).
                 AddIngredient<EnergyCore>(1).

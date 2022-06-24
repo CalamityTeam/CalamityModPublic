@@ -41,7 +41,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Grappling Hook");
+            DisplayName.SetDefault("Wulfrum Slingshot");
+            //Expand the draw distance. Should never happen really , but just in case the player basically walks away from the hook.
+            ProjectileID.Sets.DrawScreenCheckFluff[Projectile.type] = 3000;
         }
 
         public override void SetDefaults()
@@ -53,6 +55,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.timeLeft = 2;
             Projectile.tileCollide = false;
             Projectile.extraUpdates = WulfrumPackPlayer.HookUpdates;
+            Projectile.netImportant = true;
             //Projectile.aiStyle = 7; Can i set its ai style to 7 wihle also making it not do anthing related to ai 7 whatsoever and use my own custom hook ai?
             //That would bne great because fsr the onyl way to distinguish if a projectile is a hook or not is by checking its ai style.
         }
@@ -64,7 +67,7 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(Projectile.Center, Color.DeepSkyBlue.ToVector3());
             Vector2 BetweenOwner = Owner.Center - Projectile.Center;
 
-            if (Owner.dead || Owner.stoned || Owner.webbed || Owner.frozen || BetweenOwner.Length() > 2500)
+            if (Owner.dead || Owner.stoned || Owner.webbed || Owner.frozen || BetweenOwner.Length() > 1500)
             {
                 Projectile.Kill();
                 return;
@@ -151,43 +154,8 @@ namespace CalamityMod.Projectiles.Typeless
                     if (Main.myPlayer != Owner.whoAmI)
                         continue;
 
-
-                    WulfrumPackPlayer mp = Owner.GetModPlayer<WulfrumPackPlayer>();
-                    //Clear previous grapple
-                    if (Main.projectile[mp.Grapple].active && Main.projectile[mp.Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
-                        Main.projectile[mp.Grapple].Kill();
-
-
-
-                    //Hook onto the tile
-                    Projectile.velocity = Vector2.Zero;
-                    State = HookState.Grappling;
-                    Projectile.Center = worldPos + Vector2.One * 8f;
-                    //effects
-                    WorldGen.KillTile(x, y, fail: true, effectOnly: true);
-                    SoundEngine.PlaySound(SoundID.Dig, worldPos);
+                    OnGrapple(worldPos, x, y);
                     
-                    if (Owner.grapCount < 10)
-                    {
-                        Owner.grappling[Owner.grapCount] = Projectile.whoAmI;
-                        Owner.grapCount++;
-                        //Owner.velocity = Vector2.Zero;
-                    }
-
-
-
-
-                    mp.SwingLenght = (Owner.Center - Projectile.Center).Length();
-                    mp.OldPosition = Owner.Center - Owner.velocity;
-                    mp.SetSegments(Projectile.Center);
-                    mp.Grapple = Projectile.whoAmI;
-
-                    Rectangle? tileVisualHitbox = WorldGen.GetTileVisualHitbox(x, y);
-                    if (tileVisualHitbox.HasValue)
-                        Projectile.Center = tileVisualHitbox.Value.Center.ToVector2();
-
-                    Projectile.netUpdate = true;
-                    NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Owner.whoAmI);
                     break;
                 }
 
@@ -196,8 +164,50 @@ namespace CalamityMod.Projectiles.Typeless
             }
         }
 
+        public void OnGrapple(Vector2 grapplePos, int x, int y)
+        {
+            WulfrumPackPlayer mp = Owner.GetModPlayer<WulfrumPackPlayer>();
+            //Clear previous grapple
+            if (Main.projectile[mp.Grapple].active && Main.projectile[mp.Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
+                Main.projectile[mp.Grapple].Kill();
+
+            //Hook onto the tile
+            Projectile.velocity = Vector2.Zero;
+            State = HookState.Grappling;
+            Projectile.Center = grapplePos + Vector2.One * 8f;
+            //effects
+            WorldGen.KillTile(x, y, fail: true, effectOnly: true);
+            SoundEngine.PlaySound(SoundID.Dig, grapplePos);
+            SoundEngine.PlaySound(WulfrumAcrobaticsPack.GrabSound, grapplePos);
+
+            if (Owner.grapCount < 10)
+            {
+                Owner.grappling[Owner.grapCount] = Projectile.whoAmI;
+                Owner.grapCount++;
+                //Owner.velocity = Vector2.Zero;
+            }
+
+            mp.SwingLenght = (Owner.Center - Projectile.Center).Length();
+            mp.OldPosition = Owner.Center - Owner.velocity;
+            mp.SetSegments(Projectile.Center);
+            mp.Grapple = Projectile.whoAmI;
+
+            Rectangle? tileVisualHitbox = WorldGen.GetTileVisualHitbox(x, y);
+            if (tileVisualHitbox.HasValue)
+                Projectile.Center = tileVisualHitbox.Value.Center.ToVector2();
+
+            Projectile.netUpdate = true;
+            NetMessage.SendData(MessageID.PlayerControls, -1, -1, null, Owner.whoAmI);
+        }
+
+
         public override void Kill(int timeLeft)
         {
+            if (Owner.grappling[0] == Projectile.whoAmI)
+            {
+                Owner.grappling[0] = -1;
+                Owner.grapCount--;
+            }
         }
 
         public float PrimWidthFunction(float completionRatio)
