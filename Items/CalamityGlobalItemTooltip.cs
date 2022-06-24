@@ -315,10 +315,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EndurancePotion)
                 EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
 
-            // Hand Warmer has a side bonus with Eskimo armor
+            // Hand Warmer has a side bonus with Snow armor
             if (item.type == ItemID.HandWarmer)
             {
-                string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
+                string extraLine = "\nProvides a regeneration boost while wearing the Snow armor";
                 EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
