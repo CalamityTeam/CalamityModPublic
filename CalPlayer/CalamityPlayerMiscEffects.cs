@@ -2609,6 +2609,7 @@ namespace CalamityMod.CalPlayer
                     Player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
             }
 
+            // TODO -- crit is a float now, and knockback can be boosted for all classes
             if (community)
             {
                 float floatTypeBoost = 0.05f +
