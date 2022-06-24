@@ -11,12 +11,15 @@ using CalamityMod.Items.Materials;
 using Terraria.DataStructures;
 using ReLogic.Utilities;
 using CalamityMod.Items.Accessories;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class WulfrumHook : ModProjectile
     {
         public Player Owner => Main.player[Projectile.owner];
+        internal PrimitiveTrail TrailRenderer;
 
         public HookState State
         {
@@ -49,6 +52,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.penetrate = -1;
             Projectile.timeLeft = 2;
             Projectile.tileCollide = false;
+            Projectile.extraUpdates = WulfrumPackPlayer.HookUpdates;
             //Projectile.aiStyle = 7; Can i set its ai style to 7 wihle also making it not do anthing related to ai 7 whatsoever and use my own custom hook ai?
             //That would bne great because fsr the onyl way to distinguish if a projectile is a hook or not is by checking its ai style.
         }
@@ -71,7 +75,6 @@ namespace CalamityMod.Projectiles.Typeless
             if (Owner.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped)
             {
                 Projectile.timeLeft = 2;
-                Owner.GetModPlayer<WulfrumPackPlayer>().Grapple = Projectile.whoAmI;
             }
 
             if (State == HookState.Thrown)
@@ -82,12 +85,12 @@ namespace CalamityMod.Projectiles.Typeless
 
                 float fallSpeed = Projectile.velocity.Y;
 
-                if (Timer > 15)
-                    Projectile.velocity += Vector2.UnitY * 0.5f * (1 - Math.Clamp((Timer - 15) / 35f, 0f, 1f));
+                if (Timer > 15 * Projectile.extraUpdates)
+                    Projectile.velocity += Vector2.UnitY * 0.5f * (1 - Math.Clamp((Timer - 15) / 35f, 0f, 1f)) / Projectile.extraUpdates;
 
                 Projectile.velocity *= 0.98f;
 
-                if (Projectile.velocity.Y > 0)
+                if (Projectile.velocity.Y + 0.001 > 0)
                     Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y, 0, Math.Max(18f, fallSpeed));
 
 
@@ -96,7 +99,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             else if (State == HookState.Retracting)
             {
-                Projectile.velocity = BetweenOwner.SafeNormalize(Vector2.One) * 13f;
+                Projectile.velocity = BetweenOwner.SafeNormalize(Vector2.One) * WulfrumPackPlayer.ReturnVelocity;
                 Projectile.Center += Vector2.UnitY * 0.5f;
 
                 if (BetweenOwner.Length() < 25f)
@@ -148,6 +151,14 @@ namespace CalamityMod.Projectiles.Typeless
                     if (Main.myPlayer != Owner.whoAmI)
                         continue;
 
+
+                    WulfrumPackPlayer mp = Owner.GetModPlayer<WulfrumPackPlayer>();
+                    //Clear previous grapple
+                    if (Main.projectile[mp.Grapple].active && Main.projectile[mp.Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
+                        Main.projectile[mp.Grapple].Kill();
+
+
+
                     //Hook onto the tile
                     Projectile.velocity = Vector2.Zero;
                     State = HookState.Grappling;
@@ -163,12 +174,13 @@ namespace CalamityMod.Projectiles.Typeless
                         //Owner.velocity = Vector2.Zero;
                     }
 
-                    WulfrumPackPlayer mp = Owner.GetModPlayer<WulfrumPackPlayer>();
+
+
 
                     mp.SwingLenght = (Owner.Center - Projectile.Center).Length();
                     mp.OldPosition = Owner.Center - Owner.velocity;
                     mp.SetSegments(Projectile.Center);
-
+                    mp.Grapple = Projectile.whoAmI;
 
                     Rectangle? tileVisualHitbox = WorldGen.GetTileVisualHitbox(x, y);
                     if (tileVisualHitbox.HasValue)
@@ -188,8 +200,29 @@ namespace CalamityMod.Projectiles.Typeless
         {
         }
 
+        public float PrimWidthFunction(float completionRatio)
+        {
+            return 1.6f;
+        }
+
+        public Color PrimColorFunction(float completionRatio)
+        {
+            return Color.Lerp(Color.DeepSkyBlue, Color.GreenYellow, (float)Math.Pow(completionRatio, 1.5D));
+        }
+
         public override bool PreDraw(ref Color lightColor)
         {
+            if (TrailRenderer is null)
+                TrailRenderer = new PrimitiveTrail(PrimWidthFunction, PrimColorFunction);
+
+            Vector2[] segmentPositions = new Vector2[] {Projectile.Center, Owner.Center };
+
+            if (State == HookState.Grappling)
+                segmentPositions = Owner.GetModPlayer<WulfrumPackPlayer>().Segments.Select(x => x.position).ToArray();
+
+            TrailRenderer.Draw(segmentPositions, -Main.screenPosition, 30);
+
+
             Texture2D texture = TextureAssets.Projectile[Type].Value;
 
             Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() / 2f, Projectile.scale, 0, 0);

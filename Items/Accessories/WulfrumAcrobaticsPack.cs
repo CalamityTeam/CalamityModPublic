@@ -9,6 +9,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using CalamityMod.DataStructures;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -19,7 +21,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Acrobatics Pack");
-            Tooltip.SetDefault("Rebrands a broken winch into a feature\n" +
+            Tooltip.SetDefault("This mess of cogs and wires in a box retools the winch mechanism of hooks to transform them into a wulfrum slingshot\n" +
+                "The wulfrum slingshot trades the ability to reel you back in for advanced rope physics, letting you swing around the hook as you please\n" +
                 "8% increased movement speed");
         }
 
@@ -44,21 +47,27 @@ namespace CalamityMod.Items.Accessories
     {
         public override bool? CanUseGrapple(int type, Player player)
         {
-            if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<WulfrumHook>()))
+            //Player can shoot up to 2 wulfrum hooks, but only 2 is allowed to stay grappled.
+            if (player.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped)
+            {
+                if (Main.projectile.Count(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<WulfrumHook>()) > 1)
+                    return false;
+            }
+
+            //This should never happen. This is for the case in which the player shoots a hook without having the wulfrum pack equipped but somehow having a wulfrum hook out.
+            //Under no real circumstances should this happen, given wulfrum hooks instantly get killed if the player doesn't have the wulfrum pack.
+            else if (Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<WulfrumHook>()))
                 return false;
 
             return base.CanUseGrapple(type, player);
         }
 
+        //Prevent players with a wulfrum pack to spawn any non-wulfrum hooks.
         public override void OnSpawn(Projectile projectile, IEntitySource source)
         {
             Player owner = Main.player[projectile.owner];
-
             if (projectile.aiStyle == 7 && owner.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped)
             {
-                if (Main.myPlayer == projectile.owner)
-                    Projectile.NewProjectile(source, owner.Center, projectile.velocity, ProjectileType<WulfrumHook>(), 0, 0, projectile.owner);
-
                 projectile.active = false;
             }
         }
@@ -77,19 +86,20 @@ namespace CalamityMod.Items.Accessories
         public List<VerletSimulatedSegment> Segments;
 
         public static int SimulationResolution = 10;
+        public static int HookUpdates = 3;
+        public static float GrappleVelocity = 18f;
+        public static float ReturnVelocity = 5f;
+        public static float MaxHopVelocity = 4f; //The maximum velocity at which the player gets any amount of vertical boost from hopping out of the hook
+        public static float MaxHopHeight = 4f; //The max height of the vvertical hop that happens when jumping out of the hook at a low speed.
 
         public override void ResetEffects()
         {
             WulfrumPackEquipped = false;
             PackItem = null;
+            MaxHopHeight = 8.5f;
         }
 
-        public override void PreUpdateMovement()
-        {
-            if (WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
-                SimulateMovement(Main.projectile[Grapple]);
-        }
-
+        //Initialize the segments between the player and the hook's end point.
         public void SetSegments(Vector2 endPoint)
         {
             SimulationResolution = 3;
@@ -114,41 +124,77 @@ namespace CalamityMod.Items.Accessories
         }
 
 
+        public override void PreUpdateMovement()
+        {
+            if (WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
+                SimulateMovement(Main.projectile[Grapple]);
+        }
+
         public void SimulateMovement(Projectile grapple)
         {
             Segments = VerletSimulatedSegment.SimpleSimulation(Segments, SwingLenght / SimulationResolution, 50);
-
-            /*
-            //Manually apply gravity to the player.
-            CurrentPosition += CurrentPosition - OldPosition;
-            CurrentPosition += Vector2.UnitY * 1.3f;
-
-            CurrentPosition = grapple.Center + (CurrentPosition - grapple.Center).SafeNormalize(Vector2.Zero) * SwingLenght;
-            */
 
             Vector2 CurrentPosition;
 
             foreach (VerletSimulatedSegment position in Segments)
             {
                 CurrentPosition = position.position;
-                Dust doost = Dust.NewDustPerfect(CurrentPosition, 1, Vector2.Zero);
-                doost.noGravity = true;
+
+                //Control point markers
+                //Dust doost = Dust.NewDustPerfect(CurrentPosition, 1, Vector2.Zero);
+                //doost.noGravity = true;
             }
 
-            CurrentPosition = Segments[SimulationResolution].position;
-
+            CurrentPosition = Segments[SimulationResolution].position;     
             Player.velocity = CurrentPosition - Player.Center;
 
+            //let the player swing themselves around if they are under the hook.
+            if (Player.Center.Y - Segments[0].position.Y > 0)
+            {
+                float swing = 0;
+
+                if (Math.Sign(Player.velocity.X) < 0)
+                {
+                    if (Player.controlLeft)
+                        swing -= 0.1f;
+
+                    else if (Player.controlRight)
+                        swing += 0.1f;
+                }
+
+                else if (Math.Sign(Player.velocity.X) > 0)
+                {
+                    if (Player.controlRight)
+                        swing += 0.1f;
+
+                    else if (Player.controlLeft)
+                        swing -= 0.1f;
+                }
+                    
+                Player.velocity.X += swing;
+            }
+
+            //Set the old position of the simulation's segments to be the players current center (before the velocity gets applied
+            //We can't set the new position here by simply adding the velocity to the players current position because it leads to.. funny bugs if you collide with tiles.
             Segments[SimulationResolution].oldPosition = Player.Center;
-            Segments[SimulationResolution].position = Player.Center + Player.velocity;
+        }
+
+        public override void PostUpdate()
+        {
+            //After the player's movements are finished being calculated, set the current position of the hook chain to be at their new center.
+            if (WulfrumPackEquipped && Main.projectile[Grapple].active && Main.projectile[Grapple].ModProjectile is WulfrumHook hook && hook.State == WulfrumHook.HookState.Grappling)
+                Segments[SimulationResolution].position = Player.Center;
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (triggersSet.Grapple)
-            {
-                bool grappleFound = false;
+            if (!WulfrumPackEquipped)
+                return;
 
+            //Shoot a new hook 
+            if (triggersSet.Grapple && Player.releaseHook)
+            {
+                //Clear any previous non-wulfrum hooks / Any hooks that just got shot (should already be handled by the global proj
                 for (int i = 0; i < Main.maxProjectiles; ++i)
                 {
                     Projectile p = Main.projectile[i];
@@ -156,17 +202,17 @@ namespace CalamityMod.Items.Accessories
                         continue;
 
                     p.Kill();
-                    grappleFound = true;
                 }
 
-                if (!grappleFound && !Main.projectile.Any(n => n.active && n.owner == Player.whoAmI && n.type == ProjectileType<WulfrumHook>()))
+
+                if (Main.projectile.Count(n => n.active && n.owner == Player.whoAmI && n.type == ProjectileType<WulfrumHook>()) <= 1)
                 {
-                    Vector2 velocity = (Main.MouseWorld - Player.Center).SafeNormalize(Vector2.One) * 30f;
+                    Vector2 velocity = (Main.MouseWorld - Player.Center).SafeNormalize(Vector2.One) * GrappleVelocity;
                     Projectile.NewProjectile(Player.GetSource_ItemUse(PackItem), Player.Center, velocity, ProjectileType<WulfrumHook>(), 0, 0, Player.whoAmI);
-                    //Launch grapple
                 }
             }
 
+            //Jumping out of the hook
             if (triggersSet.Jump && Player.releaseJump)
             {
                 for (int i = 0; i < Main.maxProjectiles; ++i)
@@ -175,10 +221,32 @@ namespace CalamityMod.Items.Accessories
                     if (!p.active || p.owner != Player.whoAmI || p.type != ProjectileType<WulfrumHook>())
                         continue;
 
-                    p.Kill();
+                    //Only clear hooks that are attached to stuff
+                    if (p.ModProjectile is WulfrumHook claw && claw.State == WulfrumHook.HookState.Grappling)
+                    {
+                        p.Kill();
+
+                        Vector2 velocityBoost = Vector2.Zero;
+
+                        //Additionally, accelerate the player a lil' if they were holding down the buttons in the direction of their swing.
+                        if ((Math.Sign(Player.velocity.X) < 0 && Player.controlLeft) || (Math.Sign(Player.velocity.X) > 0 && Player.controlRight))
+                        {
+                            velocityBoost += Player.velocity * 0.15f;
+                        }
+                        //Additionally^2, if the player isnt moving very fast, make them do a straight up hop.
+                        //Don't do the hop if the player isnt moving at all though because thats handled by vanilla.
+                        if (Player.velocity.Length() < MaxHopVelocity && Player.velocity.Length() > 0.0001f)
+                        {
+                            velocityBoost -= Vector2.UnitY * Player.jumpSpeed * (1 - (float)Math.Pow(Player.velocity.Length() / MaxHopVelocity, 5f));
+                        }
+
+                        Player.velocity += velocityBoost;
+
+
+                        Player.jump = Player.jumpHeight / 2;
+                    }
                 }
 
-                Player.jump = 0;
             }
         }
     }

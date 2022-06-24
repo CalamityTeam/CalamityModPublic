@@ -132,17 +132,10 @@ namespace CalamityMod.Systems
 
         public override void PostDrawTiles()
         {
-            DrawTiles();
-        }
-
-        public static void DrawTiles()
-        {
             if (pingedTiles.Keys.Count + pingedNonSolidTiles.Count < 1)
                 return;
 
-            
             drawCache.Clear();
-
 
             foreach (IPingedTileEffect solidEffect in pingedTiles.Keys)
             {
