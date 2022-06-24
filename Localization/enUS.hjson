@@ -177,7 +177,7 @@ TownNPCMood:
         DislikeBiome: "The sun is too harsh on me. I dislike the arid climate here.",
         HateBiome: "This is simply no place to live. Let us depart immediately.",
         LikeNPC: "The way {NPCName} acts is a bit too coarse for me, but his love of the ocean is something I can quite appreciate!",
-        DislikeNPC: "I’ve had quite enough carnage for one lifetime thank you! {NPCName}}'s destructive tendencies are a bit insensitive.",
+        DislikeNPC: "I’ve had quite enough carnage for one lifetime thank you! {NPCName}'s destructive tendencies are a bit insensitive.",
         HateNPC: "{NPCName} is just a child, but his attitude towards marine life is unacceptable! Absolutely unacceptable!",
         LikeNPC_Princess: "That child, {NPCName}. She is an innocent soul. Let us hope the horrors of war never reach her.",
     },
