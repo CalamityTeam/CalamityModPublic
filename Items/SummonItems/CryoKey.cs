@@ -15,6 +15,7 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Cryo Key");
             Tooltip.SetDefault("Summons Cryogen when used in the tundra\n" +
+                "Enrages outside the tundra\n" +
                 "Not consumable");
         }
 

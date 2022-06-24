@@ -16,7 +16,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Desert Medallion");
-            Tooltip.SetDefault("Summons the Desert Scourge when used in the desert\n" +
+            Tooltip.SetDefault("Summons the Desert Scourge when used in the Desert\n" +
+                "Enrages outside the Desert\n" +
                 "Not consumable");
         }
 

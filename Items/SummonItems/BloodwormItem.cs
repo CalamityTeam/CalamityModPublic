@@ -10,7 +10,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Bloodworm");
-            Tooltip.SetDefault("Summons The Old Duke if used as bait in the sulphur sea");
+            Tooltip.SetDefault("Summons The Old Duke if used as bait in the Sulphurous Sea\n" +
+                "Enrages outside the Sulphurous Sea");
         }
 
         public override void SetDefaults()

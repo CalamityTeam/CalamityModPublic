@@ -13,7 +13,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Old Power Cell");
-            Tooltip.SetDefault("Summons the Golem when used in the temple\n" +
+            Tooltip.SetDefault("Summons the Golem when used in the Jungle Temple\n" +
+                "Enrages outside the Jungle Temple\n" +
                 "Not consumable");
         }
 

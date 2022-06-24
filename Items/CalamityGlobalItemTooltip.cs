@@ -348,34 +348,56 @@ namespace CalamityMod.Items
             #region Boss Summon Tooltip Edits
 
             if (item.type == ItemID.Abeemination)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the jungle");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Jungle\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Jungle");
+            }
 
             if (item.type == ItemID.BloodySpine)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the crimson");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Crimson\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Crimson");
+            }
 
             if (item.type == ItemID.ClothierVoodooDoll)
-                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
+            {
+                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages during the day");
+            }
 
             if (item.type == ItemID.DeerThing)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the snow or ice biome");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Snow or Ice biome");
 
             if (item.type == ItemID.GuideVoodooDoll)
                 EditTooltipByNum(0, (line) => line.Text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
 
             if (item.type == ItemID.LihzahrdPowerCell)
-                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Jungle Temple");
+            
+            }
 
             if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
-                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages during the day");
+            }
 
             if (item.type == ItemID.QueenSlimeCrystal)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the hallow");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Hallow");
 
             if (item.type == ItemID.TruffleWorm)
-                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the ocean");
+            {
+                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the Ocean\n");
+                EditTooltipByName("Consumable", (line) => line.Text += "Enrages outside the Ocean");
+            }
 
             if (item.type == ItemID.WormFood)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Corruption\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Corruption");
+            }
             #endregion
 
             // Brain of Confusion, Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.

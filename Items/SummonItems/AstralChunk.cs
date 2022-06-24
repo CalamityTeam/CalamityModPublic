@@ -15,7 +15,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Astral Chunk");
-            Tooltip.SetDefault("Summons Astrum Aureus when used in the astral infection during nighttime\n" +
+            Tooltip.SetDefault("Summons Astrum Aureus when used in the Astral Infection during nighttime\n" +
+                "Enrages during the day\n" +
                 "Not consumable");
         }
 

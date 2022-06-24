@@ -107,11 +107,11 @@ namespace CalamityMod.Items.Accessories
             float moveSpeedIncrease = MathHelper.Lerp(0.025f, 0.1f, communityPower);
             float flightTimeIncrease = MathHelper.Lerp(0.05f, 0.2f, communityPower);
 
-            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+            TooltipLine line = list.LastOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip4");
 
             if (line != null)
-                line.Text = 
-                "Max health increased by " + (maxHealthIncrease*100).ToString("n1") + "%\n" +
+                line.Text += 
+                "\nMax health increased by " + (maxHealthIncrease*100).ToString("n1") + "%\n" +
                 "Melee speed increased by " + (meleeSpeedIncrease*100).ToString("n1") + "%\n" +
                 "Life regeneration increased by " + (1+lifeRegenIncrease) + "\n" +
                 "Critical strike chance increased by " + (critChanceIncrease*100).ToString("n1") + "%\n" +

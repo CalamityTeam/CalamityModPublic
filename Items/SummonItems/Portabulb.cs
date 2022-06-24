@@ -14,7 +14,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Portabulb");
-            Tooltip.SetDefault("Summons Plantera when used in the jungle\n" +
+            Tooltip.SetDefault("Summons Plantera when used in the Jungle\n" +
+                "Enrages outside the Underground Jungle\n" +
                 "Not consumable");
         }
 

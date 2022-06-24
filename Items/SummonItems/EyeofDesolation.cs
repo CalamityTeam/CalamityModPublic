@@ -17,6 +17,7 @@ namespace CalamityMod.Items.SummonItems
             DisplayName.SetDefault("Eye of Desolation");
             Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
                 "Summons Calamitas when used during nighttime\n" +
+                "Enrages during the day\n" +
                 "Not consumable");
         }
 
