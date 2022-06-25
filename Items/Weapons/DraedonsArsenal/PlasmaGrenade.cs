@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Item.UseSound = SoundID.Item1;
             Item.autoReuse = true;
 
-            Item.value = Item.sellPrice(silver: 10);
+            Item.value = CalamityGlobalItem.Rarity14BuyPrice;
             Item.rare = ItemRarityID.Purple;
             modItem.customRarity = CalamityRarity.DraedonRust;
 

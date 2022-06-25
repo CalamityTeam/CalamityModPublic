@@ -1,4 +1,4 @@
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()
