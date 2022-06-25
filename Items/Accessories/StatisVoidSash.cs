@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Accessories
 {
-    [LegacyName("StatisBeltofCurses")]
+    [LegacyName("StatisBeltOfCurses")]
     public class StatisVoidSash : ModItem
     {
         public override void SetStaticDefaults()

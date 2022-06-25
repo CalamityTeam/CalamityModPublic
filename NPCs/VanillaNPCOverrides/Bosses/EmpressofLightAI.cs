@@ -606,7 +606,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     calamityGlobalNPC.DR = shouldBeInPhase2ButIsStillInPhase1 ? 0.99f : 0.575f;
 
                     int totalSunDances = 3;
-                    float sunDanceGateValue = death ? 40f : 50f;
+                    float sunDanceGateValue = dayTimeEnrage ? 35f : death ? 40f : 50f;
                     float totalSunDancePhaseTime = totalSunDances * sunDanceGateValue;
 
                     Vector2 value7 = new Vector2(0f, -100f);
@@ -636,7 +636,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     }
 
                     npc.ai[1] += 1f;
-                    extraPhaseTime = (dayTimeEnrage ? 72f : 90f) + 60f * lessTimeSpentPerPhaseMultiplier;
+                    extraPhaseTime = 110f + 30f * lessTimeSpentPerPhaseMultiplier; // 112.5 is too little
                     if (npc.ai[1] >= totalSunDancePhaseTime + extraPhaseTime)
                     {
                         npc.ai[0] = 1f;
