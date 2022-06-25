@@ -102,7 +102,7 @@ namespace CalamityMod
 
                 case PrefixID.Guarding:
                     if (DownedBossSystem.downedYharon)
-                        return 8;
+                        return 7;
                     else if (DownedBossSystem.downedDoG)
                         return 6;
                     else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
@@ -115,7 +115,7 @@ namespace CalamityMod
 
                 case PrefixID.Armored:
                     if (DownedBossSystem.downedYharon)
-                        return 11;
+                        return 10;
                     else if (DownedBossSystem.downedDoG)
                         return 9;
                     else if (DownedBossSystem.downedPolterghast)
@@ -130,9 +130,9 @@ namespace CalamityMod
 
                 case PrefixID.Warding:
                     if (DownedBossSystem.downedYharon)
-                        return 15;
-                    else if (DownedBossSystem.downedDoG)
                         return 12;
+                    else if (DownedBossSystem.downedDoG)
+                        return 11;
                     else if (DownedBossSystem.downedPolterghast)
                         return 10;
                     else if (DownedBossSystem.downedProvidence)

@@ -1513,11 +1513,11 @@ namespace CalamityMod.Items
                  * Post-Provi = 5
                  * Post-Polter = 5
                  * Post-DoG = 6
-                 * Post-Yharon = 8
+                 * Post-Yharon = 7
                  */
 
                 if (DownedBossSystem.downedYharon)
-                    player.statDefense += 6;
+                    player.statDefense += 5;
                 else if (DownedBossSystem.downedDoG)
                     player.statDefense += 4;
                 else if (DownedBossSystem.downedProvidence || DownedBossSystem.downedPolterghast)
@@ -1538,11 +1538,11 @@ namespace CalamityMod.Items
                  * Post-Provi = 7
                  * Post-Polter = 8
                  * Post-DoG = 9
-                 * Post-Yharon = 11
+                 * Post-Yharon = 10
                  */
 
                 if (DownedBossSystem.downedYharon)
-                    player.statDefense += 8;
+                    player.statDefense += 7;
                 else if (DownedBossSystem.downedDoG)
                     player.statDefense += 6;
                 else if (DownedBossSystem.downedPolterghast)
@@ -1564,14 +1564,14 @@ namespace CalamityMod.Items
                  * Post-Moon Lord = 8
                  * Post-Provi = 9
                  * Post-Polter = 10
-                 * Post-DoG = 12
-                 * Post-Yharon = 15
+                 * Post-DoG = 11
+                 * Post-Yharon = 12
                  */
 
                 if (DownedBossSystem.downedYharon)
-                    player.statDefense += 11;
-                else if (DownedBossSystem.downedDoG)
                     player.statDefense += 8;
+                else if (DownedBossSystem.downedDoG)
+                    player.statDefense += 7;
                 else if (DownedBossSystem.downedPolterghast)
                     player.statDefense += 6;
                 else if (DownedBossSystem.downedProvidence)
