@@ -395,7 +395,7 @@ namespace CalamityMod.CalPlayer
                         rage = 2f * rageMax;
 
                     // Play a sound when the Rage Meter is full
-                    if (playFullRageSound)
+                    if (Player.whoAmI == Main.myPlayer && playFullRageSound)
                     {
                         playFullRageSound = false;
                         SoundEngine.PlaySound(RageFilledSound);
@@ -476,7 +476,7 @@ namespace CalamityMod.CalPlayer
                     adrenaline = adrenalineMax;
 
                     // Play a sound when the Adrenaline Meter is full
-                    if (playFullAdrenalineSound)
+                    if (Player.whoAmI == Main.myPlayer && playFullAdrenalineSound)
                     {
                         playFullAdrenalineSound = false;
                         SoundEngine.PlaySound(AdrenalineFilledSound);

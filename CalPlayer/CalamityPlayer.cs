@@ -2974,7 +2974,8 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound(RageActivationSound);
+                    if (Player.whoAmI == Main.myPlayer)
+                        SoundEngine.PlaySound(RageActivationSound);
 
                     // TODO -- Rage should provide glowy red afterimages to the player for the duration.
                     // If Shattered Community is equipped, the afterimages are magenta instead.
@@ -3002,7 +3003,8 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
                     // Play Adrenaline Activation sound
-                    SoundEngine.PlaySound(AdrenalineActivationSound);
+                    if (Player.whoAmI == Main.myPlayer)
+                        SoundEngine.PlaySound(AdrenalineActivationSound);
 
                     // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
                     int dustPerSegment = 96;
@@ -6795,7 +6797,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Sound plays upon hitting full stealth, not upon having stealth strike available (this can occur at lower than 100% stealth)
-            if (playRogueStealthSound && rogueStealth >= rogueStealthMax)
+            if (playRogueStealthSound && rogueStealth >= rogueStealthMax && Player.whoAmI == Main.myPlayer)
             {
                 playRogueStealthSound = false;
                 SoundEngine.PlaySound(RogueStealthSound, Player.position);
@@ -8169,9 +8171,9 @@ namespace CalamityMod.CalPlayer
         private void ShowDefenseDamageEffects(int defDamage)
         {
             // Play a sound from taking defense damage.
-            if (hurtSoundTimer == 0)
+            if (hurtSoundTimer == 0 && Main.myPlayer == Player.whoAmI)
             {
-                SoundEngine.PlaySound(DefenseDamageSound, Player.position);
+                SoundEngine.PlaySound(DefenseDamageSound with { Volume = DefenseDamageSound.Volume * 0.75f}, Player.position);
                 hurtSoundTimer = 30;
             }
 
