@@ -11,7 +11,7 @@ namespace CalamityMod.Items.DraedonMisc
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Schematic");
+            DisplayName.SetDefault("Schematic (Sunken Sea)");
             Tooltip.SetDefault("Finely detailed diagrams of numerous devices and weaponry dance across the holographic screen.\n" +
             "The weaponry I supply to the workers of the laboratories is weak. Hardly suited for battle.\n" +
             "However, they suffice for self defense against any lab mechanisms or creations which may have gone rogue.\n" +
