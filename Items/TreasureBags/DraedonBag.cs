@@ -22,7 +22,7 @@ namespace CalamityMod.Items.TreasureBags
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 3;
-            DisplayName.SetDefault("Treasure Bag (Exo Mechs)");
+            DisplayName.SetDefault("Treasure Box (Exo Mechs)");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
