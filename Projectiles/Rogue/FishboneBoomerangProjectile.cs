@@ -70,8 +70,8 @@ namespace CalamityMod.Projectiles.Rogue
 
                 Owner.heldProj = Projectile.whoAmI;
 
-                Projectile.Center = Owner.MountedCenter + Vector2.UnitY.RotatedBy(armRotation) * -40f;
-                Projectile.rotation = -MathHelper.PiOver2 + armRotation;
+                Projectile.Center = Owner.MountedCenter + Vector2.UnitY.RotatedBy(armRotation * Owner.gravDir) * -40f * Owner.gravDir;
+                Projectile.rotation = (-MathHelper.PiOver2 + armRotation) * Owner.gravDir;
 
                 Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, MathHelper.Pi + armRotation);
 
