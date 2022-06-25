@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (Projectile.velocity.Y + 0.001 > 0)
                     Projectile.velocity.Y = Math.Clamp(Projectile.velocity.Y, 0, Math.Max(18f, fallSpeed));
 
-                if (Projectile.velocity.Length() < 0.001f)
+                if (Projectile.velocity.Length() < 1f)
                     State = HookState.Retracting;
 
                 CheckForGrapplableTiles();

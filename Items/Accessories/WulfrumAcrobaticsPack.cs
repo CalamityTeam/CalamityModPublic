@@ -122,8 +122,7 @@ namespace CalamityMod.Items.Accessories
                 if (!Grappled)
                     return false;
 
-                bool collisionTest = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, false);
-                if (!collisionTest)
+                if (!PlayerOnGround)
                     return false;
 
                 if ((Player.Center - Main.projectile[Grapple].Center).Length() > SwingLenght)
@@ -143,6 +142,7 @@ namespace CalamityMod.Items.Accessories
         public static float ReturnVelocity = 5f;
         public static float MaxHopVelocity = 4f; //The maximum velocity at which the player gets any amount of vertical boost from hopping out of the hook
 
+        public bool PlayerOnGround => Collision.SolidCollision(Player.position + Vector2.UnitY* 2f * Player.gravDir, Player.width, Player.height, false);
 
         public override void ResetEffects()
         {
@@ -194,7 +194,7 @@ namespace CalamityMod.Items.Accessories
 
         public void SimulateMovement(Projectile grapple)
         {
-            Segments = VerletSimulatedSegment.SimpleSimulation(Segments, SwingLenght / SimulationResolution, 50);
+            Segments = VerletSimulatedSegment.SimpleSimulation(Segments, SwingLenght / SimulationResolution, 50, 0.3f * Player.gravDir);
 
             Vector2 CurrentPosition;
 
@@ -214,7 +214,7 @@ namespace CalamityMod.Items.Accessories
                 Player.velocity = CurrentPosition - Player.Center;
 
                 //let the player swing themselves around if they are under the hook.
-                if (Player.Center.Y - Segments[0].position.Y > 0)
+                if (Player.gravDir * (Player.Center.Y - Segments[0].position.Y) > 0)
                 {
                     float swing = 0;
 
@@ -238,6 +238,12 @@ namespace CalamityMod.Items.Accessories
 
                     Player.velocity.X += swing;
                 }
+
+                else if (Math.Abs(Player.Center.X - Segments[0].position.X) < 30f && Math.Abs(Player.velocity.X) < 1)
+                {
+                    Player.velocity.X = Player.velocity.X == 0 ? 1.5f : 1.5f * Math.Sign(Player.velocity.X);
+                }
+
             }
 
             if (Grappled)
@@ -258,6 +264,14 @@ namespace CalamityMod.Items.Accessories
             //After the player's movements are finished being calculated, set the current position of the hook chain to be at their new center.
             if (Grappled)
                 Segments[SimulationResolution].position = Player.Center;
+
+
+
+            //Play a swoosh sound if the player changed sides and moved fast
+            bool playerCrossedSides = Math.Sign(Segments[SimulationResolution].oldPosition.X - Segments[0].position.X) != Math.Sign(Segments[SimulationResolution].position.X - Segments[0].position.X);
+            float swingSpeed = (Segments[SimulationResolution].oldPosition - Segments[SimulationResolution].position).Length();
+            if (swingSpeed > 6f && playerCrossedSides)
+                SoundEngine.PlaySound(SoundID.Item7 with { Volume = SoundID.Item7.Volume * (Math.Clamp((swingSpeed - 6f) / 12f, 0, 1))} , Player.Center);
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -313,8 +327,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         //Additionally^2, if the player isnt moving very fast, make them do a straight up hop.
                         //Don't do the hop if the player isnt moving at all though because thats handled by vanilla.
-                        bool disabledGrapple = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, false);
-                        if (Player.velocity.Length() < MaxHopVelocity && (Player.velocity.Length() > 0.0001f || disabledGrapple))
+                        if (Player.velocity.Length() < MaxHopVelocity && (Player.velocity.Length() > 0.0001f || PlayerOnGround))
                         {
                             velocityBoost -= Vector2.UnitY * Player.jumpSpeed * (1 - (float)Math.Pow(Player.velocity.Length() / MaxHopVelocity, 5f));
                         }
@@ -329,8 +342,11 @@ namespace CalamityMod.Items.Accessories
             }
         }
 
+
         public override void FrameEffects()
         {
+            //Cache the hook. This is done so that the player may walk around animated if the grapple's movement is disabled.
+            //The cache is retrieved in the postFrame detour.
             if (Player.grappling[0] >= 0 && GrappleMovementDisabled && Main.projectile[Player.grappling[0]].type == ProjectileType<WulfrumHook>())
             {
                 hookCache = Player.grappling[0];

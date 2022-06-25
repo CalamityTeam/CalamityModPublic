@@ -15,7 +15,7 @@ namespace CalamityMod.DataStructures
             locked = _locked;
         }
 
-        public static List<VerletSimulatedSegment> SimpleSimulation(List<VerletSimulatedSegment> segments, float segmentDistance, int loops = 10)
+        public static List<VerletSimulatedSegment> SimpleSimulation(List<VerletSimulatedSegment> segments, float segmentDistance, int loops = 10, float gravity = 0.3f)
         {
             //https://youtu.be/PGk0rnyTa1U?t=400 verlet integration chains reference here
             foreach (VerletSimulatedSegment segment in segments)
@@ -25,7 +25,7 @@ namespace CalamityMod.DataStructures
                     Vector2 positionBeforeUpdate = segment.position;
 
                     segment.position += (segment.position - segment.oldPosition); // This adds conservation of energy to the segments. This makes it super bouncy and shouldnt be used but it's really funny
-                    segment.position += Vector2.UnitY * 0.3f; //=> This adds gravity to the segments. 
+                    segment.position += Vector2.UnitY * gravity; //=> This adds gravity to the segments. 
 
                     segment.oldPosition = positionBeforeUpdate;
                 }
