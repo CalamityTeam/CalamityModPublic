@@ -60,6 +60,7 @@ namespace CalamityMod.World
         public static bool painterName = false;
         public static bool partyGirlName = false;
         public static bool pirateName = false;
+        public static bool princessName = false;
         public static bool skeletonMerchantName = false;
         public static bool steampunkerName = false;
         public static bool stylistName = false;

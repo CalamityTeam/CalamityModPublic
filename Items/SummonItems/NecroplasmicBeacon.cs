@@ -17,7 +17,8 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Necroplasmic Beacon");
             Tooltip.SetDefault("It's spooky\n" +
-                "Summons Polterghast when used in the dungeon\n" +
+                "Summons Polterghast when used in the Dungeon\n" +
+                "Enrages in large spaces\n" +
                 "Not consumable");
         }
 

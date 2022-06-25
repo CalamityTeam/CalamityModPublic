@@ -16,7 +16,8 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Jungle Dragon Egg");
             Tooltip.SetDefault("An imitation of the egg that bore the loyal guardian of the tyrant king\n" +
-                               "Summons Jungle Dragon, Yharon when used in the jungle\n" +
+                               "Summons Jungle Dragon, Yharon when used in the Jungle\n" +
+                               "Enrages outside the fire walls\n" +
                                "Not consumable");
         }
 

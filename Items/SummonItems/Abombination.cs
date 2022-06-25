@@ -16,7 +16,8 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Abombination");
             Tooltip.SetDefault("Calls in the airborne abomination\n" +
-                "Summons the Plaguebringer Goliath when used in the jungle\n" +
+                "Summons the Plaguebringer Goliath when used in the Jungle\n" +
+                "Enrages outside the Underground Jungle\n" +
                 "Not consumable");
         }
 

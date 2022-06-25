@@ -16,7 +16,8 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Charred Idol");
             Tooltip.SetDefault("Use at your own risk\n" +
-               "Summons the Brimstone Elemental when used in the brimstone crags\n" +
+               "Summons the Brimstone Elemental when used in the Brimstone Crags\n" +
+               "Enrages outside the Brimstone Crags\n" +
                "Not consumable");
         }
 

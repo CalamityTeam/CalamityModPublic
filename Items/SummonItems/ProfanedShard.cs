@@ -15,7 +15,8 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Profaned Shard");
             Tooltip.SetDefault("A shard of the unholy flame\n" +
-                "Summons the Profaned Guardians when used in the hallow or underworld during daytime\n" +
+                "Summons the Profaned Guardians when used in the Hallow or Underworld during daytime\n" +
+                "Enrage when not in the Hallow or Underworld\n" +
                 "Not consumable");
         }
 

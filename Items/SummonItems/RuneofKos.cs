@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -68,6 +70,24 @@ namespace CalamityMod.Items.SummonItems
             }
 
             return true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            Player player = Main.LocalPlayer;
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip2");
+
+            if (line != null) {
+                if (player.ZoneDungeon)
+                {
+                    line.Text = "Summons the Ceaseless Void" +
+                        "\nEnrages outside the Dungeon";
+                }
+                else if (player.ZoneSkyHeight)
+                    line.Text = "Summons the Storm Weaver";
+                else if (player.ZoneUnderworldHeight)
+                    line.Text = "Summons Signus, Envoy of the Devourer";
+            }
         }
 
         public override void AddRecipes()

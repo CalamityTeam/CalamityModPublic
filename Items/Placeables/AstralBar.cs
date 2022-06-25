@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
+            SacrificeTotal = 25;
             DisplayName.SetDefault("Astral Bar");
         }
 

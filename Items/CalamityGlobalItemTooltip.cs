@@ -315,10 +315,10 @@ namespace CalamityMod.Items
             if (item.type == ItemID.EndurancePotion)
                 EditTooltipByNum(0, (line) => line.Text = "Reduces damage taken by 5%");
 
-            // Hand Warmer has a side bonus with Eskimo armor
+            // Hand Warmer has a side bonus with Snow armor
             if (item.type == ItemID.HandWarmer)
             {
-                string extraLine = "\nProvides a regeneration boost while wearing the Eskimo armor";
+                string extraLine = "\nProvides a regeneration boost while wearing the Snow armor";
                 EditTooltipByNum(0, (line) => line.Text += extraLine);
             }
 
@@ -348,34 +348,56 @@ namespace CalamityMod.Items
             #region Boss Summon Tooltip Edits
 
             if (item.type == ItemID.Abeemination)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the jungle");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Jungle\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Jungle");
+            }
 
             if (item.type == ItemID.BloodySpine)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the crimson");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Crimson\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Crimson");
+            }
 
             if (item.type == ItemID.ClothierVoodooDoll)
-                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime");
+            {
+                EditTooltipByNum(0, (line) => line.Text += "\nWhile equipped, summons Skeletron when the Clothier is killed during nighttime\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages during the day");
+            }
 
             if (item.type == ItemID.DeerThing)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the snow or ice biome");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Snow or Ice biome");
 
             if (item.type == ItemID.GuideVoodooDoll)
                 EditTooltipByNum(0, (line) => line.Text += "\nSummons the Wall of Flesh if thrown into lava in the underworld while the Guide is alive");
 
             if (item.type == ItemID.LihzahrdPowerCell)
-                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " to summon the Golem\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Jungle Temple");
+            
+            }
 
             if (item.type == ItemID.MechanicalEye || item.type == ItemID.MechanicalSkull || item.type == ItemID.MechanicalWorm || item.type == ItemID.SuspiciousLookingEye)
-                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used during nighttime\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages during the day");
+            }
 
             if (item.type == ItemID.QueenSlimeCrystal)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the hallow");
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Hallow");
 
             if (item.type == ItemID.TruffleWorm)
-                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the ocean");
+            {
+                EditTooltipByName("Consumable", (line) => line.Text += "\nSummons Duke Fishron if used as bait in the Ocean\n");
+                EditTooltipByName("Consumable", (line) => line.Text += "Enrages outside the Ocean");
+            }
 
             if (item.type == ItemID.WormFood)
-                EditTooltipByNum(0, (line) => line.Text += " when used in the corruption");
+            {
+                EditTooltipByNum(0, (line) => line.Text += " when used in the Corruption\n");
+                EditTooltipByNum(0, (line) => line.Text += "Enrages outside the Underground Corruption");
+            }
             #endregion
 
             // Brain of Confusion, Black Belt and Master Ninja Gear have guaranteed dodges with a fixed cooldown.
@@ -1214,6 +1236,24 @@ namespace CalamityMod.Items
         {
             TooltipLine line = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge1", "You don't have sufficient knowledge to create this yet");
             TooltipLine line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "A specific schematic must be deciphered first");
+            switch (tier)
+            {
+                case 1:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Sunken Sea schematic must be deciphered first");
+                    break;
+                case 2:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Planetoid schematic must be deciphered first");
+                    break;
+                case 3:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Jungle schematic must be deciphered first");
+                    break;
+                case 4:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Underworld schematic must be deciphered first");
+                    break;
+                case 5:
+                    line2 = new TooltipLine(CalamityMod.Instance, "SchematicKnowledge2", "The Ice biome schematic must be deciphered first");
+                    break;
+            }
             line.OverrideColor = line2.OverrideColor = Color.Cyan;
 
             bool allowedDueToOldWorld = allowOldWorlds && CalamityWorld.IsWorldAfterDraedonUpdate;

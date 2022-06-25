@@ -1455,22 +1455,9 @@ namespace CalamityMod.CalPlayer
 
             if (community)
             {
-                float floatTypeBoost = 0.05f +
-                    (NPC.downedSlimeKing ? 0.01f : 0f) +
-                    (NPC.downedBoss1 ? 0.01f : 0f) +
-                    (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) +
-                    (NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
-                    (Main.hardMode ? 0.01f : 0f) +
-                    (NPC.downedMechBossAny ? 0.01f : 0f) +
-                    (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) +
-                    (NPC.downedFishron ? 0.01f : 0f) + // 0.15
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
-                    (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
-                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
-                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
+                float BoostAtZeroBosses = 0.05f;
+                float BoostPostYharon = 0.2f;
+                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 percentMaxLifeIncrease += integerTypeBoost;
             }
@@ -2987,7 +2974,8 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<RageMode>(), 2);
 
                     // Play Rage Activation sound
-                    SoundEngine.PlaySound(RageActivationSound);
+                    if (Player.whoAmI == Main.myPlayer)
+                        SoundEngine.PlaySound(RageActivationSound);
 
                     // TODO -- Rage should provide glowy red afterimages to the player for the duration.
                     // If Shattered Community is equipped, the afterimages are magenta instead.
@@ -3015,7 +3003,8 @@ namespace CalamityMod.CalPlayer
                     Player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
 
                     // Play Adrenaline Activation sound
-                    SoundEngine.PlaySound(AdrenalineActivationSound);
+                    if (Player.whoAmI == Main.myPlayer)
+                        SoundEngine.PlaySound(AdrenalineActivationSound);
 
                     // TODO -- Adrenaline should provide bright green vibrating afterimages on the player for the duration.
                     int dustPerSegment = 96;
@@ -3343,22 +3332,9 @@ namespace CalamityMod.CalPlayer
             float meleeSpeedMult = 0f;
             if (community)
             {
-                float floatTypeBoost = 0.05f +
-                    (NPC.downedSlimeKing ? 0.01f : 0f) +
-                    (NPC.downedBoss1 ? 0.01f : 0f) +
-                    (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) +
-                    (NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
-                    (Main.hardMode ? 0.01f : 0f) +
-                    (NPC.downedMechBossAny ? 0.01f : 0f) +
-                    (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) +
-                    (NPC.downedFishron ? 0.01f : 0f) + // 0.15
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
-                    (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
-                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
-                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
+                float BoostAtZeroBosses = 0.05f;
+                float BoostPostYharon = 0.2f;
+                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
                 meleeSpeedMult += floatTypeBoost * 0.25f;
             }
 
@@ -6821,7 +6797,7 @@ namespace CalamityMod.CalPlayer
             }
 
             // Sound plays upon hitting full stealth, not upon having stealth strike available (this can occur at lower than 100% stealth)
-            if (playRogueStealthSound && rogueStealth >= rogueStealthMax)
+            if (playRogueStealthSound && rogueStealth >= rogueStealthMax && Player.whoAmI == Main.myPlayer)
             {
                 playRogueStealthSound = false;
                 SoundEngine.PlaySound(RogueStealthSound, Player.position);
@@ -8195,9 +8171,9 @@ namespace CalamityMod.CalPlayer
         private void ShowDefenseDamageEffects(int defDamage)
         {
             // Play a sound from taking defense damage.
-            if (hurtSoundTimer == 0)
+            if (hurtSoundTimer == 0 && Main.myPlayer == Player.whoAmI)
             {
-                SoundEngine.PlaySound(DefenseDamageSound, Player.position);
+                SoundEngine.PlaySound(DefenseDamageSound with { Volume = DefenseDamageSound.Volume * 0.75f}, Player.position);
                 hurtSoundTimer = 30;
             }
 

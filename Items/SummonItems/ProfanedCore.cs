@@ -16,8 +16,9 @@ namespace CalamityMod.Items.SummonItems
             SacrificeTotal = 1;
             DisplayName.SetDefault("Profaned Core");
             Tooltip.SetDefault("The core of the unholy flame\n" +
-                "Summons Providence when used in the hallow or underworld\n" +
+                "Summons Providence when used in the Hallow or Underworld\n" +
                 "Should be used during daytime\n" +
+                "Enrages during the nighttime or when outside the Hallow or Underworld\n" +
                 "Not consumable");
         }
 

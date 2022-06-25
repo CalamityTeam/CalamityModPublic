@@ -395,7 +395,7 @@ namespace CalamityMod.CalPlayer
                         rage = 2f * rageMax;
 
                     // Play a sound when the Rage Meter is full
-                    if (playFullRageSound)
+                    if (Player.whoAmI == Main.myPlayer && playFullRageSound)
                     {
                         playFullRageSound = false;
                         SoundEngine.PlaySound(RageFilledSound);
@@ -476,7 +476,7 @@ namespace CalamityMod.CalPlayer
                     adrenaline = adrenalineMax;
 
                     // Play a sound when the Adrenaline Meter is full
-                    if (playFullAdrenalineSound)
+                    if (Player.whoAmI == Main.myPlayer && playFullAdrenalineSound)
                     {
                         playFullAdrenalineSound = false;
                         SoundEngine.PlaySound(AdrenalineFilledSound);
@@ -2609,24 +2609,12 @@ namespace CalamityMod.CalPlayer
                     Player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
             }
 
+            // TODO -- crit is a float now, and knockback can be boosted for all classes
             if (community)
             {
-                float floatTypeBoost = 0.05f +
-                    (NPC.downedSlimeKing ? 0.01f : 0f) +
-                    (NPC.downedBoss1 ? 0.01f : 0f) +
-                    (NPC.downedBoss2 ? 0.01f : 0f) +
-                    (NPC.downedQueenBee ? 0.01f : 0f) +
-                    (NPC.downedBoss3 ? 0.01f : 0f) + // 0.1
-                    (Main.hardMode ? 0.01f : 0f) +
-                    (NPC.downedMechBossAny ? 0.01f : 0f) +
-                    (NPC.downedPlantBoss ? 0.01f : 0f) +
-                    (NPC.downedGolemBoss ? 0.01f : 0f) +
-                    (NPC.downedFishron ? 0.01f : 0f) + // 0.15
-                    (NPC.downedAncientCultist ? 0.01f : 0f) +
-                    (NPC.downedMoonlord ? 0.01f : 0f) +
-                    (DownedBossSystem.downedProvidence ? 0.01f : 0f) +
-                    (DownedBossSystem.downedDoG ? 0.01f : 0f) +
-                    (DownedBossSystem.downedYharon ? 0.01f : 0f); // 0.2
+                float BoostAtZeroBosses = 0.05f;
+                float BoostPostYharon = 0.2f;
+                float floatTypeBoost = MathHelper.Lerp(BoostAtZeroBosses, BoostPostYharon, TheCommunity.CalculatePower());
                 int integerTypeBoost = (int)(floatTypeBoost * 50f);
                 int critBoost = integerTypeBoost / 2;
                 float damageBoost = floatTypeBoost * 0.5f;

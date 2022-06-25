@@ -144,9 +144,9 @@ namespace CalamityMod
             { "ExoMechs", 21.5f },
             { "SupremeCalamitas", 22f },
             { "AdultEidolonWyrm", 22.5f },
-            // { "Yharim", 20f },
-            // { "Noxus", 120f },
-            // { "Xeroc", 121f },
+            // { "Yharim", 23f },
+            // { "Noxus", 24f },
+            // { "Xeroc", 25f },
         };
 
         private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>

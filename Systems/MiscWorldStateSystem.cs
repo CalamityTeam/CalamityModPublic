@@ -72,6 +72,7 @@ namespace CalamityMod
             painterName = false;
             partyGirlName = false;
             pirateName = false;
+            princessName = false;
             skeletonMerchantName = false;
             steampunkerName = false;
             stylistName = false;
@@ -154,6 +155,8 @@ namespace CalamityMod
                 downed.Add("partyGirlName");
             if (pirateName)
                 downed.Add("pirateName");
+            if (princessName)
+                downed.Add("princessName");
             if (skeletonMerchantName)
                 downed.Add("skeletonMerchantName");
             if (steampunkerName)
@@ -238,6 +241,7 @@ namespace CalamityMod
             painterName = downed.Contains("painterName");
             partyGirlName = downed.Contains("partyGirlName");
             pirateName = downed.Contains("pirateName");
+            princessName = downed.Contains("princessName");
             skeletonMerchantName = downed.Contains("skeletonMerchantName");
             steampunkerName = downed.Contains("steampunkerName");
             stylistName = downed.Contains("stylistName");

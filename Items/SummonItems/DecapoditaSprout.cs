@@ -14,7 +14,8 @@ namespace CalamityMod.Items.SummonItems
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Decapodita Sprout");
-            Tooltip.SetDefault("Summons Crabulon when used in the mushroom biome\n" +
+            Tooltip.SetDefault("Summons Crabulon when used in the Mushroom biome\n" +
+                "Enrages outside the Underground Mushroom biome\n" +
                 "Not consumable");
         }
 

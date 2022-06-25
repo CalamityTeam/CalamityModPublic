@@ -16,7 +16,8 @@ namespace CalamityMod.Items.DraedonMisc
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Voltage Regulation System");
-            Tooltip.SetDefault("Can be placed on the Codebreaker");
+            Tooltip.SetDefault("Can be placed on the Codebreaker\n" +
+                "Allows you to decrypt the Ice biome schematic");
         }
 
         public override void SetDefaults()
