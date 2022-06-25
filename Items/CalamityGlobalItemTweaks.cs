@@ -224,6 +224,7 @@ namespace CalamityMod.Items
                 { ItemID.GreenPhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.GreenSolution, Do(Value(Item.buyPrice(silver: 5))) },
                 { ItemID.GrenadeLauncher, Do(DamageRatio(1.5f)) },
+                { ItemID.GuideVoodooDoll, maxStack999 },
                 { ItemID.Gungnir, Do(AutoReuse, TrueMelee, UseRatio(0.8f), DamageExact(92), ShootSpeedRatio(1.25f)) },
                 { ItemID.HallowedGreaves, Do(DefenseDelta(+2)) },
                 { ItemID.HallowedPlateMail, Do(DefenseDelta(+3)) },
