@@ -263,15 +263,19 @@ namespace CalamityMod.Items.Accessories
         {
             //After the player's movements are finished being calculated, set the current position of the hook chain to be at their new center.
             if (Grappled)
+            {
                 Segments[SimulationResolution].position = Player.Center;
 
 
-
-            //Play a swoosh sound if the player changed sides and moved fast
-            bool playerCrossedSides = Math.Sign(Segments[SimulationResolution].oldPosition.X - Segments[0].position.X) != Math.Sign(Segments[SimulationResolution].position.X - Segments[0].position.X);
-            float swingSpeed = (Segments[SimulationResolution].oldPosition - Segments[SimulationResolution].position).Length();
-            if (swingSpeed > 6f && playerCrossedSides)
-                SoundEngine.PlaySound(SoundID.Item7 with { Volume = SoundID.Item7.Volume * (Math.Clamp((swingSpeed - 6f) / 12f, 0, 1))} , Player.Center);
+                if (!GrappleMovementDisabled)
+                {
+                    //Play a swoosh sound if the player changed sides and moved fast
+                    bool playerCrossedSides = Math.Sign(Segments[SimulationResolution].oldPosition.X - Segments[0].position.X) != Math.Sign(Segments[SimulationResolution].position.X - Segments[0].position.X);
+                    float swingSpeed = (Segments[SimulationResolution].oldPosition - Segments[SimulationResolution].position).Length();
+                    if (swingSpeed > 6f && playerCrossedSides)
+                        SoundEngine.PlaySound(SoundID.Item7 with { Volume = SoundID.Item7.Volume * (Math.Clamp((swingSpeed - 6f) / 12f, 0, 1)) }, Player.Center);
+                }
+            }
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)

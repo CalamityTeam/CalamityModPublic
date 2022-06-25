@@ -164,8 +164,8 @@ namespace CalamityMod.Items.Tools
                 player.ChangeDir(-1);
             }
 
-            float itemRotation = player.compositeBackArm.rotation + MathHelper.PiOver2;
-            Vector2 itemPosition = player.GetBackHandPosition(player.compositeBackArm.stretch, player.compositeBackArm.rotation).Floor();
+            float itemRotation = player.compositeBackArm.rotation + MathHelper.PiOver2 * player.gravDir;
+            Vector2 itemPosition = player.GetBackHandPositionImproved(player.compositeBackArm).Floor();
             Vector2 itemSize = new Vector2(52, 42);
             Vector2 itemOrigin = new Vector2(-20, -13);
 
@@ -201,8 +201,8 @@ namespace CalamityMod.Items.Tools
                 armPointingDirection = armPointingDirection / MathHelper.Pi * MathHelper.PiOver4 * 0.5f - MathHelper.PiOver4 * 0.3f + MathHelper.Pi;
             }
 
-            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armPointingDirection * player.gravDir - MathHelper.PiOver2);
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection * player.gravDir - MathHelper.PiOver2);
         }
 
         public override void HoldStyle(Player player, Rectangle heldItemFrame) => SetItemInHand(player, heldItemFrame);
