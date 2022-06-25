@@ -21,6 +21,8 @@ namespace CalamityMod.Items.Accessories
     {
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Custom/WulfrumHookShoot") { Volume = 0.7f,  MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest};
         public static readonly SoundStyle GrabSound = new("CalamityMod/Sounds/Custom/WulfrumHookGrapple") { Volume = 0.7f, MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest };
+        public static readonly SoundStyle ReleaseSound = new("CalamityMod/Sounds/Custom/WulfrumHookDisengage") { Volume = 0.7f, MaxInstances = 1, SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest };
+
 
         public override void SetStaticDefaults()
         {
@@ -28,6 +30,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Wulfrum Acrobatics Pack");
             Tooltip.SetDefault("This mess of cogs and wires in a box retools the winch mechanism of hooks to transform them into a wulfrum slingshot\n" +
                 "The wulfrum slingshot trades the ability to reel you back in for advanced rope physics, letting you swing around the hook as you please\n" +
+                "Additionally, the pack automatically attempts to grapple to the ceiling in case it detects imminent fall damage\n" +
+                "This safety feature won't activate if the down key is being held\n" +
                 "8% increased movement speed");
         }
 
@@ -94,7 +98,7 @@ namespace CalamityMod.Items.Accessories
     {
         public bool WulfrumPackEquipped = false;
         public Item PackItem = null;
-        public bool AutoGrappleActivated => !Player.noFallDmg && !Grappled;
+        public bool AutoGrappleActivated => !Player.noFallDmg && Player.equippedWings == null && !Grappled && !Player.mount.Active && !Player.controlDown; 
         /// <summary>
         /// The index of the grapple projectile currently grappled.
         /// </summary>
@@ -118,7 +122,7 @@ namespace CalamityMod.Items.Accessories
                 if (!Grappled)
                     return false;
 
-                bool collisionTest = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, true);
+                bool collisionTest = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, false);
                 if (!collisionTest)
                     return false;
 
@@ -135,7 +139,7 @@ namespace CalamityMod.Items.Accessories
 
         public static int SimulationResolution = 3;
         public static int HookUpdates = 3;
-        public static float GrappleVelocity = 18f;
+        public static float GrappleVelocity = 17f;
         public static float ReturnVelocity = 5f;
         public static float MaxHopVelocity = 4f; //The maximum velocity at which the player gets any amount of vertical boost from hopping out of the hook
 
@@ -298,10 +302,10 @@ namespace CalamityMod.Items.Accessories
                     //Only clear hooks that are attached to stuff
                     if (p.ModProjectile is WulfrumHook claw && claw.State == WulfrumHook.HookState.Grappling)
                     {
+                        SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, p.Center);
                         p.Kill();
 
                         Vector2 velocityBoost = Vector2.Zero;
-
                         //Additionally, accelerate the player a lil' if they were holding down the buttons in the direction of their swing.
                         if ((Math.Sign(Player.velocity.X) < 0 && Player.controlLeft) || (Math.Sign(Player.velocity.X) > 0 && Player.controlRight))
                         {
@@ -309,7 +313,7 @@ namespace CalamityMod.Items.Accessories
                         }
                         //Additionally^2, if the player isnt moving very fast, make them do a straight up hop.
                         //Don't do the hop if the player isnt moving at all though because thats handled by vanilla.
-                        bool disabledGrapple = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, true);
+                        bool disabledGrapple = Collision.SolidCollision(Player.position + Vector2.UnitY * 2f, Player.width, Player.height, false);
                         if (Player.velocity.Length() < MaxHopVelocity && (Player.velocity.Length() > 0.0001f || disabledGrapple))
                         {
                             velocityBoost -= Vector2.UnitY * Player.jumpSpeed * (1 - (float)Math.Pow(Player.velocity.Length() / MaxHopVelocity, 5f));
