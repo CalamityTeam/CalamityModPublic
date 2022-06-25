@@ -2,18 +2,44 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Armor.Wulfrum
 {
     [AutoloadEquip(EquipType.Head)]
+    //A lot of legacy names that's for sure. A combo of the pre "WulfrumHeadX" names, and the aforementionned "WulfrumHeadX" names.
+    //Now that's its single class though, theres no need for that.
     [LegacyName("WulfrumHelmet")]
-    public class WulfrumHeadSummon : ModItem
+    [LegacyName("WulfrumHeadSummon")]
+    [LegacyName("WulfrumMask")]
+    [LegacyName("WulfrumHeadRogue")]
+    [LegacyName("WulfrumHeadgear")]
+    [LegacyName("WulfrumHeadRanged")]
+    [LegacyName("WulfrumHelm")]
+    [LegacyName("WulfrumHeadMelee")]
+    [LegacyName("WulfrumHood")]
+    [LegacyName("WulfrumHeadMagic")]
+    public class WulfrumHat : ModItem, IExtendedHat
     {
+        public string ExtensionTexture => "CalamityMod/Items/Armor/Wulfrum/WulfrumHat_HeadExtension";
+        public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => -Vector2.UnitY * 2f;
+
+        public override void Load()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EquipLoader.AddEquipTexture(Mod, "CalamityMod/Items/Armor/Wulfrum/WulfrumHat_FemaleHead", EquipType.Head, name : "WulfrumHatFemale");
+            }
+        }
+
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Helmet");
-            Tooltip.SetDefault("10% increased minion damage");
+            DisplayName.SetDefault("Wulfrum Hat & Goggles");
+            Tooltip.SetDefault("10% increased minion damage\n"+
+                "Comes equipped with hair extensions"
+                );
         }
 
         public override void SetDefaults()
@@ -26,7 +52,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<WulfrumArmor>() && legs.type == ModContent.ItemType<WulfrumLeggings>();
+            return body.type == ModContent.ItemType<WulfrumJacket>() && legs.type == ModContent.ItemType<WulfrumOveralls>();
         }
 
         public override void UpdateArmorSet(Player player)

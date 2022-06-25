@@ -6,13 +6,21 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Wulfrum
 {
     [AutoloadEquip(EquipType.Body)]
-    public class WulfrumArmor : ModItem
+    [LegacyName("WulfrumArmor")]
+    public class WulfrumJacket : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Armor");
+            DisplayName.SetDefault("Wulfrum Jacket");
             Tooltip.SetDefault("3% increased critical strike chance");
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                var equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+                ArmorIDs.Body.Sets.HidesArms[equipSlot] = true;
+                ArmorIDs.Body.Sets.HidesTopSkin[equipSlot] = true;
+            }
         }
 
         public override void SetDefaults()

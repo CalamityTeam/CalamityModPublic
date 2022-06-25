@@ -6,12 +6,13 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor.Wulfrum
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class WulfrumLeggings : ModItem
+    [LegacyName("WulfrumLeggings")]
+    public class WulfrumOveralls : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
-            DisplayName.SetDefault("Wulfrum Leggings");
+            DisplayName.SetDefault("Wulfrum Overalls");
             Tooltip.SetDefault("Movement speed increased by 5%");
         }
 
@@ -22,6 +23,12 @@ namespace CalamityMod.Items.Armor.Wulfrum
             Item.value = Item.buyPrice(0, 0, 25, 0);
             Item.rare = ItemRarityID.Blue;
             Item.defense = 1;
+
+            if (Main.netMode != NetmodeID.Server)
+            {
+                var equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+                ArmorIDs.Legs.Sets.HidesBottomSkin[equipSlot] = true;
+            }
         }
 
         public override void UpdateEquip(Player player)

@@ -5717,6 +5717,10 @@ namespace CalamityMod.CalPlayer
                     Player.handon = -1;
                 }
             }
+
+            //Give the braids variant to w*men
+            if (!Player.Male && Player.head == EquipLoader.GetEquipSlot(Mod, "WulfrumHat", EquipType.Head))
+                Player.head = EquipLoader.GetEquipSlot(Mod, "WulfrumHatFemale", EquipType.Head);
         }
         #endregion
 

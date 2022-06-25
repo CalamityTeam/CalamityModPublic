@@ -45,6 +45,8 @@ namespace CalamityMod.Items.Accessories
             player.moveSpeed += 0.8f;
             player.GetModPlayer<WulfrumPackPlayer>().WulfrumPackEquipped = true;
             player.GetModPlayer<WulfrumPackPlayer>().PackItem = Item;
+
+            Lighting.AddLight(player.Center, Color.Lerp(Color.DeepSkyBlue,Color.GreenYellow, (float)Math.Sin( Main.GlobalTimeWrappedHourly * 2f) * 0.5f + 0.5f).ToVector3());
         }
 
         public override void AddRecipes()
@@ -92,7 +94,7 @@ namespace CalamityMod.Items.Accessories
     {
         public bool WulfrumPackEquipped = false;
         public Item PackItem = null;
-        public bool AutoGrappleActivated => !Player.noFallDmg;
+        public bool AutoGrappleActivated => !Player.noFallDmg && !Grappled;
         /// <summary>
         /// The index of the grapple projectile currently grappled.
         /// </summary>
@@ -131,7 +133,7 @@ namespace CalamityMod.Items.Accessories
         public Vector2 OldPosition;
         public List<VerletSimulatedSegment> Segments;
 
-        public static int SimulationResolution = 10;
+        public static int SimulationResolution = 3;
         public static int HookUpdates = 3;
         public static float GrappleVelocity = 18f;
         public static float ReturnVelocity = 5f;
@@ -147,8 +149,6 @@ namespace CalamityMod.Items.Accessories
         //Initialize the segments between the player and the hook's end point.
         public void SetSegments(Vector2 endPoint)
         {
-            SimulationResolution = 3;
-
             if (Segments == null)
                 Segments = new List<VerletSimulatedSegment>();
 
@@ -236,9 +236,12 @@ namespace CalamityMod.Items.Accessories
                 }
             }
 
-            for (int i = 1; i < Segments.Count; i++)
+            if (Grappled)
             {
-                Lighting.AddLight(Segments[i].position, Color.Lerp(Color.DeepSkyBlue, Color.GreenYellow, i / 3f).ToVector3());
+                for (int i = 1; i < Segments.Count; i++)
+                {
+                    Lighting.AddLight(Segments[i].position, Color.Lerp(Color.DeepSkyBlue, Color.GreenYellow, i / (float)SimulationResolution).ToVector3());
+                }
             }
 
             //Set the old position of the simulation's segments to be the players current center (before the velocity gets applied
