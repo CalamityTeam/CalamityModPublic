@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Surf Clam");
+            SacrificeTotal = 2;
         }
 
         public override void SetDefaults()

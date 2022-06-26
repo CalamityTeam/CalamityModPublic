@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Remains");
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()

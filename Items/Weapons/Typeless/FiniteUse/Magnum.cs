@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             DisplayName.SetDefault("Magnum");
             Tooltip.SetDefault("Uses Magnum Rounds\n" +
                 "Can be used thrice per boss battle");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

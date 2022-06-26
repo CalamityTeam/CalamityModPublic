@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             DisplayName.SetDefault("Bazooka");
             Tooltip.SetDefault("Uses Grenade Shells\n" +
                 "Can be used twice per boss battle");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
