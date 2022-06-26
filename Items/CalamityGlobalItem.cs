@@ -281,12 +281,19 @@ namespace CalamityMod.Items
                     }
                     else if (item.CountsAsClass<RangedDamageClass>())
                     {
-                        double rangedDamage = newDamage * 0.15;
-                        if (rangedDamage >= 1D)
+                        // This projectile is channeled and has no cooldown unless the gun fires
+                        // The damage of the projectile is also always the max damage of the weapon, and the shot damage is calculated based off of that
+                        // You can see how this may cause issues
+                        // The projectile is fired inside of the scope's code instead
+                        if (type != ModContent.ProjectileType<TitaniumRailgunScope>())
                         {
-                            int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
-                            if (projectile.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile].Calamity().forceClassless = true;
+                            double rangedDamage = newDamage * 0.15;
+                            if (rangedDamage >= 1D)
+                            {
+                                int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
+                                if (projectile.WithinBounds(Main.maxProjectiles))
+                                    Main.projectile[projectile].Calamity().forceClassless = true;
+                            }
                         }
                     }
                     else if (item.CountsAsClass<MagicDamageClass>())
