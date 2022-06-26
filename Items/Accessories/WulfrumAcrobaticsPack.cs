@@ -98,7 +98,23 @@ namespace CalamityMod.Items.Accessories
     {
         public bool WulfrumPackEquipped = false;
         public Item PackItem = null;
-        public bool AutoGrappleActivated => !Player.noFallDmg && Player.equippedWings == null && !Grappled && !Player.mount.Active && !Player.controlDown; 
+        public bool AutoGrappleActivated
+        {
+            get
+            {
+                if (!WulfrumPackEquipped || Grappled || //Ignore if player isnt wearing the grapple pack, or is already grappled.
+                    Player.noFallDmg || Player.equippedWings != null || //Ignore if player can't take fall damage
+                    Player.controlDown || //Ignore if player disables the auto grapple by holding down
+                    Player.velocity.Y * Player.gravDir < 0 || //Ignore if not falling *down*
+                    (Player.fallStart >= (int)(Player.position.Y / 16f) && Player.gravDir > 0) || (!(Player.fallStart <= (int)(Player.position.Y / 16f)) && Player.gravDir < 0) || //Ignore if the player is not falling below their last fall point
+                    Player.mount.Active || //ignore if player is on a mount
+                    Player.webbed || Player.stoned || Player.frozen || Player.vortexDebuff //Ignore if players movement is compromised
+                    )
+                    return false;
+
+                return true;
+            }
+        }
         /// <summary>
         /// The index of the grapple projectile currently grappled.
         /// </summary>
@@ -141,6 +157,9 @@ namespace CalamityMod.Items.Accessories
         public static float GrappleVelocity = 17f;
         public static float ReturnVelocity = 5f;
         public static float MaxHopVelocity = 4f; //The maximum velocity at which the player gets any amount of vertical boost from hopping out of the hook
+        public static int SafetySteps = 3;
+        public static float SafetyHookAngle = MathHelper.PiOver2 * 1.2f;
+        public static float SafetyHookAngleResolution = 50f;
 
         public bool PlayerOnGround => Collision.SolidCollision(Player.position + Vector2.UnitY* 2f * Player.gravDir, Player.width, Player.height, false);
 
@@ -276,6 +295,97 @@ namespace CalamityMod.Items.Accessories
                         SoundEngine.PlaySound(SoundID.Item7 with { Volume = SoundID.Item7.Volume * (Math.Clamp((swingSpeed - 6f) / 12f, 0, 1)) }, Player.Center);
                 }
             }
+
+            else if (AutoGrappleActivated)
+            {
+                Vector2 nextPlayerPosition = Player.position + Player.velocity;
+                Vector2 checkedPlayerPosition = Player.position;
+                bool imminentDanger = false;
+
+                for (int i = 0; i < SafetySteps; i++)
+                {
+                    Vector2 collisionVector = Collision.TileCollision(checkedPlayerPosition, Player.velocity, Player.width, Player.height, gravDir: (int)Player.gravDir);
+                    if (collisionVector.Y < Player.velocity.Y)
+                    {
+                        imminentDanger = true;
+                        checkedPlayerPosition += Player.velocity;
+                        break;
+                    }
+
+                    checkedPlayerPosition += Player.velocity;
+                }
+
+                if (!imminentDanger)
+                    return;
+
+                int fallDistance = (int)(checkedPlayerPosition.Y / 16f) - Player.fallStart;
+                int fallDmgThreshold = 25 + Player.extraFall;
+
+                //Technically doesn't ignore clouds but oh well.
+                if (fallDistance * Player.gravDir > fallDmgThreshold)
+                {
+                    float halfSpread = SafetyHookAngle / 2f;
+                    Point bestGrapplePos = Point.Zero;
+                    float bestGrappleScore = 0;
+
+                    for (float angle = -halfSpread; angle < halfSpread; angle += SafetyHookAngle / SafetyHookAngleResolution)
+                    {
+                        for (int i = 0; i < (int)(WulfrumHook.MaxReach / 16f); i++ )
+                        {
+                            Vector2 checkSpot = Player.Center + (-Vector2.UnitY * Player.gravDir * i * 16f).RotatedBy(angle);
+                            Point tilePos = checkSpot.ToSafeTileCoordinates();
+                            Tile tile = Main.tile[tilePos];
+                            if (tile.HasUnactuatedTile && tile.CanTileBeLatchedOnTo() && !Player.IsBlacklistedForGrappling(tilePos))
+                            {
+                                if (bestGrappleScore < EvaluatePotentialSafetyHookPos((checkSpot - Player.Center).Length(), angle))
+                                {
+                                    bestGrapplePos = tilePos;
+                                    bestGrappleScore = EvaluatePotentialSafetyHookPos((checkSpot - Player.Center).Length(), angle);
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    if (bestGrapplePos != Point.Zero)
+                    {
+                        //Clear any hooks that might have been flying before then.
+                        for (int i = 0; i < Main.maxProjectiles; ++i)
+                        {
+                            Projectile p = Main.projectile[i];
+                            if (!p.active || p.owner != Player.whoAmI || p.type != ProjectileType<WulfrumHook>())
+                                continue;
+
+                            if (p.ModProjectile is WulfrumHook claw)
+                            {
+                                SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, p.Center);
+                                p.Kill();
+
+                            }
+                        }
+
+                        if (Player.whoAmI == Main.myPlayer)
+                        {
+                            Projectile.NewProjectile(Player.GetSource_ItemUse(PackItem), bestGrapplePos.ToWorldCoordinates(), Vector2.Zero, ProjectileType<WulfrumHook>(), 3, 0, Player.whoAmI);
+                        }
+                    }
+                }
+            }
+        }
+
+        public float EvaluatePotentialSafetyHookPos(float distance, float angle)
+        {
+            float score = 0.0001f;
+
+            if (distance < 2 * WulfrumHook.MaxReach / 3f)
+                score += distance / (2 * WulfrumHook.MaxReach / 3f);
+
+            else
+                score += 1 - (distance - (2 * WulfrumHook.MaxReach / 3f)) / (WulfrumHook.MaxReach / 3f);
+
+            score += (1 - Math.Abs(angle) / (SafetyHookAngle / 2f)) * 0.5f;
+
+            return score;
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)

@@ -538,7 +538,7 @@ namespace CalamityMod
         /// <returns>The tile coordinates</returns>
         public static Point ToSafeTileCoordinates(this Vector2 vec)
         {
-            return new Point((int)MathHelper.Clamp((int)vec.X >> 40, 0, Main.maxTilesX), (int)MathHelper.Clamp((int)vec.Y >> 4, 0, Main.maxTilesY));
+            return new Point((int)MathHelper.Clamp((int)vec.X >> 4, 0, Main.maxTilesX), (int)MathHelper.Clamp((int)vec.Y >> 4, 0, Main.maxTilesY));
         }
 
         /// <summary>
