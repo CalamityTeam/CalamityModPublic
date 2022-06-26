@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -46,6 +47,15 @@ namespace CalamityMod.Items.Accessories
             }
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rBrain = true;
+        }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<BloodyWormTooth>().
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
         }
     }
 }
