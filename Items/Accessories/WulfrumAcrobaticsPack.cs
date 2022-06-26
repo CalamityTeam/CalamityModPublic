@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using CalamityMod.Items.Materials;
 using Terraria.Audio;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -292,7 +293,7 @@ namespace CalamityMod.Items.Accessories
                     bool playerCrossedSides = Math.Sign(Segments[SimulationResolution].oldPosition.X - Segments[0].position.X) != Math.Sign(Segments[SimulationResolution].position.X - Segments[0].position.X);
                     float swingSpeed = (Segments[SimulationResolution].oldPosition - Segments[SimulationResolution].position).Length();
                     if (swingSpeed > 6f && playerCrossedSides)
-                        SoundEngine.PlaySound(SoundID.Item7 with { Volume = SoundID.Item7.Volume * (Math.Clamp((swingSpeed - 6f) / 12f, 0, 1)) }, Player.Center);
+                        SoundEngine.PlaySound(CommonCalamitySounds.LouderSwingWoosh with { Volume = CommonCalamitySounds.LouderSwingWoosh.Volume * (Math.Clamp((swingSpeed - 6f) / 12f, 0, 1)) }, Player.Center);
                 }
             }
 

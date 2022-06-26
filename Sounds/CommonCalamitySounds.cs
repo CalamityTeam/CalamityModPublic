@@ -37,5 +37,8 @@ namespace CalamityMod.Sounds
         public static readonly SoundStyle ScissorGuillotineSnapSound = new("CalamityMod/Sounds/Custom/ScissorGuillotineSnap");
 
         public static readonly SoundStyle LouderPhantomPhoenix = new("CalamityMod/Sounds/Item/LouderPhantomPhoenix", 3);
+
+        public static readonly SoundStyle LouderSwingWoosh = new("CalamityMod/Sounds/Custom/LoudSwingWoosh");
+
     }
 }
