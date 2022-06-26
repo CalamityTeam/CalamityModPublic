@@ -1606,6 +1606,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.TerraBlade);
             r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             r.AddIngredient(ItemID.TrueExcalibur);
+            r.AddIngredient(ItemID.BrokenHeroSword);
             r.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
