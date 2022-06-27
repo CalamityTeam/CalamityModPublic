@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<BloodyWormTooth>().
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
         }
