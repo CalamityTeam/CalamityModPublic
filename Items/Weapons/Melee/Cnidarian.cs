@@ -82,7 +82,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 player.ChangeDir(-1);
             }
 
-            CalamityUtils.CleanHoldStyle(player, player.compositeFrontArm.rotation + MathHelper.PiOver2, player.GetFrontHandPosition(player.compositeFrontArm.stretch, player.compositeFrontArm.rotation).Floor(), new Vector2(42, 34), new Vector2(-15, 11));
+            
+            CalamityUtils.CleanHoldStyle(player, player.compositeFrontArm.rotation + MathHelper.PiOver2 * player.gravDir, player.GetFrontHandPositionImproved(player.compositeFrontArm), new Vector2(42, 34), new Vector2(-15, 11));
         }
 
 
@@ -108,8 +109,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     armPointingDirection = -MathHelper.Pi + MathHelper.PiOver4 * Utils.GetLerpValue(-MathHelper.Pi, -MathHelper.PiOver4, armPointingDirection, true);
             }
 
-            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
-            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection - MathHelper.PiOver2);
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, armPointingDirection * player.gravDir - MathHelper.PiOver2);
+            player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, armPointingDirection * player.gravDir - MathHelper.PiOver2);
         }
 
         public override void HoldStyle(Player player, Rectangle heldItemFrame)

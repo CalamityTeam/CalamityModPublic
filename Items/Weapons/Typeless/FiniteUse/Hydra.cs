@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             DisplayName.SetDefault("Hydra");
             Tooltip.SetDefault("Uses Explosive Shotgun Shells\n" +
                 "Can be used once per boss battle");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

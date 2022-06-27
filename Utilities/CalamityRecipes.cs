@@ -520,6 +520,79 @@ namespace CalamityMod
                 AddTile(TileID.Hellforge).
                 Register();
 
+            // Alternative Evil Biome items
+            CreateRecipe(ItemID.BandofStarpower).
+                AddIngredient(ItemID.PanicNecklace).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.PanicNecklace).
+                AddIngredient(ItemID.BandofStarpower).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.CrimsonRod).
+                AddIngredient(ItemID.Vilethorn).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.Vilethorn).
+                AddIngredient(ItemID.CrimsonRod).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.TheRottedFork).
+                AddIngredient(ItemID.BallOHurt).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.BallOHurt).
+                AddIngredient(ItemID.TheRottedFork).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.TheUndertaker).
+                AddIngredient(ItemID.Musket).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.Musket).
+                AddIngredient(ItemID.TheUndertaker).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.CrimsonHeart).
+                AddIngredient(ItemID.ShadowOrb).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.ShadowOrb).
+                AddIngredient(ItemID.CrimsonHeart).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.BrainOfConfusion).
+                AddIngredient(ItemID.WormScarf).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
+            CreateRecipe(ItemID.WormScarf).
+                AddIngredient(ItemID.BrainOfConfusion).
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+
             AddAstralClayRecipes();
             AddBloodOrbPotionRecipes();
             AddCookedFood();
@@ -1533,6 +1606,7 @@ namespace CalamityMod
             r = CreateRecipe(ItemID.TerraBlade);
             r.AddIngredient(ModContent.ItemType<TrueBloodyEdge>());
             r.AddIngredient(ItemID.TrueExcalibur);
+            r.AddIngredient(ItemID.BrokenHeroSword);
             r.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             r.AddTile(TileID.MythrilAnvil);
             r.Register();

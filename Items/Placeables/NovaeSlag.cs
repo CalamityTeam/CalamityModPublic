@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Novae Slag");
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()

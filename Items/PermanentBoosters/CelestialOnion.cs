@@ -15,6 +15,7 @@ namespace CalamityMod.Items.PermanentBoosters
             Tooltip.SetDefault(@"Alien power pulses inside its layers
 Consuming it does something that cannot be reversed
 This item does nothing in Master Mode");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

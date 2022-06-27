@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Tools.ClimateChange
             DisplayName.SetDefault("Arid Artifact");
             Tooltip.SetDefault("Summons a sandstorm\n" +
                                "The sandstorm will happen shortly after the item is used\n" +
-                               "Not consumable");
+                               "If used during a sandstorm, the sandstorm will stop some time afterward.");
+            SacrificeTotal = 1;
         }
 
         public override void SetDefaults()

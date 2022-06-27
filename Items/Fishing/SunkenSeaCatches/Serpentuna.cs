@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Serpentuna");
+            SacrificeTotal = 2;
         }
 
         public override void SetDefaults()

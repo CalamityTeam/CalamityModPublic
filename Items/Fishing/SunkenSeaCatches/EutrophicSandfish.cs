@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eutrophic Sandfish");
+            SacrificeTotal = 2;
         }
 
         public override void SetDefaults()

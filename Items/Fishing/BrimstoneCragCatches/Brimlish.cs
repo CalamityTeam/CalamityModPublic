@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimlish");
+            SacrificeTotal = 2;
         }
 
         public override void SetDefaults()

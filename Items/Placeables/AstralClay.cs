@@ -1,4 +1,4 @@
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Clay");
+            SacrificeTotal = 100;
         }
 
         public override void SetDefaults()

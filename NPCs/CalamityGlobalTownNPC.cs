@@ -1312,8 +1312,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
                 SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
             }
@@ -1341,7 +1339,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<MagnumRounds>(), hasMagnum, Item.buyPrice(0, 3 * goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<GrenadeRounds>(), Main.LocalPlayer.HasItem(ItemType<Bazooka>()), Item.buyPrice(0, 5 * goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemType<ExplosiveShells>(), Main.LocalPlayer.HasItem(ItemType<Hydra>()), Item.buyPrice(0, 7 * goldCost, 0, 0));
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(gold: 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.AmmoBox, Main.hardMode, Item.buyPrice(gold: 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.Uzi, NPC.downedPlantBoss, Item.buyPrice(gold: 45));
@@ -1378,10 +1375,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.SwiftnessPotion, NPC.downedBoss2, Item.buyPrice(0, goldCost, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RottenBrain>(), DownedBossSystem.downedPerforator);
-                SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormTooth>(), DownedBossSystem.downedHiveMind);
                 SetShopItem(ref shop, ref nextSlot, ItemType<RomajedaOrchid>());
             }
 

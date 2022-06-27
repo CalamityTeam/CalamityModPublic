@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slurpfish");
+            SacrificeTotal = 2;
         }
 
         public override void SetDefaults()
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             Item.width = 30;
             Item.height = 30;
             Item.uniqueStack = true;
-            Item.rare = ItemRarityID.Quest; // Questfish cannot be researched.
+            Item.rare = ItemRarityID.Quest;
         }
 
         public override bool IsQuestFish()

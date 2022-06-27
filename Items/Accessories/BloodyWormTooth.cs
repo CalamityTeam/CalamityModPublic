@@ -30,5 +30,14 @@ namespace CalamityMod.Items.Accessories
             modPlayer.bloodyWormTooth = true;
             player.GetAttackSpeed<MeleeDamageClass>() += 0.07f;
         }
+
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient<RottenBrain>().
+                AddTile(TileID.Anvils).
+                AddCondition(Recipe.Condition.InGraveyardBiome).
+                Register();
+        }
     }
 }

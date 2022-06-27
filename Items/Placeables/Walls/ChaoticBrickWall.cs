@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
 using Terraria.ID;
 
@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Walls
 {
     public class ChaoticBrickWall : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            SacrificeTotal = 400;
+            DisplayName.SetDefault("Chaotic Brick Wall");
+        }
         public override void SetDefaults()
         {
             Item.width = 12;

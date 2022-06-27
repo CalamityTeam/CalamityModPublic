@@ -45,6 +45,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         {
             CreateRecipe().
                 AddIngredient<SulphuricScale>(5).
+                AddCondition(Recipe.Condition.NearWater).
                 Register();
         }
     }

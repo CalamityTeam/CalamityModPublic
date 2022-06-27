@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             velocity = velocity.RotatedByRandom(0.01f);
         }
 
-        public static Vector2 getPlayerMouth(Player player) => player.MountedCenter - 5f * Vector2.UnitY + Vector2.UnitX * 6f * player.direction;
+        public static Vector2 getPlayerMouth(Player player) => player.MountedCenter - 5f * Vector2.UnitY * player.gravDir + Vector2.UnitX * 6f * player.direction;
         public static Vector2 getPlayerShoulder(Player player) => player.MountedCenter - Vector2.UnitX * 4f * player.direction;
 
         public void SetItemInHand(Player player, Rectangle heldItemFrame)
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 playerMouth = getPlayerMouth(player);
 
             Vector2 playerToCursor = (player.Calamity().mouseWorld - playerMouth).SafeNormalize(Vector2.UnitX);
-            float pointingDirection = (playerToCursor.ToRotation() + MathHelper.PiOver4 / 3f * player.direction);
+            float pointingDirection = (playerToCursor.ToRotation() + MathHelper.PiOver4 / 3f * player.direction * player.gravDir);
 
             CalamityUtils.CleanHoldStyle(player, pointingDirection, playerMouth, new Vector2(50, 18), new Vector2(-23, 6));
         }
@@ -91,9 +91,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             float frontArmDirection = (playerMouth + mouthToCursor * 25f - getPlayerShoulder(player)).ToRotation();
 
             if (frontArm)
-                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmDirection - MathHelper.PiOver2);
+                player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, frontArmDirection * player.gravDir - MathHelper.PiOver2);
 
-            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, backArmDirection - MathHelper.PiOver2);
+            player.SetCompositeArmBack(true, Player.CompositeArmStretchAmount.Full, backArmDirection * player.gravDir - MathHelper.PiOver2);
         }
 
         public override void HoldStyle(Player player, Rectangle heldItemFrame)

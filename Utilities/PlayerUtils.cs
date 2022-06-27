@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
+using static Terraria.Player;
 
 namespace CalamityMod
 {
@@ -488,6 +489,39 @@ namespace CalamityMod
         #endregion
 
         #region Arms Control
+
+        /// <summary>
+        /// The exact same thing as Player.GetFrontHandPosition() except it properly accounts for gravity swaps instead of requiring the coders to do it manually afterwards.
+        /// Additionally, it simply takes in the arm data instead of asking for the rotation and stretch separately.
+        /// </summary>
+        public static Vector2 GetFrontHandPositionImproved(this Player player, CompositeArmData arm)
+        {
+            Vector2 position = player.GetFrontHandPosition(arm.stretch, arm.rotation * player.gravDir).Floor();
+
+            if (player.gravDir == -1f)
+            {
+                position.Y = player.position.Y + (float)player.height + (player.position.Y - position.Y);
+            }
+
+            return position;
+        }
+
+        /// <summary>
+        /// The exact same thing as Player.GetBackHandPosition() except it properly accounts for gravity swaps instead of requiring the coders to do it manually afterwards.
+        /// Additionally, it simply takes in the arm data instead of asking for the rotation and stretch separately.
+        /// </summary>
+        public static Vector2 GetBackHandPositionImproved(this Player player, CompositeArmData arm)
+        {
+            Vector2 position = player.GetBackHandPosition(arm.stretch, arm.rotation * player.gravDir).Floor();
+
+            if (player.gravDir == -1f)
+            {
+                position.Y = player.position.Y + (float)player.height + (player.position.Y - position.Y);
+            }
+
+            return position;
+        }
+
         /// <summary>
         /// Properly sets the player's held item rotation and position by doing the annoying math for you, since vanilla decided to be wholly inconsistent about it!
         /// This all assumes the player is facing right. All the flip stuff is automatically handled in here
@@ -508,6 +542,8 @@ namespace CalamityMod
             Vector2 origin = rotationOriginFromCenter.Value;
             //Flip the origin's X position, since the sprite will be flipped if the player faces left.
             origin.X *= player.direction;
+            //Additionally, flip the origin's Y position in case the player is in reverse gravity.
+            origin.Y *= player.gravDir;
 
             player.itemRotation = desiredRotation;
 
