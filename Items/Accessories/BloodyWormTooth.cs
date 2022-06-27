@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
         {
             CreateRecipe().
                 AddIngredient<RottenBrain>().
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
         }

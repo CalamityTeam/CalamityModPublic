@@ -521,18 +521,6 @@ namespace CalamityMod
                 Register();
 
             // Alternative Evil Biome items
-            CreateRecipe(ItemID.BandofStarpower).
-                AddIngredient(ItemID.PanicNecklace).
-                AddTile(TileID.Anvils).
-                AddCondition(Recipe.Condition.InGraveyardBiome).
-                Register();
-
-            CreateRecipe(ItemID.PanicNecklace).
-                AddIngredient(ItemID.BandofStarpower).
-                AddTile(TileID.Anvils).
-                AddCondition(Recipe.Condition.InGraveyardBiome).
-                Register();
-
             CreateRecipe(ItemID.CrimsonRod).
                 AddIngredient(ItemID.Vilethorn).
                 AddTile(TileID.Anvils).
@@ -571,25 +559,25 @@ namespace CalamityMod
 
             CreateRecipe(ItemID.CrimsonHeart).
                 AddIngredient(ItemID.ShadowOrb).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
             CreateRecipe(ItemID.ShadowOrb).
                 AddIngredient(ItemID.CrimsonHeart).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
             CreateRecipe(ItemID.BrainOfConfusion).
                 AddIngredient(ItemID.WormScarf).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
             CreateRecipe(ItemID.WormScarf).
                 AddIngredient(ItemID.BrainOfConfusion).
-                AddTile(TileID.Anvils).
+                AddTile(TileID.TinkerersWorkbench).
                 AddCondition(Recipe.Condition.InGraveyardBiome).
                 Register();
 
