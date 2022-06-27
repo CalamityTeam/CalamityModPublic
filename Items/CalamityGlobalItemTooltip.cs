@@ -574,9 +574,9 @@ namespace CalamityMod.Items
 
             // Nightwither immunity pre-Moon Lord and Holy Flames immunity pre-Profaned Guardians.
             if (item.type == ItemID.MoonStone)
-                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Nightwither");
+                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither");
             if (item.type == ItemID.SunStone)
-                EditTooltipByNum(0, (line) => line.Text += "\nGrants immunity to Holy Flames");
+                EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Holy Flames");
             if (item.type == ItemID.CelestialStone)
                 EditTooltipByNum(1, (line) => line.Text += "\nGrants immunity to Nightwither and Holy Flames");
             if (item.type == ItemID.CelestialShell)
