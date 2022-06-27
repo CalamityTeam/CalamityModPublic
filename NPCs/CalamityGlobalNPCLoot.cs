@@ -1327,7 +1327,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.WallofFlesh:
-                    SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.DyeTrader, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
+                    SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.DyeTrader, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, NPCID.BestiaryGirl, ModContent.NPCType<THIEF>() }, Main.hardMode);
                     SetNewBossJustDowned(npc);
 
                     if (!Main.hardMode)
@@ -1388,7 +1388,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.Plantera:
-                    SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
+                    SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, NPCID.BestiaryGirl, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
                     SetNewBossJustDowned(npc);
 
                     // Spawn Perennial Ore if Plantera has never been killed
@@ -1460,8 +1460,12 @@ namespace CalamityMod.NPCs
                     }
                     break;
 
+                case NPCID.LunarTowerSolar:
+                    SetNewShopVariable(new int[] { NPCID.BestiaryGirl }, NPC.downedTowerSolar);
+                    break;
+
                 case NPCID.MoonLordCore:
-                    SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
+                    SetNewShopVariable(new int[] { NPCID.Princess, ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
                     SetNewBossJustDowned(npc);
 
                     string key5 = "Mods.CalamityMod.MoonBossText";
