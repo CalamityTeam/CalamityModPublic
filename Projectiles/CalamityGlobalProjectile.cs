@@ -2767,7 +2767,7 @@ namespace CalamityMod.Projectiles
         {
             // Chlorophyte Crystal AI rework.
             if (projectile.type == ProjectileID.CrystalLeaf)
-                return ChlorophyteCrystalAI.DoChlorophyteCrystalDrawing(Main.spriteBatch, projectile);
+                return ChlorophyteCrystalAI.DoChlorophyteCrystalDrawing(projectile);
 
             if (Main.player[Main.myPlayer].Calamity().trippy)
             {
