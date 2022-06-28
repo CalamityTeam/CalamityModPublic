@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 BestiaryDatabaseNPCsPopulator.CommonTags.SpawnConditions.Biomes.Jungle,
 
 				// Will move to localization whenever that is cleaned up.
-				new FlavorTextBestiaryInfoElement("Known across the land for the swarms that have gathered in the jungle, they are nearly feared above all else in the, as though they may not be quite as dangerous as other forces, they have no master.")
+				new FlavorTextBestiaryInfoElement("Known across the land for the swarms that have gathered in the jungle, they are nearly feared above all else in it. Although they may not be quite as dangerous as other forces, they have no master.")
             });
         }
 
