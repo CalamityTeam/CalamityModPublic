@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -292,6 +294,14 @@ namespace CalamityMod.Items.Weapons.Melee
                     player.fallStart = (int)(player.position.Y / 16f);
                 }
             }
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip1");
+
+            if (line != null && Main.hardMode)
+                line.Text = "";
         }
 
         public override void AddRecipes()
