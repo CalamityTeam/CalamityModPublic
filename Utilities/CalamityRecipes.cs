@@ -1284,6 +1284,13 @@ namespace CalamityMod
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
+            // DPS Meter
+            r = CreateRecipe(ItemID.DPSMeter);
+            r.AddIngredient(ItemID.Wire, 10);
+            r.AddRecipeGroup(AnyGoldBar, 5);
+            r.AddTile(TileID.Anvils);
+            r.Register();
+
             // Hand Warmer
             r = CreateRecipe(ItemID.HandWarmer);
             r.AddIngredient(ItemID.Silk, 5);
