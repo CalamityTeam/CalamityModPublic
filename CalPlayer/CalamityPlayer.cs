@@ -4931,9 +4931,6 @@ namespace CalamityMod.CalPlayer
             if (corrEffigy)
                 contactDamageReduction -= 0.05;
 
-            if (voidOfCalamity && !voidOfExtinction)
-                contactDamageReduction -= 0.15;
-
             // 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
             if (contactDamageReduction > 0D)
             {
@@ -5199,9 +5196,6 @@ namespace CalamityMod.CalPlayer
 
             if (corrEffigy)
                 projectileDamageReduction -= 0.05;
-
-            if (voidOfCalamity && !voidOfExtinction)
-                projectileDamageReduction -= 0.15;
 
             // 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
             if (projectileDamageReduction > 0D)
