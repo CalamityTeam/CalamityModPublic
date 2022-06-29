@@ -1,15 +1,19 @@
 ﻿using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class WulfrumBow : ModItem
+    [LegacyName("WulfrumBow")]
+    public class WulfrumBlunderbuss : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Bow");
+            DisplayName.SetDefault("Wulfrum Blunderbuss");
+            Tooltip.SetDefault("Consumes ");
             SacrificeTotal = 1;
         }
 
@@ -17,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             Item.damage = 12;
             Item.DamageType = DamageClass.Ranged;
-            Item.width = 27;
-            Item.height = 38;
+            Item.width = 23;
+            Item.height = 8;
             Item.useTime = 25;
             Item.useAnimation = 25;
             Item.useStyle = ItemUseStyleID.Shoot;
@@ -34,12 +38,27 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.Calamity().canFirePointBlankShots = true;
         }
 
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            return base.Shoot(player, source, position, velocity, type, damage, knockback);
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe().
                 AddIngredient<WulfrumShard>(10).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+
+        public override void UseStyle(Player player, Rectangle heldItemFrame)
+        {
+            base.UseStyle(player, heldItemFrame);
+        }
+
+        public override void UseItemFrame(Player player)
+        {
+            base.UseItemFrame(player);
         }
     }
 }
