@@ -2526,18 +2526,6 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region BiomeStuff
-
-        public override Texture2D GetMapBackgroundImage()
-        {
-            if (ZoneSulphur)
-                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/SulphurBG").Value;
-            if (ZoneAstral)
-                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/AstralBG").Value;
-            return null;
-        }
-        #endregion
-
         #region InventoryStartup
         public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
         {

@@ -36,8 +36,6 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override int CreateDust() => ModContent.DustType<AstralBasic>();
 
-        public override int GrowthFXGore() => -1;
-
         public override int SaplingGrowthType(ref int style)
         {
             style = 0;

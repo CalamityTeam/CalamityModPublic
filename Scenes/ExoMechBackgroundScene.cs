@@ -11,11 +11,10 @@ namespace CalamityMod.Systems
 
         public override bool IsSceneEffectActive(Player player) => ExoMechsSky.CanSkyBeActive;
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
-            bool useExoMechs = IsSceneEffectActive(player);
-            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", useExoMechs);
-            if (useExoMechs)
+            player.ManageSpecialBiomeVisuals("CalamityMod:ExoMechs", isActive);
+            if (isActive)
                 SkyManager.Instance.Activate("CalamityMod:ExoMechs", player.Center);
             else
                 SkyManager.Instance.Deactivate("CalamityMod:ExoMechs");
