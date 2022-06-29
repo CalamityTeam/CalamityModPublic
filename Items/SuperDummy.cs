@@ -104,7 +104,7 @@ namespace CalamityMod.Items
             r.Register();
 
             // Super Dummy revert to Target Dummy
-            r = Mod.CreateRecipe(ItemID.TargetDummy);
+            r = Recipe.Create(ItemID.TargetDummy);
             r.AddIngredient<SuperDummy>();
             r.Register();
         }

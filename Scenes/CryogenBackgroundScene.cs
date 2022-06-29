@@ -18,12 +18,11 @@ namespace CalamityMod.Systems
             return result;
         }
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
-            bool useCryogen = IsSceneEffectActive(player);
-            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
+            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && isActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
             {
-                if (useCryogen)
+                if (isActive)
                     SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
                 else
                     SkyManager.Instance.Deactivate("CalamityMod:Cryogen");

@@ -11,9 +11,9 @@ namespace CalamityMod.Systems
 
         public override bool IsSceneEffectActive(Player player) => NPC.AnyNPCs(ModContent.NPCType<SupremeCalamitas>()) || SCalSky.OverridingIntensity > 0f;
 
-        public override void SpecialVisuals(Player player)
+        public override void SpecialVisuals(Player player, bool isActive)
         {
-            player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", IsSceneEffectActive(player));
+            player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", isActive);
         }
     }
 }

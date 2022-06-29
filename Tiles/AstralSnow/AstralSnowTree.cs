@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.AstralSnow
 
         public override Asset<Texture2D> GetTopTextures() => ModContent.Request<Texture2D>("CalamityMod/Tiles/AstralSnow/AstralSnowTree_Tops");
 
-        public override void SetTreeFoliageSettings(Tile tile, int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight)
+        public override void SetTreeFoliageSettings(Tile tile, ref int xoffset, ref int treeFrame, ref int floorY, ref int topTextureFrameWidth, ref int topTextureFrameHeight)
         {
             //What does this code do?
             //treeFrame = (i + j * j) % 6;
@@ -44,11 +44,6 @@ namespace CalamityMod.Tiles.AstralSnow
         public override int CreateDust()
         {
             return ModContent.DustType<Dusts.AstralBasic>();
-        }
-
-        public override int GrowthFXGore()
-        {
-            return -1;
         }
 
         public override int SaplingGrowthType(ref int style)

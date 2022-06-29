@@ -23,6 +23,7 @@ namespace CalamityMod.Tiles.SunkenSea
             AddMapEntry(new Color(0, 90, 90), name);
             MineResist = 2f;
             HitSound = SoundID.Tink;
+            TileID.Sets.DoesntGetReplacedWithTileReplacement[Type] = true; //TODO -- Temporary, allow tile to be swapped when DS is dead.
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

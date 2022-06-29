@@ -7,8 +7,8 @@ namespace CalamityMod.BiomeManagers
 {
     public class AcidRainBiome : ModBiome
     {
-        public override string BestiaryIcon => "BiomeManagers/AcidRainIcon";
-        public override string BackgroundPath => "Backgrounds/MapBackgrounds/SulphurBG"; //Probably needs a unique bg
+        public override string BestiaryIcon => "CalamityMod/BiomeManagers/AcidRainIcon";
+        public override string BackgroundPath => "CalamityMod/Backgrounds/MapBackgrounds/SulphurBG"; //Probably needs a unique bg
         public override SceneEffectPriority Priority => SceneEffectPriority.BiomeLow; //Sulphurous Sea overrides it
 
         public override void SetStaticDefaults()

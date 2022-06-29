@@ -102,7 +102,6 @@ namespace CalamityMod.CalPlayer
         public bool brimlashBusterBoost = false;
         public int evilSmasherBoost = 0;
         public int hellbornBoost = 0;
-        public float animusBoost = 1f;
         public int searedPanCounter = 0;
         public int searedPanTimer = 0;
         public int potionTimer = 0;
@@ -2503,7 +2502,6 @@ namespace CalamityMod.CalPlayer
             brimlashBusterBoost = false;
             evilSmasherBoost = 0;
             hellbornBoost = 0;
-            animusBoost = 1f;
             searedPanCounter = 0;
             searedPanTimer = 0;
             potionTimer = 0;
@@ -2525,18 +2523,6 @@ namespace CalamityMod.CalPlayer
                 if (Player.respawnTimer > respawnTimerSet)
                     Player.respawnTimer = respawnTimerSet;
             }
-        }
-        #endregion
-
-        #region BiomeStuff
-
-        public override Texture2D GetMapBackgroundImage()
-        {
-            if (ZoneSulphur)
-                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/SulphurBG").Value;
-            if (ZoneAstral)
-                return ModContent.Request<Texture2D>("CalamityMod/Backgrounds/MapBackgrounds/AstralBG").Value;
-            return null;
         }
         #endregion
 

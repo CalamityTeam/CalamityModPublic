@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Abyss
             UseSpecialGroups = true,
             SpecialGroupMinimalHueValue = 11f / 72f,
             SpecialGroupMaximumHueValue = 0.25f,
-            SpecialGroupMinimumSaturationValue = 0.88f,
+            SpecialGroupMinimumSaturationValue = 0.8802f,
             SpecialGroupMaximumSaturationValue = 1f
         };
 
