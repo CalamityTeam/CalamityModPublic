@@ -848,10 +848,10 @@ namespace CalamityMod.NPCs
                     // Drop Hermit's Box directly for EACH player, regardles of Expert or not. 100% chance on first kill, 10% chance afterwards.
                     LeadingConditionRule firstWoFKill = new(DropHelper.If(() => !Main.hardMode));
                     firstWoFKill.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>()));
-                    npcLoot.AddNormalOnly(firstWoFKill);
+                    npcLoot.Add(firstWoFKill);
                     LeadingConditionRule subsequentWoFKills = new(DropHelper.If(() => Main.hardMode));
                     subsequentWoFKills.Add(DropHelper.PerPlayer(ModContent.ItemType<HermitsBoxofOneHundredMedicines>(), 10));
-                    npcLoot.AddNormalOnly(subsequentWoFKills);
+                    npcLoot.Add(subsequentWoFKills);
 
                     // Expert+ drops are also available on Normal
                     npcLoot.AddNormalOnly(DropHelper.PerPlayer(ItemID.DemonHeart));
@@ -1050,6 +1050,10 @@ namespace CalamityMod.NPCs
                                 ItemID.SunStone,
                             };
                             LCR_NotExpert.Add(DropHelper.CalamityStyle(DropHelper.NormalWeaponDropRateFraction, golemItems));
+
+                            // Remove the vanilla loot rule for Picksaw because it has its own drop rule set below.
+                            golemRootRules.RemoveAll((rule) =>
+                                rule is ItemDropWithConditionRule conditionalRule && conditionalRule.condition is Conditions.NotExpert && conditionalRule.itemId == ItemID.Picksaw);
                         }
                     }
                     catch (ArgumentNullException) { }
