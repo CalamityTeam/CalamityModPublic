@@ -291,7 +291,7 @@ namespace CalamityMod.Items
             // If Early Hardmode Rework is enabled: Remind users that ores will NOT spawn when an altar is smashed.
             if (CalamityConfig.Instance.EarlyHardmodeProgressionRework && (item.type == ItemID.Pwnhammer || item.type == ItemID.Hammush))
                 EditTooltipByNum(0, (line) => line.Text += "\nDemon Altars now provide Souls of Night instead of generating ores when destroyed" +
-                "\nHardmode ores now generate after defeating Mechanical Bosses");
+                "\nHardmode ores now generate after defeating Mechanical Bosses for the first time");
 
             // Bottled Honey gives the Honey buff
             if (item.type == ItemID.BottledHoney)
