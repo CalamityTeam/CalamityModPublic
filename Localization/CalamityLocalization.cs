@@ -165,7 +165,7 @@ namespace CalamityMod.Localization
                 new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },
                 new [] { "ArmageddonDodgeEnable", "All of your dodges are now re-enabled." },
 
-                new [] { "ChangingTheRules", "You cannot change the rules now." },
+                new [] { "ChangingTheRules", "You cannot change the rules now!" },
 
                 new [] { "FlameText", "The air is getting warmer around you." },
 

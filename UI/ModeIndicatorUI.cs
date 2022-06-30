@@ -12,45 +12,20 @@ using static CalamityMod.CalamityUtils;
 using System;
 using Terraria.ID;
 using Terraria.Audio;
+using CalamityMod.Systems;
+using static CalamityMod.Systems.DifficultyModeSystem;
+using Terraria.GameInput;
 
 namespace CalamityMod.UI
 {
     public class ModeIndicatorUI
     {
-        public enum DifficultyMode { None, Revengeance, Death, Malice, Current}
-        private static DifficultyMode GetCurrentDifficulty
-        {
-            get 
-            { 
-                DifficultyMode mode = DifficultyMode.None;
-
-                if (CalamityWorld.revenge)
-                    mode = DifficultyMode.Revengeance;
-                if (CalamityWorld.death)
-                    mode = DifficultyMode.Death;
-                if (CalamityWorld.malice)
-                    mode = DifficultyMode.Malice;
-
-                return mode;
-            }
-        }
-
-        private static Rectangle GetFrame(DifficultyMode mode = DifficultyMode.Current)
-        {
-            if (mode == DifficultyMode.Current)
-                mode = GetCurrentDifficulty;
-
-            int indicatorFrame = (int)mode;
-
-            return new Rectangle(0, 38 * indicatorFrame, 30, 38);
-        }
-
         public static Rectangle MouseScreenArea => Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
 
         public static Vector2 FrameSize => new Vector2(30f, 38f);
         public static Rectangle MainClickArea => Utils.CenteredRectangle(DrawCenter, FrameSize * MainIconScale);
         public static bool ClickingMouse => Main.mouseLeft && Main.mouseLeftRelease;
-        public static Vector2 DrawCenter => new Vector2(Main.screenWidth - 400f, 82f) + FrameSize * 0.5f;
+        public static Vector2 DrawCenter => new Vector2(Main.screenWidth - 400f - WidthForTier(MostAlternateDifficulties) * 0.5f, 82f) + FrameSize * 0.5f;
 
         //Lock icon
         internal const int LockAnimLenght = 30;
@@ -64,8 +39,9 @@ namespace CalamityMod.UI
         public static float MainIconScale => 1f + iconHoverScaleBoost;
         //Menu state
         private static bool menuOpen = false;
-        internal const int MenuAnimLenght = 40;
+        internal static int MenuAnimLenght => MostAlternateDifficulties > 1 ? 60 : 40;
         private static int menuOpenTransitionTime = 0;
+        public static float WidthForTier(int alts) => (alts - 1) * 40f;
 
         private static void ClearVariables()
         {
@@ -97,8 +73,7 @@ namespace CalamityMod.UI
                 return;
             }
 
-            Texture2D indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator").Value;
-            Rectangle indicatorFrameArea = GetFrame();
+            Texture2D indicatorTexture = GetCurrentDifficulty.Texture.Value;
 
             GetDifficultyStatus(out string difficultyText);
             GetLockStatus(out string lockText, out bool locked);
@@ -108,8 +83,9 @@ namespace CalamityMod.UI
             {
                 iconHoverScaleBoost = Math.Min(iconHoverScaleBoost + IconHoverScaleIncrement + IconHoverScaleDecrement, MaxIconHoverScaleBoost);
 
-                if (ClickingMouse && menuOpenTransitionTime == 0  && !locked)
+                if (ClickingMouse && menuOpenTransitionTime == 0 && !locked)
                 {
+                    SoundEngine.PlaySound(menuOpen ? SoundID.MenuClose : SoundID.MenuOpen);
                     menuOpenTransitionTime = MenuAnimLenght;
                     menuOpen = !menuOpen;
                 }
@@ -120,7 +96,7 @@ namespace CalamityMod.UI
                 ManageHexIcons(spriteBatch, out extraDescText);
 
             //Draw the indicator itself.
-            spriteBatch.Draw(indicatorTexture, DrawCenter, indicatorFrameArea, Color.White, 0f, indicatorFrameArea.Size() * 0.5f, MainIconScale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(indicatorTexture, DrawCenter, null, Color.White, 0f, indicatorTexture.Size() * 0.5f, MainIconScale, SpriteEffects.None, 0f);
 
             if (locked)
                 DrawLock(spriteBatch);
@@ -148,20 +124,20 @@ namespace CalamityMod.UI
             text = "";
             if (MouseScreenArea.Intersects(MainClickArea))
             {
-                string modeToDisplay = "Revengeance";
-                bool modeIsActive = CalamityWorld.revenge;
-                if (CalamityWorld.death)
+                //Display the first non-none difficulty by default
+                string modeToDisplay = Difficulties[1].Name;
+                bool anyActiveMode = false;
+
+                for (int i = 1; i < Difficulties.Length; i++)
                 {
-                    modeToDisplay = "Death";
-                    modeIsActive = CalamityWorld.death;
-                }
-                if (CalamityWorld.malice)
-                {
-                    modeToDisplay = "Malice";
-                    modeIsActive = CalamityWorld.malice;
+                    if (GetCurrentDifficulty == Difficulties[i])
+                    {
+                        modeToDisplay = Difficulties[i].Name;
+                        anyActiveMode = true;
+                    }
                 }
 
-                text = $"{modeToDisplay} Mode is {(modeIsActive ? "active" : "not active")}.";
+                text = $"{modeToDisplay} Mode is {(anyActiveMode ? "active" : "not active")}.";
             }
         }
 
@@ -170,7 +146,7 @@ namespace CalamityMod.UI
         {
             locked = false;
             text = "Click to select a difficulty mode";
-            if (!Main.expertMode && !CalamityWorld.revenge)
+            if (!Main.expertMode && GetCurrentDifficulty != Difficulties[0])
             {
                 locked = true;
                 text = "Higher difficulty modes can only be toggled in expert mode or above";
@@ -181,15 +157,27 @@ namespace CalamityMod.UI
                 text = Language.GetTextValue("Mods.CalamityMod.ChangingTheRules");
             }
 
+            //Shakes the lock if it automatically changed, because a boss was summoned
             if (locked != previousLockStatus && lockClickTime == 0)
                 lockClickTime = LockAnimLenght;
 
             previousLockStatus = locked;
 
+            //Close the menu if its locked
             if (locked && menuOpen)
             {
                 menuOpen = false;
                 menuOpenTransitionTime = MenuAnimLenght - menuOpenTransitionTime;
+            }
+
+            //Click handling
+            if (ClickingMouse && lockClickTime == 0)
+            {
+                if (MouseScreenArea.Intersects(MainClickArea))
+                {
+                    lockClickTime = LockAnimLenght;
+                    SoundEngine.PlaySound(SoundID.MenuTick);
+                }
             }
         }
 
@@ -200,52 +188,80 @@ namespace CalamityMod.UI
         internal static float LockShakeScale => PiecewiseAnimation(lockClickTime / (float)LockAnimLenght, new CurveSegment[] { lockGrow, lockShrink, lockBump });
 
         private static CurveSegment barExpand = new CurveSegment(SineInOutEasing, 0f, 0f, 1f);
-        internal static float BarExpansionProgress => PiecewiseAnimation(menuOpen ? 1 - (menuOpenTransitionTime / (float)MenuAnimLenght) : (menuOpenTransitionTime / (float)MenuAnimLenght), new CurveSegment[] { barExpand });
+        internal static float BarExpansionProgress
+        {
+            get
+            {
+                float animLenght = MostAlternateDifficulties == 1 ? (float)MenuAnimLenght : MenuAnimLenght * 2 / 3f;
+                float progress = (menuOpenTransitionTime / animLenght);
+                if (menuOpen)
+                    progress = 1 - progress;
+
+                return PiecewiseAnimation(progress, new CurveSegment[] { barExpand });
+            }
+        }
+
+
+        private static CurveSegment barWidthExpand = new CurveSegment(SineInOutEasing, 0f, 0f, 1.2f);
+        private static CurveSegment barWidthRetract = new CurveSegment(SineInEasing, 0.6f, 1.2f, -0.2f);
+
+        internal static float BarWidthExpansionProgress
+        {
+            get
+            {
+                float progress = Math.Max(menuOpenTransitionTime - MenuAnimLenght * 2 / 3f, 0f) / (MenuAnimLenght / 3f);
+                if (menuOpen)
+                    progress = 1 - progress;
+
+                return PiecewiseAnimation(progress, new CurveSegment[] { barWidthExpand, barWidthRetract });
+            }
+        }
 
         public static void ManageHexIcons(SpriteBatch spriteBatch, out string text)
         {
             float barLenght = 240f * BarExpansionProgress;
+            int tiers = DifficultyTiers.Count();
             float progress = menuOpen ? 1 - menuOpenTransitionTime / (float)MenuAnimLenght : menuOpenTransitionTime / (float)MenuAnimLenght;
-            Vector2 position = DrawCenter + (barLenght / 5f) * Vector2.UnitY;
+            Vector2 basePosition = DrawCenter + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY;
 
-            Texture2D indicatorTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicator").Value;
             Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorOutline").Value;
 
             text = "";
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < tiers; i++)
             {
-                float usedOpacity = 0.85f;
-                Rectangle indicatorFrameArea = GetFrame((DifficultyMode)i);
-
-                //outline the currently selected difficulty.
-                if ((DifficultyMode)i == GetCurrentDifficulty)
+                int modesAtTier = DifficultyTiers[i].Length;
+                for (int j = 0; j < modesAtTier; j++)
                 {
-                    usedOpacity = 1f;
-                    spriteBatch.Draw(outlineTexture, position, null, Color.Crimson * 0.8f * progress, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+                    DifficultyMode mode = DifficultyTiers[i][j];
+                    Texture2D hexIcon = mode.Texture.Value;
+
+                    Vector2 iconPosition = basePosition + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY * i;
+                    if (modesAtTier > 1)
+                        iconPosition += Vector2.UnitX * MathHelper.Lerp(WidthForTier(modesAtTier) * -0.5f, WidthForTier(modesAtTier) * 0.5f, j / (modesAtTier - 1)) * BarWidthExpansionProgress;
+
+                    float usedOpacity = 0.85f;
+                    //outline the currently selected difficulty.
+                    if (mode == GetCurrentDifficulty)
+                    {
+                        usedOpacity = 1f;
+                        spriteBatch.Draw(outlineTexture, iconPosition, null, mode.ChatTextColor * 0.8f * progress, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+                    }
+
+                    spriteBatch.Draw(hexIcon, iconPosition, null, Color.White * usedOpacity * progress, 0f, hexIcon.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+
+                    if (menuOpenTransitionTime == 0 && MouseScreenArea.Intersects(Utils.CenteredRectangle(iconPosition, hexIcon.Size())))
+                    {
+                        text = GetDifficultyText(mode);
+                        if (ClickingMouse)
+                            SwitchToDifficulty(mode);
+                    }
                 }
-
-                spriteBatch.Draw(indicatorTexture, position, indicatorFrameArea, Color.White * usedOpacity * progress, 0f, indicatorFrameArea.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
-
-                if (menuOpenTransitionTime == 0 && MouseScreenArea.Intersects(Utils.CenteredRectangle(position, indicatorFrameArea.Size())))
-                {
-                    text = GetDifficultyText((DifficultyMode)i);
-                    if (ClickingMouse)
-                        SwitchToDifficulty((DifficultyMode)i);
-                }
-
-                position += barLenght / 5f * Vector2.UnitY;
             }
         }
 
         public static void DrawLock(SpriteBatch spriteBatch)
         {
-            if (ClickingMouse && lockClickTime == 0)
-            {
-                if (MouseScreenArea.Intersects(MainClickArea))
-                    lockClickTime = LockAnimLenght;
-            }
-
             Texture2D lockTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorLock").Value;
             float rotationShift = lockClickTime == 0 ? 0f : (float)Math.Sin((1 - lockClickTime / (float)LockAnimLenght) * MathHelper.TwoPi * 2f) * 0.5f * (lockClickTime / (float)LockAnimLenght);
             spriteBatch.Draw(lockTexture, DrawCenter + Vector2.UnitY * 12 * MainIconScale, null, Color.White, 0f + rotationShift, lockTexture.Size() * 0.5f, LockShakeScale * MainIconScale, SpriteEffects.None, 0f);
@@ -259,18 +275,23 @@ namespace CalamityMod.UI
             if (mode == GetCurrentDifficulty)
                 preface = "Currently Selected : ";
 
-            string text = "";
-            if (mode == DifficultyMode.None)
-            {
-                text = "Disabled\nThe classic Terraria experience, with no Calamity difficulty changes";
-            }
-            if (mode == DifficultyMode.Revengeance)
-                text = "Revengeance\n[c/F7412D:Just like in metal gear haha nanomachines son! Standing here i realize!]";
-            if (mode == DifficultyMode.Death)
-                text = "Death\n[c/C82DF7:Death mode is a pretty cool mode, it does...this. Modify this file with a description of your mod.]";
-            if (mode == DifficultyMode.Malice)
-                text = "Malice\n[c/F7CF2D:You should Kill yourself..... NOW!]";
+            string text = mode.Name + "\n" + mode.ShortDescription;
 
+            //Scuffed
+            if (mode.ExpandedDescription != "")
+            {
+
+                var keys = PlayerInput.CurrentProfile.InputModes[InputMode.Keyboard].KeyStatus[TriggerNames.SmartSelect];
+                string key = keys.Count() == 0 ? null : keys[0];
+                //Show the description either if the player is using smart select, or if they don't have a key assigned to it anyways.
+                bool showDesc = key == null || PlayerInput.Triggers.Current.SmartSelect;
+
+                if (showDesc)
+                    text += "\n" + mode.ExpandedDescription;
+
+                else
+                    text += "\n[c/737373:Hold the 'Auto Select' key (" + key + ") for more information]";
+            }
 
             return preface + text;
         }
@@ -280,125 +301,56 @@ namespace CalamityMod.UI
             //No swap on server (although this doesn't matter anymore since it's not an item but dnc.
             //No swap if fsr you're asking to swap to the "current" difficulty
             //No swap if the requested difficulty is the same as the current one
-            if (Main.netMode == NetmodeID.MultiplayerClient || mode == DifficultyMode.Current || mode == GetCurrentDifficulty)
+            if (Main.netMode == NetmodeID.MultiplayerClient || mode == GetCurrentDifficulty)
                 return;
 
-            if (mode == DifficultyMode.Revengeance)
+            //Disable difficulties
+            for (int i = 0; i < Difficulties.Length; i++)
             {
-                ToggleRev(true);
-                ToggleDeath(false);
-                ToggleMalice(false);
+                //Disable all difficulties at the same tier / at a tier above itself
+                if (Difficulties[i]._difficultyTier >= mode._difficultyTier && Difficulties[i] != mode)
+                {
+                    if (Difficulties[i].Enabled)
+                    {
+                        DisplayLocalizedText(Difficulties[i].DeactivationTextKey, Difficulties[i].ChatTextColor);
+                        Difficulties[i].Enabled = false;
+                    }
+                }
             }
 
-            if (mode == DifficultyMode.Death)
+            //Look at all the lower tiers.
+            for (int i = 0; i < mode._difficultyTier; i++)
             {
-                ToggleRev(true, true);
-                ToggleDeath(true);
-                ToggleMalice(false);
+                //If there are no alternate difficulties at that tier, no need to ask, just choose that one.
+                if (DifficultyTiers[i].Length == 1)
+                {
+                    DifficultyTiers[i][0].Enabled = true;
+                }    
+
+                //if there are alternate difficulties, we ask nicely to know which one is the preffered one.
+                else
+                {
+                    //First off, disable them all to avoid conflicts if one was already selected before.
+                    for (int j = 0; j < DifficultyTiers[i].Length; j++)
+                    {
+                        DifficultyTiers[i][j].Enabled = false;
+                    }
+
+                    //Enable the one favored by the mode.
+                    DifficultyTiers[i][mode.FavoredDifficultyAtTier(i)].Enabled = true;
+                }
             }
 
-            if (mode == DifficultyMode.Malice)
-            {
-                ToggleRev(true, true);
-                ToggleDeath(true, true);
-                ToggleMalice(true);
-            }
+            DisplayLocalizedText(mode.ActivationTextKey, mode.ChatTextColor);
+            mode.Enabled = true;
 
-            if (mode == DifficultyMode.None)
-            {
-                ToggleMalice(false);
-                ToggleDeath(false);
-                ToggleRev(false);
-            }
-
-            SoundEngine.PlaySound(SoundID.Item119);
+            SoundEngine.PlaySound(mode.ActivationSound);
             CalamityNetcode.SyncWorld();
+
+            menuOpen = false;
+            menuOpenTransitionTime = MenuAnimLenght;
         }
 
-        public static void ToggleRev(bool turnOn, bool noText = false)
-        {
-            if ((turnOn && CalamityWorld.revenge && noText) || !turnOn && !CalamityWorld.revenge)
-                return;
-
-            if (turnOn)
-            {
-                CalamityWorld.revenge = true;
-                if (!noText)
-                {
-                    string key = "Mods.CalamityMod.RevengeText";
-                    Color messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-            }
-
-            else
-            {
-                CalamityWorld.revenge = false;
-                if (!noText)
-                {
-                    string key = "Mods.CalamityMod.RevengeText2";
-                    Color messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-            }
-        }
-
-        public static void ToggleDeath(bool turnOn, bool noText = false)
-        {
-            if ((turnOn && CalamityWorld.death && noText) || !turnOn && !CalamityWorld.death)
-                return;
-
-
-            if (turnOn)
-            {
-                CalamityWorld.death = true;
-                if (!noText)
-                {
-                    string key = "Mods.CalamityMod.DeathText";
-                    Color messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-            }
-
-            else
-            {
-                CalamityWorld.death = false;
-                if (!noText)
-                {
-                    string key = "Mods.CalamityMod.DeathText2";
-                    Color messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-            }
-        }
-
-        public static void ToggleMalice(bool turnOn, bool noText = false)
-        {
-            if ((turnOn && CalamityWorld.malice && noText) || !turnOn && !CalamityWorld.malice)
-                return;
-
-            if (turnOn)
-            {
-                CalamityWorld.malice = true;
-                if (!noText)
-                {
-                    string key = "Mods.CalamityMod.MaliceText";
-                    Color messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-            }
-
-            else
-            {
-                CalamityWorld.malice = false;
-                if (!noText)
-                {
-                    string key = "Mods.CalamityMod.MaliceText2";
-                    Color messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
-            }
-        }
-#endregion
+        #endregion
     }
 }
