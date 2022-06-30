@@ -27,6 +27,8 @@ namespace CalamityMod.UI
         public static bool ClickingMouse => Main.mouseLeft && Main.mouseLeftRelease;
         public static Vector2 DrawCenter => new Vector2(Main.screenWidth - 400f - WidthForTier(MostAlternateDifficulties) * 0.5f, 82f) + FrameSize * 0.5f;
 
+        private static int GlowFadeAnimLenght = 40;
+        public static int GlowFadeTime = 0;
         //Lock icon
         internal const int LockAnimLenght = 30;
         private static int lockClickTime = 0;
@@ -47,6 +49,7 @@ namespace CalamityMod.UI
 
         private static void ClearVariables()
         {
+            GlowFadeTime = 0;
             lockClickTime = 0;
             menuOpenTransitionTime = 0;
             previousLockStatus = false;
@@ -69,6 +72,9 @@ namespace CalamityMod.UI
 
             if (!menuOpen || menuOpenTransitionTime > 0)
                 previouslyHoveredMode = null;
+
+            if (GlowFadeTime > 0)
+                GlowFadeTime--;
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -88,6 +94,12 @@ namespace CalamityMod.UI
             //Grows the icon when hovering it.
             if (MouseScreenArea.Intersects(MainClickArea))
             {
+                if (!_hasCheckedItOutYet)
+                {
+                    GlowFadeTime = GlowFadeAnimLenght;
+                    _hasCheckedItOutYet = true;
+                }
+
                 if (!previouslyHoveringMainIcon)
                 {
                     previouslyHoveringMainIcon = true;
@@ -106,9 +118,28 @@ namespace CalamityMod.UI
                     }
                 }
             }
-
             else
                 previouslyHoveringMainIcon = false;
+
+            if (!_hasCheckedItOutYet || GlowFadeTime > 0)
+            {
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
+
+                Texture2D bloomTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/BloomFlare").Value;
+                float opacity = !_hasCheckedItOutYet ? 1f : 1f * GlowFadeTime / (float)GlowFadeAnimLenght;
+                float scale = 0.4f + (float)Math.Sin(Main.GlobalTimeWrappedHourly) * 0.05f;
+                float rot = Main.GlobalTimeWrappedHourly * 0.5f;
+
+                spriteBatch.Draw(bloomTex, DrawCenter, null, Color.Crimson * opacity, rot, new Vector2(123, 124), scale, SpriteEffects.None, 0f);
+
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
+
+
+                Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorOutline").Value;
+                spriteBatch.Draw(outlineTexture, DrawCenter, null, Color.White * opacity, 0f, outlineTexture.Size() * 0.5f, MainIconScale, SpriteEffects.None, 0f);
+            }
 
             string extraDescText = "";
             if (menuOpenTransitionTime > 0 || menuOpen)
@@ -165,7 +196,7 @@ namespace CalamityMod.UI
         {
             locked = false;
             text = "Click to select a difficulty mode";
-            if (!Main.expertMode && GetCurrentDifficulty != Difficulties[0])
+            if (!Main.expertMode && GetCurrentDifficulty == Difficulties[0])
             {
                 locked = true;
                 text = "Higher difficulty modes can only be toggled in expert mode or above";

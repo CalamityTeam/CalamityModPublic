@@ -13,15 +13,17 @@ using System;
 using Terraria.ID;
 using ReLogic.Content;
 using Terraria.Audio;
+using Terraria.ModLoader.IO;
 
 namespace CalamityMod.Systems
 {
     public class DifficultyModeSystem : ModSystem
     {
+        internal static bool _hasCheckedItOutYet = false; //Simple variable to add a cool effect to the mode selector 
 
-        public static DifficultyMode[] Difficulties;
-        public static List<DifficultyMode[]> DifficultyTiers;
-        public static int MostAlternateDifficulties;
+        public static DifficultyMode[] Difficulties; //Difficulty modes ordered by ascending difficulty
+        public static List<DifficultyMode[]> DifficultyTiers; //Difficulty modes grouped together by difficulty
+        public static int MostAlternateDifficulties; //The most alternate difficulties at any tier that exists. Used to know the widest space to take in the ui
 
         public override void Load()
         {
@@ -77,6 +79,31 @@ namespace CalamityMod.Systems
 
                 return mode;
             }
+        }
+
+        public override void SaveWorldData(TagCompound tag)
+        {
+            //Always save it as true
+             tag["hasCheckedOutTheCoolDifficultyUI"] = true;
+        }
+
+        public override void OnWorldLoad()
+        {
+            _hasCheckedItOutYet = false;
+        }
+
+        public override void OnWorldUnload()
+        {
+            _hasCheckedItOutYet = false;
+        }
+
+        public override void LoadWorldData(TagCompound tag)
+        {
+            _hasCheckedItOutYet = tag.GetBool("hasCheckedOutTheCoolDifficultyUI");
+
+            //No need to check it out if rev is already on (Such as in old worlds)
+            if (CalamityWorld.revenge)
+                _hasCheckedItOutYet = true;
         }
     }
 
