@@ -1117,7 +1117,7 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 string key = "Mods.CalamityMod.SkyOreText";
                 Color messageColor = Color.Cyan;
-                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.4f, 0.6f, 3, 8);
+                CalamityUtils.SpawnOre(ModContent.TileType<AerialiteOre>(), 12E-05, 0.5f, 0.7f, 3, 8);
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

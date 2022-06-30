@@ -1189,7 +1189,7 @@ namespace CalamityMod.NPCs.Cryogen
             {
                 string key = "Mods.CalamityMod.IceOreText";
                 Color messageColor = Color.LightSkyBlue;
-                CalamityUtils.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, 0.45f, 0.65f, 3, 8, TileID.SnowBlock, TileID.IceBlock, TileID.CorruptIce, TileID.FleshIce, TileID.HallowedIce, ModContent.TileType<AstralSnow>(), ModContent.TileType<AstralIce>());
+                CalamityUtils.SpawnOre(ModContent.TileType<CryonicOre>(), 15E-05, 0.45f, 0.7f, 3, 8, TileID.SnowBlock, TileID.IceBlock, TileID.CorruptIce, TileID.FleshIce, TileID.HallowedIce, ModContent.TileType<AstralSnow>(), ModContent.TileType<AstralIce>());
 
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }

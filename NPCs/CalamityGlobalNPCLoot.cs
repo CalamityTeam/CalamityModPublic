@@ -1348,8 +1348,8 @@ namespace CalamityMod.NPCs
                         {
                             string key3 = "Mods.CalamityMod.HardmodeOreTier1Text";
                             Color messageColor3 = new Color(50, 255, 130);
-                            CalamityUtils.SpawnOre(TileID.Cobalt, 12E-05, 0.4f, 0.6f, 3, 8);
-                            CalamityUtils.SpawnOre(TileID.Palladium, 12E-05, 0.4f, 0.6f, 3, 8);
+                            CalamityUtils.SpawnOre(TileID.Cobalt, 12E-05, 0.45f, 0.7f, 3, 8);
+                            CalamityUtils.SpawnOre(TileID.Palladium, 12E-05, 0.45f, 0.7f, 3, 8);
                             CalamityUtils.DisplayLocalizedText(key3, messageColor3);
                         }
                     }
@@ -1403,7 +1403,7 @@ namespace CalamityMod.NPCs
                         Color messageColor2 = Color.Goldenrod;
 
                         // TODO -- this should probably be moved to a thread like Aureus meteor
-                        CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.5f, 0.7f, 3, 8, TileID.Dirt, TileID.Stone);
+                        CalamityUtils.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, 0.65f, 0.85f, 3, 8, TileID.Dirt, TileID.Stone);
 
                         CalamityUtils.DisplayLocalizedText(key, messageColor);
                         CalamityUtils.DisplayLocalizedText(key2, messageColor2);
@@ -1517,23 +1517,23 @@ namespace CalamityMod.NPCs
             {
                 string key = "Mods.CalamityMod.HardmodeOreTier2Text";
                 Color messageColor = new Color(50, 255, 130);
-                CalamityUtils.SpawnOre(TileID.Mythril, 12E-05, 0.5f, 0.7f, 3, 8);
-                CalamityUtils.SpawnOre(TileID.Orichalcum, 12E-05, 0.5f, 0.7f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Mythril, 12E-05, 0.55f, 0.8f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Orichalcum, 12E-05, 0.55f, 0.8f, 3, 8);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else if ((!NPC.downedMechBoss1 && !NPC.downedMechBoss2) || (!NPC.downedMechBoss2 && !NPC.downedMechBoss3) || (!NPC.downedMechBoss3 && !NPC.downedMechBoss1))
             {
                 string key = "Mods.CalamityMod.HardmodeOreTier3Text";
                 Color messageColor = new Color(50, 255, 130);
-                CalamityUtils.SpawnOre(TileID.Adamantite, 12E-05, 0.6f, 0.8f, 3, 8);
-                CalamityUtils.SpawnOre(TileID.Titanium, 12E-05, 0.6f, 0.8f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Adamantite, 12E-05, 0.65f, 0.9f, 3, 8);
+                CalamityUtils.SpawnOre(TileID.Titanium, 12E-05, 0.65f, 0.9f, 3, 8);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
             else
             {
                 string key = "Mods.CalamityMod.HardmodeOreTier4Text";
                 Color messageColor = new Color(50, 255, 130);
-                CalamityUtils.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, 0.45f, 0.8f, 3, 8, TileID.Pearlstone, TileID.HallowHardenedSand, TileID.HallowSandstone, TileID.HallowedIce);
+                CalamityUtils.SpawnOre(ModContent.TileType<HallowedOre>(), 12E-05, 0.7f, 0.9f, 3, 8, TileID.Pearlstone, TileID.HallowHardenedSand, TileID.HallowSandstone, TileID.HallowedIce);
                 CalamityUtils.DisplayLocalizedText(key, messageColor);
             }
         }

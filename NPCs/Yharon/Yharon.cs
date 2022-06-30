@@ -2862,7 +2862,7 @@ namespace CalamityMod.NPCs.Yharon
             // If Yharon has not been killed yet, notify players of Auric Ore
             if (!DownedBossSystem.downedYharon)
             {
-                CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.6f, 0.8f, 10, 20);
+                CalamityUtils.SpawnOre(ModContent.TileType<AuricOre>(), 2E-05, 0.75f, 0.9f, 10, 20);
 
                 string key = "Mods.CalamityMod.AuricOreText";
                 Color messageColor = Color.Gold;
