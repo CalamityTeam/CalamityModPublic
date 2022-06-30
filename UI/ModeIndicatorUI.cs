@@ -217,10 +217,12 @@ namespace CalamityMod.UI
             {
                 float usedOpacity = 0.85f;
                 Rectangle indicatorFrameArea = GetFrame((DifficultyMode)i);
+
+                //outline the currently selected difficulty.
                 if ((DifficultyMode)i == GetCurrentDifficulty)
                 {
                     usedOpacity = 1f;
-                    spriteBatch.Draw(outlineTexture, position, null, Color.Crimson * 0.8f, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(outlineTexture, position, null, Color.Crimson * 0.8f * progress, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
                 }
 
                 spriteBatch.Draw(indicatorTexture, position, indicatorFrameArea, Color.White * usedOpacity * progress, 0f, indicatorFrameArea.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
@@ -290,12 +292,17 @@ namespace CalamityMod.UI
 
             if (mode == DifficultyMode.Death)
             {
+                ToggleRev(true, true);
                 ToggleDeath(true);
                 ToggleMalice(false);
             }
 
             if (mode == DifficultyMode.Malice)
+            {
+                ToggleRev(true, true);
+                ToggleDeath(true, true);
                 ToggleMalice(true);
+            }
 
             if (mode == DifficultyMode.None)
             {
@@ -310,7 +317,7 @@ namespace CalamityMod.UI
 
         public static void ToggleRev(bool turnOn, bool noText = false)
         {
-            if (turnOn && CalamityWorld.revenge || !turnOn && !CalamityWorld.revenge)
+            if ((turnOn && CalamityWorld.revenge && noText) || !turnOn && !CalamityWorld.revenge)
                 return;
 
             if (turnOn)
@@ -338,14 +345,12 @@ namespace CalamityMod.UI
 
         public static void ToggleDeath(bool turnOn, bool noText = false)
         {
-            if (turnOn && CalamityWorld.death || !turnOn && !CalamityWorld.death)
+            if ((turnOn && CalamityWorld.death && noText) || !turnOn && !CalamityWorld.death)
                 return;
 
 
             if (turnOn)
             {
-                ToggleRev(true, true);
-
                 CalamityWorld.death = true;
                 if (!noText)
                 {
@@ -369,14 +374,11 @@ namespace CalamityMod.UI
 
         public static void ToggleMalice(bool turnOn, bool noText = false)
         {
-            if (turnOn && CalamityWorld.malice || !turnOn && !CalamityWorld.malice)
+            if ((turnOn && CalamityWorld.malice && noText) || !turnOn && !CalamityWorld.malice)
                 return;
 
             if (turnOn)
             {
-                ToggleRev(true, true);
-                ToggleDeath(true, true);
-
                 CalamityWorld.malice = true;
                 if (!noText)
                 {
