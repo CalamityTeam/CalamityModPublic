@@ -9,6 +9,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             this.HideFromBestiary();
             DisplayName.SetDefault("Super Dummy");
+            NPCID.Sets.CantTakeLunchMoney[Type] = true;
         }
 
         public override void SetDefaults()

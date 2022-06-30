@@ -21,6 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 SpriteDirection = 1
             };
             NPCID.Sets.NPCBestiaryDrawOffset[Type] = value;
+            NPCID.Sets.CantTakeLunchMoney[Type] = true;
         }
 
         public override void SetDefaults()
