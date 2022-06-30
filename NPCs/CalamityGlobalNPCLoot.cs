@@ -1066,11 +1066,10 @@ namespace CalamityMod.NPCs
                     normalOnly.Add(ModContent.ItemType<EssenceofSunlight>(), 1, 5, 10);
                     normalOnly.Add(ModContent.ItemType<AegisBlade>(), 10);
 
-                    // If Golem has never been killed, provide a Picksaw to all players. This only applies in Normal Mode.
-                    // The Golem Treasure Bag is guaranteed to provide a Picksaw if one is not yet in the inventory.
+                    // If Golem has never been killed, provide a Picksaw to all players.
                     LeadingConditionRule firstGolemKill = new(DropHelper.If(() => !NPC.downedGolemBoss));
                     firstGolemKill.Add(DropHelper.PerPlayer(ItemID.Picksaw));
-                    normalOnly.Add(firstGolemKill);
+                    npcLoot.Add(firstGolemKill);
 
                     // Lore
                     npcLoot.AddConditionalPerPlayer(() => !NPC.downedGolemBoss, ModContent.ItemType<KnowledgeGolem>());
