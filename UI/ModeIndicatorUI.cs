@@ -36,11 +36,13 @@ namespace CalamityMod.UI
         internal const float IconHoverScaleIncrement = MaxIconHoverScaleBoost / 6f;
         internal const float IconHoverScaleDecrement = MaxIconHoverScaleBoost / 10f;
         private static float iconHoverScaleBoost = 0f;
+        private static bool previouslyHoveringMainIcon = false;
         public static float MainIconScale => 1f + iconHoverScaleBoost;
         //Menu state
         private static bool menuOpen = false;
         internal static int MenuAnimLenght => MostAlternateDifficulties > 1 ? 60 : 40;
         private static int menuOpenTransitionTime = 0;
+        private static DifficultyMode previouslyHoveredMode = null;
         public static float WidthForTier(int alts) => (alts - 1) * 40f;
 
         private static void ClearVariables()
@@ -50,6 +52,8 @@ namespace CalamityMod.UI
             previousLockStatus = false;
             iconHoverScaleBoost = 0f;
             menuOpen = false;
+            previouslyHoveringMainIcon = false;
+            previouslyHoveredMode = null;
         }
 
         public static void TickVariables()
@@ -62,6 +66,9 @@ namespace CalamityMod.UI
 
             if (iconHoverScaleBoost > 0)
                 iconHoverScaleBoost -= IconHoverScaleDecrement;
+
+            if (!menuOpen || menuOpenTransitionTime > 0)
+                previouslyHoveredMode = null;
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -79,17 +86,29 @@ namespace CalamityMod.UI
             GetLockStatus(out string lockText, out bool locked);
 
             //Grows the icon when hovering it.
-            if (iconHoverScaleBoost < MaxIconHoverScaleBoost && MouseScreenArea.Intersects(MainClickArea))
+            if (MouseScreenArea.Intersects(MainClickArea))
             {
-                iconHoverScaleBoost = Math.Min(iconHoverScaleBoost + IconHoverScaleIncrement + IconHoverScaleDecrement, MaxIconHoverScaleBoost);
-
-                if (ClickingMouse && menuOpenTransitionTime == 0 && !locked)
+                if (!previouslyHoveringMainIcon)
                 {
-                    SoundEngine.PlaySound(menuOpen ? SoundID.MenuClose : SoundID.MenuOpen);
-                    menuOpenTransitionTime = MenuAnimLenght;
-                    menuOpen = !menuOpen;
+                    previouslyHoveringMainIcon = true;
+                    SoundEngine.PlaySound(SoundID.MenuTick);
+                }
+
+                if (iconHoverScaleBoost < MaxIconHoverScaleBoost)
+                {
+                    iconHoverScaleBoost = Math.Min(iconHoverScaleBoost + IconHoverScaleIncrement + IconHoverScaleDecrement, MaxIconHoverScaleBoost);
+
+                    if (ClickingMouse && menuOpenTransitionTime == 0 && !locked)
+                    {
+                        SoundEngine.PlaySound(menuOpen ? SoundID.MenuClose : SoundID.MenuOpen);
+                        menuOpenTransitionTime = MenuAnimLenght;
+                        menuOpen = !menuOpen;
+                    }
                 }
             }
+
+            else
+                previouslyHoveringMainIcon = false;
 
             string extraDescText = "";
             if (menuOpenTransitionTime > 0 || menuOpen)
@@ -171,7 +190,7 @@ namespace CalamityMod.UI
             }
 
             //Click handling
-            if (ClickingMouse && lockClickTime == 0)
+            if (locked && ClickingMouse && lockClickTime == 0)
             {
                 if (MouseScreenArea.Intersects(MainClickArea))
                 {
@@ -219,14 +238,15 @@ namespace CalamityMod.UI
 
         public static void ManageHexIcons(SpriteBatch spriteBatch, out string text)
         {
-            float barLenght = 240f * BarExpansionProgress;
             int tiers = DifficultyTiers.Count();
+            float barLenght = 60 * tiers * BarExpansionProgress;
             float progress = menuOpen ? 1 - menuOpenTransitionTime / (float)MenuAnimLenght : menuOpenTransitionTime / (float)MenuAnimLenght;
             Vector2 basePosition = DrawCenter + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY;
 
             Texture2D outlineTexture = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/UI/ModeIndicatorOutline").Value;
 
             text = "";
+            bool modeHovered = false;
 
             for (int i = 0; i < tiers; i++)
             {
@@ -236,28 +256,44 @@ namespace CalamityMod.UI
                     DifficultyMode mode = DifficultyTiers[i][j];
                     Texture2D hexIcon = mode.Texture.Value;
 
+                    //Get position
                     Vector2 iconPosition = basePosition + (barLenght / (float)(tiers + 1f)) * Vector2.UnitY * i;
                     if (modesAtTier > 1)
-                        iconPosition += Vector2.UnitX * MathHelper.Lerp(WidthForTier(modesAtTier) * -0.5f, WidthForTier(modesAtTier) * 0.5f, j / (modesAtTier - 1)) * BarWidthExpansionProgress;
+                        iconPosition += Vector2.UnitX * MathHelper.Lerp(WidthForTier(modesAtTier) * -0.5f, WidthForTier(modesAtTier) * 0.5f, j / (float)(modesAtTier - 1)) * BarWidthExpansionProgress;
 
-                    float usedOpacity = 0.85f;
+                    bool hovered = MouseScreenArea.Intersects(Utils.CenteredRectangle(iconPosition, hexIcon.Size()));
+
+                    float usedOpacity = mode.Enabled ? 0.85f : 0.55f;
+
+                    if (hovered)
+                        usedOpacity = MathHelper.Lerp(usedOpacity, 1f, 0.7f);
+
                     //outline the currently selected difficulty.
                     if (mode == GetCurrentDifficulty)
                     {
                         usedOpacity = 1f;
                         spriteBatch.Draw(outlineTexture, iconPosition, null, mode.ChatTextColor * 0.8f * progress, 0f, outlineTexture.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
                     }
-
                     spriteBatch.Draw(hexIcon, iconPosition, null, Color.White * usedOpacity * progress, 0f, hexIcon.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
 
-                    if (menuOpenTransitionTime == 0 && MouseScreenArea.Intersects(Utils.CenteredRectangle(iconPosition, hexIcon.Size())))
+
+                    if (menuOpenTransitionTime == 0 && hovered)
                     {
+                        if (previouslyHoveredMode != mode)
+                            SoundEngine.PlaySound(SoundID.MenuTick);
+
+                        previouslyHoveredMode = mode;
+                        modeHovered = true;
+
                         text = GetDifficultyText(mode);
                         if (ClickingMouse)
                             SwitchToDifficulty(mode);
                     }
                 }
             }
+
+            if (!modeHovered)
+                previouslyHoveredMode = null;
         }
 
         public static void DrawLock(SpriteBatch spriteBatch)
@@ -299,10 +335,12 @@ namespace CalamityMod.UI
         public static void SwitchToDifficulty(DifficultyMode mode)
         {
             //No swap on server (although this doesn't matter anymore since it's not an item but dnc.
-            //No swap if fsr you're asking to swap to the "current" difficulty
             //No swap if the requested difficulty is the same as the current one
             if (Main.netMode == NetmodeID.MultiplayerClient || mode == GetCurrentDifficulty)
                 return;
+
+            //Todo, maybe in the future having a way to have multiple difficulty options on the same tier that can coexist, and it works in branching pathes? Not very necessary for cal & addons
+            //But would be super useful so other mods can let their own difficulties go there.
 
             //Disable difficulties
             for (int i = 0; i < Difficulties.Length; i++)
