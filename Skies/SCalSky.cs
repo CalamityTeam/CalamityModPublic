@@ -110,15 +110,6 @@ namespace CalamityMod.Skies
                     isActive = false;
             }
 
-            if (isActive && intensity < 1f)
-            {
-                intensity += 0.01f;
-            }
-            else if (!isActive && intensity > 0f)
-            {
-                intensity -= 0.01f;
-            }
-
             if (!Main.npc.IndexInRange(CalamityGlobalNPC.SCal) || Main.npc[CalamityGlobalNPC.SCal].type != ModContent.NPCType<SupremeCalamitas>())
                 isActive = false;
 
@@ -140,7 +131,7 @@ namespace CalamityMod.Skies
             }
 
             // Randomly add cinders.
-            if (intensity >= 1f && Main.rand.NextBool(CinderReleaseChance))
+            if (Main.rand.NextBool(CinderReleaseChance))
             {
                 int lifetime = Main.rand.Next(285, 445);
                 float depth = Main.rand.NextFloat(1.8f, 5f);
