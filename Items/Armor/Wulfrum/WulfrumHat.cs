@@ -65,6 +65,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
             {
                 player.statDefense += 5; //13
             }
+
+            player.Calamity().wulfrumSet = true;
         }
 
         public override void UpdateEquip(Player player)

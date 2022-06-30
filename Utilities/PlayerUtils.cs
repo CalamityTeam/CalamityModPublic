@@ -511,6 +511,21 @@ namespace CalamityMod
         #region Arms Control
 
         /// <summary>
+        /// Gets an arm stretch amount from a number ranging from 0 to 1
+        /// </summary>
+        public static CompositeArmStretchAmount ToStretchAmount(this float percent)
+        {
+            if (percent < 0.25f)
+                return CompositeArmStretchAmount.None;
+            if (percent < 0.5f)
+                return CompositeArmStretchAmount.Quarter;
+            if (percent < 0.75f)
+                return CompositeArmStretchAmount.ThreeQuarters;
+
+            return CompositeArmStretchAmount.Full;
+        }
+
+        /// <summary>
         /// The exact same thing as Player.GetFrontHandPosition() except it properly accounts for gravity swaps instead of requiring the coders to do it manually afterwards.
         /// Additionally, it simply takes in the arm data instead of asking for the rotation and stretch separately.
         /// </summary>

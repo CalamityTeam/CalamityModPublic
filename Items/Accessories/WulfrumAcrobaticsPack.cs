@@ -431,26 +431,40 @@ namespace CalamityMod.Items.Accessories
                     //Only clear hooks that are attached to stuff
                     if (p.ModProjectile is WulfrumHook claw && claw.State == WulfrumHook.HookState.Grappling)
                     {
-                        SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, p.Center);
-                        p.Kill();
 
-                        Vector2 velocityBoost = Vector2.Zero;
-                        //Additionally, accelerate the player a lil' if they were holding down the buttons in the direction of their swing.
-                        if ((Math.Sign(Player.velocity.X) < 0 && Player.controlLeft) || (Math.Sign(Player.velocity.X) > 0 && Player.controlRight))
+                        float angleToUpright = (Player.Center - p.Center).AngleBetween(-Vector2.UnitY);
+                        if (angleToUpright > MathHelper.PiOver4) // Don't do any jump stuff if the player is jumping from above the hook.
                         {
-                            velocityBoost += Player.velocity * 0.15f;
-                        }
-                        //Additionally^2, if the player isnt moving very fast, make them do a straight up hop.
-                        //Don't do the hop if the player isnt moving at all though because thats handled by vanilla.
-                        if (Player.velocity.Length() < MaxHopVelocity && (Player.velocity.Length() > 0.0001f || PlayerOnGround))
-                        {
-                            velocityBoost -= Vector2.UnitY * Player.jumpSpeed * (1 - (float)Math.Pow(Player.velocity.Length() / MaxHopVelocity, 5f));
+                            Vector2 velocityBoost = Vector2.Zero;
+
+                            //Additionally, accelerate the player a lil' if they were holding down the buttons in the direction of their swing.
+                            if ((Math.Sign(Player.velocity.X) < 0 && Player.controlLeft) || (Math.Sign(Player.velocity.X) > 0 && Player.controlRight))
+                            {
+                                velocityBoost += Player.velocity * 0.15f;
+                            }
+                            //Additionally^2, if the player isnt moving very fast, make them do a straight up hop.
+                            //Don't do the hop if the player isnt moving at all though because thats handled by vanilla.
+                            if (Player.velocity.Length() < MaxHopVelocity && Player.velocity.Length() > 0.0001f || PlayerOnGround)
+                            {
+                                velocityBoost -= Vector2.UnitY * Player.jumpSpeed * (1 - (float)Math.Pow(Player.velocity.Length() / MaxHopVelocity, 5f));
+                            }
+
+
+                            Player.velocity += velocityBoost;
                         }
 
-                        Player.velocity += velocityBoost;
+                        else
+                        {
+                            //Prevents double jumps from getting activated
+                            Player.releaseJump = false;
+                        }
 
 
                         Player.jump = Player.jumpHeight / 2;
+
+                        SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, p.Center);
+                        p.Kill();
+
                     }
                 }
 

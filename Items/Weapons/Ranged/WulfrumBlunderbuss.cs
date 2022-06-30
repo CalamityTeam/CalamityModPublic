@@ -2,6 +2,8 @@
 using System.IO;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -15,19 +17,23 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class WulfrumBlunderbuss : ModItem
     {
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumBlunderbussFire") { PitchVariance = 0.1f };
+        public static readonly SoundStyle ShootAndReloadSound = new("CalamityMod/Sounds/Item/WulfrumBlunderbussFireAndReload") { PitchVariance = 0.1f };
 
         public static float MinSpreadDistance = 460f; 
         public static float MaxSpreadDistance = 60f;
         public static float MinSpread = 0.2f;
         public static float MaxSpread = 0.6f;
+        public static float MaxDamageFalloff = 0.9f;
         public static int BulletCount = 6;
 
+        public static int ScrapPerItem = 5;
         public int storedScrap = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Blunderbuss");
-            Tooltip.SetDefault("Consumes ");
+            Tooltip.SetDefault("Consumes wulfrum scrap or silver coins to fire\n" +
+                               "The shot's spread can be diminished by aiming further away, at the cost of less damage");
             SacrificeTotal = 1;
         }
 
@@ -47,8 +53,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.UseSound = ShootSound;
             Item.autoReuse = false;
             Item.shoot = ProjectileID.Bullet;
-            Item.shootSpeed = 12f;
-            Item.useAmmo = AmmoID.Bullet;
+            Item.shootSpeed = 15f;
             Item.Calamity().canFirePointBlankShots = true;
         }
 
@@ -57,11 +62,50 @@ namespace CalamityMod.Items.Weapons.Ranged
             player.Calamity().mouseWorldListener = true;
         }
 
-        public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player) =>  storedScrap > 0 || (player.HasItem(ModContent.ItemType<WulfrumShard>()) || player.HasItem(ItemID.SilverCoin));
+
+        public override void UseAnimation(Player player)
         {
-            return storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumShard>()) || player.HasItem(ItemID.SilverCoin);
+            Item.UseSound = ShootSound;
+            if (storedScrap == 1 && (player.HasItem(ModContent.ItemType<WulfrumShard>()) || player.HasItem(ItemID.SilverCoin)))
+                Item.UseSound = ShootAndReloadSound;
         }
 
+        public override bool? UseItem(Player player)
+        {
+            storedScrap--;
+
+            if (storedScrap <= 0)
+            {
+                bool ammoConsumed = false;
+
+                if (player.HasItem(ModContent.ItemType<WulfrumShard>()))
+                {
+                    player.ConsumeItem(ModContent.ItemType<WulfrumShard>());
+                    ammoConsumed = true;
+                }
+
+                else if (player.HasItem(ItemID.SilverCoin))
+                {
+                    player.ConsumeItem(ItemID.SilverCoin);
+                    ammoConsumed = true;
+                }
+
+                if (ammoConsumed)
+                    storedScrap = ScrapPerItem;
+            }
+
+            return base.UseItem(player);
+        }
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            float aimLenght = (Main.MouseWorld - player.MountedCenter).Length();
+            float damageMult = MathHelper.Lerp(1f, MaxDamageFalloff, Math.Clamp(aimLenght - MaxSpreadDistance, 0, MinSpreadDistance - MaxSpreadDistance) / (MinSpreadDistance - MaxSpreadDistance));
+            damage = (int)(damage * damageMult);
+
+            type = ModContent.ProjectileType<Projectiles.Ranged.WulfrumScrapBullet>();
+        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
@@ -80,7 +124,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Vector2 direction = nuzzleDir.RotatedByRandom(spread);
                 Vector2 nuzzlePos = player.MountedCenter + direction * 15f;
 
-                Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(Item, Item.useAmmo), nuzzlePos, direction * Item.shootSpeed, type, damage, (int)Item.knockBack, player.whoAmI, 0, 0);
+                Projectile.NewProjectile(player.GetSource_ItemUse_WithPotentialAmmo(Item, Item.useAmmo), nuzzlePos, direction * Item.shootSpeed * Main.rand.NextFloat(1.5f, 2f), type, damage, (int)Item.knockBack, player.whoAmI, 0, 0);
             }
 
             return false;
@@ -104,8 +148,37 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             player.direction = Math.Sign((player.Calamity().mouseWorld - player.Center).X);
 
+            float animProgress = 1 - player.itemTime / (float)player.itemTimeMax;
             float rotation = (player.Center - player.Calamity().mouseWorld).ToRotation() + MathHelper.PiOver2;
+            if (animProgress < 0.4f)
+                rotation += -0.45f * (float)Math.Pow((0.4f - animProgress) / 0.4f, 2) * player.direction * player.gravDir;
+
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rotation);
+
+            //Reloads the gun 
+            if (animProgress > 0.5f)
+            {
+                float backArmRotation = rotation + 0.52f * player.direction * player.gravDir;
+
+                Player.CompositeArmStretchAmount stretch = ((float)Math.Sin(MathHelper.Pi * (animProgress - 0.5f) / 0.36f)).ToStretchAmount();
+                player.SetCompositeArmBack(true, stretch, backArmRotation);
+            }
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            float barScale = 1.2f;
+
+            var barBG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
+            var barFG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
+
+            Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 2) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(storedScrap / (float)ScrapPerItem * barFG.Width), barFG.Height);
+            Color colorBG = Color.RoyalBlue;
+            Color colorFG = Color.Lerp(Color.Teal, Color.YellowGreen, storedScrap / (float)ScrapPerItem);
+
+            spriteBatch.Draw(barBG, drawPos, null, colorBG, 0f, origin, scale * barScale, 0f, 0f);
+            spriteBatch.Draw(barFG, drawPos, frameCrop, colorFG * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
         }
 
         public override void AddRecipes()

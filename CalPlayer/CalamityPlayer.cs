@@ -610,6 +610,7 @@ namespace CalamityMod.CalPlayer
         public bool silverMedkit = false;
         public int silverMedkitTimer = 0;
         public bool goldArmorGoldDrops = false;
+        public bool wulfrumSet = false;
         public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
@@ -1739,6 +1740,8 @@ namespace CalamityMod.CalPlayer
 
             astralStarRain = false;
 
+            wulfrumSet = false;
+
             desertProwler = false;
 
             snowRuffianSet = false;
@@ -2441,6 +2444,7 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             hydrothermalSmoke = false;
+            wulfrumSet = false;
             desertProwler = false;
             snowRuffianSet = false;
             forbiddenCirclet = false;
@@ -5886,6 +5890,12 @@ namespace CalamityMod.CalPlayer
                 {
                     playSound = false;
                     SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
+                    hurtSoundTimer = 10;
+                }
+                else if (wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.position);
                     hurtSoundTimer = 10;
                 }
             }
