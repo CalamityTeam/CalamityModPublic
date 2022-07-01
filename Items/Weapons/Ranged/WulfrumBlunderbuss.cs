@@ -3,13 +3,14 @@ using System.IO;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using static CalamityMod.CalamityUtils;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.GameContent;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static float MaxDamageFalloff = 0.9f;
         public static int BulletCount = 6;
 
-        public static int ScrapPerItem = 5;
+        public static int ScrapPerItem = 30;
         public int storedScrap = 0;
 
         public override void SetStaticDefaults()
@@ -172,13 +173,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             var barBG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarBack").Value;
             var barFG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
-            Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 2) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
+            Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 2 + 6f) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
             Rectangle frameCrop = new Rectangle(0, 0, (int)(storedScrap / (float)ScrapPerItem * barFG.Width), barFG.Height);
             Color colorBG = Color.RoyalBlue;
             Color colorFG = Color.Lerp(Color.Teal, Color.YellowGreen, storedScrap / (float)ScrapPerItem);
 
             spriteBatch.Draw(barBG, drawPos, null, colorBG, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, colorFG * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
+
+            DrawBorderStringEightWay(spriteBatch, FontAssets.MouseText.Value, storedScrap.ToString(), drawPos + new Vector2(-3, -3) * scale, Color.GreenYellow, Color.Black, scale);
         }
 
         public override void AddRecipes()

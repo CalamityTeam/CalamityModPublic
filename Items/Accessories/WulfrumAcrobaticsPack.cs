@@ -433,7 +433,7 @@ namespace CalamityMod.Items.Accessories
                     {
 
                         float angleToUpright = (Player.Center - p.Center).AngleBetween(-Vector2.UnitY);
-                        if (angleToUpright > MathHelper.PiOver4) // Don't do any jump stuff if the player is jumping from above the hook.
+                        if (angleToUpright > MathHelper.PiOver4 * 0.45f) // Don't do any jump stuff if the player is jumping from above the hook.
                         {
                             Vector2 velocityBoost = Vector2.Zero;
 
@@ -451,6 +451,7 @@ namespace CalamityMod.Items.Accessories
 
 
                             Player.velocity += velocityBoost;
+                            Player.jump = Player.jumpHeight / 2;
                         }
 
                         else
@@ -458,9 +459,6 @@ namespace CalamityMod.Items.Accessories
                             //Prevents double jumps from getting activated
                             Player.releaseJump = false;
                         }
-
-
-                        Player.jump = Player.jumpHeight / 2;
 
                         SoundEngine.PlaySound(WulfrumAcrobaticsPack.ReleaseSound, p.Center);
                         p.Kill();
