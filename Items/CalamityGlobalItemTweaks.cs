@@ -546,7 +546,7 @@ namespace CalamityMod.Items
                 { ItemID.WhitePhaseblade, Do(AutoReuse, UseTurn, ScaleRatio(1.5f), DamageExact(51)) },
                 { ItemID.WhitePhasesaber, Do(ScaleRatio(1.5f), DamageExact(72), UseExact(20)) },
                 { ItemID.WoodenArrow, Do(DamageRatio(1.1f)) },
-                { ItemID.WoodenBoomerang, Do(DamageRatio(2f)) },
+                { ItemID.WoodenBoomerang, Do(DamageRatio(2f), Value(Item.sellPrice(copper: 20))) },
                 { ItemID.WoodenBow, Do(PointBlank, DamageRatio(1.1f)) },
                 { ItemID.WoodenHammer, Do(HammerPower(25), UseTimeExact(11), TileBoostExact(+0)) },
                 { ItemID.WoodenSword, Do(AutoReuse, UseTurn) },
