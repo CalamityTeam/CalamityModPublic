@@ -50,12 +50,10 @@ namespace CalamityMod.Tiles.Abyss
             }
         }
 
-        // Ozzatron 01JUL2022: infinite tile framing recursion in rusty chests caused by sulphurous vines
-        // heavily refactored this code to not suck. also, sulphurous vines won't grow in honey anymore.
+        // Ozzatron 01JUL2022: heavily refactored this code to not suck. also, sulphurous vines won't grow in honey anymore.
         private const int MaxVineHeight = 10;
         public override void RandomUpdate(int i, int j)
         {
-            int rustyChest = ModContent.TileType<RustyChestTile>();
             Tile below = Main.tile[i, j + 1];
             if (!below.HasTile && below.LiquidType == LiquidID.Water && below.LiquidAmount >= 128)
             {
@@ -90,16 +88,13 @@ namespace CalamityMod.Tiles.Abyss
                     Main.tile[x, y].TileFrameY = 4 * 18;
                     Main.tile[x, y].Get<TileWallWireStateData>().HasTile = true; // .HasTile = true; refuses to work
 
-                    // Reframe the current vine
+                    // Pick a new sprite for the current vine
                     Main.tile[i, j].TileFrameX = (short)(WorldGen.genRand.Next(12) * 18);
                     Main.tile[i, j].TileFrameY = (short)(WorldGen.genRand.Next(4) * 18);
 
-                    // Reframe both vines UNLESS ONE OF THEM IS A CHEST FOR SOME REASON YEAH THAT WOULD BE BAD
-                    if (Main.tile[x, y].TileType != rustyChest && Main.tile[i, j].TileType != rustyChest)
-                    {
-                        WorldGen.SquareTileFrame(x, y, true);
-                        WorldGen.SquareTileFrame(i, j, true);
-                    }
+                    // Reframe both vines the correct vanilla way
+                    WorldGen.SquareTileFrame(x, y, true);
+                    WorldGen.SquareTileFrame(i, j, true);
 
                     // Send update packets as needed
                     if (Main.netMode == NetmodeID.Server)
