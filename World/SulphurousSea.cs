@@ -91,9 +91,9 @@ namespace CalamityMod.World
         {
             PlaceStalactites();
             PlaceColumns();
-            PlaceRustyChests();
             CreateBeachNearSea();
             PlaceScrapPiles();
+            PlaceRustyChests();
         }
         #endregion
 
