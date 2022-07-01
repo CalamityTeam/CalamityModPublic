@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public static float MaxDamageFalloff = 0.9f;
         public static int BulletCount = 6;
 
-        public static int ScrapPerItem = 30;
+        public static int ShotsPerScrap = 30;
         public int storedScrap = 0;
 
         public override void SetStaticDefaults()
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 12;
+            Item.damage = 16;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;
@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
 
                 if (ammoConsumed)
-                    storedScrap = ScrapPerItem;
+                    storedScrap = ShotsPerScrap;
             }
 
             return base.UseItem(player);
@@ -174,9 +174,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             var barFG = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/GenericBarFront").Value;
 
             Vector2 drawPos = position + Vector2.UnitY * (frame.Height - 2 + 6f) * scale + Vector2.UnitX * (frame.Width - barBG.Width * barScale) * scale * 0.5f;
-            Rectangle frameCrop = new Rectangle(0, 0, (int)(storedScrap / (float)ScrapPerItem * barFG.Width), barFG.Height);
+            Rectangle frameCrop = new Rectangle(0, 0, (int)(storedScrap / (float)ShotsPerScrap * barFG.Width), barFG.Height);
             Color colorBG = Color.RoyalBlue;
-            Color colorFG = Color.Lerp(Color.Teal, Color.YellowGreen, storedScrap / (float)ScrapPerItem);
+            Color colorFG = Color.Lerp(Color.Teal, Color.YellowGreen, storedScrap / (float)ShotsPerScrap);
 
             spriteBatch.Draw(barBG, drawPos, null, colorBG, 0f, origin, scale * barScale, 0f, 0f);
             spriteBatch.Draw(barFG, drawPos, frameCrop, colorFG * 0.8f, 0f, origin, scale * barScale, 0f, 0f);
