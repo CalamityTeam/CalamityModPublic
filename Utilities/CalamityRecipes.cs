@@ -1431,21 +1431,18 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.TurtleHelmet);
             r.AddIngredient(ItemID.ChlorophyteMask);
             r.AddIngredient(ItemID.TurtleShell);
-            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.TurtleScaleMail);
             r.AddIngredient(ItemID.ChlorophytePlateMail);
             r.AddIngredient(ItemID.TurtleShell);
-            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             r = Recipe.Create(ItemID.TurtleLeggings);
             r.AddIngredient(ItemID.ChlorophyteGreaves);
             r.AddIngredient(ItemID.TurtleShell);
-            r.AddIngredient<LivingShard>();
             r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
