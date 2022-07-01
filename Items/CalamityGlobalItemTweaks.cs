@@ -474,6 +474,7 @@ namespace CalamityMod.Items
                 { ItemID.StardustPickaxe, Do(PickPower(225), UseTimeExact(6), TileBoostExact(+4)) },
                 { ItemID.Starfury, autoReuse },
                 { ItemID.StarWrath, Do(DamageRatio(0.9f)) },
+                { ItemID.PortableStool, Do(Value(Item.sellPrice(copper: 20))) }, // Step Stool
                 { ItemID.StickyBomb, maxStack999 },
                 { ItemID.StickyDynamite, maxStack999 },
                 { ItemID.SwordWhip, autoReuse },
