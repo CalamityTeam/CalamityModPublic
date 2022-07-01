@@ -51,7 +51,8 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public static float MaxDeviationAngle = MathHelper.PiOver4;
-        public static float HomingRange = 200;
+        public static float HomingRange = 250;
+        public static float HomingAngle = MathHelper.PiOver4 * 1.65f;
 
         internal PrimitiveTrail TrailDrawer;
 
@@ -61,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Bolt");
 
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
@@ -75,7 +76,49 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.timeLeft = 140;
             Projectile.extraUpdates = 2;
-            HomingRange = 200f;
+        }
+
+        public NPC FindTarget()
+        {
+            float bestScore = 0;
+            NPC bestTarget = null;
+
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC potentialTarget = Main.npc[i];
+
+                if (!potentialTarget.CanBeChasedBy(null, false))
+                    continue;
+
+                float distance = potentialTarget.Distance(Projectile.Center);
+                float angle = Projectile.velocity.AngleBetween((potentialTarget.Center - Projectile.Center));
+
+                float extraDistance = potentialTarget.width / 2 + potentialTarget.height / 2;
+
+                if (distance - extraDistance < HomingRange && angle < HomingAngle / 2f)
+                {
+                    if (!Collision.CanHit(Projectile.Center, 1, 1, potentialTarget.Center, 1, 1) && extraDistance < distance)
+                        continue;
+
+                    float attemptedScore = EvaluatePotentialTarget(distance - extraDistance, angle / 2f);
+                    if (attemptedScore > bestScore)
+                    {
+                        bestTarget = potentialTarget;
+                        bestScore = attemptedScore;
+                    }
+                }
+            }
+            return bestTarget;
+
+        }
+
+        public float EvaluatePotentialTarget(float distance, float angle)
+        {
+            float score = 1 - distance / HomingRange * 0.5f;
+
+            score += (1 - Math.Abs(angle) / (HomingAngle / 2f)) * 0.5f;
+
+            return score;
         }
 
         public override void AI()
@@ -91,44 +134,61 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                if (Target == null)
-                {
-                    Target = Projectile.Center.ClosestNPCAt(HomingRange, false);
-                }
+                Target = FindTarget();
             }
 
             Lighting.AddLight(Projectile.Center, (Color.GreenYellow * 0.8f).ToVector3() * 0.5f);
 
             if (Target != null)
             {
-                Projectile.rotation = Projectile.rotation.AngleTowards((Target.Center - Projectile.Center).ToRotation(), 0.04f);
+                float distanceFromTarget = (Target.Center - Projectile.Center).Length();
 
-                //float angleBetween = Projectile.rotation.ToRotationVector2().AngleBetween(OriginalRotation.ToRotationVector2());
-                //if (Math.Abs(angleBetween) > MaxDeviationAngle) 
-                //    Projectile.rotation += MaxDeviationAngle * Math.Sign(angleBetween);
+                Projectile.rotation = Projectile.rotation.AngleTowards((Target.Center - Projectile.Center).ToRotation(), 0.07f * (float)Math.Pow(( 1 - distanceFromTarget / HomingRange), 2));
+
+                /*
+                float angleBetween = Projectile.rotation - ((Target.Center - Projectile.Center).ToRotation());
+                angleBetween += (angleBetween + 180).Modulo(360) - 180;
+
+                if (Math.Abs(angleBetween) > MaxDeviationAngle) 
+                    Projectile.rotation += MaxDeviationAngle * Math.Sign(angleBetween);
+                */
             }
 
             Projectile.velocity *= 0.98f;
             Projectile.velocity = Projectile.rotation.ToRotationVector2() * Projectile.velocity.Length();
 
-            //for (int num151 = 0; num151 < 3; num151++)
-            //{
-            //    int num154 = 14;
-            //    int num155 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 61, 0f, 0f, 100, default, 3f);
-            //    Main.dust[num155].noGravity = true;
-            //    Main.dust[num155].noLight = true;
-            //}
+            if (Projectile.timeLeft == 140)
+            {
+                Vector2 dustCenter = Projectile.Center + Projectile.velocity * 1f;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    Dust chust = Dust.NewDustPerfect(dustCenter, 15, Projectile.velocity.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(0.2f, 0.5f), Scale: Main.rand.NextFloat(1.2f, 1.8f));
+                    chust.noGravity = true;
+                }
+            }
+
+            if (Projectile.timeLeft <= 137)
+            {
+                for (int num151 = 0; num151 < 3; num151++)
+                {
+                    int num154 = 14;
+                    int num155 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 61, 0f, 0f, 100, default, 3f);
+                    Main.dust[num155].noGravity = true;
+                    Main.dust[num155].noLight = true;
+                }
+            }
         }
 
         internal Color ColorFunction(float completionRatio)
         {
             float fadeOpacity = (float)Math.Sqrt(1 - completionRatio);
-            return Color.YellowGreen * fadeOpacity;
+            return Color.GreenYellow * fadeOpacity;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            return (1 - completionRatio * 0.4f) * 6.4f;
+            return  7.4f;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -147,6 +207,13 @@ namespace CalamityMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(WulfrumProthesis.HitSound, Projectile.Center);
+        }
+
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
+
+            return base.OnTileCollide(oldVelocity);
         }
     }
 }
