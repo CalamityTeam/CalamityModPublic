@@ -115,11 +115,11 @@ namespace CalamityMod.Systems
         }
 
         public abstract Asset<Texture2D> Texture { get; }
+        public virtual string ExpandedDescription => "";
 
         public float DifficultyScale;
         public string Name;
         public string ShortDescription;
-        public string ExpandedDescription;
 
         public string ActivationTextKey;
         public string DeactivationTextKey;
@@ -157,14 +157,13 @@ namespace CalamityMod.Systems
                 return _texture;
             }
         }
-
+        
         public NoDifficulty()
         {
             DifficultyScale = 0;
             Name = "None";
-            ShortDescription = "The classic Terraria experience, with no Calamity difficulty changes";
-            ExpandedDescription = "Blah Blah";
-
+            ShortDescription = "The classic Terraria experience, with no Calamity difficulty changes.";
+            
             ActivationTextKey = "";
             DeactivationTextKey = "";
 
@@ -193,13 +192,31 @@ namespace CalamityMod.Systems
                 return _texture;
             }
         }
+        
+        public override string ExpandedDescription
+        {
+            get
+            {
+                string rageKey = "[c/D28371:" + CalamityKeybinds.RageHotKey.TooltipHotkeyString() + "]";
+                string adrenKey = "[c/79DFBF:" + CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString() + "]";
+
+
+                return ("[c/47B290:Enables the Adrenaline mechanic. You gain Adrenaline while fighting bosses.Getting hit drops Adrenaline back to 0.] \n" +
+                        "[c/47B290:    When Adrenaline is maxed press] " + adrenKey + " [c/47B290:for a large damage boost.] \n" +
+                        "[c/DE4C2B:Enables the Rage mechanic.] [c/F7412D:You gain Rage when in proximity of enemies or by using certain items.] \n" +
+                        "[c/DE4C2B:    When Rage is maxed press] " + rageKey + " [c/DE4C2B:for a temporary damage boost.] \n" +
+                        "All foes have higher stats and deal more damage. \n" +
+                        "Bosses have new AI mechanics and new phases.Enemies spawn more frequently. \n" +
+                        "[c/737373:This mode is more difficult than Expert. Be sure to prepare for the challenge.]");
+
+            }
+        }
 
         public RevengeanceDifficulty()
         {
             DifficultyScale = 0.25f;
             Name = "Revengeance";
-            ShortDescription = "[c/F7412D:Calamity's intended difficulty. Switches up bossfights by giving them new AI, aand unlocks new mechanics]";
-            ExpandedDescription = "Gloubigboulga";
+            ShortDescription = "[c/D01400:The intended Calamity experience!]";
 
             ActivationTextKey = "Mods.CalamityMod.RevengeText";
             DeactivationTextKey = "Mods.CalamityMod.RevengeText2";
@@ -229,13 +246,23 @@ namespace CalamityMod.Systems
                 return _texture;
             }
         }
+        
+        public override string ExpandedDescription
+        {
+            get
+            {
+                return ("All foes will pose a much larger threat with aggressive AI and increased damage. \n" +
+                        "Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you. \n" +
+                        "Debuffs are especially lethal and the Abyss is significantly more dangerous. \n" +
+                        "[c/737373:Vigilance and tenacity are crucial to survival.]");
+            }
+        }
 
         public DeathDifficulty()
         {
             DifficultyScale = 0.5f;
             Name = "Death";
-            ShortDescription = "[c/C82DF7:One step above Revengeance, this mode includes more CRAZY ZANY tweaks!]";
-            ExpandedDescription = "Gloobologie";
+            ShortDescription = "[c/C82DF7:A tougher challenge for the more experienced, or for those that want a step up from Revengeance Mode.]";
 
             ActivationTextKey = "Mods.CalamityMod.DeathText";
             DeactivationTextKey = "Mods.CalamityMod.DeathText2";
@@ -279,12 +306,21 @@ namespace CalamityMod.Systems
             }
         }
 
+        public override string ExpandedDescription
+        { 
+            get
+            {
+                return ("Bosses are far more aggressive and deal even more damage. \n" +
+                        "Everything will try their best to kill you.Expect to fail over and over. \n" +
+                        "[c/737373:Steel yourself for the challenges ahead; do not let your overconfidence be your downfall.]");
+            }
+        }
+                   
         public MaliceDifficulty()
         {
             DifficultyScale = 0.75f;
             Name = "Malice";
-            ShortDescription = "[c/F7CF2D:Enrages bosses so you may brag about it in calamity mod discord]";
-            ExpandedDescription = "Malicious";
+            ShortDescription = "[c/F7CF2D:For the die-hard veteran who seeks an unrelenting trial of patience and mastery.]";
 
             ActivationTextKey = "Mods.CalamityMod.MaliceText";
             DeactivationTextKey = "Mods.CalamityMod.MaliceText2";
