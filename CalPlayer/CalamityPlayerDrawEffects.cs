@@ -11,6 +11,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Magic;
 
 namespace CalamityMod.CalPlayer
 {
@@ -36,6 +37,11 @@ namespace CalamityMod.CalPlayer
                     if (layer != PlayerDrawLayers.BackAcc)
                         layer.Hide();
                 }
+            }
+
+            if (Player.HeldItem.type == ModContent.ItemType<WulfrumProthesis>())
+            {
+                PlayerDrawLayers.ArmOverItem.Hide();
             }
         }
 

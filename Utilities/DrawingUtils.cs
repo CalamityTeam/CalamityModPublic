@@ -674,5 +674,35 @@ namespace CalamityMod
                                  1);
             }
         }
+
+        /// <summary>
+        /// Draws an item in the inventory with a new texture to replace a previous one.
+        /// Useful in situations where for example, a different sprite is used for the "real" inventory sprite so it may appear when the player is using it.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="newTexture"></param>
+        /// <param name="originalSize"></param>
+        /// <param name="position"></param>
+        /// <param name="drawColor"></param>
+        /// <param name="origin"></param>
+        /// <param name="scale"></param>
+        public static void DrawNewInventorySprite(this SpriteBatch spriteBatch, Texture2D newTexture, Vector2 originalSize, Vector2 position, Color drawColor, Vector2 origin, float scale)
+        {
+            float largestDimensionOriginal = Math.Max(originalSize.X, originalSize.Y);
+            float largestDimensionNew = Math.Max(newTexture.Width, newTexture.Height);
+
+            //Scale the sprite so it will account for the dimension of the new sprite if it is larger than the old one (As in, we need to scale down the scale or else it will be too large)
+            float scaleRatio = Math.Min(largestDimensionOriginal / largestDimensionNew, 1);
+
+            //Offset the jellyfish sprite properly, since the fishing rod is larger than the jellyfish (Jellyfish width : 28px, Fishing rod width : 42)
+            Vector2 positionOffset = Vector2.Zero;
+
+            if (originalSize.X > newTexture.Width)
+                positionOffset.X = (originalSize.X - newTexture.Width) / 2f;
+
+            positionOffset *= scale;
+
+            spriteBatch.Draw(newTexture, position + positionOffset, null, drawColor, 0f, origin, scale * scaleRatio, 0, 0);
+        }
     }
 }

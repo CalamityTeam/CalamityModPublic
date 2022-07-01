@@ -3,14 +3,14 @@ using System.IO;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static CalamityMod.CalamityUtils;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.GameContent;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -35,12 +35,13 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Wulfrum Blunderbuss");
             Tooltip.SetDefault("Consumes wulfrum scrap or silver coins to fire\n" +
                                "The shot's spread can be diminished by aiming further away, at the cost of less damage");
+            //Funny lore quip about how it can perform ecgologically be recyling the scrap parts of the faulty robots youre forced to shoot at as new ammo.
             SacrificeTotal = 1;
         }
 
         public override void SetDefaults()
         {
-            Item.damage = 16;
+            Item.damage = 14;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Item.rare = ItemRarityID.Blue;
             Item.UseSound = ShootSound;
             Item.autoReuse = false;
-            Item.shoot = ProjectileID.Bullet;
+            Item.shoot = ModContent.ProjectileType<Projectiles.Ranged.WulfrumScrapBullet>();
             Item.shootSpeed = 15f;
             Item.Calamity().canFirePointBlankShots = true;
         }
@@ -104,8 +105,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             float aimLenght = (Main.MouseWorld - player.MountedCenter).Length();
             float damageMult = MathHelper.Lerp(1f, MaxDamageFalloff, Math.Clamp(aimLenght - MaxSpreadDistance, 0, MinSpreadDistance - MaxSpreadDistance) / (MinSpreadDistance - MaxSpreadDistance));
             damage = (int)(damage * damageMult);
-
-            type = ModContent.ProjectileType<Projectiles.Ranged.WulfrumScrapBullet>();
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)

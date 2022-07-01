@@ -566,10 +566,14 @@ namespace CalamityMod
         /// <param name="desiredPosition">The desired position of the item</param>
         /// <param name="spriteSize">The size of the item sprite (used in calculations)</param>
         /// <param name="rotationOriginFromCenter">The offset from the center of the sprite of the rotation origin</param>
+        /// <param name="noSandstorm">Should the swirly effect from the sandstorm jump be disabled</param>
         /// <param name="flipAngle">Should the angle get flipped with the player, or should it be rotated by 180 degrees</param>
         /// <param name="stepDisplace">Should the item get displaced with the player's height during the walk anim? </param>
-        public static void CleanHoldStyle(Player player, float desiredRotation, Vector2 desiredPosition, Vector2 spriteSize, Vector2? rotationOriginFromCenter = null, bool flipAngle = false, bool stepDisplace = true)
+        public static void CleanHoldStyle(Player player, float desiredRotation, Vector2 desiredPosition, Vector2 spriteSize, Vector2? rotationOriginFromCenter = null, bool noSandstorm = false, bool flipAngle = false, bool stepDisplace = true)
         {
+            if (noSandstorm)
+                player.sandStorm = false;
+
             //Since Vector2.Zero isn't a compile-time constant, we can't use it directly as the default parameter
             if (rotationOriginFromCenter == null)
                 rotationOriginFromCenter = Vector2.Zero;
