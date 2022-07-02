@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Accessories
             static string TwoPlaces(float f) => f.ToString("n2");
             
             //
-            // RAW STATS (as obtained from the game engine, not yet modified for display
+            // RAW STATS (as obtained from the game engine, not yet modified for display)
             //
             
             // Defense
@@ -68,8 +68,12 @@ namespace CalamityMod.Items.Accessories
             float jumpBoost = player.GetJumpBoost();
             float wingFlightTime = player.wingTimeMax;
 
-            // Melee
-            float trueMeleeDamage = (float)modPlayer.trueMeleeDamage;
+            // Luck
+            // Does not use NormalizedLuck. Presents the player's luck exactly as it is used by the game engine.
+            // NormalizedLuck is only used in one place: the Wizard's luck report. Which is entirely obsoleted by this Meter.
+            float luck = player.luck;
+
+            // No melee-specific stats anymore, because True Melee is its own class
 
             // Ranged
             float rangedAmmoConsumption = player.GetRangedAmmoCostReduction();
@@ -81,20 +85,20 @@ namespace CalamityMod.Items.Accessories
             // Summon
             int minionSlots = player.maxMinions;
 
-            // rogue
+            // Rogue
             float rogueStealth = modPlayer.rogueStealthMax;
             float standingRegen = player.GetStandingStealthRegen();
             float movingRegen = player.GetMovingStealthRegen();
             float rogueVelocity = modPlayer.rogueVelocity - 1f;
             float rogueAmmoConsumption = modPlayer.rogueAmmoCost;
 
-            // rippers
+            // Rippers
             float rageDamage = modPlayer.RageDamageBoost;
             float adrenalineDamage = modPlayer.GetAdrenalineDamage();
             int numAdrenBoosters = (modPlayer.adrenalineBoostOne ? 1 : 0) + (modPlayer.adrenalineBoostTwo ? 1 : 0) + (modPlayer.adrenalineBoostThree ? 1 : 0);
             float adrenalineDR = BalancingConstants.FullAdrenalineDR + numAdrenBoosters * BalancingConstants.AdrenalineDRPerBooster;
 
-            // abyss
+            // Abyss
             int lightLevel = player.GetCurrentAbyssLightLevel();
             float breathLoss = modPlayer.abyssBreathLossStat;
             float breathLossRate = modPlayer.abyssBreathLossRateStat;
@@ -129,6 +133,8 @@ namespace CalamityMod.Items.Accessories
                     damageClassName = "Classless";
                 else if (dc == AverageDamageClass.Instance)
                     damageClassName = "Averaged";
+                else if (dc == TrueMeleeDamageClass.Instance || dc == TrueMeleeNoSpeedDamageClass.Instance)
+                    damageClassName = "True Melee";
                 else if (dc == DamageClass.Melee || dc == DamageClass.MeleeNoSpeed)
                     damageClassName = "Melee";
                 else if (dc == DamageClass.Ranged)
@@ -185,10 +191,6 @@ namespace CalamityMod.Items.Accessories
                     char sign = flatDamage < 0f ? '-' : '+';
                     sb.Append(' ').Append(sign).Append(OnePlace(flatDamage)).Append(" flat");
                 }
-
-                // If melee, display true melee damage
-                if (dc == DamageClass.Melee)
-                    sb.Append('\n').Append("True Melee Damage: ").Append(TwoPlaces(100f * trueMeleeDamage)).Append('%');
 
                 // Newline between damage and crit
                 sb.Append('\n').Append(damageClassName).Append(" Crit Chance: ");
@@ -266,7 +268,14 @@ namespace CalamityMod.Items.Accessories
                 sb.Append('+');
             sb.Append(TwoPlaces(100f * moveSpeedBoost)).Append('%');
             sb.Append(" | Jump Boost: ").Append(TwoPlaces(20f * jumpBoost)).Append('%');
-            sb.Append(" | Wing Flight Time: ").Append(TwoPlaces(wingFlightTime / 60f)).Append(" seconds\n\n");
+            sb.Append(" | Wing Flight Time: ").Append(TwoPlaces(wingFlightTime / 60f)).Append(" seconds\n");
+
+            sb.Append("Luck: ");
+            // Positive boosts need a + prefix, negative will have its own - sign automatically.
+            // There's a "clever" way to do this with formatting but it's harder.
+            if (luck >= 0f)
+                sb.Append('+');
+            sb.Append(TwoPlaces(100f * luck)).Append("%\n\n");
 
             // Detailed Abyss stats only render if the player is in the Abyss.
             sb.Append("Abyss Light Strength: ").Append(lightLevel).Append('\n');
