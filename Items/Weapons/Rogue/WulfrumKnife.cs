@@ -61,7 +61,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             CreateRecipe(100).
                 AddIngredient<WulfrumShard>().
-                AddTile(TileID.Anvils).
                 Register();
         }
     }

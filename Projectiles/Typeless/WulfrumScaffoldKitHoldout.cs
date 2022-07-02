@@ -92,6 +92,9 @@ namespace CalamityMod.Projectiles.Typeless
                 if (Projectile.timeLeft > 2)
                     Projectile.position = Owner.Calamity().mouseWorld;
 
+                Owner.itemTime = 2;
+                Owner.itemAnimation = 2;
+
                 Projectile.position = Projectile.position.MoveTowards(Owner.Calamity().mouseWorld, 16);
                 //Projectile.position = raytracePosition();
 
