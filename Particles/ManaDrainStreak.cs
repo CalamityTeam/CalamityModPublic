@@ -40,7 +40,7 @@ namespace CalamityMod.Particles
 
             Position = Owner.MountedCenter + Rotation.ToRotationVector2() * MathHelper.Lerp(StartDistanceFromPlayer, FinalDistanceFromPlayer, (float)Math.Pow(LifetimeCompletion, 2));
             Color = Color.Lerp(StartColor, EndColor, LifetimeCompletion);
-            Lighting.AddLight(Position, Color.ToVector3());
+            Lighting.AddLight(Position, Color.ToVector3() * 0.2f);
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)

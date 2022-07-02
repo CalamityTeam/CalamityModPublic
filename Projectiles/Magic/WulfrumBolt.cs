@@ -131,14 +131,6 @@ namespace CalamityMod.Projectiles.Magic
                 float distanceFromTarget = (Target.Center - Projectile.Center).Length();
 
                 Projectile.rotation = Projectile.rotation.AngleTowards((Target.Center - Projectile.Center).ToRotation(), 0.07f * (float)Math.Pow(( 1 - distanceFromTarget / HomingRange), 2));
-
-                /*
-                float angleBetween = Projectile.rotation - ((Target.Center - Projectile.Center).ToRotation());
-                angleBetween += (angleBetween + 180).Modulo(360) - 180;
-
-                if (Math.Abs(angleBetween) > MaxDeviationAngle) 
-                    Projectile.rotation += MaxDeviationAngle * Math.Sign(angleBetween);
-                */
             }
 
             Projectile.velocity *= 0.983f;

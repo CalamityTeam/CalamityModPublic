@@ -15,8 +15,9 @@ namespace CalamityMod.Particles
 
         internal Rectangle Frame;
         public float Opacity;
+        public float OpacityMult;
 
-        public TechyHoloysquareParticle(Vector2 position, Vector2 speed, float scale, Color color, float opacity = 1f)
+        public TechyHoloysquareParticle(Vector2 position, Vector2 speed, float scale, Color color, int lifetime, float opacity = 1f)
         {
             Position = position;
             Scale = scale;
@@ -24,8 +25,9 @@ namespace CalamityMod.Particles
             Velocity = speed;
             Rotation = Main.rand.NextFloat(MathHelper.TwoPi);
             Opacity = opacity;
+            OpacityMult = opacity;
             Variant = Main.rand.Next(6);
-            Lifetime = 25;
+            Lifetime = lifetime;
 
             switch (Variant)
             {
@@ -52,7 +54,7 @@ namespace CalamityMod.Particles
 
         public override void Update()
         {
-            Opacity = (float)Math.Pow(LifetimeCompletion, 0.5f);
+            Opacity = (float)Math.Pow(LifetimeCompletion, 0.5f) * OpacityMult;
             Lighting.AddLight(Position, Color.ToVector3() * Opacity);
             Rotation = Velocity.ToRotation();
 

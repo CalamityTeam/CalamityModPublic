@@ -1,24 +1,15 @@
-﻿using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Magic;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using System.IO;
+﻿using System;
+using System.Linq;
 using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static CalamityMod.CalamityUtils;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.GameContent;
-using ReLogic.Content;
-using System.Linq;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Items.Weapons.Magic
 {

@@ -5,57 +5,148 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class WulfrumKnife : ModItem
     {
+        public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrow") { PitchVariance = 0.4f, Volume = 1f };
+
+        public static int missedShots = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Knife");
-            Tooltip.SetDefault("Stealth strikes make the knife fly further and hit several times at once");
+            Tooltip.SetDefault("Stealth strikes make the knife fly further and hit several times at once\n" +
+                               "Hold right click to magnetize all nearby fallen knives back to you");
             SacrificeTotal = 99;
         }
+
+        public int shootCount = 0;
+        public bool stealthStrikeStarted = false;
 
         public override void SetDefaults()
         {
             Item.width = 22;
-            Item.damage = 11;
+            Item.damage = 7;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
-            Item.useAnimation = 15;
             Item.useStyle = ItemUseStyleID.Swing;
-            Item.useTime = 15;
+            //Clockwork burst
+            Item.useAnimation = 10;
+            Item.useTime = 4;
+            Item.reuseDelay = 24;
+
             Item.knockBack = 1f;
-            Item.UseSound = SoundID.Item1;
+            Item.UseSound = ThrowSound;
             Item.autoReuse = true;
             Item.height = 38;
             Item.maxStack = 999;
             Item.value = Item.sellPrice(0, 0, 0, 5);
             Item.rare = ItemRarityID.Blue;
             Item.shoot = ModContent.ProjectileType<WulfrumKnifeProj>();
-            Item.shootSpeed = 12f;
+            Item.shootSpeed = 4f;
             Item.DamageType = RogueDamageClass.Instance;
+        }
+
+        //Magnetization
+        public override void HoldItem(Player player)
+        {
+            player.Calamity().rightClickListener = true;
+
+            if (player.Calamity().mouseRight && Main.rand.NextBool(7))
+            {
+                Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(170f, 670f), Main.rand.NextFloat(30f, 44f), Color.GreenYellow, Color.DeepSkyBlue, Main.rand.Next(15, 30));
+                GeneralParticleHandler.SpawnParticle(streak);
+
+                if (missedShots > 0)
+                {
+                    CombatText.NewText(player.Hitbox, Color.Red, "Missed knives : " + missedShots.ToString());
+                    missedShots = 0;
+                }
+            }
+        }
+
+        public override void GrabRange(Player player, ref int grabRange)
+        {
+            float rangeMult = 2f;
+            if (player.Distance(Item.Center) < 670 && player.HeldItem.type == ModContent.ItemType<WulfrumKnife>() && player.Calamity().mouseRight)
+                rangeMult = 20f;
+
+            grabRange = (int)(grabRange * rangeMult);
+
+            if (rangeMult > 2f && player.Distance(Item.Center) > 50f)
+            {
+                Item.velocity = (player.DirectionTo(Item.Center) * -20f);
+
+                if (Main.rand.NextBool(3))
+                {
+                    Vector2 dustCenter = Item.Center + Main.rand.NextVector2Circular(4f, 4f);
+
+                    Dust chust = Dust.NewDustPerfect(dustCenter, 15, -Item.velocity * Main.rand.NextFloat(0.2f, 0.1f), Scale: Main.rand.NextFloat(1.2f, 1.8f));
+                    chust.noGravity = true;
+                }
+            }
+        }
+
+        
+        //While this may look stupid, its necessary because ReuseDelay fucks up the consumption of the item otherwise.
+        public override bool ConsumeItem(Player player) => shootCount < 0;
+        public override bool? UseItem(Player player)
+        {
+            int placeholderStock = shootCount;
+            shootCount = -1;
+
+            if (ItemLoader.ConsumeItem(Item, player))
+            {
+                Item.stack--;
+
+                if (Item.stack <= 0)
+                    Item.TurnToAir();
+            }
+
+            shootCount = placeholderStock;
+
+            shootCount++;
+            return base.UseItem(player);
+        }
+
+        //Random spread
+        public override void UseAnimation(Player player)
+        {
+            shootCount = 0;
+            stealthStrikeStarted = false;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            bool stealthStrike = player.Calamity().StealthStrikeAvailable() || stealthStrikeStarted;
+            float spread = stealthStrike ? MathHelper.PiOver4 * 0.04f : MathHelper.PiOver4 * 0.1f;
+            float speedBoost = stealthStrike ? 1.25f : 1f;
+
+            velocity = velocity.RotatedByRandom(shootCount / 2f * spread) * speedBoost;
         }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (player.Calamity().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable() || stealthStrikeStarted)
             {
+                stealthStrikeStarted = true;
+
                 int p = Projectile.NewProjectile(source, position, velocity * 1.3f, ModContent.ProjectileType<WulfrumKnifeProj>(), damage, knockback, player.whoAmI);
                 Projectile proj = Main.projectile[p];
                 if (p.WithinBounds(Main.maxProjectiles))
                 {
                     proj.Calamity().stealthStrike = true;
-                    proj.penetrate = 4;
-                    proj.usesLocalNPCImmunity = true;
-                    proj.localNPCHitCooldown = 1;
+                    proj.penetrate = 2;
                 }
                 return false;
             }
             return true;
         }
+
 
         public override void AddRecipes()
         {
