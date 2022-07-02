@@ -653,7 +653,7 @@ namespace CalamityMod.Items
 
             // Falcon Blade +20% move speed while holding
             if (item.type == ItemID.FalconBlade)
-                EditTooltipByNum(0, (line) => line.Text += "\nHolding this item increases move speed by 20%");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nHolding this item grants +20% increased movement speed");
             #endregion
 
             // Pre-Hardmode ore armor tooltip edits
