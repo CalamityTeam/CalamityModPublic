@@ -48,6 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.localNPCHitCooldown = 1;
         }
 
+
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -97,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            if (Main.rand.NextBool(2) && false)
+            if (Main.rand.NextBool(2))
             {
                 Item.NewItem(Projectile.GetSource_DropAsItem(), (int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height, ModContent.ItemType<WulfrumKnife>());
             }

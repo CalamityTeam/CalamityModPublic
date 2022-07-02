@@ -14,8 +14,6 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrow") { PitchVariance = 0.4f, Volume = 1f };
 
-        public static int missedShots = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Knife");
@@ -30,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetDefaults()
         {
             Item.width = 22;
-            Item.damage = 7;
+            Item.damage = 11;
             Item.noMelee = true;
             Item.consumable = true;
             Item.noUseGraphic = true;
@@ -61,12 +59,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 Particle streak = new ManaDrainStreak(player, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.NextVector2CircularEdge(1f, 1f) * Main.rand.NextFloat(170f, 670f), Main.rand.NextFloat(30f, 44f), Color.GreenYellow, Color.DeepSkyBlue, Main.rand.Next(15, 30));
                 GeneralParticleHandler.SpawnParticle(streak);
-
-                if (missedShots > 0)
-                {
-                    CombatText.NewText(player.Hitbox, Color.Red, "Missed knives : " + missedShots.ToString());
-                    missedShots = 0;
-                }
             }
         }
 
