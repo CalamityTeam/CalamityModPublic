@@ -197,17 +197,17 @@ namespace CalamityMod.Systems
         {
             get
             {
-                string rageKey = "[c/D28371:" + CalamityKeybinds.RageHotKey.TooltipHotkeyString() + "]";
+                string rageKey = "[c/FFCE85:" + CalamityKeybinds.RageHotKey.TooltipHotkeyString() + "]";
                 string adrenKey = "[c/79DFBF:" + CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString() + "]";
 
 
-                return ("[c/47B290:Enables the Adrenaline mechanic. You gain Adrenaline while fighting bosses.Getting hit drops Adrenaline back to 0.] \n" +
-                        "[c/47B290:    When Adrenaline is maxed press] " + adrenKey + " [c/47B290:for a large damage boost.] \n" +
-                        "[c/DE4C2B:Enables the Rage mechanic.] [c/F7412D:You gain Rage when in proximity of enemies or by using certain items.] \n" +
-                        "[c/DE4C2B:    When Rage is maxed press] " + rageKey + " [c/DE4C2B:for a temporary damage boost.] \n" +
-                        "All foes have higher stats and deal more damage. \n" +
-                        "Bosses have new AI mechanics and new phases.Enemies spawn more frequently. \n" +
-                        "[c/737373:This mode is more difficult than Expert. Be sure to prepare for the challenge.]");
+                return ("[c/D42B22:Enables the][c/47B290: Adrenaline] [c/D42B22:mechanic. You gain Adrenaline while fighting bosses.Getting hit drops Adrenaline back to 0.] \n" +
+                        "[c/D42B22:    When Adrenaline is maxed press] " + adrenKey + " [c/D42B22:for a large damage boost.] \n" +
+                        "[c/D42B22:Enables the ][c/DE4C2B:Rage][c/D42B22: mechanic.] [c/D42B22:You gain Rage when in proximity of enemies or by using certain items.] \n" +
+                        "[c/D42B22:    When Rage is maxed press] " + rageKey + " [c/D42B22:for a temporary damage boost.] \n" +
+                        "[c/D42B22:All foes have higher stats and deal more damage.] \n" +
+                        "[c/D42B22:Bosses have new AI mechanics and new phases.Enemies spawn more frequently.] \n" +
+                        "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge.]");
 
             }
         }
@@ -216,7 +216,7 @@ namespace CalamityMod.Systems
         {
             DifficultyScale = 0.25f;
             Name = "Revengeance";
-            ShortDescription = "[c/D01400:The intended Calamity experience!]";
+            ShortDescription = "[c/F54254:The intended Calamity experience!]";
 
             ActivationTextKey = "Mods.CalamityMod.RevengeText";
             DeactivationTextKey = "Mods.CalamityMod.RevengeText2";
@@ -251,10 +251,10 @@ namespace CalamityMod.Systems
         {
             get
             {
-                return ("All foes will pose a much larger threat with aggressive AI and increased damage. \n" +
-                        "Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you. \n" +
-                        "Debuffs are especially lethal and the Abyss is significantly more dangerous. \n" +
-                        "[c/737373:Vigilance and tenacity are crucial to survival.]");
+                return ("[c/B834E0:All foes will pose a much larger threat with aggressive AI and increased damage.] \n" +
+                        "[c/B834E0:Bosses have substantially harder AI changes. Enemies are even more numerous and can easily overwhelm you.] \n" +
+                        "[c/B834E0:Debuffs are especially lethal and the Abyss is significantly more dangerous.] \n" +
+                        "[c/E945FF:Vigilance and tenacity are crucial to survival.]");
             }
         }
 
@@ -310,9 +310,9 @@ namespace CalamityMod.Systems
         { 
             get
             {
-                return ("Bosses are far more aggressive and deal even more damage. \n" +
-                        "Everything will try their best to kill you.Expect to fail over and over. \n" +
-                        "[c/737373:Steel yourself for the challenges ahead; do not let your overconfidence be your downfall.]");
+                return ("[c/F0BF1F:Bosses are far more aggressive and deal even more damage.] \n" +
+                        "[c/F0BF1F:Everything will try their best to kill you. Expect to fail over and over.] \n" +
+                        "[c/FADC1B:Steel yourself for the challenges ahead; do not let your overconfidence be your downfall.]");
             }
         }
                    
