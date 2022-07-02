@@ -63,6 +63,7 @@ namespace CalamityMod.Projectiles.Typeless
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = Lifetime;
+            Projectile.netImportant = true;
         }
 
         public override bool? CanDamage() => false;
@@ -90,20 +91,20 @@ namespace CalamityMod.Projectiles.Typeless
                 IdlingSoundSlot = SoundEngine.PlaySound(IdleSound with { Volume = IdleSound.Volume }, Projectile.Center);
             else if (idleSoundOut != null)
             {
-                //idleSoundOut.Volume = IdleSound.Volume * (1 - CuttingVolume);
+                idleSoundOut.Volume = (1 - CuttingVolume);
                 idleSoundOut.Position = Projectile.Center;
             }
 
-            /*
+            
             //Heavy cutting sound
             if ((!SoundEngine.TryGetActiveSound(CuttingSoundSlot, out var cuttingSoundOut) || !cuttingSoundOut.IsPlaying))
-                CuttingSoundSlot = SoundEngine.PlaySound(CuttingSound with { Volume = CuttingSound.Volume * CuttingVolume }, Projectile.Center);
+                CuttingSoundSlot = SoundEngine.PlaySound(CuttingSound with { Volume = CuttingSound.Volume  }, Projectile.Center);
             else if (cuttingSoundOut != null)
             {
-                cuttingSoundOut.Volume = CuttingSound.Volume * CuttingVolume;
+                cuttingSoundOut.Volume = CuttingVolume;
                 cuttingSoundOut.Position = Projectile.Center;
             }
-            */
+            
 
 
             if (Diggging)

@@ -18,6 +18,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.GameContent;
 using ReLogic.Content;
+using System.Linq;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -27,11 +28,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProthesisHit") { PitchVariance = 0.1f, Volume = 0.75f , MaxInstances = 3};
+        public static readonly SoundStyle SuckSound = new("CalamityMod/Sounds/Item/WulfrumProthesisSucc") { Volume = 0.5f };
+        public static readonly SoundStyle SuckStopSound = new("CalamityMod/Sounds/Item/WulfrumProthesisSuccStop") { Volume = 0.5f };
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Prothesis");
-            Tooltip.SetDefault("Casts a wulfrum bolt");
+            Tooltip.SetDefault("Casts a wulfrum bolt\n" +
+                               "Right click to drain mana from creatures in front of you");
             //Lore about how magic is not always a given for everyone, and how some unlucky people sometimes resort to voluntarily cutting their limbs to use magic augmented prothesis
             //1 : Informs about magic as a narrative thing, 2 : Informs about wulfrum energy being partly magical.
             SacrificeTotal = 1;
@@ -43,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            Item.damage = 13;
+            Item.damage = 15;
             Item.DamageType = DamageClass.Magic;
             Item.mana = 2;
             Item.width = 34;
@@ -58,13 +62,37 @@ namespace CalamityMod.Items.Weapons.Magic
             Item.UseSound = ShootSound;
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<WulfrumBolt>();
-            Item.shootSpeed = 17f;
+            Item.shootSpeed = 18f;
             Item.holdStyle = 16; //Custom hold style
         }
 
         public override void HoldItem(Player player)
         {
             player.Calamity().mouseWorldListener = true;
+            player.Calamity().rightClickListener = true;
+        }
+
+        public override bool CanUseItem(Player player) => !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ModContent.ProjectileType<WulfrumManaDrain>());
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            if (player.altFunctionUse == 2)
+                type = ModContent.ProjectileType<WulfrumManaDrain>();
+        }
+
+        public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+        {
+            if (player.altFunctionUse == 2)
+                mult = 0f;
+        }
+
+        public override void UseAnimation(Player player)
+        {
+            Item.UseSound = ShootSound;
+            if (player.altFunctionUse == 2)
+                Item.UseSound = null;
         }
 
         public void SetItemInHand(Player player, Rectangle heldItemFrame)
@@ -93,20 +121,20 @@ namespace CalamityMod.Items.Weapons.Magic
             if (animProgress < 0.4f)
                 itemRotation += -0.45f * (float)Math.Pow((0.4f - animProgress) / 0.4f, 2) * player.direction * player.gravDir;
 
+            //Shakezzz
+            if (player.itemTime == 1 && Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ModContent.ProjectileType<WulfrumManaDrain>()))
+            {
+                itemPosition += Main.rand.NextVector2Circular(2f, 2f);
+            }
+
+
             Vector2 itemSize = new Vector2(28, 14);
             Vector2 itemOrigin = new Vector2(-8, 0);
-
             CleanHoldStyle(player, itemRotation, itemPosition, itemSize, itemOrigin, true);
-        }
-
-        public void SetPlayerArms(Player player)
-        {
         }
 
         public override void HoldStyle(Player player, Rectangle heldItemFrame) => SetItemInHand(player, heldItemFrame);
         public override void UseStyle(Player player, Rectangle heldItemFrame) => SetItemInHand(player, heldItemFrame);
-        public override void HoldItemFrame(Player player) => SetPlayerArms(player);
-        public override void UseItemFrame(Player player) => SetPlayerArms(player);
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
@@ -115,7 +143,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             Texture2D properSprite = RealSprite.Value;
 
-            spriteBatch.DrawNewInventorySprite(properSprite, new Vector2(28f, 14f), position, drawColor, origin, scale);
+            spriteBatch.DrawNewInventorySprite(properSprite, new Vector2(28f, 14f), position, drawColor, origin, scale, new Vector2(0, -6f));
 
             return false;
         }
@@ -138,6 +166,32 @@ namespace CalamityMod.Items.Weapons.Magic
                 AddIngredient<WulfrumShard>(12).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+    }
+
+    public class WulfrumProthesisPlayer : ModPlayer
+    {
+        public bool ManaDrainActive = false;
+
+        public override void ResetEffects()
+        {
+        }
+
+        public override void UpdateDead()
+        {
+            ManaDrainActive = false;
+        }
+
+        public override void PostUpdateMiscEffects()
+        {
+            if (ManaDrainActive)
+            {
+                Player.manaRegenBonus = 35;
+                Player.manaRegenDelay = 0;
+                Player.manaRegenBuff = true;
+            }
+
+            ManaDrainActive = false;
         }
     }
 }

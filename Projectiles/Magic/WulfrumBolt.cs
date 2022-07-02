@@ -1,31 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Magic;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using System.IO;
-using CalamityMod.Items.Materials;
+﻿using System;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static CalamityMod.CalamityUtils;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.GameContent;
-using ReLogic.Content;
-using CalamityMod.Items.Weapons.Magic;
-using Terraria.Graphics.Shaders;
 using static Terraria.ModLoader.ModContent;
-
+using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -55,6 +38,7 @@ namespace CalamityMod.Projectiles.Magic
         public static float HomingAngle = MathHelper.PiOver4 * 1.65f;
 
         internal PrimitiveTrail TrailDrawer;
+        internal Color PrimColorMult = Color.White;
 
         public override string Texture => "CalamityMod/Projectiles/InvisibleProj";
 
@@ -62,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Bolt");
 
-            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 16;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
@@ -76,6 +60,9 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.DamageType = DamageClass.Magic;
             Projectile.timeLeft = 140;
             Projectile.extraUpdates = 2;
+
+
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
         }
 
         public NPC FindTarget()
@@ -154,9 +141,10 @@ namespace CalamityMod.Projectiles.Magic
                 */
             }
 
-            Projectile.velocity *= 0.98f;
+            Projectile.velocity *= 0.983f;
             Projectile.velocity = Projectile.rotation.ToRotationVector2() * Projectile.velocity.Length();
 
+            //Blast off.
             if (Projectile.timeLeft == 140)
             {
                 Vector2 dustCenter = Projectile.Center + Projectile.velocity * 1f;
@@ -170,12 +158,30 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.timeLeft <= 137)
             {
-                for (int num151 = 0; num151 < 3; num151++)
+                if (Main.rand.NextBool())
                 {
-                    int num154 = 14;
-                    int num155 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width - num154 * 2, Projectile.height - num154 * 2, 61, 0f, 0f, 100, default, 3f);
-                    Main.dust[num155].noGravity = true;
-                    Main.dust[num155].noLight = true;
+                    Vector2 dustCenter = Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(-3f, 3f);
+
+                    Dust chust = Dust.NewDustPerfect(dustCenter, 15, -Projectile.velocity * Main.rand.NextFloat(0.2f, 0.5f), Scale: Main.rand.NextFloat(1.2f, 1.8f));
+                    chust.noGravity = true;
+                }
+
+                if (Main.rand.NextBool(4))
+                {
+                    Vector2 dustCenter = Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(-3f, 3f);
+
+                    Dust largeDust = Dust.NewDustPerfect(dustCenter, 257, -Projectile.velocity * Main.rand.NextFloat(0.2f, 0.4f), Scale: Main.rand.NextFloat(0.4f, 1f));
+                    largeDust.noGravity = true;
+                    largeDust.noLight = true;
+                }
+
+                if (Main.rand.NextBool(5))
+                {
+                    Vector2 center = Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(-3f, 3f);
+
+                    Vector2 velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.Pi / 6f) * Main.rand.NextFloat(4, 10);
+                    GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(center, velocity, Main.rand.NextFloat(1f, 2f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
+                    
                 }
             }
         }
@@ -183,24 +189,36 @@ namespace CalamityMod.Projectiles.Magic
         internal Color ColorFunction(float completionRatio)
         {
             float fadeOpacity = (float)Math.Sqrt(1 - completionRatio);
-            return Color.GreenYellow * fadeOpacity;
+            return Color.DeepSkyBlue.MultiplyRGB(PrimColorMult) * fadeOpacity;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            return  7.4f;
+            return  9.4f;
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
             if (TrailDrawer is null)
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail"));
-            TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition, 30);
 
-            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+            CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 3.5f, delegate (Vector2 offset, Color colorMod)
+            {
+                PrimColorMult = colorMod;
+
+                TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + offset, 30);
+            });
+
+
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
             return false;
         }
 
@@ -214,6 +232,16 @@ namespace CalamityMod.Projectiles.Magic
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
 
             return base.OnTileCollide(oldVelocity);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            int numParticles = Main.rand.Next(4, 7);
+            for (int i = 0; i < numParticles; i++)
+            {
+                Vector2 velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.Pi / 6f) * Main.rand.NextFloat(3, 14);
+                GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(target.Center, velocity, Main.rand.NextFloat(2.5f, 3f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25));
+            }
         }
     }
 }

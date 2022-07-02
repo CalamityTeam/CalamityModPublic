@@ -686,8 +686,14 @@ namespace CalamityMod
         /// <param name="drawColor"></param>
         /// <param name="origin"></param>
         /// <param name="scale"></param>
-        public static void DrawNewInventorySprite(this SpriteBatch spriteBatch, Texture2D newTexture, Vector2 originalSize, Vector2 position, Color drawColor, Vector2 origin, float scale)
+        public static void DrawNewInventorySprite(this SpriteBatch spriteBatch, Texture2D newTexture, Vector2 originalSize, Vector2 position, Color drawColor, Vector2 origin, float scale, Vector2? offset = null)
         {
+            Vector2 extraOffset;
+            if (offset == null)
+                extraOffset = Vector2.Zero;
+            else
+                extraOffset = offset.GetValueOrDefault();
+
             float largestDimensionOriginal = Math.Max(originalSize.X, originalSize.Y);
             float largestDimensionNew = Math.Max(newTexture.Width, newTexture.Height);
 
@@ -702,7 +708,41 @@ namespace CalamityMod
 
             positionOffset *= scale;
 
-            spriteBatch.Draw(newTexture, position + positionOffset, null, drawColor, 0f, origin, scale * scaleRatio, 0, 0);
+            spriteBatch.Draw(newTexture, position + positionOffset + extraOffset, null, drawColor, 0f, origin, scale * scaleRatio, 0, 0);
+        }
+
+
+        public delegate void ChromaAbberationDelegate(Vector2 offset, Color colorMult);
+        //Thanks spirit <3
+        /// <summary>
+        /// Draws a chromatic abberation effect.
+        /// </summary>
+        /// <param name="direction">The direction of the abberation</param>
+        /// <param name="strength">The strenght of the abberation</param>
+        /// <param name="action">The draw call itself.</param>
+        public static void DrawChromaticAberration(Vector2 direction, float strength, ChromaAbberationDelegate drawCall)
+        {
+            for (int i = -1; i <= 1; i++)
+            {
+                Color aberrationColor = Color.White;
+                switch (i)
+                {
+                    case -1:
+                        aberrationColor = new Color(255, 0, 0, 0);
+                        break;
+                    case 0:
+                        aberrationColor = new Color(0, 255, 0, 0);
+                        break;
+                    case 1:
+                        aberrationColor = new Color(0, 0, 255, 0);
+                        break;
+                }
+
+                Vector2 offset = direction.RotatedBy(MathHelper.PiOver2) * i;
+                offset *= strength;
+
+                drawCall.Invoke(offset, aberrationColor);
+            }
         }
     }
 }

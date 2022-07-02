@@ -1,10 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
+using System;
+using ReLogic.Utilities;
+using Terraria;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class SuperDummyNPC : ModNPC
     {
+        public static readonly SoundStyle HummSound = new("CalamityMod/Sounds/Item/WulfrumProthesisSucc") { IsLooped = true };
+        private SlotId IdleSoundSlot;
+
         public override void SetStaticDefaults()
         {
             this.HideFromBestiary();
@@ -25,6 +33,14 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.knockBackResist = 0f;
             NPC.netAlways = true;
             NPC.aiStyle = 0;
+        }
+
+        public override void AI()
+        {
+        }
+
+        public override void OnKill()
+        {
         }
 
         public override void UpdateLifeRegen(ref int damage)
