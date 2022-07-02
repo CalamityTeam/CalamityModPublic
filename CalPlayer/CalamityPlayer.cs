@@ -16,6 +16,7 @@ using CalamityMod.Dusts;
 using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.FluidSimulation;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Bloodflare;
@@ -122,7 +123,10 @@ namespace CalamityMod.CalPlayer
         public DoGCartSegment[] DoGCartSegments = new DoGCartSegment[DoGCartMount.SegmentCount];
         public float SmoothenedMinecartRotation;
         public bool LungingDown = false;
+
         public float moveSpeedBonus = 0f;
+        public int momentumCapacitorTime = 0;
+        public float momentumCapacitorBoost = 0f;
         #endregion
 
         #region Speedrun Timer
@@ -561,7 +565,6 @@ namespace CalamityMod.CalPlayer
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
         public bool gloveOfRecklessness = false;
-        public bool momentumCapacitor = false;
         public bool vampiricTalisman = false;
         public bool electricianGlove = false;
         public bool bloodyGlove = false;
@@ -1809,7 +1812,6 @@ namespace CalamityMod.CalPlayer
             dragonScales = false;
             gloveOfPrecision = false;
             gloveOfRecklessness = false;
-            momentumCapacitor = false;
             vampiricTalisman = false;
             electricianGlove = false;
             bloodyGlove = false;
@@ -2498,6 +2500,8 @@ namespace CalamityMod.CalPlayer
             potionTimer = 0;
             bloodflareCoreLostDefense = 0;
             persecutedEnchantSummonTimer = 0;
+            momentumCapacitorTime = 0;
+            momentumCapacitorBoost = 0f;
             LungingDown = false;
 
             if (BossRushEvent.BossRushActive)
@@ -2546,15 +2550,6 @@ namespace CalamityMod.CalPlayer
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (CalamityKeybinds.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == Player.whoAmI && rogueStealth >= rogueStealthMax * 0.3f &&
-                wearingRogueArmor && rogueStealthMax > 0 && CalamityUtils.CountProjectiles(ModContent.ProjectileType<MomentumCapacitorOrb>()) == 0)
-            {
-                rogueStealth -= rogueStealthMax * 0.3f;
-
-                var source = Player.GetSource_Accessory(FindAccessory(ModContent.ItemType<MomentumCapacitor>()));
-                Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
-                Projectile.NewProjectile(source, fieldSpawnCenter, Vector2.Zero, ModContent.ProjectileType<MomentumCapacitorOrb>(), 0, 0f, Player.whoAmI, 0f, 0f);
-            }
             if (CalamityKeybinds.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == Player.whoAmI)
             {
                 if (!Player.CCed && !Player.chaosState)
@@ -3570,8 +3565,7 @@ namespace CalamityMod.CalPlayer
                     (silvaSet ? 0.05f : 0f) +
                     (blueCandle ? 0.05f : 0f) +
                     (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
-                    ((deepDiver && Player.IsUnderwater()) ? 0.15f : 0f) +
-                    (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+                    ((deepDiver && Player.IsUnderwater()) ? 0.15f : 0f);
 
                 float runSpeedMult = 1f +
                     (shadowSpeed ? 0.5f : 0f) +
@@ -3584,8 +3578,7 @@ namespace CalamityMod.CalPlayer
                     (CobaltSet ? CobaltArmorSetChange.SpeedBoostSetBonusPercentage * 0.01f : 0f) +
                     (silvaSet ? 0.05f : 0f) +
                     (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
-                    ((deepDiver && Player.IsUnderwater()) ? 0.15f : 0f) +
-                    (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+                    ((deepDiver && Player.IsUnderwater()) ? 0.15f : 0f);
 
                 if (abyssalDivingSuit && !Player.IsUnderwater())
                 {
@@ -3613,6 +3606,19 @@ namespace CalamityMod.CalPlayer
                 {
                     runAccMult *= 0.6f;
                 }
+
+                if (momentumCapacitorTime > 0)
+                {
+                    runAccMult += momentumCapacitorBoost * 0.25f;
+                    runSpeedMult += momentumCapacitorBoost;
+
+                    // Sputters out chaotically when you let go of the button
+                    if (momentumCapacitorTime < MomentumCapacitor.TotalFadeTime - 3)
+                        momentumCapacitorBoost *= Main.rand.NextFloat(0.955f, 0.99f);
+                }
+                // If the timer has hit zero, or you aren't using Momentum Capacitor, you get nothing.
+                else
+                    momentumCapacitorBoost = 0f;
 
                 Player.runAcceleration *= runAccMult;
                 Player.maxRunSpeed *= runSpeedMult;
@@ -5115,7 +5121,7 @@ namespace CalamityMod.CalPlayer
 
             // If this projectile is capable of dealing defense damage, then apply defense damage.
             // Defense damage is not applied if the player has iframes.
-            if (proj.Calamity().canBreakPlayerDefense && !hasIFrames)
+            if (proj.Calamity().DealsDefenseDamage && !hasIFrames)
                 DealDefenseDamage(damage);
 
             if (projRefRare)

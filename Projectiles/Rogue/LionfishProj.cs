@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Dig, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 72);
+            Projectile.ExpandHitboxBy(72);
             for (int d = 0; d < 3; d++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

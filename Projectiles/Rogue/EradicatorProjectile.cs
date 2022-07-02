@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // Stealth strike lasers have an intentionally lower ratio of 12%.
                 double laserDamageRatio = Projectile.Calamity().stealthStrike ? 0.12D : 0.4D;
                 float laserFrames = Projectile.MaxUpdates * 8f;
-                CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), laserDamageRatio, true);
+                CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 6f, laserFrames, 2, ModContent.ProjectileType<NebulaShot>(), laserDamageRatio, true);
             }
         }
 

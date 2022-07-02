@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = -1;
             Projectile.timeLeft = Lifetime;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void SendExtraAI(BinaryWriter writer) => writer.Write(Projectile.tileCollide);
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Reduce damage, but remove piercing. Reset local iframes so the bullet, turned blue, may always strike again. Reset the point blank timer.
             Projectile.damage = (int)(0.28f * Projectile.damage);
             Projectile.penetrate = 1;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
             for (int i = 0; i < Main.maxNPCs; i++)
                 Projectile.localNPCImmunity[i] = 0;
 
@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Turn blue to set stats correctly, if not already done.
             if (!BlueMode)
                 TurnBlue(false);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
+            Projectile.ExpandHitboxBy(48);
             Projectile.Damage();
 
             // Create a fancy triangle of dust.

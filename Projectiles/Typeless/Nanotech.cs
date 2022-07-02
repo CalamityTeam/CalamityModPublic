@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
 
             if (Projectile.ai[1] >= 30f)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         // Reduce damage of projectiles if more than the cap are active

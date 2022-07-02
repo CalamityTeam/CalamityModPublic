@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Main.rand.NextBool(2))
                     {
                         int spiritDamage = Projectile.damage / 2;
-                        Projectile ghost = CalamityGlobalProjectile.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                        Projectile ghost = CalamityUtils.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
                         if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
                             ghost.DamageType = RogueDamageClass.Instance;

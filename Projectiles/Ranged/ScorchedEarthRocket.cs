@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Projectile.frame = 6;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 400f, 5f, 30f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 400f, 5f, 30f);
 
             //Rotation
             Projectile.rotation = Projectile.velocity.ToRotation();
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Projectile.owner == Main.myPlayer)
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 300);
+                Projectile.ExpandHitboxBy(300);
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
 
                 if (Main.netMode != NetmodeID.Server)

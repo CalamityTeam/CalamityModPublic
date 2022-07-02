@@ -722,7 +722,7 @@ namespace CalamityMod.CalPlayer
             if (alchFlask && Player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 3 && hasClass)
             {
                 int seekerDamage = (int)Player.GetBestClassDamage().ApplyTo(30);
-                Projectile projectile = CalamityGlobalProjectile.SpawnOrb(proj, seekerDamage, ProjectileType<PlagueSeeker>(), 400f, 12f);
+                Projectile projectile = CalamityUtils.SpawnOrb(proj, seekerDamage, ProjectileType<PlagueSeeker>(), 400f, 12f);
                 if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
                     Main.projectile[projectile.whoAmI].DamageType = DamageClass.Generic;
             }
@@ -877,7 +877,7 @@ namespace CalamityMod.CalPlayer
             if (ataxiaMage && ataxiaDmg <= 0)
             {
                 int orbDamage = (int)(proj.damage * 0.6);
-                CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<HydrothermicSphere>(), 800f, 20f);
+                CalamityUtils.SpawnOrb(proj, orbDamage, ProjectileType<HydrothermicSphere>(), 800f, 20f);
                 int cooldown = (int)(orbDamage * 0.5);
                 ataxiaDmg += cooldown;
             }
@@ -1030,7 +1030,7 @@ namespace CalamityMod.CalPlayer
                     else if (jellyChargedBattery)
                     {
                         int batteryDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(15);
-                        CalamityGlobalProjectile.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
+                        CalamityUtils.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
                         jellyDmg = 60f;
                     }
                 }
@@ -1106,14 +1106,14 @@ namespace CalamityMod.CalPlayer
                     case 0:
                         // Exodus Rogue Stars: 80%
                         int starDamage = (int)(proj.damage * 0.8);
-                        CalamityGlobalProjectile.SpawnOrb(proj, starDamage, ProjectileType<EmpyreanStellarDetritus>(), 800f, Main.rand.Next(15, 30));
+                        CalamityUtils.SpawnOrb(proj, starDamage, ProjectileType<EmpyreanStellarDetritus>(), 800f, Main.rand.Next(15, 30));
                         xerocDmg += (int)(starDamage * 0.5);
                         break;
 
                     case 1:
                         // Exodus Rogue Orbs: 60%
                         int orbDamage = (int)(proj.damage * 0.6);
-                        CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<EmpyreanMarble>(), 800f, 30f);
+                        CalamityUtils.SpawnOrb(proj, orbDamage, ProjectileType<EmpyreanMarble>(), 800f, 30f);
                         xerocDmg += (int)(orbDamage * 0.5);
                         break;
 
@@ -1132,7 +1132,7 @@ namespace CalamityMod.CalPlayer
                     case 4:
                         // Exodus Rogue Bubble: 60%
                         int bubbleDamage = (int)(proj.damage * 0.6);
-                        CalamityGlobalProjectile.SpawnOrb(proj, bubbleDamage, ProjectileType<EmpyreanGlob>(), 800f, 15f);
+                        CalamityUtils.SpawnOrb(proj, bubbleDamage, ProjectileType<EmpyreanGlob>(), 800f, 15f);
                         xerocDmg += (int)(bubbleDamage * 0.5);
                         break;
 
@@ -1284,7 +1284,7 @@ namespace CalamityMod.CalPlayer
                 if (CalamityLists.boomerangProjList.Contains(proj.type))
                 {
                     int spiritDamage = (int)(proj.damage * 0.2);
-                    Projectile ghost = CalamityGlobalProjectile.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                    Projectile ghost = CalamityUtils.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
                     if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
                         ghost.DamageType = DamageClass.Generic;

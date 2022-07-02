@@ -9,7 +9,6 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Melee.Yoyos;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -66,7 +65,7 @@ namespace CalamityMod.Projectiles
 
         // Point-blank shot timer.
         public int pointBlankShotDuration = 0;
-        public const int basePointBlankShotDuration = 18;
+        public const int DefaultPointBlankDuration = 18; // 18 frames
 
         // Temporary damage reduction effects.
         public int damageReductionTimer = 0;
@@ -78,21 +77,22 @@ namespace CalamityMod.Projectiles
         /// <summary>
         /// Allows hostile Projectiles to deal damage to the player's defense stat, used mostly for hard-hitting bosses.
         /// </summary>
-        public bool canBreakPlayerDefense = false;
+        public bool DealsDefenseDamage = false;
 
         // Rogue Stuff
         public bool stealthStrike = false;
-        public bool momentumCapacitatorBoost = false; // Constant acceleration
-
-        // Counters and Timers
         public int stealthStrikeHitCount = 0;
-
-        public int lineColor = 0; // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
+
+        // Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
+        // TODO -- uses of this variable are undocumented and unstable. Remove it from the API surface.
+        public int lineColor = 0;
 
         // Dogshit, hacky workarounds for the summon respawning system
         public bool RequiresManualResurrection = false;
 
+        // This flag is set to true on summon-classed attacks that are NOT minions, and thus should ALWAYS be able to hit enemies ALL the time.
+        // There are several enemies/NPCs in Calamity which do not take damage from minions in certain circumstances.
         public bool overridesMinionDamagePrevention = false;
 
         public static List<int> MechBossProjectileIDs = new()
@@ -117,7 +117,9 @@ namespace CalamityMod.Projectiles
         public int ExplosiveEnchantCountdown = 0;
         public const int ExplosiveEnchantTime = 2400;
 
-        // Update priority variable.
+        // Custom update priority.
+        // Calamity sorts projectiles by their update priority to fix otherwise absurdly difficult to resolve visual bugs on certain weapons.
+        // Examples include Mechworm segments detaching or Rancor's laser beam being offset from the magic circle.
         public float UpdatePriority = 0f;
 
         #region On Spawn
@@ -223,7 +225,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.CandyCorn:
                 case ProjectileID.Blizzard:
                 case ProjectileID.LostSoulFriendly:
-                    pointBlankShotDuration = basePointBlankShotDuration;
+                    pointBlankShotDuration = DefaultPointBlankDuration;
                     break;
 
                 // Make bullets almost hitscan because that's how bullets should work in games :^)
@@ -240,7 +242,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.GoldenBullet:
                 case ProjectileID.MoonlordBullet:
                     projectile.extraUpdates += 2;
-                    pointBlankShotDuration = basePointBlankShotDuration;
+                    pointBlankShotDuration = DefaultPointBlankDuration;
                     break;
 
                 case ProjectileID.FlamingJack:
@@ -423,7 +425,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.CultistBossFireBall:
                 case ProjectileID.CultistBossFireBallClone:
                 case ProjectileID.CultistBossIceMist:
-                    canBreakPlayerDefense = true;
+                    DealsDefenseDamage = true;
                     break;
 
                 default:
@@ -2380,13 +2382,6 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    // Will always be friendly and rogue if it has this boost
-                    if (modPlayer.momentumCapacitor && momentumCapacitatorBoost)
-                    {
-                        if (projectile.velocity.Length() < 26f)
-                            projectile.velocity *= 1.05f;
-                    }
-
                     if (player.meleeEnchant > 0 && !projectile.noEnchantments)
                     {
                         switch (player.meleeEnchant)
@@ -2845,198 +2840,6 @@ namespace CalamityMod.Projectiles
             }
 
             Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, healProjectileType, 0, 0f, projectile.owner, healTarget, healAmount);
-        }
-        #endregion
-
-        // TODO -- this entire region needs to go to Projectile Utilities
-        #region AI Shortcuts
-        public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
-        {
-            float ai1 = Main.rand.NextFloat() + 0.5f;
-            int[] array = new int[Main.maxNPCs];
-            int targetArrayA = 0;
-            int targetArrayB = 0;
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                NPC npc = Main.npc[i];
-                if (npc.CanBeChasedBy(projectile, false))
-                {
-                    float enemyDist = Vector2.Distance(projectile.Center, npc.Center);
-                    if (enemyDist < distanceRequired)
-                    {
-                        if (Collision.CanHit(projectile.position, 1, 1, npc.position, npc.width, npc.height) && enemyDist > 50f)
-                        {
-                            array[targetArrayB] = i;
-                            targetArrayB++;
-                        }
-                        else if (targetArrayB == 0)
-                        {
-                            array[targetArrayA] = i;
-                            targetArrayA++;
-                        }
-                    }
-                }
-            }
-            if (targetArrayA == 0 && targetArrayB == 0)
-            {
-                return Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NobodyKnows>(), 0, 0f, projectile.owner);
-            }
-            int target = targetArrayB <= 0 ? array[Main.rand.Next(targetArrayA)] : array[Main.rand.Next(targetArrayB)];
-            Vector2 velocity = CalamityUtils.RandomVelocity(100f, speedMult, speedMult, 1f);
-            Projectile orb = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, velocity, projType, damage, 0f, projectile.owner, gsPhantom ? 0f : target, gsPhantom ? ai1 : 0f);
-            return orb;
-        }
-
-        public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
-        {
-            if (!projectile.friendly)
-                return;
-
-            // Set amount of extra updates.
-            if (projectile.Calamity().defExtraUpdates == -1)
-                projectile.Calamity().defExtraUpdates = projectile.extraUpdates;
-
-            Vector2 destination = projectile.Center;
-            float maxDistance = distanceRequired;
-            bool locatedTarget = false;
-
-            // Find a target.
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
-                if (!Main.npc[i].CanBeChasedBy(projectile, false) || !projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance))
-                    continue;
-
-                if (ignoreTiles || Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-                {
-                    destination = Main.npc[i].Center;
-                    locatedTarget = true;
-                    break;
-                }
-            }
-
-            if (locatedTarget)
-            {
-                // Increase amount of extra updates to greatly increase homing velocity.
-                projectile.extraUpdates = projectile.Calamity().defExtraUpdates + 1;
-
-                // Home in on the target.
-                Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
-                projectile.velocity = (projectile.velocity * N + homeDirection * homingVelocity) / (N + 1f);
-            }
-            else
-            {
-                // Set amount of extra updates to default amount.
-                projectile.extraUpdates = projectile.Calamity().defExtraUpdates;
-            }
-        }
-
-        public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
-        {
-            // Only shoot once every N frames.
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > projectileTimer)
-            {
-                projectile.localAI[0] = 0f;
-
-                // Only search for targets if projectiles could be fired.
-                float maxDistance = distanceRequired;
-                bool homeIn = false;
-                int[] targetArray = new int[maxTargets];
-                int targetArrayIndex = 0;
-
-                for (int i = 0; i < Main.maxNPCs; i++)
-                {
-                    if (Main.npc[i].CanBeChasedBy(projectile, false))
-                    {
-                        float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
-
-                        bool canHit = true;
-                        if (extraDistance < maxDistance)
-                            canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
-
-                        if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
-                        {
-                            if (targetArrayIndex < maxTargets)
-                            {
-                                targetArray[targetArrayIndex] = i;
-                                targetArrayIndex++;
-                                homeIn = true;
-                            }
-                            else
-                                break;
-                        }
-                    }
-                }
-
-                // If there is anything to actually shoot at, pick targets at random and fire.
-                if (homeIn)
-                {
-                    int randomTarget = Main.rand.Next(targetArrayIndex);
-                    randomTarget = targetArray[randomTarget];
-
-                    projectile.localAI[0] = 0f;
-                    Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
-                    Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
-
-                    if (attackMultiple)
-                    {
-                        for (int i = 0; i < targetArrayIndex; i++)
-                        {
-                            velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - spawnPos) * homingVelocity;
-
-                            if (projectile.owner == Main.myPlayer)
-                            {
-                                int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
-
-                                if (projectile.type == ProjectileType<EradicatorProjectile>())
-                                    if (projectile2.WithinBounds(Main.maxProjectiles))
-                                        Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
-                            }
-                        }
-
-                        return;
-                    }
-
-                    if (projectile.type == ProjectileType<GodsGambitYoyo>())
-                    {
-                        velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
-                        velocity.X += Main.rand.Next(-30, 31) * 0.05f;
-                    }
-
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
-
-                        if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
-                            projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
-                            if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].DamageType = DamageClass.Melee;
-
-                        if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
-                            if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
-                    }
-                }
-            }
-        }
-
-        public static void ExpandHitboxBy(Projectile projectile, int width, int height)
-        {
-            projectile.position = projectile.Center;
-            projectile.width = width;
-            projectile.height = height;
-            projectile.position -= projectile.Size * 0.5f;
-        }
-
-        public static void ExpandHitboxBy(Projectile projectile, int newSize)
-        {
-            ExpandHitboxBy(projectile, newSize, newSize);
-        }
-
-        public static void ExpandHitboxBy(Projectile projectile, float expandRatio)
-        {
-            ExpandHitboxBy(projectile, (int)(projectile.width * expandRatio), (int)(projectile.height * expandRatio));
         }
         #endregion
     }

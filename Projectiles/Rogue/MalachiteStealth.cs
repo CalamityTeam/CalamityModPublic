@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.ai[0] == 0f)
             {
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 10f, 25f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 10f, 25f);
                 Projectile.localAI[1] += 1f;
                 if (Projectile.localAI[1] > 4f)
                 {
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Projectile.ai[0] = 2f;
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 112);
+            Projectile.ExpandHitboxBy(112);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
             for (int i = 0; i < 7; i++)
             {

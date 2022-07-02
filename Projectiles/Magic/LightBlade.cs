@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Magic
             }
 
             // Also weakly home in on nearby enemies
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, Projectile.ai[0], EnemyHomingStrength);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, Projectile.ai[0], EnemyHomingStrength);
 
             // The projectile never slows down, even as it tries to curve towards enemies and its paired sword.
             float currentSpeed = Projectile.velocity.Length();

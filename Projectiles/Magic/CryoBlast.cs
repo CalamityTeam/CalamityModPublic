@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Projectile.scale <= 2.5f)
             {
                 Projectile.scale *= 1.02f;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(35f * Projectile.scale));
+                Projectile.ExpandHitboxBy((int)(35f * Projectile.scale));
             }
             else if (Projectile.ai[0] < 2f)
             {

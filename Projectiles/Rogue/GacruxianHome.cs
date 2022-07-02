@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
                 if (proj.WithinBounds(Main.maxProjectiles))
                     Main.projectile[proj].DamageType = RogueDamageClass.Instance;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

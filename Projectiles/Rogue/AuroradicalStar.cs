@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 96);
+            Projectile.ExpandHitboxBy(96);
             Projectile.localNPCHitCooldown = 10;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.Damage();

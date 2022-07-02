@@ -174,7 +174,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 350);
+            Projectile.ExpandHitboxBy(350);
             Projectile.Damage();
 
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);

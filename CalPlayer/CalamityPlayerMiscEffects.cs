@@ -1048,6 +1048,8 @@ namespace CalamityMod.CalPlayer
             if (expiredCooldowns.Count > 0)
                 SyncCooldownRemoval(Main.netMode == NetmodeID.Server, expiredCooldowns);
 
+            if (momentumCapacitorTime > 0)
+                --momentumCapacitorTime;
             if (spiritOriginBullseyeShootCountdown > 0)
                 spiritOriginBullseyeShootCountdown--;
             if (phantomicHeartRegen > 0 && phantomicHeartRegen < 1000)

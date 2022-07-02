@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             int penetrateAmt = Projectile.penetrate;
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.ExpandHitboxBy(200);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
+            Projectile.ExpandHitboxBy(14);
 
             if (Projectile.owner == Main.myPlayer)
             {
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 200);
+            Projectile.ExpandHitboxBy(200);
             Projectile.maxPenetrate = Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
@@ -204,7 +204,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
+            Projectile.ExpandHitboxBy(14);
 
             if (Projectile.owner == Main.myPlayer)
             {

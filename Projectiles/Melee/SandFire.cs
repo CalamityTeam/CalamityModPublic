@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

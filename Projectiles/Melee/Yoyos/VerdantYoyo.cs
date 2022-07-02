@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Main.rand.NextBool(5))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 75, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
 
-            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 12f, 54f, 5, ProjectileID.CrystalLeafShot, 0.8);
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 12f, 54f, 5, ProjectileID.CrystalLeafShot, 0.8);
 
             if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
                 Projectile.Kill();

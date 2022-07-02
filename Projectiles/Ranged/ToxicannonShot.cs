@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 180);
+            Projectile.ExpandHitboxBy(180);
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.damage /= 2;

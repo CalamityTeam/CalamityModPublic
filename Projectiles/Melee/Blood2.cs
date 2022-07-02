@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
             }
 
             if (Projectile.timeLeft < 120)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
         }
     }
 }

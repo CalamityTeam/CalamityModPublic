@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.localAI[0] = 1f;
                 Projectile.scale = (scaleBase - Projectile.ai[1]) * scaleMult / scaleBase;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
+                Projectile.ExpandHitboxBy((int)(baseWidth * Projectile.scale), (int)(baseHeight * Projectile.scale));
                 Projectile.netUpdate = true;
             }
             if (Projectile.ai[1] != -1f)

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 12f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item74, Projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 50);
+            Projectile.ExpandHitboxBy(50);
 
             // Create into some rainbow-colored dust when dead
             for (int d = 0; d < 5; d++)

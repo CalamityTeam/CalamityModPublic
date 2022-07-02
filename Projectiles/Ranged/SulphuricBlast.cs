@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Ranged
             // Home in on enemies if not sticking to anything.
             if (Projectile.ai[0] != 1f)
             {
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 720f, 16f, Projectile.MaxUpdates * 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 720f, 16f, Projectile.MaxUpdates * 20f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
         }

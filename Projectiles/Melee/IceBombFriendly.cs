@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
                     }
 
                     Projectile.scale = 1f;
-                    CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(30f * Projectile.scale));
+                    Projectile.ExpandHitboxBy((int)(30f * Projectile.scale));
                     SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
                 }
             }

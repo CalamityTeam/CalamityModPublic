@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Projectile.rotation += 0.5f;
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 12f, 20f);
             if (Main.rand.NextBool(6))
                 Dust.NewDust(Projectile.position + Projectile.velocity, Projectile.width, Projectile.height, 20, Projectile.velocity.X * 0.5f, Projectile.velocity.Y * 0.5f);
         }

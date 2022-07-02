@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.velocity *= 1.001f;
 
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
             }
         }
 

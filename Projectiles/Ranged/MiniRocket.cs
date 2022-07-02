@@ -75,12 +75,12 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 32);
+            Projectile.ExpandHitboxBy(32);
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Ranged
             else if (projID == ProjectileID.RocketIV)
                 blastRadius = 6;
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 14);
+            Projectile.ExpandHitboxBy(14);
 
             if (Projectile.owner == Main.myPlayer && blastRadius > 0)
             {
