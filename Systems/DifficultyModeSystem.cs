@@ -197,16 +197,18 @@ namespace CalamityMod.Systems
         {
             get
             {
+                string mainColor = "B55362";
+
                 string rageKey = "[c/FFCE85:" + CalamityKeybinds.RageHotKey.TooltipHotkeyString() + "]";
                 string adrenKey = "[c/79DFBF:" + CalamityKeybinds.AdrenalineHotKey.TooltipHotkeyString() + "]";
 
 
-                return ("[c/D42B22:Enables the][c/47B290: Adrenaline] [c/D42B22:mechanic. You gain Adrenaline while fighting bosses.Getting hit drops Adrenaline back to 0.] \n" +
-                        "[c/D42B22:    When Adrenaline is maxed press] " + adrenKey + " [c/D42B22:for a large damage boost.] \n" +
-                        "[c/D42B22:Enables the ][c/DE4C2B:Rage][c/D42B22: mechanic.] [c/D42B22:You gain Rage when in proximity of enemies or by using certain items.] \n" +
-                        "[c/D42B22:    When Rage is maxed press] " + rageKey + " [c/D42B22:for a temporary damage boost.] \n" +
-                        "[c/D42B22:All foes have higher stats and deal more damage.] \n" +
-                        "[c/D42B22:Bosses have new AI mechanics and new phases.Enemies spawn more frequently.] \n" +
+                return ("[c/"+mainColor+":Enables the][c/85FFE9: Adrenaline] [c/"+mainColor+":mechanic. You gain Adrenaline while fighting bosses.Getting hit drops Adrenaline back to 0.] \n" +
+                        "[c/"+mainColor+":    When Adrenaline is maxed press] " + adrenKey + " [c/"+mainColor+":for a large damage boost.] \n" +
+                        "[c/"+mainColor+":Enables the ][c/FF8B54:Rage][c/"+mainColor+": mechanic. You gain Rage when in proximity of enemies or by using certain items.] \n" +
+                        "[c/"+mainColor+":    When Rage is maxed press] " + rageKey + " [c/"+mainColor+":for a temporary damage boost.] \n" +
+                        "[c/"+mainColor+":All foes have higher stats and deal more damage.] \n" +
+                        "[c/"+mainColor+":Bosses have new AI mechanics and new phases.Enemies spawn more frequently.] \n" +
                         "[c/F7342A:This mode is more difficult than Expert. Be sure to prepare for the challenge.]");
 
             }
@@ -267,7 +269,7 @@ namespace CalamityMod.Systems
             ActivationTextKey = "Mods.CalamityMod.DeathText";
             DeactivationTextKey = "Mods.CalamityMod.DeathText2";
 
-            ActivationSound = SoundID.NPCHit39;
+            ActivationSound = SoundID.ScaryScream;
 
             ChatTextColor = Color.MediumOrchid;
         }
@@ -288,6 +290,8 @@ namespace CalamityMod.Systems
 
     public class MaliceDifficulty : DifficultyMode
     {
+        public static readonly SoundStyle ActivationSfx = new("CalamityMod/Sounds/Custom/Scare") { Volume = 0.8f };
+
         public override bool Enabled
         {
             get => CalamityWorld.malice;
@@ -325,7 +329,7 @@ namespace CalamityMod.Systems
             ActivationTextKey = "Mods.CalamityMod.MaliceText";
             DeactivationTextKey = "Mods.CalamityMod.MaliceText2";
 
-            ActivationSound = SoundID.NPCDeath38;
+            ActivationSound = ActivationSfx;
 
             ChatTextColor = Color.Gold;
         }
