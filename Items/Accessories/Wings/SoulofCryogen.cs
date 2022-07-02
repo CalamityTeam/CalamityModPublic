@@ -25,6 +25,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Icicles rain down as you fly");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 3));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
             ArmorIDs.Wing.Sets.Stats[Item.wingSlot] = new WingStats(120, 6.25f, 1f);
         }
 

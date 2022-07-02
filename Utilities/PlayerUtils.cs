@@ -1,15 +1,14 @@
-﻿using CalamityMod.Balancing;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Balancing;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Cooldowns;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
 using static Terraria.Player;
 

@@ -2817,9 +2817,6 @@ namespace CalamityMod.CalPlayer
                 Player.statDefense += 10;
             }
 
-            if (warbannerOfTheSun)
-                Player.GetDamage<MeleeDamageClass>() += warBannerBonus;
-
             // The player's true max life value with Calamity adjustments
             actualMaxLife = Player.statLifeMax2;
 
@@ -3467,18 +3464,6 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityConfig.Instance.Proficiency)
                 GetStatBonuses();
-
-            // True melee damage bonuses
-            double damageAdd = (dodgeScarf ? 0.1 : 0) +
-                    (evasionScarf ? 0.05 : 0) +
-                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 0.5 : 0) +
-                    (fungalSymbiote ? 0.15 : 0) +
-                    ((Player.head == ArmorIDs.Head.MoltenHelmet && Player.body == ArmorIDs.Body.MoltenBreastplate && Player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
-                    (Player.kbGlove ? 0.1 : 0) +
-                    (eGauntlet ? 0.1 : 0) +
-                    (yInsignia ? 0.1 : 0) +
-                    (warbannerOfTheSun ? warBannerBonus : 0);
-            trueMeleeDamage += damageAdd;
 
             // Amalgam boosts
             if (Main.myPlayer == Player.whoAmI)

@@ -1,23 +1,33 @@
-﻿using CalamityMod.Balancing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CalamityMod.Balancing;
+using CalamityMod.BiomeManagers;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Pets;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Summon;
+using CalamityMod.CalPlayer.Dashes;
 using CalamityMod.Cooldowns;
 using CalamityMod.DataStructures;
 using CalamityMod.Dusts;
+using CalamityMod.EntitySources;
 using CalamityMod.Events;
+using CalamityMod.FluidSimulation;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Bloodflare;
+using CalamityMod.Items.Armor.Brimflame;
+using CalamityMod.Items.Armor.Demonshade;
+using CalamityMod.Items.Armor.GemTech;
+using CalamityMod.Items.Armor.OmegaBlue;
+using CalamityMod.Items.Armor.PlagueReaper;
+using CalamityMod.Items.Armor.Silva;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
-using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.VanillaArmorChanges;
 using CalamityMod.Items.Weapons.Melee;
@@ -43,11 +53,9 @@ using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.Audio;
+using Terraria.Chat;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
@@ -55,19 +63,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.Audio;
-using CalamityMod.BiomeManagers;
-using Terraria.Chat;
-using CalamityMod.EntitySources;
-using CalamityMod.CalPlayer.Dashes;
-using CalamityMod.FluidSimulation;
-using CalamityMod.Items.Armor.Bloodflare;
-using CalamityMod.Items.Armor.Brimflame;
-using CalamityMod.Items.Armor.Demonshade;
-using CalamityMod.Items.Armor.GemTech;
-using CalamityMod.Items.Armor.OmegaBlue;
-using CalamityMod.Items.Armor.PlagueReaper;
-using CalamityMod.Items.Armor.Silva;
 
 namespace CalamityMod.CalPlayer
 {
@@ -95,7 +90,6 @@ namespace CalamityMod.CalPlayer
         public float KameiTrailXScale = 0.1f;
         public int KameiBladeUseDelay = 0;
         public Vector2[] OldPositions = new Vector2[4];
-        public double trueMeleeDamage = 0D;
         public double contactDamageReduction = 0D;
         public double projectileDamageReduction = 0D;
         public const float projectileMeleeWeaponMeleeSpeedMultiplier = 0f;
@@ -1483,9 +1477,6 @@ namespace CalamityMod.CalPlayer
             rogueVelocity = 1f;
             rogueAmmoCost = 1f;
             accStealthGenBoost = 0f;
-
-            trueMeleeDamage = 0D;
-            warBannerBonus = 0f;
 
             DashID = string.Empty;
             externalAbyssLight = 0;
@@ -3539,7 +3530,16 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region PostUpdateEquips
-        public override void PostUpdateEquips() => ForceVariousEffects();
+        public override void PostUpdateEquips()
+        {
+            // True melee damage from various vanilla equipment placed here.
+
+            // Titan Glove and ALL upgrades
+            if (Player.kbGlove)
+                Player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
+
+            ForceVariousEffects();
+        }
         #endregion
 
         #region PostUpdate
@@ -4377,9 +4377,6 @@ namespace CalamityMod.CalPlayer
         {
             #region MultiplierBoosts
             double damageMult = 1.0;
-            bool isTrueMelee = item.CountsAsClass<MeleeDamageClass>() && item.type != ModContent.ItemType<UltimusCleaver>() && item.type != ModContent.ItemType<InfernaCutter>();
-            if (isTrueMelee)
-                damageMult += trueMeleeDamage;
 
             if (enraged)
                 damageMult += 1.25;
@@ -4388,7 +4385,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 0.6;
 
             // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
-            CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
+            CalamityUtils.ApplyRippersToDamage(this, item.IsTrueMelee(), ref damageMult);
 
             damage = (int)(damage * damageMult);
             #endregion
@@ -4460,14 +4457,11 @@ namespace CalamityMod.CalPlayer
             if (proj.npcProj || proj.trap)
                 return;
 
-            bool isTrueMelee = proj.Calamity().trueMelee;
             bool isSummon = proj.IsSummon();
             Item heldItem = Player.ActiveItem();
 
             #region MultiplierBoosts
             double damageMult = 1D;
-            if (isTrueMelee)
-                damageMult += trueMeleeDamage;
 
             if (screwdriver)
             {
@@ -4493,7 +4487,7 @@ namespace CalamityMod.CalPlayer
                 damageMult += 0.6;
 
             // Rippers are always checked for application, because there are ways to get rippers outside of Rev now
-            CalamityUtils.ApplyRippersToDamage(this, isTrueMelee, ref damageMult);
+            CalamityUtils.ApplyRippersToDamage(this, proj.IsTrueMelee(), ref damageMult);
 
             if (filthyGlove && proj.Calamity().stealthStrike && proj.CountsAsClass<RogueDamageClass>())
             {

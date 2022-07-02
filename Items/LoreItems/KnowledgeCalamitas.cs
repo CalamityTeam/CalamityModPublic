@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
                 "Now that you have defeated her your destiny is clear.\n" +
                 "Come now, face me.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

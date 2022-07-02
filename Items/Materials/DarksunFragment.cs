@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("An impacted crystal suffused with opposing celestial energies");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 8));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 
 namespace CalamityMod.Items.VanillaArmorChanges
@@ -25,6 +25,7 @@ namespace CalamityMod.Items.VanillaArmorChanges
         {
             player.fireWalk = true;
             player.lavaMax += 300;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.2f;
         }
     }
 }

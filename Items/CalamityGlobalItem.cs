@@ -85,7 +85,6 @@ namespace CalamityMod.Items
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
-        public bool trueMelee = false;
 
         public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -136,7 +135,6 @@ namespace CalamityMod.Items
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
-            myClone.trueMelee = trueMelee;
 
             return myClone;
         }
@@ -208,15 +206,17 @@ namespace CalamityMod.Items
                     break;
             }
 
+            // Apply Calamity Global Item Tweaks.
             SetDefaults_ApplyTweaks(item);
 
-            // TODO -- these properties should be some sort of dictionary.
-            // Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system.
-            if (CalamityLists.noGravityList.Contains(item.type))
-                ItemID.Sets.ItemNoGravity[item.type] = true;
-
-            if (CalamityLists.lavaFishList.Contains(item.type))
-                ItemID.Sets.CanFishInLava[item.type] = true;
+            // Items which are "classic true melee" (melee items with no fired projectile) are automatically reclassed as True Melee class.
+            if (item.shoot == ProjectileID.None)
+            {
+                if (item.DamageType == DamageClass.Melee)
+                    item.DamageType = TrueMeleeDamageClass.Instance;
+                else if (item.DamageType == DamageClass.MeleeNoSpeed)
+                    item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            }
         }
         #endregion
 
@@ -530,13 +530,11 @@ namespace CalamityMod.Items
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
             tag.Add("canFirePointBlankShots", canFirePointBlankShots);
-            tag.Add("trueMelee", trueMelee);
         }
 
         public override void LoadData(Item item, TagCompound tag)
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
-            trueMelee = tag.GetBool("trueMelee");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -561,7 +559,7 @@ namespace CalamityMod.Items
         {
             BitsByte flags = new BitsByte();
             flags[0] = canFirePointBlankShots;
-            flags[1] = trueMelee;
+            // rip, no other flags. what a byte.
 
             writer.Write(flags);
             writer.Write((int)customRarity);
@@ -576,7 +574,6 @@ namespace CalamityMod.Items
         {
             BitsByte flags = reader.ReadByte();
             canFirePointBlankShots = flags[0];
-            trueMelee = flags[1];
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();

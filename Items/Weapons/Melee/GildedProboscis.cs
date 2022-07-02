@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 66;
             Item.damage = 315;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.noMelee = true;
             Item.useTurn = true;
             Item.noUseGraphic = true;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Purple;
             Item.shoot = ModContent.ProjectileType<GildedProboscisProj>();
             Item.shootSpeed = 13f;
-            Item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[Item.shoot] <= 0;

@@ -25,6 +25,13 @@ namespace CalamityMod
         // Is it because of whips? We can make it "IsSummonNotWhip" if needed
         public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityLists.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
 
+        public static bool IsTrueMelee(this Projectile proj)
+        {
+            if (proj is null || !proj.active)
+                return false;
+            return proj.CountsAsClass<TrueMeleeDamageClass>() || proj.CountsAsClass<TrueMeleeNoSpeedDamageClass>();
+        }
+
         public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile
         {
             return projectile.ModProjectile as T;

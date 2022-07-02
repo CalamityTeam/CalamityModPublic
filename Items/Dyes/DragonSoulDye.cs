@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Dyes
         {
             CreateRecipe(2).
                 AddIngredient(ItemID.BottledWater, 2).
-                AddIngredient<HellcasterFragment>().
+                AddIngredient<YharonSoulFragment>().
                 AddTile(TileID.DyeVat).
                 Register();
         }
