@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile ghost = CalamityGlobalProjectile.SpawnOrb(Projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
                         if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            ghost.Calamity().forceRogue = true;
+                            ghost.DamageType = RogueDamageClass.Instance;
                             ghost.penetrate = 1;
                         }
                     }

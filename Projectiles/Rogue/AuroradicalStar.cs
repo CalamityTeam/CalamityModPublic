@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int comet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), dmg, Projectile.knockBack, Projectile.owner);
                 if (comet.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[comet].Calamity().forceRogue = true;
+                    Main.projectile[comet].DamageType = RogueDamageClass.Instance;
                     Main.projectile[comet].Calamity().lineColor = Main.rand.Next(3);
                 }
             }

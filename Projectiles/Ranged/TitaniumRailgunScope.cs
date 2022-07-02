@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Ranged
                             float speed = 24f * ChargePercent;
                             int projectile = Projectile.NewProjectile(new EntitySource_ItemUse_WithAmmo(Owner, Owner.HeldItem, -1), Projectile.Center, direction * speed, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, Projectile.owner);
                             if (projectile.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile].Calamity().forceClassless = true;
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
                         }
                     }
 

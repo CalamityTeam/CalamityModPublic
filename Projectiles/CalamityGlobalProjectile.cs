@@ -1,6 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using System;
+using System.Collections.Generic;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.EntitySources;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.NPCs;
@@ -14,23 +17,20 @@ using CalamityMod.Projectiles.VanillaProjectileOverrides;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
+using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using static Terraria.ModLoader.ModContent;
 using NanotechProjectile = CalamityMod.Projectiles.Typeless.Nanotech;
-using Terraria.Audio;
-using Terraria.GameContent;
-using Terraria.DataStructures;
-using CalamityMod.EntitySources;
 
 namespace CalamityMod.Projectiles
 {
-    public class CalamityGlobalProjectile : GlobalProjectile
+    public partial class CalamityGlobalProjectile : GlobalProjectile
     {
         public override bool InstancePerEntity
         {
@@ -39,18 +39,6 @@ namespace CalamityMod.Projectiles
                 return true;
             }
         }
-
-        // Class Types
-        public bool trueMelee = false;
-
-        // Force Class Types
-        public bool forceMelee = false;
-        public bool forceRanged = false;
-        public bool forceMagic = false;
-        public bool forceMinion = false;
-        public bool forceRogue = false;
-        public bool forceClassless = false;
-        public bool forceHostile = false;
 
         // Source variables.
         public bool CreatedByPlayerDash = false;
@@ -145,6 +133,7 @@ namespace CalamityMod.Projectiles
         {
             switch (projectile.type)
             {
+                // True melee with speed
                 case ProjectileID.Spear:
                 case ProjectileID.Trident:
                 case ProjectileID.TheRottedFork:
@@ -159,6 +148,13 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.MushroomSpear:
                 case ProjectileID.Gungnir:
                 case ProjectileID.ObsidianSwordfish:
+                case ProjectileID.JoustingLance:
+                case ProjectileID.HallowJoustingLance:
+                case ProjectileID.ShadowJoustingLance:
+                    projectile.DamageType = TrueMeleeDamageClass.Instance;
+                    break;
+
+                // True melee without speed
                 case ProjectileID.CobaltDrill:
                 case ProjectileID.MythrilDrill:
                 case ProjectileID.AdamantiteDrill:
@@ -166,6 +162,11 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.OrichalcumDrill:
                 case ProjectileID.TitaniumDrill:
                 case ProjectileID.ChlorophyteDrill:
+                case ProjectileID.SolarFlareDrill:
+                case ProjectileID.VortexDrill:
+                case ProjectileID.NebulaDrill:
+                case ProjectileID.StardustDrill:
+                case ProjectileID.SawtoothShark:
                 case ProjectileID.CobaltChainsaw:
                 case ProjectileID.MythrilChainsaw:
                 case ProjectileID.AdamantiteChainsaw:
@@ -173,23 +174,16 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.OrichalcumChainsaw:
                 case ProjectileID.TitaniumChainsaw:
                 case ProjectileID.ChlorophyteChainsaw:
-                case ProjectileID.VortexDrill:
                 case ProjectileID.VortexChainsaw:
-                case ProjectileID.NebulaDrill:
                 case ProjectileID.NebulaChainsaw:
-                case ProjectileID.SolarFlareDrill:
                 case ProjectileID.SolarFlareChainsaw:
-                case ProjectileID.StardustDrill:
                 case ProjectileID.StardustChainsaw:
-                case ProjectileID.Hamdrax:
+                case ProjectileID.Hamdrax: // Drax
                 case ProjectileID.ChlorophyteJackhammer:
-                case ProjectileID.SawtoothShark:
-                case ProjectileID.JoustingLance:
-                case ProjectileID.HallowJoustingLance:
-                case ProjectileID.ShadowJoustingLance:
-                    trueMelee = true;
+                    projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
                     break;
 
+                // Point blank vanilla projectiles
                 case ProjectileID.BulletHighVelocity:
                 case ProjectileID.ChlorophyteBullet:
                 case ProjectileID.WoodenArrowFriendly:
@@ -298,12 +292,12 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.Arkhalis:
                 case ProjectileID.Terragrim:
                 case ProjectileID.ButchersChainsaw:
-                    trueMelee = true;
+                    projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
                     projectile.scale = 1.5f;
                     break;
 
                 case ProjectileID.MonkStaffT1:
-                    trueMelee = true;
+                    projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
                     projectile.scale = 3f;
                     break;
 
@@ -329,7 +323,7 @@ namespace CalamityMod.Projectiles
                     break;
 
                 case ProjectileID.MonkStaffT2:
-                    trueMelee = true;
+                    projectile.DamageType = TrueMeleeDamageClass.Instance;
                     projectile.idStaticNPCHitCooldown = 18;
                     break;
 
@@ -2241,56 +2235,6 @@ namespace CalamityMod.Projectiles
                     projectile.damage = defDamage + 15;
             }
 
-            #region Type Forcing
-            if (forceMelee)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.DamageType = DamageClass.Melee;
-                projectile.minion = false;
-            }
-            else if (forceRanged)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.DamageType = DamageClass.Ranged;
-                projectile.minion = false;
-            }
-            else if (forceMagic)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.DamageType = DamageClass.Magic;
-                projectile.minion = false;
-            }
-            else if (forceMinion)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.minion = true;
-            }
-            else if (forceRogue)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.DamageType = RogueDamageClass.Instance;
-                projectile.minion = false;
-            }
-            else if (forceClassless)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.DamageType = DamageClass.Generic;
-                projectile.minion = false;
-            }
-            else if (forceHostile)
-            {
-                projectile.hostile = true;
-                projectile.friendly = false;
-                projectile.minion = false;
-            }
-            #endregion
-
             if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
             {
                 if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
@@ -2344,7 +2288,7 @@ namespace CalamityMod.Projectiles
 
             if (!projectile.npcProj && !projectile.trap && projectile.friendly && projectile.damage > 0)
             {
-                if (modPlayer.fungalSymbiote && trueMelee)
+                if (modPlayer.fungalSymbiote && projectile.IsTrueMelee())
                 {
                     if (Main.player[projectile.owner].miscCounter % 6 == 0 && projectile.FinalExtraUpdate())
                     {
@@ -2397,7 +2341,7 @@ namespace CalamityMod.Projectiles
                                 int damage = (int)player.GetTotalDamage<RogueDamageClass>().ApplyTo(45);
                                 int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<MoonSigil>(), damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[proj].Calamity().forceClassless = true;
+                                    Main.projectile[proj].DamageType = DamageClass.Generic;
                             }
                         }
                     }
@@ -2412,7 +2356,7 @@ namespace CalamityMod.Projectiles
                                 int proj = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ProjectileType<DragonShit>(),
                                     damage, 0f, projectile.owner);
                                 if (proj.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[proj].Calamity().forceClassless = true;
+                                    Main.projectile[proj].DamageType = DamageClass.Generic;
                             }
                         }
                     }
@@ -2430,7 +2374,7 @@ namespace CalamityMod.Projectiles
                                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                                     int shard = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileID.CrystalShard, crystalDamage, 0f, projectile.owner);
                                     if (shard.WithinBounds(Main.maxProjectiles))
-                                        Main.projectile[shard].Calamity().forceClassless = true;
+                                        Main.projectile[shard].DamageType = DamageClass.Generic;
                                 }
                             }
                         }
@@ -2831,7 +2775,7 @@ namespace CalamityMod.Projectiles
                             int soul = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, velocity, ProjectileType<LostSoulFriendly>(), damage, 0f, projectile.owner);
                             Main.projectile[soul].tileCollide = false;
                             if (soul.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[soul].Calamity().forceClassless = true;
+                                Main.projectile[soul].DamageType = DamageClass.Generic;
                         }
                     }
 
@@ -2841,7 +2785,7 @@ namespace CalamityMod.Projectiles
                         int spike = Projectile.NewProjectile(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<JewelSpike>(), damage, projectile.knockBack, projectile.owner);
                         Main.projectile[spike].frame = 4;
                         if (spike.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[spike].Calamity().forceClassless = true;
+                            Main.projectile[spike].DamageType = DamageClass.Generic;
                     }
                 }
 
@@ -3047,7 +2991,7 @@ namespace CalamityMod.Projectiles
 
                                 if (projectile.type == ProjectileType<EradicatorProjectile>())
                                     if (projectile2.WithinBounds(Main.maxProjectiles))
-                                        Main.projectile[projectile2].Calamity().forceRogue = true;
+                                        Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
                             }
                         }
 
@@ -3067,11 +3011,11 @@ namespace CalamityMod.Projectiles
                         if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
                             projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].Calamity().forceMelee = true;
+                                Main.projectile[projectile2].DamageType = DamageClass.Melee;
 
                         if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
                             if (projectile2.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile2].Calamity().forceRogue = true;
+                                Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
                     }
                 }
             }

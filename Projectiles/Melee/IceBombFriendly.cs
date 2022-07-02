@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -107,13 +107,13 @@ namespace CalamityMod.Projectiles.Melee
                     int projectile1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (projectile1.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[projectile1].Calamity().forceMelee = true;
+                        Main.projectile[projectile1].DamageType = DamageClass.Melee;
                         Main.projectile[projectile1].penetrate = 2;
                     }
                     int projectile2 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (projectile2.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[projectile2].Calamity().forceMelee = true;
+                        Main.projectile[projectile2].DamageType = DamageClass.Melee;
                         Main.projectile[projectile2].penetrate = 2;
                     }
                 }

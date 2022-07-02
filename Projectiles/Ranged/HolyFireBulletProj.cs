@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 // Only declare the explosion as ranged class if the bullet itself is ranged class.
                 if (boom.WithinBounds(Main.maxProjectiles) && Projectile.CountsAsClass<RangedDamageClass>())
-                    Main.projectile[boom].Calamity().forceRanged = true;
+                    Main.projectile[boom].DamageType = DamageClass.Ranged;
             }
 
             // Spawn four shrapnel dust. This deals no damage.

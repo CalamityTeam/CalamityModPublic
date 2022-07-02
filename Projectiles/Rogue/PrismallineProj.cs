@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Rogue
                             int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);
                             if (shard.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[shard].Calamity().forceRogue = true;
+                                Main.projectile[shard].DamageType = RogueDamageClass.Instance;
                                 Main.projectile[shard].usesLocalNPCImmunity = true;
                                 Main.projectile[shard].localNPCHitCooldown = 10;
                             }
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), Projectile.damage / 2, 0f, Projectile.owner);
                     if (shard.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[shard].Calamity().forceRogue = true;
+                        Main.projectile[shard].DamageType = RogueDamageClass.Instance;
                         Main.projectile[shard].penetrate = 1;
                     }
                 }

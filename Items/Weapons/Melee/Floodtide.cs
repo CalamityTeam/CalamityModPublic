@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 float SpeedY = velocity.Y + (float)Main.rand.Next(-20, 21) * 0.05f;
                 int proj = Projectile.NewProjectile(source, position.X, position.Y, SpeedX, SpeedY, type, damage, knockback, player.whoAmI, 0f, 0f);
                 if (proj.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[proj].Calamity().forceMelee = true;
+                    Main.projectile[proj].DamageType = DamageClass.Melee;
             }
             return false;
         }

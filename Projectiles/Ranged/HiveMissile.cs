@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
                         if (bee.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[bee].penetrate = 2;
-                            Main.projectile[bee].Calamity().forceRanged = true;
+                            Main.projectile[bee].DamageType = DamageClass.Ranged;
                         }
                     }
                 }

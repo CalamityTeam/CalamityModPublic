@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, knockback, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
-                Main.projectile[explosion].Calamity().forceMelee = true;
+                Main.projectile[explosion].DamageType = DamageClass.Melee;
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             int explosion = Projectile.NewProjectile(source, target.Center, Vector2.Zero, ModContent.ProjectileType<PlanarRipperExplosion>(), damage, Item.knockBack, player.whoAmI);
             if (explosion.WithinBounds(Main.maxProjectiles))
-                Main.projectile[explosion].Calamity().forceMelee = true;
+                Main.projectile[explosion].DamageType = DamageClass.Melee;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
                         Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int shard = Projectile.NewProjectile(Projectile.GetSource_FromThis(), target.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), shardDamage, 0f, Projectile.owner);
                         if (shard.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[shard].Calamity().forceMagic = true;
+                            Main.projectile[shard].DamageType = DamageClass.Magic;
                     }
                 }
             }

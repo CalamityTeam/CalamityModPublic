@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
-                Main.projectile[proj].Calamity().forceRogue = true;
+                Main.projectile[proj].DamageType = RogueDamageClass.Instance;
             }
         }
 
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
                 Main.projectile[proj].timeLeft += 20;
                 Main.projectile[proj].Center = Projectile.Center;
-                Main.projectile[proj].Calamity().forceRogue = true;
+                Main.projectile[proj].DamageType = RogueDamageClass.Instance;
             }
         }
 
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
                 proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosion>(), (int)(Projectile.damage * 0.33), Projectile.knockBack, Projectile.owner);
             Main.projectile[proj].Center = Projectile.Center;
-            Main.projectile[proj].Calamity().forceRogue = true;
+            Main.projectile[proj].DamageType = RogueDamageClass.Instance;
         }
     }
 }

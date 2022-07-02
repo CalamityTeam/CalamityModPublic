@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 int index = Projectile.NewProjectile(spawnSource, source + offset, velocity * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
                 if (index.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[index].Calamity().forceRanged = true;
+                    Main.projectile[index].DamageType = DamageClass.Ranged;
                     Main.projectile[index].usesLocalNPCImmunity = true;
                     Main.projectile[index].localNPCHitCooldown = 10;
                 }

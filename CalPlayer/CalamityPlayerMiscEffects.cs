@@ -1614,7 +1614,7 @@ namespace CalamityMod.CalPlayer
                         int projectile = Projectile.NewProjectile(source, Player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), damage, 0, Player.whoAmI, Main.rand.Next(2), 0f);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
 
                     for (int i = 0; i < 3; i++)
@@ -1638,7 +1638,7 @@ namespace CalamityMod.CalPlayer
                         int projectile = Projectile.NewProjectile(source, Player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), damage, 0, Player.whoAmI, 0, 0);
                         Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
 
                     for (int i = 0; i < 3; i++)
@@ -2902,7 +2902,7 @@ namespace CalamityMod.CalPlayer
                         if (projectile.WithinBounds(Main.maxProjectiles))
                         {
                             Main.projectile[projectile].originalDamage = 3750;
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -3006,7 +3006,7 @@ namespace CalamityMod.CalPlayer
                             int spark = Projectile.NewProjectile(source, npc.Center, velocity, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, Player.whoAmI);
                             if (spark.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[spark].Calamity().forceClassless = true;
+                                Main.projectile[spark].DamageType = DamageClass.Generic;
                                 Main.projectile[spark].localNPCHitCooldown = -2;
                                 Main.projectile[spark].penetrate = 5;
                             }
@@ -3219,7 +3219,7 @@ namespace CalamityMod.CalPlayer
                             Main.projectile[bee].localNPCHitCooldown = 10;
                             Main.projectile[bee].penetrate = 2;
                             if (bee.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[bee].Calamity().forceClassless = true;
+                                Main.projectile[bee].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -3389,7 +3389,7 @@ namespace CalamityMod.CalPlayer
                     int laser = Projectile.NewProjectile(source, startPos, velocity, ModContent.ProjectileType<DeathhailBeam>(), dmg, 4f, Player.whoAmI, 0f, 0f);
                     Main.projectile[laser].localNPCHitCooldown = 5;
                     if (laser.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[laser].Calamity().forceClassless = true;
+                        Main.projectile[laser].DamageType = DamageClass.Generic;
                 }
                 SoundEngine.PlaySound(SoundID.Item12, Player.Center);
             }
