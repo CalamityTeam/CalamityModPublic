@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Accessories
             player.autoReuseGlove = true;
             player.meleeScaleGlove = true;
             player.GetAttackSpeed<MeleeDamageClass>() += 0.15f;
+            player.GetDamage<TrueMeleeDamageClass>() += 0.1f;
         }
 
         public override void AddRecipes()

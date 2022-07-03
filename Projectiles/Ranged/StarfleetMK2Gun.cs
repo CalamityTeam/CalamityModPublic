@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Ranged
                         {
                             Main.projectile[star].penetrate = 1;
                             Main.projectile[star].timeLeft = 300;
-                            Main.projectile[star].Calamity().forceRanged = true;
+                            Main.projectile[star].DamageType = DamageClass.Ranged;
                             Main.projectile[star].netUpdate = true;
                         }
                         Projectile.netUpdate = true;

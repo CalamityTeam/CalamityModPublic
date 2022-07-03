@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Materials
             DisplayName.SetDefault("Dark Plasma");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(7, 4));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

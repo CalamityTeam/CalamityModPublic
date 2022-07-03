@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 24);
+            Projectile.ExpandHitboxBy(24);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

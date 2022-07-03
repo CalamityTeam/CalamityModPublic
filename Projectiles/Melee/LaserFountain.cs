@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
                     int projectile1 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, SpeedX, SpeedY, ModContent.ProjectileType<NebulaShot>(), damage, Projectile.knockBack, Projectile.owner, 0f, 0f);
                     if (projectile1.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[projectile1].Calamity().forceMelee = true;
+                        Main.projectile[projectile1].DamageType = DamageClass.Melee;
                         Main.projectile[projectile1].aiStyle = 1;
                     }
                 }

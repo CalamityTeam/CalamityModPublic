@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("What a silly and pointless contraption for something created with the essence of pure terror.\n" +
                 "Draedon obviously took several liberties with its design... I am not impressed.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

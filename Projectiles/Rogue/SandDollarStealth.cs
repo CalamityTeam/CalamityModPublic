@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     int coral = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ModContent.ProjectileType<SmallCoral>(), Projectile.damage / 3, 0f, Projectile.owner);
                     if (coral.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[coral].Calamity().forceRogue = true;
+                        Main.projectile[coral].DamageType = RogueDamageClass.Instance;
                 }
             }
         }

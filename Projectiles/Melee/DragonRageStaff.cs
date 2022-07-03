@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             Projectile.width = Projectile.height = 408;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 90000;
@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.hide = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 5;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()
@@ -167,7 +166,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
 
                 int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), position, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage / 4, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[proj].Calamity().forceMelee = true;
+                Main.projectile[proj].DamageType = DamageClass.Melee;
             }
         }
 

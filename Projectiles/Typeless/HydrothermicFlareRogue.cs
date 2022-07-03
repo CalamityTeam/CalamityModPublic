@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
             Main.dust[d].velocity += Projectile.velocity * 0.1f;
 
             if (Projectile.timeLeft < 285)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 11f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 250f, 11f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

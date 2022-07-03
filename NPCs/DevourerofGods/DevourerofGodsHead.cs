@@ -516,7 +516,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 // Dialogue the moment the second phase starts
                 if (NPC.localAI[2] == 60f)
                 {
-                    string key = "Mods.CalamityMod.EdgyBossText10";
+                    string key = "Mods.CalamityMod.EdgyBossText5";
                     Color messageColor = Color.Cyan;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
@@ -661,7 +661,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                     calamityGlobalNPC.newAI[3] = 0f;
 
                                     // Anger message
-                                    string key = "Mods.CalamityMod.EdgyBossText11";
+                                    string key = "Mods.CalamityMod.EdgyBossText6";
                                     Color messageColor = Color.Cyan;
                                     CalamityUtils.DisplayLocalizedText(key, messageColor);
 
@@ -2523,11 +2523,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 string text = Utils.SelectRandom(Main.rand, new string[]
                 {
+                    "Mods.CalamityMod.EdgyBossText2",
                     "Mods.CalamityMod.EdgyBossText3",
-                    "Mods.CalamityMod.EdgyBossText4",
-                    "Mods.CalamityMod.EdgyBossText5",
-                    "Mods.CalamityMod.EdgyBossText6",
-                    "Mods.CalamityMod.EdgyBossText7"
+                    "Mods.CalamityMod.EdgyBossText4"
                 });
                 Color messageColor = Color.Cyan;
                 Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);

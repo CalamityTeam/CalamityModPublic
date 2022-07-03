@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             Projectile.Damage();
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 48);
+            Projectile.ExpandHitboxBy(48);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)

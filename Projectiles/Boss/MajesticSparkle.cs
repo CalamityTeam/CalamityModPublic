@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Time == 1f)
             {
                 Projectile.scale = Main.rand.NextFloat(0.3f, 0.75f);
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(Projectile.scale * 72f));
+                Projectile.ExpandHitboxBy((int)(Projectile.scale * 72f));
 
                 ColorSpectrumHue = Main.rand.NextFloat(0f, 0.9999f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;

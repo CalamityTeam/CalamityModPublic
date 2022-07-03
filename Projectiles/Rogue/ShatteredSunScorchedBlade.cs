@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             Lighting.AddLight(Projectile.Center, 0.7f, 0.3f, 0f);
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
             float num633;
             Vector2 vector46 = Projectile.position;
             bool flag25 = false;

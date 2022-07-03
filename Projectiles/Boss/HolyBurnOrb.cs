@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Boss
             CooldownSlot = 1;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 200;
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
         }
 
         public override void AI()
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 50);
+            Projectile.ExpandHitboxBy(50);
             int dustType = (Main.dayTime && !CalamityWorld.malice) ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
             for (int d = 0; d < 5; d++)
             {

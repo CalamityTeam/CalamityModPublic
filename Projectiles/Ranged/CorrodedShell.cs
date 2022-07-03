@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 10;
             Projectile.aiStyle = 1;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
                     int aura = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(), (int)(Projectile.damage * 0.15), Projectile.knockBack, Projectile.owner);
                     if (aura.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[aura].Calamity().forceRanged = true;
+                        Main.projectile[aura].DamageType = DamageClass.Ranged;
                         Main.projectile[aura].timeLeft = 40;
                     }
                 }

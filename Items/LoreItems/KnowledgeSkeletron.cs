@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The curse is said to only affect the elderly.\n" +
                 "After they are afflicted they become an immortal vessel for an ancient demon of the underworld.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

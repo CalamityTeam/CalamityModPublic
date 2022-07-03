@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Evasion Scarf");
-            Tooltip.SetDefault("True melee strikes deal 15% more damage\n" +
+            Tooltip.SetDefault("15% increased true melee damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
                 "After a successful dodge you must wait 30 seconds before you can dodge again\n");
         }
@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            player.GetDamage<TrueMeleeDamageClass>() += 0.15f;
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
             modPlayer.evasionScarf = true;

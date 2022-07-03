@@ -133,7 +133,7 @@ namespace CalamityMod.Balancing
         public bool AppliesTo(NPC npc, NPCHitContext hitContext)
         {
             if (hitContext.DamageSource == DamageSourceType.FriendlyProjectile)
-                return Main.projectile[hitContext.ProjectileIndex.Value].Calamity().trueMelee;
+                return Main.projectile[hitContext.ProjectileIndex.Value].IsTrueMelee();
 
             return hitContext.DamageSource == DamageSourceType.TrueMeleeSwing;
         }

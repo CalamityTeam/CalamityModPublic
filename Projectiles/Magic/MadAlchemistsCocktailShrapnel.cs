@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.dust[num458].noGravity = true;
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 12f, 20f);
         }
     }
 }

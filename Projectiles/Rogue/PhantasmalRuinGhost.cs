@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (Projectile.timeLeft >= 207)
                 Projectile.alpha += 6;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 40f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 40f);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(100, 200, 255, 100);

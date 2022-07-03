@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             Item.width = 44;
             Item.damage = 90;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.noMelee = true;
             Item.useTurn = true;
             Item.noUseGraphic = true;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.rare = ItemRarityID.Cyan;
             Item.shoot = ModContent.ProjectileType<AstralPikeProj>();
             Item.shootSpeed = 13f;
-            Item.Calamity().trueMelee = true;
         }
 
         // Terraria seems to really dislike high crit values in SetDefaults

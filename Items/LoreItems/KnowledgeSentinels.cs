@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
                 "Each represent one of the Devourer’s largest spheres of influence.\n" +
                 "Dispatching them has most likely invoked its anger and marked you as a target for destruction.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

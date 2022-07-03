@@ -4307,7 +4307,7 @@ namespace CalamityMod.NPCs
             {
                 if (projectile.Calamity().pointBlankShotDuration > 0)
                 {
-                    float pointBlankShotDamageMultiplier = 1f + (projectile.Calamity().pointBlankShotDuration / (float)CalamityGlobalProjectile.basePointBlankShotDuration * 0.5f);
+                    float pointBlankShotDamageMultiplier = 1f + (projectile.Calamity().pointBlankShotDuration / (float)CalamityGlobalProjectile.DefaultPointBlankDuration * 0.5f);
                     damage = (int)(damage * pointBlankShotDamageMultiplier);
                     projectile.Calamity().pointBlankShotDuration = 0;
                 }
@@ -4331,6 +4331,7 @@ namespace CalamityMod.NPCs
                 damage = (int)(damage * 0.1);
         }
 
+        // TODO -- What in god's name is this?
         private void PierceResistGlobal(Projectile projectile, NPC npc, ref int damage)
         {
             if (CalamityLists.GrenadeResistIDs.Contains(projectile.type))

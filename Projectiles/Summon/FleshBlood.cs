@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             if (Projectile.timeLeft < LifeTime - 30)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 450f, 6f, 20f);
         }
     }
 }

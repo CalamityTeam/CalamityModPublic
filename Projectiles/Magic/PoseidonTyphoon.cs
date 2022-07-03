@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Magic
 
             Lighting.AddLight(Projectile.Center, 0, (255 - Projectile.alpha) * 0.7f / 255f, (255 - Projectile.alpha) / 255f);
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 6f, 30f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 600f, 6f, 30f);
         }
 
         public override void Kill(int timeLeft)

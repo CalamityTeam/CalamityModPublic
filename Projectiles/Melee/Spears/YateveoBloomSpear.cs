@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.width = 40;
             Projectile.aiStyle = 19;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 40;
             Projectile.friendly = true;
@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
-            Projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;

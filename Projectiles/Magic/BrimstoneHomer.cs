@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             Main.dust[brimstone].noGravity = true;
 
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 8f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 8f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

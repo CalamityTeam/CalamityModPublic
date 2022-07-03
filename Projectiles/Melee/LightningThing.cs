@@ -34,11 +34,12 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     Main.projectile[idx].usesLocalNPCImmunity = true;
                     Main.projectile[idx].localNPCHitCooldown = GaelsGreatsword.ImmunityFrames;
+                    // TODO -- Ozzatron 2JUL2022: what is this? Removing forceMelee, hope it doesn't break...
                     // In death mode (and under a few other select conditions), the lightning has a PreAI return false in global projectile
                     // So forceMelee won't work unless the projectile is friendly (because a friendly exception was added)
                     Main.projectile[idx].friendly = true;
                     Main.projectile[idx].hostile = false;
-                    Main.projectile[idx].Calamity().forceMelee = true;
+                    Main.projectile[idx].DamageType = DamageClass.Melee;
                 }
             }
         }

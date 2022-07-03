@@ -13,6 +13,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Only a fool could be caught by this pitiful excuse for a hunter.\n" +
                 "Unfortunately, our world has no shortage of those.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

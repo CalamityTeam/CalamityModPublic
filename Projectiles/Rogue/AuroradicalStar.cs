@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int comet = Projectile.NewProjectile(Projectile.GetSource_FromThis(), pos, velocity, ModContent.ProjectileType<CometQuasherMeteor>(), dmg, Projectile.knockBack, Projectile.owner);
                 if (comet.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[comet].Calamity().forceRogue = true;
+                    Main.projectile[comet].DamageType = RogueDamageClass.Instance;
                     Main.projectile[comet].Calamity().lineColor = Main.rand.Next(3);
                 }
             }
@@ -154,7 +154,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             SoundEngine.PlaySound(SoundID.Item9, Projectile.position);
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 96);
+            Projectile.ExpandHitboxBy(96);
             Projectile.localNPCHitCooldown = 10;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.Damage();

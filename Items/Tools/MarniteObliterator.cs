@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Tools
             Item.pick = 50;
             Item.axe = 30 / 5;
 
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.width = 36;
             Item.height = 18;
             Item.channel = true;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Tools
             Item.autoReuse = true;
             Item.shoot = ModContent.ProjectileType<MarniteObliteratorProj>();
             Item.shootSpeed = 40f;
-            Item.Calamity().trueMelee = true;
         }
 
         public override void AddRecipes()

@@ -98,8 +98,10 @@ Config:
         
 DamageClassName:
 {
-        RogueDamageClass: "rogue damage",
-        AverageDamageClass: "average damage",
+    AverageDamageClass: "average damage",
+    RogueDamageClass: "rogue damage",
+    TrueMeleeDamageClass: "true melee damage",
+    TrueMeleeNoSpeedDamageClass: "true melee damage",
 }
         
 UI:

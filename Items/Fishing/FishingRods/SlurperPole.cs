@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
+            ItemID.Sets.CanFishInLava[Item.type] = true;
+
             DisplayName.SetDefault("Slurper Pole");
             Tooltip.SetDefault("Can fish in lava.\n" + //Charles Spurgeon quote
                 "It is the burning lava of the soul that has a furnace within--a very volcano of grief and sorrow.");

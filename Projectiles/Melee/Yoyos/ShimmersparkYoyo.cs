@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
         public override void AI()
         {
-            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, 120f, 5, ProjectileID.HallowStar);
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 6f, 120f, 5, ProjectileID.HallowStar);
             if ((Projectile.position - Main.player[Projectile.owner].position).Length() > 3200f) //200 blocks
                 Projectile.Kill();
         }

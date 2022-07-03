@@ -109,7 +109,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             CreateRecipe().
                 AddIngredient<BlossomFlux>().
                 AddIngredient<EffulgentFeather>(12).
-                AddIngredient<HellcasterFragment>(4).
+                AddIngredient<YharonSoulFragment>(4).
                 AddIngredient<AuricBar>(5).
                 AddTile<CosmicAnvil>().
                 Register();
