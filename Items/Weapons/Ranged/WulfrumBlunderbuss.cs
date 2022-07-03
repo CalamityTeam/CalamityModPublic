@@ -149,16 +149,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             player.direction = Math.Sign((player.Calamity().mouseWorld - player.Center).X);
 
             float animProgress = 1 - player.itemTime / (float)player.itemTimeMax;
-            float rotation = (player.Center - player.Calamity().mouseWorld).ToRotation() + MathHelper.PiOver2;
+            float rotation = (player.Center - player.Calamity().mouseWorld).ToRotation() * player.gravDir + MathHelper.PiOver2;
             if (animProgress < 0.4f)
-                rotation += -0.45f * (float)Math.Pow((0.4f - animProgress) / 0.4f, 2) * player.direction * player.gravDir;
+                rotation += -0.45f * (float)Math.Pow((0.4f - animProgress) / 0.4f, 2) * player.direction;
 
             player.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, rotation);
 
             //Reloads the gun 
             if (animProgress > 0.5f)
             {
-                float backArmRotation = rotation + 0.52f * player.direction * player.gravDir;
+                float backArmRotation = rotation + 0.52f * player.direction;
 
                 Player.CompositeArmStretchAmount stretch = ((float)Math.Sin(MathHelper.Pi * (animProgress - 0.5f) / 0.36f)).ToStretchAmount();
                 player.SetCompositeArmBack(true, stretch, backArmRotation);

@@ -1,20 +1,13 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+﻿using System;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using System;
-using CalamityMod.Items.Weapons.Magic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.Audio;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -33,6 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public static int Lifetime = 950;
         public float LifetimeCompletion => MathHelper.Clamp((Lifetime - Projectile.timeLeft) / (float)Lifetime, 0f, 1f);
+        public float StealthEffectOpacity => MathHelper.Clamp(1 - LifetimeCompletion, 0f, 1f);
 
         public override void SetDefaults()
         {
@@ -74,14 +68,13 @@ namespace CalamityMod.Projectiles.Rogue
 
             else
             {
-                float effectOpacity = MathHelper.Clamp(1 - LifetimeCompletion * 5f, 0f, 1f);
-                Lighting.AddLight(Projectile.Center, (Main.rand.NextBool() ? Color.GreenYellow : Color.DeepSkyBlue).ToVector3() * effectOpacity);
+                Lighting.AddLight(Projectile.Center, (Main.rand.NextBool() ? Color.GreenYellow : Color.DeepSkyBlue).ToVector3() * StealthEffectOpacity);
 
                 if (Main.rand.NextBool(7))
                 {
                     Vector2 center = Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(-3f, 3f);
                     Vector2 velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.Pi / 6f) * Main.rand.NextFloat(4, 10);
-                    GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(center, velocity, Main.rand.NextFloat(1f, 2f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25, effectOpacity));
+                    GeneralParticleHandler.SpawnParticle(new TechyHoloysquareParticle(center, velocity, Main.rand.NextFloat(1f, 2f), Main.rand.NextBool() ? new Color(99, 255, 229) : new Color(25, 132, 247), 25, StealthEffectOpacity));
 
                 }
 
@@ -104,8 +97,6 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-
-
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
@@ -115,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         internal Color ColorFunction(float completionRatio)
         {
-            float fadeOpacity = (float)Math.Pow(1 - completionRatio, 2) * MathHelper.Clamp(1 - LifetimeCompletion * 5f, 0f, 1f);
+            float fadeOpacity = (float)Math.Pow(1 - completionRatio, 2) * StealthEffectOpacity;
             return Color.GreenYellow.MultiplyRGB(PrimColorMult) * fadeOpacity;
         }
 
@@ -127,7 +118,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
-            float opacitey = MathHelper.Clamp(1 - LifetimeCompletion * 5f, 0f, 1f);
+            float opacitey = StealthEffectOpacity;
 
             if (Projectile.Calamity().stealthStrike)
             {

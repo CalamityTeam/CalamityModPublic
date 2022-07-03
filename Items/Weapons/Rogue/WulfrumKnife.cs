@@ -12,12 +12,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class WulfrumKnife : ModItem
     {
-        public static readonly SoundStyle ThrowSound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrow") { PitchVariance = 0.4f, Volume = 1f };
+        public static readonly SoundStyle Throw3Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowFull") { PitchVariance = 0.4f };
+        public static readonly SoundStyle Throw2Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowTwo") { PitchVariance = 0.4f };
+        public static readonly SoundStyle Throw1Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowSingle") { PitchVariance = 0.4f };
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Knife");
-            Tooltip.SetDefault("Stealth strikes make the knife fly further and hit several times at once\n" +
+            Tooltip.SetDefault("Fires wulfrum knives in bursts of 3\n" +
+                               "Stealth strikes make the knife fly further and hit several times at once\n" +
                                "Hold right click to magnetize all nearby fallen knives back to you");
             SacrificeTotal = 99;
         }
@@ -39,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             Item.reuseDelay = 24;
 
             Item.knockBack = 1f;
-            Item.UseSound = ThrowSound;
+            Item.UseSound = Throw3Sound;
             Item.autoReuse = true;
             Item.height = 38;
             Item.maxStack = 999;
@@ -111,6 +114,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             shootCount = 0;
             stealthStrikeStarted = false;
+
+            Item.UseSound = Throw3Sound;
+
+            if (Item.stack == 2)
+                Item.UseSound = Throw2Sound;
+            if (Item.stack == 1)
+                Item.UseSound = Throw1Sound;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
