@@ -80,7 +80,7 @@ namespace CalamityMod.Items.Tools
 
             if (timeBeforeBlast <= 0)
             {
-                DropHelper.DropItem(Item.GetSource_ItemUse(Item), player, ModContent.ItemType<WulfrumShard>(), 0, 3);
+                DropHelper.DropItem(Item.GetSource_ItemUse(Item), player, ModContent.ItemType<WulfrumMetalScrap>(), 0, 3);
 
                 Item.TurnToAir();
 
@@ -282,7 +282,7 @@ namespace CalamityMod.Items.Tools
         {
             //Intentionally craftable anywhere.
             CreateRecipe().
-                AddIngredient<WulfrumShard>(6).
+                AddIngredient<WulfrumMetalScrap>(6).
                 Register();
         }
     }

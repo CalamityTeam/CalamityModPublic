@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Tools
         {
             CreateRecipe().
                 AddIngredient(ItemID.Gel, 5). //Gel is a default combustible item to fuel the motors of the lil guys
-                AddIngredient<WulfrumShard>(3).
+                AddIngredient<WulfrumMetalScrap>(3).
                 Register();
         }
     }

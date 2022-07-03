@@ -154,7 +154,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumShard>(12).
+                AddIngredient<WulfrumMetalScrap>(12).
                 AddTile(TileID.Anvils).
                 Register();
         }

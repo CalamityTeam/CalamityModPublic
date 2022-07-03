@@ -64,12 +64,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             player.Calamity().mouseWorldListener = true;
         }
 
-        public override bool CanUseItem(Player player) =>  storedScrap > 0 || (player.HasItem(ModContent.ItemType<WulfrumShard>()) || player.HasItem(ItemID.SilverCoin));
+        public override bool CanUseItem(Player player) =>  storedScrap > 0 || (player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()) || player.HasItem(ItemID.SilverCoin));
 
         public override void UseAnimation(Player player)
         {
             Item.UseSound = ShootSound;
-            if (storedScrap == 1 && (player.HasItem(ModContent.ItemType<WulfrumShard>()) || player.HasItem(ItemID.SilverCoin)))
+            if (storedScrap == 1 && (player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()) || player.HasItem(ItemID.SilverCoin)))
                 Item.UseSound = ShootAndReloadSound;
         }
 
@@ -81,9 +81,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 bool ammoConsumed = false;
 
-                if (player.HasItem(ModContent.ItemType<WulfrumShard>()))
+                if (player.HasItem(ModContent.ItemType<WulfrumMetalScrap>()))
                 {
-                    player.ConsumeItem(ModContent.ItemType<WulfrumShard>());
+                    player.ConsumeItem(ModContent.ItemType<WulfrumMetalScrap>());
                     ammoConsumed = true;
                 }
 
@@ -186,7 +186,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumShard>(10).
+                AddIngredient<WulfrumMetalScrap>(10).
                 AddTile(TileID.Anvils).
                 Register();
         }

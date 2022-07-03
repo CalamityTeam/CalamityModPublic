@@ -24,6 +24,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
     {
         public string ExtensionTexture => "CalamityMod/Items/Armor/Wulfrum/WulfrumHat_HeadExtension";
         public Vector2 ExtensionSpriteOffset(PlayerDrawSet drawInfo) => -Vector2.UnitY * 2f;
+        public string EquipSlotName(Player drawPlayer) => drawPlayer.Male ? Name : "WulfrumHatFemale";
 
         public override void Load()
         {
@@ -77,7 +78,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumShard>(5).
+                AddIngredient<WulfrumMetalScrap>(5).
                 AddIngredient<EnergyCore>().
                 AddTile(TileID.Anvils).
                 Register();

@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Tools
 
         public override bool CanUseItem(Player player)
         {
-            return (storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumShard>())) && !player.noBuilding
+            return (storedScrap > 0 || player.HasItem(ModContent.ItemType<WulfrumMetalScrap>())) && !player.noBuilding
                 && !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == Item.shoot);
         }
 
@@ -110,7 +110,7 @@ namespace CalamityMod.Items.Tools
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumShard>(6).
+                AddIngredient<WulfrumMetalScrap>(6).
                 AddIngredient<EnergyCore>(1).
                 AddTile(TileID.Anvils).
                 Register();

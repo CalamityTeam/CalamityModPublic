@@ -153,7 +153,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe(100).
-                AddIngredient<WulfrumShard>().
+                AddIngredient<WulfrumMetalScrap>().
                 Register();
         }
     }

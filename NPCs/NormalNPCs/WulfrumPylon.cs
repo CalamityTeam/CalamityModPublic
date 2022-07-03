@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Terraria;
@@ -199,8 +200,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 2, 3);
+            npcLoot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 1, 2, 3);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new Fraction(7, 100));
+            npcLoot.Add(ModContent.ItemType<AbandonnedWulfrumHelmet>(), new Fraction(5, 100));
             npcLoot.Add(ModContent.ItemType<EnergyCore>());
         }
     }

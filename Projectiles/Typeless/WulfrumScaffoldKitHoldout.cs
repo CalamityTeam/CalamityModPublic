@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public Player Owner => Main.player[Projectile.owner];
         public WulfrumScaffoldKit Kit => Owner.HeldItem.ModItem as WulfrumScaffoldKit;
-        public bool CanOwnerGoOn => Kit.storedScrap > 0 || Owner.HasItem(ModContent.ItemType<WulfrumShard>());
+        public bool CanOwnerGoOn => Kit.storedScrap > 0 || Owner.HasItem(ModContent.ItemType<WulfrumMetalScrap>());
 
         public bool CanSelectTile(Point tilePos)
         {
@@ -115,7 +115,7 @@ namespace CalamityMod.Projectiles.Typeless
 
                         else
                         {
-                            Owner.ConsumeItem(ModContent.ItemType<WulfrumShard>());
+                            Owner.ConsumeItem(ModContent.ItemType<WulfrumMetalScrap>());
                             Kit.storedScrap = WulfrumScaffoldKit.TilesPerScrap - 1;
                             SoundEngine.PlaySound(SoundID.Item65);
                             if (Main.netMode != NetmodeID.Server)
