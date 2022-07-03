@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
                     int snowflake = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X * 0f, Projectile.velocity.Y * 0f, ProjectileID.NorthPoleSnowflake, (int)(Projectile.damage * 0.25), Projectile.knockBack, Projectile.owner, 0f, Main.rand.Next(3));
                     if (snowflake.WithinBounds(Main.maxProjectiles))
                     {
-                        Main.projectile[snowflake].Calamity().forceRogue = true;
+                        Main.projectile[snowflake].DamageType = RogueDamageClass.Instance;
                         Main.projectile[snowflake].timeLeft = 300;
                     }
                 }

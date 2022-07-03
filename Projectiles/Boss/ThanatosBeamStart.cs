@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
             Projectile.timeLeft = 600;
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             CooldownSlot = 1;
         }
 

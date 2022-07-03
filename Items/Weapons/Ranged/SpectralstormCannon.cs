@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (flare.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[flare].timeLeft = 200;
-                Main.projectile[flare].Calamity().forceRanged = true;
+                Main.projectile[flare].DamageType = DamageClass.Ranged;
             }
 
             float SpeedX2 = velocity.X + (float)Main.rand.Next(-20, 21) * 0.05f;
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             if (soul.WithinBounds(Main.maxProjectiles))
             {
                 Main.projectile[soul].timeLeft = 600;
-                Main.projectile[soul].Calamity().forceRanged = true;
+                Main.projectile[soul].DamageType = DamageClass.Ranged;
                 Main.projectile[soul].frame = Main.rand.Next(4);
             }
             return false;

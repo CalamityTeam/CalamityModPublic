@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Take care to not disturb the deep waters of this world.\n" +
                 "You may awaken something more terrifying than death itself.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

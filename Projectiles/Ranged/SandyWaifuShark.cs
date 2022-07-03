@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.rotation = Projectile.velocity.ToRotation() + (Projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
             if (Projectile.timeLeft < 210)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 8f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

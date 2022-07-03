@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile star = CalamityUtils.ProjectileRain(source, targetPos, 400f, 100f, 500f, 800f, 25f, projType, (int)(Projectile.damage * 0.75), 5f, Projectile.owner);
                 if (star.whoAmI.WithinBounds(Main.maxProjectiles))
                 {
-                    star.Calamity().forceRogue = true;
+                    star.DamageType = RogueDamageClass.Instance;
                     star.ai[0] = 2f;
                 }
             }

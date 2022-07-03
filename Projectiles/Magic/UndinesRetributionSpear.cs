@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
                     return;
                 }
 
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 9f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 9f, 20f);
             }
             else
             {

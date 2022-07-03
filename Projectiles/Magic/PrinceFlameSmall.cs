@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.Opacity = Utils.GetLerpValue(0f, 15f, Projectile.timeLeft, true);
 
             if (Time > AttackDelay)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, false, 600f, 14f, 32f);
+                CalamityUtils.HomeInOnNPC(Projectile, false, 600f, 14f, 32f);
         }
 
         public override bool PreDraw(ref Color lightColor)

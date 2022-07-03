@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
                 "Someone I once held in such contempt for his actions is now... deceased, his sealing ritual undone... prepare for the end.\n" +
                 "Your impending doom approaches...");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Strange, to find out that the mutant terror of the seas was not alone in its unique biology.\n" +
                 "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

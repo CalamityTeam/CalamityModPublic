@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.damage = 1275;
             Item.knockBack = 7.5f;
             Item.useAnimation = Item.useTime = 25;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Item.noMelee = true;
             Item.channel = true;
             Item.autoReuse = true;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.value = CalamityGlobalItem.Rarity15BuyPrice;
             Item.rare = ItemRarityID.Purple;
             Item.Calamity().customRarity = CalamityRarity.Violet;
-            Item.Calamity().trueMelee = true;
         }
     }
 }

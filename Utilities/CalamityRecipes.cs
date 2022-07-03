@@ -674,15 +674,24 @@ namespace CalamityMod
                 int idx = r.IngredientIndex(oldItemID);
                 if (idx == -1)
                     return;
-                r.requiredItem[idx].type = newItemID;
+
+                // Replace the entire Item, but keep the old stack count.
+                Item newIngredient = new Item();
+                newIngredient.SetDefaults(newItemID);
+                newIngredient.stack = r.requiredItem[idx].stack;
+                r.requiredItem[idx] = newIngredient;
             };
             static Action<Recipe> RemoveIngredient(int itemID) => r => r.RemoveIngredient(itemID);
             static Action<Recipe> SwapIngredients(int i1, int i2) => r =>
             {
                 if (r.requiredItem.Count < i1 + 1 || r.requiredItem.Count < i2 + 1)
                     return;
-                (r.requiredItem[i2].type, r.requiredItem[i1].type) = (r.requiredItem[i1].type, r.requiredItem[i2].type);
-                (r.requiredItem[i2].stack, r.requiredItem[i1].stack) = (r.requiredItem[i1].stack, r.requiredItem[i2].stack);
+
+                // Swap the entire Items in the List<Item> (uses pointers under the hood).
+                // DO NOT do what it tells you to here by making it a tuple notation swap. That does NOT work.
+                var store = r.requiredItem[i1];
+                r.requiredItem[i1] = r.requiredItem[i2];
+                r.requiredItem[i2] = store;
             };
             static Action<Recipe> ReplaceTile(int oldTileID, int newTileID) => r =>
             {

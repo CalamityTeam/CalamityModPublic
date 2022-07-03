@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile field = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, Projectile.damage, Projectile.knockBack, Projectile.owner);
             if (field.whoAmI.WithinBounds(Main.maxProjectiles))
             {
-                field.Calamity().forceMelee = true;
+                field.DamageType = DamageClass.Melee;
                 field.usesLocalNPCImmunity = true;
                 field.localNPCHitCooldown = 3;
                 field.timeLeft = 12;

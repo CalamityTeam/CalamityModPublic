@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 int proj = Projectile.NewProjectile(projSource, source, spawnVec, type, damage, knockback, player.whoAmI, 0f, Main.rand.Next(3));
                 if (proj.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[proj].Calamity().forceMagic = true;
+                    Main.projectile[proj].DamageType = DamageClass.Magic;
                     Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(3f);
                 }
             }

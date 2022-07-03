@@ -44,6 +44,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Particles;
+using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.BaseProjectiles;
 using CalamityMod.Schematics;
 using CalamityMod.Skies;
@@ -188,6 +189,7 @@ namespace CalamityMod
 
             // Initialize Calamity Balance, since it is tightly coupled with the remaining lists
             CalamityGlobalItem.LoadTweaks();
+            CalamityGlobalProjectile.LoadTweaks();
 
             // Mount balancing occurs during runtime and is undone when Calamity is unloaded.
             Mount.mounts[MountID.Unicorn].dashSpeed *= CalamityPlayer.UnicornSpeedNerfPower;
@@ -357,6 +359,7 @@ namespace CalamityMod
             CalamityLists.UnloadLists();
             NPCStats.Unload();
             CalamityGlobalItem.UnloadTweaks();
+            CalamityGlobalProjectile.UnloadTweaks();
 
             PopupGUIManager.UnloadGUIs();
             InvasionProgressUIManager.UnloadGUIs();

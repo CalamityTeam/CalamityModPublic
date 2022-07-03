@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             else
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 360);
+                Projectile.ExpandHitboxBy(360);
                 if (Main.myPlayer == Projectile.owner)
                 {
                     Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), Projectile.damage, Projectile.knockBack, Projectile.owner);

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    class PhantomicArtifact : ModItem
+    public class PhantomicArtifact : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -32,10 +32,7 @@ namespace CalamityMod.Items.Accessories
             Item.accessory = true;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            player.Calamity().phantomicArtifact = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.Calamity().phantomicArtifact = true;
 
         public override void AddRecipes()
         {

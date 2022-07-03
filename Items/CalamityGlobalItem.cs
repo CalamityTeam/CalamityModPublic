@@ -85,7 +85,6 @@ namespace CalamityMod.Items
         public bool donorItem = false;
         public bool devItem = false;
         public bool canFirePointBlankShots = false;
-        public bool trueMelee = false;
 
         public static readonly Color ExhumedTooltipColor = new Color(198, 27, 64);
 
@@ -136,7 +135,6 @@ namespace CalamityMod.Items
             myClone.donorItem = donorItem;
             myClone.devItem = devItem;
             myClone.canFirePointBlankShots = canFirePointBlankShots;
-            myClone.trueMelee = trueMelee;
 
             return myClone;
         }
@@ -208,15 +206,17 @@ namespace CalamityMod.Items
                     break;
             }
 
+            // Apply Calamity Global Item Tweaks.
             SetDefaults_ApplyTweaks(item);
 
-            // TODO -- these properties should be some sort of dictionary.
-            // Perhaps the solution here is to just apply all changes of all kinds using the "Balance" system.
-            if (CalamityLists.noGravityList.Contains(item.type))
-                ItemID.Sets.ItemNoGravity[item.type] = true;
-
-            if (CalamityLists.lavaFishList.Contains(item.type))
-                ItemID.Sets.CanFishInLava[item.type] = true;
+            // Items which are "classic true melee" (melee items with no fired projectile) are automatically reclassed as True Melee class.
+            if (item.shoot == ProjectileID.None)
+            {
+                if (item.DamageType == DamageClass.Melee)
+                    item.DamageType = TrueMeleeDamageClass.Instance;
+                else if (item.DamageType == DamageClass.MeleeNoSpeed)
+                    item.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
+            }
         }
         #endregion
 
@@ -266,7 +266,7 @@ namespace CalamityMod.Items
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)meleeDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile].Calamity().forceClassless = true;
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
                         }
                     }
                     else if (item.CountsAsClass<ThrowingDamageClass>())
@@ -276,7 +276,7 @@ namespace CalamityMod.Items
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)throwingDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile].Calamity().forceClassless = true;
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
                         }
                     }
                     else if (item.CountsAsClass<RangedDamageClass>())
@@ -292,7 +292,7 @@ namespace CalamityMod.Items
                             {
                                 int projectile = Projectile.NewProjectile(source, position, velocity * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)rangedDamage, 0f, player.whoAmI);
                                 if (projectile.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[projectile].Calamity().forceClassless = true;
+                                    Main.projectile[projectile].DamageType = DamageClass.Generic;
                             }
                         }
                     }
@@ -303,7 +303,7 @@ namespace CalamityMod.Items
                         {
                             int projectile = Projectile.NewProjectile(source, position, velocity, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)magicDamage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[projectile].Calamity().forceClassless = true;
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
                         }
                     }
                     else if (item.CountsAsClass<SummonDamageClass>() && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
@@ -313,7 +313,7 @@ namespace CalamityMod.Items
                             int projectile = Projectile.NewProjectile(source, position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI);
                             if (projectile.WithinBounds(Main.maxProjectiles))
                             {
-                                Main.projectile[projectile].Calamity().forceClassless = true;
+                                Main.projectile[projectile].DamageType = DamageClass.Generic;
                                 Main.projectile[projectile].originalDamage = item.damage;
                             }
                         }
@@ -367,7 +367,7 @@ namespace CalamityMod.Items
                         yDiff *= speed;
                         int projectile = Projectile.NewProjectile(source, position, new Vector2(xDiff, yDiff), ProjectileID.Leaf, leafDamage, knockBack, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -449,7 +449,7 @@ namespace CalamityMod.Items
                     {
                         int projectile = Projectile.NewProjectile(source, position, velocity * 1.25f, ModContent.ProjectileType<MiniatureFolly>(), newDamage, 2f, player.whoAmI);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -466,7 +466,7 @@ namespace CalamityMod.Items
                                 Vector2 perturbedSpeed = velocity.RotatedBy(MathHelper.ToRadians(i));
                                 int rocket = Projectile.NewProjectile(source, position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.25), 2f, player.whoAmI);
                                 if (rocket.WithinBounds(Main.maxProjectiles))
-                                    Main.projectile[rocket].Calamity().forceClassless = true;
+                                    Main.projectile[rocket].DamageType = DamageClass.Generic;
                             }
                         }
                     }
@@ -485,7 +485,7 @@ namespace CalamityMod.Items
                         {
                             Main.projectile[feather].usesLocalNPCImmunity = true;
                             Main.projectile[feather].localNPCHitCooldown = 10;
-                            Main.projectile[feather].Calamity().forceClassless = true;
+                            Main.projectile[feather].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -530,13 +530,11 @@ namespace CalamityMod.Items
             tag.Add("enchantmentID", AppliedEnchantment.HasValue ? AppliedEnchantment.Value.ID : 0);
             tag.Add("DischargeEnchantExhaustion", DischargeEnchantExhaustion);
             tag.Add("canFirePointBlankShots", canFirePointBlankShots);
-            tag.Add("trueMelee", trueMelee);
         }
 
         public override void LoadData(Item item, TagCompound tag)
         {
             canFirePointBlankShots = tag.GetBool("canFirePointBlankShots");
-            trueMelee = tag.GetBool("trueMelee");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
 
@@ -561,7 +559,7 @@ namespace CalamityMod.Items
         {
             BitsByte flags = new BitsByte();
             flags[0] = canFirePointBlankShots;
-            flags[1] = trueMelee;
+            // rip, no other flags. what a byte.
 
             writer.Write(flags);
             writer.Write((int)customRarity);
@@ -576,7 +574,6 @@ namespace CalamityMod.Items
         {
             BitsByte flags = reader.ReadByte();
             canFirePointBlankShots = flags[0];
-            trueMelee = flags[1];
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
@@ -1395,7 +1392,7 @@ namespace CalamityMod.Items
                         int p = Projectile.NewProjectile(source, player.Center, Vector2.UnitY * 2f, ProjectileID.OrnamentFriendly, ornamentDamage, 5f, player.whoAmI);
                         if (p.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[p].Calamity().forceClassless = true;
+                            Main.projectile[p].DamageType = DamageClass.Generic;
                             Main.projectile[p].Calamity().lineColor = 1;
                             modPlayer.icicleCooldown = 10;
                         }

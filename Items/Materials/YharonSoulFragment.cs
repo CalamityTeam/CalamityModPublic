@@ -1,13 +1,17 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class HellcasterFragment : ModItem
+    [LegacyName("HellcasterFragment")]
+    public class YharonSoulFragment : ModItem
     {
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Yharon Soul Fragment");
             Tooltip.SetDefault("A shard of a godly soul");
         }
@@ -26,5 +30,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(gold: 45);
             Item.Calamity().customRarity = CalamityRarity.Violet;
-        }    }
+        }
+    }
 }

@@ -16,6 +16,8 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Auric Bar");
             Tooltip.SetDefault("Godlike power emanates from the metal");
         }
@@ -70,7 +72,7 @@ namespace CalamityMod.Items.Materials
         {
             CreateRecipe(5).
                 AddIngredient<AuricOre>(60).
-                AddIngredient<HellcasterFragment>().
+                AddIngredient<YharonSoulFragment>().
                 AddTile<CosmicAnvil>().
                 Register();
         }

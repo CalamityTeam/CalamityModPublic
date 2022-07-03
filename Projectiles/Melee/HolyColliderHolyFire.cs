@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.velocity.X *= 1.05f;
 
             if (Projectile.timeLeft < 75)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 450f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 450f, 12f, 20f);
         }
 
         public override Color? GetAlpha(Color lightColor)

@@ -188,7 +188,7 @@ namespace CalamityMod.Projectiles.Melee
                     Projectile petal = CalamityUtils.ProjectileBarrage(source, Projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, Projectile.owner);
                     if (petal.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        petal.Calamity().forceMelee = true;
+                        petal.DamageType = DamageClass.Melee;
                         petal.rotation = angle;
                         petal.usesLocalNPCImmunity = true;
                         petal.localNPCHitCooldown = -1;

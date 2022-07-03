@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
 
             // These never naturally use rotations, so this shouldn't be an issue.
             Projectile.width = 100;

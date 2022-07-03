@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 30;
             Projectile.height = 30;
             Projectile.scale = 0.5f;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
 
                     Projectile.scale = 1f;
-                    CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(30f * Projectile.scale));
+                    Projectile.ExpandHitboxBy((int)(30f * Projectile.scale));
                     SoundEngine.PlaySound(SoundID.Item30, Projectile.Center);
                 }
             }

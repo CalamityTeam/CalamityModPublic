@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 8f, FramesPerBeam, 1, ModContent.ProjectileType<MagneticBeam>(), 1D, true);
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 8f, FramesPerBeam, 1, ModContent.ProjectileType<MagneticBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

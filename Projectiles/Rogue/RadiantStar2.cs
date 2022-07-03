@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
             else if (Projectile.timeLeft < 270)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, Projectile.Calamity().stealthStrike ? 900f : 450f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, Projectile.Calamity().stealthStrike ? 900f : 450f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

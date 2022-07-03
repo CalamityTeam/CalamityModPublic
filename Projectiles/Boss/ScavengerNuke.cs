@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 44;
             Projectile.height = 44;
             Projectile.hostile = true;

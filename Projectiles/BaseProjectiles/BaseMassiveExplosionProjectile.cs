@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             Projectile.scale = MathHelper.Lerp(1.2f, 5f, Utils.GetLerpValue(Lifetime, 0f, Projectile.timeLeft, true));
 
             // Adjust the hitbox.
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, (int)(CurrentRadius * Projectile.scale), (int)(CurrentRadius * Projectile.scale));
+            Projectile.ExpandHitboxBy((int)(CurrentRadius * Projectile.scale), (int)(CurrentRadius * Projectile.scale));
         }
 
         public override bool PreDraw(ref Color lightColor)

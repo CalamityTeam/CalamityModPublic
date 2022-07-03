@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 10f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 10f, 20f);
 
             Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0f / 255f, (255 - Projectile.alpha) * 0.2f / 255f, (255 - Projectile.alpha) * 0.2f / 255f);
             Projectile.rotation += Projectile.velocity.X * 1.25f;

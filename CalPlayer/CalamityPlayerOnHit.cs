@@ -671,7 +671,7 @@ namespace CalamityMod.CalPlayer
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
                         Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 12f, projectileType, astralStarDamage, 5f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
-                            star.Calamity().forceClassless = true;
+                            star.DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -722,9 +722,9 @@ namespace CalamityMod.CalPlayer
             if (alchFlask && Player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 3 && hasClass)
             {
                 int seekerDamage = (int)Player.GetBestClassDamage().ApplyTo(30);
-                Projectile projectile = CalamityGlobalProjectile.SpawnOrb(proj, seekerDamage, ProjectileType<PlagueSeeker>(), 400f, 12f);
+                Projectile projectile = CalamityUtils.SpawnOrb(proj, seekerDamage, ProjectileType<PlagueSeeker>(), 400f, 12f);
                 if (projectile.whoAmI.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[projectile.whoAmI].Calamity().forceClassless = true;
+                    Main.projectile[projectile.whoAmI].DamageType = DamageClass.Generic;
             }
 
             if (theBee && Player.statLife >= Player.statLifeMax2)
@@ -760,7 +760,7 @@ namespace CalamityMod.CalPlayer
                         int astralStarDamage = (int)Player.GetBestClassDamage().ApplyTo(120);
                         Projectile star = CalamityUtils.ProjectileRain(source, position, 400f, 100f, 500f, 800f, 25f, projectileType, astralStarDamage, 5f, Player.whoAmI);
                         if (star.whoAmI.WithinBounds(Main.maxProjectiles))
-                            star.Calamity().forceClassless = true;
+                            star.DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -783,7 +783,7 @@ namespace CalamityMod.CalPlayer
             var source = proj.GetSource_FromThis();
             Item heldItem = Player.ActiveItem();
 
-            if (modProj.trueMelee)
+            if (proj.IsTrueMelee())
             {
                 titanBoost = 600;
                 if (soaring)
@@ -817,7 +817,7 @@ namespace CalamityMod.CalPlayer
                     int geyserDamage = CalamityUtils.DamageSoftCap(proj.damage * 0.15, 36);
                     Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ChaoticGeyser>(), geyserDamage, 0f, Player.whoAmI, 0f, 0f);
                 }
-                if (bloodflareMelee && modProj.trueMelee && bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Player.HasCooldown(BloodflareFrenzy.ID))
+                if (bloodflareMelee && proj.IsTrueMelee() && bloodflareMeleeHits < 15 && !bloodflareFrenzy && !Player.HasCooldown(BloodflareFrenzy.ID))
                     bloodflareMeleeHits++;
             }
         }
@@ -848,7 +848,7 @@ namespace CalamityMod.CalPlayer
                         int leaf = Projectile.NewProjectile(source, position, velocity, ProjectileID.Leaf, leafDamage, 0f, Player.whoAmI);
                         if (leaf.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[leaf].Calamity().forceClassless = true;
+                            Main.projectile[leaf].DamageType = DamageClass.Generic;
                             Main.projectile[leaf].netUpdate = true;
                         }
                     }
@@ -877,7 +877,7 @@ namespace CalamityMod.CalPlayer
             if (ataxiaMage && ataxiaDmg <= 0)
             {
                 int orbDamage = (int)(proj.damage * 0.6);
-                CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<HydrothermicSphere>(), 800f, 20f);
+                CalamityUtils.SpawnOrb(proj, orbDamage, ProjectileType<HydrothermicSphere>(), 800f, 20f);
                 int cooldown = (int)(orbDamage * 0.5);
                 ataxiaDmg += cooldown;
             }
@@ -898,7 +898,7 @@ namespace CalamityMod.CalPlayer
                         int fire = Projectile.NewProjectile(source, position, velocity, ProjectileID.BallofFire, bloodflareFireballDamage, 0f, Player.whoAmI);
                         if (fire.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[fire].Calamity().forceClassless = true;
+                            Main.projectile[fire].DamageType = DamageClass.Generic;
                             Main.projectile[fire].netUpdate = true;
                         }
                     }
@@ -950,7 +950,7 @@ namespace CalamityMod.CalPlayer
                             int damage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(75);
                             int dagger = Projectile.NewProjectile(source, proj.position, proj.velocity, ProjectileType<PhantomicDagger>(), damage, 1f, Player.whoAmI, 0f);
                             if (dagger.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[dagger].Calamity().forceClassless = true;
+                                Main.projectile[dagger].DamageType = DamageClass.Generic;
                         }
                     }
                     else
@@ -1008,7 +1008,7 @@ namespace CalamityMod.CalPlayer
                         int apparatusDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(60);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), apparatusDamage, 4f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                         jellyDmg = 100f;
                     }
                     else if (starbusterCore)
@@ -1016,7 +1016,7 @@ namespace CalamityMod.CalPlayer
                         int starburstDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(40);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<SummonAstralExplosion>(), starburstDamage, 3.5f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                         jellyDmg = 60f;
                     }
                     else if (nuclearRod)
@@ -1024,13 +1024,13 @@ namespace CalamityMod.CalPlayer
                         int nuclearDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(20);
                         int projectile = Projectile.NewProjectile(source, proj.Center, Vector2.Zero, ProjectileType<IrradiatedAura>(), nuclearDamage, 0f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                         jellyDmg = 60f;
                     }
                     else if (jellyChargedBattery)
                     {
                         int batteryDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(15);
-                        CalamityGlobalProjectile.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
+                        CalamityUtils.SpawnOrb(proj, batteryDamage, ProjectileType<EnergyOrb>(), 800f, 15f);
                         jellyDmg = 60f;
                     }
                 }
@@ -1045,7 +1045,7 @@ namespace CalamityMod.CalPlayer
                         int hallowedDamage = (int)Player.GetTotalDamage<SummonDamageClass>().ApplyTo(30);
                         int projectile = Projectile.NewProjectile(source, spawnPosition, Vector2.Normalize(position - spawnPosition) * speed, ProjectileType<HallowedStarSummon>(), hallowedDamage, 3f, proj.owner);
                         if (projectile.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[projectile].Calamity().forceClassless = true;
+                            Main.projectile[projectile].DamageType = DamageClass.Generic;
                     }
                 }
             }
@@ -1090,7 +1090,7 @@ namespace CalamityMod.CalPlayer
                 int projectileIndex = Projectile.NewProjectile(spawnSource, projTileX * 16 + 8, projTileY * 16 - 24, 0f, 0f, ProjectileType<InfernadoFriendly>(), damage, 15f, Main.myPlayer, 16f, 16f);
                 if (projectileIndex.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[projectileIndex].Calamity().forceClassless = true;
+                    Main.projectile[projectileIndex].DamageType = DamageClass.Generic;
                     Main.projectile[projectileIndex].netUpdate = true;
                     Main.projectile[projectileIndex].localNPCHitCooldown = 10;
                 }
@@ -1106,14 +1106,14 @@ namespace CalamityMod.CalPlayer
                     case 0:
                         // Exodus Rogue Stars: 80%
                         int starDamage = (int)(proj.damage * 0.8);
-                        CalamityGlobalProjectile.SpawnOrb(proj, starDamage, ProjectileType<EmpyreanStellarDetritus>(), 800f, Main.rand.Next(15, 30));
+                        CalamityUtils.SpawnOrb(proj, starDamage, ProjectileType<EmpyreanStellarDetritus>(), 800f, Main.rand.Next(15, 30));
                         xerocDmg += (int)(starDamage * 0.5);
                         break;
 
                     case 1:
                         // Exodus Rogue Orbs: 60%
                         int orbDamage = (int)(proj.damage * 0.6);
-                        CalamityGlobalProjectile.SpawnOrb(proj, orbDamage, ProjectileType<EmpyreanMarble>(), 800f, 30f);
+                        CalamityUtils.SpawnOrb(proj, orbDamage, ProjectileType<EmpyreanMarble>(), 800f, 30f);
                         xerocDmg += (int)(orbDamage * 0.5);
                         break;
 
@@ -1132,7 +1132,7 @@ namespace CalamityMod.CalPlayer
                     case 4:
                         // Exodus Rogue Bubble: 60%
                         int bubbleDamage = (int)(proj.damage * 0.6);
-                        CalamityGlobalProjectile.SpawnOrb(proj, bubbleDamage, ProjectileType<EmpyreanGlob>(), 800f, 15f);
+                        CalamityUtils.SpawnOrb(proj, bubbleDamage, ProjectileType<EmpyreanGlob>(), 800f, 15f);
                         xerocDmg += (int)(bubbleDamage * 0.5);
                         break;
 
@@ -1164,7 +1164,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 velocity = (position - source) / 10f;
                         int flare = Projectile.NewProjectile(spawnSource, source, velocity, ProjectileID.LunarFlare, lunarFlareDamage, lunarFlareKB, proj.owner);
                         if (flare.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[flare].Calamity().forceClassless = true;
+                            Main.projectile[flare].DamageType = DamageClass.Generic;
                     }
                 }
                 else if (featherCrown)
@@ -1178,7 +1178,7 @@ namespace CalamityMod.CalPlayer
                         int featherDamage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(15);
                         int feather = Projectile.NewProjectile(spawnSource, source, velocity, ProjectileType<StickyFeather>(), featherDamage, 3f, proj.owner);
                         if (feather.WithinBounds(Main.maxProjectiles))
-                            Main.projectile[feather].Calamity().forceClassless = true;
+                            Main.projectile[feather].DamageType = DamageClass.Generic;
                     }
                     spawnedFeathers = true;
                 }
@@ -1196,7 +1196,7 @@ namespace CalamityMod.CalPlayer
                     int damage = (int)Player.GetTotalDamage<RogueDamageClass>().ApplyTo(40);
                     int eater = Projectile.NewProjectile(spawnSource, proj.Center.X, proj.Center.Y, xVector, yVector, ProjectileType<ForbiddenCircletEater>(), damage, proj.knockBack, proj.owner);
                     if (eater.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[eater].Calamity().forceClassless = true;
+                        Main.projectile[eater].DamageType = DamageClass.Generic;
                     forbiddenCooldown = 15;
                 }
             }
@@ -1243,7 +1243,7 @@ namespace CalamityMod.CalPlayer
                             float speed = Main.rand.NextFloat(5f, 11f);
                             int cloud = Projectile.NewProjectile(spawnSource, position, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed, type, damage, proj.knockBack, Player.whoAmI);
                             if (cloud.WithinBounds(Main.maxProjectiles))
-                                Main.projectile[cloud].Calamity().forceClassless = true;
+                                Main.projectile[cloud].DamageType = DamageClass.Generic;
                         }
                     }
                 }
@@ -1257,14 +1257,14 @@ namespace CalamityMod.CalPlayer
                     Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
                     int soul = Projectile.NewProjectile(spawnSource, proj.Center, SoulSpeed, ProjectileType<PenumbraSoul>(), (int)(proj.damage * 0.1), 3f, proj.owner, 0f, 0f);
                     if (soul.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[soul].Calamity().forceClassless = true;
+                        Main.projectile[soul].DamageType = DamageClass.Generic;
                     shadowPotCooldown = 30;
                 }
                 if (CalamityLists.spikyBallProjList.Contains(proj.type))
                 {
                     int scythe = Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<CosmicScythe>(), (int)(proj.damage * 0.05), 3f, proj.owner, 1f, 0f);
                     if (scythe.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[scythe].Calamity().forceClassless = true;
+                        Main.projectile[scythe].DamageType = DamageClass.Generic;
                     Main.projectile[scythe].usesLocalNPCImmunity = true;
                     Main.projectile[scythe].localNPCHitCooldown = 10;
                     Main.projectile[scythe].penetrate = 2;
@@ -1277,17 +1277,17 @@ namespace CalamityMod.CalPlayer
                     shardVelocity *= 5f;
                     int shard = Projectile.NewProjectile(spawnSource, proj.Center, shardVelocity, ProjectileType<EquanimityDarkShard>(), (int)(proj.damage * 0.15), 0f, proj.owner);
                     if (shard.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[shard].Calamity().forceClassless = true;
+                        Main.projectile[shard].DamageType = DamageClass.Generic;
                     Main.projectile[shard].timeLeft = 150;
                     shadowPotCooldown = 30;
                 }
                 if (CalamityLists.boomerangProjList.Contains(proj.type))
                 {
                     int spiritDamage = (int)(proj.damage * 0.2);
-                    Projectile ghost = CalamityGlobalProjectile.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+                    Projectile ghost = CalamityUtils.SpawnOrb(proj, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
                     if (ghost.whoAmI.WithinBounds(Main.maxProjectiles))
                     {
-                        ghost.Calamity().forceClassless = true;
+                        ghost.DamageType = DamageClass.Generic;
                         ghost.penetrate = 1;
                     }
                     shadowPotCooldown = 30;
@@ -1296,7 +1296,7 @@ namespace CalamityMod.CalPlayer
                 {
                     int blackhole = Projectile.NewProjectile(spawnSource, proj.Center, Vector2.Zero, ProjectileType<ShadowBlackhole>(), (int)(proj.damage * 0.05), 3f, proj.owner, 0f, 0f);
                     if (blackhole.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[blackhole].Calamity().forceClassless = true;
+                        Main.projectile[blackhole].DamageType = DamageClass.Generic;
                     Main.projectile[blackhole].Center = proj.Center;
                     shadowPotCooldown = 30;
                 }
@@ -1326,7 +1326,7 @@ namespace CalamityMod.CalPlayer
                         int spark = Projectile.NewProjectile(spawnSource, position, velocity, ProjectileType<Spark>(), damage, 0f, Player.whoAmI);
                         if (spark.WithinBounds(Main.maxProjectiles))
                         {
-                            Main.projectile[spark].Calamity().forceClassless = true;
+                            Main.projectile[spark].DamageType = DamageClass.Generic;
                             Main.projectile[spark].localNPCHitCooldown = -1;
                         }
                     }
@@ -1722,7 +1722,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
 
-                    if (bloodflareMelee && modProj.trueMelee)
+                    if (bloodflareMelee && proj.IsTrueMelee())
                     {
                         int healAmount = Main.rand.Next(2) + 1;
                         Player.statLife += healAmount;

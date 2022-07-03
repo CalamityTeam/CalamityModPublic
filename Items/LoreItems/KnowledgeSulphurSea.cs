@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("I remember the serene waves and the clear breeze.\n" +
                 "The bitterness of my youth has long since subsided, but it is far too late. I must never repeat a mistake like this again.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

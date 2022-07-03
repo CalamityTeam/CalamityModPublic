@@ -15,6 +15,8 @@ namespace CalamityMod.Items.Fishing.FishingRods
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 1;
+            ItemID.Sets.CanFishInLava[Item.type] = true;
+
             DisplayName.SetDefault("The Devourer of Cods");
             Tooltip.SetDefault("Fires ten lines at once. Line never snaps and can fish from lava.\n" +
                 "The devourer was once just an Eater of Shoals.");

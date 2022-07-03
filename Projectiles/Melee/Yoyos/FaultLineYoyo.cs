@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             {
                 int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (boom.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[boom].Calamity().forceMelee = true;
+                    Main.projectile[boom].DamageType = DamageClass.Melee;
             }
         }
 

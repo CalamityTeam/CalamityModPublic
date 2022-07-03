@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
 
-            CalamityGlobalProjectile.MagnetSphereHitscan(Projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
+            CalamityUtils.MagnetSphereHitscan(Projectile, 300f, 6f, 8f, 5, ModContent.ProjectileType<CosmicBolt>());
         }
 
         public override void Kill(int timeLeft)

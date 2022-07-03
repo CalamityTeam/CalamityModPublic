@@ -2828,7 +2828,7 @@ namespace CalamityMod.NPCs.Yharon
                 normalOnly.Add(ModContent.ItemType<McNuggets>(), 10);
 
                 // Materials
-                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<HellcasterFragment>(), 1, 15, 22));
+                normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharonSoulFragment>(), 1, 15, 22));
 
                 // Equipment
                 normalOnly.Add(DropHelper.PerPlayer(ModContent.ItemType<YharimsGift>()));

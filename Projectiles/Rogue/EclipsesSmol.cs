@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 12f, 20f);
         }
 
         public override void Kill(int timeLeft)

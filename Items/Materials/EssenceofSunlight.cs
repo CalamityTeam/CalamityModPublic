@@ -13,6 +13,8 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             SacrificeTotal = 25;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
+
             DisplayName.SetDefault("Essence of Sunlight");
             Tooltip.SetDefault("The essence of sky, light, and storm creatures");
         }

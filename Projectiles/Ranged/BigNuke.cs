@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num249].velocity *= 0.05f;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 12f, 20f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 720);
+            Projectile.ExpandHitboxBy(720);
             Projectile.maxPenetrate = -1;
             Projectile.penetrate = -1;
             Projectile.usesLocalNPCImmunity = true;
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Ranged
             float kb = 0f;
             player.PickAmmo(FalseLauncher, out projID, out shootSpeed, out damage, out kb, out _, true);
 
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 16);
+            Projectile.ExpandHitboxBy(16);
 
             if (Projectile.owner == Main.myPlayer && (projID == ProjectileID.RocketII || projID == ProjectileID.RocketIV))
             {
