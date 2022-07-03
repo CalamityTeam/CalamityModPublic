@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void AddRecipes()
         {
             CreateRecipe(100).
-                AddIngredient<WulfrumMetalScrap>().
+                AddIngredient<WulfrumShard>().
                 AddTile(TileID.Anvils).
                 Register();
         }

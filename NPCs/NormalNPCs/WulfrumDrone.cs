@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
-            npcLoot.Add(ModContent.ItemType<WulfrumMetalScrap>(), 1, 1, 3);
+            npcLoot.Add(ModContent.ItemType<WulfrumShard>(), 1, 1, 3);
             npcLoot.Add(ModContent.ItemType<WulfrumBattery>(), new Fraction(7, 100));
             npcLoot.AddIf(info => info.npc.ModNPC<WulfrumDrone>().Supercharged, ModContent.ItemType<EnergyCore>());
         }
