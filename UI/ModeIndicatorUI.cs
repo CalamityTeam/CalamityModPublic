@@ -352,7 +352,7 @@ namespace CalamityMod.UI
                     text += "\n" + mode.ExpandedDescription;
 
                 else
-                    text += "\n[c/737373:Hold the 'Shift' key (" + Microsoft.Xna.Framework.Input.Keys.LeftShift + ") for more information]";
+                    text += "\n[c/737373:Hold the 'Shift' key for more information]";
             }
 
             return preface + text;
