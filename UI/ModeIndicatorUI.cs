@@ -344,20 +344,15 @@ namespace CalamityMod.UI
 
             string text = mode.Name + "\n" + mode.ShortDescription;
 
-            //Scuffed
+            //Not scuffed anymore
             if (mode.ExpandedDescription != "")
             {
-
-                var keys = PlayerInput.CurrentProfile.InputModes[InputMode.Keyboard].KeyStatus[TriggerNames.SmartSelect];
-                string key = keys.Count() == 0 ? null : keys[0];
-                //Show the description either if the player is using smart select, or if they don't have a key assigned to it anyways.
-                bool showDesc = key == null || PlayerInput.Triggers.Current.SmartSelect;
-
-                if (showDesc)
+                //Show the description either if the player is holding shift.
+                if (Main.keyState.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.LeftShift))
                     text += "\n" + mode.ExpandedDescription;
 
                 else
-                    text += "\n[c/737373:Hold the 'Auto Select' key (" + key + ") for more information]";
+                    text += "\n[c/737373:Hold the 'Shift' key (" + Microsoft.Xna.Framework.Input.Keys.LeftShift + ") for more information]";
             }
 
             return preface + text;
