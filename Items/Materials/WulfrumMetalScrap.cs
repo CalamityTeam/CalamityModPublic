@@ -4,7 +4,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    public class WulfrumShard : ModItem
+    [LegacyName("WulfrumShard")]
+    public class WulfrumMetalScrap : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -19,5 +20,6 @@ namespace CalamityMod.Items.Materials
             Item.maxStack = 999;
             Item.value = Item.sellPrice(copper: 80);
             Item.rare = ItemRarityID.Blue;
-        }    }
+        }
+    }
 }

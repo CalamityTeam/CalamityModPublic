@@ -681,8 +681,11 @@ namespace CalamityMod
             {
                 if (r.requiredItem.Count < i1 + 1 || r.requiredItem.Count < i2 + 1)
                     return;
-                (r.requiredItem[i2].type, r.requiredItem[i1].type) = (r.requiredItem[i1].type, r.requiredItem[i2].type);
-                (r.requiredItem[i2].stack, r.requiredItem[i1].stack) = (r.requiredItem[i1].stack, r.requiredItem[i2].stack);
+
+                // Apparently, C# tuple swap notation does not work here.
+                var store = r.requiredItem[i1];
+                r.requiredItem[i1] = r.requiredItem[i2];
+                r.requiredItem[i2] = store;
             };
             static Action<Recipe> ReplaceTile(int oldTileID, int newTileID) => r =>
             {

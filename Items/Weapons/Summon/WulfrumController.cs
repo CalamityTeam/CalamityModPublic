@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumShard>(9).
+                AddIngredient<WulfrumMetalScrap>(9).
                 AddTile(TileID.Anvils).
                 Register();
         }
