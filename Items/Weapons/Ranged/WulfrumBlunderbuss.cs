@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            Item.damage = 14;
+            Item.damage = 13;
             Item.DamageType = DamageClass.Ranged;
             Item.width = 23;
             Item.height = 8;
@@ -186,9 +186,14 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumMetalScrap>(10).
+                AddIngredient<WulfrumMetalScrap>(9).
                 AddTile(TileID.Anvils).
                 Register();
+        }
+
+        public override void OnCraft(Recipe recipe)
+        {
+            storedScrap = ShotsPerScrap;
         }
 
         #region saving the durability

@@ -155,6 +155,39 @@ namespace CalamityMod
         }
 
         /// <summary>
+        /// Calculates the shortest distance between a point and a line that passes through 2 specified points
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static float ShortestDistanceToLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+            Vector2 lineVector = lineEnd - lineStart;
+            Vector2 perpendicular = lineVector.RotatedBy(MathHelper.PiOver2);
+            Vector2 pointToOrigin = point - lineStart;
+
+            return (float)Math.Abs((pointToOrigin.X * perpendicular.X + pointToOrigin.Y * perpendicular.Y)) / perpendicular.Length();
+        }
+
+        /// <summary>
+        /// Gets the closest point on a line from a point
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="lineStart"></param>
+        /// <param name="lineEnd"></param>
+        /// <returns></returns>
+        public static Vector2 ClosestPointOnLine(this Vector2 point, Vector2 lineStart, Vector2 lineEnd)
+        {
+
+            Vector2 perpendicular = (lineEnd - lineStart).RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero);
+            float distanceToLine = point.ShortestDistanceToLine(lineStart, lineEnd);
+            float lineSide = Math.Sign((point.X - lineStart.X) * ( -lineEnd.Y + lineStart.Y) + (point.Y - lineStart.Y) * (lineEnd.X - lineStart.X));
+
+            return point + distanceToLine * lineSide * perpendicular;
+        }
+
+        /// <summary>
         /// Gives the *real* modulo of a divided by a divisor.
         /// This method is necessary because the % operator in c# keeps the sign of the dividend, making it Fake as Fuck.
         /// </summary>

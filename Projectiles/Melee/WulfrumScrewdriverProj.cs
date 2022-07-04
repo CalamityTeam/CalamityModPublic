@@ -10,18 +10,23 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Terraria.Audio;
 using static CalamityMod.CalamityUtils;
+using ReLogic.Content;
+using Terraria.Graphics.Shaders;
+using Terraria.Graphics.Effects;
 
 namespace CalamityMod.Projectiles.Melee
 {
     public class WulfrumScrewdriverProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Melee/WulfrumScrewdriver";
-        public float Timer => (MaxTime * AnimTimeMult) - Projectile.timeLeft;
-        public float LifetimeCompletion => Timer / (MaxTime * AnimTimeMult);
+        public float Timer => MaxTime - Projectile.timeLeft;
+        public float LifetimeCompletion => Timer / (float)MaxTime;
 
-        public static int MaxTime = 55;
-        public ref float AnimTimeMult => ref Projectile.ai[0];
+        public static int MaxTime = 14;
+        public ref float EndLag => ref Projectile.ai[0];
         public Player Owner => Main.player[Projectile.owner];
+
+        public Asset<Texture2D> SmearTex;
 
         public override void SetStaticDefaults()
         {
@@ -36,7 +41,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
-            MaxTime = 20;
         }
 
         public override bool ShouldUpdatePosition() => false;
@@ -45,25 +49,24 @@ namespace CalamityMod.Projectiles.Melee
         public CurveSegment RetractSegment = new CurveSegment(PolyOutEasing, 0.76f, 1f, -0.8f, 3);
         public CurveSegment BumpSegment = new CurveSegment(SineBumpEasing, 0.9f, 0.2f, 0.15f);
         internal float DistanceFromPlayer => PiecewiseAnimation(LifetimeCompletion, new CurveSegment[] { ThrustSegment, HoldSegment,  RetractSegment, BumpSegment });
-        public Vector2 OffsetFromPlayer => Projectile.velocity * DistanceFromPlayer * 18f;
+        public Vector2 OffsetFromPlayer => Projectile.velocity * DistanceFromPlayer * 12f;
 
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             //The hitbox is simplified into a line collision.
             float collisionPoint = 0f;
-            float bladeLenght = 60f * Projectile.scale;
+            float bladeLenght = 78f * Projectile.scale;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
         }
 
         public override void AI()
         {
-            if (AnimTimeMult == 0) //Initialization
+            if (EndLag == 0) //Initialization
             {
-                AnimTimeMult = MaxTime / (float)Owner.ActiveItem().useTime;
-                Projectile.timeLeft = (int)(AnimTimeMult * MaxTime);
-
-                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero);
+                EndLag = (float)Math.Max(Owner.ActiveItem().useTime - MaxTime, 1);
+                Projectile.timeLeft = MaxTime;
+                Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
 
@@ -75,24 +78,101 @@ namespace CalamityMod.Projectiles.Melee
             Owner.heldProj = Projectile.whoAmI;
             Owner.direction = Math.Sign(Projectile.velocity.X);
             Owner.SetCompositeArmFront(true, Player.CompositeArmStretchAmount.Full, Projectile.velocity.ToRotation() * Owner.gravDir - MathHelper.PiOver2);
+            Owner.itemTime = 2;
+            Owner.itemAnimation = 2;
 
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile proj = Main.projectile[i];
+                if (proj.ModProjectile != null && proj.owner == Projectile.owner && proj.ModProjectile is WulfrumScrew screw && screw.BazingaTime == 0)
+                {
+                    
+                    float collisionPoint = 0f;
+                    float bladeLenght = 86f * Projectile.scale;
+                    if (Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 34, ref collisionPoint))
+                    {
+                        screw.BazingaTime = WulfrumScrew.BazingaTimeMax;
+                        proj.velocity = Projectile.velocity * 6f;
+                        proj.damage = (int)(proj.damage * WulfrumScrewdriver.ScrewBazingaModeDamageMult);
+                        proj.timeLeft = WulfrumScrew.Lifetime;
+
+                        SoundEngine.PlaySound(WulfrumScrewdriver.ScrewHitSound);
+
+                        if (Main.myPlayer == proj.owner)
+                        {
+                            Owner.Calamity().GeneralScreenShakePower = 6f;
+                        }
+                    }
+                    return;
+                }
+            }
         }
 
         public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
 
+            if (SmearTex == null)
+                SmearTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/MediumLongThrust");
+            Texture2D smearTex = SmearTex.Value;
+
             Vector2 drawOrigin = new Vector2(tex.Width / 2f, tex.Height);
-            Vector2 scale = new Vector2(Math.Abs((float)Math.Sin(LifetimeCompletion * MathHelper.TwoPi)), 1f);
+            Vector2 scale = new Vector2(Math.Abs((float)Math.Sin(LifetimeCompletion * MathHelper.TwoPi * 0.5f)), 1f);
 
             Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, drawOrigin, scale * Projectile.scale, 0f, 0);
 
+            if (LifetimeCompletion < 0.6f)
+            {
+                int frameCount = (int)Math.Floor((LifetimeCompletion / 0.6f) * 3f);
+                Rectangle frame = new Rectangle(0, (smearTex.Height / 3) * frameCount, smearTex.Width, smearTex.Height / 3);
+                float opacity = 1 - (float)Math.Pow(LifetimeCompletion / 0.6f, 0.5f);
+
+                Main.spriteBatch.Draw(smearTex, Projectile.Center + Projectile.velocity * 67f - Main.screenPosition, frame, Color.White * opacity, Projectile.rotation, frame.Size() / 2f, 0.9f, 0, 0);
+            }
             return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            SoundEngine.PlaySound(WulfrumScrewdriver.ThudSound, target.Center);
+            Projectile.timeLeft = 0;
+
+            if (Main.rand.NextBool(5) && Main.myPlayer == Owner.whoAmI)
+            {
+                if (Owner.HeldItem.ModItem is WulfrumScrewdriver screwdriver && !screwdriver.ScrewStored)
+                {
+                    WulfrumScrewdriver.ScrewStart = new Vector3(target.Center + Projectile.velocity * 14f * Main.rand.NextFloat() - Main.screenPosition, Main.rand.NextFloat(MathHelper.PiOver2 - MathHelper.PiOver4));
+                    WulfrumScrewdriver.ScrewTimer = WulfrumScrewdriver.ScrewTime;
+                    screwdriver.ScrewStored = true;
+
+                    SoundEngine.PlaySound(SoundID.Item156);
+                }
+            }
+
+            //Dust
+            for (int k = 0; k < 4; k++)
+            {
+                Dust.NewDustPerfect(Projectile.Center + Projectile.velocity * 70f, 16, Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(6), 0, default, Main.rand.NextFloat(0.7f, 1f));
+            }
+
+
             base.OnHitNPC(target, damage, knockback, crit);
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            if (Projectile.numHits == 0)
+            {
+                Owner.itemTime = (int)EndLag;
+                Owner.itemAnimation = (int)EndLag;
+            }
+
+            //Go into jojo spam mode if you hit an enemy
+            else
+            {
+                Owner.itemTime = 0;
+                Owner.itemAnimation = 0;
+            }
         }
     }
 }

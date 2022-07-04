@@ -1,21 +1,10 @@
 ﻿using System;
-using CalamityMod.Items.Weapons.Rogue;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using System;
-using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
-using CalamityMod.Particles;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -46,6 +35,13 @@ namespace CalamityMod.Projectiles.Typeless
         }
 
         public override bool ShouldUpdatePosition() => false;
+
+        public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float collisionPoint = 0f;
+            float bladeLenght = 54f * Projectile.scale;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + (Projectile.velocity * bladeLenght), 24, ref collisionPoint);
+        }
 
         public override void AI()
         {

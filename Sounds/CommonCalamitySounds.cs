@@ -9,6 +9,7 @@ namespace CalamityMod.Sounds
         public static readonly SoundStyle AstralNPCHitSound = new("CalamityMod/Sounds/NPCHit/AstralEnemyHit", 3);
 
         public static readonly SoundStyle AstralNPCDeathSound = new("CalamityMod/Sounds/NPCKilled/AstralEnemyDeath") { Volume = 0.7f };
+        public static readonly SoundStyle WulfrumNPCDeathSound = new("CalamityMod/Sounds/NPCKilled/WulfrumDeath");
 
         public static readonly SoundStyle PlagueBoomSound = new("CalamityMod/Sounds/Custom/PlagueSounds/PlagueBoom", 4);
 

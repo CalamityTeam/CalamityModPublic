@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public static readonly SoundStyle Throw3Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowFull") { PitchVariance = 0.4f };
         public static readonly SoundStyle Throw2Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowTwo") { PitchVariance = 0.4f };
         public static readonly SoundStyle Throw1Sound = new("CalamityMod/Sounds/Item/WulfrumKnifeThrowSingle") { PitchVariance = 0.4f };
+        public static readonly SoundStyle TileHitSound = new("CalamityMod/Sounds/Item/WulfrumKnifeTileHit", 2) { PitchVariance = 0.4f , MaxInstances = 3};
 
         public override void SetStaticDefaults()
         {

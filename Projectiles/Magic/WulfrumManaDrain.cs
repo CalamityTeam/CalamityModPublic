@@ -1,33 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Magic;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using System;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Particles;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
-using CalamityMod.Items.Materials;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using static CalamityMod.CalamityUtils;
+using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.GameContent;
-using ReLogic.Content;
-using CalamityMod.Items.Weapons.Magic;
-using Terraria.Graphics.Shaders;
-using static Terraria.ModLoader.ModContent;
-using CalamityMod.Dusts;
-using CalamityMod.Particles;
-using ReLogic.Utilities;
 
 namespace CalamityMod.Projectiles.Magic
 {

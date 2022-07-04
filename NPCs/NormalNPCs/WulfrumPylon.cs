@@ -10,6 +10,7 @@ using Terraria.ModLoader.Utilities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using CalamityMod.World;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -58,7 +59,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.noGravity = false;
             NPC.noTileCollide = false;
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumPylonBanner>();
             NPC.Calamity().VulnerableToSickness = false;

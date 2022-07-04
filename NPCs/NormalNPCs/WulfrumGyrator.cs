@@ -8,6 +8,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -57,7 +58,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.knockBackResist = 0.15f;
             NPC.value = Item.buyPrice(0, 0, 1, 15);
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             Banner = NPC.type;
             BannerItem = ModContent.ItemType<WulfrumGyratorBanner>();
             NPC.Calamity().VulnerableToSickness = false;

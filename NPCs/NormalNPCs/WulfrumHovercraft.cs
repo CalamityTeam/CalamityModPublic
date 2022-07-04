@@ -9,6 +9,7 @@ using Terraria.GameContent.Bestiary;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Utilities;
+using CalamityMod.Sounds;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -77,7 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             NPC.lifeMax = 20;
             NPC.value = Item.buyPrice(0, 0, 1, 50);
             NPC.HitSound = SoundID.NPCHit4;
-            NPC.DeathSound = SoundID.NPCDeath14;
+            NPC.DeathSound = CommonCalamitySounds.WulfrumNPCDeathSound;
             NPC.noGravity = true;
             NPC.noTileCollide = true;
             Banner = NPC.type;

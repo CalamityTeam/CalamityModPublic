@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(Projectile.Center, Color.GreenYellow.ToVector3());
 
             //Idle chainsaw sounds
-            if ((!SoundEngine.TryGetActiveSound(IdlingSoundSlot, out var idleSoundOut) || !idleSoundOut.IsPlaying))
+            if ((!SoundEngine.TryGetActiveSound(IdlingSoundSlot, out var idleSoundOut)))
                 IdlingSoundSlot = SoundEngine.PlaySound(IdleSound with { Volume = IdleSound.Volume }, Projectile.Center);
             else if (idleSoundOut != null)
             {
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             
             //Heavy cutting sound
-            if ((!SoundEngine.TryGetActiveSound(CuttingSoundSlot, out var cuttingSoundOut) || !cuttingSoundOut.IsPlaying))
+            if ((!SoundEngine.TryGetActiveSound(CuttingSoundSlot, out var cuttingSoundOut)))
                 CuttingSoundSlot = SoundEngine.PlaySound(CuttingSound with { Volume = CuttingSound.Volume  }, Projectile.Center);
             else if (cuttingSoundOut != null)
             {

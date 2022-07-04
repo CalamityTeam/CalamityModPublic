@@ -8,18 +8,8 @@ using Terraria.DataStructures;
 namespace CalamityMod.Items.Armor.Wulfrum
 {
     [AutoloadEquip(EquipType.Head)]
-    //A lot of legacy names that's for sure. A combo of the pre "WulfrumHeadX" names, and the aforementionned "WulfrumHeadX" names.
-    //Now that's its single class though, theres no need for that.
     [LegacyName("WulfrumHelmet")]
     [LegacyName("WulfrumHeadSummon")]
-    [LegacyName("WulfrumMask")]
-    [LegacyName("WulfrumHeadRogue")]
-    [LegacyName("WulfrumHeadgear")]
-    [LegacyName("WulfrumHeadRanged")]
-    [LegacyName("WulfrumHelm")]
-    [LegacyName("WulfrumHeadMelee")]
-    [LegacyName("WulfrumHood")]
-    [LegacyName("WulfrumHeadMagic")]
     public class WulfrumHat : ModItem, IExtendedHat
     {
         public string ExtensionTexture => "CalamityMod/Items/Armor/Wulfrum/WulfrumHat_HeadExtension";

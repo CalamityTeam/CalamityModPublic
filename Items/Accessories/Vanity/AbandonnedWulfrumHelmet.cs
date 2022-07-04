@@ -8,6 +8,17 @@ using Terraria.Audio;
 namespace CalamityMod.Items.Accessories.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
+
+    //A lot of legacy names that's for sure. A combo of the pre "WulfrumHeadX" names, and the aforementionned "WulfrumHeadX" names.
+    //This is done so that non summoners don't end up with a helmet they don't really care about anyways, and is a cute reference to the old look.
+    [LegacyName("WulfrumMask")]
+    [LegacyName("WulfrumHeadRogue")]
+    [LegacyName("WulfrumHeadgear")]
+    [LegacyName("WulfrumHeadRanged")]
+    [LegacyName("WulfrumHelm")]
+    [LegacyName("WulfrumHeadMelee")]
+    [LegacyName("WulfrumHood")]
+    [LegacyName("WulfrumHeadMagic")]
     public class AbandonnedWulfrumHelmet : ModItem
     {
         public override void Load()
