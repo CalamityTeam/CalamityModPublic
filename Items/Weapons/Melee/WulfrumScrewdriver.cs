@@ -32,8 +32,10 @@ namespace CalamityMod.Items.Weapons.Melee
         public static float ScrewTime = 40;
         public static Asset<Texture2D> ScrewTex;
         public static Asset<Texture2D> ScrewOutlineTex;
-        public static float ScrewBaseDamageMult = 3f;
-        public static float ScrewBazingaModeDamageMult = 3f;
+        public static float ScrewBaseDamageMult = 2f;
+        public static float ScrewBazingaModeDamageMult = 4.5f;
+        public static float ScrewBazingaAimAssistAngle = 0.52f; //This may look high but remebmer this is the FULL angle, so it actually checks for half that angle deviation
+        public static float ScrewBazingaAimAssistReach = 600f;
 
         public override void SetStaticDefaults()
         {

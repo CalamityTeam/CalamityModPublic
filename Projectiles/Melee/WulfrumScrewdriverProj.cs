@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public static int MaxTime = 14;
         public ref float EndLag => ref Projectile.ai[0];
+        public ref float TrueDirection => ref Projectile.ai[1];
         public Player Owner => Main.player[Projectile.owner];
 
         public static Asset<Texture2D> SmearTex;
@@ -66,6 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 EndLag = (float)Math.Max(Owner.ActiveItem().useTime - MaxTime, 1);
                 Projectile.timeLeft = MaxTime;
+                TrueDirection = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).ToRotation(); //Store this for the screw hit
                 Projectile.velocity = Owner.SafeDirectionTo(Owner.Calamity().mouseWorld, Vector2.Zero).RotatedByRandom(MathHelper.PiOver4 * 0.15f);
                 Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
@@ -81,20 +83,27 @@ namespace CalamityMod.Projectiles.Melee
             Owner.itemTime = 2;
             Owner.itemAnimation = 2;
 
+
+            //Check for launchable screws.
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile proj = Main.projectile[i];
                 if (proj.ModProjectile != null && proj.owner == Projectile.owner && proj.ModProjectile is WulfrumScrew screw && screw.BazingaTime == 0)
                 {
-                    
                     float collisionPoint = 0f;
                     float bladeLenght = 86f * Projectile.scale;
                     if (Collision.CheckAABBvLineCollision(proj.Hitbox.TopLeft(), proj.Hitbox.Size(), Owner.Center + OffsetFromPlayer, Owner.Center + OffsetFromPlayer + (Projectile.velocity * bladeLenght), 34, ref collisionPoint))
                     {
+                        Vector2 thudVelocity = TrueDirection.ToRotationVector2() * 6f;
+                        NPC potentialAimAssist = FindTarget();
+                        if (potentialAimAssist != null)
+                            thudVelocity = (potentialAimAssist.Center - proj.Center).SafeNormalize(Vector2.Zero) * 6f;
+
                         screw.BazingaTime = WulfrumScrew.BazingaTimeMax;
-                        proj.velocity = Projectile.velocity * 6f;
+                        proj.velocity = thudVelocity;
                         proj.damage = (int)(proj.damage * WulfrumScrewdriver.ScrewBazingaModeDamageMult);
                         proj.timeLeft = WulfrumScrew.Lifetime;
+                        proj.knockBack *= 2.5f;
 
                         SoundEngine.PlaySound(WulfrumScrewdriver.ScrewHitSound);
 
@@ -102,34 +111,53 @@ namespace CalamityMod.Projectiles.Melee
                         {
                             Owner.Calamity().GeneralScreenShakePower = 6f;
                         }
+
+                        return;
                     }
-                    return;
                 }
             }
         }
 
-        public override bool PreDraw(ref Color lightColor)
+        public NPC FindTarget()
         {
-            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+            float bestScore = 0;
+            NPC bestTarget = null;
 
-            if (SmearTex == null)
-                SmearTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/MediumLongThrust");
-            Texture2D smearTex = SmearTex.Value;
-
-            Vector2 drawOrigin = new Vector2(tex.Width / 2f, tex.Height);
-            Vector2 scale = new Vector2(Math.Abs((float)Math.Sin(LifetimeCompletion * MathHelper.TwoPi * 0.5f)), 1f);
-
-            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, drawOrigin, scale * Projectile.scale, 0f, 0);
-
-            if (LifetimeCompletion < 0.6f)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
-                int frameCount = (int)Math.Floor((LifetimeCompletion / 0.6f) * 3f);
-                Rectangle frame = new Rectangle(0, (smearTex.Height / 3) * frameCount, smearTex.Width, smearTex.Height / 3);
-                float opacity = 1 - (float)Math.Pow(LifetimeCompletion / 0.6f, 0.5f);
+                NPC potentialTarget = Main.npc[i];
 
-                Main.spriteBatch.Draw(smearTex, Projectile.Center + Projectile.velocity * 67f - Main.screenPosition, frame, Color.White * opacity, Projectile.rotation, frame.Size() / 2f, 0.9f, 0, 0);
+                if (!potentialTarget.CanBeChasedBy(null, false))
+                    continue;
+
+                float distance = potentialTarget.Distance(Projectile.Center);
+                float angle = TrueDirection.ToRotationVector2().AngleBetween((potentialTarget.Center - Projectile.Center));
+
+                float extraDistance = potentialTarget.width / 2 + potentialTarget.height / 2;
+
+                if (distance - extraDistance < WulfrumScrewdriver.ScrewBazingaAimAssistReach && angle < WulfrumScrewdriver.ScrewBazingaAimAssistAngle / 2f)
+                {
+                    if (!Collision.CanHit(Projectile.Center, 1, 1, potentialTarget.Center, 1, 1) && extraDistance < distance)
+                        continue;
+
+                    float attemptedScore = EvaluatePotentialTarget(distance - extraDistance, angle / 2f);
+                    if (attemptedScore > bestScore)
+                    {
+                        bestTarget = potentialTarget;
+                        bestScore = attemptedScore;
+                    }
+                }
             }
-            return false;
+            return bestTarget;
+        }
+
+        public float EvaluatePotentialTarget(float distance, float angle)
+        {
+            float score = 1 - distance / WulfrumScrewdriver.ScrewBazingaAimAssistReach * 0.2f;
+            //Prioritize angle over distance
+            score += (1 - Math.Abs(angle) / (WulfrumScrewdriver.ScrewBazingaAimAssistAngle / 2f)) * 0.8f;
+
+            return score;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -137,6 +165,7 @@ namespace CalamityMod.Projectiles.Melee
             SoundEngine.PlaySound(WulfrumScrewdriver.ThudSound, target.Center);
             Projectile.timeLeft = 0;
 
+            //Chance to gain a screw
             if (Main.rand.NextBool(5) && Main.myPlayer == Owner.whoAmI)
             {
                 if (Owner.HeldItem.ModItem is WulfrumScrewdriver screwdriver && !screwdriver.ScrewStored)
@@ -173,6 +202,30 @@ namespace CalamityMod.Projectiles.Melee
                 Owner.itemTime = 0;
                 Owner.itemAnimation = 0;
             }
+        }
+
+        public override bool PreDraw(ref Color lightColor)
+        {
+            Texture2D tex = ModContent.Request<Texture2D>(Texture).Value;
+
+            if (SmearTex == null)
+                SmearTex = ModContent.Request<Texture2D>("CalamityMod/ExtraTextures/MediumLongThrust");
+            Texture2D smearTex = SmearTex.Value;
+
+            Vector2 drawOrigin = new Vector2(tex.Width / 2f, tex.Height);
+            Vector2 scale = new Vector2(Math.Abs((float)Math.Sin(LifetimeCompletion * MathHelper.TwoPi * 0.5f)), 1f);
+
+            Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, drawOrigin, scale * Projectile.scale, 0f, 0);
+
+            if (LifetimeCompletion < 0.6f)
+            {
+                int frameCount = (int)Math.Floor((LifetimeCompletion / 0.6f) * 3f);
+                Rectangle frame = new Rectangle(0, (smearTex.Height / 3) * frameCount, smearTex.Width, smearTex.Height / 3);
+                float opacity = 1 - (float)Math.Pow(LifetimeCompletion / 0.6f, 0.5f);
+
+                Main.spriteBatch.Draw(smearTex, Projectile.Center + Projectile.velocity * 67f - Main.screenPosition, frame, Color.White * opacity, Projectile.rotation, frame.Size() / 2f, 0.9f, 0, 0);
+            }
+            return false;
         }
     }
 }

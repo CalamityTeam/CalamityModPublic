@@ -35,6 +35,8 @@ namespace CalamityMod.Projectiles.Melee
         public ref float BazingaTime => ref Projectile.ai[0];
         public static float BazingaTimeMax = 120f;
         public float BazingaTimeCompletion => (BazingaTimeMax - BazingaTime) / BazingaTimeMax;
+        public float FadePercent => Math.Clamp(Projectile.timeLeft / FadeTime, 0f, 1f);
+        public static float FadeTime => 30f;
         public Player Owner => Main.player[Projectile.owner];
 
         public static Asset<Texture2D> SheenTex;
@@ -53,7 +55,6 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.localNPCHitCooldown = 1;
             Projectile.scale = 1.2f;
         }
-
 
         public override void AI()
         {
@@ -79,12 +80,43 @@ namespace CalamityMod.Projectiles.Melee
                 if (!Main.rand.NextBool(5))
                     chust.noLightEmittence = true;
             }
-            //Projectile.velocity = Vector2.Zero;
+
+            if (Projectile.Center.Distance(Owner.MountedCenter) > 1300 && Projectile.timeLeft > FadeTime)
+                Projectile.timeLeft = (int)FadeTime;
+
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             SoundEngine.PlaySound(WulfrumKnife.TileHitSound, Projectile.Center);
+            
+
+            bool screwRegained = false;
+
+            //50% chance to gain back the screw on kill.
+            if (target.life - damage <= 0)
+            {
+                if (Main.rand.NextBool() && Main.myPlayer == Owner.whoAmI)
+                {
+                    if (Owner.HeldItem.ModItem is WulfrumScrewdriver screwdriver && !screwdriver.ScrewStored)
+                    {
+                        WulfrumScrewdriver.ScrewStart = new Vector3(Projectile.Center + Projectile.velocity * 14f * Main.rand.NextFloat() - Main.screenPosition, Main.rand.NextFloat(MathHelper.PiOver2 - MathHelper.PiOver4));
+                        WulfrumScrewdriver.ScrewTimer = WulfrumScrewdriver.ScrewTime;
+                        screwdriver.ScrewStored = true;
+
+                        SoundEngine.PlaySound(SoundID.Item156);
+
+                        screwRegained = true;
+                    }
+                }
+            }
+
+            if (!screwRegained && Main.netMode != NetmodeID.Server)
+            {
+                Gore screwGore = Gore.NewGorePerfect(Projectile.GetSource_Death(), Projectile.position, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(4f, 6f) + Projectile.velocity * 0.7f, Mod.Find<ModGore>("WulfrumScrewGore").Type);
+                screwGore.timeLeft = 20;
+            }
+
             //Screenstun
         }
 
@@ -96,6 +128,13 @@ namespace CalamityMod.Projectiles.Melee
                 SoundEngine.PlaySound(CommonCalamitySounds.WulfrumNPCDeathSound, Projectile.Center);
 
             SoundEngine.PlaySound(WulfrumKnife.TileHitSound, Projectile.Center);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Gore screwGore = Gore.NewGorePerfect(Projectile.GetSource_Death(), Projectile.position, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(1f, 3f) + Projectile.velocity * 0.7f, Mod.Find<ModGore>("WulfrumScrewGore").Type);
+                screwGore.timeLeft = 20;
+            }
+
+
 
             return base.OnTileCollide(oldVelocity);
         }
@@ -155,7 +194,7 @@ namespace CalamityMod.Projectiles.Melee
 
 
 
-            opacity = BazingaTimeCompletion;
+            opacity = BazingaTimeCompletion * FadePercent;
 
             if (BazingaTime > 0)
             {
@@ -206,7 +245,7 @@ namespace CalamityMod.Projectiles.Melee
 
             else
             {
-                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor), Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
+                Main.EntitySpriteDraw(tex, Projectile.Center - Main.screenPosition, null, Projectile.GetAlpha(lightColor) * FadePercent, Projectile.rotation, tex.Size() / 2f, Projectile.scale, SpriteEffects.None, 0);
             }
             return false;
         }
