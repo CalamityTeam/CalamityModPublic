@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
         public const float deathrayTelegraphDuration_Expert = 120f;
         public const float deathrayTelegraphDuration_Rev = 105f;
         public const float deathrayTelegraphDuration_Death = 90f;
-        public const float deathrayTelegraphDuration_Malice = 60f;
+        public const float deathrayTelegraphDuration_BossRush = 60f;
         public const float TelegraphFadeTime = 15f;
         public const float TelegraphWidth = 2400f;
 
@@ -48,12 +48,12 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = -1;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
-            Projectile.timeLeft = (int)(malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
+            Projectile.timeLeft = (int)(bossRush ? deathrayTelegraphDuration_BossRush : death ? deathrayTelegraphDuration_Death :
                 revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal);
         }
 
@@ -106,12 +106,12 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(ref Color lightColor)
         {
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
-            float TelegraphTotalTime = malice ? deathrayTelegraphDuration_Malice : death ? deathrayTelegraphDuration_Death :
+            float TelegraphTotalTime = bossRush ? deathrayTelegraphDuration_BossRush : death ? deathrayTelegraphDuration_Death :
                 revenge ? deathrayTelegraphDuration_Rev : expertMode ? deathrayTelegraphDuration_Expert : deathrayTelegraphDuration_Normal;
 
             if (TelegraphDelay >= TelegraphTotalTime)

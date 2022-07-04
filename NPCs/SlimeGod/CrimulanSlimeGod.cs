@@ -64,11 +64,10 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void AI()
         {
             CalamityGlobalNPC.slimeGodRed = NPC.whoAmI;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || NPC.localAI[1] == 1f || BossRushEvent.BossRushActive;
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || NPC.localAI[1] == 1f || bossRush;
 
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
@@ -134,7 +133,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.localAI[1] = 0f;
                 enraged = true;
             }
-            if (malice)
+            if (bossRush)
             {
                 enraged = true;
             }
@@ -145,7 +144,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     NPC.defense = NPC.defDefense * 2;
             }
 
-            float distanceSpeedBoost = Vector2.Distance(player.Center, NPC.Center) * (malice ? 0.008f : 0.005f);
+            float distanceSpeedBoost = Vector2.Distance(player.Center, NPC.Center) * (bossRush ? 0.008f : 0.005f);
 
             if (NPC.ai[0] == 0f)
             {
@@ -365,7 +364,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.noGravity = true;
 
                 NPC.velocity.Y += 0.5f;
-                float velocityLimit = malice ? 20f : death ? 15f : revenge ? 14f : expertMode ? 13f : 12f;
+                float velocityLimit = bossRush ? 20f : death ? 15f : revenge ? 14f : expertMode ? 13f : 12f;
                 if (NPC.velocity.Y > velocityLimit)
                     NPC.velocity.Y = velocityLimit;
             }

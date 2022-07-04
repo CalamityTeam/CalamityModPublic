@@ -362,7 +362,7 @@ namespace CalamityMod.CalPlayer
 
         #region Defense Damage
         // Ratio at which incoming damage (after mitigation) is converted into defense damage.
-        // Used to be 5% normal, 10% expert, 12% rev, 15% death, 20% malice
+        // Used to be 5% normal, 10% expert, 12% rev, 15% death, 20% boss rush
         // It is now 15% on all difficulties because you already take less damage on lower difficulties.
         public const double DefenseDamageRatio = 0.15;
         public int CurrentDefenseDamage => (int)(totalDefenseDamage * ((float)defenseDamageRecoveryFrames / totalDefenseDamageRecoveryFrames));
@@ -8099,7 +8099,7 @@ namespace CalamityMod.CalPlayer
             // This floor is only applied if bosses are alive
             if (areThereAnyDamnBosses)
             {
-                int defenseDamageFloor = ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
+                int defenseDamageFloor = (BossRushEvent.BossRushActive ? 5 : CalamityWorld.death ? 4 : CalamityWorld.revenge ? 3 : Main.expertMode ? 2 : 1) * (NPC.downedMoonlord ? 3 : Main.hardMode ? 2 : 1);
                 if (defenseDamageTaken < defenseDamageFloor)
                     defenseDamageTaken = defenseDamageFloor;
             }

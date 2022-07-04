@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Perforator
             NPC.DeathSound = SoundID.NPCDeath1;
             NPC.netAlways = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
                 NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
                 NPC.scale *= 1.2f;
@@ -87,15 +87,15 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((NPC.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((NPC.position.Y / 16f) < Main.worldSurface || bossRush)
                 enrageScale += 1f;
-            if (!Main.player[NPC.target].ZoneCrimson || malice)
+            if (!Main.player[NPC.target].ZoneCrimson || bossRush)
                 enrageScale += 1f;
 
             // Percent life remaining

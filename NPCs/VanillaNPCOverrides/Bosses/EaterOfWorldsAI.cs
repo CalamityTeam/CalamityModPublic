@@ -15,8 +15,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Causes it to split far more in death mode
             if (((npc.ai[2] % 2f == 0f && npc.type == NPCID.EaterofWorldsBody) || npc.type == NPCID.EaterofWorldsHead) && death)
@@ -36,15 +36,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Fade in.
             npc.Opacity = MathHelper.Clamp(npc.Opacity + 0.08f, 0f, 1f);
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            float enrageScale = bossRush ? 1f : 0f;
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (!Main.player[npc.target].ZoneCorrupt || malice)
+            if (!Main.player[npc.target].ZoneCorrupt || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = segmentCount / (totalSegments + 2);
 
             // 10 seconds of resistance to prevent spawn killing
-            if (calamityGlobalNPC.newAI[1] < 600f && BossRushEvent.BossRushActive)
+            if (calamityGlobalNPC.newAI[1] < 600f && bossRush)
                 calamityGlobalNPC.newAI[1] += 1f;
 
             // Phases
@@ -421,7 +421,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     // Despawn
                     bool shouldDespawn = npc.type == NPCID.EaterofWorldsHead && Main.player[npc.target].dead;
-                    if (shouldDespawn && !BossRushEvent.BossRushActive)
+                    if (shouldDespawn && !bossRush)
                     {
                         bool everyoneDead = true;
                         for (int num58 = 0; num58 < Main.maxPlayers; num58++)

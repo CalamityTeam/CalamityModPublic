@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
                 NPC.alpha = HeadSegment.alpha;
 
-            AttackTimer += (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.5f : 1f;
+            AttackTimer += BossRushEvent.BossRushActive ? 1.5f : 1f;
             if (AttackTimer >= 900f)
             {
                 AttackTimer = 0f;

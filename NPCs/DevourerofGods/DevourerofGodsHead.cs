@@ -338,11 +338,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             // Variables
             Vector2 vector = NPC.Center;
             bool flies = NPC.ai[3] == 0f;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -359,14 +358,14 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool phase7 = lifeRatio < 0.15f;
 
             // Velocity variables
-            float fallSpeed = malice ? 19f : death ? 17.5f : 16f;
+            float fallSpeed = bossRush ? 19f : death ? 17.5f : 16f;
             if (expertMode)
                 fallSpeed += 4f * (1f - lifeRatio);
 
-            float speed = malice ? 18f : death ? 16.5f : 15f;
-            float turnSpeed = malice ? 0.36f : death ? 0.33f : 0.3f;
-            float homingSpeed = malice ? 36f : death ? 30f : 24f;
-            float homingTurnSpeed = malice ? 0.48f : death ? 0.405f : 0.33f;
+            float speed = bossRush ? 18f : death ? 16.5f : 15f;
+            float turnSpeed = bossRush ? 0.36f : death ? 0.33f : 0.3f;
+            float homingSpeed = bossRush ? 36f : death ? 30f : 24f;
+            float homingTurnSpeed = bossRush ? 0.48f : death ? 0.405f : 0.33f;
 
             if (expertMode)
             {
@@ -376,7 +375,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 homingTurnSpeed += 0.15f * (1f - lifeRatio);
             }
 
-            float groundPhaseTurnSpeed = malice ? 0.3f : death ? 0.24f : 0.18f;
+            float groundPhaseTurnSpeed = bossRush ? 0.3f : death ? 0.24f : 0.18f;
 
             if (expertMode)
                 groundPhaseTurnSpeed += 0.1f * (1f - lifeRatio);
@@ -459,10 +458,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Teleport after the Phase 2 animation.
             float timeWhenDoGShouldTeleportDuringPhase2Countdown = 61f;
-            if (NPC.localAI[2] == timeWhenDoGShouldTeleportDuringPhase2Countdown + ((CalamityWorld.death || BossRushEvent.BossRushActive) ? TimeBeforeTeleport_Death : CalamityWorld.revenge ? TimeBeforeTeleport_Revengeance : Main.expertMode ? TimeBeforeTeleport_Expert : TimeBeforeTeleport_Normal))
+            if (NPC.localAI[2] == timeWhenDoGShouldTeleportDuringPhase2Countdown + (death ? TimeBeforeTeleport_Death : CalamityWorld.revenge ? TimeBeforeTeleport_Revengeance : Main.expertMode ? TimeBeforeTeleport_Expert : TimeBeforeTeleport_Normal))
                 SpawnTeleportLocation(player, true);
             if (NPC.localAI[2] == timeWhenDoGShouldTeleportDuringPhase2Countdown)
-                Teleport(player, malice, death, revenge, expertMode, phase5);
+                Teleport(player, bossRush, death, revenge, expertMode, phase5);
 
             // Just in case the projectile cap is reached and the teleport rift doesn't spawn.
             if (AwaitingPhase2Teleport && NPC.localAI[2] == 0f)
@@ -585,7 +584,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
                         // Teleport
                         if (teleportTimer == 0)
-                            Teleport(player, malice, death, revenge, expertMode, phase5);
+                            Teleport(player, bossRush, death, revenge, expertMode, phase5);
                     }
 
                     // Do the death animation once killed.
@@ -729,7 +728,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (!spawnedGuardians3 && laserWallPhase == (int)LaserWallPhase.FireLaserWalls)
                         {
                             float spawnOffset = 1500f;
-                            float divisor = malice ? 80f : 120f;
+                            float divisor = bossRush ? 80f : 120f;
 
                             if (calamityGlobalNPC.newAI[1] % divisor == 0f)
                             {
@@ -1246,8 +1245,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                         }
                         else
                         {
-                            double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
-                            double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
+                            double maximumSpeed1 = bossRush ? 0.52 : death ? 0.46 : 0.4;
+                            double maximumSpeed2 = bossRush ? 1.25 : death ? 1.125 : 1D;
 
                             if (expertMode)
                             {
@@ -1430,8 +1429,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
 
                 // Laser barrage attack variables
-                float laserBarrageGateValue = malice ? 780f : death ? 900f : 960f;
-                float laserBarrageShootGateValue = malice ? 160f : 240f;
+                float laserBarrageGateValue = bossRush ? 780f : death ? 900f : 960f;
+                float laserBarrageShootGateValue = bossRush ? 160f : 240f;
                 float laserBarragePhaseGateValue = laserBarrageGateValue - laserBarrageShootGateValue;
 
                 // Spawn segments
@@ -1939,8 +1938,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                     }
                     else
                     {
-                        double maximumSpeed1 = malice ? 0.52 : death ? 0.46 : 0.4;
-                        double maximumSpeed2 = malice ? 1.25 : death ? 1.125 : 1D;
+                        double maximumSpeed1 = bossRush ? 0.52 : death ? 0.46 : 0.4;
+                        double maximumSpeed2 = bossRush ? 1.25 : death ? 1.125 : 1D;
 
                         if (expertMode)
                         {
@@ -2092,7 +2091,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             }
         }
 
-        private void Teleport(Player player, bool malice, bool death, bool revenge, bool expertMode, bool phase5)
+        private void Teleport(Player player, bool bossRush, bool death, bool revenge, bool expertMode, bool phase5)
         {
             Vector2 newPosition = GetRiftLocation(true);
 
@@ -2110,7 +2109,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float mult = revenge ? 1.5f : 3f;
                     for (int i = 0; i < totalSpreads; i++)
                     {
-                        int totalProjectiles = malice ? 18 : 12;
+                        int totalProjectiles = bossRush ? 18 : 12;
                         float radians = MathHelper.TwoPi / totalProjectiles;
                         float newVelocity = finalVelocity - i * mult;
                         float velocityMult = 1f + ((finalVelocity - newVelocity) / (newVelocity * 2f) / 100f);
@@ -2130,7 +2129,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             NPC.TargetClosest();
             NPC.position = newPosition;
-            float chargeVelocity = malice ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 20f;
+            float chargeVelocity = bossRush ? 30f : death ? 26f : revenge ? 24f : expertMode ? 22f : 20f;
             float maxChargeDistance = 1600f;
             postTeleportTimer = (int)Math.Round(maxChargeDistance / chargeVelocity);
             AwaitingPhase2Teleport = false;

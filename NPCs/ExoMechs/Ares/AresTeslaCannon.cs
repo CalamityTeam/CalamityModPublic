@@ -128,10 +128,10 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = Main.npc[CalamityGlobalNPC.draedonExoMechPrime].life / (float)Main.npc[CalamityGlobalNPC.draedonExoMechPrime].lifeMax;
@@ -214,7 +214,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             }
 
             // Predictiveness
-            float predictionAmt = malice ? 40f : death ? 30f : revenge ? 27.5f : expertMode ? 25f : 20f;
+            float predictionAmt = bossRush ? 40f : death ? 30f : revenge ? 27.5f : expertMode ? 25f : 20f;
             if (nerfedAttacks)
                 predictionAmt *= 0.5f;
             if (passivePhase)
@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             Vector2 destination = calamityGlobalNPC_Body.newAI[0] == (float)AresBody.Phase.Deathrays ? new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX2, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY2) : new Vector2(Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.X + offsetX, Main.npc[CalamityGlobalNPC.draedonExoMechPrime].Center.Y + offsetY);
 
             // Velocity and acceleration values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = (enraged ? 38f : 30f) * baseVelocityMult;
             baseVelocity *= 1f + Main.npc[(int)NPC.ai[2]].localAI[2];
 
@@ -343,7 +343,7 @@ namespace CalamityMod.NPCs.ExoMechs.Ares
             bool canFire = Vector2.Distance(NPC.Center, player.Center) > 320f || calamityGlobalNPC_Body.newAI[0] != (float)AresBody.Phase.Deathrays;
 
             // Telegraph duration for deathray spiral
-            float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+            float deathrayTelegraphDuration = bossRush ? AresBody.deathrayTelegraphDuration_BossRush : death ? AresBody.deathrayTelegraphDuration_Death :
                 revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
             // Variable to cancel tesla orb firing

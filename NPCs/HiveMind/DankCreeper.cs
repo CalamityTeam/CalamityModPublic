@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.HiveMind
             NPC.TargetClosest();
             bool revenge = CalamityWorld.revenge;
             float speed = revenge ? 12f : 11f;
-            if (BossRushEvent.BossRushActive || CalamityWorld.malice)
+            if (BossRushEvent.BossRushActive)
                 speed = 18f;
 
             if (NPC.ai[1] < 90f)

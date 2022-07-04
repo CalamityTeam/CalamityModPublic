@@ -44,10 +44,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
 
-            if (Projectile.velocity.Length() < (Projectile.ai[1] == 0f ? (malice ? 17.5f : 14f) : (malice ? 12.5f : 10f)))
-                Projectile.velocity *= malice ? 1.0125f : 1.01f;
+            if (Projectile.velocity.Length() < (Projectile.ai[1] == 0f ? (bossRush ? 17.5f : 14f) : (bossRush ? 12.5f : 10f)))
+                Projectile.velocity *= bossRush ? 1.0125f : 1.01f;
 
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
 

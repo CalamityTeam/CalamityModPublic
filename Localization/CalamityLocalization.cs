@@ -153,9 +153,6 @@ namespace CalamityMod.Localization
                 new [] { "DeathText", "Death is active; enjoy the fun." },
                 new [] { "DeathText2", "Death is not active; not fun enough for you?" },
 
-                new [] { "MaliceText", "Malice is active; witness the horror!" },
-                new [] { "MaliceText2", "Malice is not active." },
-
                 new [] { "ArmageddonText", "Bosses will now kill you instantly." },
                 new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
                 new [] { "ArmageddonDodgeDisable", "All of your dodges are now disabled." },

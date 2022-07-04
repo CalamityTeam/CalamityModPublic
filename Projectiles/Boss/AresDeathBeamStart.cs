@@ -89,13 +89,13 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Telegraph duration for deathray spiral
-            float deathrayTelegraphDuration = malice ? AresBody.deathrayTelegraphDuration_Malice : death ? AresBody.deathrayTelegraphDuration_Death :
+            float deathrayTelegraphDuration = bossRush ? AresBody.deathrayTelegraphDuration_BossRush : death ? AresBody.deathrayTelegraphDuration_Death :
                 revenge ? AresBody.deathrayTelegraphDuration_Rev : expertMode ? AresBody.deathrayTelegraphDuration_Expert : AresBody.deathrayTelegraphDuration_Normal;
 
             Time = Main.npc[OwnerIndex].Calamity().newAI[2] - deathrayTelegraphDuration;
@@ -104,12 +104,12 @@ namespace CalamityMod.Projectiles.Boss
         public override void UpdateLaserMotion()
         {
             // Declare difficulty modes.
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
-            float angularSlowdownDivisor = malice ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
+            float angularSlowdownDivisor = bossRush ? 300f : death ? 320f : revenge ? 330f : expertMode ? 340f : 360f;
             float angularVelocity = MathHelper.TwoPi * Time / Lifetime / angularSlowdownDivisor;
             if (Main.npc[OwnerIndex].ai[3] % 2f == 0f)
                 angularVelocity *= -1f;

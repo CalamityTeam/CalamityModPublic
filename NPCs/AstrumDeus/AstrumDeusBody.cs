@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             AIType = -1;
             NPC.knockBackResist = 0f;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
                 NPC.scale *= 1.5f;
             else if (CalamityWorld.death)
                 NPC.scale *= 1.4f;

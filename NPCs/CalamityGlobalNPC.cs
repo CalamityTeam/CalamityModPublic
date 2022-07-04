@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs
         // 1 - For special cases with super-enrages (specifically Yharon/SCal with their arenas), go solely based on whether that enrage is active. That information is most important to the player.
         // 2 - Otherwise, check if the demonshade enrage is active. If it is, register this as true. If not, go to step 3.
         // 3 - Check if a specific enrage condition (such as Duke Fishron's Ocean check) is met. If it is, and Boss Rush is not active, set this to true. If not, go to step 4.
-        // 4 - Check if malice is active and Boss Rush isn't. If so, set this to true.
+        // 4 - Check if Boss Rush isn't active. If so, set this to true.
         public bool CurrentlyEnraged;
 
         // Increased defense or DR variable for use with the boss health UI.
@@ -2570,8 +2570,8 @@ namespace CalamityMod.NPCs
                 damage += yellowCandleDamage;
 
             // Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-            bool nightProvi = npc.type == NPCType<Providence.Providence>() && (!Main.dayTime || CalamityWorld.malice);
-            bool dayEmpress = npc.type == NPCID.HallowBoss && (NPC.ShouldEmpressBeEnraged() || CalamityWorld.malice);
+            bool nightProvi = npc.type == NPCType<Providence.Providence>() && !Main.dayTime;
+            bool dayEmpress = npc.type == NPCID.HallowBoss && NPC.ShouldEmpressBeEnraged();
             if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive && (nightProvi || dayEmpress))
             {
                 // Set the DR scaling factor
@@ -3636,10 +3636,8 @@ namespace CalamityMod.NPCs
                 npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 
             // Sets certain vanilla NPCs and all town NPCs to be immune to most debuffs.
-            if (((CalamityLists.DesertScourgeIDs.Contains(npc.type) || npc.type == NPCID.Creeper || CalamityLists.PerforatorIDs.Contains(npc.type)) && CalamityWorld.malice) ||
-                CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
-                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && (BossRushEvent.BossRushActive || CalamityWorld.malice)) ||
-                npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
+            if (CalamityLists.DestroyerIDs.Contains(npc.type) || npc.type == NPCID.SkeletronHead || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel ||
+                (CalamityLists.EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
             {
                 for (int k = 0; k < npc.buffImmune.Length; k++)
                 {

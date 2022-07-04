@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.75f;
             bool phase3 = lifeRatio < 0.5f;
             bool phase4 = lifeRatio < 0.25f;
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             }
 
             // Enrage if the target isn't inside the temple
-            // Turbo enrage if target isn't inside the temple and it's malice mode or for the worthy
+            // Turbo enrage if target isn't inside the temple and it's Boss Rush or For the Worthy
             bool enrage = true;
             bool turboEnrage = false;
             if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
@@ -66,15 +66,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice || Main.getGoodWorld;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice || Main.getGoodWorld;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice || Main.getGoodWorld)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && (enrage || turboEnrage);
+            npc.Calamity().CurrentlyEnraged = !bossRush && (enrage || turboEnrage);
 
             bool reduceFallSpeed = npc.velocity.Y > 0f && Collision.SolidCollision(npc.position + Vector2.UnitY * 1.1f * npc.velocity.Y, npc.width, npc.height);
 
@@ -432,11 +432,11 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
         public static bool BuffedGolemFistAI(NPC npc, Mod mod)
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Enrage if the target isn't inside the temple
-            // Turbo enrage if target isn't inside the temple and it's malice mode or for the worthy
+            // Turbo enrage if target isn't inside the temple and it's Boss Rush or For the Worthy
             bool enrage = true;
             bool turboEnrage = false;
             if (Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
@@ -448,12 +448,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice || Main.getGoodWorld;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice || Main.getGoodWorld;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice || Main.getGoodWorld)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
             float aggression = turboEnrage ? (Main.getGoodWorld ? 4f : 3f) : enrage ? 2f : death ? 1.5f : 1f;
@@ -683,8 +683,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Count body parts
             bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
@@ -706,12 +706,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice || Main.getGoodWorld;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice || Main.getGoodWorld;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice || Main.getGoodWorld)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
             // Alpha
@@ -933,8 +933,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float golemLifeRatio = Main.npc[NPC.golemBoss].life / (float)Main.npc[NPC.golemBoss].lifeMax;
 
             // Phases
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
             bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
             bool phase3 = lifeRatio < 0.55f || golemLifeRatio < 0.7f;
             bool phase4 = lifeRatio < 0.4f || golemLifeRatio < 0.55f;
@@ -951,12 +951,12 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 if (tile.WallType == WallID.LihzahrdBrickUnsafe)
                     enrage = false;
                 else
-                    turboEnrage = malice || Main.getGoodWorld;
+                    turboEnrage = bossRush || Main.getGoodWorld;
             }
             else
-                turboEnrage = malice || Main.getGoodWorld;
+                turboEnrage = bossRush || Main.getGoodWorld;
 
-            if (malice || Main.getGoodWorld)
+            if (bossRush || Main.getGoodWorld)
                 enrage = true;
 
             if (turboEnrage)

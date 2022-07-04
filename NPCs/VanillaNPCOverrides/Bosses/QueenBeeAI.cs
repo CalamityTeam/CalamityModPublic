@@ -17,18 +17,18 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             float enrageScale = death ? 0.25f : 0f;
-            if ((npc.position.Y / 16f) < Main.worldSurface || malice)
+            if ((npc.position.Y / 16f) < Main.worldSurface || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 0.5f;
             }
-            if (!Main.player[npc.target].ZoneJungle || malice)
+            if (!Main.player[npc.target].ZoneJungle || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 0.5f;
             }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Main.getGoodWorld)
                 enrageScale += 0.5f;
 
-            if (BossRushEvent.BossRushActive)
+            if (bossRush)
                 enrageScale = 2f;
 
             // Percent life remaining

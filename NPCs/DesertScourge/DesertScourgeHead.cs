@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.netAlways = true;
             Music = CalamityMod.Instance.GetMusicFromMusicMod("DesertScourge") ?? MusicID.Boss1;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
                 NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
                 NPC.scale *= 1.2f;
@@ -126,10 +126,10 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (NPC.target < 0 || NPC.target == Main.maxPlayers || Main.player[NPC.target].dead || !Main.player[NPC.target].active)
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.DesertScourge
             Player player = Main.player[NPC.target];
 
             // Enrage
-            if (!player.ZoneDesert && !BossRushEvent.BossRushActive)
+            if (!player.ZoneDesert && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -150,12 +150,12 @@ namespace CalamityMod.NPCs.DesertScourge
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
+            float enrageScale = bossRush ? 1f : 0f;
             if (biomeEnraged)
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
@@ -246,13 +246,13 @@ namespace CalamityMod.NPCs.DesertScourge
                         if (NPC.Calamity().newAI[2] % 30f == 0f)
                         {
                             SoundEngine.PlaySound(SoundID.Item21, NPC.Center);
-                            float velocity = malice ? 6f : death ? 5.5f : 5f;
+                            float velocity = bossRush ? 6f : death ? 5.5f : 5f;
                             int type = ModContent.ProjectileType<SandBlast>();
                             int damage = NPC.GetProjectileDamage(type);
                             Vector2 projectileVelocity = Vector2.Normalize(player.Center - NPC.Center) * velocity;
-                            int baseProjectileAmt = malice ? 6 : death ? 4 : revenge ? 3 : 2;
+                            int baseProjectileAmt = bossRush ? 6 : death ? 4 : revenge ? 3 : 2;
                             int numProj = NPC.Calamity().newAI[2] % 60f == 0f ? (int)(baseProjectileAmt * 1.5) : baseProjectileAmt;
-                            int spread = malice ? 18 : death ? 14 : revenge ? 12 : 10;
+                            int spread = bossRush ? 18 : death ? 14 : revenge ? 12 : 10;
                             float rotation = MathHelper.ToRadians(spread);
                             for (int i = 0; i < numProj; i++)
                             {
@@ -372,7 +372,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             float num18 = speed;
             float num19 = turnSpeed;
-            float burrowDistance = malice ? 500f : 800f;
+            float burrowDistance = bossRush ? 500f : 800f;
             float burrowTarget = player.Center.Y + burrowDistance;
             float lungeTarget = player.Center.Y - 600f;
             Vector2 vector3 = NPC.Center;
@@ -405,11 +405,11 @@ namespace CalamityMod.NPCs.DesertScourge
                 SoundEngine.PlaySound(SoundID.NPCDeath13, NPC.Center);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    float velocity = malice ? 9f : death ? 7f : 6f;
+                    float velocity = bossRush ? 9f : death ? 7f : 6f;
                     int type = ModContent.ProjectileType<GreatSandBlast>();
                     int damage = NPC.GetProjectileDamage(type);
                     Vector2 projectileVelocity = Vector2.Normalize(NPC.Center + NPC.velocity * 10f - NPC.Center) * velocity;
-                    int numProj = malice ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
+                    int numProj = bossRush ? 24 : death ? 20 : revenge ? 18 : expertMode ? 16 : 12;
                     if (Main.getGoodWorld)
                         numProj *= 2;
 

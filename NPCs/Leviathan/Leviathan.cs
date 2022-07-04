@@ -116,10 +116,10 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
             Vector2 vector = NPC.Center;
 
             // Is in spawning animation
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.Leviathan
             bool notOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 
             // Enrage
-            if (notOcean && !BossRushEvent.BossRushActive)
+            if (notOcean && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -187,12 +187,12 @@ namespace CalamityMod.NPCs.Leviathan
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
+            float enrageScale = bossRush ? 1f : 0f;
             if (biomeEnraged)
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 

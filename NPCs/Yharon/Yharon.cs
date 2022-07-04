@@ -181,17 +181,17 @@ namespace CalamityMod.NPCs.Yharon
             CalamityMod.StopRain();
 
             // Variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             float pie = (float)Math.PI;
 
             // Start phase 2 or not
             if (startSecondAI)
             {
-                Yharon_AI2(expertMode, revenge, death, malice, pie, lifeRatio, calamityGlobalNPC);
+                Yharon_AI2(expertMode, revenge, death, bossRush, pie, lifeRatio, calamityGlobalNPC);
                 return;
             }
 
@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.Yharon
             float reduceSpeedChargeDistance = 540f;
             int chargeTime = expertMode ? 40 : 45;
             float chargeSpeed = expertMode ? 28f : 26f;
-            float fastChargeVelocityMultiplier = malice ? 2f : 1.5f;
+            float fastChargeVelocityMultiplier = bossRush ? 2f : 1.5f;
             bool playFastChargeRoarSound = NPC.localAI[1] == fastChargeTelegraphTime * 0.5f;
             bool doFastCharge = NPC.localAI[1] > fastChargeTelegraphTime;
 
@@ -249,8 +249,8 @@ namespace CalamityMod.NPCs.Yharon
 
             if (revenge)
             {
-                int chargeTimeDecrease = malice ? 6 : death ? 4 : 2;
-                float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;
+                int chargeTimeDecrease = bossRush ? 6 : death ? 4 : 2;
+                float velocityMult = bossRush ? 1.15f : death ? 1.1f : 1.05f;
                 phaseSwitchTimer -= chargeTimeDecrease;
                 acceleration *= velocityMult;
                 velocity *= velocityMult;
@@ -259,17 +259,17 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             float reduceSpeedFlareBombDistance = 570f;
-            int flareBombPhaseTimer = malice ? 30 : death ? 40 : 60;
+            int flareBombPhaseTimer = bossRush ? 30 : death ? 40 : 60;
             int flareBombSpawnDivisor = flareBombPhaseTimer / 20;
-            float flareBombPhaseAcceleration = malice ? 1f : death ? 0.92f : 0.8f;
-            float flareBombPhaseVelocity = malice ? 16f : death ? 14f : 12f;
+            float flareBombPhaseAcceleration = bossRush ? 1f : death ? 0.92f : 0.8f;
+            float flareBombPhaseVelocity = bossRush ? 16f : death ? 14f : 12f;
 
             int fireTornadoPhaseTimer = 90;
 
             int newPhaseTimer = 180;
 
-            int flareDustPhaseTimer = malice ? 160 : death ? 200 : 240;
-            int flareDustPhaseTimer2 = malice ? 80 : death ? 100 : 120;
+            int flareDustPhaseTimer = bossRush ? 160 : death ? 200 : 240;
+            int flareDustPhaseTimer2 = bossRush ? 80 : death ? 100 : 120;
 
             float spinTime = flareDustPhaseTimer / 2;
 
@@ -335,12 +335,12 @@ namespace CalamityMod.NPCs.Yharon
                 enraged = false;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    safeBox.X = (int)(player.Center.X - (Main.getGoodWorld ? 1000f : malice ? 2000f : revenge ? 3000f : 3500f));
+                    safeBox.X = (int)(player.Center.X - (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f));
                     safeBox.Y = (int)(player.Center.Y - 10500f);
-                    safeBox.Width = Main.getGoodWorld ? 2000 : malice ? 4000 : revenge ? 6000 : 7000;
+                    safeBox.Width = Main.getGoodWorld ? 2000 : bossRush ? 4000 : revenge ? 6000 : 7000;
                     safeBox.Height = 21000;
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (Main.getGoodWorld ? 1000f : malice ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
-                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (Main.getGoodWorld ? 1000f : malice ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X + (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.Center.X - (Main.getGoodWorld ? 1000f : bossRush ? 2000f : revenge ? 3000f : 3500f), player.Center.Y + 100f, 0f, 0f, ModContent.ProjectileType<SkyFlareRevenge>(), 0, 0f, Main.myPlayer);
                 }
 
                 // Force Yharon to send a sync packet so that the arena gets sent immediately
@@ -1513,7 +1513,7 @@ namespace CalamityMod.NPCs.Yharon
         }
 
         #region AI2
-        public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool malice, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
+        public void Yharon_AI2(bool expertMode, bool revenge, bool death, bool bossRush, float pie, float lifeRatio, CalamityGlobalNPC calamityGlobalNPC)
         {
             float phase2GateValue = revenge ? 0.44f : expertMode ? 0.385f : 0.275f;
             bool phase2 = death || lifeRatio <= phase2GateValue;
@@ -1635,13 +1635,13 @@ namespace CalamityMod.NPCs.Yharon
 
             float reduceSpeedChargeDistance = 500f;
             float reduceSpeedFireballSpitChargeDistance = 800f;
-            float phaseSwitchTimer = malice ? 28f : expertMode ? 30f : 32f;
+            float phaseSwitchTimer = bossRush ? 28f : expertMode ? 30f : 32f;
             float acceleration = expertMode ? 0.92f : 0.9f;
             float velocity = expertMode ? 14.5f : 14f;
             float chargeTime = expertMode ? 32f : 35f;
             float chargeSpeed = expertMode ? 32f : 30f;
 
-            float fastChargeVelocityMultiplier = malice ? 2f : 1.5f;
+            float fastChargeVelocityMultiplier = bossRush ? 2f : 1.5f;
             fastChargeTelegraphTime = protectionBoost ? 60 : (100 - secondPhasePhase * 10);
             bool playFastChargeRoarSound = NPC.localAI[1] == fastChargeTelegraphTime * 0.5f;
             bool doFastChargeTelegraph = NPC.localAI[1] <= fastChargeTelegraphTime;
@@ -1658,21 +1658,21 @@ namespace CalamityMod.NPCs.Yharon
             float splittingFireballBreathYVelocityTimer = 40f;
             float splittingFireballBreathPhaseTimer = splittingFireballBreathTimer + splittingFireballBreathTimer2 + splittingFireballBreathYVelocityTimer;
 
-            int spinPhaseTimer = secondPhasePhase == 4 ? (malice ? 80 : death ? 100 : 120) : (malice ? 120 : death ? 150 : 180);
+            int spinPhaseTimer = secondPhasePhase == 4 ? (bossRush ? 80 : death ? 100 : 120) : (bossRush ? 120 : death ? 150 : 180);
             int flareDustSpawnDivisor = spinPhaseTimer / 10;
             int flareDustSpawnDivisor2 = spinPhaseTimer / 20 + (secondPhasePhase == 4 ? spinPhaseTimer / 60 : 0);
             float increasedIdleTimeAfterBulletHell = -120f;
 
-            float flareSpawnDecelerationTimer = malice ? 60f : death ? 75f : 90f;
+            float flareSpawnDecelerationTimer = bossRush ? 60f : death ? 75f : 90f;
             int flareSpawnPhaseTimerReduction = revenge ? (int)(flareSpawnDecelerationTimer * (ai2GateValue - lifeRatio)) : 0;
-            float flareSpawnPhaseTimer = (malice ? 120f : death ? 150f : 180f) - flareSpawnPhaseTimerReduction;
+            float flareSpawnPhaseTimer = (bossRush ? 120f : death ? 150f : 180f) - flareSpawnPhaseTimerReduction;
 
             float teleportPhaseTimer = 45f;
 
             if (revenge)
             {
-                float chargeTimeDecrease = malice ? 6f : death ? 4f : 2f;
-                float velocityMult = malice ? 1.15f : death ? 1.1f : 1.05f;
+                float chargeTimeDecrease = bossRush ? 6f : death ? 4f : 2f;
+                float velocityMult = bossRush ? 1.15f : death ? 1.1f : 1.05f;
                 acceleration *= velocityMult;
                 velocity *= velocityMult;
                 chargeTime -= chargeTimeDecrease;

@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             Projectile.penetrate = 1;
             Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
+            Projectile.timeLeft = BossRushEvent.BossRushActive ? 640 : CalamityWorld.death ? 490 : CalamityWorld.revenge ? 440 : Main.expertMode ? 390 : 240;
 
             if (Main.getGoodWorld)
                 Projectile.extraUpdates = 1;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Projectile.velocity.Length() < 15f && (Main.expertMode || BossRushEvent.BossRushActive))
                 {
-                    float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
+                    float velocityMult = BossRushEvent.BossRushActive ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
                     Projectile.velocity *= velocityMult;
                 }
             }

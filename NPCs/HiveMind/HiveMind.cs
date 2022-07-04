@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.HiveMind
                 driftBoost = 1f;
             }
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 lungeRots = 0.4;
                 minimumDriftTime = 40;
@@ -387,16 +387,16 @@ namespace CalamityMod.NPCs.HiveMind
 
             Player player = Main.player[NPC.target];
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
 
             // Enrage
-            if ((!player.ZoneCorrupt || (NPC.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+            if ((!player.ZoneCorrupt || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -404,17 +404,17 @@ namespace CalamityMod.NPCs.HiveMind
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (biomeEnraged && (!player.ZoneCorrupt || malice))
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && (!player.ZoneCorrupt || bossRush))
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || malice))
+            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || bossRush))
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -523,8 +523,8 @@ namespace CalamityMod.NPCs.HiveMind
                         {
                             NPC.ai[3] = NPC.life;
 
-                            int maxSpawns = malice ? 10 : death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
-                            int maxDankSpawns = malice ? 4 : death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
+                            int maxSpawns = bossRush ? 10 : death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+                            int maxDankSpawns = bossRush ? 4 : death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
 
                             for (int num662 = 0; num662 < maxSpawns; num662++)
                             {
@@ -844,7 +844,7 @@ namespace CalamityMod.NPCs.HiveMind
                             if (phase2timer <= 0)
                             {
                                 phase2timer = lungeTime - 4 * (int)enrageScale;
-                                NPC.velocity = player.Center + (malice ? player.velocity * 20f : Vector2.Zero) - NPC.Center;
+                                NPC.velocity = player.Center + (bossRush ? player.velocity * 20f : Vector2.Zero) - NPC.Center;
                                 NPC.velocity.Normalize();
                                 NPC.velocity *= teleportRadius / (lungeTime - (int)enrageScale);
                                 dashStarted = true;

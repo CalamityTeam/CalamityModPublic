@@ -337,8 +337,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -348,10 +348,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 0.5f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -1067,8 +1067,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -1078,10 +1078,10 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 npc.TargetClosest();
 
-            float enrageScale = BossRushEvent.BossRushActive ? 0.5f : 0f;
-            if (Main.dayTime || malice)
+            float enrageScale = bossRush ? 0.5f : 0f;
+            if (Main.dayTime || bossRush)
             {
-                npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                npc.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -1103,8 +1103,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             Vector2 lookAt = new Vector2(Main.player[npc.target].position.X - (Main.player[npc.target].width / 2), Main.player[npc.target].position.Y - (Main.player[npc.target].height / 2));
             Vector2 rotationVector = npcCenter - lookAt;
 
-            // Malice Mode predictive charge rotation
-            if (npc.ai[1] == 5f && !retAlive && malice)
+            // Boss Rush predictive charge rotation
+            if (npc.ai[1] == 5f && !retAlive && bossRush)
             {
                 // Velocity
                 float chargeVelocity = 20f + (death ? 6f * (0.7f - lifeRatio) : 0f);
@@ -1659,7 +1659,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                             if (Main.getGoodWorld)
                                 num48 *= 1.2f;
 
-                            Vector2 distanceVector = Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center;
+                            Vector2 distanceVector = Main.player[npc.target].Center + (!retAlive && bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center;
                             npc.velocity = Vector2.Normalize(distanceVector) * num48;
 
                             if (retAlive)
@@ -1800,7 +1800,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 float velocity = 16f;
                                 int type = ModContent.ProjectileType<ShadowflameFireball>();
                                 int damage = npc.GetProjectileDamage(type);
-                                Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (!retAlive && malice ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
+                                Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + (!retAlive && bossRush ? Main.player[npc.target].velocity * 20f : Vector2.Zero) - npc.Center) * velocity;
                                 Projectile.NewProjectile(npc.GetSource_FromAI(), npc.Center + Vector2.Normalize(projectileVelocity) * 4f, projectileVelocity, type, damage, 0f, Main.myPlayer, 0f, retAlive ? 0f : 1f);
                             }
                         }

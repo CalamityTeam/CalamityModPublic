@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.DesertScourge
             NPC.netAlways = true;
             NPC.dontCountMe = true;
 
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
                 NPC.scale *= 1.25f;
             else if (CalamityWorld.death)
                 NPC.scale *= 1.2f;

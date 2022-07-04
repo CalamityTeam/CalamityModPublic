@@ -1355,7 +1355,7 @@ namespace CalamityMod.Projectiles
                         projectile.velocity *= 1.02f;
                 }
 
-                else if (projectile.type == ProjectileID.CultistBossLightningOrb && (CalamityWorld.malice || BossRushEvent.BossRushActive))
+                else if (projectile.type == ProjectileID.CultistBossLightningOrb && BossRushEvent.BossRushActive)
                 {
                     if (NPC.AnyNPCs(NPCID.CultistBoss))
                     {

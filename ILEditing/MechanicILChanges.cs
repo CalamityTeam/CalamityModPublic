@@ -231,15 +231,15 @@ namespace CalamityMod.ILEditing
         }
         #endregion Dash Fixes and Improvements
 
-        #region Allow Empress to Enrage in Malice
-        private static bool AllowEmpressToEnrageInMalice(On.Terraria.NPC.orig_ShouldEmpressBeEnraged orig)
+        #region Allow Empress to Enrage in Boss Rush
+        private static bool AllowEmpressToEnrageInBossRush(On.Terraria.NPC.orig_ShouldEmpressBeEnraged orig)
         {
-            if (Main.dayTime || CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (Main.dayTime || BossRushEvent.BossRushActive)
                 return true;
             
             return orig();
         }
-        #endregion Allow Empress to Enrage in Malice
+        #endregion Allow Empress to Enrage in Boss Rush
 
         #region Enabling of Triggered NPC Platform Fallthrough
         // Why this isn't a mechanism provided by TML itself or vanilla itself is beyond me.

@@ -87,7 +87,6 @@ namespace CalamityMod
             TalkedToDraedon = false;
             death = false;
             armageddon = false;
-            malice = false;
             AcidRainEvent.AcidRainEventIsOngoing = false;
             AcidRainEvent.CountdownUntilForcedAcidRain = 0;
         }
@@ -109,8 +108,6 @@ namespace CalamityMod
                 downed.Add("revenge");
             if (death)
                 downed.Add("death");
-            if (malice)
-                downed.Add("malice");
             if (Abyss.AtLeftSideOfWorld)
                 downed.Add("abyssSide");
             if (BossRushEvent.BossRushActive)
@@ -216,7 +213,6 @@ namespace CalamityMod
             onionMode = downed.Contains("onionMode");
             revenge = downed.Contains("revenge");
             death = downed.Contains("death");
-            malice = downed.Contains("malice");
             Abyss.AtLeftSideOfWorld = downed.Contains("abyssSide");
             BossRushEvent.BossRushActive = downed.Contains("bossRushActive");
             AcidRainEvent.AcidRainEventIsOngoing = downed.Contains("acidRain");

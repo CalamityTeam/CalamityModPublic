@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Boss
         {
             Lighting.AddLight(Projectile.Center, 0.1f, 0.7f, 0f);
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            if (Projectile.velocity.Length() < (malice ? 6.25f : 5f))
+            bool bossRush = BossRushEvent.BossRushActive;
+            if (Projectile.velocity.Length() < (bossRush ? 6.25f : 5f))
                 Projectile.velocity *= 1.01f;
 
             Projectile.frameCounter++;

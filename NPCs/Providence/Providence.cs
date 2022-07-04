@@ -217,13 +217,13 @@ namespace CalamityMod.NPCs.Providence
             Player player = Main.player[NPC.target];
 
             // Night bool
-            bool malice = CalamityWorld.malice;
-            bool nightTime = !Main.dayTime || malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool nightTime = !Main.dayTime || bossRush;
 
             // Difficulty bools
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive || nightTime;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive || nightTime;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive || nightTime;
+            bool death = CalamityWorld.death || nightTime;
+            bool revenge = CalamityWorld.revenge || nightTime;
+            bool expertMode = Main.expertMode || nightTime;
 
             // Target's current biome
             bool isHoly = player.ZoneHallow;
@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.Providence
             if (nightTime)
                 projectileDamageMult = 2;
 
-            NPC.Calamity().CurrentlyEnraged = (!BossRushEvent.BossRushActive && (nightTime || malice)) || biomeEnrageTimer <= 0;
+            NPC.Calamity().CurrentlyEnraged = (!bossRush && nightTime) || biomeEnrageTimer <= 0;
 
             // Projectile damage values
             int holyLaserDamage = NPC.GetProjectileDamage(ModContent.ProjectileType<ProvidenceHolyRay>()) * projectileDamageMult;
@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.Providence
             float baseSpearRate = 18f;
             float spearRate = 1f + spearRateIncrease;
 
-            if (BossRushEvent.BossRushActive)
+            if (bossRush)
                 spearRate += bossRushSpearRateIncrease;
 
             // Projectile fire rate multiplier
@@ -309,8 +309,8 @@ namespace CalamityMod.NPCs.Providence
 
             // Inflict Holy Inferno if target is too far away
             float baseDistance = 2800f;
-            float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
-            float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
+            float shorterFlameCocoonDistance = death ? 2200f : CalamityWorld.revenge ? 2400f : Main.expertMode ? 2600f : baseDistance;
+            float shorterSpearCocoonDistance = death ? 1800f : CalamityWorld.revenge ? 2150f : Main.expertMode ? 2500f : baseDistance;
             float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
             float maxDistance = (AIState == (int)Phase.FlameCocoon || AIState == (int)Phase.SpearCocoon) ? shorterDistance : baseDistance;
             if (Vector2.Distance(player.Center, vector) > maxDistance)
@@ -389,7 +389,7 @@ namespace CalamityMod.NPCs.Providence
             }
 
             // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
+            if (!isHoly && !isHell && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Providence
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
             // Take damage or not
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
             NPC.dontTakeDamage = Dying;
 
             // Do the death animation once killed.
@@ -561,7 +561,7 @@ namespace CalamityMod.NPCs.Providence
                 float velocityBoost = death ? 6f * (1f - lifeRatio) : 4f * (1f - lifeRatio);
                 float acceleration = (expertMode ? 1.1f : 1.05f) + accelerationBoost;
                 float velocity = (expertMode ? 16f : 15f) + velocityBoost;
-                if (BossRushEvent.BossRushActive || nightTime)
+                if (nightTime)
                 {
                     acceleration = 1.5f;
                     velocity = 25f;
@@ -632,8 +632,8 @@ namespace CalamityMod.NPCs.Providence
                     int phase = 0;
 
                     // Holy ray in hallow, Crystal in hell
-                    bool useLaser = (phase2 && biomeType == 1) || BossRushEvent.BossRushActive;
-                    bool useCrystal = (phase2 && biomeType == 2) || BossRushEvent.BossRushActive;
+                    bool useLaser = (phase2 && biomeType == 1) || bossRush;
+                    bool useCrystal = (phase2 && biomeType == 2) || bossRush;
 
                     // Unique pattern for Death Mode and Boss Rush
                     if (death)
@@ -888,7 +888,7 @@ namespace CalamityMod.NPCs.Providence
 
                         int shootBoost = death ? (int)Math.Round(6f * (1f - lifeRatio)) : (int)Math.Round(5f * (1f - lifeRatio));
                         int num864 = (expertMode ? 36 : 39) - shootBoost;
-                        if (BossRushEvent.BossRushActive || biomeEnraged)
+                        if (bossRush || biomeEnraged)
                             num864 = 27;
 
                         num864 = (int)(num864 * attackRateMult);
@@ -1104,7 +1104,7 @@ namespace CalamityMod.NPCs.Providence
 
                         int shootBoost = death ? (int)Math.Round(5f * (1f - lifeRatio)) : (int)Math.Round(4f * (1f - lifeRatio));
                         int num856 = (expertMode ? 24 : 26) - shootBoost;
-                        if (BossRushEvent.BossRushActive || biomeEnraged)
+                        if (bossRush || biomeEnraged)
                             num856 = 18;
 
                         num856 = (int)(num856 * attackRateMult);
@@ -1121,7 +1121,7 @@ namespace CalamityMod.NPCs.Providence
 
                             float shootBoost2 = death ? 4f * (1f - lifeRatio) : 2.5f * (1f - lifeRatio);
                             float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
-                            if (BossRushEvent.BossRushActive)
+                            if (bossRush)
                                 num860 = 12.75f;
 
                             if (revenge)
@@ -1444,12 +1444,12 @@ namespace CalamityMod.NPCs.Providence
             float aiTimer = NPC.ai[3];
 
             // Night bool
-            bool malice = CalamityWorld.malice;
-            bool nightTime = !Main.dayTime || malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool nightTime = !Main.dayTime || bossRush;
 
             float baseDistance = 2800f;
-            float shorterFlameCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
-            float shorterSpearCocoonDistance = (CalamityWorld.death || BossRushEvent.BossRushActive || nightTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
+            float shorterFlameCocoonDistance = (CalamityWorld.death || nightTime) ? 600f : CalamityWorld.revenge ? 400f : Main.expertMode ? 200f : 0f;
+            float shorterSpearCocoonDistance = (CalamityWorld.death || nightTime) ? 1000f : CalamityWorld.revenge ? 650f : Main.expertMode ? 300f : 0f;
             float shorterDistance = AIState == (int)Phase.FlameCocoon ? shorterFlameCocoonDistance : shorterSpearCocoonDistance;
 
             bool guardianAlive = false;
@@ -1571,7 +1571,7 @@ namespace CalamityMod.NPCs.Providence
             npcLoot.AddIf(info =>
             {
                 Providence prov = info.npc.ModNPC<Providence>();
-                return CalamityWorld.malice || !prov.hasTakenDaytimeDamage;
+                return !prov.hasTakenDaytimeDamage;
             }, ModContent.ItemType<ProfanedMoonlightDye>(), 1, 3, 4);
 
             // Normal drops: Everything that would otherwise be in the bag
@@ -1645,8 +1645,8 @@ namespace CalamityMod.NPCs.Providence
         {
             void drawProvidenceInstance(Vector2 drawOffset, Color? colorOverride)
             {
-                bool malice = CalamityWorld.malice;
-                bool nightTime = !Main.dayTime || malice;
+                bool bossRush = BossRushEvent.BossRushActive;
+                bool nightTime = !Main.dayTime || bossRush;
 
                 string baseTextureString = "CalamityMod/NPCs/Providence/";
                 string baseGlowTextureString = baseTextureString + "Glowmasks/";

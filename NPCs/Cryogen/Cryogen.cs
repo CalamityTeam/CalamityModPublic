@@ -127,13 +127,13 @@ namespace CalamityMod.NPCs.Cryogen
 
             Player player = Main.player[NPC.target];
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Enrage
-            if (!player.ZoneSnow && !BossRushEvent.BossRushActive)
+            if (!player.ZoneSnow && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -141,19 +141,19 @@ namespace CalamityMod.NPCs.Cryogen
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
             float enrageScale = death ? 0.5f : 0f;
             if (biomeEnraged)
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 2f;
             }
 
             if (enrageScale > 2f)
                 enrageScale = 2f;
 
-            if (BossRushEvent.BossRushActive)
+            if (bossRush)
                 enrageScale = 3f;
 
             // Percent life remaining
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.Cryogen
             if ((int)NPC.ai[0] + 1 > currentPhase)
                 HandlePhaseTransition((int)NPC.ai[0] + 1);
 
-            if (NPC.ai[2] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (NPC.ai[0] < 3f || BossRushEvent.BossRushActive || (death && NPC.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
+            if (NPC.ai[2] == 0f && NPC.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (NPC.ai[0] < 3f || bossRush || (death && NPC.ai[0] > 3f))) //spawn shield for phase 0 1 2, not 3 4 5
             {
                 int num6 = NPC.NewNPC(NPC.GetSource_FromAI(), (int)NPC.Center.X, (int)NPC.Center.Y, ModContent.NPCType<CryogenShield>(), NPC.whoAmI);
                 NPC.ai[2] = num6 + 1;
@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.Cryogen
             else if (NPC.timeLeft < 1800)
                 NPC.timeLeft = 1800;
 
-            float chargePhaseGateValue = malice ? 240f : 360f;
+            float chargePhaseGateValue = bossRush ? 240f : 360f;
             float chargeDuration = 60f;
             float chargeSlowDownTime = 15f;
             float chargeVelocityMin = 12f;
@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.Cryogen
             if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (NPC.ai[0] < 5f || !phase6) && !chargePhase)
             {
                 time++;
-                if (time >= (malice ? 660 : 900))
+                if (time >= (bossRush ? 660 : 900))
                 {
                     time = 0;
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
                             SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                            int totalProjectiles = malice ? 24 : 16;
+                            int totalProjectiles = bossRush ? 24 : 16;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<IceBlast>();
                             int damage = NPC.GetProjectileDamage(type);
@@ -341,7 +341,7 @@ namespace CalamityMod.NPCs.Cryogen
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
                                 SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                                int totalProjectiles = malice ? 18 : 12;
+                                int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = ModContent.ProjectileType<IceBlast>();
                                 int damage = NPC.GetProjectileDamage(type);
@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs.Cryogen
                             if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                             {
                                 SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                                int totalProjectiles = malice ? 18 : 12;
+                                int totalProjectiles = bossRush ? 18 : 12;
                                 float radians = MathHelper.TwoPi / totalProjectiles;
                                 int type = ModContent.ProjectileType<IceBlast>();
                                 int damage = NPC.GetProjectileDamage(type);
@@ -653,7 +653,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height))
                         {
                             SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
-                            int totalProjectiles = malice ? 18 : 12;
+                            int totalProjectiles = bossRush ? 18 : 12;
                             float radians = MathHelper.TwoPi / totalProjectiles;
                             int type = ModContent.ProjectileType<IceBlast>();
                             int damage = NPC.GetProjectileDamage(type);
@@ -768,7 +768,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 float velocity = 9f + enrageScale;
                                 for (int i = 0; i < 3; i++)
                                 {
-                                    int totalProjectiles = malice ? 9 : 6;
+                                    int totalProjectiles = bossRush ? 9 : 6;
                                     float radians = MathHelper.TwoPi / totalProjectiles;
                                     float newVelocity = velocity - (velocity * 0.33f * i);
                                     float velocityX = 0f;
@@ -851,7 +851,7 @@ namespace CalamityMod.NPCs.Cryogen
                                     float velocity = 9f + enrageScale;
                                     for (int i = 0; i < 4; i++)
                                     {
-                                        int totalProjectiles = malice ? 6 : 4;
+                                        int totalProjectiles = bossRush ? 6 : 4;
                                         float radians = MathHelper.TwoPi / totalProjectiles;
                                         float newVelocity = velocity - (velocity * 0.25f * i);
                                         float velocityX = 0f;
@@ -945,7 +945,7 @@ namespace CalamityMod.NPCs.Cryogen
                 NPC.rotation = NPC.velocity.X * 0.1f;
 
                 time++;
-                if (time >= (malice ? 50 : 75))
+                if (time >= (bossRush ? 50 : 75))
                 {
                     time = 0;
                     SoundEngine.PlaySound(SoundID.Item28, NPC.Center);
@@ -966,7 +966,7 @@ namespace CalamityMod.NPCs.Cryogen
                 }
 
                 NPC.ai[1] += 1f;
-                if (NPC.ai[1] >= (malice ? 120f : 180f))
+                if (NPC.ai[1] >= (bossRush ? 120f : 180f))
                 {
                     NPC.TargetClosest();
                     NPC.ai[0] = 4f;
