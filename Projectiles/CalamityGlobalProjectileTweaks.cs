@@ -90,6 +90,7 @@ namespace CalamityMod.Projectiles
                 { ProjectileID.FairyQueenSunDance, defenseDamage }, // Empress of Light's Sun Dance
                 { ProjectileID.FireArrow, pointBlank },
                 { ProjectileID.Flamarang, Do(ExtraUpdatesExact(2)) },
+                { ProjectileID.Flames, Do(IDStaticIFrames(6), ExtraUpdatesDelta(+1)) }, // Flamethrower + Elf Melter
                 { ProjectileID.FlamingJack, Do(ExtraUpdatesExact(1)) },
                 { ProjectileID.FlamingScythe, defenseDamage }, // Pumpking orange spinning scythes
                 { ProjectileID.Flare, pointBlank },

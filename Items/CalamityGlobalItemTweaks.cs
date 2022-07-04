@@ -178,7 +178,7 @@ namespace CalamityMod.Items
                 { ItemID.EbonwoodHammer, Do(HammerPower(25), UseTimeExact(9), TileBoostExact(+0)) },
                 { ItemID.EbonwoodSword, Do(AutoReuse, UseTurn) },
                 { ItemID.ElectrosphereLauncher, Do(DamageRatio(1.1f)) },
-                { ItemID.EldMelter, Do(DamageRatio(1.5f)) }, // Elf Melter, intentionally not in alphabetical order to correct for typo
+                { ItemID.EldMelter, Do(DamageExact(113), ShootSpeedDelta(+3f)) }, // Elf Melter, intentionally not in alphabetical order to correct for typo
                 { ItemID.EmeraldStaff, Do(DamageExact(28)) },
                 { ItemID.EmpressBlade, Do(UseExact(20)) },
                 { ItemID.EnchantedBoomerang, Do(DamageRatio(2f), UseExact(28)) },
@@ -194,7 +194,7 @@ namespace CalamityMod.Items
                 // { ItemID.FireworksLauncher, Do(DamageRatio(2f)) }, // Celebration
                 { ItemID.Flamarang, Do(DamageExact(45)) },
                 { ItemID.Flamelash, Do(DamageRatio(1.25f)) },
-                { ItemID.Flamethrower, Do(DamageExact(47), ShootSpeedExact(14)) },
+                { ItemID.Flamethrower, Do(DamageExact(47), ShootSpeedDelta(+3f)) },
                 { ItemID.FlamingArrow, Do(DamageRatio(1.1f)) },
                 { ItemID.FlareGun, pointBlank },
                 { ItemID.FleshGrinder, Do(HammerPower(70), UseTimeExact(13), TileBoostExact(+0)) },

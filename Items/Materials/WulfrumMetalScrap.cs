@@ -4,8 +4,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
-    [LegacyName("WulfrumShard")]
-    public class WulfrumMetalScrap : ModItem
+    public class WulfrumShard : ModItem
     {
         public override void SetStaticDefaults()
         {

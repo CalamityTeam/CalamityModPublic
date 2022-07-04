@@ -716,7 +716,7 @@ namespace CalamityMod
                 { Vanilla(ItemID.Magiluminescence), MagiluminescenceRecipeEdit },
                 { Vanilla(ItemID.FireGauntlet), AddIngredient(ModContent.ItemType<ScoriaBar>(), 5) },
                 { Vanilla(ItemID.SpiritFlame), AddGroup(AnyAdamantiteBar, 2) },
-                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
+                { VanillaEach(ItemID.BeetleHelmet, ItemID.BeetleScaleMail, ItemID.BeetleShell, ItemID.BeetleLeggings), SwapIngredients(0, 1) },
                 { Vanilla(ItemID.GoblinBattleStandard), ChangeIngredientStack(ItemID.TatteredCloth, 5) },
                 { Vanilla(ItemID.WormFood), WormFoodRecipeEdit },
                 { Vanilla(ItemID.BloodySpine), BloodySpineRecipeEdit },
@@ -1113,6 +1113,7 @@ namespace CalamityMod
             r.AddIngredient(ItemID.Silk, 20);
             r.AddIngredient(ItemID.Ectoplasm, 5);
             r.AddRecipeGroup(AnySilverBar, 5);
+            r.AddTile(TileID.MythrilAnvil);
             r.Register();
 
             // Lihzahrd Power Cell (NOT Calamity's Old Power Cell)
