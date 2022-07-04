@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     if (Owner.HeldItem.ModItem is WulfrumScrewdriver screwdriver && !screwdriver.ScrewStored)
                     {
-                        WulfrumScrewdriver.ScrewStart = new Vector3(Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.Zero) * 14f * Main.rand.NextFloat() - Main.screenPosition, Main.rand.NextFloat(MathHelper.PiOver2 - MathHelper.PiOver4));
+                        WulfrumScrewdriver.ScrewStart = new Vector3(Projectile.Center + Projectile.velocity.SafeNormalize(Vector2.Zero) * 4f * Main.rand.NextFloat() - Main.screenPosition, Projectile.rotation);
                         WulfrumScrewdriver.ScrewTimer = WulfrumScrewdriver.ScrewTime;
                         screwdriver.ScrewStored = true;
 

@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.Audio;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -15,8 +16,8 @@ namespace CalamityMod.Items.Accessories
         {
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Battery");
-            Tooltip.SetDefault("7% increased summon damage\n" +
-                "Attaches a spotlight on your first summon\n" +
+            Tooltip.SetDefault( "Empowers your summons with wulfrum energy, letting them emit light around them\n" + 
+                "7% increased summon damage\n" +
                 "50% chance to get an extra scrap when killing wulfrum robots\n" +
                 "Can also be scrapped at an extractinator");
 
@@ -63,5 +64,30 @@ namespace CalamityMod.Items.Accessories
         public bool battery = false;
         public override void ResetEffects() => battery = false;
         public override void UpdateDead() => battery = false;
+    }
+
+    public class WulfrumBatteryGlobalProjectile : GlobalProjectile
+    {
+        public override void AI(Projectile projectile)
+        {
+            if (!projectile.npcProj && !projectile.trap && projectile.minion && !ProjectileID.Sets.MinionShot[projectile.type] && Main.player[projectile.owner].GetModPlayer<WulfrumBatteryPlayer>().battery)
+            {
+                float lightMult = 3f;
+                if (Lighting.UpdateEveryFrame) //The light loks wayyy too bright in retro/trippy
+                    lightMult = 1.5f;
+
+                Lighting.AddLight(projectile.Center, Color.DeepSkyBlue.ToVector3() * lightMult);
+
+
+
+                if (Main.rand.NextBool(16))
+                {
+                    float size = (projectile.Hitbox.Size() / 2f).Length();
+
+                    Dust zapDust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(1f, 1f) * size, 226, Main.rand.NextVector2Circular(1f, 1f) * Main.rand.NextFloat(1f, 2.3f));
+                    zapDust.noGravity = true;
+                }
+            }
+        }
     }
 }
