@@ -48,6 +48,15 @@ namespace CalamityMod.Items.Weapons.Melee
             SacrificeTotal = 1;
         }
 
+        public override float UseSpeedMultiplier(Player player)
+        {
+            //Super speedy
+            if (player.altFunctionUse == 2)
+                return 2f;
+
+            return base.UseSpeedMultiplier(player);
+        }
+
         public override void SetDefaults()
         {
             Item.width = 14;
