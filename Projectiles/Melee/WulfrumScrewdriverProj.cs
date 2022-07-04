@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
         public ref float EndLag => ref Projectile.ai[0];
         public Player Owner => Main.player[Projectile.owner];
 
-        public Asset<Texture2D> SmearTex;
+        public static Asset<Texture2D> SmearTex;
 
         public override void SetStaticDefaults()
         {

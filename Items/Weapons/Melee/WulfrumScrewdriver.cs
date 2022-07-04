@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public static Vector2 PrevOffset;
         public static float ScrewTimer;
         public static float ScrewTime = 40;
-        public Asset<Texture2D> ScrewTex;
-        public Asset<Texture2D> ScrewOutlineTex;
+        public static Asset<Texture2D> ScrewTex;
+        public static Asset<Texture2D> ScrewOutlineTex;
         public static float ScrewBaseDamageMult = 3f;
         public static float ScrewBazingaModeDamageMult = 3f;
 
