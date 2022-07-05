@@ -590,7 +590,7 @@ namespace CalamityMod.Items
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)
             {
-                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 50%");
+                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 25%");
                 EditTooltipByNum(1, (line) => line.Text = "Increases movement and jump speed by 10% and acceleration by 1.1x");
             }
 

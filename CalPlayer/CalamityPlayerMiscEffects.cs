@@ -2596,7 +2596,7 @@ namespace CalamityMod.CalPlayer
                 (prismaticGreaves ? 0.1 : 0D) +
                 (plagueReaper ? 0.05 : 0D) +
                 (draconicSurge ? 0.2 : 0D) +
-                (Player.empressBrooch ? 0.5 : 0D);
+                (Player.empressBrooch ? 0.25 : 0D);
 
             if (harpyRing)
                 Player.moveSpeed += 0.1f;
