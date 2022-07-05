@@ -478,7 +478,7 @@ namespace CalamityMod
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
                 { NPCID.DukeFishron, 0.15f },
-                { NPCID.DungeonGuardian, 0.999999f },
+                { NPCID.DungeonGuardian, 0.9f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
                 { NPCID.Everscream, 0.1f },
