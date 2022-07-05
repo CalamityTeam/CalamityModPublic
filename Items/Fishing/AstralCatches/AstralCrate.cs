@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 10;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Astral Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
