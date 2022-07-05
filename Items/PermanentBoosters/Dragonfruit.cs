@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +35,15 @@ namespace CalamityMod.Items.PermanentBoosters
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.dFruit || player.statLifeMax < 500)
+            if (modPlayer.dFruit)
+            {
+                string key = "Mods.CalamityMod.DragonfruitText";
+                Color messageColor = Color.Cyan;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                return false;
+            }
+            else if (player.statLifeMax < 500)
             {
                 return false;
             }

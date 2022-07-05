@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,6 +33,11 @@ namespace CalamityMod.Items.PermanentBoosters
             CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.eCore)
             {
+                string key = "Mods.CalamityMod.EtherealCoreText";
+                Color messageColor = Color.Purple;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+
                 return false;
             }
             return true;

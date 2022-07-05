@@ -1158,7 +1158,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.Starfury);
             r.AddIngredient(ItemID.GoldBroadsword);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
+            r.AddIngredient(ModContent.ItemType<PearlShard>(), 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
@@ -1166,21 +1166,21 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.Starfury);
             r.AddIngredient(ItemID.PlatinumBroadsword);
             r.AddIngredient(ItemID.FallenStar, 10);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 3);
+            r.AddIngredient(ModContent.ItemType<PearlShard>(), 3);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Enchanted Boomerang
             r = Recipe.Create(ItemID.EnchantedBoomerang);
             r.AddIngredient(ItemID.WoodenBoomerang);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 6);
+            r.AddIngredient(ModContent.ItemType<PearlShard>(), 6);
             r.AddRecipeGroup(AnyGoldBar, 8);
             r.AddTile(TileID.Anvils);
             r.Register();
 
             // Enchanted Sword
             r = Recipe.Create(ItemID.EnchantedSword);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddIngredient(ModContent.ItemType<PearlShard>(), 10);
             r.AddRecipeGroup(AnyGoldBar, 12);
             r.AddIngredient(ItemID.Diamond);
             r.AddIngredient(ItemID.Ruby);
@@ -1264,7 +1264,7 @@ namespace CalamityMod
             r = Recipe.Create(ItemID.FlyingCarpet);
             r.AddIngredient(ItemID.Silk, 10);
             r.AddIngredient(ModContent.ItemType<DesertFeather>(), 3);
-            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 5);
+            r.AddIngredient(ModContent.ItemType<PearlShard>(), 5);
             r.AddTile(TileID.Anvils);
             r.Register();
 

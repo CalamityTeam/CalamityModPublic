@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Materials
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<VictoryShard>().
+                AddIngredient<PearlShard>().
                 AddIngredient(ItemID.Coral).
                 AddIngredient(ItemID.Starfish).
                 AddIngredient(ItemID.Seashell).

@@ -207,6 +207,15 @@ namespace CalamityMod.Localization
                 new [] { "JungleSchematicRecipeCondition", "Place a schematic from the lab deep within the jungle in your inventory at least once" },
                 new [] { "UnderworldSchematicRecipeCondition", "Place a schematic from the lab near the edges of the underworld in your inventory at least once" },
                 new [] { "IceSchematicRecipeCondition", "Place a schematic from the lab within the frozen caverns in your inventory at least once" },
+
+                new [] { "BloodOrangeText", "You have already consumed a Blood Orange. Eating any more would not be good for you." },
+                new [] { "MiracleFruitText", "You have already consumed a Miracle Fruit. Having another would make you sick." },
+                new [] { "ElderberryText", "You have already consumed an Elderberry. It is probably not wise to eat more than one." },
+                new [] { "DragonfruitText", "You have already consumed a Dragonfruit. Your stomach cannot take any more." },
+
+                new [] { "CometShardText", "You have already used a Comet Shard. Using more would make you nauseous." },
+                new [] { "EtherealCoreText", "You have already used an Ethereal Core. It's best to not use more than you are able to." },
+                new [] { "PhantomHeartText", "You have already used a Phantom Heart. It's probably good that you can't use another." },
             };
         }
 

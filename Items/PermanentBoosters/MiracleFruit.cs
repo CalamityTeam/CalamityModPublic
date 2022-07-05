@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +33,15 @@ namespace CalamityMod.Items.PermanentBoosters
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.mFruit || player.statLifeMax < 500)
+            if (modPlayer.mFruit)
+            {
+                string key = "Mods.CalamityMod.MiracleFruitText";
+                Color messageColor = Color.GreenYellow;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                return false;
+            }
+            else if (player.statLifeMax < 500)
             {
                 return false;
             }

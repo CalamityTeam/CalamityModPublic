@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +33,15 @@ namespace CalamityMod.Items.PermanentBoosters
         public override bool CanUseItem(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.bOrange || player.statLifeMax < 500)
+            if (modPlayer.bOrange)
+            {
+                string key = "Mods.CalamityMod.BloodOrangeText";
+                Color messageColor = Color.Orange;
+                CalamityUtils.DisplayLocalizedText(key, messageColor);
+
+                return false;
+            }
+            else if (player.statLifeMax < 500)
             {
                 return false;
             }
