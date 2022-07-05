@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 int note = Projectile.NewProjectile(source, position.X, position.Y, velocity.X * 0.75f, velocity.Y * 0.75f, noteProj, (int)(damage * 0.75), knockback, player.whoAmI);
                 if (note.WithinBounds(Main.maxProjectiles))
                 {
-                    Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
+                    Main.projectile[note].DamageType = DamageClass.Magic; //why are these notes also internally ranged
                     Main.projectile[note].usesLocalNPCImmunity = true;
                     Main.projectile[note].localNPCHitCooldown = 10;
                 }

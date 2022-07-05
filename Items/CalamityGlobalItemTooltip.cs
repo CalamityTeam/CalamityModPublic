@@ -34,10 +34,6 @@ namespace CalamityMod.Items
             if (nameLine != null)
                 ApplyRarityColor(item, nameLine);
 
-            // If the item is true melee, add a true melee damage number adjacent to the standard damage number.
-            if (item.IsTrueMelee() && item.damage > 0 && Main.LocalPlayer.Calamity().trueMeleeDamage > 0D)
-                TrueMeleeDamageTooltip(item, tooltips);
-
             // Modify all vanilla tooltips before appending mod mechanics (if any).
             ModifyVanillaTooltips(item, tooltips);
 
@@ -594,7 +590,7 @@ namespace CalamityMod.Items
             // Soaring Insignia nerf and clear explanation of what it actually does.
             if (item.type == ItemID.EmpressFlightBooster)
             {
-                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 50%");
+                EditTooltipByNum(0, (line) => line.Text = "Increases wing flight time by 25%");
                 EditTooltipByNum(1, (line) => line.Text = "Increases movement and jump speed by 10% and acceleration by 1.1x");
             }
 
@@ -653,7 +649,7 @@ namespace CalamityMod.Items
 
             // Falcon Blade +20% move speed while holding
             if (item.type == ItemID.FalconBlade)
-                EditTooltipByNum(0, (line) => line.Text += "\nHolding this item increases move speed by 20%");
+                EditTooltipByName("Knockback", (line) => line.Text += "\nHolding this item grants +20% increased movement speed");
             #endregion
 
             // Pre-Hardmode ore armor tooltip edits
@@ -1099,34 +1095,6 @@ namespace CalamityMod.Items
                     return;
             }
             #endregion
-        }
-        #endregion
-
-        #region True Melee Damage Tooltip
-        private void TrueMeleeDamageTooltip(Item item, IList<TooltipLine> tooltips)
-        {
-            TooltipLine line = tooltips.FirstOrDefault((l) => l.Mod == "Terraria" && l.Name == "Damage");
-
-            // If there somehow isn't a damage tooltip line, do not try to perform any edits.
-            if (line is null)
-                return;
-
-            // Start with the existing line of melee damage.
-            StringBuilder sb = new StringBuilder(64);
-            sb.Append(line.Text).Append(" : ");
-
-            // TODO -- True Melee should be its own class that extends Melee, so we can give people True Melee specific stats!
-            Player p = Main.LocalPlayer;
-            float itemCurrentDamage = p.GetTotalDamage<MeleeDamageClass>().ApplyTo(item.damage);
-            double trueMeleeBoost = 1D + p.Calamity().trueMeleeDamage;
-            double imprecisionRoundingCorrection = 5E-06D;
-            int damageToDisplay = (int)(itemCurrentDamage * trueMeleeBoost + imprecisionRoundingCorrection);
-            sb.Append(damageToDisplay);
-
-            // These two pieces are split apart for ease of translation
-            sb.Append(' ');
-            sb.Append("true melee damage");
-            line.Text = sb.ToString();
         }
         #endregion
 

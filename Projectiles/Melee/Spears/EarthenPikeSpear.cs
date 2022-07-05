@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                     int proj = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X + Projectile.velocity.X, Projectile.Center.Y + Projectile.velocity.Y,
                         Projectile.velocity.X * 1.25f, velocityY, ModContent.ProjectileType<FossilShard>(), (int)(Projectile.damage * 0.5), 0f, Projectile.owner, 0f, 0f);
                     if (proj.WithinBounds(Main.maxProjectiles))
-                        Main.projectile[proj].Calamity().forceMelee = true;
+                        Main.projectile[proj].DamageType = DamageClass.Melee;
                 }
             }
         }

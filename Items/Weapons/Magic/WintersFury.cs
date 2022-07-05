@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 speed.Y -= Math.Abs(speed.X) * 0.2f;
                 int p = Projectile.NewProjectile(source, position, speed, ModContent.ProjectileType<FrostShardFriendly>(), damage, knockback, player.whoAmI);
                 if (p.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[p].Calamity().forceMagic = true;
+                    Main.projectile[p].DamageType = DamageClass.Magic;
             }
             if (Main.rand.NextBool(4))
             {

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 10;
+            SacrificeTotal = 5;
             DisplayName.SetDefault("Sunken Crate");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }

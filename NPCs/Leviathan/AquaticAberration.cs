@@ -84,10 +84,10 @@ namespace CalamityMod.NPCs.Leviathan
                 return;
             }
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             NPC.TargetClosest(false);
 
@@ -119,14 +119,14 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 
-            float inertia = malice ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
+            float inertia = bossRush ? 24f : death ? 26f : revenge ? 27f : expertMode ? 28f : 30f;
             if (!sirenAlive || leviathanInPhase4)
                 inertia *= 0.75f;
 
             float num1006 = 0.111111117f * inertia;
             if (NPC.ai[0] == 0f)
             {
-                float scaleFactor6 = malice ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
+                float scaleFactor6 = bossRush ? 14f : death ? 12f : revenge ? 11f : expertMode ? 10f : 8f;
                 if (!sirenAlive || leviathanInPhase4)
                     scaleFactor6 *= 1.25f;
 

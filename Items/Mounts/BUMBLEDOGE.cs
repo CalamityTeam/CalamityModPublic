@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Mounts
                 float kb = 1f;
                 Projectile birb = Projectile.NewProjectileDirect(new EntitySource_Parent(player), pos, vel, ModContent.ProjectileType<MiniatureFolly>(), damage, kb, player.whoAmI);
                 if (birb.whoAmI.WithinBounds(Main.maxProjectiles))
-                    birb.Calamity().forceClassless = true;
+                    birb.DamageType = DamageClass.Generic;
             }
         }
     }

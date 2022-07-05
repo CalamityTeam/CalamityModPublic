@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
                 "Much like a phoenix from the ashes their deaths are simply a part of their life cycle.\n" +
                 "Many times my forces have had to destroy these beings in search of the Profaned Goddess.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

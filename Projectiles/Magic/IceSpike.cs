@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 67, 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 10f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 10f, 20f);
         }
 
         public override void Kill(int timeLeft)

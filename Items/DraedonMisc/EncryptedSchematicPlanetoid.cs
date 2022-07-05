@@ -4,6 +4,8 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CalamityMod.Items.DraedonMisc
 {
@@ -33,6 +35,13 @@ namespace CalamityMod.Items.DraedonMisc
             }
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            TooltipLine line = list.FirstOrDefault(x => x.Mod == "Terraria" && x.Name == "Tooltip0");
+
+            if (line != null && RecipeUnlockHandler.HasUnlockedT2ArsenalRecipes)
+                line.Text = "Has already been decrypted";
+        }
         public override void AddRecipes()
         {
             CreateRecipe().

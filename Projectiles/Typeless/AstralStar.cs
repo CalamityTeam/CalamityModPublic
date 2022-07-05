@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             if (Projectile.ai[0] == 3f)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20);
 
             if (Projectile.ai[0] == 2f)
             {

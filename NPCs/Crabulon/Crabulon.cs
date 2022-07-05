@@ -110,10 +110,10 @@ namespace CalamityMod.NPCs.Crabulon
         {
             Lighting.AddLight((int)((NPC.position.X + (NPC.width / 2)) / 16f), (int)((NPC.position.Y + (NPC.height / 2)) / 16f), 0f, 0.3f, 0.7f);
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             NPC.spriteDirection = NPC.direction;
 
@@ -166,7 +166,7 @@ namespace CalamityMod.NPCs.Crabulon
                 NPC.timeLeft = 1800;
 
             // Enrage
-            if ((!player.ZoneGlowshroom || (NPC.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+            if ((!player.ZoneGlowshroom || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -174,17 +174,17 @@ namespace CalamityMod.NPCs.Crabulon
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || malice))
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || bossRush))
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (biomeEnraged && (!player.ZoneGlowshroom || malice))
+            if (biomeEnraged && (!player.ZoneGlowshroom || bossRush))
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.Crabulon
                             NPC.ai[1] += !revenge ? 4f : 1f;
                     }
 
-                    float jumpGateValue = (malice ? 40f : 120f) / (enrageScale + 1f);
+                    float jumpGateValue = (bossRush ? 40f : 120f) / (enrageScale + 1f);
                     if (NPC.ai[1] >= jumpGateValue)
                     {
                         NPC.ai[1] = -20f;
@@ -481,16 +481,16 @@ namespace CalamityMod.NPCs.Crabulon
 
                     int type = ModContent.ProjectileType<MushBombFall>();
                     int damage = NPC.GetProjectileDamage(type);
-                    float velocityY = BossRushEvent.BossRushActive ? 8f : CalamityWorld.malice ? 6f : CalamityWorld.death ? 4f : 3f;
+                    float velocityY = bossRush ? 8f : death ? 4f : 3f;
 
                     if (NPC.ai[2] % 2f == 0f && phase2 && revenge)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             float velocityX = NPC.ai[2] == 0f ? -4f : 4f;
-                            int totalMushrooms = malice ? 50 : 20;
-                            int shotSpacingDecrement = malice ? 80 : 100;
-                            if (malice)
+                            int totalMushrooms = bossRush ? 50 : 20;
+                            int shotSpacingDecrement = bossRush ? 80 : 100;
+                            if (bossRush)
                                 shotSpacing = 2000;
 
                             for (int x = 0; x < totalMushrooms; x++)
@@ -501,7 +501,7 @@ namespace CalamityMod.NPCs.Crabulon
                                 shotSpacing -= shotSpacingDecrement;
                             }
 
-                            shotSpacing = malice ? 2000 : 1000;
+                            shotSpacing = bossRush ? 2000 : 1000;
                         }
                     }
 

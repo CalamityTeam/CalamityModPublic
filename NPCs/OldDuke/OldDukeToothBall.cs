@@ -64,10 +64,10 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             NPC.rotation += NPC.velocity.X * 0.05f;
 
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.OldDuke
             float num1372 = death ? 14f : revenge ? 13f : 12f;
             if (expertMode)
             {
-                float speedUpMult = BossRushEvent.BossRushActive ? 0.015f : CalamityWorld.malice ? 0.0125f : 0.01f;
+                float speedUpMult = bossRush ? 0.015f : 0.01f;
                 num1372 += Vector2.Distance(player.Center, NPC.Center) * speedUpMult;
             }
 
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.OldDuke
                 NPC.velocity.Y = (NPC.velocity.Y * 7f + num1374) / 8f;
             }
 
-            float num1247 = CalamityWorld.malice ? 0.65f : 0.5f;
+            float num1247 = bossRush ? 0.65f : 0.5f;
             for (int num1248 = 0; num1248 < Main.maxNPCs; num1248++)
             {
                 if (Main.npc[num1248].active)

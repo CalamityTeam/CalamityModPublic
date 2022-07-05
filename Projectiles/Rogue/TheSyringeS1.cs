@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void PostAI()
         {
             if (Projectile.timeLeft < 150)
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, true, 600f, 10f, 20f);
         }
 
         public override bool PreDraw(ref Color lightColor)

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             Item.useAnimation = Item.useTime = 22;
 
             Item.noUseGraphic = true;
-            Item.DamageType = DamageClass.Melee;
+            Item.DamageType = TrueMeleeDamageClass.Instance;
             Item.noMelee = true;
             Item.channel = true;
             Item.autoReuse = true;
@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
             Item.shoot = ModContent.ProjectileType<YateveoBloomProj>();
             Item.shootSpeed = ShootSpeed;
-            Item.Calamity().trueMelee = true;
         }
 
         public override bool AltFunctionUse(Player player) => true;

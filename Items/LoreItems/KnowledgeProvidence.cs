@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("A core surrounded by stone and flame, a simple origin and a simple goal.\n" +
                 "What would have become of us had she not been defeated is a frightening concept to consider.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

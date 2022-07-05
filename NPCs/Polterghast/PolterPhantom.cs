@@ -87,10 +87,10 @@ namespace CalamityMod.NPCs.Polterghast
         {
             CalamityGlobalNPC.ghostBossClone = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             float velocity = 3f;
             float acceleration = 0.03f;
-            if (!player.ZoneDungeon && !BossRushEvent.BossRushActive && player.position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !bossRush && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
             // Predictiveness
-            Vector2 predictionVector = chargePhase && malice ? player.velocity * 20f : Vector2.Zero;
+            Vector2 predictionVector = chargePhase && bossRush ? player.velocity * 20f : Vector2.Zero;
             Vector2 lookAt = player.Center + predictionVector;
             Vector2 rotationVector = lookAt - vector;
 
@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
                 float maxDistanceFromHooks = expertMode ? 650f : 500f;
-                if (speedBoost || malice)
+                if (speedBoost || bossRush)
                     maxDistanceFromHooks += 250f;
                 if (death)
                     maxDistanceFromHooks += maxDistanceFromHooks * 0.1f * (1f - lifeRatio);

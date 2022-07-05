@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.width = 40;  //The width of the .png file in pixels divided by 2.
             Projectile.aiStyle = 19;
-            Projectile.DamageType = DamageClass.Melee;  //Dictates whether this is a melee-class weapon.
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 40;  //The height of the .png file in pixels divided by 2.
             Projectile.friendly = true;
@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 4;
-            Projectile.Calamity().trueMelee = true;
         }
 
         // These numbers sure are common, huh? yeah, they are

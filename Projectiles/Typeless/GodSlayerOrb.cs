@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Typeless
             int num469 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 173, 0f, 0f, 100, default, 2f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 300f, 12f, 20f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

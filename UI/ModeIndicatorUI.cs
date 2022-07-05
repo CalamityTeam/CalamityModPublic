@@ -20,8 +20,6 @@ namespace CalamityMod.UI
                 indicatorFrame = 1;
             if (CalamityWorld.death)
                 indicatorFrame = 2;
-            if (CalamityWorld.malice)
-                indicatorFrame = 3;
 
             Rectangle mouseRectangle = Utils.CenteredRectangle(Main.MouseScreen, Vector2.One * 2f);
             Rectangle indicatorFrameArea = indicatorTexture.Frame(1, 4, 0, indicatorFrame);
@@ -39,11 +37,6 @@ namespace CalamityMod.UI
                 {
                     modeToDisplay = "Death";
                     modeIsActive = CalamityWorld.death;
-                }
-                if (CalamityWorld.malice)
-                {
-                    modeToDisplay = "Malice";
-                    modeIsActive = CalamityWorld.malice;
                 }
 
                 Main.instance.MouseText($"{modeToDisplay} Mode is {(modeIsActive ? "active" : "not active")}.");

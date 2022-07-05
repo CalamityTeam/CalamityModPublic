@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Projectile.ai[1] == 0f)
                 {
-                    CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 200f, 8f, 20f);
+                    CalamityUtils.HomeInOnNPC(Projectile, true, 200f, 8f, 20f);
                 }
             }
         }

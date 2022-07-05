@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.ai[0] += 1f;
             else
             {
-                CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 12f, 20f);
+                CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 12f, 20f);
             }
 
             Projectile.rotation += Math.Abs(Projectile.velocity.X) * 0.01f * (float)Projectile.direction;

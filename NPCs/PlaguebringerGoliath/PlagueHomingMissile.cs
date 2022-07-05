@@ -45,10 +45,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             Lighting.AddLight(NPC.Center, 0.015f, 0.1f, 0f);
 
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 NPC.localAI[1] += 1f;
                 float timeBeforeExploding = 480f + NPC.ai[3] * 2f;
-                float homingDuration = (malice ? 430f : death ? 340f : revenge ? 290f : expertMode ? 240f : 150f) + NPC.ai[3] * 2f;
+                float homingDuration = (bossRush ? 430f : death ? 340f : revenge ? 290f : expertMode ? 240f : 150f) + NPC.ai[3] * 2f;
                 if (NPC.localAI[1] == timeBeforeExploding)
                 {
                     CheckDead();
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 {
                     NPC.noTileCollide = false;
 
-                    if (NPC.velocity.Length() < (malice ? 25f : 20f))
+                    if (NPC.velocity.Length() < (bossRush ? 25f : 20f))
                         NPC.velocity *= 1.01f;
 
                     if (Collision.SolidCollision(NPC.position, NPC.width, NPC.height))

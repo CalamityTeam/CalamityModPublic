@@ -26,7 +26,6 @@ namespace CalamityMod.World
         public static bool revenge = false; // Revengeance Mode
         public static bool death = false; // Death Mode
         public static bool armageddon = false; // Armageddon Mode
-        public static bool malice = false; // Malice Mode
 
         // Sunken Sea
         public static Rectangle SunkenSeaLocation = Rectangle.Empty;

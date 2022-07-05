@@ -8,12 +8,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    class VoidConcentrationStaff : ModItem
+    public class VoidConcentrationStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void Concentration Staff");
-            Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" + //If you have flavour text ideas, feel free to implement, my brain is still like nonexistant as per usual yeah.
+            Tooltip.SetDefault("Summons a foreboding aura that attacks by firing void orbs\n" +
                                "Minion damage is increased by 5% while the aura is active\n" +
                                "Requires three minion slots to use\n" +
                                "Only one may exist\n" +
@@ -59,9 +59,7 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return base.AltFunctionUse(player);
-        }
+        // TODO -- should be strictly unnecessary as per API design
+        public override bool AltFunctionUse(Player player) => base.AltFunctionUse(player);
     }
 }

@@ -43,9 +43,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
 
             Lighting.AddLight(NPC.Center, 0.03f, 0.2f, 0f);
 
@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             Vector2 vector = Main.player[NPC.target].Center - NPC.Center;
             float distanceRequiredForExplosion = 90f;
-            float timeBeforeExplosion = (malice ? 1000f : death ? 740f : revenge ? 520f : 400f) + NPC.ai[3] * 4f;
+            float timeBeforeExplosion = (bossRush ? 1000f : death ? 740f : revenge ? 520f : 400f) + NPC.ai[3] * 4f;
             if (vector.Length() < distanceRequiredForExplosion || NPC.ai[0] >= timeBeforeExplosion)
             {
                 CheckDead();
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
 
             NPC.TargetClosest(true);
-            float velocity = (malice ? 14f : death ? 12f : revenge ? 10f : 8f) + NPC.ai[3] * 0.04f;
+            float velocity = (bossRush ? 14f : death ? 12f : revenge ? 10f : 8f) + NPC.ai[3] * 0.04f;
             Vector2 vector167 = new Vector2(NPC.Center.X + (float)(NPC.direction * 20), NPC.Center.Y + 6f);
             float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             float num1376 = velocity / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
-            float inertia = (malice ? 35f : death ? 40f : revenge ? 45f : 50f) - NPC.ai[3] * 0.25f;
+            float inertia = (bossRush ? 35f : death ? 40f : revenge ? 45f : 50f) - NPC.ai[3] * 0.25f;
             NPC.velocity.X = (NPC.velocity.X * inertia + num1373) / (inertia + 1f);
             NPC.velocity.Y = (NPC.velocity.Y * inertia + num1374) / (inertia + 1f);
         }

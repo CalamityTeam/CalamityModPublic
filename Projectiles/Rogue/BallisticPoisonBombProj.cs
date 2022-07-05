@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.tileCollide = false;
                 Projectile.ai[1] = 0f;
                 Projectile.alpha = 255;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 128);
+                Projectile.ExpandHitboxBy(128);
             }
             Projectile.ai[0] += 1f;
             if (Projectile.ai[0] > 10f)
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 128);
+            Projectile.ExpandHitboxBy(128);
             SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
             int projAmt = Main.rand.Next(3, 5);
             if (Projectile.owner == Main.myPlayer)

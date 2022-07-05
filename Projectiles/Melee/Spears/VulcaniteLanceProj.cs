@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.width = 95;  //The width of the .png file in pixels divided by 2.
             Projectile.aiStyle = 19;
-            Projectile.DamageType = DamageClass.Melee;  //Dictates whether this is a melee-class weapon.
+            Projectile.DamageType = TrueMeleeDamageClass.Instance;
             Projectile.timeLeft = 90;
             Projectile.height = 95;  //The height of the .png file in pixels divided by 2.
             Projectile.friendly = true;
@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Melee.Spears
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.ownerHitCheck = true;
-            Projectile.Calamity().trueMelee = true;
         }
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 2.4f;
@@ -64,7 +63,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             {
                 int boom = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 if (boom.WithinBounds(Main.maxProjectiles))
-                    Main.projectile[boom].Calamity().forceMelee = true;
+                    Main.projectile[boom].DamageType = DamageClass.Melee;
             }
             if (crit)
             {

@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
                 "What used to be a majestic beast swimming through the water has now become a dried-up and\n" +
                 "gluttonous husk, constantly on a voracious search for its next meal.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

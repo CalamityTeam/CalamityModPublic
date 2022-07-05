@@ -453,19 +453,6 @@ namespace CalamityMod.NPCs.DevourerofGods
         {
             player.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 180, true);
             player.AddBuff(ModContent.BuffType<WhisperingDeath>(), 360, true);
-
-            if (player.Calamity().dogTextCooldown <= 0)
-            {
-                string text = Utils.SelectRandom(Main.rand, new string[]
-                {
-                    "Mods.CalamityMod.EdgyBossText8",
-                    "Mods.CalamityMod.EdgyBossText9"
-                });
-                Color messageColor = Color.Cyan;
-                Rectangle location = new Rectangle((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height);
-                CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
-                player.Calamity().dogTextCooldown = 60;
-            }
         }
     }
 }

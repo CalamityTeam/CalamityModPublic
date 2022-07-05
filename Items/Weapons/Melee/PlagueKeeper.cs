@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (bee.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bee].penetrate = 1;
-                    Main.projectile[bee].Calamity().forceMelee = true;
+                    Main.projectile[bee].DamageType = DamageClass.Melee;
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 if (bee.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bee].penetrate = 1;
-                    Main.projectile[bee].Calamity().forceMelee = true;
+                    Main.projectile[bee].DamageType = DamageClass.Melee;
                 }
             }
         }

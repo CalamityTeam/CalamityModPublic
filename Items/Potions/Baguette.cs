@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Potions
 
         public override void SetDefaults()
         {
-            Item.width = 26;
-            Item.height = 26;
+            Item.width = 52;
+            Item.height = 38;
             Item.useTurn = true;
             Item.maxStack = 30;
             Item.useAnimation = 17;

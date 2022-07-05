@@ -15,6 +15,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("An odd pair of creatures; one seeking companionship and the other seeking sustenance.\n" +
                 "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

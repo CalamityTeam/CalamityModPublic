@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Accessories
                         Projectile rain = CalamityUtils.ProjectileRain(source, player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileType<AuraRain>(), damage, 2f, player.whoAmI);
                         if (rain.whoAmI.WithinBounds(Main.maxProjectiles))
                         {
-                            rain.Calamity().forceClassless = true;
+                            rain.DamageType = DamageClass.Generic;
                             rain.tileCollide = false;
                             rain.penetrate = 1;
                         }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -192,8 +193,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             Vector2 vector18 = new Vector2(NPC.position.X + NPC.width * 0.5f, NPC.position.Y + NPC.height * 0.5f);
             float num191 = Main.npc[CalamityGlobalNPC.DoGHead].position.X + (Main.npc[CalamityGlobalNPC.DoGHead].width / 2);
             float num192 = Main.npc[CalamityGlobalNPC.DoGHead].position.Y + (Main.npc[CalamityGlobalNPC.DoGHead].height / 2);
-            float num188 = CalamityWorld.malice ? 30f : CalamityWorld.revenge ? 25f : 23f;
-            float num189 = CalamityWorld.malice ? 0.9f : CalamityWorld.revenge ? 0.75f : 0.23f;
+            float num188 = BossRushEvent.BossRushActive ? 30f : CalamityWorld.revenge ? 25f : 23f;
+            float num189 = BossRushEvent.BossRushActive ? 0.9f : CalamityWorld.revenge ? 0.75f : 0.23f;
 
             if (increaseSpeedMore)
                 num189 *= 4f;

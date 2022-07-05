@@ -112,10 +112,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             CalamityGlobalNPC.doughnutBoss = NPC.whoAmI;
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             // Become immune over time if target isn't in hell or hallow
             bool isHoly = player.ZoneHallow;
             bool isHell = player.ZoneUnderworldHeight;
-            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
+            if (!isHoly && !isHell && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -240,7 +240,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     phase1 = true;
             }
 
-            float inertia = (malice || biomeEnraged) ? 45f : death ? 50f : revenge ? 52f : expertMode ? 55f : 60f;
+            float inertia = (bossRush || biomeEnraged) ? 45f : death ? 50f : revenge ? 52f : expertMode ? 55f : 60f;
             if (lifeRatio < 0.5f)
                 inertia *= 0.8f;
             if (!phase1)
@@ -259,13 +259,13 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.spriteDirection = NPC.direction;
                 }
 
-                float velocity = (malice || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
+                float velocity = (bossRush || biomeEnraged) ? 18f : death ? 16f : revenge ? 15f : expertMode ? 14f : 12f;
                 if (Main.getGoodWorld)
                     velocity *= 1.25f;
 
                 Vector2 targetVector = player.Center - vectorCenter;
                 targetVector = Vector2.Normalize(targetVector) * velocity;
-                float phaseGateValue = (malice || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 50f : death ? 66f : revenge ? 75f : expertMode ? 83f : 100f;
                 if (defenderAlive)
                     phaseGateValue *= 1.5f;
 
@@ -276,7 +276,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float divisor = (malice || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
+                        float divisor = (bossRush || biomeEnraged) ? 30f : death ? 40f : revenge ? 44f : expertMode ? 50f : 60f;
                         if (!phase1)
                             divisor = (float)Math.Round(divisor * 0.8f);
 
@@ -338,7 +338,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     NPC.netUpdate = true;
                     Vector2 velocity = new Vector2(NPC.ai[2], NPC.ai[3]);
                     velocity.Normalize();
-                    velocity *= (malice || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
+                    velocity *= (bossRush || biomeEnraged) ? 32f : death ? 28f : revenge ? 26f : expertMode ? 24f : 20f;
                     if (defenderAlive)
                         velocity *= 0.8f;
                     if (Main.getGoodWorld)
@@ -356,7 +356,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     NPC.localAI[0] += 1f;
-                    float projectileGateValue = (malice || biomeEnraged) ? 30f : death ? 35f : revenge ? 37f : expertMode ? 40f : 45f;
+                    float projectileGateValue = (bossRush || biomeEnraged) ? 30f : death ? 35f : revenge ? 37f : expertMode ? 40f : 45f;
                     if (NPC.localAI[0] >= projectileGateValue && Vector2.Distance(vectorCenter, player.Center) > 160f)
                     {
                         NPC.localAI[0] = 0f;
@@ -384,7 +384,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                                 break;
                         }
 
-                        if (malice || biomeEnraged)
+                        if (bossRush || biomeEnraged)
                             totalProjectiles *= 2;
 
                         float radians = MathHelper.TwoPi / totalProjectiles;
@@ -401,7 +401,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 }
 
                 NPC.ai[1] += 1f;
-                float phaseGateValue = (malice || biomeEnraged) ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
+                float phaseGateValue = (bossRush || biomeEnraged) ? 60f : death ? 70f : revenge ? 75f : expertMode ? 80f : 90f;
                 if (NPC.ai[1] >= phaseGateValue)
                 {
                     NPC.ai[0] = 3f;

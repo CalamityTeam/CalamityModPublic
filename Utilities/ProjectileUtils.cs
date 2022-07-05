@@ -1,4 +1,7 @@
 ﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -25,6 +28,13 @@ namespace CalamityMod
         // Is it because of whips? We can make it "IsSummonNotWhip" if needed
         public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityLists.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
 
+        public static bool IsTrueMelee(this Projectile proj)
+        {
+            if (proj is null || !proj.active)
+                return false;
+            return proj.CountsAsClass<TrueMeleeDamageClass>() || proj.CountsAsClass<TrueMeleeNoSpeedDamageClass>();
+        }
+
         public static T ModProjectile<T>(this Projectile projectile) where T : ModProjectile
         {
             return projectile.ModProjectile as T;
@@ -44,6 +54,61 @@ namespace CalamityMod
                 return Main.projectile[i];
             }
             return null;
+        }
+
+        #region Projectile AI Utilities
+        public static void ExpandHitboxBy(this Projectile projectile, int width, int height)
+        {
+            projectile.position = projectile.Center;
+            projectile.width = width;
+            projectile.height = height;
+            projectile.position -= projectile.Size * 0.5f;
+        }
+        public static void ExpandHitboxBy(this Projectile projectile, int newSize) => projectile.ExpandHitboxBy(newSize, newSize);
+        public static void ExpandHitboxBy(this Projectile projectile, float expandRatio) => projectile.ExpandHitboxBy((int)(projectile.width * expandRatio), (int)(projectile.height * expandRatio));
+
+        public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
+        {
+            if (!projectile.friendly)
+                return;
+
+            // Set amount of extra updates.
+            if (projectile.Calamity().defExtraUpdates == -1)
+                projectile.Calamity().defExtraUpdates = projectile.extraUpdates;
+
+            Vector2 destination = projectile.Center;
+            float maxDistance = distanceRequired;
+            bool locatedTarget = false;
+
+            // Find a target.
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+                if (!Main.npc[i].CanBeChasedBy(projectile, false) || !projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance))
+                    continue;
+
+                if (ignoreTiles || Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                {
+                    destination = Main.npc[i].Center;
+                    locatedTarget = true;
+                    break;
+                }
+            }
+
+            if (locatedTarget)
+            {
+                // Increase amount of extra updates to greatly increase homing velocity.
+                projectile.extraUpdates = projectile.Calamity().defExtraUpdates + 1;
+
+                // Home in on the target.
+                Vector2 homeDirection = (destination - projectile.Center).SafeNormalize(Vector2.UnitY);
+                projectile.velocity = (projectile.velocity * N + homeDirection * homingVelocity) / (N + 1f);
+            }
+            else
+            {
+                // Set amount of extra updates to default amount.
+                projectile.extraUpdates = projectile.Calamity().defExtraUpdates;
+            }
         }
 
         // NOTE - Do not under any circumstance use these predictive methods for enemies or bosses. It is intended for minions and player-created projectiles.
@@ -95,7 +160,175 @@ namespace CalamityMod
             Vector2 idealVelocity = CalculatePredictiveAimToTarget(projectile.Center, target, homingSpeed);
             return (projectile.velocity * (inertia - 1f) + idealVelocity) / inertia;
         }
+        #endregion
 
+        #region Projectile Spawning Utilities
+        public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
+        {
+            float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
+            if (projType == ProjectileType<AstralStarMagic>())
+                x = targetPos.X + xLimit;
+            float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper);
+            Vector2 spawnPosition = new Vector2(x, y);
+            Vector2 velocity = targetPos - spawnPosition;
+            velocity.X += Main.rand.NextFloat(-xVariance, xVariance);
+            float speed = projSpeed;
+            float targetDist = velocity.Length();
+            targetDist = speed / targetDist;
+            velocity.X *= targetDist;
+            velocity.Y *= targetDist;
+            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
+        }
+
+        public static Projectile ProjectileBarrage(IEntitySource source, Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
+        {
+            float xPos = originVec.X + Main.rand.NextFloat(xOffsetMin, xOffsetMax) * fromRight.ToDirectionInt();
+            float yPos = originVec.Y + Main.rand.NextFloat(yOffsetMin, yOffsetMax) * Main.rand.NextBool().ToDirectionInt();
+            Vector2 spawnPosition = new Vector2(xPos, yPos);
+            Vector2 velocity = targetPos - spawnPosition;
+            velocity.X += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
+            velocity.Y += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
+            velocity.Normalize();
+            velocity *= projSpeed * (clamped ? 150f : 1f);
+            //This clamp means the spawned projectiles only go at diagnals and are not accurate
+            if (clamped)
+            {
+                velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
+                velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
+            }
+            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
+        }
+
+        public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
+        {
+            float ai1 = Main.rand.NextFloat() + 0.5f;
+            int[] array = new int[Main.maxNPCs];
+            int targetArrayA = 0;
+            int targetArrayB = 0;
+            for (int i = 0; i < Main.maxNPCs; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (npc.CanBeChasedBy(projectile, false))
+                {
+                    float enemyDist = Vector2.Distance(projectile.Center, npc.Center);
+                    if (enemyDist < distanceRequired)
+                    {
+                        if (Collision.CanHit(projectile.position, 1, 1, npc.position, npc.width, npc.height) && enemyDist > 50f)
+                        {
+                            array[targetArrayB] = i;
+                            targetArrayB++;
+                        }
+                        else if (targetArrayB == 0)
+                        {
+                            array[targetArrayA] = i;
+                            targetArrayA++;
+                        }
+                    }
+                }
+            }
+            if (targetArrayA == 0 && targetArrayB == 0)
+            {
+                return Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, Vector2.Zero, ProjectileType<NobodyKnows>(), 0, 0f, projectile.owner);
+            }
+            int target = targetArrayB <= 0 ? array[Main.rand.Next(targetArrayA)] : array[Main.rand.Next(targetArrayB)];
+            Vector2 velocity = RandomVelocity(100f, speedMult, speedMult, 1f);
+            Projectile orb = Projectile.NewProjectileDirect(projectile.GetSource_FromThis(), projectile.Center, velocity, projType, damage, 0f, projectile.owner, gsPhantom ? 0f : target, gsPhantom ? ai1 : 0f);
+            return orb;
+        }
+
+        // TODO -- This overused method should NOT have hardcoded projectile type checks in it.
+        public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
+        {
+            // Only shoot once every N frames.
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > projectileTimer)
+            {
+                projectile.localAI[0] = 0f;
+
+                // Only search for targets if projectiles could be fired.
+                float maxDistance = distanceRequired;
+                bool homeIn = false;
+                int[] targetArray = new int[maxTargets];
+                int targetArrayIndex = 0;
+
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].CanBeChasedBy(projectile, false))
+                    {
+                        float extraDistance = (Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+
+                        bool canHit = true;
+                        if (extraDistance < maxDistance)
+                            canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
+
+                        if (projectile.WithinRange(Main.npc[i].Center, maxDistance + extraDistance) && canHit)
+                        {
+                            if (targetArrayIndex < maxTargets)
+                            {
+                                targetArray[targetArrayIndex] = i;
+                                targetArrayIndex++;
+                                homeIn = true;
+                            }
+                            else
+                                break;
+                        }
+                    }
+                }
+
+                // If there is anything to actually shoot at, pick targets at random and fire.
+                if (homeIn)
+                {
+                    int randomTarget = Main.rand.Next(targetArrayIndex);
+                    randomTarget = targetArray[randomTarget];
+
+                    projectile.localAI[0] = 0f;
+                    Vector2 spawnPos = projectile.Center + projectile.velocity * 4f;
+                    Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - spawnPos) * homingVelocity;
+
+                    if (attackMultiple)
+                    {
+                        for (int i = 0; i < targetArrayIndex; i++)
+                        {
+                            velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - spawnPos) * homingVelocity;
+
+                            if (projectile.owner == Main.myPlayer)
+                            {
+                                int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+
+                                if (projectile.type == ProjectileType<EradicatorProjectile>())
+                                    if (projectile2.WithinBounds(Main.maxProjectiles))
+                                        Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
+                            }
+                        }
+
+                        return;
+                    }
+
+                    if (projectile.type == ProjectileType<GodsGambitYoyo>())
+                    {
+                        velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
+                        velocity.X += Main.rand.Next(-30, 31) * 0.05f;
+                    }
+
+                    if (projectile.owner == Main.myPlayer)
+                    {
+                        int projectile2 = Projectile.NewProjectile(projectile.GetSource_FromThis(), spawnPos, velocity, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+
+                        if (projectile.type == ProjectileType<GodsGambitYoyo>() ||
+                            projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
+                            if (projectile2.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile2].DamageType = DamageClass.Melee;
+
+                        if (projectile.type == ProjectileType<FishboneBoomerangProjectile>())
+                            if (projectile2.WithinBounds(Main.maxProjectiles))
+                                Main.projectile[projectile2].DamageType = RogueDamageClass.Instance;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Projectile Despawning/Killing Utilities
         public static void KillAllHostileProjectiles()
         {
             for (int x = 0; x < Main.maxProjectiles; x++)
@@ -133,6 +366,7 @@ namespace CalamityMod
                 }
             }
         }
+        #endregion
 
         public static int FindFirstProjectile(int Type)
         {
@@ -167,42 +401,6 @@ namespace CalamityMod
                     }
                 }
             }
-        }
-
-        public static Projectile ProjectileRain(IEntitySource source, Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner)
-        {
-            float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
-            if (projType == ProjectileType<AstralStarMagic>())
-                x = targetPos.X + xLimit;
-            float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper);
-            Vector2 spawnPosition = new Vector2(x, y);
-            Vector2 velocity = targetPos - spawnPosition;
-            velocity.X += Main.rand.NextFloat(-xVariance, xVariance);
-            float speed = projSpeed;
-            float targetDist = velocity.Length();
-            targetDist = speed / targetDist;
-            velocity.X *= targetDist;
-            velocity.Y *= targetDist;
-            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
-        }
-
-        public static Projectile ProjectileBarrage(IEntitySource source, Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
-        {
-            float xPos = originVec.X + Main.rand.NextFloat(xOffsetMin, xOffsetMax) * fromRight.ToDirectionInt();
-            float yPos = originVec.Y + Main.rand.NextFloat(yOffsetMin, yOffsetMax) * Main.rand.NextBool().ToDirectionInt();
-            Vector2 spawnPosition = new Vector2(xPos, yPos);
-            Vector2 velocity = targetPos - spawnPosition;
-            velocity.X += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
-            velocity.Y += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
-            velocity.Normalize();
-            velocity *= projSpeed * (clamped ? 150f : 1f);
-            //This clamp means the spawned projectiles only go at diagnals and are not accurate
-            if (clamped)
-            {
-                velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
-                velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
-            }
-            return Projectile.NewProjectileDirect(source, spawnPosition, velocity, projType, damage, knockback, owner);
         }
 
         public static int DamageSoftCap(double dmgInput, int cap)

@@ -144,10 +144,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             NPC.height = (int)(NPC.frame.Height * (charging ? 1.5f : 1.8f));
 
             // Mode variables
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Vector2 distFromPlayer = player.Center - vectorCenter;
 
             // Enrage
-            if (!player.ZoneJungle && !BossRushEvent.BossRushActive)
+            if (!player.ZoneJungle && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -233,12 +233,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
             float enrageScale = death ? 0.5f : 0f;
             if (biomeEnraged)
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1.5f;
             }
 
@@ -248,10 +248,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             if (Main.getGoodWorld)
                 enrageScale += 0.5f;
 
-            if (BossRushEvent.BossRushActive)
+            if (bossRush)
                 enrageScale = 2f;
 
-            bool diagonalDash = (revenge && phase2) || malice;
+            bool diagonalDash = (revenge && phase2) || bossRush;
 
             if (NPC.ai[0] != 0f && NPC.ai[0] != 4f)
                 NPC.rotation = NPC.velocity.X * 0.02f;
@@ -579,7 +579,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 calamityGlobalNPC.newAI[0] += 1f;
                 if (num1057 < 600f || calamityGlobalNPC.newAI[0] >= 180f)
                 {
-                    NPC.ai[0] = (phase3 || malice) ? 5f : 1f;
+                    NPC.ai[0] = (phase3 || bossRush) ? 5f : 1f;
                     NPC.ai[1] = 0f;
                     calamityGlobalNPC.newAI[0] = 0f;
                     NPC.netUpdate = true;
@@ -879,12 +879,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 baseVelocity.Normalize();
                                 baseVelocity *= speed;
 
-                                int missiles = malice ? 16 : MissileProjectiles;
-                                int spread = malice ? 18 : 24;
+                                int missiles = bossRush ? 16 : MissileProjectiles;
+                                int spread = bossRush ? 18 : 24;
                                 for (int i = 0; i < missiles; i++)
                                 {
-                                    Vector2 spawn = vectorCenter; // Normal = 96, Malice = 144
-                                    spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Malice = -144 to 156
+                                    Vector2 spawn = vectorCenter; // Normal = 96, Boss Rush = 144
+                                    spawn.X += i * (int)(spread * 1.125) - (missiles * (spread / 2)); // Normal = -96 to 93, Boss Rush = -144 to 156
                                     Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / missiles)));
                                     Projectile.NewProjectile(NPC.GetSource_FromAI(), spawn, velocity, type, damage, 0f, Main.myPlayer, nukeBarrageChallengeAmt, player.position.Y);
                                 }
@@ -1025,7 +1025,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             acceleration *= 0.1f * enrageScale + 1f;
             velocity *= 1f - enrageScale * 0.1f;
-            if (CalamityWorld.malice || BossRushEvent.BossRushActive)
+            if (BossRushEvent.BossRushActive)
                 velocity *= 0.5f;
             deceleration *= 1f - enrageScale * 0.1f;
 

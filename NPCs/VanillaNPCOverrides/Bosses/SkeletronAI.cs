@@ -15,9 +15,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -99,15 +98,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             float distance = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
 
             // Despawn
-            if (Main.player[npc.target].dead || distance > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
+            if (Main.player[npc.target].dead || distance > (bossRush ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
             {
                 npc.TargetClosest();
-                if (Main.player[npc.target].dead || distance > (BossRushEvent.BossRushActive ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
+                if (Main.player[npc.target].dead || distance > (bossRush ? CalamityGlobalNPC.CatchUpDistance350Tiles : CalamityGlobalNPC.CatchUpDistance200Tiles))
                     npc.ai[1] = 3f;
             }
 
             // Daytime enrage
-            if (Main.dayTime && !BossRushEvent.BossRushActive && npc.ai[1] != 3f && npc.ai[1] != 2f)
+            if (Main.dayTime && !bossRush && npc.ai[1] != 3f && npc.ai[1] != 2f)
             {
                 npc.ai[1] = 2f;
                 SoundEngine.PlaySound(SoundID.Roar, npc.position);
@@ -188,7 +187,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                 // If hands are dead: 7 seconds
                 // If hands are not dead: 14 seconds
                 // If hands are dead in phase 2: 4.7 seconds
-                npc.ai[3] += 1f + (((phase2 && handsDead) || malice) ? 0.5f : 0f) - ((handsDead || malice) ? 0f : 0.5f);
+                npc.ai[3] += 1f + (((phase2 && handsDead) || bossRush) ? 0.5f : 0f) - ((handsDead || bossRush) ? 0f : 0.5f);
 
                 // Dust to show teleport
                 int ai3 = (int)npc.ai[3]; // 0 to 30, and -60
@@ -278,7 +277,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
             // Skull shooting
             if (handsDead && npc.ai[1] == 0f)
             {
-                float num158 = BossRushEvent.BossRushActive ? 10f : malice ? 15f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
+                float num158 = bossRush ? 10f : phase2 ? (60f - (death ? 30f * (1f - lifeRatio) : 0f)) : 75f;
                 if (Main.getGoodWorld)
                     num158 *= 0.8f;
 
@@ -298,7 +297,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         num165 = num162 / num165;
                         num163 *= num165;
                         num164 *= num165;
-                        int spread = malice ? 100 : 50;
+                        int spread = bossRush ? 100 : 50;
                         Vector2 vector19 = new Vector2(num163 + Main.rand.Next(-spread, spread + 1) * 0.01f, num164 + Main.rand.Next(-spread, spread + 1) * 0.01f);
                         vector19.Normalize();
                         vector19 *= num162;
@@ -348,7 +347,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     num171 += 0.05f;
                     num172 += 2f;
                 }
-                if (malice)
+                if (bossRush)
                 {
                     num169 *= 1.25f;
                     num170 *= 0.75f;
@@ -423,9 +422,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 // Increase speed while charging
                 npc.damage = (int)(npc.defDamage * 1.3);
-                float num176 = BossRushEvent.BossRushActive ? 9f : malice ? 6f : 4.5f;
+                float num176 = bossRush ? 9f : 4.5f;
                 float velocityBoost = death ? 1f : 1f - lifeRatio;
-                if (handsDead || malice)
+                if (handsDead || bossRush)
                     num176 += velocityBoost;
 
                 if (num175 > 150f)
@@ -493,8 +492,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Get a target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -557,8 +556,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                 if (Main.npc[(int)npc.ai[1]].ai[1] != 0f)
                 {
-                    float maxX = malice ? 4f : death ? 6f : 7f;
-                    float maxY = malice ? 3f : death ? 4.5f : 5f;
+                    float maxX = bossRush ? 4f : death ? 6f : 7f;
+                    float maxY = bossRush ? 3f : death ? 4.5f : 5f;
 
                     if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f * yMultiplier)
                     {
@@ -605,8 +604,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         npc.netUpdate = true;
                     }
 
-                    float maxX = malice ? 4f : death ? 6f : 7f;
-                    float maxY = malice ? 1f : death ? 2f : 2.5f;
+                    float maxX = bossRush ? 4f : death ? 6f : 7f;
+                    float maxY = bossRush ? 1f : death ? 2f : 2.5f;
 
                     if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 230f * yMultiplier)
                     {

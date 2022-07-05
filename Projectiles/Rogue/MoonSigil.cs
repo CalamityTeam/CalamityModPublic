@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return;
             }
 
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 8f, 20f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 300f, 8f, 20f);
         }
 
         // Reduce damage of projectiles if more than the cap are active

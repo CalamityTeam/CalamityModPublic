@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                     return;
                 }
             }
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 15f, 15f);
+            CalamityUtils.HomeInOnNPC(Projectile, !Projectile.tileCollide, 200f, 15f, 15f);
         }
 
         public override Color? GetAlpha(Color lightColor)

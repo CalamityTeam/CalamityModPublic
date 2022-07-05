@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
         }
 
         public float GetSlowdownAreaEdgeRadius(bool lastMechAlive) =>
-            ((CalamityWorld.malice || BossRushEvent.BossRushActive) ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
+            (BossRushEvent.BossRushActive ? 400f : CalamityWorld.death ? 600f : CalamityWorld.revenge ? 700f : Main.expertMode ? 800f : 1000f) * (lastMechAlive ? 0.6f : 1f) * (Main.getGoodWorld ? 0.5f : 1f);
 
         public int CheckForOtherMechs(ref Player target, out bool exoPrimeAlive, out bool exoTwinsAlive)
         {
@@ -258,10 +258,10 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             CalamityGlobalNPC.draedonExoMechWorm = NPC.whoAmI;
 
             // Difficulty modes
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool expertMode = Main.expertMode || bossRush;
 
             // Percent life remaining
             float lifeRatio = NPC.life / (float)NPC.lifeMax;
@@ -484,7 +484,7 @@ namespace CalamityMod.NPCs.ExoMechs.Thanatos
             float laserBarrageLocationDistance = turnDistance * 3f;
 
             // Velocity and turn speed values
-            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (malice ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
+            float baseVelocityMult = (shouldGetBuffedByBerserkPhase ? 0.25f : 0f) + (bossRush ? 1.15f : death ? 1.1f : revenge ? 1.075f : expertMode ? 1.05f : 1f);
             float baseVelocity = 11.1f * baseVelocityMult;
 
             // Increase top velocity if target is dead or if Thanatos is uncoiling

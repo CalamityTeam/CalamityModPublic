@@ -117,13 +117,13 @@ namespace CalamityMod.NPCs.Perforator
             if (Vector2.Distance(Main.player[NPC.target].Center, NPC.Center) > CalamityGlobalNPC.CatchUpDistance200Tiles)
                 NPC.TargetClosest();
 
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             // Variables for ichor blob phase
-            float blobPhaseGateValue = malice ? 450f : 600f;
+            float blobPhaseGateValue = bossRush ? 450f : 600f;
             bool floatAboveToFireBlobs = NPC.ai[2] >= blobPhaseGateValue - 120f;
 
             // Don't deal damage for 3 seconds after spawning or while firing blobs
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.Perforator
             bool phase2 = lifeRatio < 0.7f;
 
             // Enrage
-            if ((!player.ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !BossRushEvent.BossRushActive)
+            if ((!player.ZoneCrimson || (NPC.position.Y / 16f) < Main.worldSurface) && !bossRush)
             {
                 if (biomeEnrageTimer > 0)
                     biomeEnrageTimer--;
@@ -153,17 +153,17 @@ namespace CalamityMod.NPCs.Perforator
             else
                 biomeEnrageTimer = CalamityGlobalNPC.biomeEnrageTimerMax;
 
-            bool biomeEnraged = biomeEnrageTimer <= 0 || malice;
+            bool biomeEnraged = biomeEnrageTimer <= 0 || bossRush;
 
-            float enrageScale = BossRushEvent.BossRushActive ? 1f : 0f;
-            if (biomeEnraged && (!player.ZoneCrimson || malice))
+            float enrageScale = bossRush ? 1f : 0f;
+            if (biomeEnraged && (!player.ZoneCrimson || bossRush))
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
-            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || malice))
+            if (biomeEnraged && ((NPC.position.Y / 16f) < Main.worldSurface || bossRush))
             {
-                NPC.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive;
+                NPC.Calamity().CurrentlyEnraged = !bossRush;
                 enrageScale += 1f;
             }
 
@@ -283,7 +283,7 @@ namespace CalamityMod.NPCs.Perforator
             // Emit ichor blobs
             if (phase2)
             {
-                if (wormsAlive == 0 || malice || floatAboveToFireBlobs)
+                if (wormsAlive == 0 || bossRush || floatAboveToFireBlobs)
                 {
                     NPC.ai[2] += 1f;
                     if (NPC.ai[2] >= blobPhaseGateValue)
@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.Perforator
                         if (NPC.ai[2] < blobPhaseGateValue + 300f)
                         {
                             if (NPC.velocity.Length() > 0.5f)
-                                NPC.velocity *= malice ? 0.94f : 0.96f;
+                                NPC.velocity *= bossRush ? 0.94f : 0.96f;
                             else
                                 NPC.ai[2] = blobPhaseGateValue + 300f;
                         }
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.Perforator
                             {
                                 Vector2 blobVelocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                                 blobVelocity.Normalize();
-                                blobVelocity *= Main.rand.Next(400, 801) * (malice ? 0.02f : 0.01f);
+                                blobVelocity *= Main.rand.Next(400, 801) * (bossRush ? 0.02f : 0.01f);
 
                                 float blobVelocityYAdd = Math.Abs(blobVelocity.Y) * 0.5f;
                                 if (blobVelocity.Y < 2f)

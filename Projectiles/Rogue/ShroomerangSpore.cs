@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 56);
+            Projectile.ExpandHitboxBy(56);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

@@ -137,10 +137,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 NPC.life = Main.npc[(int)NPC.ai[1]].life;
 
             bool phase2 = NPC.life / (float)NPC.lifeMax < 0.6f;
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
-            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || bossRush;
+            bool revenge = CalamityWorld.revenge || bossRush;
+            bool death = CalamityWorld.death || bossRush;
 
             if (phase2)
             {
@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[3] < laserWallPhaseGateValue - 180f)
                         {
                             NPC.localAI[0] += 1f;
-                            float laserGateValue = malice ? 156f : death ? 180f : 192f;
+                            float laserGateValue = bossRush ? 156f : death ? 180f : 192f;
                             if (Main.getGoodWorld)
                                 laserGateValue *= 0.5f;
 
@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 {
                                     SoundEngine.PlaySound(SoundID.Item12, player.position);
                                     NPC.TargetClosest();
-                                    float maxProjectileVelocity = malice ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
+                                    float maxProjectileVelocity = bossRush ? 8f : death ? 7.5f : revenge ? 7.25f : expertMode ? 7f : 6.5f;
                                     float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                     float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                     Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;
@@ -244,8 +244,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                     else
                     {
                         // Fire lasers from every 10th (20th in normal mode) body segment if not in laser barrage phase
-                        float laserBarrageGateValue = malice ? 780f : death ? 900f : 960f;
-                        float laserBarrageShootGateValue = malice ? 160f : 240f;
+                        float laserBarrageGateValue = bossRush ? 780f : death ? 900f : 960f;
+                        float laserBarrageShootGateValue = bossRush ? 160f : 240f;
                         float laserBarragePhaseGateValue = laserBarrageGateValue - laserBarrageShootGateValue * 1.5f;
                         if (Main.npc[(int)NPC.ai[2]].Calamity().newAI[1] < laserBarragePhaseGateValue)
                         {
@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                                 SoundEngine.PlaySound(SoundID.Item12, player.position);
                                 NPC.localAI[0] = 0f;
                                 NPC.TargetClosest();
-                                float maxProjectileVelocity = malice ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
+                                float maxProjectileVelocity = bossRush ? 7.5f : death ? 7f : revenge ? 6.75f : expertMode ? 6.5f : 6f;
                                 float minProjectileVelocity = maxProjectileVelocity * 0.25f;
                                 float projectileVelocity = MathHelper.Clamp(Vector2.Distance(player.Center, NPC.Center) * 0.01f, minProjectileVelocity, maxProjectileVelocity);
                                 Vector2 velocityVector = Vector2.Normalize(player.Center - NPC.Center) * projectileVelocity;

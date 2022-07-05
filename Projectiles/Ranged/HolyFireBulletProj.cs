@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.DamageType = DamageClass.Ranged;
             Projectile.MaxUpdates = 5;
             Projectile.timeLeft = Lifetime;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override void AI()
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
 
                 // Only declare the explosion as ranged class if the bullet itself is ranged class.
                 if (boom.WithinBounds(Main.maxProjectiles) && Projectile.CountsAsClass<RangedDamageClass>())
-                    Main.projectile[boom].Calamity().forceRanged = true;
+                    Main.projectile[boom].DamageType = DamageClass.Ranged;
             }
 
             // Spawn four shrapnel dust. This deals no damage.

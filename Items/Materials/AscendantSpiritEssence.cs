@@ -19,6 +19,7 @@ namespace CalamityMod.Items.Materials
             Tooltip.SetDefault("A catalyst of the highest caliber formed by fusing powerful souls");
             Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(6, 6));
             ItemID.Sets.AnimatesAsSoul[Type] = true;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

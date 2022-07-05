@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 if (wasps.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[wasps].penetrate = 1;
-                    Main.projectile[wasps].Calamity().forceMagic = true;
+                    Main.projectile[wasps].DamageType = DamageClass.Magic;
                 }
             }
             for (int i = 0; i <= 3; i++)
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 if (bees.WithinBounds(Main.maxProjectiles))
                 {
                     Main.projectile[bees].penetrate = 1;
-                    Main.projectile[bees].Calamity().forceMagic = true;
+                    Main.projectile[bees].DamageType = DamageClass.Magic;
                 }
             }
             return false;

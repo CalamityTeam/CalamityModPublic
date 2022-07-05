@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             // Homing
             // The item's default velocity is 28. Homing speed is intentionally a bit lower.
-            CalamityGlobalProjectile.HomeInOnNPC(Projectile, true, 450f, 23f, 30f);
+            CalamityUtils.HomeInOnNPC(Projectile, true, 450f, 23f, 30f);
 
             // Animation
             Projectile.frameCounter++;

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("It is a travesty, one of the most threatening biological terrors ever created.\n" +
                 "If this creature were allowed to combine every slime on the planet it would become nearly unstoppable.");
             SacrificeTotal = 1;
+            ItemID.Sets.ItemNoGravity[Item.type] = true;
         }
 
         public override void SetDefaults()

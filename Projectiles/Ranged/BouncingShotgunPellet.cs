@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             Projectile.aiStyle = 1;
             AIType = ProjectileID.BulletHighVelocity;
             Projectile.timeLeft = 180;
-            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.basePointBlankShotDuration;
+            Projectile.Calamity().pointBlankShotDuration = CalamityGlobalProjectile.DefaultPointBlankDuration;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 32);
+            Projectile.ExpandHitboxBy(32);
             for (int d = 0; d < 2; d++)
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);

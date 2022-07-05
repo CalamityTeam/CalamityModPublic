@@ -107,13 +107,6 @@ namespace CalamityMod.Items.DifficultyItems
                     messageColor = Color.Crimson;
                     CalamityUtils.DisplayLocalizedText(key, messageColor);
                 }
-                if (CalamityWorld.malice)
-                {
-                    CalamityWorld.malice = false;
-                    key = "Mods.CalamityMod.MaliceText2";
-                    messageColor = Color.Crimson;
-                    CalamityUtils.DisplayLocalizedText(key, messageColor);
-                }
                 CalamityNetcode.SyncWorld();
             }
             return true;

@@ -33,6 +33,8 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
             modPlayer.aBulwarkRare = true;
+            if (modPlayer.aBulwarkRareMeleeBoostTimer > 0)
+                player.GetDamage<TrueMeleeDamageClass>() += 0.5f;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Frostburn] = true;

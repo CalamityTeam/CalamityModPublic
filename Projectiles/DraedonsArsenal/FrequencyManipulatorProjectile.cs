@@ -94,11 +94,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 SoundEngine.PlaySound(SoundID.Item14, Projectile.Center);
                 totalEnergyParticlesToSpawn = 4;
                 RingDustEffect(Projectile.Center, 1.6f, 1.4f, 7f, 2.6f);
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 160);
+                Projectile.ExpandHitboxBy(160);
                 Projectile.damage /= 2;
                 Projectile.Damage();
                 Projectile.damage *= 2;
-                CalamityGlobalProjectile.ExpandHitboxBy(Projectile, 34);
+                Projectile.ExpandHitboxBy(34);
             }
 
             for (int i = 0; i < totalEnergyParticlesToSpawn; i++)

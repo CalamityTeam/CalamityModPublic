@@ -41,12 +41,11 @@ namespace CalamityMod.Projectiles.Melee
             Projectile.friendly = true;
             Projectile.penetrate = -1;
             Projectile.tileCollide = false;
-            Projectile.DamageType = DamageClass.Melee;
+            Projectile.DamageType = TrueMeleeNoSpeedDamageClass.Instance;
             Projectile.ownerHitCheck = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 12;
             Projectile.frameCounter = 0;
-            Projectile.Calamity().trueMelee = true;
         }
 
         #region AI

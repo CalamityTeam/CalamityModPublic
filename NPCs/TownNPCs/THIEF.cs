@@ -14,6 +14,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Audio;
+using CalamityMod.Items;
+
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]

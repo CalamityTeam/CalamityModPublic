@@ -17,14 +17,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            Projectile.Calamity().canBreakPlayerDefense = true;
+            Projectile.Calamity().DealsDefenseDamage = true;
             Projectile.width = 30;
             Projectile.height = 30;
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.Opacity = 0.8f;
             Projectile.tileCollide = false;
-            Projectile.timeLeft = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 780 : CalamityWorld.death ? 600 : CalamityWorld.revenge ? 540 : Main.expertMode ? 480 : 300;
+            Projectile.timeLeft = BossRushEvent.BossRushActive ? 780 : CalamityWorld.death ? 600 : CalamityWorld.revenge ? 540 : Main.expertMode ? 480 : 300;
 
             if (Main.getGoodWorld)
                 Projectile.extraUpdates = 1;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             if (Projectile.velocity.Length() < 12f && (Main.expertMode || BossRushEvent.BossRushActive))
             {
-                float velocityMult = (CalamityWorld.malice || BossRushEvent.BossRushActive) ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
+                float velocityMult = BossRushEvent.BossRushActive ? 1.025f : CalamityWorld.death ? 1.015f : CalamityWorld.revenge ? 1.0125f : Main.expertMode ? 1.01f : 1.005f;
                 Projectile.velocity *= velocityMult;
             }
 

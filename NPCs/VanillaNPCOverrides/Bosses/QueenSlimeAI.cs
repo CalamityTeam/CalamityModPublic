@@ -15,9 +15,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static bool BuffedQueenSlimeAI(NPC npc, Mod mod)
         {
             // Difficulty bools
-            bool malice = CalamityWorld.malice || BossRushEvent.BossRushActive;
-            bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
-            npc.Calamity().CurrentlyEnraged = !BossRushEvent.BossRushActive && malice;
+            bool bossRush = BossRushEvent.BossRushActive;
+            bool death = CalamityWorld.death || bossRush;
 
             // Percent life remaining
             float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -215,9 +214,9 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         break;
 
                     npc.ai[1] += 1f;
-                    int idleTime = malice ? 20 : death ? 30 : 40;
+                    int idleTime = bossRush ? 20 : death ? 30 : 40;
                     if (phase2)
-                        idleTime = malice ? 40 : death ? 60 : 80;
+                        idleTime = bossRush ? 40 : death ? 60 : 80;
                     if (phase4)
                         idleTime /= 2;
 
@@ -279,7 +278,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.rotation = 0f;
                     npc.ai[1] += 1f;
-                    float teleportEndTime = malice ? 10f : death ? 15f : 20f;
+                    float teleportEndTime = bossRush ? 10f : death ? 15f : 20f;
                     num3 = MathHelper.Clamp(npc.ai[1] / teleportEndTime, 0f, 1f);
                     num3 = 0.5f + num3 * 0.5f;
                     if (npc.ai[1] >= teleportEndTime && Main.netMode != NetmodeID.MultiplayerClient)
@@ -317,7 +316,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     npc.rotation = 0f;
                     npc.ai[1] += 1f;
-                    float teleportTime = malice ? 20f : death ? 30f : 40f;
+                    float teleportTime = bossRush ? 20f : death ? 30f : 40f;
                     num3 = MathHelper.Clamp((teleportTime - npc.ai[1]) / teleportTime, 0f, 1f);
                     num3 = 0.5f + num3 * 0.5f;
 
@@ -362,7 +361,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
 
                     // Faster fall
                     if (npc.velocity.Y > 0f)
-                        npc.velocity.Y += malice ? 0.1f : death ? 0.05f : 0f;
+                        npc.velocity.Y += bossRush ? 0.1f : death ? 0.05f : 0f;
 
                     npc.rotation = 0f;
                     if (npc.velocity.Y == 0f)
@@ -371,7 +370,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.velocity.X > -0.1 && npc.velocity.X < 0.1)
                             npc.velocity.X = 0f;
 
-                        float timerIncrement = malice ? 7f : death ? 6f : 5f;
+                        float timerIncrement = bossRush ? 7f : death ? 6f : 5f;
                         npc.ai[1] += timerIncrement;
                         if (lifeRatio < 0.85f)
                             npc.ai[1] += timerIncrement;
@@ -394,7 +393,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.ai[2] == 3f)
                         {
                             npc.velocity.Y = -13f * speedMult;
-                            npc.velocity.X += (malice ? 7f : death ? 6f : 5.5f) * npc.direction;
+                            npc.velocity.X += (bossRush ? 7f : death ? 6f : 5.5f) * npc.direction;
                             npc.ai[1] = 0f;
                             npc.ai[2] = 0f;
                             if (npc.timeLeft > 10)
@@ -408,15 +407,15 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         }
                         else if (npc.ai[2] == 2f)
                         {
-                            npc.velocity.Y = -(malice ? 10f : death ? 8f : 6f) * speedMult;
-                            npc.velocity.X += (malice ? 8.5f : death ? 7.5f : 7f) * npc.direction;
+                            npc.velocity.Y = -(bossRush ? 10f : death ? 8f : 6f) * speedMult;
+                            npc.velocity.X += (bossRush ? 8.5f : death ? 7.5f : 7f) * npc.direction;
                             npc.ai[1] = -40f;
                             npc.ai[2] += 1f;
                         }
                         else
                         {
-                            npc.velocity.Y = -(malice ? 12f : death ? 10f : 8f) * speedMult;
-                            npc.velocity.X += (malice ? 7.5f : death ? 6.5f : 6f) * npc.direction;
+                            npc.velocity.Y = -(bossRush ? 12f : death ? 10f : 8f) * speedMult;
+                            npc.velocity.X += (bossRush ? 7.5f : death ? 6.5f : 6f) * npc.direction;
                             npc.ai[1] = -40f;
                             npc.ai[2] += 1f;
                         }
@@ -426,16 +425,16 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                         if (npc.target >= Main.maxPlayers)
                             break;
 
-                        float num19 = malice ? 6.5f : death ? 5.5f : 4.5f;
+                        float num19 = bossRush ? 6.5f : death ? 5.5f : 4.5f;
                         if (Main.getGoodWorld)
                             num19 = 7f;
 
                         if ((npc.direction == 1 && npc.velocity.X < num19) || (npc.direction == -1 && npc.velocity.X > 0f - num19))
                         {
                             if ((npc.direction == -1 && npc.velocity.X < 0.1) || (npc.direction == 1 && npc.velocity.X > -0.1))
-                                npc.velocity.X += (malice ? 0.5f : death ? 0.35f : 0.3f) * npc.direction;
+                                npc.velocity.X += (bossRush ? 0.5f : death ? 0.35f : 0.3f) * npc.direction;
                             else
-                                npc.velocity.X *= malice ? 0.88f : death ? 0.9f : 0.91f;
+                                npc.velocity.X *= bossRush ? 0.88f : death ? 0.9f : 0.91f;
                         }
                     }
 
@@ -539,8 +538,8 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                                 break;
                             }
 
-                            npc.velocity.Y += malice ? 2f : death ? 1.75f : 1.5f;
-                            float num24 = malice ? 15.99f : death ? 15.5f : 15f;
+                            npc.velocity.Y += bossRush ? 2f : death ? 1.75f : 1.5f;
+                            float num24 = bossRush ? 15.99f : death ? 15.5f : 15f;
                             if (Main.getGoodWorld)
                             {
                                 npc.velocity.Y += 1f;
@@ -614,7 +613,7 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
                     {
                         npc.velocity = center - npc.Center;
                         npc.velocity = npc.velocity.SafeNormalize(Vector2.Zero);
-                        npc.velocity *= malice ? 30f : death ? 26f : 24f;
+                        npc.velocity *= bossRush ? 30f : death ? 26f : 24f;
                     }
                     else
                         npc.velocity.Y *= 0.95f;
@@ -815,14 +814,14 @@ namespace CalamityMod.NPCs.VanillaNPCOverrides.Bosses
         public static void QueenSlime_FlyMovement(NPC npc)
         {
             // Difficulty bools
-            bool malice = CalamityWorld.malice;
+            bool bossRush = BossRushEvent.BossRushActive;
             bool death = CalamityWorld.death;
 
             npc.noTileCollide = true;
             npc.noGravity = true;
 
-            float flyVelocity = malice ? 20f : death ? 18f : 16f;
-            float flyAcceleration = malice ? 0.18f : death ? 0.14f : 0.12f;
+            float flyVelocity = bossRush ? 20f : death ? 18f : 16f;
+            float flyAcceleration = bossRush ? 0.18f : death ? 0.14f : 0.12f;
             float flyDistanceY = 450f;
 
             npc.TargetClosest();
