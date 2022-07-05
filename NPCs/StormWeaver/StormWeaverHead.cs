@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             int type = ProjectileID.FrostWave;
                             int waveDamage = NPC.GetProjectileDamage(type);
                             int totalWaves = death ? (phase4 ? 27 : 25) : (phase4 ? 25 : 23);
-                            int shotSpacing = death ? (phase4 ? 148 : 160) : (phase4 ? 160 : 172);
+                            int shotSpacing = death ? (phase4 ? 185 : 200) : (phase4 ? 200 : 215);
                             float projectileSpawnX = Main.player[NPC.target].Center.X - totalWaves * shotSpacing * 0.5f;
 
                             // Start fast at index 0, become slower as each projectile spawns and then become faster past the central wave
@@ -494,7 +494,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             int projectileType = ModContent.ProjectileType<StormMarkHostile>();
                             int tornadoDamage = NPC.GetProjectileDamage(projectileType);
                             int totalTornadoes = revenge ? 7 : expertMode ? 5 : 3;
-                            float spawnDistance = revenge ? 600f : expertMode ? 720f : 840f;
+                            float spawnDistance = revenge ? 750f : expertMode ? 900f : 1050f;
                             for (int i = 0; i < totalTornadoes; i++)
                             {
                                 Vector2 spawnPosition = Main.player[NPC.target].Center + Vector2.UnitX * spawnDistance * (i - totalTornadoes / 2);
