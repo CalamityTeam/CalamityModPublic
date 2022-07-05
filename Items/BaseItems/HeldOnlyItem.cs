@@ -14,19 +14,30 @@ namespace CalamityMod.Items.BaseItems
     /// </summary>
     public abstract class HeldOnlyItem : ModItem
     {
+        public virtual bool VisibleInUI => false;
+
         public override void Load()
         {
             On.Terraria.Player.dropItemCheck += DontDropCoolStuff;
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += LockMouseToSpecialItem;
+            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
         }
         public override void Unload()
         {
             On.Terraria.Player.dropItemCheck -= DontDropCoolStuff;
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int -= LockMouseToSpecialItem;
+            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color -= DrawSpecial;
         }
 
-        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) => false;
-        
+        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+        {
+            if (inv[slot].ModItem is HeldOnlyItem && !(inv[slot].ModItem as HeldOnlyItem).VisibleInUI)
+                return;
+
+            else
+                orig(sb, inv, context, slot, position, color);
+        }
+
         public override void PostUpdate()
         {
             //Die if in the world
@@ -36,7 +47,6 @@ namespace CalamityMod.Items.BaseItems
 
         public override bool CanPickup(Player player) => false;
         
-
         private void LockMouseToSpecialItem(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
         {
             if (!(Main.mouseItem.ModItem is HeldOnlyItem))
@@ -49,5 +59,9 @@ namespace CalamityMod.Items.BaseItems
             if (!(Main.mouseItem.ModItem is HeldOnlyItem))
                 orig(self);
         }
+
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI) => false;
+
     }
 }

@@ -44,6 +44,10 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public string EquipSlotName(Player drawPlayer) => drawPlayer.Male ? Name : "WulfrumHatFemale";
         #endregion
 
+        public static readonly SoundStyle SetActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionActivate");
+        public static readonly SoundStyle SetBreakSound = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreak");
+        public static readonly SoundStyle SetBreakSoundSafe = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreakSafely");
+        
         public static int BastionTime = 30 * 60;
         public static int TimeLostPerHit = 2 * 60;
         public static int BastionCooldown = 20 * 60;
@@ -94,6 +98,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     player.AddCooldown(WulfrumBastion.ID, BastionCooldown + BastionTime);
                     //Though do i need to sync that or is the player inventory auto synced?
                     DummyCannon.SetDefaults(ItemType<WulfrumFusionCannon>());
+
+                    SoundEngine.PlaySound(SetActivationSound);
                 }
             }
 
@@ -183,7 +189,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 if (setBonusIndex != -1)
                 {
                     TooltipLine setBonus1 = new TooltipLine(item.Mod, "CalamityMod:SetBonus1", "Wulfrum Bastion - Double tap DOWN to equip a heavy wulfrum armor");
-                    setBonus1.OverrideColor = new Color(194, 255, 67);
+                    setBonus1.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
                     tooltips.Insert(setBonusIndex + 1, setBonus1);
 
                     TooltipLine setBonus2 = new TooltipLine(item.Mod, "CalamityMod:SetBonus2", "While the power armor is active, you can only use the integrated fusion cannon, but get increased defensive stats");
@@ -430,6 +436,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     string goreType = "WulfrumPowerSuit" + i.ToString();
                     Gore.NewGore(Player.GetSource_Death(), Player.Center, shrapnelVelocity, Mod.Find<ModGore>(goreType).Type);
                 }
+
+                SoundEngine.PlaySound(WulfrumHat.SetBreakSound, Player.Center);
             }
         }
 
@@ -437,12 +445,19 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             if (wulfrumSet && Player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) && cd.timeLeft == WulfrumHat.BastionCooldown)
             {
-                for (int i = 1; i < 9; i++)
+                int j = 1;
+                for (int i = 1; i < 4; i++)
                 {
-                    Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(9f, 9f);
-                    string goreType = "WulfrumPowerSuit" + i.ToString();
+                    j = (int)Math.Clamp(j, 1, 8);
+
+                    Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(3f, 3f);
+                    string goreType = "WulfrumPowerSuit" + j.ToString();
                     Gore.NewGore(Player.GetSource_FromThis(), Player.Center, shrapnelVelocity, Mod.Find<ModGore>(goreType).Type);
+
+                    j += Main.rand.Next(1, 2);
                 }
+
+                SoundEngine.PlaySound(WulfrumHat.SetBreakSoundSafe, Player.Center);
             }
         }
 
