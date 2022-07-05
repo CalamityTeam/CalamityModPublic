@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void ModifyNPCLoot(NPCLoot npcLoot)
         {
             npcLoot.Add(ModContent.ItemType<EssenceofEleum>());
-            npcLoot.Add(ModContent.ItemType<FrostBarrier>(), 10);
+            npcLoot.Add(ModContent.ItemType<FrostBarrier>(), 5);
             npcLoot.Add(ModContent.ItemType<AncientIceChunk>(), 3);
         }
     }
