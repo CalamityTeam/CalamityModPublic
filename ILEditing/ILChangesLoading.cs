@@ -51,6 +51,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana += ConditionallyReplaceManaSickness;
             IL.Terraria.Player.ItemCheck_Inner += ConditionallyReplaceManaSickness;
             On.Terraria.Main.SortDrawCacheWorms += DrawFusableParticles;
+            On.Terraria.Main.DrawInfernoRings += DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode += ResetRenderTargetSizes;
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid += DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += DrawCustomLava2;
@@ -155,6 +156,7 @@ namespace CalamityMod.ILEditing
             IL.Terraria.Player.QuickMana -= ConditionallyReplaceManaSickness;
             IL.Terraria.Player.ItemCheck_Inner -= ConditionallyReplaceManaSickness;
             On.Terraria.Main.SortDrawCacheWorms -= DrawFusableParticles;
+            On.Terraria.Main.DrawInfernoRings -= DrawForegroundParticles;
             On.Terraria.Main.SetDisplayMode -= ResetRenderTargetSizes;
             IL.Terraria.GameContent.Drawing.TileDrawing.DrawPartialLiquid -= DrawCustomLava;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= DrawCustomLava2;

@@ -67,32 +67,44 @@ namespace CalamityMod.Items.Accessories.Vanity
         public override void UpdateVanity(Player player)
         {
             player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
+            player.GetModPlayer<WulfrumTransformationPlayer>().vanityEquipped = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (!hideVisual)
+            {
                 player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
+                player.GetModPlayer<WulfrumTransformationPlayer>().vanityEquipped = true;
+            }
         }
     }
 
     public class WulfrumTransformationPlayer : ModPlayer
     {
+        public bool vanityEquipped = false;
         public bool transformationActive = false;
+        public bool forceHelmetOn = false;
 
         public override void ResetEffects()
         {
+            vanityEquipped = false;
             transformationActive = false;
+            forceHelmetOn = false;
         }
 
         public override void FrameEffects()
         {
+            if (forceHelmetOn || transformationActive)
+            {
+                Player.head = EquipLoader.GetEquipSlot(Mod, "WulfrumOldSetHead", EquipType.Head);
+                Player.face = -1;
+            }
+
             if (transformationActive)
             {
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "AbandonnedWulfrumHelmet", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "AbandonnedWulfrumHelmet", EquipType.Body);
-                Player.head = EquipLoader.GetEquipSlot(Mod, "WulfrumOldSetHead", EquipType.Head);
-                Player.face = -1;
             }
         }
     }

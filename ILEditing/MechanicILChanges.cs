@@ -647,7 +647,7 @@ namespace CalamityMod.ILEditing
         #region General Particle Rendering
         private static void DrawFusableParticles(On.Terraria.Main.orig_SortDrawCacheWorms orig, Main self)
         {
-            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+            
             DeathAshParticle.DrawAll();
             FusableParticleManager.RenderAllFusableParticles();
 
@@ -657,6 +657,10 @@ namespace CalamityMod.ILEditing
             orig(self);
         }
 
+        private static void DrawForegroundParticles(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
+        {
+            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
+        }
         #endregion General Particle Rendering
 
         #region Custom Lava Visuals

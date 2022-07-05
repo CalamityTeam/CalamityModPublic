@@ -26,6 +26,7 @@ using static Microsoft.Xna.Framework.Input.Keys;
 using System;
 using CalamityMod.Items.BaseItems;
 using System.Collections.Generic;
+using CalamityMod.Particles;
 
 namespace CalamityMod.Items.Armor.Wulfrum
 {
@@ -47,14 +48,12 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public static readonly SoundStyle SetActivationSound = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionActivate");
         public static readonly SoundStyle SetBreakSound = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreak");
         public static readonly SoundStyle SetBreakSoundSafe = new("CalamityMod/Sounds/Custom/AbilitySounds/WulfrumBastionBreakSafely");
-        
+
+        public static int BastionBuildTime = (int)(0.25f * 60);
         public static int BastionTime = 30 * 60;
         public static int TimeLostPerHit = 2 * 60;
         public static int BastionCooldown = 20 * 60;
 
-        public static int BastionShootDamage = 10;
-        public static float BastionShootSpeed = 18f;
-        public static int BastionShootTime = 10;
 
         internal static Item DummyCannon = new Item(); //Used for the attack swap. Basically we force the player to hold a fake item.
 
@@ -88,6 +87,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         private void ActivateSetBonus(On.Terraria.Player.orig_KeyDoubleTap orig, Player player, int keyDir)
         {
+            BastionBuildTime = (int)(0.55f * 60);
+
             if (keyDir == 0 && HasArmorSet(player))
             {
                 //Only activate if no cooldown & available scrap.
@@ -98,8 +99,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     player.AddCooldown(WulfrumBastion.ID, BastionCooldown + BastionTime);
                     //Though do i need to sync that or is the player inventory auto synced?
                     DummyCannon.SetDefaults(ItemType<WulfrumFusionCannon>());
-
-                    SoundEngine.PlaySound(SetActivationSound);
                 }
             }
 
@@ -129,10 +128,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
             SacrificeTotal = 1;
             DisplayName.SetDefault("Wulfrum Hat & Goggles");
             Tooltip.SetDefault("10% increased minion damage\n"+
-                "Comes equipped with hair extensions"
-                );
+                "Comes equipped with hair extensions" );
         }
-
         public override void SetDefaults()
         {
             Item.width = 18;
@@ -149,17 +146,40 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public override void UpdateArmorSet(Player player)
         {
-            player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet = true;
+            WulfrumArmorPlayer armorPlayer = player.GetModPlayer<WulfrumArmorPlayer>();
+            WulfrumTransformationPlayer transformationPlayer = player.GetModPlayer<WulfrumTransformationPlayer>();
+
+            armorPlayer.wulfrumSet = true;
 
             player.setBonus = "+3 defense and +1 max minion"; //The cooler part of the set bonus happens in modifytooltips because i can't recolor it otherwise. Madge
             player.statDefense += 3;
             player.maxMinions++;
-            if (PowerModeEngaged(player, out _))
+            if (PowerModeEngaged(player, out var cd))
             {
-                player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
+                if (cd.timeLeft == BastionCooldown + BastionTime)
+                {
+                    ActivationEffects(player);
+                }
+
+                //Can't account for previous fullbody transformations but at this point, whatever.
+                Item headItem = player.armor[10] ?? player.armor[0];
+                bool hatVisible = !transformationPlayer.transformationActive && headItem.type == ItemType<WulfrumHat>();
+
+                //Spawn the hat
+                if (cd.timeLeft == BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f) && hatVisible)
+                {
+                    Particle leftoverHat = new WulfrumHatParticle(player, -Vector2.UnitY.RotatedByRandom(MathHelper.PiOver4) * Main.rand.NextFloat(3f, 7f), 25);
+                    GeneralParticleHandler.SpawnParticle(leftoverHat);
+                }
+
+                if (cd.timeLeft < BastionCooldown + BastionTime - BastionBuildTime)
+                    player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
+                else if (cd.timeLeft <= BastionCooldown + BastionTime - (int)(BastionBuildTime * 0.9f))
+                    player.GetModPlayer<WulfrumTransformationPlayer>().forceHelmetOn = true;
+
+
                 player.moveSpeed *= 0.8f;
                 player.statDefense += 15;
-
                 //Drop the player's held item if they were holding something before
                 if (!(Main.mouseItem.type == DummyCannon.type) && !Main.mouseItem.IsAir)
                     Main.LocalPlayer.QuickSpawnClonedItem(null, Main.mouseItem, Main.mouseItem.stack);
@@ -180,6 +200,33 @@ namespace CalamityMod.Items.Armor.Wulfrum
             }
         }
 
+        public void ActivationEffects(Player player)
+        {
+            SoundEngine.PlaySound(SetActivationSound);
+
+            //Do'nt do the effect ifthe player is already using the wulfrum vanity lol.
+            bool transformedAlready = player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive;
+
+            if (!transformedAlready)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Particle part = new WulfrumBastionPartsParticle(player, i, BastionBuildTime + 2);
+                    GeneralParticleHandler.SpawnParticle(part);
+                }
+            }
+
+            //Do spawn the cannon always though
+            Particle gun = new WulfrumBastionPartsParticle(player, 5, BastionBuildTime + 2);
+
+            if (transformedAlready)
+            {
+                (gun as WulfrumBastionPartsParticle).TimeOffset = 0;
+                (gun as WulfrumBastionPartsParticle).AnimationTime = BastionBuildTime + 2;
+            }
+            GeneralParticleHandler.SpawnParticle(gun);
+        }
+
         public static void ModifySetTooltips(ModItem item, List<TooltipLine> tooltips)
         {
             if (HasArmorSet(Main.LocalPlayer))
@@ -196,7 +243,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     setBonus2.OverrideColor = new Color(110, 192, 93);
                     tooltips.Insert(setBonusIndex + 2, setBonus2);
 
-                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "Calling down the armor consumes one piece of wulfrum scrap, and the armor will loose durability faster when hit");
+                    TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "Calling down the armor consumes one piece of wulfrum scrap, and the armor will lose durability faster when hit");
                     setBonus3.OverrideColor = new Color(110, 192, 93);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
                 }
@@ -316,8 +363,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Experimental Wulfrum Fusion Array");
-            Tooltip.SetDefault("Fires quick bursts of medium-range pellets\n");
-            //Imaging hiding lore in there... :drool: that would be so dark souls
+            Tooltip.SetDefault("Fires quick bursts of medium-range pellets\n" +
+                "[c/878787:\"Who needs whips when you can simply become the summon yourself?\"]");
+            //Imaging hiding actually important/interesting/funny lore in there... :drool: that would be so dark souls
         }
         public override string Texture => "CalamityMod/Items/Armor/Wulfrum/WulfrumFusionCannon";
 
@@ -343,6 +391,12 @@ namespace CalamityMod.Items.Armor.Wulfrum
             Item.reuseDelay = 17;
         }
 
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            var name = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
+            name.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
+        }
+
         public override void HoldItem(Player player)
         {
             player.Calamity().mouseWorldListener = true;
@@ -355,11 +409,22 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     Main.mouseItem = new Item();
                 }
             }
+
+            Item.noUseGraphic = false;
+
+            if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) || cd.timeLeft > WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime)
+                Item.noUseGraphic = true;
+
         }
 
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             velocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.1f);
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) && cd.timeLeft < WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime;
         }
 
         public void SetItemInHand(Player player, Rectangle heldItemFrame)
@@ -373,6 +438,9 @@ namespace CalamityMod.Items.Armor.Wulfrum
             {
                 player.ChangeDir(-1);
             }
+
+            if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) || cd.timeLeft > WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime)
+                return;
 
             float animProgress = 1 - player.itemAnimation / (float)player.itemAnimationMax;
 
@@ -415,7 +483,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
 
         public bool wulfrumSet = false;
         
-
         public override void ResetEffects()
         {
             wulfrumSet = false;
@@ -430,14 +497,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             if (WulfrumHat.PowerModeEngaged(Player, out var cd) && Main.netMode != NetmodeID.Server)
             {
-                for (int i = 1; i < 9; i++)
-                {
-                    Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(9f, 9f);
-                    string goreType = "WulfrumPowerSuit" + i.ToString();
-                    Gore.NewGore(Player.GetSource_Death(), Player.Center, shrapnelVelocity, Mod.Find<ModGore>(goreType).Type);
-                }
-
-                SoundEngine.PlaySound(WulfrumHat.SetBreakSound, Player.Center);
+                SetBonusEndEffect(true);
+                Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = false;
             }
         }
 
@@ -445,19 +506,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
         {
             if (wulfrumSet && Player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) && cd.timeLeft == WulfrumHat.BastionCooldown)
             {
-                int j = 1;
-                for (int i = 1; i < 4; i++)
-                {
-                    j = (int)Math.Clamp(j, 1, 8);
-
-                    Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(3f, 3f);
-                    string goreType = "WulfrumPowerSuit" + j.ToString();
-                    Gore.NewGore(Player.GetSource_FromThis(), Player.Center, shrapnelVelocity, Mod.Find<ModGore>(goreType).Type);
-
-                    j += Main.rand.Next(1, 2);
-                }
-
-                SoundEngine.PlaySound(WulfrumHat.SetBreakSoundSafe, Player.Center);
+                SetBonusEndEffect(false);
             }
         }
 
@@ -467,18 +516,67 @@ namespace CalamityMod.Items.Armor.Wulfrum
             {
                 cd.timeLeft -= WulfrumHat.TimeLostPerHit;
                 if (cd.timeLeft < WulfrumHat.BastionCooldown)
-                    cd.timeLeft = WulfrumHat.BastionCooldown;
-
-                //Gore
+                {
+                    cd.timeLeft = WulfrumHat.BastionCooldown - 1;
+                    if (Main.netMode != NetmodeID.Server)
+                        SetBonusEndEffect(true);
+                }
             }
         }
 
+        public void SetBonusEndEffect(bool violent)
+        {
+            SoundStyle breakSound = WulfrumHat.SetBreakSoundSafe;
+            float goreSpeed = 3f;
+            int goreCount = 4;
+            int goreIncrement = 2;
+
+            if (violent)
+            {
+                breakSound = WulfrumHat.SetBreakSound;
+                goreSpeed = 9f;
+                goreCount = 9;
+                goreIncrement = 1;
+            }
+
+            SoundEngine.PlaySound(breakSound, Player.Center);
+            //Only spawn the cannon gore if the player already has the vanity on.
+            if (Player.GetModPlayer<WulfrumTransformationPlayer>().vanityEquipped)
+            {
+                Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(goreSpeed, goreSpeed);
+                Gore.NewGore(Player.GetSource_Death(), Player.Center, shrapnelVelocity, Mod.Find<ModGore>("WulfrumPowerSuit1").Type);
+            }
+
+            else
+            {
+                int j = 1;
+
+                for (int i = 1; i < goreCount; i++)
+                {
+                    Vector2 shrapnelVelocity = Main.rand.NextVector2Circular(goreSpeed, goreSpeed);
+                    string goreType = "WulfrumPowerSuit" + j.ToString();
+                    Gore.NewGore(Player.GetSource_Death(), Player.Center, shrapnelVelocity, Mod.Find<ModGore>(goreType).Type);
+
+                    j += Main.rand.Next(1, goreIncrement);
+                }
+            }
+        }
+
+
+        //This shouldn't ever be possible since the power mode prevents you from using or moving items around
         public override void PostUpdateMiscEffects()
         {
             if (!wulfrumSet && WulfrumHat.PowerModeEngaged(Player, out var cd))
             {
                 cd.timeLeft = WulfrumHat.BastionCooldown;
             }
+        }
+
+        public override void FrameEffects()
+        {
+            //Give the braids variant to w*men
+            if (!Player.Male && Player.head == EquipLoader.GetEquipSlot(Mod, "WulfrumHat", EquipType.Head))
+                Player.head = EquipLoader.GetEquipSlot(Mod, "WulfrumHatFemale", EquipType.Head);
         }
     }
 }
