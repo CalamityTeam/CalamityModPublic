@@ -27,23 +27,23 @@ namespace CalamityMod.Items.Mounts
             MountData.acceleration = 0.2f;
             MountData.jumpSpeed = 3f;
             MountData.swimSpeed = 0.5f;
-            MountData.totalFrames = 8;
+            MountData.totalFrames = 6;
             int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
-                array[l] = 2;
+                array[l] = 6;
             }
-            array[1] = 0;
-            array[5] = 0;
+            array[1] = 4;
+            array[5] = 4;
             MountData.playerYOffsets = array;
-            MountData.xOffset = 0; //-6
+            MountData.xOffset = 10;
             MountData.bodyFrame = 3;
             MountData.yOffset = -1; //done
             MountData.playerHeadOffset = 10;
             MountData.standingFrameCount = 1;
             MountData.standingFrameDelay = 12;
             MountData.standingFrameStart = 0;
-            MountData.runningFrameCount = 8;
+            MountData.runningFrameCount = 6;
             MountData.runningFrameDelay = 36; //36
             MountData.runningFrameStart = MountData.standingFrameStart;
             MountData.inAirFrameCount = MountData.standingFrameCount;
