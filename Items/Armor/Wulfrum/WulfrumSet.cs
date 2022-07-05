@@ -162,7 +162,7 @@ namespace CalamityMod.Items.Armor.Wulfrum
                 }
 
                 //Can't account for previous fullbody transformations but at this point, whatever.
-                Item headItem = player.armor[10] ?? player.armor[0];
+                Item headItem = player.armor[10].type != 0 ? player.armor[10] : player.armor[0];
                 bool hatVisible = !transformationPlayer.transformationActive && headItem.type == ItemType<WulfrumHat>();
 
                 //Spawn the hat
@@ -498,7 +498,8 @@ namespace CalamityMod.Items.Armor.Wulfrum
             if (WulfrumHat.PowerModeEngaged(Player, out var cd) && Main.netMode != NetmodeID.Server)
             {
                 SetBonusEndEffect(true);
-                Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = false;
+                if (!Player.GetModPlayer<WulfrumTransformationPlayer>().vanityEquipped)
+                    Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = false;
             }
         }
 

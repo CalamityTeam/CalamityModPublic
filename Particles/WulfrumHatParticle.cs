@@ -27,10 +27,10 @@ namespace CalamityMod.Particles
 
         public override void Update()
         {
-            Rotation = 0.15f * Math.Sign(Velocity.X);
+            Rotation += 0.05f * Math.Sign(Velocity.X);
 
             Velocity *= 0.95f;
-            Velocity.Y += 0.34f;
+            Velocity.Y += 0.22f;
         }
 
         public override void CustomDraw(SpriteBatch spriteBatch)
@@ -44,7 +44,7 @@ namespace CalamityMod.Particles
                 spriteEffect = SpriteEffects.FlipHorizontally;
             }
                 
-            float opacity = Math.Clamp(1 - (float)Math.Pow(LifetimeCompletion , 3f),0f, 1f);
+            float opacity = Math.Clamp(1 - (float)Math.Pow(LifetimeCompletion , 3f), 0f, 1f);
             spriteBatch.Draw(baseTex, Position - Main.screenPosition, null, lightColor * opacity, Rotation, baseTex.Size()/2f, Scale, spriteEffect, 0);
         }
     }
