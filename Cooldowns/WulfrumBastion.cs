@@ -28,13 +28,13 @@ namespace CalamityMod.Cooldowns
 
         public override void OnCompleted()
         {
-            for (int i = 0; i < 66; i++)
+            for (int i = 0; i < 6; i++)
             {
-                int d = Dust.NewDust(instance.player.position, instance.player.width, instance.player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
-                Main.dust[d].noGravity = true;
-                Main.dust[d].noLight = true;
-                Main.dust[d].fadeIn = 1f;
-                Main.dust[d].velocity *= 6.6f;
+                Vector2 dustDirection = Main.rand.NextVector2CircularEdge(1f, 1f);
+                Dust d = Dust.NewDustPerfect(instance.player.Center + dustDirection * Main.rand.NextFloat(0.4f, 10f), 226, dustDirection * Main.rand.NextFloat(1f, 4f), 100, Color.Transparent, Main.rand.NextFloat(0.8f, 1.2f));
+                d.noGravity = true;
+                d.noLight = true;
+                d.fadeIn = 1f;
             }
 
             //explode into gores

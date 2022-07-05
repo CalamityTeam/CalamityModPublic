@@ -10,9 +10,10 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using CalamityMod.Particles;
 
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Summon
 {
-    public class WulfrumBolt : ModProjectile
+    //Mostly a retread of the magic one, with altered visuals
+    public class WulfrumFusionBolt : ModProjectile
     {
         public ref float OriginalRotation => ref Projectile.ai[0];
         public NPC Target
@@ -44,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bolt");
+            DisplayName.SetDefault("Fusion Bolt");
 
             ProjectileID.Sets.TrailCacheLength[Projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.penetrate = 1;
-            Projectile.DamageType = DamageClass.Magic;
+            Projectile.DamageType = DamageClass.Summon;
             Projectile.timeLeft = 140;
             Projectile.extraUpdates = 2;
         }
@@ -109,11 +110,8 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (Projectile.timeLeft == 140)
             {
-                if (OriginalRotation == 0)
-                {
-                    OriginalRotation = Projectile.velocity.ToRotation();
-                    Projectile.rotation = OriginalRotation;
-                }
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                
                 Target = null;
             }
             else
@@ -121,12 +119,11 @@ namespace CalamityMod.Projectiles.Magic
                 Target = FindTarget();
             }
 
-            Lighting.AddLight(Projectile.Center, (Color.GreenYellow * 0.8f).ToVector3() * 0.5f);
+            Lighting.AddLight(Projectile.Center, (Color.DeepSkyBlue).ToVector3() * 0.5f);
 
             if (Target != null)
             {
                 float distanceFromTarget = (Target.Center - Projectile.Center).Length();
-
                 Projectile.rotation = Projectile.rotation.AngleTowards((Target.Center - Projectile.Center).ToRotation(), 0.07f * (float)Math.Pow(( 1 - distanceFromTarget / HomingRange), 2));
             }
 
@@ -147,15 +144,14 @@ namespace CalamityMod.Projectiles.Magic
 
             if (Projectile.timeLeft <= 137)
             {
-                if (Main.rand.NextBool())
+                if (Main.rand.NextBool(5))
                 {
                     Vector2 dustCenter = Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(-3f, 3f);
-
                     Dust chust = Dust.NewDustPerfect(dustCenter, 15, -Projectile.velocity * Main.rand.NextFloat(0.2f, 0.5f), Scale: Main.rand.NextFloat(1.2f, 1.8f));
                     chust.noGravity = true;
                 }
 
-                if (Main.rand.NextBool(4))
+                if (Main.rand.NextBool(8))
                 {
                     Vector2 dustCenter = Projectile.Center + Projectile.velocity.RotatedBy(MathHelper.PiOver2).SafeNormalize(Vector2.Zero) * Main.rand.NextFloat(-3f, 3f);
 
@@ -178,12 +174,12 @@ namespace CalamityMod.Projectiles.Magic
         internal Color ColorFunction(float completionRatio)
         {
             float fadeOpacity = (float)Math.Sqrt(1 - completionRatio);
-            return Color.DeepSkyBlue.MultiplyRGB(PrimColorMult) * fadeOpacity;
+            return Color.Lerp(Color.DeepSkyBlue, Color.YellowGreen, Projectile.timeLeft / 140f).MultiplyRGB(PrimColorMult) * fadeOpacity;
         }
 
         internal float WidthFunction(float completionRatio)
         {
-            return  9.4f;
+            return  6.4f;
         }
 
         public override bool PreDraw(ref Color lightColor)
@@ -195,15 +191,12 @@ namespace CalamityMod.Projectiles.Magic
                 TrailDrawer = new PrimitiveTrail(WidthFunction, ColorFunction, specialShader: GameShaders.Misc["CalamityMod:TrailStreak"]);
 
             GameShaders.Misc["CalamityMod:TrailStreak"].SetShaderTexture(Request<Texture2D>("CalamityMod/ExtraTextures/BasicTrail"));
-
-            CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 3.5f, delegate (Vector2 offset, Color colorMod)
+            CalamityUtils.DrawChromaticAberration(Vector2.UnitX, 0.5f, delegate (Vector2 offset, Color colorMod)
             {
                 PrimColorMult = colorMod;
 
                 TrailDrawer.Draw(Projectile.oldPos, Projectile.Size * 0.5f - Main.screenPosition + offset, 30);
             });
-
-
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -213,19 +206,20 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            SoundEngine.PlaySound(WulfrumProthesis.HitSound, Projectile.Center);
+            SoundEngine.PlaySound(WulfrumProthesis.HitSound with { Volume = WulfrumProthesis.HitSound.Volume * 0.6f }, Projectile.Center);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(Projectile.position, Projectile.velocity, Projectile.width, Projectile.height);
-
             return base.OnTileCollide(oldVelocity);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int numParticles = Main.rand.Next(4, 7);
+            Main.player[Projectile.owner].MinionAttackTargetNPC = target.whoAmI; //There exists a "whoAmIToTargettingIndex but idk if thats needed question mark
+
+            int numParticles = Main.rand.Next(1, 3);
             for (int i = 0; i < numParticles; i++)
             {
                 Vector2 velocity = Projectile.velocity.SafeNormalize(Vector2.UnitY).RotatedByRandom(MathHelper.Pi / 6f) * Main.rand.NextFloat(3, 14);

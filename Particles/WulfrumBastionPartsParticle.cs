@@ -80,6 +80,11 @@ namespace CalamityMod.Particles
         {
             Rotation = MathHelper.Lerp(RotationOffset, 0f, (float)Math.Pow(LifetimeCompletionAdjusted, 0.8f));
 
+            //The gun
+            if (TimeOffset == 0.6f)
+                Rotation = (Owner.Calamity().mouseWorld - Owner.Center).ToRotation() + (Owner.direction < 0 ? MathHelper.Pi : 0f);
+
+
             if (Owner.dead || !Owner.active)
                 Kill();
         }

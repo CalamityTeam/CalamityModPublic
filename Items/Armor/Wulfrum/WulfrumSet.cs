@@ -246,11 +246,15 @@ namespace CalamityMod.Items.Armor.Wulfrum
                     TooltipLine setBonus3 = new TooltipLine(item.Mod, "CalamityMod:SetBonus3", "Calling down the armor consumes one piece of wulfrum scrap, and the armor will lose durability faster when hit");
                     setBonus3.OverrideColor = new Color(110, 192, 93);
                     tooltips.Insert(setBonusIndex + 3, setBonus3);
+
+                    if (Main.keyState.IsKeyDown(LeftShift))
+                    {
+                        TooltipLine itemDisplay = new TooltipLine(item.Mod, "CalamityMod:ArmorItemDisplay", "Hold SHIFT to see the stats of the fusion cannon");
+                        itemDisplay.OverrideColor = new Color(190, 190, 190);
+                        tooltips.Add(itemDisplay);
+                    }
                 }
 
-                TooltipLine itemDisplay = new TooltipLine(item.Mod, "CalamityMod:ArmorItemDisplay", "Hold SHIFT to see the stats of the fusion cannon");
-                itemDisplay.OverrideColor = new Color(190, 190, 190);
-                tooltips.Add(itemDisplay);
             }
         }
 
@@ -354,127 +358,6 @@ namespace CalamityMod.Items.Armor.Wulfrum
     }
     #endregion
 
-    public class WulfrumFusionCannon : HeldOnlyItem, IHideFrontArm
-    {
-
-        public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
-        public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProthesisHit") { PitchVariance = 0.1f, Volume = 0.75f, MaxInstances = 3 };
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Experimental Wulfrum Fusion Array");
-            Tooltip.SetDefault("Fires quick bursts of medium-range pellets\n" +
-                "[c/878787:\"Who needs whips when you can simply become the summon yourself?\"]");
-            //Imaging hiding actually important/interesting/funny lore in there... :drool: that would be so dark souls
-        }
-        public override string Texture => "CalamityMod/Items/Armor/Wulfrum/WulfrumFusionCannon";
-
-        public override void SetDefaults()
-        {
-            Item.damage = 12;
-            Item.DamageType = DamageClass.Summon;
-            Item.width = 34;
-            Item.height = 42;
-            Item.useStyle = ItemUseStyleID.Shoot;
-            Item.noMelee = true;
-            Item.knockBack = 2;
-            Item.value = Item.buyPrice(0, 1, 0, 0);
-            Item.rare = ItemRarityID.Green;
-            Item.UseSound = ShootSound;
-            Item.autoReuse = true;
-            Item.shoot = ModContent.ProjectileType<WulfrumBolt>();
-            Item.shootSpeed = 18f;
-            Item.holdStyle = 16; //Custom hold style
-
-            Item.useAnimation = 10;
-            Item.useTime = 4;
-            Item.reuseDelay = 17;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-            var name = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.Mod == "Terraria");
-            name.OverrideColor = Color.Lerp(new Color(194, 255, 67), new Color(112, 244, 244), 0.5f + 0.5f * (float)Math.Sin(Main.GlobalTimeWrappedHourly * 3f));
-        }
-
-        public override void HoldItem(Player player)
-        {
-            player.Calamity().mouseWorldListener = true;
-
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (!WulfrumHat.HasArmorSet(player))
-                {
-                    Item.TurnToAir();
-                    Main.mouseItem = new Item();
-                }
-            }
-
-            Item.noUseGraphic = false;
-
-            if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) || cd.timeLeft > WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime)
-                Item.noUseGraphic = true;
-
-        }
-
-        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-        {
-            velocity = velocity.RotatedByRandom(MathHelper.PiOver4 * 0.1f);
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) && cd.timeLeft < WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime;
-        }
-
-        public void SetItemInHand(Player player, Rectangle heldItemFrame)
-        {
-            //Make the player face where they're aiming.
-            if (player.Calamity().mouseWorld.X > player.Center.X)
-            {
-                player.ChangeDir(1);
-            }
-            else
-            {
-                player.ChangeDir(-1);
-            }
-
-            if (!player.Calamity().cooldowns.TryGetValue(WulfrumBastion.ID, out var cd) || cd.timeLeft > WulfrumHat.BastionCooldown + WulfrumHat.BastionTime - WulfrumHat.BastionBuildTime)
-                return;
-
-            float animProgress = 1 - player.itemAnimation / (float)player.itemAnimationMax;
-
-            //Default
-            Vector2 itemPosition = player.MountedCenter + new Vector2(-2f * player.direction, -1f * player.gravDir);
-            float itemRotation = (player.Calamity().mouseWorld - itemPosition).ToRotation();
-
-            //Adjust for animation
-
-            if (animProgress < 0.7f)
-                itemPosition -= itemRotation.ToRotationVector2() * (1 - (float)Math.Pow(1 - (0.7f - animProgress) / 0.7f, 4)) * 4f;
-
-            if (animProgress < 0.4f)
-                itemRotation += -0.45f * (float)Math.Pow((0.4f - animProgress) / 0.4f, 2) * player.direction * player.gravDir;
-
-            //Shakezzz
-            if (player.itemTime == 1 && Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ModContent.ProjectileType<WulfrumManaDrain>()))
-            {
-                itemPosition += Main.rand.NextVector2Circular(2f, 2f);
-            }
-
-
-            Vector2 itemSize = new Vector2(38, 18);
-            Vector2 itemOrigin = new Vector2(-12, 0);
-            CleanHoldStyle(player, itemRotation, itemPosition, itemSize, itemOrigin, true);
-        }
-
-        public override void HoldStyle(Player player, Rectangle heldItemFrame) => SetItemInHand(player, heldItemFrame);
-        public override void UseStyle(Player player, Rectangle heldItemFrame) => SetItemInHand(player, heldItemFrame);
-        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) => false;
-    }
-
-
-
     public class WulfrumArmorPlayer : ModPlayer
     {
         public static int BastionShootDamage = 10;
@@ -564,9 +447,16 @@ namespace CalamityMod.Items.Armor.Wulfrum
         }
 
 
-        //This shouldn't ever be possible since the power mode prevents you from using or moving items around
         public override void PostUpdateMiscEffects()
         {
+            //This is important. Prevents ppl cheat sheeting the item in from softlocking their mouse button lol
+            if (Main.mouseItem.ModItem is WulfrumFusionCannon && !WulfrumHat.PowerModeEngaged(Player, out _))
+            {
+                Main.mouseItem.TurnToAir();
+            }
+
+
+            //This shouldn't ever be possible since the power mode prevents you from using or moving items around
             if (!wulfrumSet && WulfrumHat.PowerModeEngaged(Player, out var cd))
             {
                 cd.timeLeft = WulfrumHat.BastionCooldown;
