@@ -82,6 +82,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             CreateRecipe().
                 AddIngredient<WulfrumMetalScrap>(12).
+                AddIngredient<EnergyCore>().
                 AddTile(TileID.Anvils).
                 Register();
         }

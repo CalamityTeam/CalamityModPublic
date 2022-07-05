@@ -3,7 +3,10 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.DataStructures;
 using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Wulfrum;
 using Terraria.Audio;
+using CalamityMod.Cooldowns;
+using static CalamityMod.CalamityUtils;
 
 namespace CalamityMod.Items.Materials
 {

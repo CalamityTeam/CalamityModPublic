@@ -26,6 +26,7 @@ using CalamityMod.Items.Armor.GemTech;
 using CalamityMod.Items.Armor.OmegaBlue;
 using CalamityMod.Items.Armor.PlagueReaper;
 using CalamityMod.Items.Armor.Silva;
+using CalamityMod.Items.Armor.Wulfrum;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Mounts.Minecarts;
@@ -610,7 +611,6 @@ namespace CalamityMod.CalPlayer
         public bool silverMedkit = false;
         public int silverMedkitTimer = 0;
         public bool goldArmorGoldDrops = false;
-        public bool wulfrumSet = false;
         public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
@@ -1740,8 +1740,6 @@ namespace CalamityMod.CalPlayer
 
             astralStarRain = false;
 
-            wulfrumSet = false;
-
             desertProwler = false;
 
             snowRuffianSet = false;
@@ -2444,7 +2442,6 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             hydrothermalSmoke = false;
-            wulfrumSet = false;
             desertProwler = false;
             snowRuffianSet = false;
             forbiddenCirclet = false;
@@ -5865,6 +5862,7 @@ namespace CalamityMod.CalPlayer
             // The amount of damage that will be dealt is yet to be determined.
             //
 
+            //Todo - At some point it'd be nice to have a "TransformationPlayer" that has all the transformation sfx and visuals so their priorities can be more easily managed.
             #region Custom Hurt Sounds
             if (hurtSoundTimer == 0)
             {
@@ -5892,7 +5890,13 @@ namespace CalamityMod.CalPlayer
                     SoundEngine.PlaySound(NPCs.Astral.Atlas.HurtSound, Player.position);
                     hurtSoundTimer = 10;
                 }
-                else if (wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
+                else if (Player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive)
+                {
+                    playSound = false;
+                    SoundEngine.PlaySound(SoundID.NPCHit4, Player.position);
+                    hurtSoundTimer = 10;
+                }
+                else if (Player.GetModPlayer<WulfrumArmorPlayer>().wulfrumSet && (Player.name.ToLower() == "wagstaff" || Player.name.ToLower() == "john wulfrum"))
                 {
                     playSound = false;
                     SoundEngine.PlaySound(SoundID.DSTMaleHurt, Player.position);

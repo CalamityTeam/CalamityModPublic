@@ -1,10 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.Audio;
-using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {

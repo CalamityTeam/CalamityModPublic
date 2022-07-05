@@ -66,53 +66,34 @@ namespace CalamityMod.Items.Accessories.Vanity
 
         public override void UpdateVanity(Player player)
         {
-            player.GetModPlayer<WulfrumTransformationPlayer>().vanityEquiped = true;
+            player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (!hideVisual)
-                player.GetModPlayer<WulfrumTransformationPlayer>().vanityEquiped = true;
+                player.GetModPlayer<WulfrumTransformationPlayer>().transformationActive = true;
         }
     }
 
     public class WulfrumTransformationPlayer : ModPlayer
     {
-        public bool vanityEquiped = false;
-        public int hurtSoundTimer;
+        public bool transformationActive = false;
 
         public override void ResetEffects()
         {
-            vanityEquiped = false;
+            transformationActive = false;
         }
 
         public override void FrameEffects()
         {
-            if (vanityEquiped)
+            if (transformationActive)
             {
                 Player.legs = EquipLoader.GetEquipSlot(Mod, "AbandonnedWulfrumHelmet", EquipType.Legs);
                 Player.body = EquipLoader.GetEquipSlot(Mod, "AbandonnedWulfrumHelmet", EquipType.Body);
                 Player.head = EquipLoader.GetEquipSlot(Mod, "WulfrumOldSetHead", EquipType.Head);
                 Player.face = -1;
             }
-        }
-
-        public override void PostUpdateMiscEffects()
-        {
-            if (hurtSoundTimer > 0)
-                hurtSoundTimer--;
-        }
-
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        {
-            if (vanityEquiped && hurtSoundTimer == 0)
-            {
-                playSound = false;
-                SoundEngine.PlaySound(SoundID.NPCHit4, Player.position);
-                hurtSoundTimer = 10;
-            }
-
-            return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
         }
     }
 }

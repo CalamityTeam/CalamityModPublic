@@ -14,9 +14,8 @@ using static CalamityMod.CalamityUtils;
 namespace CalamityMod.Items.Weapons.Magic
 {
     [LegacyName("WulfrumStaff")]
-    public class WulfrumProthesis : ModItem
+    public class WulfrumProthesis : ModItem, IHideFrontArm
     {
-
         public static readonly SoundStyle ShootSound = new("CalamityMod/Sounds/Item/WulfrumProthesisShoot") { PitchVariance = 0.1f, Volume = 0.55f };
         public static readonly SoundStyle HitSound = new("CalamityMod/Sounds/Item/WulfrumProthesisHit") { PitchVariance = 0.1f, Volume = 0.75f , MaxInstances = 3};
         public static readonly SoundStyle SuckSound = new("CalamityMod/Sounds/Item/WulfrumProthesisSucc") { Volume = 0.5f };
@@ -154,7 +153,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient<WulfrumMetalScrap>(12).
+                AddIngredient<WulfrumMetalScrap>(10).
+                AddIngredient<EnergyCore>().
                 AddTile(TileID.Anvils).
                 Register();
         }
@@ -163,10 +163,6 @@ namespace CalamityMod.Items.Weapons.Magic
     public class WulfrumProthesisPlayer : ModPlayer
     {
         public bool ManaDrainActive = false;
-
-        public override void ResetEffects()
-        {
-        }
 
         public override void UpdateDead()
         {
